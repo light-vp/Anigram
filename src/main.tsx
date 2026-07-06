@@ -10,18 +10,31 @@ import './styles/tokens.css'
 import './styles/global.css'
 import './engine/styles/xyflow-overrides.css'
 
-import { useDiagramStore, useSimStore } from './engine'
+import {
+  exportDiagramJson,
+  importDiagramJson,
+  loadFromStorage,
+  startAutosave,
+  useDiagramStore,
+  useSimStore,
+} from './engine'
 import { App } from './app/App'
 import { registerAllPacks } from './app/packs'
 import { seedDemo } from './app/seedDemo'
 
-// Register domain packs into the engine, then seed a demo diagram.
+// Register packs, then load a saved diagram or seed the demo, then autosave.
 registerAllPacks()
-seedDemo()
+if (!loadFromStorage()) seedDemo()
+startAutosave()
 
 // Dev-only handle for driving/inspecting the store from the console/tests.
 if (import.meta.env.DEV) {
-  ;(globalThis as Record<string, unknown>).__ld = { useDiagramStore, useSimStore }
+  ;(globalThis as Record<string, unknown>).__ld = {
+    useDiagramStore,
+    useSimStore,
+    exportDiagramJson,
+    importDiagramJson,
+  }
 }
 
 const root = document.getElementById('root')

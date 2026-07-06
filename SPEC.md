@@ -73,10 +73,12 @@ Global invariants (must hold at every milestone):
 
 ## M5 — Editor + persistence
 
-- [ ] Palette drag-drop, `onConnect`, delete.
-- [ ] Debounced localStorage autosave; load on boot.
-- [ ] Versioned JSON export/import of `{ version, nodes, interactions, levels? }`;
-      export → clear → import round-trips including verbs/specs.
+- [x] Palette drag-drop (+ click-to-add), `onConnect`, delete (with interaction
+      cleanup on edge removal).
+- [x] Debounced localStorage autosave; load on boot (verified: added node
+      persisted across reload).
+- [x] Versioned JSON export/import of `{ version, nodes, edges, interactions }`;
+      export → clear → import round-trips including verbs/specs (verified).
 
 ## M6 — Flagship scenes + presentation mode
 

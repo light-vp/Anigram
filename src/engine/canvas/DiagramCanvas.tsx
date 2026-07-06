@@ -7,7 +7,10 @@ import {
   ConnectionMode,
   Controls,
   ReactFlow,
+  ReactFlowProvider,
+  useReactFlow,
 } from '@xyflow/react'
+import type { DragEvent } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 import { useDiagramStore } from '../store/useDiagramStore'
@@ -17,21 +20,19 @@ import { LDEdgeView } from './LDEdge'
 import { LDNodeView } from './LDNode'
 import { Toolbar } from './Toolbar'
 
+export const DND_MIME = 'application/ld-kind'
+
 const nodeTypes = { ld: LDNodeView }
 const edgeTypes = { ld: LDEdgeView }
 
-/**
- * The React Flow canvas — a CONTROLLED component driven by useDiagramStore. It
- * renders the static graph; the AnimationOverlay (a ViewportPortal child) paints
- * the moving payloads imperatively on top.
- */
-export function DiagramCanvas() {
+function Flow() {
   const {
     nodes,
     edges,
     onNodesChange,
     onEdgesChange,
     onConnect,
+    addNode,
     selectNode,
     selectEdge,
   } = useDiagramStore(
@@ -41,13 +42,28 @@ export function DiagramCanvas() {
       onNodesChange: s.onNodesChange,
       onEdgesChange: s.onEdgesChange,
       onConnect: s.onConnect,
+      addNode: s.addNode,
       selectNode: s.selectNode,
       selectEdge: s.selectEdge,
     })),
   )
+  const { screenToFlowPosition } = useReactFlow()
+
+  const onDragOver = (e: DragEvent) => {
+    e.preventDefault()
+    e.dataTransfer.dropEffect = 'move'
+  }
+
+  const onDrop = (e: DragEvent) => {
+    e.preventDefault()
+    const kindId = e.dataTransfer.getData(DND_MIME)
+    if (!kindId) return
+    const position = screenToFlowPosition({ x: e.clientX, y: e.clientY })
+    addNode(kindId, position)
+  }
 
   return (
-    <div className={styles.canvas}>
+    <div className={styles.canvas} onDrop={onDrop} onDragOver={onDragOver}>
       {/* Arrowhead marker, coloured from a token so it stays theme-driven. */}
       <svg className={styles.defs} aria-hidden="true">
         <defs>
@@ -91,5 +107,18 @@ export function DiagramCanvas() {
 
       <Toolbar />
     </div>
+  )
+}
+
+/**
+ * The React Flow canvas — a CONTROLLED component driven by useDiagramStore,
+ * wrapped in a provider so the palette's drag-drop can project screen→flow
+ * coordinates. The AnimationOverlay paints moving payloads imperatively on top.
+ */
+export function DiagramCanvas() {
+  return (
+    <ReactFlowProvider>
+      <Flow />
+    </ReactFlowProvider>
   )
 }

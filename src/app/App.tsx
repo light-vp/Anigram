@@ -18,8 +18,8 @@ export function App() {
           living<span className={styles.accent}>·</span>diagrams
         </h1>
         <p className={styles.status}>
-          M4 · tune it live · {kindCount} kinds · select a connection to edit its
-          animation
+          M5 · build &amp; save · {kindCount} kinds · drag from the palette, connect,
+          export/import — it persists
         </p>
       </header>
 

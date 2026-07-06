@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import type { CSSProperties } from 'react'
+import type { CSSProperties, DragEvent } from 'react'
 
+import { DND_MIME } from '../canvas/DiagramCanvas'
 import { getIcon, getNodeKinds } from '../registry/packRegistry'
 import { useDiagramStore } from '../store/useDiagramStore'
 import styles from './Palette.module.css'
@@ -15,6 +16,11 @@ export function Palette() {
   const kinds = getNodeKinds()
   const addNode = useDiagramStore((s) => s.addNode)
 
+  const onDragStart = (e: DragEvent, kindId: string) => {
+    e.dataTransfer.setData(DND_MIME, kindId)
+    e.dataTransfer.effectAllowed = 'move'
+  }
+
   return (
     <aside className={styles.palette}>
       <div className={styles.head}>Palette</div>
@@ -26,9 +32,11 @@ export function Palette() {
               key={kind.id}
               type="button"
               className={styles.item}
+              draggable
+              onDragStart={(e) => onDragStart(e, kind.id)}
               onClick={() => addNode(kind.id)}
               style={{ '--accent': kind.accentToken } as CSSProperties}
-              title={`Add ${kind.label}`}
+              title={`Add ${kind.label} (click or drag)`}
             >
               <span className={styles.icon}>
                 {Icon ? <Icon className={styles.glyph} /> : null}

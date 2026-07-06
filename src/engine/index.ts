@@ -12,6 +12,7 @@
 export * from './types'
 export * from './registry/packRegistry'
 export * from './resolver/resolveInteraction'
+export * from './persistence'
 export * from './store/useDiagramStore'
 export * from './store/useSimStore'
 export * from './canvas/DiagramCanvas'

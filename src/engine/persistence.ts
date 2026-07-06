@@ -1,0 +1,85 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-FileCopyrightText: 2026 Vaibhav Patel
+
+import type { LDEdge, LDNode } from './store/useDiagramStore'
+import { useDiagramStore } from './store/useDiagramStore'
+import type { Interaction } from './types/interaction'
+
+/**
+ * Versioned diagram document. The `version` field is the joint Phase-2's
+ * Terraform/IaC importer will emit into — so import/export and code-generation
+ * share one shape.
+ */
+export interface DiagramDoc {
+  version: 1
+  nodes: LDNode[]
+  edges: LDEdge[]
+  interactions: Record<string, Interaction>
+}
+
+const STORAGE_KEY = 'living-diagrams:doc'
+
+export function serializeDiagram(): DiagramDoc {
+  const { nodes, edges, interactions } = useDiagramStore.getState()
+  return { version: 1, nodes, edges, interactions }
+}
+
+export function applyDiagramDoc(doc: unknown): boolean {
+  if (
+    !doc ||
+    typeof doc !== 'object' ||
+    (doc as DiagramDoc).version !== 1 ||
+    !Array.isArray((doc as DiagramDoc).nodes) ||
+    !Array.isArray((doc as DiagramDoc).edges)
+  ) {
+    return false
+  }
+  const d = doc as DiagramDoc
+  useDiagramStore.setState({
+    nodes: d.nodes,
+    edges: d.edges,
+    interactions: d.interactions ?? {},
+    selectedNodeId: null,
+    selectedEdgeId: null,
+  })
+  return true
+}
+
+export function saveToStorage(): void {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(serializeDiagram()))
+  } catch {
+    return
+  }
+}
+
+export function loadFromStorage(): boolean {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return false
+    return applyDiagramDoc(JSON.parse(raw))
+  } catch {
+    return false
+  }
+}
+
+let autosaveTimer: ReturnType<typeof setTimeout> | undefined
+
+export function startAutosave(delayMs = 400): void {
+  useDiagramStore.subscribe(() => {
+    if (autosaveTimer) clearTimeout(autosaveTimer)
+    autosaveTimer = setTimeout(saveToStorage, delayMs)
+  })
+}
+
+export function exportDiagramJson(): string {
+  return JSON.stringify(serializeDiagram(), null, 2)
+}
+
+export function importDiagramJson(text: string): boolean {
+  try {
+    return applyDiagramDoc(JSON.parse(text))
+  } catch {
+    return false
+  }
+}

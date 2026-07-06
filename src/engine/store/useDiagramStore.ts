@@ -70,7 +70,19 @@ export const useDiagramStore = create<DiagramState>((set, get) => ({
   },
 
   onEdgesChange: (changes) => {
-    set({ edges: applyEdgeChanges(changes, get().edges) })
+    const removedIds = changes
+      .filter((c) => c.type === 'remove')
+      .map((c) => c.id)
+    let interactions = get().interactions
+    if (removedIds.length > 0) {
+      interactions = { ...interactions }
+      for (const edgeId of removedIds) {
+        const edge = get().edges.find((e) => e.id === edgeId)
+        const iid = edge?.data?.interactionId
+        if (iid) delete interactions[iid]
+      }
+    }
+    set({ edges: applyEdgeChanges(changes, get().edges), interactions })
   },
 
   onConnect: (connection) => {
