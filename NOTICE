@@ -1,0 +1,39 @@
+Living Diagrams
+Copyright (c) 2026 Vaibhav Patel
+
+This product is dual-licensed under the GNU Affero General Public License v3.0
+(see LICENSE) and a separate commercial license (see COMMERCIAL-LICENSE.md).
+
+SPDX-License-Identifier: AGPL-3.0-only
+
+--------------------------------------------------------------------------------
+Trademarks
+--------------------------------------------------------------------------------
+Living Diagrams is an independent project and is NOT affiliated with, sponsored
+by, or endorsed by Amazon Web Services, Inc. (AWS), Google LLC, or Microsoft
+Corporation. "AWS", "Amazon", "Google Cloud", "GCP", "Azure", and related names
+and logos are trademarks of their respective owners. Any such names are used
+nominatively, solely to describe compatibility or intent, and do not imply
+endorsement.
+
+All node/payload/icon artwork shipped in this repository is original work created
+for this project and is covered by the repository's dual license. No official
+AWS/GCP/Azure icon sets are vendored into this repository. If an "official icons"
+mode is added in the future, those assets will be loaded at runtime under the
+user's own acceptance of the respective vendor's terms — never redistributed here.
+
+--------------------------------------------------------------------------------
+Third-party components
+--------------------------------------------------------------------------------
+This software depends on open-source packages, each under its own license,
+including (non-exhaustive):
+
+  - React, React DOM ............. MIT (Meta Platforms, Inc.)
+  - @xyflow/react (React Flow) ... MIT (webkid GmbH)
+  - Zustand ...................... MIT (Poimandres)
+  - Motion (motion/react) ........ MIT (Framer B.V. / Motion)
+  - nanoid ....................... MIT (Andrey Sitnik)
+  - Vite ......................... MIT (Evan You & Vite contributors)
+  - oxlint / Oxc ................. MIT (Boshen & oxc contributors)
+
+Full license texts are available in each package under node_modules/.

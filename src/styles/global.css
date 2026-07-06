@@ -1,0 +1,79 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+body {
+  font-family: var(--font-ui);
+  font-size: var(--fs-md);
+  color: var(--text);
+  background: var(--bg);
+}
+
+#root {
+  isolation: isolate;
+}
+
+/* Dotted-grid canvas backdrop, reused by the app surface. */
+.ld-grid-bg {
+  background-color: var(--bg);
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
+  background-size: 22px 22px;
+  background-position: -11px -11px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--neon);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--neon-soft);
+}
+
+/* Thin dark scrollbars to match the dashboard aesthetic. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+/* ---- shared keyframes ---- */
+@keyframes ld-pulse-glow {
+  0%,
+  100% {
+    box-shadow: var(--glow-idle);
+  }
+  50% {
+    box-shadow: var(--glow-active);
+  }
+}
+
+@keyframes ld-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  94% {
+    opacity: 0.4;
+  }
+  96% {
+    opacity: 1;
+  }
+}
+
+/*
+ * Reduced-motion kill switch. JS-driven motion is additionally gated by the
+ * usePrefersReducedMotion hook + the AnimationSpec `reducedMotion` fallback;
+ * this neutralises decorative CSS animation globally.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
