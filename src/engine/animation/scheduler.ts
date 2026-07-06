@@ -179,10 +179,17 @@ export class Scheduler {
     this.frameLen.clear()
 
     const { interactions } = useDiagramStore.getState()
-    const throughput = useSimStore.getState().throughput
+    const sim = useSimStore.getState()
+    const throughput = sim.throughput
     this.syncLevels()
 
-    const active = Object.values(interactions).filter((i) => getSpec(i.specId))
+    let active = Object.values(interactions).filter((i) => getSpec(i.specId))
+    // Presentation mode: only the current step's interactions animate.
+    if (sim.presentation) {
+      const step = sim.presentation.steps[sim.presentation.step]
+      const allow = new Set(step?.activateEdges ?? [])
+      active = active.filter((i) => allow.has(i.id))
+    }
     const activeIds = new Set(active.map((i) => i.id))
 
     // Emission

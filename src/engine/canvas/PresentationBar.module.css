@@ -1,0 +1,120 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+.bar {
+  position: absolute;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: var(--z-toolbar);
+  width: min(560px, calc(100% - 40px));
+  padding: 0.7rem 0.9rem 0.8rem;
+  background: var(--surface-glass);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-panel);
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.title {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--neon);
+}
+
+.close {
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: var(--fs-sm);
+}
+
+.close:hover {
+  color: var(--text);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.nav,
+.play {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: var(--fs-md);
+}
+
+.play {
+  font-size: 0.7rem;
+  color: var(--neon);
+}
+
+.nav:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.nav:not(:disabled):hover,
+.play:hover {
+  border-color: var(--neon);
+}
+
+.captionWrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.counter {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--text-faint);
+}
+
+.caption {
+  font-size: var(--fs-sm);
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.progress {
+  display: flex;
+  gap: 0.3rem;
+  margin-top: 0.6rem;
+}
+
+.dot {
+  flex: 1;
+  height: 4px;
+  padding: 0;
+  background: var(--border-strong);
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.dotOn {
+  background: var(--neon);
+}

@@ -82,11 +82,11 @@ Global invariants (must hold at every milestone):
 
 ## M6 — Flagship scenes + presentation mode
 
-- [ ] Cloud-pack scenes: CDN cache warm-up, microservices fan-out, OAuth2 flow
-      (optional S3 upload→process→store pipeline).
-- [ ] Scene picker; presentation bar step-through with captions, animating only
-      the current step's interactions (selective storytelling).
-- [ ] Marketing GIFs recorded.
+- [x] Cloud-pack scenes: CDN cache warm-up, microservices fan-out, OAuth2 flow.
+- [x] Scene picker; presentation bar step-through (auto-play + manual) with
+      captions, animating only the current step's interactions (selective
+      storytelling). Verified: OAuth2 loads (5 nodes/steps) and auto-advances.
+- [ ] Marketing GIFs recorded (manual step — record from presentation mode).
 
 ## M7 — Deploy + portfolio embed
 

@@ -18,8 +18,8 @@ export function App() {
           living<span className={styles.accent}>·</span>diagrams
         </h1>
         <p className={styles.status}>
-          M5 · build &amp; save · {kindCount} kinds · drag from the palette, connect,
-          export/import — it persists
+          M6 · scenes &amp; presentation · {kindCount} kinds · load a scene, then
+          step through the story
         </p>
       </header>
 

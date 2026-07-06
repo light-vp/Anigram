@@ -14,6 +14,7 @@ import type { Pack } from '../../engine'
 import { cloudIcons } from './iconRegistry'
 import { cloudKinds } from './kinds'
 import { cloudResolverRules } from './resolverRules'
+import { cloudScenes } from './scenes'
 import { cloudSpecs } from './specs'
 import { cloudVerbs } from './verbs'
 
@@ -27,7 +28,7 @@ export const cloudPack: Pack = {
   resolverRules: cloudResolverRules,
   animationPresets: cloudSpecs,
   payloadSprites: [],
-  scenes: [],
+  scenes: cloudScenes,
   meta: {
     license: 'AGPL-3.0-only OR Commercial',
     trademarkNotice:

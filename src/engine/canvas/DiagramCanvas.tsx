@@ -10,14 +10,18 @@ import {
   ReactFlowProvider,
   useReactFlow,
 } from '@xyflow/react'
+import { useEffect } from 'react'
 import type { DragEvent } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 import { useDiagramStore } from '../store/useDiagramStore'
+import { useSimStore } from '../store/useSimStore'
 import { AnimationOverlay } from './AnimationOverlay'
 import styles from './DiagramCanvas.module.css'
 import { LDEdgeView } from './LDEdge'
 import { LDNodeView } from './LDNode'
+import { PresentationBar } from './PresentationBar'
+import { ScenePicker } from './ScenePicker'
 import { Toolbar } from './Toolbar'
 
 export const DND_MIME = 'application/ld-kind'
@@ -47,7 +51,12 @@ function Flow() {
       selectEdge: s.selectEdge,
     })),
   )
-  const { screenToFlowPosition } = useReactFlow()
+  const { screenToFlowPosition, fitView } = useReactFlow()
+  const fitNonce = useSimStore((s) => s.fitNonce)
+
+  useEffect(() => {
+    fitView({ padding: 0.3, duration: 400, maxZoom: 1 })
+  }, [fitNonce, fitView])
 
   const onDragOver = (e: DragEvent) => {
     e.preventDefault()
@@ -105,7 +114,9 @@ function Flow() {
         <AnimationOverlay />
       </ReactFlow>
 
+      <ScenePicker />
       <Toolbar />
+      <PresentationBar />
     </div>
   )
 }
