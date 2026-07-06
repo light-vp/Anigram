@@ -29,7 +29,7 @@ export const DND_MIME = 'application/ld-kind'
 const nodeTypes = { ld: LDNodeView }
 const edgeTypes = { ld: LDEdgeView }
 
-function Flow() {
+function Flow({ chrome }: { chrome: boolean }) {
   const {
     nodes,
     edges,
@@ -114,8 +114,8 @@ function Flow() {
         <AnimationOverlay />
       </ReactFlow>
 
-      <ScenePicker />
-      <Toolbar />
+      {chrome ? <ScenePicker /> : null}
+      {chrome ? <Toolbar /> : null}
       <PresentationBar />
     </div>
   )
@@ -125,11 +125,12 @@ function Flow() {
  * The React Flow canvas — a CONTROLLED component driven by useDiagramStore,
  * wrapped in a provider so the palette's drag-drop can project screen→flow
  * coordinates. The AnimationOverlay paints moving payloads imperatively on top.
+ * `chrome={false}` hides the editor toolbar + scene picker (embed mode).
  */
-export function DiagramCanvas() {
+export function DiagramCanvas({ chrome = true }: { chrome?: boolean }) {
   return (
     <ReactFlowProvider>
-      <Flow />
+      <Flow chrome={chrome} />
     </ReactFlowProvider>
   )
 }

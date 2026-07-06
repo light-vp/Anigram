@@ -1,0 +1,30 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+.inline,
+.floating {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  border-bottom: 1px solid transparent;
+  transition: color 0.12s ease;
+}
+
+.inline:hover,
+.floating:hover {
+  color: var(--neon);
+  border-color: var(--neon);
+}
+
+.floating {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  z-index: var(--z-toolbar);
+  padding: 0.25rem 0.6rem;
+  background: var(--surface-glass);
+  backdrop-filter: blur(6px);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+}

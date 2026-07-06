@@ -22,10 +22,14 @@ import { App } from './app/App'
 import { registerAllPacks } from './app/packs'
 import { seedDemo } from './app/seedDemo'
 
-// Register packs, then load a saved diagram or seed the demo, then autosave.
+// Register packs. In the normal app, load a saved diagram (or seed the demo) and
+// autosave; in embed mode the App loads the requested scene and skips storage.
+const isEmbed = new URLSearchParams(window.location.search).has('embed')
 registerAllPacks()
-if (!loadFromStorage()) seedDemo()
-startAutosave()
+if (!isEmbed) {
+  if (!loadFromStorage()) seedDemo()
+  startAutosave()
+}
 
 // Dev-only handle for driving/inspecting the store from the console/tests.
 if (import.meta.env.DEV) {

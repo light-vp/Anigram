@@ -8,6 +8,16 @@
   overflow: hidden;
 }
 
+.embed {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+}
+
+.headerRight {
+  margin-left: auto;
+}
+
 .header {
   flex: 0 0 auto;
   display: flex;

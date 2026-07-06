@@ -1,0 +1,16 @@
+Options -MultiViews
+
+# Allow the portfolio (vaibhav.co.uk) to embed this app in an iframe.
+<IfModule mod_headers.c>
+  Header always set Content-Security-Policy "frame-ancestors 'self' https://vaibhav.co.uk https://*.vaibhav.co.uk"
+</IfModule>
+
+# SPA rewrite — deep links (?embed=... etc.) resolve to index.html.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>

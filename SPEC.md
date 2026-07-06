@@ -90,8 +90,13 @@ Global invariants (must hold at every milestone):
 
 ## M7 — Deploy + portfolio embed
 
-- [ ] Deploy to `diagrams.vaibhav.co.uk` (deploy-branch → Hostinger + `.htaccess`).
-- [ ] `?embed=presentation&scene=<id>` renders a chrome-less presentation.
-- [ ] In-app "Source" link (AGPL §13).
-- [ ] `codeart.fun` `/diagrams` page embeds the console on desktop, degrades to a
-      static poster + CTAs on mobile/reduced-motion; portfolio build unaffected.
+- [~] Deploy config ready (`.github/workflows/deploy.yml` + `public/.htaccess`
+      with SPA rewrite + `frame-ancestors`); provisioning the `diagrams.vaibhav.co.uk`
+      subdomain + webhook is a one-time manual step — see `SETUP.md`.
+- [x] `?embed=presentation&scene=<id>` renders a chrome-less presentation
+      (verified: no palette/toolbar, just canvas + presentation + source link).
+- [x] In-app "Source" link (AGPL §13).
+- [x] `codeart.fun` `/diagrams` page embeds the console (iframe) on desktop,
+      degrades to a static poster + CTAs on mobile/reduced-motion; portfolio
+      build/typecheck/lint pass and React Flow stays out of its bundle (2.7 kB
+      chunk). Verified end-to-end (dev iframe → local tool; scene tabs switch).
