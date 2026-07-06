@@ -11,3 +11,10 @@
 
 export * from './types'
 export * from './registry/packRegistry'
+export * from './resolver/resolveInteraction'
+export * from './store/useDiagramStore'
+export * from './canvas/DiagramCanvas'
+export * from './canvas/LDNode'
+export * from './canvas/LDEdge'
+export * from './editor/Palette'
+export { cx } from './lib/cx'

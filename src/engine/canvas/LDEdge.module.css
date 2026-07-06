@@ -1,0 +1,16 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+.edge {
+  stroke: var(--edge-base);
+  stroke-width: 2;
+}
+
+.edge:hover {
+  stroke: var(--edge-base-hover);
+}
+
+.selected {
+  stroke: var(--edge-pulse);
+  stroke-width: 2.5;
+}

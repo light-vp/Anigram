@@ -41,11 +41,11 @@ Global invariants (must hold at every milestone):
 
 ## M2 — Canvas + node/edge shells + resolver
 
-- [ ] `LDNode` (with a level-bar shell) and `LDEdge` (base path + arrowhead +
+- [x] `LDNode` (with a level-bar shell) and `LDEdge` (base path + arrowhead +
       verb-label chip) registered with React Flow; chrome restyled from tokens.
-- [ ] Affordance/kind-pair resolver with the cloud rules.
-- [ ] On connect: auto-apply the top candidate + a verb chip to switch verbs.
-- [ ] Connect a Service → Bucket and the edge auto-labels "upload"; the chip
+- [x] Affordance/kind-pair resolver with the cloud rules.
+- [x] On connect: auto-apply the top candidate + a verb chip to switch verbs.
+- [x] Connect a Service → Bucket and the edge auto-labels "upload"; the chip
       lists download/others.
 
 ## M3 — AnimationSpec engine (the thesis)

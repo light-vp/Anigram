@@ -4,15 +4,23 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
+import '@xyflow/react/dist/style.css'
 import './styles/reset.css'
 import './styles/tokens.css'
 import './styles/global.css'
+import './engine/styles/xyflow-overrides.css'
 
+import { useDiagramStore } from './engine'
 import { App } from './app/App'
 import { registerAllPacks } from './app/packs'
 
 // Register domain packs into the engine before the first render.
 registerAllPacks()
+
+// Dev-only handle for driving/inspecting the store from the console/tests.
+if (import.meta.env.DEV) {
+  ;(globalThis as Record<string, unknown>).__ld = { useDiagramStore }
+}
 
 const root = document.getElementById('root')
 if (!root) throw new Error('Root element #root not found')

@@ -1,0 +1,63 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+/*
+ * Restyle React Flow chrome from our tokens. React Flow exposes CSS variables
+ * (prefixed --xy-*); we rebind them so no raw colour lives here.
+ */
+
+.react-flow {
+  --xy-background-color: var(--bg);
+  --xy-edge-stroke: var(--edge-base);
+  --xy-edge-stroke-selected: var(--edge-pulse);
+  --xy-connectionline-stroke: var(--neon);
+  --xy-attribution-background-color: transparent;
+  background: var(--bg);
+}
+
+.react-flow__background {
+  color: var(--grid-dot);
+}
+
+.react-flow__attribution {
+  color: var(--text-faint);
+  font-size: 0.62rem;
+}
+
+.react-flow__attribution a {
+  color: var(--text-muted);
+}
+
+/* Controls */
+.react-flow__controls {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--node-shadow);
+}
+
+.react-flow__controls-button {
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+.react-flow__controls-button:hover {
+  background: var(--surface-2);
+}
+
+.react-flow__controls-button svg {
+  fill: var(--text-muted);
+}
+
+/* Connection line while dragging a new edge */
+.react-flow__connectionline .react-flow__connection-path {
+  stroke: var(--neon);
+  stroke-width: 2;
+}
+
+/* Selection box */
+.react-flow__selection {
+  background: var(--neon-soft);
+  border: 1px solid var(--neon);
+}
