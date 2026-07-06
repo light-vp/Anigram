@@ -31,12 +31,12 @@ Global invariants (must hold at every milestone):
 
 ## M1 — Domain core + registry + cloud-pack subset
 
-- [ ] Affordance taxonomy (`emit, consume, store, serve, process, route, cache`).
-- [ ] `NodeKind`, `Interaction`, `AnimationSpec`, `Pack` types defined in engine.
-- [ ] `PackRegistry` + `registerPack()`.
-- [ ] Cloud-pack subset: `service, bucket, queue, worker, db, cdn, origin` kinds
+- [x] Affordance taxonomy (`emit, consume, store, serve, process, route, cache`).
+- [x] `NodeKind`, `Interaction`, `AnimationSpec`, `Pack` types defined in engine.
+- [x] `PackRegistry` + `registerPack()`.
+- [x] Cloud-pack subset: `service, bucket, queue, worker, db, cdn, origin` kinds
       with affordances, icons, and accent tokens — all as data.
-- [ ] Registering the cloud pack populates the palette from data; `engine/` has
+- [x] Registering the cloud pack populates the palette from data; `engine/` has
       zero cloud-specific strings.
 
 ## M2 — Canvas + node/edge shells + resolver

@@ -2,22 +2,19 @@
 /* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
 
 .shell {
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  overflow: hidden;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-.center {
-  text-align: center;
-  padding: 2rem;
-  max-width: 42rem;
+.header {
+  padding: 1.6rem clamp(1rem, 4vw, 3rem) 1rem;
+  border-bottom: 1px solid var(--border);
 }
 
 .wordmark {
   font-family: var(--font-mono);
-  font-size: var(--fs-xl);
+  font-size: var(--fs-lg);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text);
@@ -28,18 +25,27 @@
   color: var(--neon);
 }
 
-.tagline {
-  margin-top: 0.9rem;
-  color: var(--text-muted);
-  font-size: var(--fs-lg);
-  line-height: 1.5;
-}
-
-.hint {
-  margin-top: 1.6rem;
+.status {
+  margin-top: 0.35rem;
   font-family: var(--font-mono);
   font-size: var(--fs-xs);
   text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: var(--text-faint);
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+.main {
+  flex: 1;
+  padding: 1.4rem clamp(1rem, 4vw, 3rem) 3rem;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.hint {
+  color: var(--text-muted);
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  margin-bottom: 1.3rem;
+  max-width: 60ch;
 }
