@@ -11,16 +11,19 @@ import {
 import { useShallow } from 'zustand/react/shallow'
 
 import { useDiagramStore } from '../store/useDiagramStore'
+import { AnimationOverlay } from './AnimationOverlay'
 import styles from './DiagramCanvas.module.css'
 import { LDEdgeView } from './LDEdge'
 import { LDNodeView } from './LDNode'
+import { Toolbar } from './Toolbar'
 
 const nodeTypes = { ld: LDNodeView }
 const edgeTypes = { ld: LDEdgeView }
 
 /**
  * The React Flow canvas — a CONTROLLED component driven by useDiagramStore. It
- * renders the static graph only; the animation overlay (M3) is a sibling layer.
+ * renders the static graph; the AnimationOverlay (a ViewportPortal child) paints
+ * the moving payloads imperatively on top.
  */
 export function DiagramCanvas() {
   const {
@@ -79,11 +82,14 @@ export function DiagramCanvas() {
         minZoom={0.3}
         maxZoom={2}
         fitView
-        fitViewOptions={{ padding: 0.35, maxZoom: 1 }}
+        fitViewOptions={{ padding: 0.3, maxZoom: 1 }}
       >
         <Background variant={BackgroundVariant.Dots} gap={22} size={1} />
         <Controls showInteractive={false} />
+        <AnimationOverlay />
       </ReactFlow>
+
+      <Toolbar />
     </div>
   )
 }

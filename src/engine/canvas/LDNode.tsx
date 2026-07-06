@@ -5,6 +5,7 @@ import { Handle, Position } from '@xyflow/react'
 import type { NodeProps } from '@xyflow/react'
 import type { CSSProperties } from 'react'
 
+import { registerNodeFill, registerNodeRoot } from '../animation/nodeElements'
 import { cx } from '../lib/cx'
 import { getIcon, getNodeKind } from '../registry/packRegistry'
 import type { LDNode } from '../store/useDiagramStore'
@@ -12,11 +13,11 @@ import { hasLevel } from '../types/affordance'
 import styles from './LDNode.module.css'
 
 /**
- * The single custom node. React Flow registers it once as `ld`; the kind lives
- * in data.kindId, so one component renders every pack's kinds. The level bar is
- * a static shell for M2 (store/cache kinds); it becomes reactive in M3.
+ * The single custom node. The level track's fill element registers with the
+ * animation scheduler, which sets its height imperatively — so a filling bucket
+ * never triggers a React re-render.
  */
-export function LDNodeView({ data, selected }: NodeProps<LDNode>) {
+export function LDNodeView({ id, data, selected }: NodeProps<LDNode>) {
   const kind = getNodeKind(data.kindId)
   if (!kind) {
     return <div className={cx(styles.node, styles.unknown)}>?</div>
@@ -24,15 +25,12 @@ export function LDNodeView({ data, selected }: NodeProps<LDNode>) {
 
   const Icon = getIcon(kind.icon)
   const showLevel = hasLevel(kind.affordances)
-  const level =
-    kind.capacity && kind.capacity.max > 0
-      ? (kind.capacity.initial ?? 0) / kind.capacity.max
-      : 0
 
   return (
     <div
       className={cx(styles.node, selected && styles.selected)}
       style={{ '--accent': kind.accentToken } as CSSProperties}
+      ref={(el) => registerNodeRoot(id, el)}
     >
       <Handle type="source" position={Position.Left} id="left" className={styles.handle} />
       <Handle type="source" position={Position.Right} id="right" className={styles.handle} />
@@ -51,7 +49,7 @@ export function LDNodeView({ data, selected }: NodeProps<LDNode>) {
         <span className={styles.levelTrack} aria-hidden="true">
           <span
             className={styles.levelFill}
-            style={{ height: `${Math.round(level * 100)}%` }}
+            ref={(el) => registerNodeFill(id, el)}
           />
         </span>
       ) : null}

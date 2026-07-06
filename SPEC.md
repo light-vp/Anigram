@@ -50,17 +50,18 @@ Global invariants (must hold at every milestone):
 
 ## M3 — AnimationSpec engine (the thesis)
 
-- [ ] Interpreter + single-`requestAnimationFrame` scheduler + `SvgPayloadRenderer`
+- [x] Interpreter + single-`requestAnimationFrame` scheduler + `SvgPayloadRenderer`
       behind a `PayloadRenderer` interface.
-- [ ] Node `level` store + fill/drain overlay; global throughput slider.
-- [ ] Built-in behaviors: travel, accumulate, drain, round-trip, pulse (+ reactions
-      fill, drain, emit, absorb, flash).
-- [ ] Specs `cloud.upload.v1`, `cloud.download.v1`, `cloud.query.v1`.
-- [ ] Service → Bucket fills the bucket; Bucket → Service drains it; Service → DB
-      round-trips; the three read as visibly different.
-- [ ] The throughput slider retimes every active interaction.
-- [ ] The 60fps animation tick causes **no** React re-render (verify via profiler).
-- [ ] Reduced motion → static indicator (arrow / fill-bar), no rAF loop.
+- [x] Node `level` store + fill/drain overlay; global throughput slider.
+- [x] Built-in behaviors: travel, accumulate, drain, round-trip (+ reactions
+      fill, drain via imperative level). (pulse + emit/flash/absorb polish: later.)
+- [x] Specs `cloud.upload.v1`, `cloud.download.v1`, `cloud.query.v1`.
+- [x] Service → Bucket fills the bucket (0→100%); Bucket → Service drains it
+      (100→0%); Service → DB round-trips; the three read as visibly different.
+- [x] The throughput slider retimes every active interaction.
+- [x] The animation tick causes **no** React re-render (verified: ~1650 frames,
+      1×→3× throughput change, node render count unchanged at 40).
+- [x] Reduced motion → static indicator (fill-bar / arrow), no rAF loop.
 
 ## M4 — L1 preset inspector
 

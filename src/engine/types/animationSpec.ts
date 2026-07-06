@@ -67,9 +67,11 @@ export interface BehaviorStep {
   to: NodeEnd
   durationMs: number
   easing?: Easing
-  /** couples to the target/source level when the sprite arrives */
+  /** couples to the `to` node's level when the sprite arrives */
   onArrive?: ArriveEffect
-  /** level delta per arrival (0..1) */
+  /** couples to the `from` node's level when the sprite departs (e.g. drain) */
+  onDepart?: ArriveEffect
+  /** level delta per arrival/departure (0..1) */
   amount?: number
   /** swap the payload sprite for the return leg of a roundTrip */
   returnSprite?: Payload

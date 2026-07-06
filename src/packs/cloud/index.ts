@@ -14,6 +14,7 @@ import type { Pack } from '../../engine'
 import { cloudIcons } from './iconRegistry'
 import { cloudKinds } from './kinds'
 import { cloudResolverRules } from './resolverRules'
+import { cloudSpecs } from './specs'
 import { cloudVerbs } from './verbs'
 
 export const cloudPack: Pack = {
@@ -24,7 +25,7 @@ export const cloudPack: Pack = {
   icons: cloudIcons,
   verbs: cloudVerbs,
   resolverRules: cloudResolverRules,
-  animationPresets: [],
+  animationPresets: cloudSpecs,
   payloadSprites: [],
   scenes: [],
   meta: {

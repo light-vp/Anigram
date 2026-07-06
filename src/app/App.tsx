@@ -18,8 +18,8 @@ export function App() {
           living<span className={styles.accent}>·</span>diagrams
         </h1>
         <p className={styles.status}>
-          M2 · canvas + resolver · {kindCount} kinds · connect two nodes to see
-          the interaction resolve
+          M3 · living animations · {kindCount} kinds · watch the bucket fill,
+          the archive drain, the query round-trip
         </p>
       </header>
 

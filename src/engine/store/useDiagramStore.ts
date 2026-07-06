@@ -50,23 +50,10 @@ export interface DiagramState {
   clear: () => void
 }
 
-const initialNodes: LDNode[] = [
-  {
-    id: 'seed-service',
-    type: 'ld',
-    position: { x: 140, y: 190 },
-    data: { kindId: 'cloud.service', label: 'API Service' },
-  },
-  {
-    id: 'seed-bucket',
-    type: 'ld',
-    position: { x: 540, y: 190 },
-    data: { kindId: 'cloud.bucket', label: 'Uploads' },
-  },
-]
-
 export const useDiagramStore = create<DiagramState>((set, get) => ({
-  nodes: initialNodes,
+  // The engine store starts empty and domain-agnostic; the app seeds a demo
+  // diagram (or a scene loads) after packs are registered.
+  nodes: [],
   edges: [],
   interactions: {},
   selectedNodeId: null,
