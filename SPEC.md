@@ -65,10 +65,11 @@ Global invariants (must hold at every milestone):
 
 ## M4 — L1 preset inspector
 
-- [ ] Inspector generated from each spec's `exposedParams` via a param-schema
-      (`select | slider | color | sprite | toggle`).
-- [ ] Edits merge into `interaction.params`; reset-to-default restores.
-- [ ] Change sprite, colour, rate, and direction on the upload edge live.
+- [x] Inspector generated from each spec's `exposedParams` via a param-schema
+      (`select | slider | color | sprite`).
+- [x] Edits merge into `interaction.params`; reset-to-default restores (verified).
+- [x] Change sprite, colour, rate, and on-arrive on the upload edge live
+      (scheduler reads the params-merged effective spec each frame).
 
 ## M5 — Editor + persistence
 

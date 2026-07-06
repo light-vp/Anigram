@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
+import { effectiveSpec } from './effectiveSpec'
 import { getNodeFill } from './nodeElements'
 import { payloadColorToken } from './payloadGlyphs'
 import { SvgPayloadRenderer } from './SvgPayloadRenderer'
@@ -19,6 +20,7 @@ interface LiveSprite {
   payload: string
   returnPayload: string | undefined
   size: number
+  colorToken: string
   easing: string
   fromU: number
   toU: number
@@ -185,7 +187,7 @@ export class Scheduler {
 
     // Emission
     for (const inter of active) {
-      const spec = getSpec(inter.specId)
+      const spec = effectiveSpec(inter)
       const behavior = spec?.behaviors[0]
       if (!spec || !behavior) continue
       const fromU = behavior.from === 'source' ? 0 : 1
@@ -199,6 +201,7 @@ export class Scheduler {
           ? String(behavior.returnSprite)
           : undefined,
         size: spec.payload.size,
+        colorToken: String(spec.payload.colorToken),
         easing: behavior.easing ?? 'linear',
         fromU,
         toU,
@@ -283,7 +286,8 @@ export class Scheduler {
       const opacity = p < 0.1 ? p / 0.1 : p > 0.9 ? (1 - p) / 0.1 : 1
       out.push({
         payload,
-        colorToken: payloadColorToken(payload),
+        colorToken:
+          payload === sp.payload ? sp.colorToken : payloadColorToken(payload),
         size: sp.size,
         x: pt.x,
         y: pt.y,

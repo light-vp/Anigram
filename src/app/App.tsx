@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { DiagramCanvas, getNodeKinds, Palette } from '../engine'
+import { DiagramCanvas, getNodeKinds, Inspector, Palette } from '../engine'
 import styles from './App.module.css'
 
 /**
@@ -18,14 +18,15 @@ export function App() {
           living<span className={styles.accent}>·</span>diagrams
         </h1>
         <p className={styles.status}>
-          M3 · living animations · {kindCount} kinds · watch the bucket fill,
-          the archive drain, the query round-trip
+          M4 · tune it live · {kindCount} kinds · select a connection to edit its
+          animation
         </p>
       </header>
 
       <div className={styles.body}>
         <Palette />
         <DiagramCanvas />
+        <Inspector />
       </div>
     </div>
   )

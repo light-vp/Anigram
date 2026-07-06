@@ -39,6 +39,7 @@ const upload: AnimationSpec = {
     'emission.rate',
     'emission.mode',
     'behaviors.0.amount',
+    'behaviors.0.onArrive',
   ],
 }
 

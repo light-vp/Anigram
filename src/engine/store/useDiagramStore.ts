@@ -44,6 +44,12 @@ export interface DiagramState {
 
   addNode: (kindId: string, position?: XYPosition) => void
   setInteractionVerb: (interactionId: string, verb: Verb) => void
+  setInteractionParam: (
+    interactionId: string,
+    path: string,
+    value: unknown,
+  ) => void
+  resetInteractionParams: (interactionId: string) => void
   selectNode: (id: string | null) => void
   selectEdge: (id: string | null) => void
   deleteSelected: () => void
@@ -141,10 +147,36 @@ export const useDiagramStore = create<DiagramState>((set, get) => ({
       payload: def?.defaultPayload ?? interaction.payload,
       specId: def?.defaultSpecId ?? '',
       direction: def?.defaultDirection ?? interaction.direction,
+      params: {},
       resolved: false,
     }
     set({
       interactions: { ...get().interactions, [interactionId]: updated },
+    })
+  },
+
+  setInteractionParam: (interactionId, path, value) => {
+    const interaction = get().interactions[interactionId]
+    if (!interaction) return
+    set({
+      interactions: {
+        ...get().interactions,
+        [interactionId]: {
+          ...interaction,
+          params: { ...interaction.params, [path]: value },
+        },
+      },
+    })
+  },
+
+  resetInteractionParams: (interactionId) => {
+    const interaction = get().interactions[interactionId]
+    if (!interaction) return
+    set({
+      interactions: {
+        ...get().interactions,
+        [interactionId]: { ...interaction, params: {} },
+      },
     })
   },
 
