@@ -3,7 +3,10 @@
 
 import styles from './SourceLink.module.css'
 
-/** The public source repository (AGPL-3.0). */
+/**
+ * The public source repository (AGPL-3.0). Still the pre-rename slug — update
+ * this once the GitHub repo is renamed to `anigram` (see SETUP.md checklist).
+ */
 export const REPO_URL = 'https://github.com/light-vp/living-diagrams'
 
 /**

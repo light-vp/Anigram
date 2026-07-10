@@ -18,15 +18,18 @@ import {
   useDiagramStore,
   useSimStore,
 } from './engine'
+import { initAnalytics } from './app/analytics'
 import { App } from './app/App'
 import { registerAllPacks } from './app/packs'
 import { seedDemo } from './app/seedDemo'
 
-// Register packs. In the normal app, load a saved diagram (or seed the demo) and
-// autosave; in embed mode the App loads the requested scene and skips storage.
-const isEmbed = new URLSearchParams(window.location.search).has('embed')
+// Register packs. The normal app and the playable `?embed=app` iframe load a
+// saved diagram (or seed the demo) and autosave; presentation embeds load the
+// requested scene in the App and stay stateless.
+const embed = new URLSearchParams(window.location.search).get('embed')
 registerAllPacks()
-if (!isEmbed) {
+initAnalytics()
+if (!embed || embed === 'app') {
   if (!loadFromStorage()) seedDemo()
   startAutosave()
 }

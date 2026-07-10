@@ -39,12 +39,33 @@ function EmbedView({ sceneId }: { sceneId: string | null }) {
 }
 
 /**
- * App shell: palette + canvas + inspector. Switches to a chrome-less embed when
- * the URL carries an `embed` param.
+ * The full playable editor without the header bar, for the portfolio's
+ * playground iframe (?embed=app). Persistence is wired in main.tsx; the
+ * floating source link must stay (AGPL §13).
+ */
+function AppEmbedView() {
+  return (
+    <div className={styles.embedApp}>
+      <Palette />
+      <DiagramCanvas />
+      <Inspector />
+      <SourceLink floating />
+    </div>
+  )
+}
+
+/**
+ * App shell: palette + canvas + inspector. Switches to the playable
+ * `?embed=app` view or a chrome-less presentation embed when the URL carries
+ * an `embed` param.
  */
 export function App() {
   const params = new URLSearchParams(window.location.search)
-  if (params.get('embed')) {
+  const embed = params.get('embed')
+  if (embed === 'app') {
+    return <AppEmbedView />
+  }
+  if (embed) {
     return <EmbedView sceneId={params.get('scene')} />
   }
 
@@ -54,7 +75,7 @@ export function App() {
     <div className={styles.shell}>
       <header className={styles.header}>
         <h1 className={styles.wordmark}>
-          living<span className={styles.accent}>·</span>diagrams
+          ani<span className={styles.accent}>·</span>gram
         </h1>
         <p className={styles.status}>
           {kindCount} kinds · the connection is the meaning

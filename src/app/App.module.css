@@ -14,6 +14,14 @@
   overflow: hidden;
 }
 
+/* playable editor embed — the .body row without the header above it */
+.embedApp {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  overflow: hidden;
+}
+
 .headerRight {
   margin-left: auto;
 }

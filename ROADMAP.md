@@ -3,7 +3,7 @@
 
 # Roadmap
 
-Living Diagrams grows along **two interleaving axes**. Neither runs to completion
+Anigram grows along **two interleaving axes**. Neither runs to completion
 before the other starts — each phase advances both a notch, so no capability is
 ever architecturally stranded.
 
