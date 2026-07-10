@@ -1,3 +1,6 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2026 Vaibhav Patel
+
 name: Deploy to Hostinger
 
 on:
@@ -16,6 +19,10 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          # don't leave the contents:write token in .git/config where
+          # npm postinstall scripts could read it
+          persist-credentials: false
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -30,7 +37,9 @@ jobs:
         run: npm run build
 
       - name: Push to Deploy Branch
-        uses: s0/git-publish-subdir-action@develop
+        # pinned to an immutable commit SHA — this step receives a
+        # contents:write token, so never track a mutable ref here
+        uses: s0/git-publish-subdir-action@92faf786f11dfa44fc366ac3eb274d193ca1af7e # v2.6.0
         env:
           REPO: self
           BRANCH: deploy

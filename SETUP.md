@@ -49,7 +49,10 @@ Saved diagrams migrate automatically: on first load the app copies the old
    document root it creates (e.g. `.../domains/vaibhav.co.uk/public_html/diagrams`
    or a dedicated `diagrams.vaibhav.co.uk` root).
 2. In hPanel → **Git**, connect this GitHub repo, set branch **`deploy`**, and
-   set the directory to that subdomain's document root.
+   set the directory to that subdomain's document root. If a key is needed,
+   register the Hostinger key as a **per-repo deploy key with write access
+   unchecked** (read-only) — never as an account-level SSH key. (A public repo
+   needs no key at all.)
 3. Add the repository's **webhook URL** (from the Hostinger Git page) to GitHub →
    repo **Settings → Webhooks**, so a push to `deploy` auto-pulls.
 4. Ensure SSL is enabled for the subdomain (Hostinger auto-provisions Let's
