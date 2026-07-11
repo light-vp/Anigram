@@ -17,7 +17,9 @@ export interface DiagramDoc {
   interactions: Record<string, Interaction>
 }
 
-const STORAGE_KEY = 'living-diagrams:doc'
+const STORAGE_KEY = 'anigram:doc'
+/** pre-rename key — migrated forward on first load so saved diagrams survive */
+const LEGACY_STORAGE_KEY = 'living-diagrams:doc'
 
 export function serializeDiagram(): DiagramDoc {
   const { nodes, edges, interactions } = useDiagramStore.getState()
@@ -53,9 +55,19 @@ export function saveToStorage(): void {
   }
 }
 
+function readStoredDoc(): string | null {
+  const raw = localStorage.getItem(STORAGE_KEY)
+  if (raw) return raw
+  const legacy = localStorage.getItem(LEGACY_STORAGE_KEY)
+  if (!legacy) return null
+  localStorage.setItem(STORAGE_KEY, legacy)
+  localStorage.removeItem(LEGACY_STORAGE_KEY)
+  return legacy
+}
+
 export function loadFromStorage(): boolean {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY)
+    const raw = readStoredDoc()
     if (!raw) return false
     return applyDiagramDoc(JSON.parse(raw))
   } catch {

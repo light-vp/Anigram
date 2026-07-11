@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 <!-- SPDX-FileCopyrightText: 2026 Vaibhav Patel -->
 
-# Living Diagrams
+# Anigram
 
 **Architecture diagrams that come alive.** Services don't just _connect_ — they
 _interact_, and you see the interaction. A service uploading to a storage bucket
@@ -12,7 +12,7 @@ animation is the meaning.**
 <!-- HERO GIF: pulses/files flowing through a microservices scene -->
 <p align="center"><em>▶ hero animation — coming soon</em></p>
 
-> Living Diagrams is a general **"living systems map" engine** with a flagship
+> Anigram is a general **"living systems map" engine** with a flagship
 > **cloud-architecture** pack. It is the first diagramming tool where connections
 > carry _semantic, data-driven_ animation.
 
@@ -25,7 +25,7 @@ along a line, but it means nothing. Structurizr animates for manual storytelling
 IcePanel/C4 is semantic but frozen. Cloudcraft and Hava are static or
 change-diffs. **None bind the animation to what the edge actually _does_.**
 
-Living Diagrams does. Connect two typed nodes and it resolves the _right_
+Anigram does. Connect two typed nodes and it resolves the _right_
 interaction automatically (a service → a bucket is an **upload**; a bucket → a
 service is a **download**) — then you can override it to anything.
 
@@ -85,7 +85,7 @@ Terraform/IaC import → live connectors & metrics). Full detail in
 
 ## License
 
-Living Diagrams is **dual-licensed**:
+Anigram is **dual-licensed**:
 
 - **[AGPL-3.0-only](LICENSE)** — free for open-source and personal use. If you run
   a modified version over a network, you must offer users its source (AGPL §13).
@@ -99,7 +99,7 @@ PRs welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). A signed
 
 ## Trademarks
 
-Living Diagrams is an independent project, **not affiliated with or endorsed by**
+Anigram is an independent project, **not affiliated with or endorsed by**
 Amazon Web Services, Google, or Microsoft. All product names, logos, and brands
 are property of their respective owners; provider names are used nominatively to
 describe compatibility only. All icons shipped in this repo are original works.

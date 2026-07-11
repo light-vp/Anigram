@@ -3,7 +3,7 @@
 
 # Contributor License Agreement (CLA)
 
-Thank you for contributing to Living Diagrams ("the Project"). To keep the Project
+Thank you for contributing to Anigram ("the Project"). To keep the Project
 dual-licensable (open-source under AGPL-3.0 **and** available under a commercial
 license), the Project maintainer needs a clear grant of rights for every
 contribution. By submitting a contribution (a pull request, patch, or any code,

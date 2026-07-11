@@ -3,7 +3,7 @@
 
 # Commercial License
 
-Living Diagrams is **dual-licensed**. You may use it under **either**:
+Anigram is **dual-licensed**. You may use it under **either**:
 
 1. the **GNU Affero General Public License v3.0** (see [LICENSE](LICENSE)), or
 2. a **commercial license** purchased from the author.
@@ -18,13 +18,13 @@ distribute are themselves licensed under the AGPL.
 
 A **commercial license removes these obligations**. You want one if you intend to:
 
-- embed Living Diagrams (or a derivative) in a **closed-source** product;
+- embed Anigram (or a derivative) in a **closed-source** product;
 - offer it as part of a **hosted/SaaS** product **without** publishing your
   modified source under the AGPL;
 - otherwise use it in a way incompatible with the AGPL's copyleft/network terms.
 
 You do **not** need a commercial license to use, modify, self-host, or contribute
-to Living Diagrams under the AGPL for open-source or personal use.
+to Anigram under the AGPL for open-source or personal use.
 
 ## Tiers (indicative — subject to change)
 

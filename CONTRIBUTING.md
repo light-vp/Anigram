@@ -1,13 +1,13 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 <!-- SPDX-FileCopyrightText: 2026 Vaibhav Patel -->
 
-# Contributing to Living Diagrams
+# Contributing to Anigram
 
 Thanks for your interest! Contributions are welcome.
 
 ## Contributor License Agreement (required)
 
-Living Diagrams is dual-licensed (AGPL-3.0 **and** a commercial license). To be
+Anigram is dual-licensed (AGPL-3.0 **and** a commercial license). To be
 able to offer the commercial license, the project must hold the rights to
 relicense the entire codebase. **Every contribution therefore requires a signed
 [CLA](CLA.md)** granting the author a broad, irrevocable license (including the

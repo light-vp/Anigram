@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 /*
- * @living-diagrams/engine — the domain-agnostic core.
+ * @anigram/engine — the domain-agnostic core.
  *
  * BOUNDARY: nothing under src/engine/ may import from src/packs/ or src/app/.
  * Packs supply domain knowledge as data via registerPack(). Enforced by the

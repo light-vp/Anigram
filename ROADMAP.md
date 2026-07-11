@@ -3,7 +3,7 @@
 
 # Roadmap
 
-Living Diagrams grows along **two interleaving axes**. Neither runs to completion
+Anigram grows along **two interleaving axes**. Neither runs to completion
 before the other starts — each phase advances both a notch, so no capability is
 ever architecturally stranded.
 
@@ -35,7 +35,8 @@ _Advances both axes one notch: engine + a cloud-pack subset + L1 authoring._
 - Small editor (drag / connect / delete), localStorage persistence, versioned
   JSON import/export.
 - Curated cloud scenes + presentation mode.
-- Deployed at `diagrams.vaibhav.co.uk`; embedded in the vaibhav.co.uk portfolio.
+- Served at `vaibhav.co.uk/anigram-app/` by the portfolio's deploy pipeline;
+  embedded in the portfolio's `/anigram` brief page.
 
 See [SPEC.md](SPEC.md) for the tracked Phase-1 acceptance criteria.
 

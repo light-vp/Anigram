@@ -1,5 +1,5 @@
 {
-  "name": "living-diagrams",
+  "name": "anigram",
   "description": "Architecture diagrams that come alive — an engine where the connection between two nodes is a typed, animated interaction.",
   "private": true,
   "version": "0.0.0",
@@ -17,9 +17,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@sentry/react": "^10.65.0",
     "@xyflow/react": "^12.11.2",
     "motion": "^12.42.2",
     "nanoid": "^5.1.16",
+    "posthog-js": "^1.399.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "zustand": "^5.0.14"

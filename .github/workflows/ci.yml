@@ -1,0 +1,48 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-FileCopyrightText: 2026 Vaibhav Patel
+
+# CI only — this repo does not deploy itself. The portfolio's deploy workflow
+# (light-vp/codeart.fun) checks out this repo's main branch, builds it with
+# --base=/anigram-app/, and serves it at vaibhav.co.uk/anigram-app/.
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+      # the deployed copy is built with the subpath base — prove it works too
+      - name: Build under /anigram-app/
+        run: npm run build -- --base=/anigram-app/
