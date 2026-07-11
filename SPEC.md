@@ -90,9 +90,9 @@ Global invariants (must hold at every milestone):
 
 ## M7 — Deploy + portfolio embed
 
-- [~] Deploy config ready (`.github/workflows/deploy.yml` + `public/.htaccess`
-      with SPA rewrite + `frame-ancestors`); provisioning the `diagrams.vaibhav.co.uk`
-      subdomain + webhook is a one-time manual step — see `SETUP.md`.
+- [~] Deploy model: no hosting of its own — the portfolio's workflow builds
+      this repo with `--base=/anigram-app/` and serves it at
+      `vaibhav.co.uk/anigram-app/`; this repo runs CI only — see `SETUP.md`.
 - [x] `?embed=presentation&scene=<id>` renders a chrome-less presentation
       (verified: no palette/toolbar, just canvas + presentation + source link).
 - [x] In-app "Source" link (AGPL §13).

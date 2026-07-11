@@ -1,80 +1,59 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 <!-- SPDX-FileCopyrightText: 2026 Vaibhav Patel -->
 
-# Deploy setup — diagrams.vaibhav.co.uk
+# Deploy setup — served at vaibhav.co.uk/anigram-app/
 
-Anigram deploys to the **`diagrams.vaibhav.co.uk`** subdomain on Hostinger
-using the same deploy-branch pattern as the portfolio. The build pipeline is
-already in `.github/workflows/deploy.yml`; the steps below are the one-time
-manual setup (they need Hostinger + GitHub access).
+Anigram has **no hosting of its own**. The portfolio repo
+(`light-vp/codeart.fun`) deploys it: its GitHub Action checks out this repo's
+`main` branch, builds it with `--base=/anigram-app/`, folds the output into the
+site's `dist/anigram-app/`, and Hostinger serves the whole thing at
+`vaibhav.co.uk`. This repo's own workflow (`.github/workflows/ci.yml`) is CI
+only — typecheck, lint, and both build variants — with a read-only token.
 
-## 1. GitHub repo
+## Releasing a change
 
-```sh
-# from this directory — the local default branch is `master`; the deploy
-# workflow triggers on `main`, so rename before the first push
-git branch -m master main
-git remote add origin git@github.com:light-vp/living-diagrams.git
-git push -u origin main
-```
+1. PR → merge to `main` here (CI must be green).
+2. Trigger a portfolio deploy: either merge anything to `codeart.fun`'s `main`,
+   or run its **Deploy to Hostinger** workflow manually (Actions →
+   Deploy to Hostinger → Run workflow). The next deploy always picks up this
+   repo's latest `main`.
 
-On the first push to `main`, the GitHub Action builds `dist/` and force-pushes it
-to a **`deploy`** branch (via `s0/git-publish-subdir-action`, using the built-in
-`GITHUB_TOKEN` — no secrets to configure).
+## URLs
+
+- `https://vaibhav.co.uk/anigram-app/` — the full editor (standalone).
+- `https://vaibhav.co.uk/anigram-app/?embed=app` — the playable editor without
+  the header bar (what the portfolio's playground iframe loads).
+- `https://vaibhav.co.uk/anigram-app/?embed=presentation&scene=<id>` — the
+  chrome-less presentation embeds (scenes: `cdn`, `microservices`, `oauth2`).
+- The portfolio's brief page lives at `https://vaibhav.co.uk/anigram`.
+
+Notes: the portfolio's deploy strips this repo's `public/.htaccess` (its SPA
+rewrite is root-relative and unnecessary — embeds address the app by query
+string only) and writes a minimal `.htaccess` into `dist/anigram-app/` that
+sets `Content-Security-Policy: frame-ancestors` so only vaibhav.co.uk can
+frame the app. The in-app **"source"** link must keep pointing at the public
+repo (AGPL §13).
 
 ## Rename checklist (Living Diagrams → Anigram, manual)
 
-The code and docs already say **Anigram**. Two identifiers are deliberately
-still on the old name until you do these one-time steps:
+The code and docs already say **Anigram**. One identifier is deliberately
+still on the old name:
 
-1. **GitHub repo slug** — create (or rename) the repo as
-   `light-vp/anigram`. GitHub 301-redirects the old
-   `light-vp/living-diagrams` URLs, so nothing breaks in the meantime.
-   Afterwards update `REPO_URL` in `src/engine/canvas/SourceLink.tsx` and the
-   remote URL above.
-2. **Subdomain (optional, later)** — the app stays at `diagrams.vaibhav.co.uk`
-   because the portfolio hardcodes it. If you ever move to
-   `anigram.vaibhav.co.uk`, create the new subdomain in hPanel (step 2 below),
-   then update `DIAGRAMS_URL` in the portfolio repo
-   (`src/components/tool/DiagramConsole.tsx` and
-   `src/components/anigram/PlaygroundFrame.tsx`). The `.htaccess`
-   `frame-ancestors` header already covers `*.vaibhav.co.uk` — no change needed.
+- **GitHub repo slug** — currently `light-vp/living-diagrams` (matching
+  `REPO_URL` in `src/engine/canvas/SourceLink.tsx`). If you rename the repo to
+  `anigram`, GitHub 301-redirects the old URLs, but update `REPO_URL` and the
+  portfolio workflow's `repository: light-vp/living-diagrams` checkout to the
+  new slug in the same change.
 
 Saved diagrams migrate automatically: on first load the app copies the old
-`living-diagrams:doc` localStorage key to `anigram:doc`.
-
-## 2. Hostinger subdomain
-
-1. In hPanel → **Subdomains**, create `diagrams` under `vaibhav.co.uk`. Note the
-   document root it creates (e.g. `.../domains/vaibhav.co.uk/public_html/diagrams`
-   or a dedicated `diagrams.vaibhav.co.uk` root).
-2. In hPanel → **Git**, connect this GitHub repo, set branch **`deploy`**, and
-   set the directory to that subdomain's document root. If a key is needed,
-   register the Hostinger key as a **per-repo deploy key with write access
-   unchecked** (read-only) — never as an account-level SSH key. (A public repo
-   needs no key at all.)
-3. Add the repository's **webhook URL** (from the Hostinger Git page) to GitHub →
-   repo **Settings → Webhooks**, so a push to `deploy` auto-pulls.
-4. Ensure SSL is enabled for the subdomain (Hostinger auto-provisions Let's
-   Encrypt).
-
-`public/.htaccess` (copied into `dist/` by Vite) provides the SPA rewrite **and**
-the `Content-Security-Policy: frame-ancestors` header that lets `vaibhav.co.uk`
-embed the app.
-
-## 3. Verify
-
-- `https://diagrams.vaibhav.co.uk` loads the editor.
-- `https://diagrams.vaibhav.co.uk/?embed=presentation&scene=oauth2` renders the
-  chrome-less presentation (no palette/toolbar) — this is what the portfolio's
-  demo iframes load.
-- `https://diagrams.vaibhav.co.uk/?embed=app` renders the full playable editor
-  (palette + canvas + inspector, no header) — this is what the portfolio's
-  playground iframe loads. Edits persist via localStorage.
-- The in-app **"source"** link points at the public repo (AGPL §13).
+`living-diagrams:doc` localStorage key to `anigram:doc`. (Note: with the app
+now served under `vaibhav.co.uk`, browser storage lives on that origin.)
 
 ## Fallback
 
-If the Hostinger subdomain/webhook is painful, **Cloudflare Pages** is a drop-in
-alternative: connect the repo, build command `npm run build`, output `dist`, and
-add the SPA fallback + the `frame-ancestors` header via `_headers`/`_redirects`.
+If serving under the main site ever becomes a problem, the app can be given
+its own subdomain again: restore a deploy workflow like `codeart.fun`'s
+(build → push `dist/` to a `deploy` branch, SHA-pinned publish action,
+`persist-credentials: false`), create the subdomain in Hostinger hPanel →
+Git (per-repo **read-only** deploy key or none for a public repo), add the
+webhook, and point the portfolio's `src/lib/anigramUrl.ts` at the new origin.
