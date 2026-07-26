@@ -42,7 +42,7 @@ export function loadScene(scene: Scene): void {
       source: e.source,
       target: e.target,
       type: 'ld',
-      markerEnd: 'url(#ld-arrow)',
+      markerEnd: 'ld-arrow',
       data: { interactionId: e.id },
     })
   }

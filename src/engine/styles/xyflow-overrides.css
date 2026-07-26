@@ -6,6 +6,18 @@
  * (prefixed --xy-*); we rebind them so no raw colour lives here.
  */
 
+/*
+ * Undo the reset for React Flow's own SVG layers. `reset.css` applies
+ * `svg { max-width: 100% }`, and React Flow renders its edges into an <svg>
+ * whose parent (.react-flow__edges) is a 0x0 absolutely-positioned div — so
+ * `100%` resolves to 0, the edge canvas collapses, and every connection
+ * disappears while nodes and labels keep rendering. Nothing else re-declares
+ * max-width, so load order can't save us; it has to be reset explicitly.
+ */
+.react-flow svg {
+  max-width: none;
+}
+
 .react-flow {
   --xy-background-color: var(--bg);
   --xy-edge-stroke: var(--edge-base);

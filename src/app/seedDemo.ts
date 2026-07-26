@@ -18,7 +18,7 @@ function edge(interactionId: string, source: string, target: string): LDEdge {
     source,
     target,
     type: 'ld',
-    markerEnd: 'url(#ld-arrow)',
+    markerEnd: 'ld-arrow',
     data: { interactionId },
   }
 }
