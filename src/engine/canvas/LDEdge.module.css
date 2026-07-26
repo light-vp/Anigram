@@ -1,9 +1,16 @@
 /* SPDX-License-Identifier: AGPL-3.0-only */
 /* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
 
+/*
+ * non-scaling-stroke keeps the wire at a constant screen width at any zoom.
+ * Without it a fitted-out scene (presentation embeds land around 0.5 zoom)
+ * halves the stroke to ~1px and the graph reads as floating nodes with no
+ * connections between them.
+ */
 .edge {
   stroke: var(--edge-base);
-  stroke-width: 2;
+  stroke-width: 2.25;
+  vector-effect: non-scaling-stroke;
 }
 
 .edge:hover {
@@ -12,5 +19,6 @@
 
 .selected {
   stroke: var(--edge-pulse);
-  stroke-width: 2.5;
+  stroke-width: 2.75;
+  vector-effect: non-scaling-stroke;
 }

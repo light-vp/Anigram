@@ -123,7 +123,7 @@ export const useDiagramStore = create<DiagramState>((set, get) => ({
       sourceHandle: connection.sourceHandle ?? null,
       targetHandle: connection.targetHandle ?? null,
       type: 'ld',
-      markerEnd: 'url(#ld-arrow)',
+      markerEnd: 'ld-arrow',
       data: { interactionId },
     }
 

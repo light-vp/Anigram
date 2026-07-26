@@ -102,7 +102,7 @@ function Flow({ chrome }: { chrome: boolean }) {
         onEdgeClick={(_, edge) => selectEdge(edge.id)}
         onPaneClick={() => selectNode(null)}
         connectionMode={ConnectionMode.Loose}
-        defaultEdgeOptions={{ type: 'ld', markerEnd: 'url(#ld-arrow)' }}
+        defaultEdgeOptions={{ type: 'ld', markerEnd: 'ld-arrow' }}
         deleteKeyCode={['Backspace', 'Delete']}
         minZoom={0.3}
         maxZoom={2}
