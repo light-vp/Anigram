@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { useDiagramStore, useSimStore } from '../engine'
 import { analyticsConfig } from './analyticsConfig'
 
 type Props = Record<string, unknown>
@@ -10,39 +9,12 @@ let posthog: { capture: (event: string, props?: Props) => void } | null = null
 const queue: Array<[string, Props]> = []
 const embed = new URLSearchParams(window.location.search).get('embed')
 
-function capture(event: string, props?: Props): void {
+/** record a usage event; a no-op unless PostHog is configured */
+export function capture(event: string, props?: Props): void {
+  if (!analyticsConfig.posthogKey) return
   const payload: Props = { embed: embed ?? 'none', ...props }
   if (posthog) posthog.capture(event, payload)
   else queue.push([event, payload])
-}
-
-/**
- * Usage events come from observing the engine stores here in the app layer —
- * the engine itself emits nothing (boundary: engine never imports app code).
- */
-function wireStoreEvents(): void {
-  useDiagramStore.subscribe((state, prev) => {
-    if (state.nodes.length > prev.nodes.length) {
-      capture('node_added', {
-        kindId: state.nodes[state.nodes.length - 1]?.data.kindId,
-      })
-    }
-    if (state.edges.length > prev.edges.length) {
-      const edge = state.edges[state.edges.length - 1]
-      const interactionId = edge?.data?.interactionId
-      capture('edge_connected', {
-        verb: interactionId
-          ? state.interactions[interactionId]?.verb
-          : undefined,
-      })
-    }
-  })
-  useSimStore.subscribe((state, prev) => {
-    const sceneId = state.presentation?.sceneId
-    if (sceneId && sceneId !== prev.presentation?.sceneId) {
-      capture('scene_loaded', { sceneId })
-    }
-  })
 }
 
 /**
@@ -52,7 +24,6 @@ function wireStoreEvents(): void {
  */
 export function initAnalytics(): void {
   if (!analyticsConfig.posthogKey && !analyticsConfig.sentryDsn) return
-  if (analyticsConfig.posthogKey) wireStoreEvents()
 
   const start = () => {
     if (analyticsConfig.posthogKey) {

@@ -1,0 +1,117 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+.card {
+  background: var(--card);
+  border: var(--b) solid var(--ink);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-sm);
+  padding: 14px 16px;
+}
+
+.kicker {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.h {
+  font-size: var(--fs-lg);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.p {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.p + .p {
+  margin-top: 8px;
+}
+
+.table {
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+}
+
+.table div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 4px 0;
+  border-top: 1px dashed var(--rule);
+}
+
+.table dt {
+  color: var(--muted);
+}
+
+.table dd {
+  margin: 0;
+  font-weight: 700;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.knob {
+  display: block;
+  margin-top: 10px;
+}
+
+.knobHead {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  margin-bottom: 4px;
+}
+
+.knobHead output {
+  font-weight: 700;
+}
+
+.knob input {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.switch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+}
+
+.switch input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+}
+
+.alerts ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.alerts button {
+  border: 0;
+  background: var(--accent-soft);
+  border-left: 3px solid var(--accent);
+  padding: 4px 8px;
+  width: 100%;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  cursor: pointer;
+}

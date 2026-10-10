@@ -24,26 +24,32 @@ npm install
 npm run dev        # dev server
 npm run typecheck  # tsc -b
 npm run lint       # oxlint
+npm test           # the simulation's rules, in node's own test runner
 npm run format     # prettier --write .
 ```
 
-Before opening a PR, make sure `typecheck`, `lint`, and `build` all pass.
+Before opening a PR, make sure `typecheck`, `lint`, `test` and `build` all pass.
 
 ## Architecture rules (please respect these)
 
 These keep the project extensible; they are enforced in review (and some by lint):
 
-1. **The engine stays domain-agnostic.** Nothing under `src/engine/` may import
-   from `src/packs/` or `src/app/`. Domain knowledge lives in packs and reaches
-   the engine only as data via `registerPack()`. (Enforced by oxlint.)
-2. **No hardcoded colours.** Every colour/geometry value comes from a token in
-   `src/styles/tokens.css` (or a theme file). No raw hex/rgb anywhere else. This
-   protects the theming/custom-theme seam.
-3. **One open format.** All animation authoring (preset params, the future visual
-   composer, future plugins) reads and writes the same `AnimationSpec`. Don't
-   fork a second animation representation.
-4. **Reduced motion is first-class.** Every animated interaction must degrade to a
-   legible static indicator.
+1. **Nothing moves unless the simulation says so.** Every animated pixel on
+   the sheet is read off `src/sim` state — a flow, a level, a phase. No
+   keyframes, no decorative loops. If a glyph needs to move, give it the state.
+2. **`src/sim/` is the rulebook, and it stays React-free.** It must run headless
+   in node (`npm test`, `npm run simulate`). It may not import from `view/`,
+   `parts/` or `app/`. (Enforced by oxlint.)
+3. **No hardcoded colours.** The chrome reads tokens from
+   `src/styles/tokens.css`; the drawing sheet reads its palette from
+   `src/view/palette.ts` (it lives inside the SVG so exports carry it). No raw
+   hex/rgb anywhere else.
+4. **Reduced motion is first-class.** Without motion, every flow is labelled with
+   its value and direction instead — the same view paper mode prints.
+5. **Scenes are data.** A new scene is one file in `src/scenes/` plus a line in
+   its index; run it through a day with `npm run simulate <id>` before
+   shipping it, and check the story its captions tell is the one the numbers
+   tell.
 
 ## SPDX headers
 

@@ -20,11 +20,17 @@ only — typecheck, lint, and both build variants — with a read-only token.
 
 ## URLs
 
-- `https://vaibhav.co.uk/anigram-app/` — the full editor (standalone).
-- `https://vaibhav.co.uk/anigram-app/?embed=app` — the playable editor without
-  the header bar (what the portfolio's playground iframe loads).
-- `https://vaibhav.co.uk/anigram-app/?embed=presentation&scene=<id>` — the
-  chrome-less presentation embeds (scenes: `cdn`, `microservices`, `oauth2`).
+- `https://vaibhav.co.uk/anigram-app/` — the full workbench (standalone).
+- `https://vaibhav.co.uk/anigram-app/?embed=app` — the workbench without its
+  header bar (what the portfolio's playground iframe loads).
+- `https://vaibhav.co.uk/anigram-app/?embed=1&scene=<id>` — the chrome-less
+  sheet for iframes (scenes: `grid`, `solar-home`, `water-tower`, `hydro-dam`,
+  `data-centre`). `?embed=presentation` is the same view, kept for the
+  portfolio's existing `DiagramConsole`; its old scene ids still resolve —
+  `cdn` → `data-centre`, `microservices` → `grid`, `oauth2` → `solar-home` —
+  but the portfolio's tab labels and copy describe the old cloud scenes and
+  want updating to match.
+- `https://vaibhav.co.uk/anigram-app/?screen=1` — the wall-screen tour.
 - The portfolio's brief page lives at `https://vaibhav.co.uk/anigram`.
 
 Notes: the portfolio's deploy strips this repo's `public/.htaccess` (its SPA
@@ -40,7 +46,7 @@ The code and docs already say **Anigram**. One identifier is deliberately
 still on the old name:
 
 - **GitHub repo slug** — currently `light-vp/living-diagrams` (matching
-  `REPO_URL` in `src/engine/canvas/SourceLink.tsx`). If you rename the repo to
+  `REPO_URL` in `src/app/SourceLink.tsx`). If you rename the repo to
   `anigram`, GitHub 301-redirects the old URLs, but update `REPO_URL` and the
   portfolio workflow's `repository: light-vp/living-diagrams` checkout to the
   new slug in the same change.
