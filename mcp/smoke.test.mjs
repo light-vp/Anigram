@@ -160,7 +160,10 @@ test('write, edit, simulate, render, share', async () => {
   const link = JSON.parse(
     (await call('share_link', { file: 'kettle.json', view: 'embed' })).text,
   )
-  assert.match(link.url, /embed=1#scene=/)
+  assert.match(
+    link.url,
+    /^https:\/\/anigram\.vaibhav\.co\.uk\/\?embed=1#scene=/,
+  )
   assert.match(link.iframe, /^<iframe/)
 })
 

@@ -32,8 +32,7 @@ import { sheetSize } from '../src/view/geometry.ts'
 import { renderSheetSvg } from '../src/view/renderSvg.tsx'
 
 const VERSION = '0.1.0'
-const APP_URL =
-  process.env.ANIGRAM_APP_URL ?? 'https://vaibhav.co.uk/anigram-app/'
+const APP_URL = process.env.ANIGRAM_APP_URL ?? 'https://anigram.vaibhav.co.uk/'
 
 const server = new McpServer(
   { name: 'anigram', title: 'Anigram', version: VERSION },

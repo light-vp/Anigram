@@ -68,7 +68,7 @@ numbers until the story holds, and hands back a link.
 - Paths are relative to the directory the client starts the server in. It
   only writes `.json` and `.svg` files.
 - `ANIGRAM_APP_URL` points `share_link` at another copy of the app
-  (default `https://vaibhav.co.uk/anigram-app/`), e.g. `http://localhost:5173/`
+  (default `https://anigram.vaibhav.co.uk/`), e.g. `http://localhost:5173/`
   while you run `npm run dev`.
 
 MIT licensed.
