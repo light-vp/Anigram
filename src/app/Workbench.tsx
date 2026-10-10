@@ -89,9 +89,19 @@ export function Workbench({
       {header && (
         <header className={styles.header}>
           <div className={styles.brand}>
-            <span className={styles.logo} aria-hidden="true">
-              ⚙
-            </span>
+            <svg
+              className={styles.logo}
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.6}
+              strokeLinecap="round"
+            >
+              <rect x={2.5} y={2.5} width={19} height={19} rx={6} />
+              <path d="M7 12 H17" />
+              <circle cx={10} cy={12} r={1.4} fill="currentColor" />
+            </svg>
             <span>
               <strong>Anigram</strong>
               <span className={styles.tag}>
@@ -150,17 +160,17 @@ export function Workbench({
             <div className={styles.seg} role="group" aria-label="Sheet colour">
               <button
                 type="button"
-                aria-pressed={theme === 'paper'}
-                onClick={() => onTheme('paper')}
+                aria-pressed={theme === 'light'}
+                onClick={() => onTheme('light')}
               >
-                cream
+                light
               </button>
               <button
                 type="button"
-                aria-pressed={theme === 'blueprint'}
-                onClick={() => onTheme('blueprint')}
+                aria-pressed={theme === 'dark'}
+                onClick={() => onTheme('dark')}
               >
-                blueprint
+                dark
               </button>
             </div>
             <span className={styles.spacer} />
@@ -189,7 +199,7 @@ export function Workbench({
               href={`?screen=1&scene=${scene.id}`}
               target="_blank"
               rel="noreferrer"
-              title="Full-bleed blueprint that tours every sheet — for a screen on a wall"
+              title="A full-bleed dark sheet that tours every sheet — for a screen on a wall"
             >
               ▭ screen
             </a>
@@ -266,7 +276,7 @@ function EmbedDialog({
       <p>
         It runs live inside the frame. Add <code>&amp;t=18</code> to open it at
         6pm, <code>&amp;mode=paper</code> for a labelled still, or{' '}
-        <code>&amp;theme=blueprint</code> for a dark sheet.
+        <code>&amp;theme=dark</code> for a dark sheet.
       </p>
       <textarea
         readOnly

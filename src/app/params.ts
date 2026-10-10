@@ -10,14 +10,22 @@ import type { ThemeId } from '../view/palette.ts'
  *   ?embed=1                         just the sheet and a play bar, for an iframe
  *   ?embed=presentation&scene=…      the portfolio's existing embed — same as embed=1
  *   ?embed=app                       the full app without its header
- *   ?screen=1                        a wall screen: blueprint, full bleed, tours every sheet
- *   ?theme=blueprint|paper           the sheet's palette
+ *   ?screen=1                        a wall screen: dark, full bleed, tours every sheet
+ *   ?theme=light|dark                the sheet's palette (old names: paper, blueprint)
  *   ?mode=paper                      frozen and annotated, ready to print
  *   ?t=18.5                          start the clock at 18:30
  *   ?speed=2                         clock multiplier
  */
 
 export type View = 'app' | 'app-embed' | 'embed' | 'screen'
+
+const THEME_ALIASES: Record<string, ThemeId> = {
+  light: 'light',
+  dark: 'dark',
+  paper: 'light',
+  cream: 'light',
+  blueprint: 'dark',
+}
 
 export interface Params {
   view: View
@@ -45,7 +53,7 @@ export function readParams(search = window.location.search): Params {
   return {
     view,
     scene: q.get('scene'),
-    theme: theme === 'blueprint' || theme === 'paper' ? theme : null,
+    theme: THEME_ALIASES[theme ?? ''] ?? null,
     paper: q.get('mode') === 'paper',
     hour: num('t'),
     speed: num('speed'),

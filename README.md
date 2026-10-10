@@ -10,7 +10,7 @@ the city goes dark while the hospital's diesel catches it. Open a hydrant and
 watch the water tower drain. Push the clouds across a solar house and see the
 battery give up and the grid take over.
 
-Nothing is animated by hand. Line thickness is flow. Dash speed is flow. A
+Nothing is animated by hand. Line thickness is flow. The speed of the dots along it is flow. A
 turbine spins as fast as it is generating; a window is lit when its building
 is being served. If the drawing shows it, the system is doing it.
 
@@ -34,10 +34,10 @@ is being served. If the drawing shows it, the system is doing it.
   value and direction, like a Sankey diagram drawn by an engineer. **print**
   fills a landscape page; **↓ svg** saves a self-contained vector file that
   opens the same in a browser, Figma or Illustrator.
-- **On a screen** — `?screen=1` is a full-bleed blueprint with a big caption
+- **On a screen** — `?screen=1` is a full-bleed dark sheet with a big caption
   that tours every sheet, one simulated day each. Made for a wall.
 
-<p align="center"><img src="docs/sheet-blueprint.png" alt="The solar house sheet as a dark blueprint at 13:16: the panels exporting a little to the grid while the battery charges." width="620"></p>
+<p align="center"><img src="docs/sheet-dark.png" alt="The solar house sheet in the dark theme at midday: the panels exporting a little to the grid while the battery charges." width="620"></p>
 
 ## How it works
 
@@ -59,7 +59,8 @@ at night, generate at the peak) work without recursion.
 
 The sheet (`src/view/Sheet.tsx`) re-renders from that state on a single
 `requestAnimationFrame` clock. The ~40 part glyphs (`src/parts/glyphs.tsx`)
-are plain SVG functions of the part's state: `fill` raises the water in a
+are one-weight line drawings, each set in the same tile, and plain SVG
+functions of the part's state: `fill` raises the water in a
 tower, `activity` spins a turbine and lights windows, `starting` flags a
 diesel set that hasn't caught yet.
 
@@ -82,16 +83,16 @@ npm run simulate grid lake,hydro # just these
 
 The URL is the API:
 
-| Param                    |                                                                                                                                |
-| ------------------------ | ------------------------------------------------------------------------------------------------------------------------------ |
-| `scene=<id>`             | `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre` (the old `cdn` / `microservices` / `oauth2` ids still resolve) |
-| `embed=1`                | just the sheet and a play bar; `embed=presentation` is the same                                                                |
-| `embed=app`              | the full app without its header                                                                                                |
-| `screen=1`               | wall-screen tour                                                                                                               |
-| `theme=paper\|blueprint` | the sheet's palette                                                                                                            |
-| `mode=paper`             | frozen and labelled                                                                                                            |
-| `t=18.5`                 | open at 18:30                                                                                                                  |
-| `speed=4`                | clock multiplier                                                                                                               |
+| Param               |                                                                                                                                |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `scene=<id>`        | `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre` (the old `cdn` / `microservices` / `oauth2` ids still resolve) |
+| `embed=1`           | just the sheet and a play bar; `embed=presentation` is the same                                                                |
+| `embed=app`         | the full app without its header                                                                                                |
+| `screen=1`          | wall-screen tour                                                                                                               |
+| `theme=light\|dark` | the sheet's palette (`paper` and `blueprint` still work)                                                                       |
+| `mode=paper`        | frozen and labelled                                                                                                            |
+| `t=18.5`            | open at 18:30                                                                                                                  |
+| `speed=4`           | clock multiplier                                                                                                               |
 
 ## Commands
 

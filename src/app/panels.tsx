@@ -24,8 +24,8 @@ export function Inspector({
         <h2 className={styles.h}>How to read it</h2>
         <p className={styles.p}>
           Everything on this sheet is a running simulation. Line thickness is
-          how much is flowing; the dashes travel at its speed. Nothing is
-          animated by hand.
+          how much is flowing; the dots travel at its speed. Nothing is animated
+          by hand.
         </p>
         <p className={styles.p}>
           Click any part to see its numbers and light up where its flow comes

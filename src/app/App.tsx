@@ -16,7 +16,7 @@ const initial = readParams()
 export function App() {
   const [scene, setScene] = useState(() => findScene(initial.scene))
   const [theme, setTheme] = useState<ThemeId>(
-    initial.theme ?? (initial.view === 'screen' ? 'blueprint' : 'paper'),
+    initial.theme ?? (initial.view === 'screen' ? 'dark' : 'light'),
   )
 
   // the chrome around the sheet follows its colour

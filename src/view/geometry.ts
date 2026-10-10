@@ -5,25 +5,28 @@ import type { LinkSpec, Scene } from '../sim/types.ts'
 
 /** one grid cell, in sheet units */
 export const CELL = 120
-/** margin between the drawing border and the grid */
-export const PAD = 44
-/** height of the title block along the bottom */
-export const TITLE_H = 92
-/** inset of the drawing border from the sheet edge */
-export const FRAME = 12
+/** margin either side of the grid */
+export const PAD = 40
+/** the title and the clock, above the grid */
+export const HEAD_H = 84
+/** the legend, below the grid */
+export const FOOT_H = 44
+/** a part's tile, and its corner radius */
+export const TILE = 52
+export const TILE_R = 14
 
 export type Pt = [number, number]
 
 export function sheetSize(scene: Scene): { w: number; h: number } {
   return {
     w: scene.size[0] * CELL + PAD * 2,
-    h: scene.size[1] * CELL + PAD * 2 + TITLE_H,
+    h: HEAD_H + scene.size[1] * CELL + FOOT_H,
   }
 }
 
 /** a grid cell (fractional cells allowed) to its centre on the sheet */
 export function cellToPx([c, r]: Pt): Pt {
-  return [PAD + c * CELL + CELL / 2, PAD + r * CELL + CELL / 2]
+  return [PAD + c * CELL + CELL / 2, HEAD_H + r * CELL + CELL / 2]
 }
 
 /** the corner points of a link, in sheet units */
@@ -43,8 +46,8 @@ export function linkPoints(scene: Scene, link: LinkSpec): Pt[] {
   if (twin && pts.length === 2) {
     const [[x1, y1], [x2, y2]] = pts as [Pt, Pt]
     const len = Math.hypot(x2 - x1, y2 - y1) || 1
-    const nx = (-(y2 - y1) / len) * 6
-    const ny = ((x2 - x1) / len) * 6
+    const nx = (-(y2 - y1) / len) * 5
+    const ny = ((x2 - x1) / len) * 5
     return [
       [x1 + nx, y1 + ny],
       [x2 + nx, y2 + ny],
@@ -54,7 +57,7 @@ export function linkPoints(scene: Scene, link: LinkSpec): Pt[] {
 }
 
 /** a polyline as a path with softly rounded corners */
-export function roundedPath(pts: Pt[], r = 14): string {
+export function roundedPath(pts: Pt[], r = 18): string {
   if (pts.length < 2) return ''
   const [x0, y0] = pts[0]!
   let d = `M${x0} ${y0}`

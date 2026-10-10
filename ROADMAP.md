@@ -15,7 +15,7 @@ works on a web page, on paper and on a wall.
 - ~40 hand-drawn engineering glyphs that read their motion off state.
 - Five sheets: the power grid, a solar house, a town's water, a hydroelectric
   dam, a data centre.
-- Live, paper (frozen + labelled, prints and exports SVG), blueprint, embed
+- Live, paper (frozen + labelled, prints and exports SVG), light and dark themes, embed
   and wall-screen views; trace a part to light up where its flow comes from.
 
 ## Next — anyone can draw one

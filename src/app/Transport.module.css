@@ -4,40 +4,39 @@
 .bar {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 8px 10px;
+  gap: 14px;
+  padding: 8px 12px 8px 8px;
   background: var(--card);
-  border: var(--b) solid var(--ink);
-  border-radius: var(--r);
-  box-shadow: var(--shadow-sm);
+  border: var(--b) solid var(--rule);
+  border-radius: 999px;
 }
 
 .compact {
-  padding: 4px 8px;
-  gap: 8px;
+  padding: 4px 10px 4px 4px;
+  gap: 10px;
 }
 
 .play {
   flex: none;
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  border: var(--b) solid var(--ink);
+  width: 32px;
+  height: 32px;
+  border: 0;
   border-radius: 50%;
-  background: var(--hi);
-  color: var(--on-hi);
+  background: var(--ink);
+  color: var(--card);
   cursor: pointer;
 }
 
 .compact .play {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
 }
 
 .play svg {
-  width: 14px;
-  height: 14px;
+  width: 11px;
+  height: 11px;
   fill: currentColor;
 }
 
@@ -47,21 +46,18 @@
   display: flex;
 }
 
-/* the track is the day: night, dawn, noon, dusk, night */
+/* the track is the day: night at the ends, the sun in the middle */
 .scrub input {
   flex: 1;
   appearance: none;
-  height: 12px;
-  border: var(--b) solid var(--ink);
+  height: 4px;
   border-radius: 999px;
   background: linear-gradient(
     90deg,
     var(--night) 0%,
-    var(--night) 22%,
-    var(--hi) 30%,
-    var(--noon) 54%,
-    var(--hi) 78%,
-    var(--night) 86%,
+    var(--night) 24%,
+    var(--noon) 50%,
+    var(--night) 80%,
     var(--night) 100%
   );
   cursor: pointer;
@@ -69,63 +65,62 @@
 
 .scrub input::-webkit-slider-thumb {
   appearance: none;
-  width: 8px;
-  height: 22px;
-  border-radius: 3px;
-  background: var(--accent);
-  border: var(--b) solid var(--ink);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1.5px solid var(--ink);
 }
 
 .scrub input::-moz-range-thumb {
-  width: 6px;
-  height: 20px;
-  border-radius: 3px;
-  background: var(--accent);
-  border: var(--b) solid var(--ink);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1.5px solid var(--ink);
 }
 
 .clock {
   flex: none;
-  font-family: var(--font-mono);
-  font-weight: 700;
-  font-size: var(--fs-lg);
+  font-weight: 500;
+  font-size: var(--fs-md);
   min-width: 5ch;
   font-variant-numeric: tabular-nums;
 }
 
 .speeds {
   display: flex;
-  border: var(--b) solid var(--ink);
-  border-radius: 8px;
-  overflow: hidden;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--desk-2);
 }
 
 .speeds button {
   border: 0;
+  border-radius: 999px;
   background: transparent;
-  padding: 4px 9px;
-  font-family: var(--font-mono);
-  font-size: var(--fs-sm);
+  padding: 3px 9px;
+  font-size: var(--fs-xs);
+  color: var(--muted);
   cursor: pointer;
 }
 
-.speeds button + button {
-  border-left: 1px solid var(--ink);
-}
-
 .speeds .on {
-  background: var(--ink);
-  color: var(--card);
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
 }
 
 .reset {
   border: 0;
   background: none;
-  font-family: var(--font-mono);
   font-size: var(--fs-sm);
-  text-decoration: underline;
   cursor: pointer;
   color: var(--muted);
+}
+
+.reset:hover {
+  color: var(--ink);
 }
 
 @media (max-width: 560px) {

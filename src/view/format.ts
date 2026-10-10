@@ -83,7 +83,8 @@ export function readout(scene: Scene, part: PartSpec, s: PartState): Readout {
       if (s.open < 0.01)
         return {
           value: part.kind === 'breaker' ? 'tripped' : 'shut',
-          bad: true,
+          // a tripped breaker is news; a shut valve is just a valve
+          bad: part.kind === 'breaker',
         }
       return { value: rate(scene, d, s.out), bad: false }
     case 'converter':

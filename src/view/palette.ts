@@ -8,13 +8,19 @@ import type { Domain } from '../sim/types.ts'
  * they travel with it: the SVG carries them as custom properties on its root,
  * so an exported or printed sheet looks the same as the live one. (The app
  * chrome around the sheet takes its colours from styles/tokens.css.)
+ *
+ * The drawing itself is monochrome. Colour is kept for what is moving: a
+ * flow's domain, a lit window, a level in a tank.
  */
 
-export type ThemeId = 'paper' | 'blueprint'
+export type ThemeId = 'light' | 'dark'
 
 export interface SheetPalette {
   paper: string
-  grid: string
+  /** the hairline every link and tile is drawn with */
+  line: string
+  /** a tile's fill, a shade off the paper */
+  tile: string
   ink: string
   muted: string
   lit: string
@@ -23,40 +29,42 @@ export interface SheetPalette {
 }
 
 export const THEMES: Record<ThemeId, SheetPalette> = {
-  /** cream paper and ink — for the website and for printing */
-  paper: {
-    paper: '#f3ecdd',
-    grid: '#e4d9c1',
-    ink: '#1b1a17',
-    muted: '#7d7466',
-    lit: '#ffd84d',
-    alarm: '#ff2e63',
+  /** white paper — for the website and for printing */
+  light: {
+    paper: '#ffffff',
+    line: '#e3e3e1',
+    tile: '#fafaf9',
+    ink: '#18181b',
+    muted: '#8a8a87',
+    lit: '#f5b301',
+    alarm: '#e5484d',
     domain: {
-      light: '#f2c230',
-      electric: '#e3a008',
-      water: '#2a78d4',
-      heat: '#ff2e63',
-      fuel: '#8a5426',
-      mechanical: '#5d574d',
-      data: '#7a3cf0',
+      light: '#f5b301',
+      electric: '#f08c00',
+      water: '#2f7cf6',
+      heat: '#e5484d',
+      fuel: '#12a594',
+      mechanical: '#71717a',
+      data: '#7c5cf0',
     },
   },
-  /** a blueprint — for a screen on a wall, where a dark sheet glows */
-  blueprint: {
-    paper: '#0c2747',
-    grid: '#16395f',
-    ink: '#e8f0ff',
-    muted: '#8eaed4',
-    lit: '#ffd84d',
-    alarm: '#ff6b8b',
+  /** near-black — for a screen on a wall, where a dark sheet glows */
+  dark: {
+    paper: '#0b0b0c',
+    line: '#2a2a2d',
+    tile: '#131315',
+    ink: '#ededee',
+    muted: '#86868b',
+    lit: '#ffc53d',
+    alarm: '#ff6369',
     domain: {
-      light: '#fff1a8',
-      electric: '#ffd84d',
-      water: '#6cc4ff',
-      heat: '#ff6b8b',
-      fuel: '#f0b072',
-      mechanical: '#c3cfdd',
-      data: '#c9a2ff',
+      light: '#ffd60a',
+      electric: '#ffa94d',
+      water: '#5aa2ff',
+      heat: '#ff6369',
+      fuel: '#3dd6c2',
+      mechanical: '#a1a1aa',
+      data: '#a48bff',
     },
   },
 }
@@ -65,7 +73,8 @@ export const THEMES: Record<ThemeId, SheetPalette> = {
 export function paletteVars(p: SheetPalette): Record<string, string> {
   const vars: Record<string, string> = {
     '--paper': p.paper,
-    '--grid': p.grid,
+    '--line': p.line,
+    '--tile': p.tile,
     '--ink': p.ink,
     '--muted': p.muted,
     '--lit': p.lit,

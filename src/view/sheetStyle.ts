@@ -8,53 +8,45 @@
  * the reader has.
  */
 export const SHEET_CSS = `
-.sheet { font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-.ln { fill: none; stroke: var(--ink); stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; }
-.thin { stroke-width: 1.3; }
-.body { fill: var(--paper); stroke: var(--ink); stroke-width: 2.2; stroke-linejoin: round; }
+.sheet { font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+.ln { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+.ln.thin, .thin { stroke-width: 1; }
+.ln.solid { fill: var(--tile); }
 .inkf { fill: var(--ink); }
-.dashed { stroke-dasharray: 3 4; }
-.hatch { fill: none; stroke: var(--muted); stroke-width: 1.2; }
-.puff { fill: var(--paper); stroke: var(--muted); stroke-width: 1.2; }
-.win { fill: var(--paper); stroke: var(--ink); stroke-width: 1; }
-.win.on { fill: var(--lit); }
-.glyphText { font: 700 16px system-ui, sans-serif; fill: var(--ink); text-anchor: middle; dominant-baseline: middle; }
-.glyphText.small { font-size: 8px; letter-spacing: 0.08em; fill: var(--alarm); }
+.puff { fill: none; stroke: var(--muted); stroke-width: 1; }
+.win { fill: none; stroke: var(--ink); stroke-width: 0.9; }
+.win.on { fill: var(--lit); stroke: var(--lit); }
+.bar { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+.glyphText { font-size: 12px; font-weight: 600; fill: var(--ink); text-anchor: middle; dominant-baseline: central; }
+.glyphText.small { font-size: 8.5px; }
 
 .bg { fill: var(--paper); }
-.gridDot { fill: var(--grid); }
-.frame { fill: none; stroke: var(--ink); stroke-width: 2.5; }
-.frameThin { fill: none; stroke: var(--ink); stroke-width: 1; }
-.zone { font-size: 9px; fill: var(--muted); text-anchor: middle; dominant-baseline: middle; }
 
+.part .tile { fill: var(--tile); stroke: var(--line); stroke-width: 1; transition: stroke 0.2s; }
+.part.bad .tile { stroke: var(--alarm); }
+.part:hover .tile { stroke: var(--muted); }
+.part.selected .tile { stroke: var(--ink); stroke-width: 1.5; }
 .part .hit { fill: transparent; }
-.part.clicky .hit, .part.selectable .hit { cursor: pointer; }
-.part .ring { fill: none; stroke: var(--ink); stroke-width: 1.2; stroke-dasharray: 4 4; opacity: 0; }
-.part.selected .ring { opacity: 1; }
-.part:hover .ring { opacity: 0.5; }
-.dim { opacity: 0.22; transition: opacity 0.25s; }
-.part, .link { transition: opacity 0.25s; }
+.part.selectable .hit { cursor: pointer; }
+.dim { opacity: 0.18; }
+.part, .link, .tagGroup, .labelGroup { transition: opacity 0.25s; }
 
-.labelBg { fill: var(--paper); opacity: 0.9; }
-.label, .value { paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
-.label { font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em; fill: var(--ink); text-transform: uppercase; }
-.value { font-size: 10.5px; fill: var(--muted); }
-.value.bad { fill: var(--alarm); font-weight: 700; }
+.label, .value, .tag { paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
+.label { font-size: 11.5px; font-weight: 550; fill: var(--ink); }
+.value { font-size: 10.5px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.value.bad { fill: var(--alarm); }
 
-.rail { fill: none; stroke: var(--ink); stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
-.rail.loss { stroke: var(--muted); stroke-dasharray: 2 5; }
-.rail.limit { stroke: var(--alarm); stroke-width: 2.4; }
-.pipeOuter { fill: none; stroke: var(--ink); stroke-linejoin: round; }
-.pipeInner { fill: none; stroke: var(--paper); stroke-linejoin: round; }
-.band { fill: none; stroke-linecap: round; stroke-linejoin: round; opacity: 0.32; }
-.flow { fill: none; stroke-linejoin: round; }
-.arrow { stroke: var(--paper); stroke-width: 1; }
-.tag { font-size: 10px; font-weight: 700; text-anchor: middle; dominant-baseline: middle; }
-.tagBg { fill: var(--paper); stroke-width: 1.2; }
+.route { fill: none; stroke: var(--line); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.route.loss { stroke-dasharray: 1 5; stroke-width: 1.5; stroke: var(--muted); opacity: 0.6; }
+.route.limit { stroke: var(--alarm); }
+.stream { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.chev { fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.tag { font-size: 10px; fill: var(--muted); text-anchor: middle; dominant-baseline: central; font-variant-numeric: tabular-nums; }
 
-.tbLabel { font-size: 7.5px; letter-spacing: 0.12em; fill: var(--muted); text-transform: uppercase; }
-.tbTitle { font: 700 22px system-ui, -apple-system, 'Segoe UI', sans-serif; fill: var(--ink); letter-spacing: -0.01em; }
-.tbSub { font: 11px system-ui, -apple-system, 'Segoe UI', sans-serif; fill: var(--muted); }
-.tbValue { font-size: 15px; font-weight: 700; fill: var(--ink); }
-.tbSmall { font-size: 10px; fill: var(--ink); }
+.title { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; fill: var(--ink); }
+.sub { font-size: 12.5px; fill: var(--muted); }
+.clock { font-size: 20px; font-weight: 500; fill: var(--ink); text-anchor: end; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.meta { font-size: 11px; fill: var(--muted); text-anchor: end; letter-spacing: 0.02em; }
+.legend { font-size: 11px; fill: var(--muted); dominant-baseline: central; }
+.rule { stroke: var(--line); stroke-width: 1; }
 `

@@ -60,6 +60,9 @@ export const GLYPHS: Record<string, Glyph> = {
   fan: G.Fan,
 }
 
+/** junctions drawn as a bare bar rather than set in a tile */
+export const BAR_KINDS = new Set(['busbar', 'manifold'])
+
 export function glyphFor(kind: string): Glyph {
   return GLYPHS[kind] ?? G.Generic
 }

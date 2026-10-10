@@ -1,3 +1,3 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 <!-- SPDX-FileCopyrightText: 2026 Vaibhav Patel -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="#ffd84d" stroke="#1b1a17" stroke-width="2.5"/><g fill="#f3ecdd" stroke="#1b1a17" stroke-width="1.8" stroke-linejoin="round"><path d="M16 16 C19 12 19 7 16 4 C14 8 14 12 16 16Z"/><path d="M16 16 C19 12 19 7 16 4 C14 8 14 12 16 16Z" transform="rotate(120 16 16)"/><path d="M16 16 C19 12 19 7 16 4 C14 8 14 12 16 16Z" transform="rotate(240 16 16)"/></g><circle cx="16" cy="16" r="2.4" fill="#1b1a17"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#18181b" stroke-width="1.8" stroke-linecap="round"><rect x="2.5" y="2.5" width="19" height="19" rx="6" fill="#fff"/><path d="M7 12 H17"/><circle cx="10" cy="12" r="1.5" fill="#f08c00" stroke="#f08c00"/></svg>
