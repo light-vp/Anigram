@@ -1,0 +1,74 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+.embed,
+.screen {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  overflow: hidden;
+}
+
+.sheet {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  user-select: none;
+}
+
+.bar {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 8px 8px;
+  border-top: var(--b) solid var(--rule);
+  background: var(--card);
+}
+
+.caption {
+  font-size: var(--fs-sm);
+  line-height: 1.35;
+  color: var(--ink-soft);
+  padding: 0 4px;
+}
+
+.note {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  max-width: min(320px, 70%);
+  background: var(--card);
+  border: var(--b) solid var(--rule);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: var(--fs-sm);
+}
+
+.note span {
+  color: var(--muted);
+}
+
+.note p {
+  margin-top: 4px;
+  line-height: 1.4;
+  color: var(--ink-soft);
+}
+
+.screen {
+  background: var(--card);
+}
+
+.screenCaption {
+  flex: none;
+  min-height: 2.8em;
+  padding: 0.7em 3vw 0.9em;
+  font-size: clamp(16px, 1.6vw, 28px);
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+  color: var(--ink-soft);
+  background: var(--card);
+}

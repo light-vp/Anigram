@@ -7,22 +7,15 @@
   },
   "overrides": [
     {
-      "files": ["src/engine/**/*.ts", "src/engine/**/*.tsx"],
+      "files": ["src/sim/**/*.ts"],
       "rules": {
         "no-restricted-imports": [
           "error",
           {
             "patterns": [
               {
-                "group": [
-                  "**/packs/**",
-                  "**/app/**",
-                  "../packs/*",
-                  "../../packs/*",
-                  "../app/*",
-                  "../../app/*"
-                ],
-                "message": "engine/ must stay domain-agnostic: it may not import from packs/ or app/. Packs register via registerPack()."
+                "group": ["react", "react-dom", "**/view/**", "**/parts/**", "**/app/**", "../view/*", "../parts/*", "../app/*"],
+                "message": "sim/ is the rulebook: React-free and view-free, so it runs headless in node (tests, scripts/simulate-day.ts)."
               }
             ]
           }

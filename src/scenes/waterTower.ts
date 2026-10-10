@@ -1,0 +1,197 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-FileCopyrightText: 2026 Vaibhav Patel
+
+import { water } from '../sim/profiles.ts'
+import type { Scene } from '../sim/types.ts'
+
+export const waterTower: Scene = {
+  id: 'water-tower',
+  title: 'A town’s water',
+  subtitle:
+    'Why towns keep a tank on stilts: a pump that can’t keep up with breakfast, and gravity that can',
+  sheet: 'LD-003',
+  size: [7, 4],
+  units: {
+    water: { rate: 'm³/h', amount: 'm³' },
+    electric: { rate: 'kW', amount: 'kWh' },
+  },
+  scale: { water: 160, electric: 50 },
+  clock: { start: 4, rate: 0.6 },
+  knobs: [
+    {
+      id: 'demand',
+      label: 'town size',
+      value: 1,
+      min: 0.5,
+      max: 1.5,
+      step: 0.05,
+      format: (v) => `${Math.round(v * 100)}%`,
+    },
+  ],
+  switches: [{ id: 'hydrant', label: 'hydrant open', on: false }],
+  parts: [
+    {
+      id: 'mains',
+      kind: 'grid',
+      label: 'Electricity',
+      at: [1, 0],
+      labelSide: 'right',
+      behaviour: { role: 'source', output: 100, dispatchable: true },
+    },
+    {
+      id: 'well',
+      kind: 'well',
+      label: 'Borehole',
+      at: [0, 1],
+      labelSide: 'below',
+      behaviour: { role: 'source', output: 140 },
+      note: 'Groundwater, 80 metres down. It is always there; what limits the town is how fast it can be lifted.',
+    },
+    {
+      id: 'pump',
+      kind: 'pump',
+      label: 'Borehole pump',
+      at: [1, 1],
+      labelSide: 'below',
+      behaviour: {
+        role: 'converter',
+        output: 'water',
+        recipe: { electric: 0.45, water: 1 },
+        capacity: 95,
+      },
+      note: 'Lifts 95 m³ an hour, flat out. Breakfast wants nearly twice that.',
+    },
+    {
+      id: 'works',
+      kind: 'treatment',
+      label: 'Treatment',
+      at: [2, 1],
+      labelSide: 'below',
+      behaviour: {
+        role: 'converter',
+        output: 'water',
+        recipe: { water: 1.03 },
+        capacity: 95,
+      },
+      note: 'Filtered through sand and dosed with chlorine. A few percent goes to backwashing the filters.',
+    },
+    {
+      id: 'tower',
+      kind: 'watertower',
+      label: 'Water tower',
+      at: [3, 1],
+      labelSide: 'below',
+      behaviour: {
+        role: 'storage',
+        capacity: 450,
+        start: 0.85,
+        maxIn: 95,
+        maxOut: 600,
+        refill: { below: 0.4, until: 0.95 },
+      },
+      note: 'A float switch starts the pump below 40% and stops it at 95%. Gravity does the rest — the height is the water pressure.',
+    },
+    {
+      id: 'main',
+      kind: 'manifold',
+      label: 'Water main',
+      at: [4, 1],
+      labelSide: 'above',
+      behaviour: { role: 'bus' },
+    },
+    {
+      id: 'taps',
+      kind: 'tap',
+      label: 'Town taps',
+      at: [6, 1],
+      behaviour: {
+        role: 'sink',
+        demand: (e) => 150 * water(e.hour) * e.knob('demand'),
+        priority: 1,
+      },
+      note: 'Four thousand people. Everyone showers at the same time.',
+    },
+    {
+      id: 'leaks',
+      kind: 'river',
+      label: 'Leaks',
+      at: [5, 0],
+      labelSide: 'right',
+      behaviour: {
+        role: 'sink',
+        demand: (e) => 9 * e.knob('demand'),
+        priority: 1,
+      },
+      note: 'Old pipes. In a typical British town about a fifth of treated water never reaches a tap.',
+    },
+    {
+      id: 'valve',
+      kind: 'valve',
+      label: 'Hydrant valve',
+      at: [4, 2],
+      labelSide: 'right',
+      toggles: 'hydrant',
+      behaviour: {
+        role: 'gate',
+        capacity: 250,
+        open: (e) => (e.on('hydrant') ? 1 : 0),
+      },
+      note: 'Click to open. A fire crew pulls more water than the whole town at breakfast.',
+    },
+    {
+      id: 'hydrant',
+      kind: 'hydrant',
+      label: 'Fire hydrant',
+      at: [4, 3],
+      labelSide: 'right',
+      toggles: 'hydrant',
+      behaviour: {
+        role: 'sink',
+        demand: (e) => (e.on('hydrant') ? 220 : 0),
+        priority: 2,
+      },
+    },
+  ],
+  links: [
+    { from: 'mains', to: 'pump', domain: 'electric' },
+    { from: 'well', to: 'pump', domain: 'water' },
+    { from: 'pump', to: 'works', domain: 'water' },
+    { from: 'works', to: 'tower', domain: 'water' },
+    { from: 'tower', to: 'main', domain: 'water', capacity: 600 },
+    { from: 'main', to: 'taps', domain: 'water' },
+    {
+      from: 'main',
+      to: 'leaks',
+      domain: 'water',
+      via: [
+        [4.25, 1],
+        [4.25, 0],
+      ],
+    },
+    { from: 'main', to: 'valve', domain: 'water' },
+    { from: 'valve', to: 'hydrant', domain: 'water' },
+  ],
+  captions: [
+    {
+      from: 0,
+      to: 5.5,
+      text: 'Night. Almost nobody is running a tap, and the tower sits nearly full.',
+    },
+    {
+      from: 5.5,
+      to: 9,
+      text: 'Morning showers. The tower drains faster than the pump can refill it — that is exactly what it is for.',
+    },
+    {
+      from: 9,
+      to: 17,
+      text: 'The float switch at work: the pump starts below 40% and stops at 95%.',
+    },
+    { from: 17, to: 22, text: 'Cooking and baths: a second, gentler peak.' },
+    {
+      from: 22,
+      to: 24,
+      text: 'Quiet again. Open the hydrant valve to see how long the tower lasts a fire crew.',
+    },
+  ],
+}

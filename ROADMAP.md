@@ -3,72 +3,47 @@
 
 # Roadmap
 
-Anigram grows along **two interleaving axes**. Neither runs to completion
-before the other starts — each phase advances both a notch, so no capability is
-ever architecturally stranded.
+The thesis: **a diagram should be the system, running.** Every pixel that
+moves is read off a simulation, so the drawing can't lie, and the same sheet
+works on a web page, on paper and on a wall.
 
-```
-AUTHORING LADDER  →  L1 preset params → L2 visual composer → L3 code plugins → PACK MARKETPLACE
-CLOUD INTELLIGENCE →  static cloud pack → Terraform/IaC import → live connectors & metrics → premium tier
-```
+## Now — the living drawing
 
-Two joints hold the axes together:
+- A React-free flow solver: sources, demands, junctions, gates, converters
+  (with recipes and losses), stores (surplus-only charging, float switches,
+  operator schedules, slow-starting generators) and vents.
+- ~40 hand-drawn engineering glyphs that read their motion off state.
+- Five sheets: the power grid, a solar house, a town's water, a hydroelectric
+  dam, a data centre.
+- Live, paper (frozen + labelled, prints and exports SVG), light and dark themes, embed
+  and wall-screen views; trace a part to light up where its flow comes from.
 
-- The **versioned JSON document** (nodes + interactions) is the joint the IaC
-  importer plugs into — it emits exactly what the editor saves.
-- The **AnimationSpec** is the joint the visual composer and code plugins plug
-  into — all three authoring altitudes read and write the same open format.
+## Next — anyone can draw one
 
----
+- **A scene file format.** JSON with signals as small expressions, so scenes
+  no longer need to be TypeScript. The same format is what an editor saves.
+- **Describe it, get a drawing.** A scene file is small and regular enough
+  for Claude to write from a paragraph ("a narrowboat with a solar panel, a
+  leisure battery and a diesel engine that charges it") — then the solver
+  checks the story holds up over a day.
+- **The editor.** Drag parts from the library onto the grid, draw links,
+  pick a behaviour. Orthogonal auto-routing; links snap to busbars.
+- **Storyboards.** A timeline of events — trip the breaker at 18:00, a storm
+  at 14:00 — for talks and lessons. Export as GIF/MP4.
 
-## Phase 1 — The living blueprint (MVP)
+## Later — deeper physics, real data
 
-_Advances both axes one notch: engine + a cloud-pack subset + L1 authoring._
-
-- Affordance-driven node model and the typed **Interaction** atom.
-- The default-link resolver (semantic defaults, one click from overrides).
-- The declarative **AnimationSpec** engine + single-rAF animation overlay, with a
-  handful of built-in behaviors (travel, accumulate, drain, round-trip, pulse).
-- Three flagship semantic animations proving the thesis: **upload**, **download**,
-  **query** — visibly different, auto-resolved from node types.
-- **L1 authoring**: a per-interaction inspector exposing preset params.
-- Small editor (drag / connect / delete), localStorage persistence, versioned
-  JSON import/export.
-- Curated cloud scenes + presentation mode.
-- Served at `vaibhav.co.uk/anigram-app/` by the portfolio's deploy pipeline;
-  embedded in the portfolio's `/anigram` brief page.
-
-See [SPEC.md](SPEC.md) for the tracked Phase-1 acceptance criteria.
-
-## Phase 1.5 — Compose & extend (data-only)
-
-- **L2 visual composer**: build an AnimationSpec from primitives (pick payload →
-  chain behaviors → attach reactions → live preview → save as a reusable preset).
-- **Data-only community packs** — new node kinds, rules, sprites, and presets with
-  zero code execution (zero security surface).
-
-## Phase 2 — Architecture-as-Code & plugins
-
-- **Terraform / CloudFormation import** → auto-layout nodes and edges from real
-  resource relationships (emits the same versioned JSON the editor saves).
-- **L3 code plugin API** — custom behaviors/renderers run in a **QuickJS-WASM
-  sandbox** (no DOM, no network, contained loops). Never on the main thread.
-
-## Phase 3 — Live & enterprise
-
-- **Live connectors** — read-only cloud credentials scan an environment and
-  populate the canvas.
-- **Live metrics** — the diagram reacts to reality: a node vibrates at high CPU,
-  edges flash red on 5XX.
-- **Collaboration**, **secure embeds** (Notion/Confluence), a **CI/CD GitHub
-  Action** that regenerates the animated diagram on infra change.
-- **Pack marketplace** — buy/sell packs, including live-metric-driven premium
-  packs.
-
-### Monetization (rides Phase 3)
-
-- **Free** — unlimited basic shapes, manual connections, standard animations.
-- **Pro** ($19–29/mo) — high-res interactive embeds/GIF export, unlimited
-  diagrams, custom icon/theme uploads.
-- **Team / Enterprise** ($99+/mo) — live sync, collaboration, security-policy
-  visualization, CI/CD integration.
+- **Effort as well as flow.** Pressure in pipes, voltage on wires,
+  temperature in heat loops (the bond-graph view: every domain is effort ×
+  flow), so a pipe can be undersized and a feeder can sag.
+- **Day totals.** A second sheet that sums the day as a Sankey: where every
+  MWh came from and where it ended up.
+- **Live inputs.** Bind a signal to real numbers — the GB generation mix and
+  carbon intensity, a home inverter's API, a weather feed — and the drawing
+  becomes a dashboard that still explains itself.
+- **Event chains.** The literal Rube Goldberg: discrete triggers (a float
+  lifts a lever, a lever opens a valve) alongside continuous flows.
+- **More sheets.** A hybrid car's drivetrain, district heating, a water
+  treatment works, a factory line, a heart and lungs.
+- **A web component.** `<living-diagram scene="grid">` for pages that can't
+  use an iframe.

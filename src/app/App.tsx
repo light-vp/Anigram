@@ -1,95 +1,60 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
-import {
-  DiagramCanvas,
-  getNodeKinds,
-  getScene,
-  Inspector,
-  loadScene,
-  Palette,
-  SourceLink,
-  useSimStore,
-} from '../engine'
-import styles from './App.module.css'
+import { SCENES, findScene } from '../scenes/index.ts'
+import type { ThemeId } from '../view/palette.ts'
+import { capture } from './analytics'
+import { readParams, writeSceneParam } from './params'
+import { EmbedView, ScreenView } from './views'
+import { Workbench } from './Workbench'
 
-/**
- * Chrome-less embed for the portfolio iframe (?embed=presentation&scene=<id>):
- * just the canvas + presentation, plus the AGPL §13 source link.
- */
-function EmbedView({ sceneId }: { sceneId: string | null }) {
-  const startPresentation = useSimStore((s) => s.startPresentation)
+const initial = readParams()
+
+/** Picks the view from the URL and owns which sheet is showing. */
+export function App() {
+  const [scene, setScene] = useState(() => findScene(initial.scene))
+  const [theme, setTheme] = useState<ThemeId>(
+    initial.theme ?? (initial.view === 'screen' ? 'dark' : 'light'),
+  )
+
+  // the chrome around the sheet follows its colour
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+  }, [theme])
 
   useEffect(() => {
-    const scene = sceneId ? getScene(sceneId) : undefined
-    if (scene) {
-      loadScene(scene)
-      startPresentation(scene.id, scene.sequence)
-    }
-  }, [sceneId, startPresentation])
+    document.title = `${scene.title} · Anigram`
+    capture('scene_loaded', { scene: scene.id, view: initial.view })
+  }, [scene])
 
+  const pick = useCallback((id: string) => {
+    setScene(findScene(id))
+    writeSceneParam(id)
+  }, [])
+
+  const next = useCallback(() => {
+    setScene((s) => SCENES[(SCENES.indexOf(s) + 1) % SCENES.length]!)
+  }, [])
+
+  if (initial.view === 'embed')
+    return (
+      <EmbedView key={scene.id} scene={scene} theme={theme} initial={initial} />
+    )
+  if (initial.view === 'screen')
+    return (
+      <ScreenView key={scene.id} scene={scene} theme={theme} onDone={next} />
+    )
   return (
-    <div className={styles.embed}>
-      <DiagramCanvas chrome={false} />
-      <SourceLink floating />
-    </div>
-  )
-}
-
-/**
- * The full playable editor without the header bar, for the portfolio's
- * playground iframe (?embed=app). Persistence is wired in main.tsx; the
- * floating source link must stay (AGPL §13).
- */
-function AppEmbedView() {
-  return (
-    <div className={styles.embedApp}>
-      <Palette />
-      <DiagramCanvas />
-      <Inspector />
-      <SourceLink floating />
-    </div>
-  )
-}
-
-/**
- * App shell: palette + canvas + inspector. Switches to the playable
- * `?embed=app` view or a chrome-less presentation embed when the URL carries
- * an `embed` param.
- */
-export function App() {
-  const params = new URLSearchParams(window.location.search)
-  const embed = params.get('embed')
-  if (embed === 'app') {
-    return <AppEmbedView />
-  }
-  if (embed) {
-    return <EmbedView sceneId={params.get('scene')} />
-  }
-
-  const kindCount = getNodeKinds().length
-
-  return (
-    <div className={styles.shell}>
-      <header className={styles.header}>
-        <h1 className={styles.wordmark}>
-          ani<span className={styles.accent}>·</span>gram
-        </h1>
-        <p className={styles.status}>
-          {kindCount} kinds · the connection is the meaning
-        </p>
-        <span className={styles.headerRight}>
-          <SourceLink />
-        </span>
-      </header>
-
-      <div className={styles.body}>
-        <Palette />
-        <DiagramCanvas />
-        <Inspector />
-      </div>
-    </div>
+    <Workbench
+      key={scene.id}
+      scene={scene}
+      theme={theme}
+      onTheme={setTheme}
+      onScene={pick}
+      header={initial.view === 'app'}
+      initial={initial}
+    />
   )
 }

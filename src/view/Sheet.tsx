@@ -1,0 +1,475 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-FileCopyrightText: 2026 Vaibhav Patel
+
+import type { CSSProperties, Ref } from 'react'
+import { useMemo } from 'react'
+
+import { BAR_KINDS, glyphFor } from '../parts/index.ts'
+import { clockTime } from '../sim/profiles.ts'
+import type { Frame } from '../sim/runtime.ts'
+import type { LinkState } from '../sim/solver.ts'
+import type { Domain, LinkSpec, PartSpec, Scene } from '../sim/types.ts'
+import { rate, readout } from './format.ts'
+import {
+  FOOT_H,
+  PAD,
+  TILE,
+  TILE_R,
+  cellToPx,
+  linkAnchor,
+  linkPoints,
+  roundedPath,
+  sheetSize,
+} from './geometry.ts'
+import type { Pt } from './geometry.ts'
+import { DOMAIN_NAMES, THEMES, paletteVars } from './palette.ts'
+import type { ThemeId } from './palette.ts'
+import { LABEL_OFFSET, glyphBox, labelBox, placeTags } from './layout.ts'
+import type { Tag } from './layout.ts'
+import { SHEET_CSS } from './sheetStyle.ts'
+import { trace } from './trace.ts'
+
+export interface SheetProps {
+  scene: Scene
+  frame: Frame
+  theme: ThemeId
+  /** print every flow's value and direction on the sheet (paper mode, reduced motion) */
+  annotate: boolean
+  /** let flows travel and parts spin */
+  animate: boolean
+  selected: string | null
+  onSelect?: (id: string | null) => void
+  onToggle?: (switchId: string) => void
+  svgRef?: Ref<SVGSVGElement>
+  className?: string
+}
+
+/** the moving dots' spacing, by what flows: sparks for current, beads for water */
+const SPACING: Record<Domain, number> = {
+  light: 14,
+  electric: 18,
+  water: 12,
+  heat: 16,
+  fuel: 14,
+  mechanical: 10,
+  data: 9,
+}
+
+export function Sheet({
+  scene,
+  frame,
+  theme,
+  annotate,
+  animate,
+  selected,
+  onSelect,
+  onToggle,
+  svgRef,
+  className,
+}: SheetProps) {
+  const { w, h } = sheetSize(scene)
+  const geometry = useMemo(
+    () => scene.links.map((l) => linkPoints(scene, l)),
+    [scene],
+  )
+  const traced =
+    selected && frame.links.length ? trace(scene, frame.links, selected) : null
+  // a part with nothing flowing through it (a tripped breaker) dims nothing
+  const lit = traced && traced.links.size ? traced : null
+  const vars = paletteVars(THEMES[theme]) as CSSProperties
+  const tags = annotate ? flowTags(scene, frame, geometry) : []
+
+  return (
+    <svg
+      ref={svgRef}
+      className={className ? `sheet ${className}` : 'sheet'}
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox={`0 0 ${w} ${h}`}
+      style={vars}
+      role="img"
+      aria-label={`${scene.title}: ${scene.subtitle}`}
+      onClick={() => onSelect?.(null)}
+    >
+      <style>{SHEET_CSS}</style>
+      <rect className="bg" width={w} height={h} />
+      <Header scene={scene} frame={frame} w={w} />
+
+      <g>
+        {scene.links.map((link, i) => (
+          <LinkView
+            key={i}
+            scene={scene}
+            link={link}
+            pts={geometry[i]!}
+            st={frame.links[i]}
+            phase={animate ? frame.linkPhase[i]! : 0}
+            animate={animate}
+            annotate={annotate}
+            dim={!!lit && !lit.links.has(i)}
+          />
+        ))}
+      </g>
+
+      <g>
+        {scene.parts.map((part) => (
+          <PartView
+            key={part.id}
+            scene={scene}
+            part={part}
+            frame={frame}
+            selected={selected === part.id}
+            dim={!!lit && !lit.parts.has(part.id)}
+            onSelect={onSelect}
+            onToggle={onToggle}
+          />
+        ))}
+      </g>
+
+      <g>
+        {scene.parts.map((part) => (
+          <PartLabel
+            key={part.id}
+            scene={scene}
+            part={part}
+            frame={frame}
+            dim={!!lit && !lit.parts.has(part.id)}
+          />
+        ))}
+      </g>
+
+      <g>
+        {tags.map((t) => (
+          <FlowTag key={t.link} tag={t} dim={!!lit && !lit.links.has(t.link)} />
+        ))}
+      </g>
+
+      <Legend scene={scene} h={h} />
+    </svg>
+  )
+}
+
+function flowTags(scene: Scene, frame: Frame, geometry: Pt[][]): Tag[] {
+  const obstacles = scene.parts.flatMap((p) => {
+    const s = frame.parts[p.id]
+    return s && !BAR_KINDS.has(p.kind)
+      ? [glyphBox(p), labelBox(p, readout(scene, p, s).value)]
+      : [glyphBox(p)]
+  })
+  const items = scene.links.flatMap((l, i) => {
+    const flow = frame.links[i]?.flow ?? 0
+    return flow > 1e-6
+      ? [{ link: i, pts: geometry[i]!, text: rate(scene, l.domain, flow) }]
+      : []
+  })
+  return placeTags(items, obstacles)
+}
+
+// ---- links ----------------------------------------------------------------
+
+function LinkView({
+  scene,
+  link,
+  pts,
+  st,
+  phase,
+  animate,
+  annotate,
+  dim,
+}: {
+  scene: Scene
+  link: LinkSpec
+  pts: Pt[]
+  st: LinkState | undefined
+  phase: number
+  animate: boolean
+  annotate: boolean
+  dim: boolean
+}) {
+  const d = roundedPath(pts)
+  const color = `var(--${link.domain})`
+  const flow = st?.flow ?? 0
+  const rel = Math.min(1.4, flow / (scene.scale[link.domain] ?? 100))
+  const on = flow > 1e-6
+  const atLimit =
+    !!st && Number.isFinite(st.capacity) && on && flow >= st.capacity * 0.995
+  // how much flows is how thick the line is, within a narrow, quiet range
+  const width = 1.5 + 2.5 * Math.sqrt(Math.min(1, rel))
+  const gap = SPACING[link.domain]
+  const from = scene.parts.find((p) => p.id === link.from)!.label
+  const to = scene.parts.find((p) => p.id === link.to)!.label
+  const route = link.loss ? 'route loss' : atLimit ? 'route limit' : 'route'
+
+  return (
+    <g className={dim ? 'link dim' : 'link'}>
+      <title>{`${from} → ${to}: ${rate(scene, link.domain, flow)} of ${DOMAIN_NAMES[link.domain]}${
+        st && Number.isFinite(st.capacity)
+          ? ` (limit ${rate(scene, link.domain, st.capacity)})`
+          : ''
+      }`}</title>
+      <path d={d} className={route} />
+      {on && !link.loss && (
+        <path
+          d={d}
+          className="stream"
+          stroke={color}
+          strokeWidth={width}
+          opacity={animate ? 0.28 : 0.85}
+        />
+      )}
+      {on && link.loss && !animate && (
+        <path
+          d={d}
+          className="stream"
+          stroke={color}
+          strokeWidth={1.5}
+          strokeDasharray="1 5"
+        />
+      )}
+      {on && animate && (
+        <path
+          d={d}
+          className="stream"
+          stroke={color}
+          strokeWidth={link.loss ? 2.5 : width + 1.5}
+          strokeDasharray={`0 ${gap}`}
+          strokeDashoffset={-phase * (gap / 14)}
+        />
+      )}
+      {on && annotate && <Chevron pts={pts} color={color} />}
+    </g>
+  )
+}
+
+/** which way it flows, as a small open chevron at the middle of the longest run */
+function Chevron({ pts, color }: { pts: Pt[]; color: string }) {
+  const at = linkAnchor(pts)
+  return (
+    <path
+      className="chev"
+      stroke={color}
+      d="M-3.5 -4.5 L1.5 0 L-3.5 4.5"
+      transform={`translate(${at.x} ${at.y}) rotate(${at.angle})`}
+    />
+  )
+}
+
+/** paper mode: how much flows, beside the chevron */
+function FlowTag({ tag, dim }: { tag: Tag; dim: boolean }) {
+  return (
+    <text
+      className={dim ? 'tag dim' : 'tag'}
+      x={tag.cx}
+      y={tag.cy}
+      pointerEvents="none"
+    >
+      {tag.text}
+    </text>
+  )
+}
+
+// ---- parts ----------------------------------------------------------------
+
+function PartView({
+  scene,
+  part,
+  frame,
+  selected,
+  dim,
+  onSelect,
+  onToggle,
+}: {
+  scene: Scene
+  part: PartSpec
+  frame: Frame
+  selected: boolean
+  dim: boolean
+  onSelect?: (id: string | null) => void
+  onToggle?: (switchId: string) => void
+}) {
+  const s = frame.parts[part.id]
+  if (!s) return null
+  const [x, y] = cellToPx(part.at)
+  const Glyph = glyphFor(part.kind)
+  const bar = BAR_KINDS.has(part.kind)
+  const cls = [
+    'part',
+    'selectable',
+    selected && 'selected',
+    readout(scene, part, s).bad && 'bad',
+    dim && 'dim',
+  ]
+    .filter(Boolean)
+    .join(' ')
+  const half = TILE / 2
+  return (
+    <g
+      className={cls}
+      transform={`translate(${x} ${y})`}
+      onClick={(e) => {
+        e.stopPropagation()
+        if (part.toggles) onToggle?.(part.toggles)
+        onSelect?.(part.id)
+      }}
+    >
+      {!bar && (
+        <rect
+          className="tile"
+          x={-half}
+          y={-half}
+          width={TILE}
+          height={TILE}
+          rx={TILE_R}
+        />
+      )}
+      <Glyph s={s} phase={frame.partPhase[part.id] ?? 0} />
+      <rect
+        className="hit"
+        x={-half}
+        y={bar ? -14 : -half}
+        width={TILE}
+        height={bar ? 28 : TILE}
+      />
+    </g>
+  )
+}
+
+function PartLabel({
+  scene,
+  part,
+  frame,
+  dim,
+}: {
+  scene: Scene
+  part: PartSpec
+  frame: Frame
+  dim: boolean
+}) {
+  const s = frame.parts[part.id]
+  // a busbar is a junction, not a thing: it goes unlabelled (the inspector has it)
+  if (!s || BAR_KINDS.has(part.kind)) return null
+  const [x, y] = cellToPx(part.at)
+  const o = LABEL_OFFSET[part.labelSide ?? 'below']
+  const r = readout(scene, part, s)
+  return (
+    <g
+      className={dim ? 'labelGroup dim' : 'labelGroup'}
+      transform={`translate(${x + o.dx} ${y + o.dy})`}
+      pointerEvents="none"
+    >
+      <text className="label" textAnchor={o.anchor}>
+        {part.label}
+      </text>
+      <text
+        className={r.bad ? 'value bad' : 'value'}
+        textAnchor={o.anchor}
+        y={14}
+      >
+        {r.value}
+      </text>
+    </g>
+  )
+}
+
+// ---- the drawing furniture -------------------------------------------------
+
+/** the title on the left, the clock on the right */
+function Header({
+  scene,
+  frame,
+  w,
+}: {
+  scene: Scene
+  frame: Frame
+  w: number
+}) {
+  return (
+    <g>
+      <text className="title" x={PAD} y={38}>
+        {scene.title}
+      </text>
+      <ClampedText
+        className="sub"
+        x={PAD}
+        y={58}
+        width={w * 0.62}
+        text={scene.subtitle}
+      />
+      <text className="clock" x={w - PAD} y={38}>
+        {clockTime(frame.hour)}
+      </text>
+      <text className="meta" x={w - PAD} y={58}>
+        {`${scene.sheet} · day ${frame.day + 1}`}
+      </text>
+    </g>
+  )
+}
+
+/** what each colour carries, along the bottom */
+function Legend({ scene, h }: { scene: Scene; h: number }) {
+  const domains = [...new Set(scene.links.map((l) => l.domain))]
+  const y = h - FOOT_H / 2 - 4
+  let x = PAD
+  return (
+    <g>
+      {domains.map((d) => {
+        const text = `${DOMAIN_NAMES[d]}${scene.units[d] ? ` · ${scene.units[d]!.rate}` : ''}`
+        const at = x
+        x += 20 + text.length * 6.2 + 22
+        return (
+          <g key={d}>
+            <line
+              x1={at}
+              y1={y}
+              x2={at + 12}
+              y2={y}
+              stroke={`var(--${d})`}
+              strokeWidth={3}
+              strokeLinecap="round"
+            />
+            <text className="legend" x={at + 20} y={y}>
+              {text}
+            </text>
+          </g>
+        )
+      })}
+    </g>
+  )
+}
+
+/** SVG text doesn't wrap: break a line into at most two, by an estimated width */
+function ClampedText({
+  x,
+  y,
+  width,
+  text,
+  className,
+}: {
+  x: number
+  y: number
+  width: number
+  text: string
+  className: string
+}) {
+  const perLine = Math.max(10, Math.floor(width / 6.6))
+  const words = text.split(' ')
+  const lines: string[] = ['']
+  for (const word of words) {
+    const cur = lines[lines.length - 1]!
+    if ((cur + ' ' + word).trim().length > perLine && cur) {
+      if (lines.length === 2) {
+        lines[1] = `${lines[1]!.replace(/[,;:]?$/, '')}…`
+        break
+      }
+      lines.push(word)
+    } else lines[lines.length - 1] = (cur + ' ' + word).trim()
+  }
+  return (
+    <text className={className} x={x} y={y}>
+      {lines.map((l, i) => (
+        <tspan key={i} x={x} dy={i === 0 ? 0 : 16}>
+          {l}
+        </tspan>
+      ))}
+    </text>
+  )
+}

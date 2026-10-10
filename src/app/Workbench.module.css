@@ -1,0 +1,309 @@
+/* SPDX-License-Identifier: AGPL-3.0-only */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+.app {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px 24px 32px;
+  max-width: 1480px;
+  margin: 0 auto;
+}
+
+.noHeader {
+  padding-top: 10px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-md);
+  letter-spacing: -0.01em;
+}
+
+.logo {
+  display: block;
+  width: 22px;
+  height: 22px;
+  color: var(--ink);
+}
+
+.tag {
+  margin-left: 10px;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+.source {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.source:hover {
+  color: var(--ink);
+}
+
+.tabs {
+  display: flex;
+  gap: 2px;
+  overflow-x: auto;
+  padding: 2px 0;
+  scrollbar-width: none;
+}
+
+.tab,
+.tabOn {
+  flex: none;
+  padding: 6px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+.tab:hover {
+  color: var(--ink);
+}
+
+.tabOn {
+  background: var(--desk-2);
+  color: var(--ink);
+}
+
+.tabNo {
+  display: none;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 280px;
+  gap: 20px;
+  align-items: start;
+}
+
+.stage {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.seg {
+  display: flex;
+  padding: 2px;
+  border-radius: 999px;
+  background: var(--desk-2);
+}
+
+.seg button {
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  padding: 4px 12px;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.seg button[aria-pressed='true'] {
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.08);
+}
+
+.tool {
+  display: inline-block;
+  border: var(--b) solid var(--rule);
+  border-radius: 999px;
+  background: var(--card);
+  padding: 4px 12px;
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.tool:hover {
+  color: var(--ink);
+  border-color: var(--muted);
+}
+
+.sheetWrap {
+  width: 100%;
+  margin: 0 auto;
+  border: var(--b) solid var(--rule);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  background: var(--card);
+  display: flex;
+  justify-content: center;
+}
+
+.sheet {
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+.caption {
+  min-height: 2.8em;
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  padding: 0 6px;
+  color: var(--ink-soft);
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 12px;
+}
+
+.dialog {
+  margin: auto;
+  max-width: 560px;
+  width: calc(100% - 32px);
+  border: var(--b) solid var(--rule);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  background: var(--card);
+  color: var(--ink);
+  padding: 22px;
+}
+
+.dialog::backdrop {
+  background: var(--scrim);
+}
+
+.dialog h2 {
+  font-size: var(--fs-lg);
+  margin-bottom: 6px;
+}
+
+.dialog p {
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.dialog textarea {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  padding: 8px;
+  background: var(--desk);
+  resize: vertical;
+}
+
+.dialogRow {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+@media (max-width: 1024px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+
+  .side {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    align-items: start;
+  }
+
+  .sheetWrap {
+    max-width: none !important;
+  }
+}
+
+/* on a phone the sheet keeps a readable size and scrolls sideways */
+@media (max-width: 768px) {
+  .sheetWrap {
+    aspect-ratio: auto !important;
+    display: block;
+    overflow-x: auto;
+  }
+
+  .sheet {
+    width: 760px;
+    height: auto;
+  }
+}
+
+@media (max-width: 560px) {
+  .app {
+    padding: 10px 10px 20px;
+  }
+
+  .tag {
+    display: none;
+  }
+}
+
+/* print: just the sheet, filling the page */
+@media print {
+  @page {
+    size: landscape;
+    margin: 10mm;
+  }
+
+  .header,
+  .tabs,
+  .tools,
+  .caption,
+  .side,
+  .stage > :last-child {
+    display: none !important;
+  }
+
+  .app,
+  .main {
+    display: block;
+    padding: 0;
+    max-width: none;
+  }
+
+  .sheetWrap {
+    border: 0;
+    box-shadow: none;
+    max-width: none !important;
+  }
+}
