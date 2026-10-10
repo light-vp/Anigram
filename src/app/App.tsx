@@ -3,6 +3,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
+import { Builder } from '../build/Builder'
 import { SCENES, findScene } from '../scenes/index.ts'
 import type { ThemeId } from '../view/palette.ts'
 import { capture } from './analytics'
@@ -38,6 +39,14 @@ export function App() {
     setScene((s) => SCENES[(SCENES.indexOf(s) + 1) % SCENES.length]!)
   }, [])
 
+  if (initial.view === 'build' || initial.view === 'build-embed')
+    return (
+      <Builder
+        theme={theme}
+        onTheme={setTheme}
+        header={initial.view === 'build'}
+      />
+    )
   if (initial.view === 'embed')
     return (
       <EmbedView key={scene.id} scene={scene} theme={theme} initial={initial} />

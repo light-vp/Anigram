@@ -10,6 +10,8 @@ import type { ThemeId } from '../view/palette.ts'
  *   ?embed=1                         just the sheet and a play bar, for an iframe
  *   ?embed=presentation&scene=…      the portfolio's existing embed — same as embed=1
  *   ?embed=app                       the full app without its header
+ *   ?build=1                         the playground: build your own sheet
+ *   ?embed=build                     the playground without its header
  *   ?screen=1                        a wall screen: dark, full bleed, tours every sheet
  *   ?theme=light|dark                the sheet's palette (old names: paper, blueprint)
  *   ?mode=paper                      frozen and annotated, ready to print
@@ -17,7 +19,8 @@ import type { ThemeId } from '../view/palette.ts'
  *   ?speed=2                         clock multiplier
  */
 
-export type View = 'app' | 'app-embed' | 'embed' | 'screen'
+export type View =
+  'app' | 'app-embed' | 'build' | 'build-embed' | 'embed' | 'screen'
 
 const THEME_ALIASES: Record<string, ThemeId> = {
   light: 'light',
@@ -41,6 +44,8 @@ export function readParams(search = window.location.search): Params {
   const embed = q.get('embed')
   let view: View = 'app'
   if (q.has('screen')) view = 'screen'
+  else if (embed === 'build') view = 'build-embed'
+  else if (q.has('build')) view = 'build'
   else if (embed === 'app') view = 'app-embed'
   else if (embed !== null) view = 'embed'
   const theme = q.get('theme')
