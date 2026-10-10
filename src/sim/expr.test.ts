@@ -81,3 +81,17 @@ test('refs lists the knobs, switches and parts an expression reads', () => {
   assert.deepEqual([...r.switches], ['ev'])
   assert.deepEqual([...r.parts], ['car'])
 })
+
+test('a mistyped name or function suggests the right one', () => {
+  assert.throws(() => compileExpr('su(hour)'), /did you mean "sun"/)
+  assert.throws(() => compileExpr('hourr * 2'), /did you mean "hour"/)
+})
+
+test('runaway expressions are refused, not crashed on', () => {
+  assert.throws(
+    () => compileExpr('('.repeat(200) + '1' + ')'.repeat(200)),
+    (e) => e instanceof ExprError && /nests deeper/.test(e.message),
+  )
+  assert.throws(() => compileExpr('-'.repeat(200) + '1'), ExprError)
+  assert.throws(() => compileExpr('1+'.repeat(1500) + '1'), /characters long/)
+})

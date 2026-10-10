@@ -122,6 +122,8 @@ last tick. Nothing else — expressions are parsed, never run as code.
 1. Start from the story: what should someone see happen over a day?
 2. Lay the parts out left-to-right in the direction things flow; sources on
    the left or top, demand on the right or bottom.
-3. Validate, then **simulate a day** and read the table. Captions should say
+3. Validate. A field the format doesn't have is ignored with a warning, and
+   a name that is nearly right (a kind, a role, a domain, a knob or part id)
+   comes back with the one it probably meant. Then **simulate a day** and read the table. Captions should say
    what the numbers say. Tune signals until they do.
 4. Render it, look at it, fix crossings with `via` waypoints.

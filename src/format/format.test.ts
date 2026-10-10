@@ -8,7 +8,7 @@ import { test } from 'node:test'
 import { SCENES } from '../scenes/index.ts'
 import { FORMAT_VERSION, stamp } from './migrate.ts'
 import { simulateDay } from './report.ts'
-import { decodeScene, encodeScene } from './share.ts'
+import { decodeScene, encodeScene, MAX_SCENE_BYTES } from './share.ts'
 import { validateScene } from './validate.ts'
 
 const minimal = {
@@ -138,4 +138,87 @@ test('the docs and the example file are written in the current format version', 
   )
   assert.equal(example.anigram, FORMAT_VERSION)
   assert.equal(validateScene(example).ok, true)
+})
+
+test('a mistyped field is reported with what it probably meant', () => {
+  const v = validateScene({
+    ...minimal,
+    titel: 'oops',
+    parts: [
+      { ...minimal.parts[0], colour: 'red' },
+      {
+        ...minimal.parts[1],
+        behaviour: { role: 'sink', demand: 3, priorty: 2 },
+      },
+    ],
+  })
+  assert.equal(v.ok, true, v.errors.join('\n'))
+  assert.ok(
+    v.warnings.includes(
+      'titel: is not a field here, so it is ignored — did you mean "title"?',
+    ),
+    v.warnings.join('\n'),
+  )
+  assert.ok(
+    v.warnings.some((w) =>
+      w.startsWith('parts[0] (grid).colour: is not a field here'),
+    ),
+  )
+  assert.ok(
+    v.warnings.some((w) => w.includes('priorty') && w.includes('"priority"')),
+  )
+})
+
+test('wrong names come back with the closest right one', () => {
+  const v = validateScene({
+    ...minimal,
+    parts: [
+      {
+        ...minimal.parts[0],
+        kind: 'gird',
+        behaviour: { role: 'sorce', output: 10 },
+      },
+      minimal.parts[1],
+    ],
+    links: [{ from: 'grd', to: 'kettle', domain: 'electirc' }],
+  })
+  const all = [...v.errors, ...v.warnings].join('\n')
+  assert.match(all, /"gird" has no drawing.*did you mean "grid"/)
+  assert.match(all, /role: must be one of .* did you mean "source"/)
+  assert.match(all, /from: no part has that id — did you mean "grid"/)
+  assert.match(all, /unknown domain "electirc" — did you mean "electric"/)
+})
+
+test('a repeated link and a recipe that takes nothing are errors', () => {
+  const twice = validateScene({
+    ...minimal,
+    links: [minimal.links[0], minimal.links[0]],
+  })
+  assert.match(twice.errors.join('\n'), /repeats links\[0\]/)
+
+  const free = validateScene({
+    ...minimal,
+    units: { ...minimal.units, fuel: { rate: 'kW', amount: 'kWh' } },
+    parts: [
+      minimal.parts[0],
+      minimal.parts[1],
+      {
+        id: 'gen',
+        kind: 'generator',
+        label: 'Generator',
+        at: [1, 0],
+        behaviour: {
+          role: 'converter',
+          output: 'electric',
+          recipe: { fuel: 0 },
+        },
+      },
+    ],
+  })
+  assert.match(free.errors.join('\n'), /recipe\.fuel: must be more than 0/)
+})
+
+test('a share link that unpacks into something huge is refused', async () => {
+  const huge = { ...minimal, subtitle: 'x'.repeat(MAX_SCENE_BYTES) }
+  await assert.rejects(decodeScene(await encodeScene(huge)), /unpacked/)
 })
