@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
+import { stamp } from '../format/migrate.ts'
 import { HASH_KEY, encodeScene } from '../format/share.ts'
 import type { Scene } from '../sim/types.ts'
 import type { ThemeId } from '../view/palette.ts'
@@ -80,7 +81,7 @@ export function writeSceneParam(sceneId: string) {
 export async function sceneLink(scene: Scene): Promise<string> {
   const url = new URL(window.location.href)
   url.searchParams.delete('scene')
-  url.hash = `${HASH_KEY}=${await encodeScene(scene)}`
+  url.hash = `${HASH_KEY}=${await encodeScene(stamp(scene))}`
   return url.href
 }
 

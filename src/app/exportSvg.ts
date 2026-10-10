@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
+import { stamp } from '../format/migrate.ts'
 import type { Scene } from '../sim/types.ts'
 
 /**
@@ -20,7 +21,7 @@ export function downloadSvg(svg: SVGSVGElement, name: string) {
 
 /** the scene file itself — the same JSON the MCP server and `npm run simulate` read */
 export function downloadJson(scene: Scene) {
-  const json = `${JSON.stringify(scene, null, 2)}\n`
+  const json = `${JSON.stringify(stamp(scene), null, 2)}\n`
   save(new Blob([json], { type: 'application/json' }), `${scene.id}.json`)
 }
 

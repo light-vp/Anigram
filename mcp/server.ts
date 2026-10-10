@@ -19,6 +19,7 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod'
 
 import guideText from '../docs/scene-format.md?raw'
+import { stamp } from '../src/format/migrate.ts'
 import { reportTable, simulateDay } from '../src/format/report.ts'
 import { encodeScene, HASH_KEY } from '../src/format/share.ts'
 import { DOMAINS, validateScene } from '../src/format/validate.ts'
@@ -113,7 +114,7 @@ function rawScene(args: {
     throw new Error(
       `no built-in sheet "${args.id}"; try ${SCENES.map((x) => x.id).join(', ')}`,
     )
-  return JSON.parse(JSON.stringify(s))
+  return stamp(JSON.parse(JSON.stringify(s)) as Scene)
 }
 
 /** a scene the solver can run, or an error listing what's wrong with it */
@@ -589,7 +590,7 @@ server.registerTool(
         return json({ url: url.href })
       }
       const { scene } = loadScene(args)
-      url.hash = `${HASH_KEY}=${await encodeScene(scene)}`
+      url.hash = `${HASH_KEY}=${await encodeScene(stamp(scene))}`
       const iframe =
         view === 'embed'
           ? `<iframe src="${url.href}" title="${scene.title.replace(/"/g, '&quot;')}" loading="lazy" style="width:100%;aspect-ratio:${aspect(scene)};border:0"></iframe>`

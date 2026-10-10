@@ -16,6 +16,7 @@ the MCP server, or `src/scenes/*.ts`). Read one before writing your own.
 
 ```jsonc
 {
+  "anigram": 1,                    // the format version this file is written in
   "id": "narrowboat",              // lowercase-and-dashes
   "title": "A narrowboat",
   "subtitle": "Solar, a leisure battery and a diesel that charges it",
@@ -34,6 +35,12 @@ the MCP server, or `src/scenes/*.ts`). Read one before writing your own.
 
 Only `id`, `title`, `size`, `parts` and `links` are required. `subtitle`
 defaults to empty, `sheet` to `LD-100`, `clock` to `{ start: 6, rate: 1 }`.
+
+`anigram` is the format version, currently `1`. Write it in every new file.
+A file without it is read as version 1, and a file from an older version is
+upgraded when it loads, so scene files and share links keep working as the
+format grows. A file from a newer version than the reader knows is refused
+with a message saying so.
 
 ## Parts
 

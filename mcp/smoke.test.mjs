@@ -85,6 +85,7 @@ test('built-in sheets come back as scene files', async () => {
   assert.equal(list.length, 5)
   const grid = JSON.parse((await call('get_scene', { id: 'grid' })).text)
   assert.equal(grid.sheet, 'LD-001')
+  assert.equal(grid.anigram, 1)
 })
 
 test('write, edit, simulate, render, share', async () => {
@@ -118,10 +119,9 @@ test('write, edit, simulate, render, share', async () => {
     ).text,
   )
   assert.equal(edited.ok, true, edited.errors.join('\n'))
-  assert.equal(
-    JSON.parse(readFileSync(join(cwd, 'kettle.json'), 'utf8')).parts.length,
-    3,
-  )
+  const onDisk = JSON.parse(readFileSync(join(cwd, 'kettle.json'), 'utf8'))
+  assert.equal(onDisk.parts.length, 3)
+  assert.equal(onDisk.anigram, 1, 'written files carry the format version')
 
   const sim = await call('simulate_scene', { file: 'kettle.json' })
   assert.equal(sim.error, false, sim.text)

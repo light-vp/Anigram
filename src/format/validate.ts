@@ -14,6 +14,7 @@ import type {
   Signal,
   Switch,
 } from '../sim/types.ts'
+import { FORMAT_VERSION, migrate } from './migrate.ts'
 
 /*
  * Checks a scene file — JSON from disk, a share link, or an assistant — and
@@ -71,7 +72,10 @@ export function validateScene(input: unknown): Validation {
   if (!isObj(input)) {
     return { ok: false, errors: ['scene: must be a JSON object'], warnings }
   }
-  const s = input
+  // an older file is upgraded first, so everything below reads one shape
+  const m = migrate(input)
+  if (m.error) return { ok: false, errors: [m.error], warnings }
+  const s = m.scene as Obj
 
   const str = (path: string, v: unknown, fallback?: string): string => {
     if (v === undefined && fallback !== undefined) return fallback
@@ -470,6 +474,7 @@ export function validateScene(input: unknown): Validation {
     err('clock', 'must be { "start": 6, "rate": 1 }')
 
   const scene: Scene = {
+    anigram: FORMAT_VERSION,
     id,
     title: str('title', s.title),
     subtitle: str('subtitle', s.subtitle, ''),
