@@ -183,7 +183,9 @@ commercial. No CLA, no strings: keep the copyright notice and that's all.
 Anigram is free and will stay that way. If it's useful to you and you want it
 to keep growing, you can pay what you like:
 
-**Sponsor link: coming soon.** <!-- TODO(Vaibhav): add the payment link here and in .github/FUNDING.yml -->
+**[Support Anigram →](https://buy.stripe.com/9B67sN7dUfwYg2Bcmd9fW00)** (one-off, any amount, via Stripe)
+
+It's a thank-you, not a purchase: it doesn't buy a licence, features or support.
 
 ## Contributing
 
