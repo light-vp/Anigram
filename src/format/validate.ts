@@ -522,6 +522,11 @@ export function validateScene(input: unknown): Validation {
       const from = parts.find((q) => q.id === link.from)
       if (link.loss && from && from.behaviour.role !== 'converter')
         err(`${p}.loss`, 'only a converter has losses to send')
+      if (link.loss && link.capacity !== undefined)
+        err(
+          `${p}.capacity`,
+          'a loss link carries whatever its converter loses, so it has no capacity',
+        )
     }
     if (
       DOMAINS.includes(link.domain) &&

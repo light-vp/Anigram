@@ -222,3 +222,52 @@ test('a share link that unpacks into something huge is refused', async () => {
   const huge = { ...minimal, subtitle: 'x'.repeat(MAX_SCENE_BYTES) }
   await assert.rejects(decodeScene(await encodeScene(huge)), /unpacked/)
 })
+
+test('a loss link cannot have a capacity: it carries whatever is lost', () => {
+  const v = validateScene({
+    ...minimal,
+    size: [4, 2],
+    units: {
+      ...minimal.units,
+      fuel: { rate: 'kW', amount: 'kWh' },
+      heat: { rate: 'kW', amount: 'kWh' },
+    },
+    parts: [
+      {
+        id: 'tank',
+        kind: 'fueltank',
+        label: 'Tank',
+        at: [0, 0],
+        behaviour: { role: 'source', output: 20 },
+      },
+      {
+        id: 'gen',
+        kind: 'generator',
+        label: 'Generator',
+        at: [1, 0],
+        behaviour: {
+          role: 'converter',
+          output: 'electric',
+          recipe: { fuel: 2.5 },
+        },
+      },
+      {
+        id: 'sky',
+        kind: 'sky',
+        label: 'Sky',
+        at: [1, 1],
+        behaviour: { role: 'vent' },
+      },
+      minimal.parts[1],
+    ],
+    links: [
+      { from: 'tank', to: 'gen', domain: 'fuel' },
+      { from: 'gen', to: 'kettle', domain: 'electric' },
+      { from: 'gen', to: 'sky', domain: 'heat', loss: true, capacity: 1 },
+    ],
+  })
+  assert.match(
+    v.errors.join('\n'),
+    /loss link carries whatever its converter loses/,
+  )
+})

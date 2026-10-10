@@ -419,7 +419,7 @@ export function solve(model: Compiled, env: Env, dt: number, memory: Memory) {
         break
       case 'gate':
         s.open = clamp01(read(b.open ?? 1, env))
-        s.activity = s.out / b.capacity
+        s.activity = ratio(s.out, b.capacity)
         break
       case 'converter':
         // product only — the loss links' flow is reported as `loss`
