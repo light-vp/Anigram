@@ -1,6 +1,8 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
+import { HASH_KEY, encodeScene } from '../format/share.ts'
+import type { Scene } from '../sim/types.ts'
 import type { ThemeId } from '../view/palette.ts'
 
 /*
@@ -17,6 +19,7 @@ import type { ThemeId } from '../view/palette.ts'
  *   ?mode=paper                      frozen and annotated, ready to print
  *   ?t=18.5                          start the clock at 18:30
  *   ?speed=2                         clock multiplier
+ *   #scene=…                         a whole scene file, deflated (see format/share.ts)
  */
 
 export type View =
@@ -69,7 +72,21 @@ export function readParams(search = window.location.search): Params {
 export function writeSceneParam(sceneId: string) {
   const url = new URL(window.location.href)
   url.searchParams.set('scene', sceneId)
+  url.hash = ''
   window.history.replaceState(null, '', url)
+}
+
+/** the link to a scene file: the whole scene rides in the hash */
+export async function sceneLink(scene: Scene): Promise<string> {
+  const url = new URL(window.location.href)
+  url.searchParams.delete('scene')
+  url.hash = `${HASH_KEY}=${await encodeScene(scene)}`
+  return url.href
+}
+
+/** an opened file becomes the address bar's scene, so reloading keeps it */
+export async function writeSceneHash(scene: Scene) {
+  window.history.replaceState(null, '', await sceneLink(scene))
 }
 
 /** the iframe snippet for a sheet */

@@ -1,7 +1,6 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { city, shift, wind } from '../sim/profiles.ts'
 import type { Scene } from '../sim/types.ts'
 
 export const grid: Scene = {
@@ -25,7 +24,7 @@ export const grid: Scene = {
       value: 1,
       max: 1.6,
       step: 0.05,
-      format: (v) => `${Math.round(v * 100)}%`,
+      format: '{pct}%',
     },
     {
       id: 'demand',
@@ -34,7 +33,7 @@ export const grid: Scene = {
       min: 0.6,
       max: 1.3,
       step: 0.05,
-      format: (v) => `${Math.round(v * 100)}%`,
+      format: '{pct}%',
     },
   ],
   switches: [{ id: 'line', label: 'transmission breaker', on: true }],
@@ -106,7 +105,7 @@ export const grid: Scene = {
       at: [1, 4],
       behaviour: {
         role: 'source',
-        output: (e) => 300 * wind(e.hour, e.day) * e.knob('wind'),
+        output: "300 * wind(hour, day) * knob('wind')",
       },
       note: 'Free once built, but it blows when it blows. The grid takes every megawatt it offers before burning gas.',
     },
@@ -144,7 +143,7 @@ export const grid: Scene = {
         start: 0.35,
         maxIn: 245,
         // the operators hold the water back for the evening peak
-        maxOut: (e) => (e.hour >= 16.5 && e.hour < 21.5 ? 360 : 0),
+        maxOut: 'between(hour, 16.5, 21.5) ? 360 : 0',
       },
       note: 'A battery made of a mountain. The operators hold this water back for the evening peak, when power is dearest.',
     },
@@ -171,7 +170,7 @@ export const grid: Scene = {
       behaviour: {
         role: 'gate',
         capacity: 2000,
-        open: (e) => (e.on('line') ? 1 : 0),
+        open: "on('line') ? 1 : 0",
       },
       note: 'Click it. Everything downstream is fed through here.',
     },
@@ -213,7 +212,7 @@ export const grid: Scene = {
       at: [8, 1],
       behaviour: {
         role: 'sink',
-        demand: (e) => 650 * city(e.hour) * e.knob('demand'),
+        demand: "650 * city(hour) * knob('demand')",
       },
       note: 'Half a million homes. Watch the windows: a lit window is a demand being met.',
     },
@@ -232,7 +231,7 @@ export const grid: Scene = {
       at: [8, 3],
       behaviour: {
         role: 'sink',
-        demand: (e) => 300 * shift(e.hour) * e.knob('demand'),
+        demand: "300 * shift(hour) * knob('demand')",
       },
       note: 'An electric arc furnace on a day shift — a step change at 7am and 7pm.',
     },

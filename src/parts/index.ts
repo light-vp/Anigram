@@ -1,13 +1,17 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import * as G from './glyphs.tsx'
 import type { Glyph } from './glyphs.tsx'
+import { isPartKind } from './kinds.ts'
+import type { PartKind } from './kinds.ts'
 
 export type { Glyph, GlyphProps } from './glyphs.tsx'
+export { PART_KINDS, isPartKind } from './kinds.ts'
+export type { KindInfo, PartKind } from './kinds.ts'
 
 /** kind id → glyph. A scene names its parts' kinds from this list. */
-export const GLYPHS: Record<string, Glyph> = {
+export const GLYPHS: Record<PartKind, Glyph> = {
   // sources
   sun: G.Sun,
   wind: G.Wind,
@@ -64,5 +68,5 @@ export const GLYPHS: Record<string, Glyph> = {
 export const BAR_KINDS = new Set(['busbar', 'manifold'])
 
 export function glyphFor(kind: string): Glyph {
-  return GLYPHS[kind] ?? G.Generic
+  return isPartKind(kind) ? GLYPHS[kind] : G.Generic
 }

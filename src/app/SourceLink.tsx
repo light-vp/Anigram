@@ -1,17 +1,14 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import styles from './SourceLink.module.css'
 
-/**
- * The public source repository (AGPL-3.0). Still the pre-rename slug — update
- * this once the GitHub repo is renamed (see SETUP.md checklist).
- */
-export const REPO_URL = 'https://github.com/light-vp/living-diagrams'
+/** The public source repository (MIT). */
+export const REPO_URL = 'https://github.com/light-vp/Anigram'
 
 /**
- * AGPL §13: because this is a hosted, network-accessible app, users must be able
- * to get its source. Embeds show this floating link; keep it visible.
+ * Anigram is open source; every embed carries a way back to the code so
+ * anyone who likes a drawing can fork it and make their own.
  */
 export function SourceLink() {
   return (

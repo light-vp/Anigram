@@ -1,14 +1,15 @@
 {
   "name": "anigram",
-  "description": "Living diagrams of real machines \u2014 engineering drawings that run: every moving line is read off a live flow simulation.",
+  "description": "Living diagrams of real machines — engineering drawings that run. MCP-first: coding assistants write, simulate and draw them; people tune them in the browser.",
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "license": "AGPL-3.0-only",
+  "license": "MIT",
   "author": "Vaibhav Patel",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:mcp": "vite build -c mcp/vite.config.ts",
     "typecheck": "tsc -b",
     "lint": "oxlint",
     "lint:fix": "oxlint --fix",
@@ -16,7 +17,9 @@
     "format:check": "prettier --check .",
     "preview": "vite preview",
     "test": "node --test 'src/**/*.test.ts'",
-    "simulate": "node scripts/simulate-day.ts"
+    "test:mcp": "npm run build:mcp && node --test mcp/smoke.test.mjs",
+    "simulate": "node scripts/simulate-day.ts",
+    "mcp": "node mcp/dist/anigram-mcp.mjs"
   },
   "dependencies": {
     "@sentry/react": "^10.65.0",
@@ -25,6 +28,7 @@
     "react-dom": "^19.2.7"
   },
   "devDependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "@types/node": "^24.13.2",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
@@ -32,6 +36,7 @@
     "oxlint": "^1.71.0",
     "prettier": "^3.9.4",
     "typescript": "~6.0.2",
-    "vite": "^8.1.1"
+    "vite": "^8.1.1",
+    "zod": "^4.6.5"
   }
 }

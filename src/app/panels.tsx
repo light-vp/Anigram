@@ -1,9 +1,9 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import type { Frame, Simulation } from '../sim/runtime.ts'
 import type { Scene } from '../sim/types.ts'
-import { ROLE_NAMES, details } from '../view/format.ts'
+import { ROLE_NAMES, details, formatKnob } from '../view/format.ts'
 import styles from './panels.module.css'
 
 /** the selected part, live — or, with nothing selected, how to read the sheet */
@@ -67,7 +67,7 @@ export function Controls({ scene, sim }: { scene: Scene; sim: Simulation }) {
           <label key={k.id} className={styles.knob}>
             <span className={styles.knobHead}>
               <span>{k.label}</span>
-              <output>{k.format ? k.format(v) : v.toFixed(2)}</output>
+              <output>{formatKnob(k, v)}</output>
             </span>
             <input
               type="range"

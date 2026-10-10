@@ -1,8 +1,8 @@
-# SPDX-License-Identifier: AGPL-3.0-only
+# SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 # CI only — this repo does not deploy itself. The portfolio's deploy workflow
-# (light-vp/codeart.fun) checks out this repo's main branch, builds it with
+# (light-vp/vaibhav.co.uk) checks out this repo's main branch, builds it with
 # --base=/anigram-app/, and serves it at vaibhav.co.uk/anigram-app/.
 name: CI
 
@@ -45,6 +45,9 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: MCP server (build, then drive it over stdio)
+        run: npm run test:mcp
 
       # the deployed copy is built with the subpath base — prove it works too
       - name: Build under /anigram-app/

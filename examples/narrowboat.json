@@ -1,0 +1,256 @@
+{
+  "id": "narrowboat",
+  "title": "A narrowboat",
+  "subtitle": "Solar on the roof, a leisure battery, and the engine’s alternator for when both run out",
+  "sheet": "LD-101",
+  "size": [6, 4],
+  "units": {
+    "light": {
+      "rate": "kW",
+      "amount": "kWh"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    },
+    "fuel": {
+      "rate": "kW",
+      "amount": "kWh"
+    },
+    "heat": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "light": 6,
+    "electric": 1.5,
+    "fuel": 8,
+    "heat": 6
+  },
+  "clock": {
+    "start": 6,
+    "rate": 0.6
+  },
+  "knobs": [
+    {
+      "id": "cloud",
+      "label": "cloud cover",
+      "value": 0.3,
+      "step": 0.05,
+      "format": "{pct}%"
+    }
+  ],
+  "switches": [
+    {
+      "id": "kettle",
+      "label": "kettle on",
+      "on": false
+    }
+  ],
+  "parts": [
+    {
+      "id": "sun",
+      "kind": "sun",
+      "label": "Sun",
+      "at": [0, 0],
+      "behaviour": {
+        "role": "source",
+        "output": "5 * sun(hour) * (1 - 0.8 * knob('cloud'))"
+      },
+      "note": "Light on a roof the size of a ping-pong table."
+    },
+    {
+      "id": "pv",
+      "kind": "pv",
+      "label": "Roof panels",
+      "at": [1, 0],
+      "behaviour": {
+        "role": "converter",
+        "output": "electric",
+        "recipe": {
+          "light": 5
+        },
+        "capacity": 0.8
+      },
+      "note": "800 W of panels, laid flat on the cabin roof."
+    },
+    {
+      "id": "board",
+      "kind": "busbar",
+      "label": "12 V board",
+      "at": [3, 1],
+      "labelSide": "below",
+      "behaviour": {
+        "role": "bus"
+      }
+    },
+    {
+      "id": "battery",
+      "kind": "battery",
+      "label": "Leisure battery",
+      "at": [3, 3],
+      "labelSide": "right",
+      "behaviour": {
+        "role": "storage",
+        "capacity": 2.5,
+        "start": 0.05,
+        "maxIn": 1.2,
+        "maxOut": 2,
+        "efficiency": 0.9
+      },
+      "note": "2.5 kWh of lithium. Fills only from spare sun, so a dull day shows."
+    },
+    {
+      "id": "fuel",
+      "kind": "fueltank",
+      "label": "Diesel tank",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 2000,
+        "start": 0.7,
+        "maxIn": 0,
+        "maxOut": 20,
+        "merit": 25
+      }
+    },
+    {
+      "id": "engine",
+      "kind": "generator",
+      "label": "Engine alternator",
+      "at": [1, 2],
+      "behaviour": {
+        "role": "converter",
+        "output": "electric",
+        "recipe": {
+          "fuel": 4
+        },
+        "capacity": 1.5,
+        "startup": 0.1
+      },
+      "note": "Runs only when the battery can’t cover the load. A quarter of the diesel becomes electricity.",
+      "labelSide": "above"
+    },
+    {
+      "id": "exhaust",
+      "kind": "sky",
+      "label": "Exhaust",
+      "at": [1, 3],
+      "behaviour": {
+        "role": "vent"
+      }
+    },
+    {
+      "id": "cabin",
+      "kind": "house",
+      "label": "Lights, fridge, pump",
+      "at": [5, 1],
+      "labelSide": "below",
+      "behaviour": {
+        "role": "sink",
+        "demand": "0.12 + 0.35 * home(hour)",
+        "priority": 1
+      }
+    },
+    {
+      "id": "kettle",
+      "kind": "tap",
+      "label": "Kettle",
+      "at": [5, 3],
+      "toggles": "kettle",
+      "behaviour": {
+        "role": "sink",
+        "demand": "on('kettle') ? 1.8 : 0"
+      },
+      "note": "Click to boil it. On 12 V a kettle is the biggest thing aboard."
+    }
+  ],
+  "links": [
+    {
+      "from": "sun",
+      "to": "pv",
+      "domain": "light"
+    },
+    {
+      "from": "pv",
+      "to": "board",
+      "domain": "electric",
+      "via": [[3, 0]]
+    },
+    {
+      "from": "fuel",
+      "to": "engine",
+      "domain": "fuel"
+    },
+    {
+      "from": "engine",
+      "to": "board",
+      "domain": "electric",
+      "via": [
+        [2.5, 2],
+        [2.5, 1]
+      ]
+    },
+    {
+      "from": "engine",
+      "to": "exhaust",
+      "domain": "heat",
+      "loss": true
+    },
+    {
+      "from": "board",
+      "to": "battery",
+      "domain": "electric",
+      "via": [
+        [2.85, 1],
+        [2.85, 3]
+      ]
+    },
+    {
+      "from": "battery",
+      "to": "board",
+      "domain": "electric",
+      "via": [
+        [3.15, 3],
+        [3.15, 1]
+      ]
+    },
+    {
+      "from": "board",
+      "to": "cabin",
+      "domain": "electric"
+    },
+    {
+      "from": "board",
+      "to": "kettle",
+      "domain": "electric",
+      "via": [
+        [4, 1],
+        [4, 3]
+      ]
+    }
+  ],
+  "captions": [
+    {
+      "from": 6,
+      "to": 10,
+      "text": "Morning. The battery is nearly flat after the night, so the engine is still turning."
+    },
+    {
+      "from": 10,
+      "to": 17,
+      "text": "Midday. The panels carry the cabin and fill the battery; the engine stops."
+    },
+    {
+      "from": 17,
+      "to": 23,
+      "text": "Evening lights and the fridge drain what the sun put in."
+    },
+    {
+      "from": 23,
+      "to": 6,
+      "text": "Night. When the battery runs dry, the engine starts. Boil the kettle and it starts sooner."
+    }
+  ]
+}

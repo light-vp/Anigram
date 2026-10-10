@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<!-- SPDX-License-Identifier: MIT -->
 <!-- SPDX-FileCopyrightText: 2026 Vaibhav Patel -->
 
 # Anigram — living diagrams of real machines
@@ -13,6 +13,12 @@ battery give up and the grid take over.
 Nothing is animated by hand. Line thickness is flow. The speed of the dots along it is flow. A
 turbine spins as fast as it is generating; a window is lit when its building
 is being served. If the drawing shows it, the system is doing it.
+
+**Open source, MCP-first.** A drawing is a small JSON file, and Anigram ships
+an [MCP server](#for-coding-assistants-the-mcp-server) so a coding assistant
+can write one from a paragraph, run it through a day to check the story
+holds, and hand you an SVG or a live link. The browser app is where people
+watch, tune and share them. MIT licensed: fork it, embed it, build on it.
 
 <p align="center"><img src="docs/sheet-grid.png" alt="The power grid sheet in paper mode at 18:00: every flow labelled in megawatts, from gas field and reactor core through the transmission line to the city, hospital and steelworks." width="900"></p>
 
@@ -39,10 +45,49 @@ is being served. If the drawing shows it, the system is doing it.
 
 <p align="center"><img src="docs/sheet-dark.png" alt="The solar house sheet in the dark theme at midday: the panels exporting a little to the grid while the battery charges." width="620"></p>
 
+## For coding assistants: the MCP server
+
+```sh
+npm ci && npm run build:mcp
+claude mcp add anigram -- node "$PWD/mcp/dist/anigram-mcp.mjs"
+```
+
+Then ask for a drawing: _"a narrowboat with solar on the roof, a leisure
+battery, and the engine as backup — check the battery runs flat overnight."_
+The server gives the assistant the scene format, validation with readable
+errors, a headless day of simulation, SVG rendering and share links:
+
+| Tool                         |                                                         |
+| ---------------------------- | ------------------------------------------------------- |
+| `anigram_guide`              | the format, every drawable part, the signal functions   |
+| `list_scenes` / `get_scene`  | the built-in sheets, as JSON to copy from               |
+| `validate_scene`             | errors and warnings, each pinned to the part it's about |
+| `write_scene` / `edit_scene` | save a scene file, or patch parts and links in place    |
+| `simulate_scene`             | 24 hours, hour by hour, with every alert and shortfall  |
+| `render_scene`               | the sheet as a standalone SVG at any hour               |
+| `share_link`                 | a URL that opens it live; the scene rides in the link   |
+
+Setup for other clients is in [mcp/README.md](mcp/README.md). An example the
+server made: [examples/narrowboat.json](examples/narrowboat.json).
+
+## The scene file
+
+A **scene** is plain JSON: parts on a grid and the links between them. The
+full format is in [docs/scene-format.md](docs/scene-format.md); the built-in
+sheets in `src/scenes/*.ts` are scene files written as typed objects. In the
+app, **↓ json** saves the sheet on screen, **+ open** (or dropping a file on
+the page) loads one, and **⧉ link** copies a URL that carries the whole scene.
+
+Anything that changes over the day is a **signal**: a number, or a small
+expression the solver evaluates (never runs as code):
+
+```json
+{ "role": "source", "output": "32 * sun(hour) * (1 - 0.85 * knob('cloud'))" }
+```
+
 ## How it works
 
-A **scene** is data: parts on a grid and the links between them
-(`src/scenes/*.ts`). Each part has a behaviour — `source`, `sink`, `bus`,
+A **scene** is data: parts on a grid and the links between them. Each part has a behaviour — `source`, `sink`, `bus`,
 `gate`, `converter`, `storage` or `vent` — and each link carries one domain:
 light, electricity, water, heat, fuel, shaft power or requests.
 
@@ -75,8 +120,9 @@ diesel set that hasn't caught yet.
 Run any scene headless through a day to check its story:
 
 ```sh
-npm run simulate grid            # every part, hour by hour
-npm run simulate grid lake,hydro # just these
+npm run simulate grid                       # every part, hour by hour
+npm run simulate grid lake,hydro            # just these
+npm run simulate examples/narrowboat.json   # a scene file
 ```
 
 ## Embedding
@@ -93,6 +139,7 @@ The URL is the API:
 | `mode=paper`        | frozen and labelled                                                                                                            |
 | `t=18.5`            | open at 18:30                                                                                                                  |
 | `speed=4`           | clock multiplier                                                                                                               |
+| `#scene=…`          | a whole scene file, deflated and base64url'd — what **⧉ link** and the MCP server's `share_link` write                         |
 
 ## Commands
 
@@ -101,6 +148,8 @@ npm install
 npm run dev        # vite dev server
 npm run build      # tsc -b && vite build → dist/
 npm test           # the simulation's rules, in node's own test runner
+npm run build:mcp  # the MCP server → mcp/dist/anigram-mcp.mjs
+npm run test:mcp   # build it and drive it over stdio
 npm run simulate   # a scene through a day, headless
 npm run typecheck  # tsc -b
 npm run lint       # oxlint
@@ -111,28 +160,35 @@ npm run format     # prettier --write .
 
 ```
 src/
-  sim/      the rulebook — React-free, runs in node: types, solver, runtime clock, day curves
+  sim/      the rulebook — React-free, runs in node: types, solver, signal expressions, clock, day curves
+  format/   scene files: validation, a headless day report, share links
   scenes/   the five sheets, as data
   parts/    the glyph library: one SVG function per kind of part
   view/     the drawing sheet: geometry, palette, labels and flow tags, the title block
   app/      the workbench, embed and screen views, URL params, export
+mcp/        the MCP server (bundled to one file by its own vite config)
+examples/   scene files
+docs/       the scene format
 ```
 
 See [ROADMAP.md](ROADMAP.md) for where it goes next.
 
 ## License
 
-Anigram is **dual-licensed**:
+**[MIT](LICENSE).** Use it, fork it, change it, ship it in something
+commercial. No CLA, no strings: keep the copyright notice and that's all.
 
-- **[AGPL-3.0-only](LICENSE)** — free for open-source and personal use. If you run
-  a modified version over a network, you must offer users its source (AGPL §13).
-- **[Commercial license](COMMERCIAL-LICENSE.md)** — for embedding in closed-source
-  or commercial products without AGPL's copyleft/network-source obligations.
+## Support the project
+
+Anigram is free and will stay that way. If it's useful to you and you want it
+to keep growing, you can pay what you like:
+
+**Sponsor link: coming soon.** <!-- TODO(Vaibhav): add the payment link here and in .github/FUNDING.yml -->
 
 ## Contributing
 
-PRs welcome — see [CONTRIBUTING.md](CONTRIBUTING.md). A signed
-**[CLA](CLA.md)** is required so the project can offer the commercial license.
+PRs welcome — new sheets, new parts, better physics. See
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Trademarks
 

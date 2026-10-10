@@ -1,7 +1,6 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { water } from '../sim/profiles.ts'
 import type { Scene } from '../sim/types.ts'
 
 export const waterTower: Scene = {
@@ -25,7 +24,7 @@ export const waterTower: Scene = {
       min: 0.5,
       max: 1.5,
       step: 0.05,
-      format: (v) => `${Math.round(v * 100)}%`,
+      format: '{pct}%',
     },
   ],
   switches: [{ id: 'hydrant', label: 'hydrant open', on: false }],
@@ -106,7 +105,7 @@ export const waterTower: Scene = {
       at: [6, 1],
       behaviour: {
         role: 'sink',
-        demand: (e) => 150 * water(e.hour) * e.knob('demand'),
+        demand: "150 * water(hour) * knob('demand')",
         priority: 1,
       },
       note: 'Four thousand people. Everyone showers at the same time.',
@@ -119,7 +118,7 @@ export const waterTower: Scene = {
       labelSide: 'right',
       behaviour: {
         role: 'sink',
-        demand: (e) => 9 * e.knob('demand'),
+        demand: "9 * knob('demand')",
         priority: 1,
       },
       note: 'Old pipes. In a typical British town about a fifth of treated water never reaches a tap.',
@@ -134,7 +133,7 @@ export const waterTower: Scene = {
       behaviour: {
         role: 'gate',
         capacity: 250,
-        open: (e) => (e.on('hydrant') ? 1 : 0),
+        open: "on('hydrant') ? 1 : 0",
       },
       note: 'Click to open. A fire crew pulls more water than the whole town at breakfast.',
     },
@@ -147,7 +146,7 @@ export const waterTower: Scene = {
       toggles: 'hydrant',
       behaviour: {
         role: 'sink',
-        demand: (e) => (e.on('hydrant') ? 220 : 0),
+        demand: "on('hydrant') ? 220 : 0",
         priority: 2,
       },
     },

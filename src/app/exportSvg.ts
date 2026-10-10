@@ -1,5 +1,7 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
+
+import type { Scene } from '../sim/types.ts'
 
 /**
  * Save the sheet exactly as it is on screen. The SVG already carries its own
@@ -13,10 +15,20 @@ export function downloadSvg(svg: SVGSVGElement, name: string) {
   clone.setAttribute('height', `${h}`)
   clone.setAttribute('class', 'sheet')
   const xml = `<?xml version="1.0" encoding="UTF-8"?>\n${new XMLSerializer().serializeToString(clone)}`
-  const url = URL.createObjectURL(new Blob([xml], { type: 'image/svg+xml' }))
+  save(new Blob([xml], { type: 'image/svg+xml' }), `${name}.svg`)
+}
+
+/** the scene file itself — the same JSON the MCP server and `npm run simulate` read */
+export function downloadJson(scene: Scene) {
+  const json = `${JSON.stringify(scene, null, 2)}\n`
+  save(new Blob([json], { type: 'application/json' }), `${scene.id}.json`)
+}
+
+function save(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `${name}.svg`
+  a.download = filename
   a.click()
   setTimeout(() => URL.revokeObjectURL(url), 1000)
 }

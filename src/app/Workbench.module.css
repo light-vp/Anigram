@@ -1,4 +1,4 @@
-/* SPDX-License-Identifier: AGPL-3.0-only */
+/* SPDX-License-Identifier: MIT */
 /* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
 
 .app {
@@ -182,6 +182,29 @@
   line-height: 1.5;
   padding: 0 6px;
   color: var(--ink-soft);
+}
+
+.problem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+  padding: 8px 12px;
+  border: var(--b) solid var(--rule);
+  border-radius: var(--r);
+  background: var(--card);
+}
+
+/* full screen: just the sheet, as large as the screen allows */
+.stage:fullscreen {
+  justify-content: center;
+  padding: 24px 32px;
+  background: var(--desk);
+}
+
+.stage:fullscreen .sheetWrap {
+  max-width: calc((100vh - 170px) * var(--aspect)) !important;
 }
 
 .side {
