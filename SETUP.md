@@ -1,13 +1,16 @@
 <!-- SPDX-License-Identifier: MIT -->
 <!-- SPDX-FileCopyrightText: 2026 Vaibhav Patel -->
 
-# Deploy setup — served at vaibhav.co.uk/anigram-app/
+# Deploy setup — served at anigram.vaibhav.co.uk
 
 Anigram has **no hosting of its own**. The portfolio repo
 (`light-vp/vaibhav.co.uk`) deploys it: its GitHub Action checks out this repo's
-`main` branch, builds it with `--base=/anigram-app/`, folds the output into the
-site's `dist/anigram-app/`, and Hostinger serves the whole thing at
-`vaibhav.co.uk`. This repo's own workflow (`.github/workflows/ci.yml`) is CI
+`main` branch, builds it with a relative base (`--base=./`), folds the output
+into the site's `dist/anigram-app/`, and Hostinger serves the whole thing.
+That folder is also the document root of the subdomain, so the same files
+answer at `https://anigram.vaibhav.co.uk/` (the canonical address, and the one
+share links use) and at `https://vaibhav.co.uk/anigram-app/` (what the
+portfolio's own pages embed, same-origin). This repo's own workflow (`.github/workflows/ci.yml`) is CI
 only — typecheck, lint, and both build variants — with a read-only token.
 
 ## Releasing a change
@@ -20,24 +23,25 @@ only — typecheck, lint, and both build variants — with a read-only token.
 
 ## URLs
 
-- `https://vaibhav.co.uk/anigram-app/` — the full workbench (standalone).
-- `https://vaibhav.co.uk/anigram-app/?embed=app` — the workbench without its
+- `https://anigram.vaibhav.co.uk/` — the full workbench (standalone).
+- `https://anigram.vaibhav.co.uk/?embed=app` — the workbench without its
   header bar (what the portfolio's playground iframe loads).
-- `https://vaibhav.co.uk/anigram-app/?embed=1&scene=<id>` — the chrome-less
+- `https://anigram.vaibhav.co.uk/?embed=1&scene=<id>` — the chrome-less
   sheet for iframes (scenes: `grid`, `solar-home`, `water-tower`, `hydro-dam`,
   `data-centre`). `?embed=presentation` is the same view, kept for the
   portfolio's existing `DiagramConsole`; its old scene ids still resolve —
   `cdn` → `data-centre`, `microservices` → `grid`, `oauth2` → `solar-home` —
   but the portfolio's tab labels and copy describe the old cloud scenes and
   want updating to match.
-- `https://vaibhav.co.uk/anigram-app/?screen=1` — the wall-screen tour.
+- `https://anigram.vaibhav.co.uk/?screen=1` — the wall-screen tour.
 - The portfolio's brief page lives at `https://vaibhav.co.uk/anigram`.
 
 Notes: the portfolio's deploy strips this repo's `public/.htaccess` (its SPA
 rewrite is root-relative and unnecessary — embeds address the app by query
-string only) and writes a minimal `.htaccess` into `dist/anigram-app/` that
+string only) and writes a minimal `.htaccess` into `dist/anigram-app/`. It
 sets `Content-Security-Policy: frame-ancestors` so only vaibhav.co.uk can
-frame the app. The in-app **"source"** link points at the public repo.
+frame the app, and turns `RewriteEngine On` with no rules so the portfolio's
+own route rewrites don't apply when the folder is served as the subdomain. The in-app **"source"** link points at the public repo.
 
 ## Rename (Living Diagrams → Anigram)
 

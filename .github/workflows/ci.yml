@@ -3,7 +3,7 @@
 
 # CI only — this repo does not deploy itself. The portfolio's deploy workflow
 # (light-vp/vaibhav.co.uk) checks out this repo's main branch, builds it with
-# --base=/anigram-app/, and serves it at vaibhav.co.uk/anigram-app/.
+# --base=./, and serves it at anigram.vaibhav.co.uk and vaibhav.co.uk/anigram-app/.
 name: CI
 
 on:
@@ -49,6 +49,6 @@ jobs:
       - name: MCP server (build, then drive it over stdio)
         run: npm run test:mcp
 
-      # the deployed copy is built with the subpath base — prove it works too
-      - name: Build under /anigram-app/
-        run: npm run build -- --base=/anigram-app/
+      # the deployed copy is built with a relative base — prove it works too
+      - name: Build with a relative base, as deployed
+        run: npm run build -- --base=./
