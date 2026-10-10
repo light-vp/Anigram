@@ -498,7 +498,11 @@ function Running({
       <div className={styles.stage}>
         <div
           className={styles.sheetWrap}
-          style={{ aspectRatio: `${w} / ${h}` }}
+          // as wide as the column allows, but short enough to keep the clock in view
+          style={{
+            aspectRatio: `${w} / ${h}`,
+            maxWidth: `calc((100vh - 190px) * ${(w / h).toFixed(4)})`,
+          }}
         >
           <Sheet
             scene={scene}
