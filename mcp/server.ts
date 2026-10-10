@@ -19,7 +19,9 @@ import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
 import { z } from 'zod'
 
 import guideText from '../docs/scene-format.md?raw'
+import { stamp } from '../src/format/migrate.ts'
 import { reportTable, simulateDay } from '../src/format/report.ts'
+import { SCHEMA_URL, sceneSchema } from '../src/format/schema.ts'
 import { encodeScene, HASH_KEY } from '../src/format/share.ts'
 import { DOMAINS, validateScene } from '../src/format/validate.ts'
 import { PART_KINDS } from '../src/parts/kinds.ts'
@@ -113,7 +115,7 @@ function rawScene(args: {
     throw new Error(
       `no built-in sheet "${args.id}"; try ${SCENES.map((x) => x.id).join(', ')}`,
     )
-  return JSON.parse(JSON.stringify(s))
+  return stamp(JSON.parse(JSON.stringify(s)) as Scene)
 }
 
 /** a scene the solver can run, or an error listing what's wrong with it */
@@ -189,7 +191,7 @@ function guide(): string {
     .map(([name, doc]) => `- \`${name}\` — ${doc}`)
     .join('\n')
   const body = guideText.replace(/^<!--.*-->\n/gm, '')
-  return `${body}\n## Signal functions\n\n${vars}\n${fns}\n\n## Parts\n\n${kinds}\n\nDomains: ${DOMAINS.join(', ')}.\n`
+  return `${body}\nThe format as a JSON Schema: the \`anigram://schema/scene\` resource, or ${SCHEMA_URL} (put it in a file's \`$schema\` so editors check it).\n\n## Signal functions\n\n${vars}\n${fns}\n\n## Parts\n\n${kinds}\n\nDomains: ${DOMAINS.join(', ')}.\n`
 }
 
 // ---------------------------------------------------------------- reading
@@ -211,6 +213,25 @@ server.registerResource(
   { title: 'Anigram scene format', mimeType: 'text/markdown' },
   (uri) => ({
     contents: [{ uri: uri.href, mimeType: 'text/markdown', text: guide() }],
+  }),
+)
+
+server.registerResource(
+  'scene-schema',
+  'anigram://schema/scene',
+  {
+    title: 'Anigram scene JSON Schema',
+    description: `The scene format as a JSON Schema, also published at ${SCHEMA_URL}`,
+    mimeType: 'application/schema+json',
+  },
+  (uri) => ({
+    contents: [
+      {
+        uri: uri.href,
+        mimeType: 'application/schema+json',
+        text: JSON.stringify(sceneSchema(), null, 2),
+      },
+    ],
   }),
 )
 
@@ -589,7 +610,7 @@ server.registerTool(
         return json({ url: url.href })
       }
       const { scene } = loadScene(args)
-      url.hash = `${HASH_KEY}=${await encodeScene(scene)}`
+      url.hash = `${HASH_KEY}=${await encodeScene(stamp(scene))}`
       const iframe =
         view === 'embed'
           ? `<iframe src="${url.href}" title="${scene.title.replace(/"/g, '&quot;')}" loading="lazy" style="width:100%;aspect-ratio:${aspect(scene)};border:0"></iframe>`

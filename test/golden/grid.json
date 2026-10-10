@@ -1,0 +1,2392 @@
+{
+ "scene": "grid",
+ "start": 3,
+ "rows": [
+  {
+   "hour": 3,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 115.29
+    },
+    "hv": {
+     "in": 615.29,
+     "out": 615.29
+    },
+    "pump": {
+     "in": 143.54,
+     "out": 175.049
+    },
+    "lake": {
+     "in": 175.049,
+     "out": 0,
+     "fill": 0.35
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "line": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "sub": {
+     "in": 471.75,
+     "out": 462.5
+    },
+    "lv": {
+     "in": 462.5,
+     "out": 462.5
+    },
+    "city": {
+     "in": 357.5,
+     "out": 0,
+     "demand": 357.5
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 45,
+     "out": 0,
+     "demand": 45
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Night. The reactor can’t throttle down, so its spare power pumps water up to the top lake.",
+   "alerts": []
+  },
+  {
+   "hour": 4,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 172.65
+    },
+    "hv": {
+     "in": 672.65,
+     "out": 672.65
+    },
+    "pump": {
+     "in": 200.9,
+     "out": 245
+    },
+    "lake": {
+     "in": 245,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "line": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "sub": {
+     "in": 471.75,
+     "out": 462.5
+    },
+    "lv": {
+     "in": 462.5,
+     "out": 462.5
+    },
+    "city": {
+     "in": 357.5,
+     "out": 0,
+     "demand": 357.5
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 45,
+     "out": 0,
+     "demand": 45
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Night. The reactor can’t throttle down, so its spare power pumps water up to the top lake.",
+   "alerts": []
+  },
+  {
+   "hour": 5,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 94.022
+    },
+    "hv": {
+     "in": 594.022,
+     "out": 594.022
+    },
+    "pump": {
+     "in": 122.272,
+     "out": 149.112
+    },
+    "lake": {
+     "in": 149.112,
+     "out": 0,
+     "fill": 0.635
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "line": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "sub": {
+     "in": 471.75,
+     "out": 462.5
+    },
+    "lv": {
+     "in": 462.5,
+     "out": 462.5
+    },
+    "city": {
+     "in": 357.5,
+     "out": 0,
+     "demand": 357.5
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 45,
+     "out": 0,
+     "demand": 45
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Night. The reactor can’t throttle down, so its spare power pumps water up to the top lake.",
+   "alerts": []
+  },
+  {
+   "hour": 6,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 85.063
+    },
+    "hv": {
+     "in": 585.063,
+     "out": 585.063
+    },
+    "pump": {
+     "in": 93.894,
+     "out": 114.505
+    },
+    "lake": {
+     "in": 114.505,
+     "out": 0,
+     "fill": 0.725
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 491.169,
+     "out": 491.169
+    },
+    "line": {
+     "in": 491.169,
+     "out": 491.169
+    },
+    "sub": {
+     "in": 491.169,
+     "out": 481.538
+    },
+    "lv": {
+     "in": 481.538,
+     "out": 481.538
+    },
+    "city": {
+     "in": 376.538,
+     "out": 0,
+     "demand": 376.538
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 45,
+     "out": 0,
+     "demand": 45
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "The morning ramp. The city wakes, the steelworks starts its shift, and the gas plant fires up to cover the gap.",
+   "alerts": []
+  },
+  {
+   "hour": 7,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 163.06
+    },
+    "gas": {
+     "in": 163.06,
+     "out": 74.118
+    },
+    "stack": {
+     "in": 88.942,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 93.982
+    },
+    "hv": {
+     "in": 668.1,
+     "out": 668.1
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.757
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 668.1,
+     "out": 668.1
+    },
+    "line": {
+     "in": 668.1,
+     "out": 668.1
+    },
+    "sub": {
+     "in": 668.1,
+     "out": 655
+    },
+    "lv": {
+     "in": 655,
+     "out": 655
+    },
+    "city": {
+     "in": 422.5,
+     "out": 0,
+     "demand": 422.5
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 172.5,
+     "out": 0,
+     "demand": 172.5
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "The morning ramp. The city wakes, the steelworks starts its shift, and the gas plant fires up to cover the gap.",
+   "alerts": []
+  },
+  {
+   "hour": 8,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 262.304
+    },
+    "gas": {
+     "in": 262.304,
+     "out": 119.229
+    },
+    "stack": {
+     "in": 143.075,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 225.802
+    },
+    "hv": {
+     "in": 845.031,
+     "out": 845.031
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.757
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 845.031,
+     "out": 845.031
+    },
+    "line": {
+     "in": 845.031,
+     "out": 845.031
+    },
+    "sub": {
+     "in": 845.031,
+     "out": 828.462
+    },
+    "lv": {
+     "in": 828.462,
+     "out": 828.462
+    },
+    "city": {
+     "in": 468.462,
+     "out": 0,
+     "demand": 468.462
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 300,
+     "out": 0,
+     "demand": 300
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "The morning ramp. The city wakes, the steelworks starts its shift, and the gas plant fires up to cover the gap.",
+   "alerts": []
+  },
+  {
+   "hour": 9,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 449.728
+    },
+    "gas": {
+     "in": 449.728,
+     "out": 204.422
+    },
+    "stack": {
+     "in": 245.306,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 160.028
+    },
+    "hv": {
+     "in": 864.45,
+     "out": 864.45
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.757
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 864.45,
+     "out": 864.45
+    },
+    "line": {
+     "in": 864.45,
+     "out": 864.45
+    },
+    "sub": {
+     "in": 864.45,
+     "out": 847.5
+    },
+    "lv": {
+     "in": 847.5,
+     "out": 847.5
+    },
+    "city": {
+     "in": 487.5,
+     "out": 0,
+     "demand": 487.5
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 300,
+     "out": 0,
+     "demand": 300
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "The morning ramp. The city wakes, the steelworks starts its shift, and the gas plant fires up to cover the gap.",
+   "alerts": []
+  },
+  {
+   "hour": 10,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 312.737
+    },
+    "gas": {
+     "in": 312.737,
+     "out": 142.153
+    },
+    "stack": {
+     "in": 170.584,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 212.375
+    },
+    "hv": {
+     "in": 854.528,
+     "out": 854.528
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.757
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 854.528,
+     "out": 854.528
+    },
+    "line": {
+     "in": 854.528,
+     "out": 854.528
+    },
+    "sub": {
+     "in": 854.528,
+     "out": 837.772
+    },
+    "lv": {
+     "in": 837.772,
+     "out": 837.772
+    },
+    "city": {
+     "in": 477.772,
+     "out": 0,
+     "demand": 477.772
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 300,
+     "out": 0,
+     "demand": 300
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Daytime. Wind comes and goes; the gas plant follows it, burning only what the wind didn’t give.",
+   "alerts": []
+  },
+  {
+   "hour": 11,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 232.939
+    },
+    "gas": {
+     "in": 232.939,
+     "out": 105.881
+    },
+    "stack": {
+     "in": 127.057,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 226.628
+    },
+    "hv": {
+     "in": 832.509,
+     "out": 832.509
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.757
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 832.509,
+     "out": 832.509
+    },
+    "line": {
+     "in": 832.509,
+     "out": 832.509
+    },
+    "sub": {
+     "in": 832.509,
+     "out": 816.185
+    },
+    "lv": {
+     "in": 816.185,
+     "out": 816.185
+    },
+    "city": {
+     "in": 456.185,
+     "out": 0,
+     "demand": 456.185
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 300,
+     "out": 0,
+     "demand": 300
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Daytime. Wind comes and goes; the gas plant follows it, burning only what the wind didn’t give.",
+   "alerts": []
+  },
+  {
+   "hour": 12,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 101.195
+    },
+    "gas": {
+     "in": 101.195,
+     "out": 45.998
+    },
+    "stack": {
+     "in": 55.197,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 270.362
+    },
+    "hv": {
+     "in": 816.36,
+     "out": 816.36
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.757
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 816.36,
+     "out": 816.36
+    },
+    "line": {
+     "in": 816.36,
+     "out": 816.36
+    },
+    "sub": {
+     "in": 816.36,
+     "out": 800.353
+    },
+    "lv": {
+     "in": 800.353,
+     "out": 800.353
+    },
+    "city": {
+     "in": 440.353,
+     "out": 0,
+     "demand": 440.353
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 300,
+     "out": 0,
+     "demand": 300
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Daytime. Wind comes and goes; the gas plant follows it, burning only what the wind didn’t give.",
+   "alerts": []
+  },
+  {
+   "hour": 13,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 448.345
+    },
+    "gas": {
+     "in": 448.345,
+     "out": 203.793
+    },
+    "stack": {
+     "in": 244.552,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 118.01
+    },
+    "hv": {
+     "in": 821.803,
+     "out": 821.803
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.757
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 821.803,
+     "out": 821.803
+    },
+    "line": {
+     "in": 821.803,
+     "out": 821.803
+    },
+    "sub": {
+     "in": 821.803,
+     "out": 805.69
+    },
+    "lv": {
+     "in": 805.69,
+     "out": 805.69
+    },
+    "city": {
+     "in": 445.69,
+     "out": 0,
+     "demand": 445.69
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 300,
+     "out": 0,
+     "demand": 300
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Daytime. Wind comes and goes; the gas plant follows it, burning only what the wind didn’t give.",
+   "alerts": []
+  },
+  {
+   "hour": 14,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 410.426
+    },
+    "gas": {
+     "in": 410.426,
+     "out": 186.557
+    },
+    "stack": {
+     "in": 223.869,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 144.743
+    },
+    "hv": {
+     "in": 831.3,
+     "out": 831.3
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.757
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 831.3,
+     "out": 831.3
+    },
+    "line": {
+     "in": 831.3,
+     "out": 831.3
+    },
+    "sub": {
+     "in": 831.3,
+     "out": 815
+    },
+    "lv": {
+     "in": 815,
+     "out": 815
+    },
+    "city": {
+     "in": 455,
+     "out": 0,
+     "demand": 455
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 300,
+     "out": 0,
+     "demand": 300
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Daytime. Wind comes and goes; the gas plant follows it, burning only what the wind didn’t give.",
+   "alerts": []
+  },
+  {
+   "hour": 15,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 462.898
+    },
+    "gas": {
+     "in": 462.898,
+     "out": 210.408
+    },
+    "stack": {
+     "in": 252.49,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 120.984
+    },
+    "hv": {
+     "in": 831.392,
+     "out": 831.392
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.757
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 831.392,
+     "out": 831.392
+    },
+    "line": {
+     "in": 831.392,
+     "out": 831.392
+    },
+    "sub": {
+     "in": 831.392,
+     "out": 815.09
+    },
+    "lv": {
+     "in": 815.09,
+     "out": 815.09
+    },
+    "city": {
+     "in": 455.09,
+     "out": 0,
+     "demand": 455.09
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 300,
+     "out": 0,
+     "demand": 300
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Daytime. Wind comes and goes; the gas plant follows it, burning only what the wind didn’t give.",
+   "alerts": []
+  },
+  {
+   "hour": 16,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 529.044
+    },
+    "gas": {
+     "in": 529.044,
+     "out": 240.474
+    },
+    "stack": {
+     "in": 288.569,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 134.23
+    },
+    "hv": {
+     "in": 874.704,
+     "out": 874.704
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.757
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 874.704,
+     "out": 874.704
+    },
+    "line": {
+     "in": 874.704,
+     "out": 874.704
+    },
+    "sub": {
+     "in": 874.704,
+     "out": 857.553
+    },
+    "lv": {
+     "in": 857.553,
+     "out": 857.553
+    },
+    "city": {
+     "in": 497.553,
+     "out": 0,
+     "demand": 497.553
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 300,
+     "out": 0,
+     "demand": 300
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Daytime. Wind comes and goes; the gas plant follows it, burning only what the wind didn’t give.",
+   "alerts": []
+  },
+  {
+   "hour": 17,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 319.849
+    },
+    "gas": {
+     "in": 319.849,
+     "out": 145.386
+    },
+    "stack": {
+     "in": 174.463,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 45
+    },
+    "hv": {
+     "in": 940.386,
+     "out": 940.386
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 360,
+     "fill": 0.637
+    },
+    "hydro": {
+     "in": 360,
+     "out": 250
+    },
+    "breaker": {
+     "in": 940.386,
+     "out": 940.386
+    },
+    "line": {
+     "in": 940.386,
+     "out": 940.386
+    },
+    "sub": {
+     "in": 940.386,
+     "out": 921.947
+    },
+    "lv": {
+     "in": 921.947,
+     "out": 921.947
+    },
+    "city": {
+     "in": 561.947,
+     "out": 0,
+     "demand": 561.947
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 300,
+     "out": 0,
+     "demand": 300
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "The evening peak. The top lake drains back through the turbine, so the gas plant doesn’t have to reach as high.",
+   "alerts": []
+  },
+  {
+   "hour": 18,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 121.738
+    },
+    "gas": {
+     "in": 121.738,
+     "out": 55.336
+    },
+    "stack": {
+     "in": 66.403,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 178.362
+    },
+    "hv": {
+     "in": 983.698,
+     "out": 983.698
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 360,
+     "fill": 0.397
+    },
+    "hydro": {
+     "in": 360,
+     "out": 250
+    },
+    "breaker": {
+     "in": 983.698,
+     "out": 983.698
+    },
+    "line": {
+     "in": 983.698,
+     "out": 983.698
+    },
+    "sub": {
+     "in": 983.698,
+     "out": 964.41
+    },
+    "lv": {
+     "in": 964.41,
+     "out": 964.41
+    },
+    "city": {
+     "in": 604.41,
+     "out": 0,
+     "demand": 604.41
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 300,
+     "out": 0,
+     "demand": 300
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "The evening peak. The top lake drains back through the turbine, so the gas plant doesn’t have to reach as high.",
+   "alerts": []
+  },
+  {
+   "hour": 19,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 199.664
+    },
+    "hv": {
+     "in": 844.151,
+     "out": 844.151
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 208.061,
+     "fill": 0.178
+    },
+    "hydro": {
+     "in": 208.061,
+     "out": 144.487
+    },
+    "breaker": {
+     "in": 844.151,
+     "out": 844.151
+    },
+    "line": {
+     "in": 844.151,
+     "out": 844.151
+    },
+    "sub": {
+     "in": 844.151,
+     "out": 827.599
+    },
+    "lv": {
+     "in": 827.599,
+     "out": 827.599
+    },
+    "city": {
+     "in": 595.099,
+     "out": 0,
+     "demand": 595.099
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 172.5,
+     "out": 0,
+     "demand": 172.5
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "The evening peak. The top lake drains back through the turbine, so the gas plant doesn’t have to reach as high.",
+   "alerts": []
+  },
+  {
+   "hour": 20,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 226.514
+    },
+    "hv": {
+     "in": 726.514,
+     "out": 726.514
+    },
+    "pump": {
+     "in": 80.587,
+     "out": 98.277
+    },
+    "lake": {
+     "in": 98.277,
+     "out": 0,
+     "fill": 0.175
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 645.927,
+     "out": 645.927
+    },
+    "line": {
+     "in": 645.927,
+     "out": 645.927
+    },
+    "sub": {
+     "in": 645.927,
+     "out": 633.261
+    },
+    "lv": {
+     "in": 633.261,
+     "out": 633.261
+    },
+    "city": {
+     "in": 528.261,
+     "out": 0,
+     "demand": 528.261
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 45,
+     "out": 0,
+     "demand": 45
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "The evening peak. The top lake drains back through the turbine, so the gas plant doesn’t have to reach as high.",
+   "alerts": []
+  },
+  {
+   "hour": 21,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 170.153
+    },
+    "hv": {
+     "in": 670.153,
+     "out": 670.153
+    },
+    "pump": {
+     "in": 120.64,
+     "out": 147.121
+    },
+    "lake": {
+     "in": 147.121,
+     "out": 0,
+     "fill": 0.255
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 549.513,
+     "out": 549.513
+    },
+    "line": {
+     "in": 549.513,
+     "out": 549.513
+    },
+    "sub": {
+     "in": 549.513,
+     "out": 538.739
+    },
+    "lv": {
+     "in": 538.739,
+     "out": 538.739
+    },
+    "city": {
+     "in": 433.739,
+     "out": 0,
+     "demand": 433.739
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 45,
+     "out": 0,
+     "demand": 45
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "The evening peak. The top lake drains back through the turbine, so the gas plant doesn’t have to reach as high.",
+   "alerts": []
+  },
+  {
+   "hour": 22,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 182.239
+    },
+    "hv": {
+     "in": 682.239,
+     "out": 682.239
+    },
+    "pump": {
+     "in": 200.9,
+     "out": 245
+    },
+    "lake": {
+     "in": 245,
+     "out": 0,
+     "fill": 0.402
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 481.339,
+     "out": 481.339
+    },
+    "line": {
+     "in": 481.339,
+     "out": 481.339
+    },
+    "sub": {
+     "in": 481.339,
+     "out": 471.901
+    },
+    "lv": {
+     "in": 471.901,
+     "out": 471.901
+    },
+    "city": {
+     "in": 366.901,
+     "out": 0,
+     "demand": 366.901
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 45,
+     "out": 0,
+     "demand": 45
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Night. The reactor can’t throttle down, so its spare power pumps water up to the top lake.",
+   "alerts": []
+  },
+  {
+   "hour": 23,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 172.65
+    },
+    "hv": {
+     "in": 672.65,
+     "out": 672.65
+    },
+    "pump": {
+     "in": 200.9,
+     "out": 245
+    },
+    "lake": {
+     "in": 245,
+     "out": 0,
+     "fill": 0.566
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "line": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "sub": {
+     "in": 471.75,
+     "out": 462.5
+    },
+    "lv": {
+     "in": 462.5,
+     "out": 462.5
+    },
+    "city": {
+     "in": 357.5,
+     "out": 0,
+     "demand": 357.5
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 45,
+     "out": 0,
+     "demand": 45
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Night. The reactor can’t throttle down, so its spare power pumps water up to the top lake.",
+   "alerts": []
+  },
+  {
+   "hour": 0,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 137.977
+    },
+    "hv": {
+     "in": 637.977,
+     "out": 637.977
+    },
+    "pump": {
+     "in": 166.227,
+     "out": 202.716
+    },
+    "lake": {
+     "in": 202.716,
+     "out": 0,
+     "fill": 0.714
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "line": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "sub": {
+     "in": 471.75,
+     "out": 462.5
+    },
+    "lv": {
+     "in": 462.5,
+     "out": 462.5
+    },
+    "city": {
+     "in": 357.5,
+     "out": 0,
+     "demand": 357.5
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 45,
+     "out": 0,
+     "demand": 45
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Night. The reactor can’t throttle down, so its spare power pumps water up to the top lake.",
+   "alerts": []
+  },
+  {
+   "hour": 1,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 77.307
+    },
+    "hv": {
+     "in": 577.307,
+     "out": 577.307
+    },
+    "pump": {
+     "in": 105.557,
+     "out": 128.728
+    },
+    "lake": {
+     "in": 128.728,
+     "out": 0,
+     "fill": 0.821
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "line": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "sub": {
+     "in": 471.75,
+     "out": 462.5
+    },
+    "lv": {
+     "in": 462.5,
+     "out": 462.5
+    },
+    "city": {
+     "in": 357.5,
+     "out": 0,
+     "demand": 357.5
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 45,
+     "out": 0,
+     "demand": 45
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Night. The reactor can’t throttle down, so its spare power pumps water up to the top lake.",
+   "alerts": []
+  },
+  {
+   "hour": 2,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1500
+    },
+    "turbo": {
+     "in": 1500,
+     "out": 500
+    },
+    "cooling": {
+     "in": 1000,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 165.123
+    },
+    "hv": {
+     "in": 665.123,
+     "out": 665.123
+    },
+    "pump": {
+     "in": 193.373,
+     "out": 235.821
+    },
+    "lake": {
+     "in": 235.821,
+     "out": 0,
+     "fill": 0.94
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "line": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "sub": {
+     "in": 471.75,
+     "out": 462.5
+    },
+    "lv": {
+     "in": 462.5,
+     "out": 462.5
+    },
+    "city": {
+     "in": 357.5,
+     "out": 0,
+     "demand": 357.5
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 45,
+     "out": 0,
+     "demand": 45
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Night. The reactor can’t throttle down, so its spare power pumps water up to the top lake.",
+   "alerts": []
+  },
+  {
+   "hour": 3,
+   "parts": {
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "gas": {
+     "in": 0,
+     "out": 0
+    },
+    "stack": {
+     "in": 0,
+     "out": 0
+    },
+    "core": {
+     "in": 0,
+     "out": 1415.25
+    },
+    "turbo": {
+     "in": 1415.25,
+     "out": 471.75
+    },
+    "cooling": {
+     "in": 943.5,
+     "out": 0
+    },
+    "wind": {
+     "in": 0,
+     "out": 0
+    },
+    "hv": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "pump": {
+     "in": 0,
+     "out": 0
+    },
+    "lake": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "hydro": {
+     "in": 0,
+     "out": 0
+    },
+    "breaker": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "line": {
+     "in": 471.75,
+     "out": 471.75
+    },
+    "sub": {
+     "in": 471.75,
+     "out": 462.5
+    },
+    "lv": {
+     "in": 462.5,
+     "out": 462.5
+    },
+    "city": {
+     "in": 357.5,
+     "out": 0,
+     "demand": 357.5
+    },
+    "hospital": {
+     "in": 60,
+     "out": 0,
+     "demand": 60
+    },
+    "factory": {
+     "in": 45,
+     "out": 0,
+     "demand": 45
+    },
+    "diesel": {
+     "in": 0,
+     "out": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    }
+   },
+   "caption": "Night. The reactor can’t throttle down, so its spare power pumps water up to the top lake.",
+   "alerts": []
+  }
+ ],
+ "alerts": [],
+ "totals": {
+  "well": {
+   "in": 0,
+   "out": 3832.349
+  },
+  "gas": {
+   "in": 3832.349,
+   "out": 1741.977
+  },
+  "stack": {
+   "in": 2090.372,
+   "out": 0
+  },
+  "core": {
+   "in": 0,
+   "out": 35949.15
+  },
+  "turbo": {
+   "in": 35949.15,
+   "out": 11983.05
+  },
+  "cooling": {
+   "in": 23966.1,
+   "out": 0
+  },
+  "wind": {
+   "in": 0,
+   "out": 3667.346
+  },
+  "hv": {
+   "in": 18025.15,
+   "out": 18025.15
+  },
+  "pump": {
+   "in": 1546.54,
+   "out": 1886.024
+  },
+  "lake": {
+   "in": 1886.024,
+   "out": 911.199
+  },
+  "hydro": {
+   "in": 911.199,
+   "out": 632.777
+  },
+  "breaker": {
+   "in": 16478.61,
+   "out": 16478.61
+  },
+  "line": {
+   "in": 16478.61,
+   "out": 16478.61
+  },
+  "sub": {
+   "in": 16478.61,
+   "out": 16155.5
+  },
+  "lv": {
+   "in": 16155.5,
+   "out": 16155.5
+  },
+  "city": {
+   "in": 10575.5,
+   "out": 0,
+   "unmet": 0
+  },
+  "hospital": {
+   "in": 1440,
+   "out": 0,
+   "unmet": 0
+  },
+  "factory": {
+   "in": 4140,
+   "out": 0,
+   "unmet": 0
+  },
+  "diesel": {
+   "in": 0,
+   "out": 0
+  },
+  "tank": {
+   "in": 0,
+   "out": 0
+  }
+ }
+}

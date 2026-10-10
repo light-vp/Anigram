@@ -10,12 +10,43 @@
 
 export const HASH_KEY = 'scene'
 
+/**
+ * the most a shared scene may inflate to. The largest built-in sheet is
+ * about 20 KB of JSON; this stops a short link from unpacking into
+ * something that hangs the tab.
+ */
+export const MAX_SCENE_BYTES = 1_000_000
+
 async function pipe(
   bytes: Uint8Array,
   stream: CompressionStream | DecompressionStream,
+  limit = Infinity,
 ) {
-  const out = new Blob([new Uint8Array(bytes)]).stream().pipeThrough(stream)
-  return new Uint8Array(await new Response(out).arrayBuffer())
+  const reader = new Blob([new Uint8Array(bytes)])
+    .stream()
+    .pipeThrough(stream)
+    .getReader()
+  const chunks: Uint8Array[] = []
+  let size = 0
+  for (;;) {
+    const { done, value } = await reader.read()
+    if (done) break
+    size += value.byteLength
+    if (size > limit) {
+      await reader.cancel()
+      throw new Error(
+        `the shared scene is over ${Math.round(limit / 1000)} KB unpacked`,
+      )
+    }
+    chunks.push(value)
+  }
+  const out = new Uint8Array(size)
+  let at = 0
+  for (const c of chunks) {
+    out.set(c, at)
+    at += c.byteLength
+  }
+  return out
 }
 
 function toBase64Url(bytes: Uint8Array): string {
@@ -41,6 +72,7 @@ export async function decodeScene(text: string): Promise<unknown> {
   const bytes = await pipe(
     fromBase64Url(text),
     new DecompressionStream('deflate-raw'),
+    MAX_SCENE_BYTES,
   )
   return JSON.parse(new TextDecoder().decode(bytes))
 }

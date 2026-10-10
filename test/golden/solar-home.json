@@ -1,0 +1,1495 @@
+{
+ "scene": "solar-home",
+ "start": 5,
+ "rows": [
+  {
+   "hour": 5,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "inverter": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 1.058,
+     "out": 1.058
+    },
+    "house": {
+     "in": 0.528,
+     "out": 0,
+     "demand": 0.528
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 1.058,
+     "fill": 0.3
+    },
+    "grid": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.768,
+     "out": 1.768
+    },
+    "air": {
+     "in": 0,
+     "out": 1.237
+    },
+    "rads": {
+     "in": 1.768,
+     "out": 0,
+     "demand": 1.768
+    }
+   },
+   "caption": "Night. The battery carries the house until it runs dry; then the grid takes over.",
+   "alerts": []
+  },
+  {
+   "hour": 6,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "inverter": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 2.256,
+     "out": 2.256
+    },
+    "house": {
+     "in": 0.686,
+     "out": 0,
+     "demand": 0.686
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 2.256,
+     "fill": 0.137
+    },
+    "grid": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 5.232,
+     "out": 5.232
+    },
+    "air": {
+     "in": 0,
+     "out": 3.663
+    },
+    "rads": {
+     "in": 5.232,
+     "out": 0,
+     "demand": 5.232
+    }
+   },
+   "caption": "Night. The battery carries the house until it runs dry; then the grid takes over.",
+   "alerts": []
+  },
+  {
+   "hour": 7,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 3.24
+    },
+    "pv": {
+     "in": 3.24,
+     "out": 0.648
+    },
+    "inverter": {
+     "in": 0.648,
+     "out": 0.623
+    },
+    "board": {
+     "in": 3.02,
+     "out": 3.02
+    },
+    "house": {
+     "in": 1.45,
+     "out": 0,
+     "demand": 1.45
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0
+    },
+    "grid": {
+     "in": 0,
+     "out": 2.396,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 5.232,
+     "out": 5.232
+    },
+    "air": {
+     "in": 0,
+     "out": 3.663
+    },
+    "rads": {
+     "in": 5.232,
+     "out": 0,
+     "demand": 5.232
+    }
+   },
+   "caption": "Breakfast and the heating’s morning burst. The panels are only just waking up.",
+   "alerts": [
+    "Home battery: empty"
+   ]
+  },
+  {
+   "hour": 8,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 8.252
+    },
+    "pv": {
+     "in": 8.252,
+     "out": 1.65
+    },
+    "inverter": {
+     "in": 1.65,
+     "out": 1.587
+    },
+    "board": {
+     "in": 1.98,
+     "out": 1.98
+    },
+    "house": {
+     "in": 1.45,
+     "out": 0,
+     "demand": 1.45
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0
+    },
+    "grid": {
+     "in": 0,
+     "out": 0.393,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.768,
+     "out": 1.768
+    },
+    "air": {
+     "in": 0,
+     "out": 1.237
+    },
+    "rads": {
+     "in": 1.768,
+     "out": 0,
+     "demand": 1.768
+    }
+   },
+   "caption": "Breakfast and the heating’s morning burst. The panels are only just waking up.",
+   "alerts": [
+    "Home battery: empty"
+   ]
+  },
+  {
+   "hour": 9,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 13.708
+    },
+    "pv": {
+     "in": 13.708,
+     "out": 2.742
+    },
+    "inverter": {
+     "in": 2.742,
+     "out": 2.636
+    },
+    "board": {
+     "in": 2.636,
+     "out": 2.636
+    },
+    "house": {
+     "in": 0.686,
+     "out": 0,
+     "demand": 0.686
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 1.635,
+     "out": 0,
+     "fill": 0.069
+    },
+    "grid": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Breakfast and the heating’s morning burst. The panels are only just waking up.",
+   "alerts": []
+  },
+  {
+   "hour": 10,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 18.819
+    },
+    "pv": {
+     "in": 18.819,
+     "out": 3.764
+    },
+    "inverter": {
+     "in": 3.764,
+     "out": 3.619
+    },
+    "board": {
+     "in": 3.619,
+     "out": 3.619
+    },
+    "house": {
+     "in": 0.528,
+     "out": 0,
+     "demand": 0.528
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 2.776,
+     "out": 0,
+     "fill": 0.28
+    },
+    "grid": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Midday. The panels make more than the house can use: the battery fills first, the rest is exported.",
+   "alerts": []
+  },
+  {
+   "hour": 11,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 22.952
+    },
+    "pv": {
+     "in": 22.952,
+     "out": 4.59
+    },
+    "inverter": {
+     "in": 4.59,
+     "out": 4.414
+    },
+    "board": {
+     "in": 4.414,
+     "out": 4.414
+    },
+    "house": {
+     "in": 0.648,
+     "out": 0,
+     "demand": 0.648
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 3.451,
+     "out": 0,
+     "fill": 0.571
+    },
+    "grid": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Midday. The panels make more than the house can use: the battery fills first, the rest is exported.",
+   "alerts": []
+  },
+  {
+   "hour": 12,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 25.632
+    },
+    "pv": {
+     "in": 25.632,
+     "out": 5.126
+    },
+    "inverter": {
+     "in": 5.126,
+     "out": 4.929
+    },
+    "board": {
+     "in": 4.929,
+     "out": 4.929
+    },
+    "house": {
+     "in": 0.888,
+     "out": 0,
+     "demand": 0.888
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 3.5,
+     "out": 0,
+     "fill": 0.892
+    },
+    "grid": {
+     "in": 0.226,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Midday. The panels make more than the house can use: the battery fills first, the rest is exported.",
+   "alerts": []
+  },
+  {
+   "hour": 13,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 26.56
+    },
+    "pv": {
+     "in": 26.56,
+     "out": 5.312
+    },
+    "inverter": {
+     "in": 5.312,
+     "out": 5.108
+    },
+    "board": {
+     "in": 5.108,
+     "out": 5.108
+    },
+    "house": {
+     "in": 1.008,
+     "out": 0,
+     "demand": 1.008
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "grid": {
+     "in": 3.785,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Midday. The panels make more than the house can use: the battery fills first, the rest is exported.",
+   "alerts": []
+  },
+  {
+   "hour": 14,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 25.632
+    },
+    "pv": {
+     "in": 25.632,
+     "out": 5.126
+    },
+    "inverter": {
+     "in": 5.126,
+     "out": 4.929
+    },
+    "board": {
+     "in": 4.929,
+     "out": 4.929
+    },
+    "house": {
+     "in": 0.888,
+     "out": 0,
+     "demand": 0.888
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "grid": {
+     "in": 3.726,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Midday. The panels make more than the house can use: the battery fills first, the rest is exported.",
+   "alerts": []
+  },
+  {
+   "hour": 15,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 22.952
+    },
+    "pv": {
+     "in": 22.952,
+     "out": 4.59
+    },
+    "inverter": {
+     "in": 4.59,
+     "out": 4.414
+    },
+    "board": {
+     "in": 4.414,
+     "out": 4.414
+    },
+    "house": {
+     "in": 0.648,
+     "out": 0,
+     "demand": 0.648
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "grid": {
+     "in": 3.451,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Midday. The panels make more than the house can use: the battery fills first, the rest is exported.",
+   "alerts": []
+  },
+  {
+   "hour": 16,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 18.819
+    },
+    "pv": {
+     "in": 18.819,
+     "out": 3.764
+    },
+    "inverter": {
+     "in": 3.764,
+     "out": 3.619
+    },
+    "board": {
+     "in": 3.619,
+     "out": 3.619
+    },
+    "house": {
+     "in": 0.617,
+     "out": 0,
+     "demand": 0.617
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "grid": {
+     "in": 2.687,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Midday. The panels make more than the house can use: the battery fills first, the rest is exported.",
+   "alerts": []
+  },
+  {
+   "hour": 17,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 13.708
+    },
+    "pv": {
+     "in": 13.708,
+     "out": 2.742
+    },
+    "inverter": {
+     "in": 2.742,
+     "out": 2.636
+    },
+    "board": {
+     "in": 2.636,
+     "out": 2.636
+    },
+    "house": {
+     "in": 1.228,
+     "out": 0,
+     "demand": 1.228
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "grid": {
+     "in": 0.847,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.87,
+     "out": 1.87
+    },
+    "air": {
+     "in": 0,
+     "out": 1.309
+    },
+    "rads": {
+     "in": 1.87,
+     "out": 0,
+     "demand": 1.87
+    }
+   },
+   "caption": "The sun goes down as demand goes up. The battery pays back what it stored at noon.",
+   "alerts": []
+  },
+  {
+   "hour": 18,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 8.252
+    },
+    "pv": {
+     "in": 8.252,
+     "out": 1.65
+    },
+    "inverter": {
+     "in": 1.65,
+     "out": 1.587
+    },
+    "board": {
+     "in": 3.144,
+     "out": 3.144
+    },
+    "house": {
+     "in": 1.989,
+     "out": 0,
+     "demand": 1.989
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 1.557,
+     "fill": 0.947
+    },
+    "grid": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 3.85,
+     "out": 3.85
+    },
+    "air": {
+     "in": 0,
+     "out": 2.695
+    },
+    "rads": {
+     "in": 3.85,
+     "out": 0,
+     "demand": 3.85
+    }
+   },
+   "caption": "The sun goes down as demand goes up. The battery pays back what it stored at noon.",
+   "alerts": []
+  },
+  {
+   "hour": 19,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 3.24
+    },
+    "pv": {
+     "in": 3.24,
+     "out": 0.648
+    },
+    "inverter": {
+     "in": 0.648,
+     "out": 0.623
+    },
+    "board": {
+     "in": 4.077,
+     "out": 4.077
+    },
+    "house": {
+     "in": 2.328,
+     "out": 0,
+     "demand": 2.328
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 3.454,
+     "fill": 0.685
+    },
+    "grid": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 5.83,
+     "out": 5.83
+    },
+    "air": {
+     "in": 0,
+     "out": 4.081
+    },
+    "rads": {
+     "in": 5.83,
+     "out": 0,
+     "demand": 5.83
+    }
+   },
+   "caption": "The sun goes down as demand goes up. The battery pays back what it stored at noon.",
+   "alerts": []
+  },
+  {
+   "hour": 20,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "inverter": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 3.984,
+     "out": 3.984
+    },
+    "house": {
+     "in": 1.989,
+     "out": 0,
+     "demand": 1.989
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 3.984,
+     "fill": 0.298
+    },
+    "grid": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 6.65,
+     "out": 6.65
+    },
+    "air": {
+     "in": 0,
+     "out": 4.655
+    },
+    "rads": {
+     "in": 6.65,
+     "out": 0,
+     "demand": 6.65
+    }
+   },
+   "caption": "Plug the car in and watch the battery give up — a car wants more than a house can store.",
+   "alerts": []
+  },
+  {
+   "hour": 21,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "inverter": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 2.977,
+     "out": 2.977
+    },
+    "house": {
+     "in": 1.228,
+     "out": 0,
+     "demand": 1.228
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0
+    },
+    "grid": {
+     "in": 0,
+     "out": 2.977,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 5.83,
+     "out": 5.83
+    },
+    "air": {
+     "in": 0,
+     "out": 4.081
+    },
+    "rads": {
+     "in": 5.83,
+     "out": 0,
+     "demand": 5.83
+    }
+   },
+   "caption": "Plug the car in and watch the battery give up — a car wants more than a house can store.",
+   "alerts": [
+    "Home battery: empty"
+   ]
+  },
+  {
+   "hour": 22,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "inverter": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 1.772,
+     "out": 1.772
+    },
+    "house": {
+     "in": 0.617,
+     "out": 0,
+     "demand": 0.617
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0
+    },
+    "grid": {
+     "in": 0,
+     "out": 1.772,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 3.85,
+     "out": 3.85
+    },
+    "air": {
+     "in": 0,
+     "out": 2.695
+    },
+    "rads": {
+     "in": 3.85,
+     "out": 0,
+     "demand": 3.85
+    }
+   },
+   "caption": "Plug the car in and watch the battery give up — a car wants more than a house can store.",
+   "alerts": [
+    "Home battery: empty"
+   ]
+  },
+  {
+   "hour": 23,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "inverter": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 1.089,
+     "out": 1.089
+    },
+    "house": {
+     "in": 0.528,
+     "out": 0,
+     "demand": 0.528
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0
+    },
+    "grid": {
+     "in": 0,
+     "out": 1.089,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.87,
+     "out": 1.87
+    },
+    "air": {
+     "in": 0,
+     "out": 1.309
+    },
+    "rads": {
+     "in": 1.87,
+     "out": 0,
+     "demand": 1.87
+    }
+   },
+   "caption": "Plug the car in and watch the battery give up — a car wants more than a house can store.",
+   "alerts": [
+    "Home battery: empty"
+   ]
+  },
+  {
+   "hour": 0,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "inverter": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.843,
+     "out": 0.843
+    },
+    "house": {
+     "in": 0.528,
+     "out": 0,
+     "demand": 0.528
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0
+    },
+    "grid": {
+     "in": 0,
+     "out": 0.843,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Night. The battery carries the house until it runs dry; then the grid takes over.",
+   "alerts": [
+    "Home battery: empty"
+   ]
+  },
+  {
+   "hour": 1,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "inverter": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.843,
+     "out": 0.843
+    },
+    "house": {
+     "in": 0.528,
+     "out": 0,
+     "demand": 0.528
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0
+    },
+    "grid": {
+     "in": 0,
+     "out": 0.843,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Night. The battery carries the house until it runs dry; then the grid takes over.",
+   "alerts": [
+    "Home battery: empty"
+   ]
+  },
+  {
+   "hour": 2,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "inverter": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.843,
+     "out": 0.843
+    },
+    "house": {
+     "in": 0.528,
+     "out": 0,
+     "demand": 0.528
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0
+    },
+    "grid": {
+     "in": 0,
+     "out": 0.843,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Night. The battery carries the house until it runs dry; then the grid takes over.",
+   "alerts": [
+    "Home battery: empty"
+   ]
+  },
+  {
+   "hour": 3,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "inverter": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.843,
+     "out": 0.843
+    },
+    "house": {
+     "in": 0.528,
+     "out": 0,
+     "demand": 0.528
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0
+    },
+    "grid": {
+     "in": 0,
+     "out": 0.843,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Night. The battery carries the house until it runs dry; then the grid takes over.",
+   "alerts": [
+    "Home battery: empty"
+   ]
+  },
+  {
+   "hour": 4,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "inverter": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.843,
+     "out": 0.843
+    },
+    "house": {
+     "in": 0.528,
+     "out": 0,
+     "demand": 0.528
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0
+    },
+    "grid": {
+     "in": 0,
+     "out": 0.843,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.05,
+     "out": 1.05
+    },
+    "air": {
+     "in": 0,
+     "out": 0.735
+    },
+    "rads": {
+     "in": 1.05,
+     "out": 0,
+     "demand": 1.05
+    }
+   },
+   "caption": "Night. The battery carries the house until it runs dry; then the grid takes over.",
+   "alerts": [
+    "Home battery: empty"
+   ]
+  },
+  {
+   "hour": 5,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "inverter": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 1.058,
+     "out": 1.058
+    },
+    "house": {
+     "in": 0.528,
+     "out": 0,
+     "demand": 0.528
+    },
+    "car": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0
+    },
+    "grid": {
+     "in": 0,
+     "out": 1.058,
+     "fill": 0.5
+    },
+    "hp": {
+     "in": 1.768,
+     "out": 1.768
+    },
+    "air": {
+     "in": 0,
+     "out": 1.237
+    },
+    "rads": {
+     "in": 1.768,
+     "out": 0,
+     "demand": 1.768
+    }
+   },
+   "caption": "Night. The battery carries the house until it runs dry; then the grid takes over.",
+   "alerts": [
+    "Home battery: empty"
+   ]
+  }
+ ],
+ "alerts": [
+  {
+   "text": "Home battery: empty",
+   "hours": [
+    7,
+    8,
+    21,
+    22,
+    23,
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ]
+  }
+ ],
+ "totals": {
+  "sun": {
+   "in": 0,
+   "out": 211.988
+  },
+  "pv": {
+   "in": 211.988,
+   "out": 42.398
+  },
+  "inverter": {
+   "in": 42.398,
+   "out": 40.767
+  },
+  "board": {
+   "in": 65.843,
+   "out": 65.843
+  },
+  "house": {
+   "in": 22.572,
+   "out": 0,
+   "unmet": 0
+  },
+  "car": {
+   "in": 0,
+   "out": 0,
+   "unmet": 0
+  },
+  "battery": {
+   "in": 10.87,
+   "out": 12.999
+  },
+  "grid": {
+   "in": 15.181,
+   "out": 12.077
+  },
+  "hp": {
+   "in": 57.4,
+   "out": 57.4
+  },
+  "air": {
+   "in": 0,
+   "out": 40.18
+  },
+  "rads": {
+   "in": 57.4,
+   "out": 0,
+   "unmet": 0
+  }
+ }
+}

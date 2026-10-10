@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { isPartKind } from '../parts/kinds.ts'
+import { isPartKind, PART_KINDS } from '../parts/kinds.ts'
 import { ExprError, exprRefs } from '../sim/expr.ts'
+import { didYouMean } from '../sim/suggest.ts'
 import type {
   Behaviour,
   Caption,
@@ -14,6 +15,7 @@ import type {
   Signal,
   Switch,
 } from '../sim/types.ts'
+import { FORMAT_VERSION, migrate } from './migrate.ts'
 
 /*
  * Checks a scene file — JSON from disk, a share link, or an assistant — and
@@ -44,6 +46,60 @@ export const ROLES: readonly Behaviour['role'][] = [
   'vent',
 ]
 
+/** every field each object in a scene file may have */
+export const FIELDS = {
+  scene: [
+    '$schema',
+    'anigram',
+    'id',
+    'title',
+    'subtitle',
+    'sheet',
+    'size',
+    'units',
+    'scale',
+    'parts',
+    'links',
+    'knobs',
+    'switches',
+    'captions',
+    'clock',
+  ],
+  clock: ['start', 'rate'],
+  units: ['rate', 'amount'],
+  knob: ['id', 'label', 'min', 'max', 'step', 'value', 'format'],
+  switch: ['id', 'label', 'on'],
+  part: [
+    'id',
+    'kind',
+    'label',
+    'at',
+    'behaviour',
+    'note',
+    'labelSide',
+    'toggles',
+  ],
+  link: ['from', 'to', 'domain', 'capacity', 'via', 'bend', 'loss'],
+  caption: ['from', 'to', 'text'],
+  refill: ['below', 'until'],
+  source: ['role', 'output', 'dispatchable', 'merit'],
+  sink: ['role', 'demand', 'priority', 'absorbsSurplus'],
+  bus: ['role'],
+  gate: ['role', 'capacity', 'open'],
+  converter: ['role', 'output', 'recipe', 'capacity', 'startup'],
+  storage: [
+    'role',
+    'capacity',
+    'start',
+    'maxIn',
+    'maxOut',
+    'efficiency',
+    'merit',
+    'refill',
+  ],
+  vent: ['role'],
+} as const
+
 export interface Validation {
   ok: boolean
   /** the normalised scene, when there are no errors */
@@ -67,11 +123,29 @@ export function validateScene(input: unknown): Validation {
   const warnings: string[] = []
   const err = (path: string, msg: string) => errors.push(`${path}: ${msg}`)
   const warn = (path: string, msg: string) => warnings.push(`${path}: ${msg}`)
+  /** a field the format doesn't have is ignored, and is usually a typo */
+  const unknownFields = (path: string, o: Obj, allowed: readonly string[]) => {
+    for (const k of Object.keys(o))
+      if (!allowed.includes(k))
+        warn(
+          path ? `${path}.${k}` : k,
+          `is not a field here, so it is ignored${didYouMean(k, allowed)}`,
+        )
+  }
+  const domainError = (path: string, d: string) =>
+    err(
+      path,
+      `unknown domain "${d}"${didYouMean(d, DOMAINS)}; the domains are ${DOMAINS.join(', ')}`,
+    )
 
   if (!isObj(input)) {
     return { ok: false, errors: ['scene: must be a JSON object'], warnings }
   }
-  const s = input
+  // an older file is upgraded first, so everything below reads one shape
+  const m = migrate(input)
+  if (m.error) return { ok: false, errors: [m.error], warnings }
+  const s = m.scene as Obj
+  unknownFields('', s, FIELDS.scene)
 
   const str = (path: string, v: unknown, fallback?: string): string => {
     if (v === undefined && fallback !== undefined) return fallback
@@ -112,10 +186,13 @@ export function validateScene(input: unknown): Validation {
     if (!isObj(s.units)) err('units', 'must be an object keyed by domain')
     else
       for (const [d, u] of Object.entries(s.units)) {
-        if (!DOMAINS.includes(d as Domain)) err(`units.${d}`, 'unknown domain')
+        if (!DOMAINS.includes(d as Domain)) domainError(`units.${d}`, d)
         else if (!isObj(u) || !isStr(u.rate) || !isStr(u.amount))
           err(`units.${d}`, 'must be { "rate": "kW", "amount": "kWh" }')
-        else units[d as Domain] = { rate: u.rate, amount: u.amount }
+        else {
+          unknownFields(`units.${d}`, u, FIELDS.units)
+          units[d as Domain] = { rate: u.rate, amount: u.amount }
+        }
       }
   }
 
@@ -124,7 +201,7 @@ export function validateScene(input: unknown): Validation {
     if (!isObj(s.scale)) err('scale', 'must be an object keyed by domain')
     else
       for (const [d, v] of Object.entries(s.scale)) {
-        if (!DOMAINS.includes(d as Domain)) err(`scale.${d}`, 'unknown domain')
+        if (!DOMAINS.includes(d as Domain)) domainError(`scale.${d}`, d)
         else scale[d as Domain] = num(`scale.${d}`, v, { min: 1e-9 })
       }
   }
@@ -139,6 +216,7 @@ export function validateScene(input: unknown): Validation {
       err(p, 'must be an object')
       continue
     }
+    unknownFields(p, k, FIELDS.knob)
     const knob: Knob = {
       id: str(`${p}.id`, k.id),
       label: str(`${p}.label`, k.label),
@@ -168,6 +246,7 @@ export function validateScene(input: unknown): Validation {
       err(p, 'must be an object')
       continue
     }
+    unknownFields(p, w, FIELDS.switch)
     const sw: Switch = {
       id: str(`${p}.id`, w.id),
       label: str(`${p}.label`, w.label),
@@ -199,14 +278,26 @@ export function validateScene(input: unknown): Validation {
     }
     try {
       const refs = exprRefs(v)
+      const knobIds = knobs.map((o) => o.id)
+      const switchIds = switches.map((o) => o.id)
       for (const k of refs.knobs)
-        if (!knobs.some((o) => o.id === k))
-          err(path, `knob('${k}') — no knob has that id`)
+        if (!knobIds.includes(k))
+          err(
+            path,
+            `knob('${k}') — no knob has that id${didYouMean(k, knobIds)}`,
+          )
       for (const w of refs.switches)
-        if (!switches.some((o) => o.id === w))
-          err(path, `on('${w}') — no switch has that id`)
+        if (!switchIds.includes(w))
+          err(
+            path,
+            `on('${w}') — no switch has that id${didYouMean(w, switchIds)}`,
+          )
       for (const q of refs.parts)
-        if (!partIds.has(q)) err(path, `prev('${q}') — no part has that id`)
+        if (!partIds.has(q))
+          err(
+            path,
+            `prev('${q}') — no part has that id${didYouMean(q, partIds)}`,
+          )
     } catch (e) {
       if (e instanceof ExprError)
         err(path, `${e.message} at character ${e.at + 1} of "${v}"`)
@@ -225,13 +316,14 @@ export function validateScene(input: unknown): Validation {
     }
     const pid = str(`${p}.id`, raw.id)
     if (pid) p = `parts[${i}] (${pid})`
+    unknownFields(p, raw, FIELDS.part)
     if (seen.has(pid)) err(`${p}.id`, 'duplicate part id')
     seen.add(pid)
     const kind = str(`${p}.kind`, raw.kind)
     if (kind && !isPartKind(kind))
       warn(
         `${p}.kind`,
-        `"${kind}" has no drawing; it will show as a plain circle`,
+        `"${kind}" has no drawing; it will show as a plain circle${didYouMean(kind, Object.keys(PART_KINDS))}`,
       )
     let at: [number, number] = [0, 0]
     if (!isCell(raw.at)) err(`${p}.at`, 'must be [column, row]')
@@ -258,16 +350,27 @@ export function validateScene(input: unknown): Validation {
     if (raw.toggles !== undefined) {
       part.toggles = str(`${p}.toggles`, raw.toggles)
       if (!switches.some((w) => w.id === part.toggles))
-        err(`${p}.toggles`, `no switch has id "${part.toggles}"`)
+        err(
+          `${p}.toggles`,
+          `no switch has id "${part.toggles}"${didYouMean(
+            part.toggles,
+            switches.map((w) => w.id),
+          )}`,
+        )
     }
     parts.push(part)
   }
 
   function behaviour(path: string, b: unknown): Behaviour {
     if (!isObj(b) || !ROLES.includes(b.role as Behaviour['role'])) {
-      err(`${path}.role`, `must be one of ${ROLES.join(', ')}`)
+      const role = isObj(b) && isStr(b.role) ? b.role : ''
+      err(
+        `${path}.role`,
+        `must be one of ${ROLES.join(', ')}${didYouMean(role, ROLES)}`,
+      )
       return { role: 'vent' }
     }
+    unknownFields(path, b, FIELDS[b.role as Behaviour['role']])
     const opt = (k: string, min = 0) =>
       b[k] === undefined ? undefined : num(`${path}.${k}`, b[k], { min })
     const keep = <T extends object>(o: T) =>
@@ -306,7 +409,7 @@ export function validateScene(input: unknown): Validation {
       case 'converter': {
         const output = b.output as Domain
         if (!DOMAINS.includes(output))
-          err(`${path}.output`, `must be a domain: ${DOMAINS.join(', ')}`)
+          domainError(`${path}.output`, String(output))
         const recipe: Partial<Record<Domain, number>> = {}
         if (!isObj(b.recipe) || !Object.keys(b.recipe).length)
           err(
@@ -316,8 +419,15 @@ export function validateScene(input: unknown): Validation {
         else
           for (const [d, v] of Object.entries(b.recipe)) {
             if (!DOMAINS.includes(d as Domain))
-              err(`${path}.recipe.${d}`, 'unknown domain')
-            else recipe[d as Domain] = num(`${path}.recipe.${d}`, v, { min: 0 })
+              domainError(`${path}.recipe.${d}`, d)
+            else {
+              recipe[d as Domain] = num(`${path}.recipe.${d}`, v)
+              if (isNum(v) && v <= 0)
+                err(
+                  `${path}.recipe.${d}`,
+                  'must be more than 0: it is how much one unit of output takes',
+                )
+            }
           }
         return keep({
           role: 'converter',
@@ -333,6 +443,7 @@ export function validateScene(input: unknown): Validation {
           const r = b.refill
           if (!isObj(r)) err(`${path}.refill`, 'must be { below, until }')
           else {
+            unknownFields(`${path}.refill`, r, FIELDS.refill)
             refill = {
               below: num(`${path}.refill.below`, r.below, { min: 0, max: 1 }),
               until: num(`${path}.refill.until`, r.until, { min: 0, max: 1 }),
@@ -385,13 +496,15 @@ export function validateScene(input: unknown): Validation {
       domain: raw.domain as Domain,
     }
     p = `links[${i}] (${link.from} → ${link.to})`
+    unknownFields(p, raw, FIELDS.link)
     if (link.from && !partIds.has(link.from))
-      err(`${p}.from`, 'no part has that id')
-    if (link.to && !partIds.has(link.to)) err(`${p}.to`, 'no part has that id')
+      err(`${p}.from`, `no part has that id${didYouMean(link.from, partIds)}`)
+    if (link.to && !partIds.has(link.to))
+      err(`${p}.to`, `no part has that id${didYouMean(link.to, partIds)}`)
     if (link.from && link.from === link.to)
       err(p, 'a link cannot loop to itself')
     if (!DOMAINS.includes(link.domain))
-      err(`${p}.domain`, `must be one of ${DOMAINS.join(', ')}`)
+      domainError(`${p}.domain`, String(link.domain))
     if (raw.capacity !== undefined)
       link.capacity = num(`${p}.capacity`, raw.capacity, { min: 0 })
     if (raw.via !== undefined) {
@@ -409,6 +522,11 @@ export function validateScene(input: unknown): Validation {
       const from = parts.find((q) => q.id === link.from)
       if (link.loss && from && from.behaviour.role !== 'converter')
         err(`${p}.loss`, 'only a converter has losses to send')
+      if (link.loss && link.capacity !== undefined)
+        err(
+          `${p}.capacity`,
+          'a loss link carries whatever its converter loses, so it has no capacity',
+        )
     }
     if (
       DOMAINS.includes(link.domain) &&
@@ -418,6 +536,18 @@ export function validateScene(input: unknown): Validation {
       warn(
         `units.${link.domain}`,
         'links carry this domain but it has no units',
+      )
+    const twin = links.findIndex(
+      (o) =>
+        o.from === link.from &&
+        o.to === link.to &&
+        o.domain === link.domain &&
+        !!o.loss === !!link.loss,
+    )
+    if (twin >= 0)
+      err(
+        p,
+        `repeats links[${twin}]; one link per pair and domain carries all the flow`,
       )
     links.push(link)
   }
@@ -458,6 +588,7 @@ export function validateScene(input: unknown): Validation {
       err(p, 'must be an object')
       continue
     }
+    unknownFields(p, c, FIELDS.caption)
     captions.push({
       from: num(`${p}.from`, c.from, { min: 0, max: 24 }),
       to: num(`${p}.to`, c.to, { min: 0, max: 24 }),
@@ -466,10 +597,12 @@ export function validateScene(input: unknown): Validation {
   }
 
   const clock = isObj(s.clock) ? s.clock : {}
+  unknownFields('clock', clock, FIELDS.clock)
   if (s.clock !== undefined && !isObj(s.clock))
     err('clock', 'must be { "start": 6, "rate": 1 }')
 
   const scene: Scene = {
+    anigram: FORMAT_VERSION,
     id,
     title: str('title', s.title),
     subtitle: str('subtitle', s.subtitle, ''),

@@ -148,9 +148,11 @@ npm install
 npm run dev        # vite dev server
 npm run build      # tsc -b && vite build → dist/
 npm test           # the simulation's rules, in node's own test runner
+npm run golden:update  # accept a deliberate change to a built-in sheet's day
 npm run build:mcp  # the MCP server → mcp/dist/anigram-mcp.mjs
 npm run test:mcp   # build it and drive it over stdio
 npm run simulate   # a scene through a day, headless
+npm run schema     # rewrite schema/scene.v1.json after changing the format
 npm run typecheck  # tsc -b
 npm run lint       # oxlint
 npm run format     # prettier --write .

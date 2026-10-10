@@ -13,6 +13,7 @@ import {
   water,
   wind,
 } from './profiles.ts'
+import { didYouMean } from './suggest.ts'
 import type { Env } from './types.ts'
 
 /*
@@ -207,9 +208,29 @@ function lex(src: string): Tok[] {
   return out
 }
 
+/** longest expression accepted, in characters */
+export const MAX_EXPR_LENGTH = 2000
+/** deepest nesting accepted: brackets, ternaries, unary signs */
+const MAX_DEPTH = 64
+
 function parse(src: string): Node {
+  if (src.length > MAX_EXPR_LENGTH)
+    throw new ExprError(
+      `is ${src.length} characters long; keep a signal under ${MAX_EXPR_LENGTH}`,
+      0,
+    )
   const toks = lex(src)
   let p = 0
+  let depth = 0
+  const nest = <T>(at: number, f: () => T): T => {
+    if (++depth > MAX_DEPTH)
+      throw new ExprError(`nests deeper than ${MAX_DEPTH} levels`, at)
+    try {
+      return f()
+    } finally {
+      depth--
+    }
+  }
   const peek = () => toks[p]!
   const isOp = (...ops: string[]) => peek().k === 'op' && ops.includes(peek().v)
   const expect = (op: string) => {
@@ -217,7 +238,8 @@ function parse(src: string): Node {
     p++
   }
 
-  const ternary = (): Node => {
+  const ternary = (): Node => nest(peek().at, ternaryAt)
+  const ternaryAt = (): Node => {
     const c = or()
     if (!isOp('?')) return c
     p++
@@ -235,8 +257,8 @@ function parse(src: string): Node {
   }
   const unary = (): Node => {
     if (isOp('-', '!', '+')) {
-      const op = toks[p++]!.v
-      return { t: 'un', op, a: unary() }
+      const tok = toks[p++]!
+      return { t: 'un', op: tok.v, a: nest(tok.at, unary) }
     }
     return postfix()
   }
@@ -268,14 +290,18 @@ function parse(src: string): Node {
       if (!isOp('(')) {
         if (!Object.hasOwn(VARIABLES, tok.v))
           throw new ExprError(
-            `unknown name “${tok.v}” (try hour, day, or a function call)`,
+            `unknown name “${tok.v}”${didYouMean(tok.v, Object.keys(VARIABLES))} (try hour, day, or a function call)`,
             tok.at,
           )
         return { t: 'var', name: tok.v, at: tok.at }
       }
       p++
       const fn = Object.hasOwn(FUNCTIONS, tok.v) ? FUNCTIONS[tok.v] : undefined
-      if (!fn) throw new ExprError(`unknown function “${tok.v}()”`, tok.at)
+      if (!fn)
+        throw new ExprError(
+          `unknown function “${tok.v}()”${didYouMean(tok.v, Object.keys(FUNCTIONS))}`,
+          tok.at,
+        )
       const args: Node[] = []
       if (!isOp(')')) {
         args.push(ternary())

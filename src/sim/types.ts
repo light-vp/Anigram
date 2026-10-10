@@ -160,6 +160,11 @@ export interface Caption {
 }
 
 export interface Scene {
+  /**
+   * the scene format's version (see src/format/migrate.ts). Files and links
+   * always carry it; a scene written in code can leave it out.
+   */
+  anigram?: number
   id: string
   title: string
   /** one line under the title */

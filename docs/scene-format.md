@@ -16,6 +16,7 @@ the MCP server, or `src/scenes/*.ts`). Read one before writing your own.
 
 ```jsonc
 {
+  "anigram": 1,                    // the format version this file is written in
   "id": "narrowboat",              // lowercase-and-dashes
   "title": "A narrowboat",
   "subtitle": "Solar, a leisure battery and a diesel that charges it",
@@ -34,6 +35,24 @@ the MCP server, or `src/scenes/*.ts`). Read one before writing your own.
 
 Only `id`, `title`, `size`, `parts` and `links` are required. `subtitle`
 defaults to empty, `sheet` to `LD-100`, `clock` to `{ start: 6, rate: 1 }`.
+
+`anigram` is the format version, currently `1`. Write it in every new file.
+A file without it is read as version 1, and a file from an older version is
+upgraded when it loads, so scene files and share links keep working as the
+format grows. A file from a newer version than the reader knows is refused
+with a message saying so.
+
+The format is also a JSON Schema,
+[`schema/scene.v1.json`](../schema/scene.v1.json). Point a file's `$schema`
+at its raw URL and editors such as VS Code check and autocomplete it as you
+type:
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/light-vp/Anigram/main/schema/scene.v1.json",
+  "anigram": 1
+}
+```
 
 ## Parts
 
@@ -115,6 +134,8 @@ last tick. Nothing else — expressions are parsed, never run as code.
 1. Start from the story: what should someone see happen over a day?
 2. Lay the parts out left-to-right in the direction things flow; sources on
    the left or top, demand on the right or bottom.
-3. Validate, then **simulate a day** and read the table. Captions should say
+3. Validate. A field the format doesn't have is ignored with a warning, and
+   a name that is nearly right (a kind, a role, a domain, a knob or part id)
+   comes back with the one it probably meant. Then **simulate a day** and read the table. Captions should say
    what the numbers say. Tune signals until they do.
 4. Render it, look at it, fix crossings with `via` waypoints.

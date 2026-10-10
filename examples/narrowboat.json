@@ -1,4 +1,6 @@
 {
+  "$schema": "https://raw.githubusercontent.com/light-vp/Anigram/main/schema/scene.v1.json",
+  "anigram": 1,
   "id": "narrowboat",
   "title": "A narrowboat",
   "subtitle": "Solar on the roof, a leisure battery, and the engine’s alternator for when both run out",

@@ -1,0 +1,1404 @@
+{
+ "scene": "hydro-dam",
+ "start": 8,
+ "rows": [
+  {
+   "hour": 8,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 545.822,
+     "fill": 0.88
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 545.822,
+     "out": 545.822
+    },
+    "turbine": {
+     "in": 545.822,
+     "out": 419.863
+    },
+    "tail": {
+     "in": 545.822,
+     "out": 0
+    },
+    "gen": {
+     "in": 419.863,
+     "out": 407.634
+    },
+    "step": {
+     "in": 407.634,
+     "out": 403.598
+    },
+    "town": {
+     "in": 403.598,
+     "out": 0,
+     "demand": 403.598
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The reservoir is a battery made of a valley. Overnight, the town slowly draws it down.",
+   "alerts": []
+  },
+  {
+   "hour": 9,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 568.004,
+     "fill": 0.871
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 568.004,
+     "out": 568.004
+    },
+    "turbine": {
+     "in": 568.004,
+     "out": 436.926
+    },
+    "tail": {
+     "in": 568.004,
+     "out": 0
+    },
+    "gen": {
+     "in": 436.926,
+     "out": 424.2
+    },
+    "step": {
+     "in": 424.2,
+     "out": 420
+    },
+    "town": {
+     "in": 420,
+     "out": 0,
+     "demand": 420
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The reservoir is a battery made of a valley. Overnight, the town slowly draws it down.",
+   "alerts": []
+  },
+  {
+   "hour": 10,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 556.67,
+     "fill": 0.861
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 556.67,
+     "out": 556.67
+    },
+    "turbine": {
+     "in": 556.67,
+     "out": 428.208
+    },
+    "tail": {
+     "in": 556.67,
+     "out": 0
+    },
+    "gen": {
+     "in": 428.208,
+     "out": 415.735
+    },
+    "step": {
+     "in": 415.735,
+     "out": 411.619
+    },
+    "town": {
+     "in": 411.619,
+     "out": 0,
+     "demand": 411.619
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "Cloud gathers over the hills. Rain starts arriving faster than the turbine uses it.",
+   "alerts": []
+  },
+  {
+   "hour": 11,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 578.914
+    },
+    "inflow": {
+     "in": 578.914,
+     "out": 578.914
+    },
+    "lake": {
+     "in": 578.914,
+     "out": 531.518,
+     "fill": 0.857
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 531.518,
+     "out": 531.518
+    },
+    "turbine": {
+     "in": 531.518,
+     "out": 408.86
+    },
+    "tail": {
+     "in": 531.518,
+     "out": 0
+    },
+    "gen": {
+     "in": 408.86,
+     "out": 396.951
+    },
+    "step": {
+     "in": 396.951,
+     "out": 393.021
+    },
+    "town": {
+     "in": 393.021,
+     "out": 0,
+     "demand": 393.021
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "Cloud gathers over the hills. Rain starts arriving faster than the turbine uses it.",
+   "alerts": []
+  },
+  {
+   "hour": 12,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 916.414
+    },
+    "inflow": {
+     "in": 916.414,
+     "out": 916.414
+    },
+    "lake": {
+     "in": 916.414,
+     "out": 513.071,
+     "fill": 0.876
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 513.071,
+     "out": 513.071
+    },
+    "turbine": {
+     "in": 513.071,
+     "out": 394.67
+    },
+    "tail": {
+     "in": 513.071,
+     "out": 0
+    },
+    "gen": {
+     "in": 394.67,
+     "out": 383.175
+    },
+    "step": {
+     "in": 383.175,
+     "out": 379.381
+    },
+    "town": {
+     "in": 379.381,
+     "out": 0,
+     "demand": 379.381
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "Cloud gathers over the hills. Rain starts arriving faster than the turbine uses it.",
+   "alerts": []
+  },
+  {
+   "hour": 13,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 1333.586
+    },
+    "inflow": {
+     "in": 1333.586,
+     "out": 1333.586
+    },
+    "lake": {
+     "in": 1333.586,
+     "out": 519.289,
+     "fill": 0.927
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 519.289,
+     "out": 519.289
+    },
+    "turbine": {
+     "in": 519.289,
+     "out": 399.453
+    },
+    "tail": {
+     "in": 519.289,
+     "out": 0
+    },
+    "gen": {
+     "in": 399.453,
+     "out": 387.819
+    },
+    "step": {
+     "in": 387.819,
+     "out": 383.979
+    },
+    "town": {
+     "in": 383.979,
+     "out": 0,
+     "demand": 383.979
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The storm. Once the reservoir is full, the spillway takes the rest — water that does no work.",
+   "alerts": []
+  },
+  {
+   "hour": 14,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 1671.086
+    },
+    "inflow": {
+     "in": 1671.086,
+     "out": 1671.086
+    },
+    "lake": {
+     "in": 530.124,
+     "out": 530.137,
+     "fill": 0.999
+    },
+    "spill": {
+     "in": 1140.962,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 530.137,
+     "out": 530.137
+    },
+    "turbine": {
+     "in": 530.137,
+     "out": 407.798
+    },
+    "tail": {
+     "in": 530.137,
+     "out": 0
+    },
+    "gen": {
+     "in": 407.798,
+     "out": 395.92
+    },
+    "step": {
+     "in": 395.92,
+     "out": 392
+    },
+    "town": {
+     "in": 392,
+     "out": 0,
+     "demand": 392
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The storm. Once the reservoir is full, the spillway takes the rest — water that does no work.",
+   "alerts": []
+  },
+  {
+   "hour": 15,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 1800
+    },
+    "inflow": {
+     "in": 1800,
+     "out": 1800
+    },
+    "lake": {
+     "in": 529.535,
+     "out": 530.242,
+     "fill": 0.999
+    },
+    "spill": {
+     "in": 1270.465,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 530.242,
+     "out": 530.242
+    },
+    "turbine": {
+     "in": 530.242,
+     "out": 407.879
+    },
+    "tail": {
+     "in": 530.242,
+     "out": 0
+    },
+    "gen": {
+     "in": 407.879,
+     "out": 395.999
+    },
+    "step": {
+     "in": 395.999,
+     "out": 392.078
+    },
+    "town": {
+     "in": 392.078,
+     "out": 0,
+     "demand": 392.078
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The storm. Once the reservoir is full, the spillway takes the rest — water that does no work.",
+   "alerts": []
+  },
+  {
+   "hour": 16,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 1671.086
+    },
+    "inflow": {
+     "in": 1671.086,
+     "out": 1671.086
+    },
+    "lake": {
+     "in": 577.383,
+     "out": 579.717,
+     "fill": 0.998
+    },
+    "spill": {
+     "in": 1093.703,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 579.717,
+     "out": 579.717
+    },
+    "turbine": {
+     "in": 579.717,
+     "out": 445.936
+    },
+    "tail": {
+     "in": 579.717,
+     "out": 0
+    },
+    "gen": {
+     "in": 445.936,
+     "out": 432.948
+    },
+    "step": {
+     "in": 432.948,
+     "out": 428.661
+    },
+    "town": {
+     "in": 428.661,
+     "out": 0,
+     "demand": 428.661
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The storm. Once the reservoir is full, the spillway takes the rest — water that does no work.",
+   "alerts": []
+  },
+  {
+   "hour": 17,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 1333.586
+    },
+    "inflow": {
+     "in": 1333.586,
+     "out": 1333.586
+    },
+    "lake": {
+     "in": 652.381,
+     "out": 654.744,
+     "fill": 0.998
+    },
+    "spill": {
+     "in": 681.206,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 654.744,
+     "out": 654.744
+    },
+    "turbine": {
+     "in": 654.744,
+     "out": 503.65
+    },
+    "tail": {
+     "in": 654.744,
+     "out": 0
+    },
+    "gen": {
+     "in": 503.65,
+     "out": 488.98
+    },
+    "step": {
+     "in": 488.98,
+     "out": 484.139
+    },
+    "town": {
+     "in": 484.139,
+     "out": 0,
+     "demand": 484.139
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The storm. Once the reservoir is full, the spillway takes the rest — water that does no work.",
+   "alerts": []
+  },
+  {
+   "hour": 18,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 916.414
+    },
+    "inflow": {
+     "in": 916.414,
+     "out": 916.414
+    },
+    "lake": {
+     "in": 703.442,
+     "out": 704.219,
+     "fill": 0.998
+    },
+    "spill": {
+     "in": 212.972,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 704.219,
+     "out": 704.219
+    },
+    "turbine": {
+     "in": 704.219,
+     "out": 541.707
+    },
+    "tail": {
+     "in": 704.219,
+     "out": 0
+    },
+    "gen": {
+     "in": 541.707,
+     "out": 525.929
+    },
+    "step": {
+     "in": 525.929,
+     "out": 520.722
+    },
+    "town": {
+     "in": 520.722,
+     "out": 0,
+     "demand": 520.722
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The storm. Once the reservoir is full, the spillway takes the rest — water that does no work.",
+   "alerts": []
+  },
+  {
+   "hour": 19,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 578.914
+    },
+    "inflow": {
+     "in": 578.914,
+     "out": 578.914
+    },
+    "lake": {
+     "in": 578.914,
+     "out": 693.371,
+     "fill": 0.996
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 693.371,
+     "out": 693.371
+    },
+    "turbine": {
+     "in": 693.371,
+     "out": 533.363
+    },
+    "tail": {
+     "in": 693.371,
+     "out": 0
+    },
+    "gen": {
+     "in": 533.363,
+     "out": 517.828
+    },
+    "step": {
+     "in": 517.828,
+     "out": 512.701
+    },
+    "town": {
+     "in": 512.701,
+     "out": 0,
+     "demand": 512.701
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "Evening peak. Try shutting the intake gate: the town falls back on the national grid.",
+   "alerts": []
+  },
+  {
+   "hour": 20,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 615.496,
+     "fill": 0.982
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 615.496,
+     "out": 615.496
+    },
+    "turbine": {
+     "in": 615.496,
+     "out": 473.459
+    },
+    "tail": {
+     "in": 615.496,
+     "out": 0
+    },
+    "gen": {
+     "in": 473.459,
+     "out": 459.669
+    },
+    "step": {
+     "in": 459.669,
+     "out": 455.118
+    },
+    "town": {
+     "in": 455.118,
+     "out": 0,
+     "demand": 455.118
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "Evening peak. Try shutting the intake gate: the town falls back on the national grid.",
+   "alerts": []
+  },
+  {
+   "hour": 21,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 505.364,
+     "fill": 0.973
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 505.364,
+     "out": 505.364
+    },
+    "turbine": {
+     "in": 505.364,
+     "out": 388.742
+    },
+    "tail": {
+     "in": 505.364,
+     "out": 0
+    },
+    "gen": {
+     "in": 388.742,
+     "out": 377.419
+    },
+    "step": {
+     "in": 377.419,
+     "out": 373.682
+    },
+    "town": {
+     "in": 373.682,
+     "out": 0,
+     "demand": 373.682
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "Evening peak. Try shutting the intake gate: the town falls back on the national grid.",
+   "alerts": []
+  },
+  {
+   "hour": 22,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 427.489,
+     "fill": 0.972
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 427.489,
+     "out": 427.489
+    },
+    "turbine": {
+     "in": 427.489,
+     "out": 328.838
+    },
+    "tail": {
+     "in": 427.489,
+     "out": 0
+    },
+    "gen": {
+     "in": 328.838,
+     "out": 319.26
+    },
+    "step": {
+     "in": 319.26,
+     "out": 316.099
+    },
+    "town": {
+     "in": 316.099,
+     "out": 0,
+     "demand": 316.099
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "Evening peak. Try shutting the intake gate: the town falls back on the national grid.",
+   "alerts": []
+  },
+  {
+   "hour": 23,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 416.536,
+     "fill": 0.975
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 416.536,
+     "out": 416.536
+    },
+    "turbine": {
+     "in": 416.536,
+     "out": 320.412
+    },
+    "tail": {
+     "in": 416.536,
+     "out": 0
+    },
+    "gen": {
+     "in": 320.412,
+     "out": 311.08
+    },
+    "step": {
+     "in": 311.08,
+     "out": 308
+    },
+    "town": {
+     "in": 308,
+     "out": 0,
+     "demand": 308
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "Evening peak. Try shutting the intake gate: the town falls back on the national grid.",
+   "alerts": []
+  },
+  {
+   "hour": 0,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 416.536,
+     "fill": 0.977
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 416.536,
+     "out": 416.536
+    },
+    "turbine": {
+     "in": 416.536,
+     "out": 320.412
+    },
+    "tail": {
+     "in": 416.536,
+     "out": 0
+    },
+    "gen": {
+     "in": 320.412,
+     "out": 311.08
+    },
+    "step": {
+     "in": 311.08,
+     "out": 308
+    },
+    "town": {
+     "in": 308,
+     "out": 0,
+     "demand": 308
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The reservoir is a battery made of a valley. Overnight, the town slowly draws it down.",
+   "alerts": []
+  },
+  {
+   "hour": 1,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 416.536,
+     "fill": 0.98
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 416.536,
+     "out": 416.536
+    },
+    "turbine": {
+     "in": 416.536,
+     "out": 320.412
+    },
+    "tail": {
+     "in": 416.536,
+     "out": 0
+    },
+    "gen": {
+     "in": 320.412,
+     "out": 311.08
+    },
+    "step": {
+     "in": 311.08,
+     "out": 308
+    },
+    "town": {
+     "in": 308,
+     "out": 0,
+     "demand": 308
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The reservoir is a battery made of a valley. Overnight, the town slowly draws it down.",
+   "alerts": []
+  },
+  {
+   "hour": 2,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 416.536,
+     "fill": 0.983
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 416.536,
+     "out": 416.536
+    },
+    "turbine": {
+     "in": 416.536,
+     "out": 320.412
+    },
+    "tail": {
+     "in": 416.536,
+     "out": 0
+    },
+    "gen": {
+     "in": 320.412,
+     "out": 311.08
+    },
+    "step": {
+     "in": 311.08,
+     "out": 308
+    },
+    "town": {
+     "in": 308,
+     "out": 0,
+     "demand": 308
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The reservoir is a battery made of a valley. Overnight, the town slowly draws it down.",
+   "alerts": []
+  },
+  {
+   "hour": 3,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 416.536,
+     "fill": 0.986
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 416.536,
+     "out": 416.536
+    },
+    "turbine": {
+     "in": 416.536,
+     "out": 320.412
+    },
+    "tail": {
+     "in": 416.536,
+     "out": 0
+    },
+    "gen": {
+     "in": 320.412,
+     "out": 311.08
+    },
+    "step": {
+     "in": 311.08,
+     "out": 308
+    },
+    "town": {
+     "in": 308,
+     "out": 0,
+     "demand": 308
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The reservoir is a battery made of a valley. Overnight, the town slowly draws it down.",
+   "alerts": []
+  },
+  {
+   "hour": 4,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 416.536,
+     "fill": 0.988
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 416.536,
+     "out": 416.536
+    },
+    "turbine": {
+     "in": 416.536,
+     "out": 320.412
+    },
+    "tail": {
+     "in": 416.536,
+     "out": 0
+    },
+    "gen": {
+     "in": 320.412,
+     "out": 311.08
+    },
+    "step": {
+     "in": 311.08,
+     "out": 308
+    },
+    "town": {
+     "in": 308,
+     "out": 0,
+     "demand": 308
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The reservoir is a battery made of a valley. Overnight, the town slowly draws it down.",
+   "alerts": []
+  },
+  {
+   "hour": 5,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 416.536,
+     "fill": 0.991
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 416.536,
+     "out": 416.536
+    },
+    "turbine": {
+     "in": 416.536,
+     "out": 320.412
+    },
+    "tail": {
+     "in": 416.536,
+     "out": 0
+    },
+    "gen": {
+     "in": 320.412,
+     "out": 311.08
+    },
+    "step": {
+     "in": 311.08,
+     "out": 308
+    },
+    "town": {
+     "in": 308,
+     "out": 0,
+     "demand": 308
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The reservoir is a battery made of a valley. Overnight, the town slowly draws it down.",
+   "alerts": []
+  },
+  {
+   "hour": 6,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 438.718,
+     "fill": 0.993
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 438.718,
+     "out": 438.718
+    },
+    "turbine": {
+     "in": 438.718,
+     "out": 337.475
+    },
+    "tail": {
+     "in": 438.718,
+     "out": 0
+    },
+    "gen": {
+     "in": 337.475,
+     "out": 327.646
+    },
+    "step": {
+     "in": 327.646,
+     "out": 324.402
+    },
+    "town": {
+     "in": 324.402,
+     "out": 0,
+     "demand": 324.402
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The reservoir is a battery made of a valley. Overnight, the town slowly draws it down.",
+   "alerts": []
+  },
+  {
+   "hour": 7,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 492.27,
+     "fill": 0.992
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 492.27,
+     "out": 492.27
+    },
+    "turbine": {
+     "in": 492.27,
+     "out": 378.669
+    },
+    "tail": {
+     "in": 492.27,
+     "out": 0
+    },
+    "gen": {
+     "in": 378.669,
+     "out": 367.64
+    },
+    "step": {
+     "in": 367.64,
+     "out": 364
+    },
+    "town": {
+     "in": 364,
+     "out": 0,
+     "demand": 364
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The reservoir is a battery made of a valley. Overnight, the town slowly draws it down.",
+   "alerts": []
+  },
+  {
+   "hour": 8,
+   "parts": {
+    "rain": {
+     "in": 0,
+     "out": 450
+    },
+    "inflow": {
+     "in": 450,
+     "out": 450
+    },
+    "lake": {
+     "in": 450,
+     "out": 545.822,
+     "fill": 0.986
+    },
+    "spill": {
+     "in": 0,
+     "out": 0,
+     "demand": 100000
+    },
+    "gate": {
+     "in": 545.822,
+     "out": 545.822
+    },
+    "turbine": {
+     "in": 545.822,
+     "out": 419.863
+    },
+    "tail": {
+     "in": 545.822,
+     "out": 0
+    },
+    "gen": {
+     "in": 419.863,
+     "out": 407.634
+    },
+    "step": {
+     "in": 407.634,
+     "out": 403.598
+    },
+    "town": {
+     "in": 403.598,
+     "out": 0,
+     "demand": 403.598
+    },
+    "national": {
+     "in": 0,
+     "out": 0
+    }
+   },
+   "caption": "The reservoir is a battery made of a valley. Overnight, the town slowly draws it down.",
+   "alerts": []
+  }
+ ],
+ "alerts": [],
+ "totals": {
+  "rain": {
+   "in": 0,
+   "out": 17550
+  },
+  "inflow": {
+   "in": 17550,
+   "out": 17550
+  },
+  "lake": {
+   "in": 13596.252,
+   "out": 12321.896
+  },
+  "spill": {
+   "in": 3953.748,
+   "out": 0
+  },
+  "gate": {
+   "in": 12321.896,
+   "out": 12321.896
+  },
+  "turbine": {
+   "in": 12321.896,
+   "out": 9478.381
+  },
+  "tail": {
+   "in": 12321.896,
+   "out": 0
+  },
+  "gen": {
+   "in": 9478.381,
+   "out": 9202.312
+  },
+  "step": {
+   "in": 9202.312,
+   "out": 9111.2
+  },
+  "town": {
+   "in": 9111.2,
+   "out": 0,
+   "unmet": 0
+  },
+  "national": {
+   "in": 0,
+   "out": 0
+  }
+ }
+}

@@ -79,8 +79,7 @@ export function frameAt(
   controls: Controls = {},
 ): Frame {
   const sim = simulationWith(scene, controls)
-  const ahead = (((hour - scene.clock.start) % 24) + 24) % 24
-  advance(sim, ahead)
+  sim.seek(hour)
   return sim.frame
 }
 
