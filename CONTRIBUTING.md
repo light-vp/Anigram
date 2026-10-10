@@ -24,6 +24,11 @@ npm run format     # prettier --write .
 Before opening a PR, make sure `typecheck`, `lint`, `test`, `test:mcp` and
 `build` all pass.
 
+`npm test` includes **golden days**: each built-in sheet's hour-by-hour run,
+committed in `test/golden/`. If your change is meant to alter what a sheet
+does, run `npm run golden:update` and commit the updated files, so the
+difference is visible in review.
+
 ## Architecture rules (please respect these)
 
 These keep the project extensible; they are enforced in review (and some by lint):

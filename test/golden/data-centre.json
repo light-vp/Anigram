@@ -1,0 +1,1326 @@
+{
+ "scene": "data-centre",
+ "start": 10,
+ "rows": [
+  {
+   "hour": 10,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 325.558
+    },
+    "breaker": {
+     "in": 325.558,
+     "out": 325.558
+    },
+    "board": {
+     "in": 325.558,
+     "out": 325.558
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "servers": {
+     "in": 325.558,
+     "out": 36.173
+    },
+    "cooling": {
+     "in": 325.558,
+     "out": 0
+    },
+    "users": {
+     "in": 36.173,
+     "out": 0,
+     "demand": 36.173
+    }
+   },
+   "caption": "Daytime. Trip the mains breaker: the UPS catches the load, then the diesel takes over.",
+   "alerts": []
+  },
+  {
+   "hour": 11,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 536.068
+    },
+    "breaker": {
+     "in": 536.068,
+     "out": 536.068
+    },
+    "board": {
+     "in": 536.068,
+     "out": 536.068
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 138.302,
+     "out": 0,
+     "demand": 138.302
+    },
+    "servers": {
+     "in": 397.766,
+     "out": 44.196
+    },
+    "cooling": {
+     "in": 397.766,
+     "out": 0
+    },
+    "users": {
+     "in": 44.196,
+     "out": 0,
+     "demand": 44.196
+    }
+   },
+   "caption": "Daytime. Trip the mains breaker: the UPS catches the load, then the diesel takes over.",
+   "alerts": []
+  },
+  {
+   "hour": 12,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 637.209
+    },
+    "breaker": {
+     "in": 637.209,
+     "out": 637.209
+    },
+    "board": {
+     "in": 637.209,
+     "out": 637.209
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 164.632,
+     "out": 0,
+     "demand": 164.632
+    },
+    "servers": {
+     "in": 472.577,
+     "out": 52.509
+    },
+    "cooling": {
+     "in": 472.577,
+     "out": 0
+    },
+    "users": {
+     "in": 52.509,
+     "out": 0,
+     "demand": 52.509
+    }
+   },
+   "caption": "Daytime. Trip the mains breaker: the UPS catches the load, then the diesel takes over.",
+   "alerts": []
+  },
+  {
+   "hour": 13,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 704.62
+    },
+    "breaker": {
+     "in": 704.62,
+     "out": 704.62
+    },
+    "board": {
+     "in": 704.62,
+     "out": 704.62
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 182.39,
+     "out": 0,
+     "demand": 182.39
+    },
+    "servers": {
+     "in": 522.23,
+     "out": 58.026
+    },
+    "cooling": {
+     "in": 522.23,
+     "out": 0
+    },
+    "users": {
+     "in": 58.026,
+     "out": 0,
+     "demand": 58.026
+    }
+   },
+   "caption": "Daytime. Trip the mains breaker: the UPS catches the load, then the diesel takes over.",
+   "alerts": []
+  },
+  {
+   "hour": 14,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 731.395
+    },
+    "breaker": {
+     "in": 731.395,
+     "out": 731.395
+    },
+    "board": {
+     "in": 731.395,
+     "out": 731.395
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 189.531,
+     "out": 0,
+     "demand": 189.531
+    },
+    "servers": {
+     "in": 541.864,
+     "out": 60.207
+    },
+    "cooling": {
+     "in": 541.864,
+     "out": 0
+    },
+    "users": {
+     "in": 60.207,
+     "out": 0,
+     "demand": 60.207
+    }
+   },
+   "caption": "Daytime. Trip the mains breaker: the UPS catches the load, then the diesel takes over.",
+   "alerts": []
+  },
+  {
+   "hour": 15,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 746.773
+    },
+    "breaker": {
+     "in": 746.773,
+     "out": 746.773
+    },
+    "board": {
+     "in": 746.773,
+     "out": 746.773
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 193.452,
+     "out": 0,
+     "demand": 193.452
+    },
+    "servers": {
+     "in": 553.321,
+     "out": 61.48
+    },
+    "cooling": {
+     "in": 553.321,
+     "out": 0
+    },
+    "users": {
+     "in": 61.48,
+     "out": 0,
+     "demand": 61.48
+    }
+   },
+   "caption": "Daytime. Trip the mains breaker: the UPS catches the load, then the diesel takes over.",
+   "alerts": []
+  },
+  {
+   "hour": 16,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 794.616
+    },
+    "breaker": {
+     "in": 794.616,
+     "out": 794.616
+    },
+    "board": {
+     "in": 794.616,
+     "out": 794.616
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 205.528,
+     "out": 0,
+     "demand": 205.528
+    },
+    "servers": {
+     "in": 589.088,
+     "out": 65.454
+    },
+    "cooling": {
+     "in": 589.088,
+     "out": 0
+    },
+    "users": {
+     "in": 65.454,
+     "out": 0,
+     "demand": 65.454
+    }
+   },
+   "caption": "Daytime. Trip the mains breaker: the UPS catches the load, then the diesel takes over.",
+   "alerts": []
+  },
+  {
+   "hour": 17,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 893.595
+    },
+    "breaker": {
+     "in": 893.595,
+     "out": 893.595
+    },
+    "board": {
+     "in": 893.595,
+     "out": 893.595
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 231.018,
+     "out": 0,
+     "demand": 231.018
+    },
+    "servers": {
+     "in": 662.577,
+     "out": 73.62
+    },
+    "cooling": {
+     "in": 662.577,
+     "out": 0
+    },
+    "users": {
+     "in": 73.62,
+     "out": 0,
+     "demand": 73.62
+    }
+   },
+   "caption": "The evening peak. Push the traffic slider past what the hall can serve.",
+   "alerts": []
+  },
+  {
+   "hour": 18,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 986.037
+    },
+    "breaker": {
+     "in": 986.037,
+     "out": 986.037
+    },
+    "board": {
+     "in": 986.037,
+     "out": 986.037
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 255.118,
+     "out": 0,
+     "demand": 255.118
+    },
+    "servers": {
+     "in": 730.919,
+     "out": 81.213
+    },
+    "cooling": {
+     "in": 730.919,
+     "out": 0
+    },
+    "users": {
+     "in": 81.213,
+     "out": 0,
+     "demand": 81.213
+    }
+   },
+   "caption": "The evening peak. Push the traffic slider past what the hall can serve.",
+   "alerts": []
+  },
+  {
+   "hour": 19,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 1053.318
+    },
+    "breaker": {
+     "in": 1053.318,
+     "out": 1053.318
+    },
+    "board": {
+     "in": 1053.318,
+     "out": 1053.318
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 272.746,
+     "out": 0,
+     "demand": 272.746
+    },
+    "servers": {
+     "in": 780.572,
+     "out": 86.73
+    },
+    "cooling": {
+     "in": 780.572,
+     "out": 0
+    },
+    "users": {
+     "in": 86.73,
+     "out": 0,
+     "demand": 86.73
+    }
+   },
+   "caption": "The evening peak. Push the traffic slider past what the hall can serve.",
+   "alerts": []
+  },
+  {
+   "hour": 20,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 1088.852
+    },
+    "breaker": {
+     "in": 1088.852,
+     "out": 1088.852
+    },
+    "board": {
+     "in": 1088.852,
+     "out": 1088.852
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 282.177,
+     "out": 0,
+     "demand": 282.177
+    },
+    "servers": {
+     "in": 806.676,
+     "out": 89.631
+    },
+    "cooling": {
+     "in": 806.676,
+     "out": 0
+    },
+    "users": {
+     "in": 89.631,
+     "out": 0,
+     "demand": 89.631
+    }
+   },
+   "caption": "The evening peak. Push the traffic slider past what the hall can serve.",
+   "alerts": []
+  },
+  {
+   "hour": 21,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 1089.162
+    },
+    "breaker": {
+     "in": 1089.162,
+     "out": 1089.162
+    },
+    "board": {
+     "in": 1089.162,
+     "out": 1089.162
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 282.486,
+     "out": 0,
+     "demand": 282.486
+    },
+    "servers": {
+     "in": 806.676,
+     "out": 89.631
+    },
+    "cooling": {
+     "in": 806.676,
+     "out": 0
+    },
+    "users": {
+     "in": 89.631,
+     "out": 0,
+     "demand": 89.631
+    }
+   },
+   "caption": "The evening peak. Push the traffic slider past what the hall can serve.",
+   "alerts": []
+  },
+  {
+   "hour": 22,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 1054.217
+    },
+    "breaker": {
+     "in": 1054.217,
+     "out": 1054.217
+    },
+    "board": {
+     "in": 1054.217,
+     "out": 1054.217
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 273.645,
+     "out": 0,
+     "demand": 273.645
+    },
+    "servers": {
+     "in": 780.572,
+     "out": 86.73
+    },
+    "cooling": {
+     "in": 780.572,
+     "out": 0
+    },
+    "users": {
+     "in": 86.73,
+     "out": 0,
+     "demand": 86.73
+    }
+   },
+   "caption": "The evening peak. Push the traffic slider past what the hall can serve.",
+   "alerts": []
+  },
+  {
+   "hour": 23,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 987.436
+    },
+    "breaker": {
+     "in": 987.436,
+     "out": 987.436
+    },
+    "board": {
+     "in": 987.436,
+     "out": 987.436
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 256.518,
+     "out": 0,
+     "demand": 256.518
+    },
+    "servers": {
+     "in": 730.919,
+     "out": 81.213
+    },
+    "cooling": {
+     "in": 730.919,
+     "out": 0
+    },
+    "users": {
+     "in": 81.213,
+     "out": 0,
+     "demand": 81.213
+    }
+   },
+   "caption": "The evening peak. Push the traffic slider past what the hall can serve.",
+   "alerts": []
+  },
+  {
+   "hour": 0,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 895.359
+    },
+    "breaker": {
+     "in": 895.359,
+     "out": 895.359
+    },
+    "board": {
+     "in": 895.359,
+     "out": 895.359
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 232.781,
+     "out": 0,
+     "demand": 232.781
+    },
+    "servers": {
+     "in": 662.577,
+     "out": 73.62
+    },
+    "cooling": {
+     "in": 662.577,
+     "out": 0
+    },
+    "users": {
+     "in": 73.62,
+     "out": 0,
+     "demand": 73.62
+    }
+   },
+   "caption": "Small hours. Traffic is low, but the hall still turns every watt it draws into heat.",
+   "alerts": []
+  },
+  {
+   "hour": 1,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 786.997
+    },
+    "breaker": {
+     "in": 786.997,
+     "out": 786.997
+    },
+    "board": {
+     "in": 786.997,
+     "out": 786.997
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 204.76,
+     "out": 0,
+     "demand": 204.76
+    },
+    "servers": {
+     "in": 582.237,
+     "out": 64.693
+    },
+    "cooling": {
+     "in": 582.237,
+     "out": 0
+    },
+    "users": {
+     "in": 64.693,
+     "out": 0,
+     "demand": 64.693
+    }
+   },
+   "caption": "Small hours. Traffic is low, but the hall still turns every watt it draws into heat.",
+   "alerts": []
+  },
+  {
+   "hour": 2,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 672.958
+    },
+    "breaker": {
+     "in": 672.958,
+     "out": 672.958
+    },
+    "board": {
+     "in": 672.958,
+     "out": 672.958
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 175.195,
+     "out": 0,
+     "demand": 175.195
+    },
+    "servers": {
+     "in": 497.763,
+     "out": 55.307
+    },
+    "cooling": {
+     "in": 497.763,
+     "out": 0
+    },
+    "users": {
+     "in": 55.307,
+     "out": 0,
+     "demand": 55.307
+    }
+   },
+   "caption": "Small hours. Traffic is low, but the hall still turns every watt it draws into heat.",
+   "alerts": []
+  },
+  {
+   "hour": 3,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 564.405
+    },
+    "breaker": {
+     "in": 564.405,
+     "out": 564.405
+    },
+    "board": {
+     "in": 564.405,
+     "out": 564.405
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 146.982,
+     "out": 0,
+     "demand": 146.982
+    },
+    "servers": {
+     "in": 417.423,
+     "out": 46.38
+    },
+    "cooling": {
+     "in": 417.423,
+     "out": 0
+    },
+    "users": {
+     "in": 46.38,
+     "out": 0,
+     "demand": 46.38
+    }
+   },
+   "caption": "Small hours. Traffic is low, but the hall still turns every watt it draws into heat.",
+   "alerts": []
+  },
+  {
+   "hour": 4,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 471.963
+    },
+    "breaker": {
+     "in": 471.963,
+     "out": 471.963
+    },
+    "board": {
+     "in": 471.963,
+     "out": 471.963
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 122.882,
+     "out": 0,
+     "demand": 122.882
+    },
+    "servers": {
+     "in": 349.081,
+     "out": 38.787
+    },
+    "cooling": {
+     "in": 349.081,
+     "out": 0
+    },
+    "users": {
+     "in": 38.787,
+     "out": 0,
+     "demand": 38.787
+    }
+   },
+   "caption": "Small hours. Traffic is low, but the hall still turns every watt it draws into heat.",
+   "alerts": []
+  },
+  {
+   "hour": 5,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 404.682
+    },
+    "breaker": {
+     "in": 404.682,
+     "out": 404.682
+    },
+    "board": {
+     "in": 404.682,
+     "out": 404.682
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 105.254,
+     "out": 0,
+     "demand": 105.254
+    },
+    "servers": {
+     "in": 299.428,
+     "out": 33.27
+    },
+    "cooling": {
+     "in": 299.428,
+     "out": 0
+    },
+    "users": {
+     "in": 33.27,
+     "out": 0,
+     "demand": 33.27
+    }
+   },
+   "caption": "Small hours. Traffic is low, but the hall still turns every watt it draws into heat.",
+   "alerts": []
+  },
+  {
+   "hour": 6,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 369.148
+    },
+    "breaker": {
+     "in": 369.148,
+     "out": 369.148
+    },
+    "board": {
+     "in": 369.148,
+     "out": 369.148
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 95.823,
+     "out": 0,
+     "demand": 95.823
+    },
+    "servers": {
+     "in": 273.324,
+     "out": 30.369
+    },
+    "cooling": {
+     "in": 273.324,
+     "out": 0
+    },
+    "users": {
+     "in": 30.369,
+     "out": 0,
+     "demand": 30.369
+    }
+   },
+   "caption": "Small hours. Traffic is low, but the hall still turns every watt it draws into heat.",
+   "alerts": []
+  },
+  {
+   "hour": 7,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 364.5
+    },
+    "breaker": {
+     "in": 364.5,
+     "out": 364.5
+    },
+    "board": {
+     "in": 364.5,
+     "out": 364.5
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 94.5,
+     "out": 0,
+     "demand": 94.5
+    },
+    "servers": {
+     "in": 270,
+     "out": 30
+    },
+    "cooling": {
+     "in": 270,
+     "out": 0
+    },
+    "users": {
+     "in": 30,
+     "out": 0,
+     "demand": 30
+    }
+   },
+   "caption": "Daytime. Trip the mains breaker: the UPS catches the load, then the diesel takes over.",
+   "alerts": []
+  },
+  {
+   "hour": 8,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 364.5
+    },
+    "breaker": {
+     "in": 364.5,
+     "out": 364.5
+    },
+    "board": {
+     "in": 364.5,
+     "out": 364.5
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 94.5,
+     "out": 0,
+     "demand": 94.5
+    },
+    "servers": {
+     "in": 270,
+     "out": 30
+    },
+    "cooling": {
+     "in": 270,
+     "out": 0
+    },
+    "users": {
+     "in": 30,
+     "out": 0,
+     "demand": 30
+    }
+   },
+   "caption": "Daytime. Trip the mains breaker: the UPS catches the load, then the diesel takes over.",
+   "alerts": []
+  },
+  {
+   "hour": 9,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 373.443
+    },
+    "breaker": {
+     "in": 373.443,
+     "out": 373.443
+    },
+    "board": {
+     "in": 373.443,
+     "out": 373.443
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 96.592,
+     "out": 0,
+     "demand": 96.592
+    },
+    "servers": {
+     "in": 276.851,
+     "out": 30.761
+    },
+    "cooling": {
+     "in": 276.851,
+     "out": 0
+    },
+    "users": {
+     "in": 30.761,
+     "out": 0,
+     "demand": 30.761
+    }
+   },
+   "caption": "Daytime. Trip the mains breaker: the UPS catches the load, then the diesel takes over.",
+   "alerts": []
+  },
+  {
+   "hour": 10,
+   "parts": {
+    "grid": {
+     "in": 0,
+     "out": 438.746
+    },
+    "breaker": {
+     "in": 438.746,
+     "out": 438.746
+    },
+    "board": {
+     "in": 438.746,
+     "out": 438.746
+    },
+    "ups": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "genset": {
+     "in": 0,
+     "out": 0
+    },
+    "chillers": {
+     "in": 113.188,
+     "out": 0,
+     "demand": 113.188
+    },
+    "servers": {
+     "in": 325.558,
+     "out": 36.173
+    },
+    "cooling": {
+     "in": 325.558,
+     "out": 0
+    },
+    "users": {
+     "in": 36.173,
+     "out": 0,
+     "demand": 36.173
+    }
+   },
+   "caption": "Daytime. Trip the mains breaker: the UPS catches the load, then the diesel takes over.",
+   "alerts": []
+  }
+ ],
+ "alerts": [],
+ "totals": {
+  "grid": {
+   "in": 0,
+   "out": 17010
+  },
+  "breaker": {
+   "in": 17010,
+   "out": 17010
+  },
+  "board": {
+   "in": 17010,
+   "out": 17010
+  },
+  "ups": {
+   "in": 0,
+   "out": 0
+  },
+  "tank": {
+   "in": 0,
+   "out": 0
+  },
+  "genset": {
+   "in": 0,
+   "out": 0
+  },
+  "chillers": {
+   "in": 4410,
+   "out": 0,
+   "unmet": 0
+  },
+  "servers": {
+   "in": 12600,
+   "out": 1400
+  },
+  "cooling": {
+   "in": 12600,
+   "out": 0
+  },
+  "users": {
+   "in": 1400,
+   "out": 0,
+   "unmet": 0
+  }
+ }
+}
