@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import type {
@@ -10,6 +10,7 @@ import type {
   Scene,
   Signal,
 } from './types.ts'
+import { compileExpr } from './expr.ts'
 import { ENERGY_DOMAINS } from './types.ts'
 
 /*
@@ -71,7 +72,8 @@ export interface Compiled {
 }
 
 export function read(signal: Signal, env: Env): number {
-  return typeof signal === 'number' ? signal : signal(env)
+  if (typeof signal === 'number') return signal
+  return typeof signal === 'string' ? compileExpr(signal)(env) : signal(env)
 }
 
 export function compile(scene: Scene): Compiled {
@@ -241,7 +243,9 @@ export function solve(model: Compiled, env: Env, dt: number, memory: Memory) {
         break
       case 'converter': {
         if (b.startup) {
-          called.add(id)
+          // only a real shortfall cranks a generator; a store topping up
+          // from surplus walks past it without waking it
+          if (mode === 'firm') called.add(id)
           if ((memory.warm.get(id) ?? 0) < b.startup) break
         }
         let can = Math.min(

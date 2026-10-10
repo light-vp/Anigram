@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import assert from 'node:assert/strict'
@@ -122,7 +122,7 @@ test('storage charges only from surplus, and covers a shortfall', () => {
       kind: 'x',
       label: 'sun',
       at,
-      behaviour: { role: 'source', output: (e) => (e.hour === 12 ? 8 : 0) },
+      behaviour: { role: 'source', output: 'hour == 12 ? 8 : 0' },
     },
     {
       id: 'gas',
@@ -195,7 +195,7 @@ test('a closed gate cuts everything downstream, and priority wins a shortfall', 
       behaviour: {
         role: 'gate',
         capacity: 100,
-        open: (e) => (e.on('brk') ? 1 : 0),
+        open: "on('brk') ? 1 : 0",
       },
     },
     { id: 'bus', kind: 'x', label: 'bus', at, behaviour: { role: 'bus' } },
@@ -314,7 +314,7 @@ test('a loop through a store (pumped hydro) charges on surplus and generates on 
       kind: 'x',
       label: 'c',
       at,
-      behaviour: { role: 'sink', demand: (e) => (e.hour < 12 ? 6 : 13) },
+      behaviour: { role: 'sink', demand: 'hour < 12 ? 6 : 13' },
     },
   ]
   const links: Scene['links'] = [
@@ -403,4 +403,78 @@ test('a slow-starting converter delivers nothing until it has been asked for lon
   const warm = solve(m, env(), 0.25, mem)
   assert.equal(warm.parts.gen!.out, 10)
   assert.equal(warm.parts.ups!.out, 0)
+})
+
+test('a battery topping up from spare sun does not crank the generator beside it', () => {
+  const parts: Scene['parts'] = [
+    {
+      id: 'sun',
+      kind: 'x',
+      label: 's',
+      at,
+      behaviour: { role: 'source', output: 2 },
+    },
+    {
+      id: 'tank',
+      kind: 'x',
+      label: 't',
+      at,
+      behaviour: {
+        role: 'storage',
+        capacity: 100,
+        start: 1,
+        maxIn: 0,
+        maxOut: 50,
+      },
+    },
+    {
+      id: 'gen',
+      kind: 'x',
+      label: 'g',
+      at,
+      behaviour: {
+        role: 'converter',
+        output: 'electric',
+        recipe: { fuel: 3 },
+        startup: 0.1,
+      },
+    },
+    { id: 'bus', kind: 'x', label: 'b', at, behaviour: { role: 'bus' } },
+    {
+      id: 'bat',
+      kind: 'x',
+      label: 'k',
+      at,
+      behaviour: {
+        role: 'storage',
+        capacity: 10,
+        start: 0,
+        maxIn: 5,
+        maxOut: 5,
+      },
+    },
+    {
+      id: 'load',
+      kind: 'x',
+      label: 'l',
+      at,
+      behaviour: { role: 'sink', demand: 1 },
+    },
+  ]
+  const links: Scene['links'] = [
+    { from: 'sun', to: 'bus', domain: 'electric' },
+    { from: 'tank', to: 'gen', domain: 'fuel' },
+    { from: 'gen', to: 'bus', domain: 'electric' },
+    { from: 'bus', to: 'bat', domain: 'electric' },
+    { from: 'bat', to: 'bus', domain: 'electric' },
+    { from: 'bus', to: 'load', domain: 'electric' },
+  ]
+  const m = compile(scene(parts, links))
+  const mem = initialMemory(m)
+  for (let i = 0; i < 4; i++) {
+    const s = solve(m, env(), 0.1, mem)
+    // the sun covers the load; the battery takes the rest and wants more
+    assert.equal(s.parts.gen!.starting, false)
+    assert.equal(s.parts.gen!.out, 0)
+  }
 })

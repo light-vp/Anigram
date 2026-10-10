@@ -1,7 +1,6 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { traffic } from '../sim/profiles.ts'
 import type { Scene } from '../sim/types.ts'
 
 export const dataCentre: Scene = {
@@ -27,7 +26,7 @@ export const dataCentre: Scene = {
       min: 0.4,
       max: 1.4,
       step: 0.05,
-      format: (v) => `${Math.round(v * 100)}%`,
+      format: '{pct}%',
     },
   ],
   switches: [{ id: 'mains', label: 'mains breaker', on: true }],
@@ -50,7 +49,7 @@ export const dataCentre: Scene = {
       behaviour: {
         role: 'gate',
         capacity: 2000,
-        open: (e) => (e.on('mains') ? 1 : 0),
+        open: "on('mains') ? 1 : 0",
       },
       note: 'Click it to simulate a grid failure.',
     },
@@ -116,7 +115,7 @@ export const dataCentre: Scene = {
       labelSide: 'below',
       behaviour: {
         role: 'sink',
-        demand: (e) => 0.35 * e.prev('servers').in,
+        demand: "0.35 * prev('servers').in",
         priority: 2,
       },
       note: 'Pumping the heat out costs another third on top of what the servers draw.',
@@ -151,7 +150,7 @@ export const dataCentre: Scene = {
       labelSide: 'below',
       behaviour: {
         role: 'sink',
-        demand: (e) => 100 * traffic(e.hour) * e.knob('traffic'),
+        demand: "100 * traffic(hour) * knob('traffic')",
         priority: 1,
       },
       note: 'Busiest at 9pm, quietest at 4am. Push the traffic slider past what the hall can serve.',

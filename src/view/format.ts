@@ -1,14 +1,23 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import type { PartState } from '../sim/solver.ts'
-import type { Domain, PartSpec, Scene } from '../sim/types.ts'
+import type { Domain, Knob, PartSpec, Scene } from '../sim/types.ts'
 
 export function num(v: number): string {
   const a = Math.abs(v)
   if (a < 0.05) return '0'
   if (a < 10) return v.toFixed(1)
   return Math.round(v).toLocaleString('en-GB')
+}
+
+/** a slider's value as its scene asks: `"{pct}% open"` → `40% open` */
+export function formatKnob(knob: Knob, v: number): string {
+  if (!knob.format) return v.toFixed(2)
+  if (typeof knob.format === 'function') return knob.format(v)
+  return knob.format
+    .replaceAll('{pct}', String(Math.round(v * 100)))
+    .replaceAll('{value}', num(v))
 }
 
 export function rate(scene: Scene, domain: Domain, v: number): string {

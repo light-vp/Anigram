@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 /*
@@ -43,8 +43,14 @@ export interface Env {
   prev: (id: string) => { in: number; out: number; fill: number }
 }
 
-/** A number, or a number that depends on the time of day and the controls. */
-export type Signal = number | ((env: Env) => number)
+/**
+ * A number, or an expression that depends on the time of day and the
+ * controls — `"32 * sun(hour) * (1 - 0.85 * knob('cloud'))"`. See `expr.ts`
+ * for the language. Expressions are what keep a scene plain JSON, and every
+ * built-in sheet uses them; a function is still accepted for scenes built in
+ * code (the playground's presets), but it can't be saved to a file.
+ */
+export type Signal = number | string | ((env: Env) => number)
 
 export type Behaviour =
   /** produces up to `output`; dispatchable ones only burn fuel to cover a shortfall */
@@ -132,8 +138,12 @@ export interface Knob {
   max?: number
   step?: number
   value: number
-  /** how to print the value next to the slider */
-  format?: (value: number) => string
+  /**
+   * how to print the value next to the slider: `{pct}` is the value as a
+   * whole percentage, `{value}` the raw number — `"{pct}% open"`. A function
+   * works in code but not in a scene file.
+   */
+  format?: string | ((value: number) => string)
 }
 
 export interface Switch {

@@ -1,7 +1,6 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { heating, home, sun } from '../sim/profiles.ts'
 import type { Scene } from '../sim/types.ts'
 
 export const solarHome: Scene = {
@@ -24,7 +23,7 @@ export const solarHome: Scene = {
       label: 'cloud cover',
       value: 0.2,
       step: 0.05,
-      format: (v) => `${Math.round(v * 100)}%`,
+      format: '{pct}%',
     },
     {
       id: 'cold',
@@ -32,7 +31,7 @@ export const solarHome: Scene = {
       value: 1,
       max: 1.6,
       step: 0.05,
-      format: (v) => `${Math.round(v * 100)}%`,
+      format: '{pct}%',
     },
   ],
   switches: [{ id: 'ev', label: 'car plugged in', on: false }],
@@ -44,7 +43,7 @@ export const solarHome: Scene = {
       at: [0, 0],
       behaviour: {
         role: 'source',
-        output: (e) => 32 * sun(e.hour) * (1 - 0.85 * e.knob('cloud')),
+        output: "32 * sun(hour) * (1 - 0.85 * knob('cloud'))",
       },
       note: 'Sunlight landing on the roof. Drag the cloud slider.',
     },
@@ -90,7 +89,7 @@ export const solarHome: Scene = {
       at: [1, 1],
       behaviour: {
         role: 'sink',
-        demand: (e) => 2.4 * home(e.hour),
+        demand: '2.4 * home(hour)',
         priority: 1,
       },
       note: 'Kettle, fridge, lights, telly. Peaks at breakfast and at dinner.',
@@ -101,7 +100,7 @@ export const solarHome: Scene = {
       label: 'Electric car',
       at: [1, 2],
       toggles: 'ev',
-      behaviour: { role: 'sink', demand: (e) => (e.on('ev') ? 7 : 0) },
+      behaviour: { role: 'sink', demand: "on('ev') ? 7 : 0" },
       note: 'Click to plug it in. A 7 kW charger is the biggest thing in the house by far.',
     },
     {
@@ -166,7 +165,7 @@ export const solarHome: Scene = {
       labelSide: 'right',
       behaviour: {
         role: 'sink',
-        demand: (e) => 7 * heating(e.hour) * e.knob('cold'),
+        demand: "7 * heating(hour) * knob('cold')",
       },
     },
   ],

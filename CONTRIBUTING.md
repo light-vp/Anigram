@@ -1,21 +1,13 @@
-<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<!-- SPDX-License-Identifier: MIT -->
 <!-- SPDX-FileCopyrightText: 2026 Vaibhav Patel -->
 
 # Contributing to Anigram
 
 Thanks for your interest! Contributions are welcome.
 
-## Contributor License Agreement (required)
-
-Anigram is dual-licensed (AGPL-3.0 **and** a commercial license). To be
-able to offer the commercial license, the project must hold the rights to
-relicense the entire codebase. **Every contribution therefore requires a signed
-[CLA](CLA.md)** granting the author a broad, irrevocable license (including the
-right to sublicense under the commercial license).
-
-Your first pull request will be checked for a CLA acceptance; without it we
-cannot merge your code. This is not optional — a single un-CLA'd contribution
-would make the commercial offering impossible.
+Anigram is MIT licensed, and so is everything you contribute — no CLA to
+sign. By opening a pull request you agree your change ships under the
+[MIT License](LICENSE).
 
 ## Development
 
@@ -25,10 +17,12 @@ npm run dev        # dev server
 npm run typecheck  # tsc -b
 npm run lint       # oxlint
 npm test           # the simulation's rules, in node's own test runner
+npm run test:mcp   # build the MCP server and drive it over stdio
 npm run format     # prettier --write .
 ```
 
-Before opening a PR, make sure `typecheck`, `lint`, `test` and `build` all pass.
+Before opening a PR, make sure `typecheck`, `lint`, `test`, `test:mcp` and
+`build` all pass.
 
 ## Architecture rules (please respect these)
 
@@ -46,17 +40,21 @@ These keep the project extensible; they are enforced in review (and some by lint
    hex/rgb anywhere else.
 4. **Reduced motion is first-class.** Without motion, every flow is labelled with
    its value and direction instead — the same view paper mode prints.
-5. **Scenes are data.** A new scene is one file in `src/scenes/` plus a line in
-   its index; run it through a day with `npm run simulate <id>` before
-   shipping it, and check the story its captions tell is the one the numbers
-   tell.
+5. **Scenes are data.** A scene must survive `JSON.stringify`: signals are
+   expression strings, never functions. A new built-in sheet is one file in
+   `src/scenes/` plus a line in its index; run it through a day with
+   `npm run simulate <id>` before shipping it, and check the story its
+   captions tell is the one the numbers tell.
+6. **The MCP server is the first client.** Anything a person can do to a
+   scene in the app should be doable through a tool, and a tool's errors
+   should say what to change, against the part they belong to.
 
 ## SPDX headers
 
 Every source file starts with:
 
 ```
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 ```
 

@@ -1,0 +1,30 @@
+{
+  "name": "anigram-mcp",
+  "version": "0.1.0",
+  "description": "MCP server for Anigram: let a coding assistant write, validate, simulate and draw living engineering diagrams.",
+  "license": "MIT",
+  "author": "Vaibhav Patel",
+  "type": "module",
+  "bin": {
+    "anigram-mcp": "dist/anigram-mcp.mjs"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "diagrams",
+    "simulation",
+    "engineering",
+    "svg"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/light-vp/Anigram.git",
+    "directory": "mcp"
+  }
+}

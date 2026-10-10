@@ -1,7 +1,6 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { city, rain } from '../sim/profiles.ts'
 import type { Scene } from '../sim/types.ts'
 
 export const hydroDam: Scene = {
@@ -26,14 +25,14 @@ export const hydroDam: Scene = {
       value: 1,
       max: 2,
       step: 0.05,
-      format: (v) => `${Math.round(v * 100)}%`,
+      format: '{pct}%',
     },
     {
       id: 'gate',
       label: 'intake gate',
       value: 1,
       step: 0.05,
-      format: (v) => `${Math.round(v * 100)}% open`,
+      format: '{pct}% open',
     },
   ],
   switches: [{ id: 'intake', label: 'intake open', on: true }],
@@ -46,7 +45,7 @@ export const hydroDam: Scene = {
       labelSide: 'right',
       behaviour: {
         role: 'source',
-        output: (e) => 1800 * rain(e.hour) * e.knob('rain'),
+        output: "1800 * rain(hour) * knob('rain')",
       },
       note: 'Everything that falls on 400 km² of hills ends up in this valley.',
     },
@@ -92,7 +91,7 @@ export const hydroDam: Scene = {
       behaviour: {
         role: 'gate',
         capacity: 1300,
-        open: (e) => (e.on('intake') ? e.knob('gate') : 0),
+        open: "on('intake') ? knob('gate') : 0",
       },
       note: 'Click to shut it. The operator decides how much water the turbines may take.',
     },
@@ -152,7 +151,7 @@ export const hydroDam: Scene = {
       label: 'Town',
       at: [6, 1],
       labelSide: 'below',
-      behaviour: { role: 'sink', demand: (e) => 560 * city(e.hour) },
+      behaviour: { role: 'sink', demand: '560 * city(hour)' },
       note: 'It takes the dam’s power first and the national grid’s only for what the dam can’t give.',
     },
     {

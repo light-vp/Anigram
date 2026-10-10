@@ -14,7 +14,16 @@
           {
             "patterns": [
               {
-                "group": ["react", "react-dom", "**/view/**", "**/parts/**", "**/app/**", "../view/*", "../parts/*", "../app/*"],
+                "group": [
+                  "react",
+                  "react-dom",
+                  "**/view/**",
+                  "**/parts/**",
+                  "**/app/**",
+                  "../view/*",
+                  "../parts/*",
+                  "../app/*"
+                ],
                 "message": "sim/ is the rulebook: React-free and view-free, so it runs headless in node (tests, scripts/simulate-day.ts)."
               }
             ]

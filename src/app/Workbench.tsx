@@ -1,7 +1,8 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import { useEffect, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 
 import { SCENES } from '../scenes/index.ts'
 import type { Scene } from '../sim/types.ts'
@@ -9,11 +10,11 @@ import { sheetSize } from '../view/geometry.ts'
 import type { ThemeId } from '../view/palette.ts'
 import { Sheet } from '../view/Sheet.tsx'
 import { capture } from './analytics'
-import { downloadSvg } from './exportSvg'
+import { downloadJson, downloadSvg } from './exportSvg'
 import { useFrame, usePrefersReducedMotion, useSimulation } from './hooks'
 import { captionAt } from '../sim/captions.ts'
 import { Alerts, Controls, Inspector } from './panels'
-import { embedSnippet } from './params'
+import { embedSnippet, sceneLink } from './params'
 import type { Params } from './params'
 import { REPO_URL } from './SourceLink'
 import { Transport } from './Transport'
@@ -24,6 +25,11 @@ export interface WorkbenchProps {
   theme: ThemeId
   onTheme: (theme: ThemeId) => void
   onScene: (id: string) => void
+  /** a scene file the user opened or dropped, still to be validated */
+  onOpen: (raw: unknown) => void
+  /** why the last scene file wouldn't open */
+  problem: string | null
+  onDismiss: () => void
   /** false inside the portfolio's playground iframe, which has its own header */
   header: boolean
   initial: Params
@@ -35,6 +41,9 @@ export function Workbench({
   theme,
   onTheme,
   onScene,
+  onOpen,
+  problem,
+  onDismiss,
   header,
   initial,
 }: WorkbenchProps) {
@@ -48,7 +57,37 @@ export function Workbench({
   const [paper, setPaper] = useState(initial.paper)
   const [selected, setSelected] = useState<string | null>(null)
   const [embedOpen, setEmbedOpen] = useState(false)
+  const [shared, setShared] = useState(false)
+  const [full, setFull] = useState(false)
   const svgRef = useRef<SVGSVGElement>(null)
+  const stageRef = useRef<HTMLDivElement>(null)
+  const fileRef = useRef<HTMLInputElement>(null)
+  const builtIn = SCENES.includes(scene)
+
+  useEffect(() => {
+    const onChange = () =>
+      setFull(document.fullscreenElement === stageRef.current)
+    document.addEventListener('fullscreenchange', onChange)
+    return () => document.removeEventListener('fullscreenchange', onChange)
+  }, [])
+
+  const readFile = (file: File | undefined) => {
+    if (!file) return
+    file
+      .text()
+      .then((t) => onOpen(JSON.parse(t)))
+      .catch(() => onOpen(null))
+  }
+
+  const share = async () => {
+    const url = builtIn
+      ? `${window.location.origin}${window.location.pathname}?scene=${scene.id}`
+      : await sceneLink(scene)
+    await navigator.clipboard?.writeText(url)
+    setShared(true)
+    setTimeout(() => setShared(false), 1600)
+    capture('link_copied', { scene: scene.id, builtIn })
+  }
 
   // paper is a still: the clock stops and every flow is labelled instead
   useEffect(() => {
@@ -85,7 +124,17 @@ export function Workbench({
   }
 
   return (
-    <div className={header ? styles.app : `${styles.app} ${styles.noHeader}`}>
+    <div
+      className={header ? styles.app : `${styles.app} ${styles.noHeader}`}
+      // drop a scene file anywhere to open it
+      onDragOver={(e) => {
+        if (e.dataTransfer.types.includes('Files')) e.preventDefault()
+      }}
+      onDrop={(e) => {
+        e.preventDefault()
+        readFile(e.dataTransfer.files[0])
+      }}
+    >
       {header && (
         <header className={styles.header}>
           <div className={styles.brand}>
@@ -133,10 +182,43 @@ export function Workbench({
             {s.title}
           </button>
         ))}
+        {!builtIn && (
+          <button type="button" className={styles.tabOn} aria-current="page">
+            <span className={styles.tabNo}>{scene.sheet}</span>
+            {scene.title}
+          </button>
+        )}
+        <button
+          type="button"
+          className={styles.tab}
+          onClick={() => fileRef.current?.click()}
+          title="Open a scene file (.json) — or drop one anywhere on the page"
+        >
+          + open
+        </button>
+        <input
+          ref={fileRef}
+          type="file"
+          accept=".json,application/json"
+          hidden
+          onChange={(e) => {
+            readFile(e.currentTarget.files?.[0])
+            e.currentTarget.value = ''
+          }}
+        />
       </nav>
 
+      {problem && (
+        <p className={styles.problem} role="alert">
+          {problem}{' '}
+          <button type="button" className={styles.tool} onClick={onDismiss}>
+            ok
+          </button>
+        </p>
+      )}
+
       <main className={styles.main}>
-        <div className={styles.stage}>
+        <div className={styles.stage} ref={stageRef}>
           <div className={styles.tools} role="toolbar" aria-label="Sheet">
             <div className={styles.seg} role="group" aria-label="Mode">
               <button
@@ -184,8 +266,26 @@ export function Workbench({
             >
               ↓ svg
             </button>
+            <button
+              type="button"
+              className={styles.tool}
+              onClick={() => {
+                downloadJson(scene)
+                capture('json_exported', { scene: scene.id })
+              }}
+              title="The scene file: edit it by hand, or hand it to an assistant through the MCP server"
+            >
+              ↓ json
+            </button>
             <button type="button" className={styles.tool} onClick={print}>
               print
+            </button>
+            <button
+              type="button"
+              className={styles.tool}
+              onClick={() => void share()}
+            >
+              {shared ? 'link copied' : '⧉ link'}
             </button>
             <button
               type="button"
@@ -194,24 +294,43 @@ export function Workbench({
             >
               {'</>'} embed
             </button>
-            <a
+            {builtIn && (
+              <a
+                className={styles.tool}
+                href={`?screen=1&scene=${scene.id}`}
+                target="_blank"
+                rel="noreferrer"
+                title="A full-bleed dark sheet that tours every sheet — for a screen on a wall"
+              >
+                ▭ screen
+              </a>
+            )}
+            <button
+              type="button"
               className={styles.tool}
-              href={`?screen=1&scene=${scene.id}`}
-              target="_blank"
-              rel="noreferrer"
-              title="A full-bleed dark sheet that tours every sheet — for a screen on a wall"
+              aria-pressed={full}
+              onClick={() => {
+                if (full) void document.exitFullscreen()
+                else {
+                  void stageRef.current?.requestFullscreen()
+                  capture('fullscreen', { scene: scene.id })
+                }
+              }}
             >
-              ▭ screen
-            </a>
+              {full ? '✕ exit' : '⤢ full screen'}
+            </button>
           </div>
 
           <div
             className={styles.sheetWrap}
             // as wide as the column allows, but never taller than the window
-            style={{
-              aspectRatio: `${w} / ${h}`,
-              maxWidth: `calc((100vh - 300px) * ${(w / h).toFixed(4)})`,
-            }}
+            style={
+              {
+                aspectRatio: `${w} / ${h}`,
+                maxWidth: `calc((100vh - 300px) * ${(w / h).toFixed(4)})`,
+                '--aspect': (w / h).toFixed(4),
+              } as CSSProperties
+            }
           >
             <Sheet
               svgRef={svgRef}

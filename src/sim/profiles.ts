@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: AGPL-3.0-only
+// SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 /*
@@ -8,7 +8,7 @@
  */
 
 /** a smooth bump centred on `at`, `width` hours either side */
-function bump(hour: number, at: number, width: number): number {
+export function bump(hour: number, at: number, width: number): number {
   let d = Math.abs(hour - at)
   d = Math.min(d, 24 - d)
   if (d >= width) return 0
