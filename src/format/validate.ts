@@ -47,7 +47,7 @@ export const ROLES: readonly Behaviour['role'][] = [
 ]
 
 /** every field each object in a scene file may have */
-const FIELDS = {
+export const FIELDS = {
   scene: [
     '$schema',
     'anigram',

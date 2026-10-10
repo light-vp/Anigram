@@ -42,6 +42,18 @@ upgraded when it loads, so scene files and share links keep working as the
 format grows. A file from a newer version than the reader knows is refused
 with a message saying so.
 
+The format is also a JSON Schema,
+[`schema/scene.v1.json`](../schema/scene.v1.json). Point a file's `$schema`
+at its raw URL and editors such as VS Code check and autocomplete it as you
+type:
+
+```json
+{
+  "$schema": "https://raw.githubusercontent.com/light-vp/Anigram/main/schema/scene.v1.json",
+  "anigram": 1
+}
+```
+
 ## Parts
 
 ```json

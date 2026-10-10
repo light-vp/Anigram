@@ -74,6 +74,15 @@ test('lists its tools', async () => {
   ])
 })
 
+test('serves the scene format as a JSON Schema', async () => {
+  const { contents } = await client.readResource({
+    uri: 'anigram://schema/scene',
+  })
+  const schema = JSON.parse(contents[0].text)
+  assert.equal(schema.title, 'Anigram scene')
+  assert.equal(schema.properties.anigram.const, 1)
+})
+
 test('the guide covers the format, the functions and the parts', async () => {
   const { text } = await call('anigram_guide')
   for (const s of ['## Behaviours', '`sun()`', '`battery`', 'Domains:'])

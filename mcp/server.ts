@@ -21,6 +21,7 @@ import { z } from 'zod'
 import guideText from '../docs/scene-format.md?raw'
 import { stamp } from '../src/format/migrate.ts'
 import { reportTable, simulateDay } from '../src/format/report.ts'
+import { SCHEMA_URL, sceneSchema } from '../src/format/schema.ts'
 import { encodeScene, HASH_KEY } from '../src/format/share.ts'
 import { DOMAINS, validateScene } from '../src/format/validate.ts'
 import { PART_KINDS } from '../src/parts/kinds.ts'
@@ -190,7 +191,7 @@ function guide(): string {
     .map(([name, doc]) => `- \`${name}\` — ${doc}`)
     .join('\n')
   const body = guideText.replace(/^<!--.*-->\n/gm, '')
-  return `${body}\n## Signal functions\n\n${vars}\n${fns}\n\n## Parts\n\n${kinds}\n\nDomains: ${DOMAINS.join(', ')}.\n`
+  return `${body}\nThe format as a JSON Schema: the \`anigram://schema/scene\` resource, or ${SCHEMA_URL} (put it in a file's \`$schema\` so editors check it).\n\n## Signal functions\n\n${vars}\n${fns}\n\n## Parts\n\n${kinds}\n\nDomains: ${DOMAINS.join(', ')}.\n`
 }
 
 // ---------------------------------------------------------------- reading
@@ -212,6 +213,25 @@ server.registerResource(
   { title: 'Anigram scene format', mimeType: 'text/markdown' },
   (uri) => ({
     contents: [{ uri: uri.href, mimeType: 'text/markdown', text: guide() }],
+  }),
+)
+
+server.registerResource(
+  'scene-schema',
+  'anigram://schema/scene',
+  {
+    title: 'Anigram scene JSON Schema',
+    description: `The scene format as a JSON Schema, also published at ${SCHEMA_URL}`,
+    mimeType: 'application/schema+json',
+  },
+  (uri) => ({
+    contents: [
+      {
+        uri: uri.href,
+        mimeType: 'application/schema+json',
+        text: JSON.stringify(sceneSchema(), null, 2),
+      },
+    ],
   }),
 )
 

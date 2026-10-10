@@ -1,0 +1,618 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/light-vp/Anigram/main/schema/scene.v1.json",
+  "title": "Anigram scene",
+  "description": "A living diagram: parts on a grid, the links between them, and the signals that drive them. Format version 1.",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "anigram": {
+      "const": 1,
+      "description": "the format version this file is written in"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]*$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "sheet": {
+      "type": "string",
+      "description": "drawing number, like LD-101"
+    },
+    "size": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 40
+      },
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "grid columns × rows"
+    },
+    "units": {
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "light",
+          "electric",
+          "water",
+          "heat",
+          "fuel",
+          "mechanical",
+          "data"
+        ]
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "rate": {
+            "type": "string",
+            "minLength": 1
+          },
+          "amount": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "rate",
+          "amount"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "scale": {
+      "type": "object",
+      "propertyNames": {
+        "enum": [
+          "light",
+          "electric",
+          "water",
+          "heat",
+          "fuel",
+          "mechanical",
+          "data"
+        ]
+      },
+      "additionalProperties": {
+        "type": "number",
+        "exclusiveMinimum": 0
+      }
+    },
+    "parts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "type": "string",
+            "minLength": 1,
+            "description": "which drawing to use",
+            "examples": [
+              "sun",
+              "wind",
+              "pv",
+              "gaswell",
+              "core",
+              "grid",
+              "rain",
+              "air",
+              "transformer",
+              "inverter",
+              "turbine",
+              "generator",
+              "turbogen",
+              "gasplant",
+              "pump",
+              "heatpump",
+              "servers",
+              "busbar",
+              "manifold",
+              "breaker",
+              "valve",
+              "pylon",
+              "battery",
+              "reservoir",
+              "watertower",
+              "hottank",
+              "fueltank",
+              "well",
+              "treatment",
+              "tap",
+              "hydrant",
+              "river",
+              "weir",
+              "house",
+              "city",
+              "hospital",
+              "factory",
+              "radiator",
+              "car",
+              "globe",
+              "coolingtower",
+              "sky",
+              "fan"
+            ]
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "at": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "[column, row] on the grid, zero-based"
+          },
+          "behaviour": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "const": "source"
+                  },
+                  "output": {
+                    "description": "a number, or an expression of the hour and the controls, like \"32 * sun(hour) * (1 - 0.85 * knob('cloud'))\"",
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      }
+                    ]
+                  },
+                  "dispatchable": {
+                    "type": "boolean"
+                  },
+                  "merit": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "role",
+                  "output"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "const": "sink"
+                  },
+                  "demand": {
+                    "description": "a number, or an expression of the hour and the controls, like \"32 * sun(hour) * (1 - 0.85 * knob('cloud'))\"",
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      }
+                    ]
+                  },
+                  "priority": {
+                    "type": "number"
+                  },
+                  "absorbsSurplus": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "role",
+                  "demand"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "const": "bus"
+                  }
+                },
+                "required": [
+                  "role"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "const": "gate"
+                  },
+                  "capacity": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "open": {
+                    "description": "a number, or an expression of the hour and the controls, like \"32 * sun(hour) * (1 - 0.85 * knob('cloud'))\"",
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      }
+                    ]
+                  }
+                },
+                "required": [
+                  "role",
+                  "capacity"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "const": "converter"
+                  },
+                  "output": {
+                    "enum": [
+                      "light",
+                      "electric",
+                      "water",
+                      "heat",
+                      "fuel",
+                      "mechanical",
+                      "data"
+                    ]
+                  },
+                  "recipe": {
+                    "type": "object",
+                    "propertyNames": {
+                      "enum": [
+                        "light",
+                        "electric",
+                        "water",
+                        "heat",
+                        "fuel",
+                        "mechanical",
+                        "data"
+                      ]
+                    },
+                    "additionalProperties": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    "minProperties": 1,
+                    "description": "how much of each input one unit of output takes"
+                  },
+                  "capacity": {
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "startup": {
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "required": [
+                  "role",
+                  "output",
+                  "recipe"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "const": "storage"
+                  },
+                  "capacity": {
+                    "type": "number",
+                    "exclusiveMinimum": 0
+                  },
+                  "start": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "maxIn": {
+                    "description": "a number, or an expression of the hour and the controls, like \"32 * sun(hour) * (1 - 0.85 * knob('cloud'))\"",
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      }
+                    ]
+                  },
+                  "maxOut": {
+                    "description": "a number, or an expression of the hour and the controls, like \"32 * sun(hour) * (1 - 0.85 * knob('cloud'))\"",
+                    "anyOf": [
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      }
+                    ]
+                  },
+                  "efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  },
+                  "merit": {
+                    "type": "number"
+                  },
+                  "refill": {
+                    "type": "object",
+                    "properties": {
+                      "below": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "until": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      }
+                    },
+                    "required": [
+                      "below",
+                      "until"
+                    ],
+                    "additionalProperties": false
+                  }
+                },
+                "required": [
+                  "role",
+                  "capacity",
+                  "maxIn",
+                  "maxOut"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "role": {
+                    "const": "vent"
+                  }
+                },
+                "required": [
+                  "role"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "note": {
+            "type": "string"
+          },
+          "labelSide": {
+            "enum": [
+              "below",
+              "above",
+              "left",
+              "right"
+            ]
+          },
+          "toggles": {
+            "type": "string",
+            "description": "a switch id"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "label",
+          "at",
+          "behaviour"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "string",
+            "minLength": 1
+          },
+          "to": {
+            "type": "string",
+            "minLength": 1
+          },
+          "domain": {
+            "enum": [
+              "light",
+              "electric",
+              "water",
+              "heat",
+              "fuel",
+              "mechanical",
+              "data"
+            ]
+          },
+          "capacity": {
+            "type": "number",
+            "minimum": 0
+          },
+          "via": {
+            "type": "array",
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              },
+              "minItems": 2,
+              "maxItems": 2,
+              "description": "[column, row] on the grid, zero-based"
+            }
+          },
+          "bend": {
+            "enum": [
+              "hv",
+              "vh"
+            ]
+          },
+          "loss": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "domain"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "knobs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "min": {
+            "type": "number"
+          },
+          "max": {
+            "type": "number"
+          },
+          "step": {
+            "type": "number"
+          },
+          "value": {
+            "type": "number"
+          },
+          "format": {
+            "type": "string",
+            "description": "{pct} is the value as a percentage, {value} the number"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "value"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "switches": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "on": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "label",
+          "on"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "captions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 24
+          },
+          "to": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 24
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "text"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "clock": {
+      "type": "object",
+      "properties": {
+        "start": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 24
+        },
+        "rate": {
+          "type": "number",
+          "minimum": 0.01,
+          "maximum": 24
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "id",
+    "title",
+    "size",
+    "parts",
+    "links"
+  ],
+  "additionalProperties": false
+}
