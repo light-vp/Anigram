@@ -4,10 +4,5 @@
 # Shows a "Sponsor" button on the repo. Anigram is free and MIT-licensed;
 # this is only for people who want to support it.
 #
-# TODO(Vaibhav): uncomment ONE line and put the real handle or link in.
-# Until then the button stays hidden.
-#
-# github: light-vp                     # GitHub Sponsors
-# ko_fi: your-handle                   # Ko-fi
-# buy_me_a_coffee: your-handle         # Buy Me a Coffee
-# custom: ["https://your-payment-link"] # Stripe / PayPal / any link
+# One-off, pay-what-you-want Stripe link.
+custom: ["https://buy.stripe.com/9B67sN7dUfwYg2Bcmd9fW00"]
