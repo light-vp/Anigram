@@ -61,6 +61,7 @@ errors, a headless day of simulation, SVG rendering and share links:
 | ---------------------------- | ------------------------------------------------------------------ |
 | `anigram_guide`              | the format, every drawable part, the signal functions              |
 | `list_scenes` / `get_scene`  | the built-in sheets, as JSON to copy from                          |
+| `new_scene`                  | a working starter for a P&ID, single-line, PFD or pictorial sheet  |
 | `validate_scene`             | errors and warnings, each pinned to the part it's about            |
 | `write_scene` / `edit_scene` | save a scene file, or patch parts and links in place               |
 | `check_scene`                | valid, and every claim in its `expect` list holds                  |
@@ -68,7 +69,8 @@ errors, a headless day of simulation, SVG rendering and share links:
 | `render_scene`               | the sheet at any hour: a PNG to look at, an SVG, or a PDF to print |
 | `share_link`                 | a URL that opens it live; the scene rides in the link              |
 
-Setup for other clients is in [mcp/README.md](mcp/README.md). An example the
+Each practice also has a prompt (`draw-pid`, `draw-single-line`, `draw-pfd`,
+`draw-sheet`) that carries its conventions. Setup for other clients is in [mcp/README.md](mcp/README.md). An example the
 server made: [examples/narrowboat.json](examples/narrowboat.json).
 
 ## The scene file

@@ -87,6 +87,7 @@ test('lists its tools', async () => {
     'edit_scene',
     'get_scene',
     'list_scenes',
+    'new_scene',
     'render_scene',
     'share_link',
     'simulate_scene',
@@ -323,6 +324,42 @@ test('check_scene says whether the story holds, and why not', async () => {
   const sim = await call('simulate_scene', { id: 'grid' })
   assert.equal(sim.data.expect.length, 4)
   assert.match(sim.text, /expect \(4 of 4 hold\)/)
+})
+
+test('new_scene starts each practice from a sheet that already works', async () => {
+  for (const drawing of ['pictorial', 'pid', 'single-line', 'pfd']) {
+    const r = await call('new_scene', { drawing, id: `my-${drawing}` })
+    assert.equal(r.error, false, r.text)
+    assert.equal(r.data.drawing, drawing)
+    assert.equal(r.data.scene.id, `my-${drawing}`)
+    assert.ok(r.data.practice.length > 100)
+    const check = await call('check_scene', { scene: r.data.scene })
+    assert.equal(check.data.ok, true, check.text)
+    assert.deepEqual(check.data.warnings ?? [], [])
+  }
+  const saved = await call('new_scene', { drawing: 'pid', file: 'plant.json' })
+  assert.ok(existsSync(join(cwd, 'plant.json')))
+  assert.equal(saved.data.saved, join(cwd, 'plant.json'))
+  const plain = await call('new_scene')
+  assert.equal(plain.data.drawing, 'pictorial')
+})
+
+test('each practice has a prompt that walks the job', async () => {
+  const { prompts } = await client.listPrompts()
+  assert.deepEqual(prompts.map((p) => p.name).sort(), [
+    'draw-pfd',
+    'draw-pid',
+    'draw-sheet',
+    'draw-single-line',
+  ])
+  const p = await client.getPrompt({
+    name: 'draw-pid',
+    arguments: { brief: 'a cooling water loop' },
+  })
+  const text = p.messages[0].content.text
+  assert.match(text, /a cooling water loop/)
+  assert.match(text, /ISA-5\.1/)
+  assert.match(text, /new_scene with drawing "pid"/)
 })
 
 test('files stay inside the working directory', async () => {
