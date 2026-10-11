@@ -58,8 +58,9 @@ you as a required reviewer, so every publish waits for a click.
    check and the stdio smoke tests, then stages the release. npm adds a
    provenance statement linking the package to that run.
 4. Approve it: on npmjs.com, or from your machine with
-   `npm stage list` then `npm stage approve anigram-mcp@0.2.0` (asks for
-   2FA). Until then nobody can install it.
+   `npm stage approve <stage-id>` (asks for 2FA). The ID is a UUID, not the
+   version: the run's "Stage the release" step prints it, and
+   `npm stage list anigram-mcp` lists it. Until then nobody can install it.
 
 `npx -y anigram-mcp --version` prints the published version.
 
