@@ -236,6 +236,41 @@ export interface Caption {
   text: string
 }
 
+/** where an instrument is, which ISA-5.1 draws by what crosses its bubble */
+export type InstrumentMounting =
+  'field' | 'panel' | 'behind-panel' | 'dcs' | 'plc'
+
+/**
+ * an instrument on a P&ID: an ISA-5.1 bubble with its tag, joined to the part
+ * it measures and, for a controller, to the valve it drives, with its reading
+ * live beside it
+ */
+export interface InstrumentSpec {
+  /** what it measures and does, then the loop number: `LT-101`, `FIC-102` */
+  tag: string
+  /** grid cell, column then row */
+  at: [number, number]
+  /** the part it is connected to; a thin process connection runs there */
+  measures: string
+  /**
+   * what it reads, as an expression over parts as they are now:
+   * `part('tank').fill * 100`. A level (L) or flow (F) instrument reads its
+   * part's fill or flow when left out.
+   */
+  reads?: string
+  /** the reading's unit, shown after it */
+  unit?: string
+  /** the final element it drives, such as a control valve; a signal line runs there */
+  drives?: string
+  /** how that signal travels: electric (dashed, the default), pneumatic or data */
+  signal?: 'signal' | 'pneumatic' | 'data'
+  /** field (the default), panel, behind-panel, dcs or plc */
+  mounting?: InstrumentMounting
+  /** the reading shows as an alarm below `low` or above `high` */
+  low?: number
+  high?: number
+}
+
 export interface Scene {
   /**
    * the scene format's version (see src/format/migrate.ts). Files and links
@@ -260,6 +295,8 @@ export interface Scene {
   scale: Partial<Record<Domain, number>>
   parts: PartSpec[]
   links: LinkSpec[]
+  /** instruments, drawn on a P&ID */
+  instruments?: InstrumentSpec[]
   knobs?: Knob[]
   switches?: Switch[]
   captions?: Caption[]

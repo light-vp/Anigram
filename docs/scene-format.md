@@ -163,6 +163,44 @@ pipes.
 - `titleBlock` fills the drawing's title block. `issued` is a date like
   `2026-10-11`.
 
+### Instruments
+
+A P&ID shows its instruments as ISA-5.1 bubbles. Each sits on its own cell,
+joined by a thin line to what it measures and, for a controller, by a signal
+line to the valve it drives. Its reading is shown live beside it, in red
+outside its `low` and `high`.
+
+```json
+"instruments": [
+  { "tag": "LT-101", "at": [5, 0], "measures": "tank", "low": 25, "high": 95 },
+  { "tag": "LIC-101", "at": [7, 0], "measures": "LT-101", "drives": "lv", "mounting": "dcs" },
+  { "tag": "FI-102", "at": [8, 3], "measures": "lv", "mounting": "panel" }
+]
+```
+
+- `tag` is ISA-5.1: the first letter is what is measured (`L`evel,
+  `F`low, `P`ressure, `T`emperature, `J` power, `A`nalysis…), the next
+  letters what the instrument does (`T`ransmit, `I`ndicate, `C`ontrol,
+  `A`larm, `R`ecord…), then the loop number. The guide lists every letter.
+- `measures` is a part, or another instrument whose signal it takes: the
+  controller above reads the transmitter, which reads the tank.
+- `reads` is what it shows, as an expression of parts as they are now:
+  `"part('pump').in * 0.25"`. A level instrument shows its tank's fill in
+  percent and a flow instrument its part's flow when `reads` is left out;
+  anything else shows only its tag unless given one. `unit` follows the
+  reading.
+- `drives` is the final element a controller works, usually a gate. The
+  instrument only draws the loop: the gate's own `open` signal does the
+  controlling, as in `"clamp((prev('tank').fill - 0.2) / 0.3, 0, 1)"`.
+- `signal` is how that signal travels: `signal` (electric, dashed, the
+  default), `pneumatic` or `data`.
+- `mounting` is where it is: `field` (a plain bubble, the default),
+  `panel` (a line across it), `behind-panel` (a dashed line), `dcs` (in a
+  square) or `plc` (a diamond in a square).
+
+[`examples/feed-tank-pid.json`](../examples/feed-tank-pid.json) is a whole
+P&ID with a level control loop.
+
 ## Signals
 
 A signal is a number or an expression string:

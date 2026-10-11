@@ -5,8 +5,15 @@ import { PACKS, classOf } from '../packs/catalogue.ts'
 import { PackSymbol } from '../packs/symbols.tsx'
 import type { Frame } from '../sim/runtime.ts'
 import type { LinkState } from '../sim/solver.ts'
-import type { LineType, LinkSpec, PartSpec, Scene } from '../sim/types.ts'
-import { partDomain, rate, readout } from './format.ts'
+import { describeTag, readingUnit, splitTag } from '../sim/instruments.ts'
+import type {
+  InstrumentSpec,
+  LineType,
+  LinkSpec,
+  PartSpec,
+  Scene,
+} from '../sim/types.ts'
+import { num, partDomain, rate, readout } from './format.ts'
 import {
   FOOT_H,
   PAD,
@@ -89,7 +96,7 @@ export function EngLink({
         <text
           className="lineNo"
           textAnchor="middle"
-          transform={`translate(${at.x} ${at.y}) rotate(${upright}) translate(0 -9)`}
+          transform={`translate(${at.x} ${at.y}) rotate(${upright}) translate(0 14)`}
         >
           {link.tag}
         </text>
@@ -257,10 +264,13 @@ export function EngLegend({
   scene,
   links,
   h,
+  also = [],
 }: {
   scene: Scene
   links: LinkSpec[]
   h: number
+  /** line types drawn by something other than a link: an instrument's signals */
+  also?: LineType[]
 }) {
   // on a single-line every line is a circuit
   const names: Record<LineType, string> =
@@ -269,7 +279,7 @@ export function EngLegend({
       : LINE_NAMES
   // a loss is drawn dotted whatever its line, so it gets its own entry
   const types = [
-    ...new Set(links.filter((l) => !l.loss).map(lineOf)),
+    ...new Set([...links.filter((l) => !l.loss).map(lineOf), ...also]),
     ...(links.some((l) => l.loss) ? (['loss'] as const) : []),
   ]
   const label = (t: (typeof types)[number]) =>
@@ -293,6 +303,126 @@ export function EngLegend({
           </g>
         )
       })}
+    </g>
+  )
+}
+
+/** an instrument's bubble radius */
+const BUBBLE = 17
+
+/** a line from an instrument to a part: down or up first, then across */
+function wire(from: Pt, to: Pt): Pt[] {
+  if (from[0] === to[0] || from[1] === to[1]) return [from, to]
+  return [from, [from[0], to[1]], to]
+}
+
+/**
+ * the lines an instrument hangs on: a thin process connection to what it
+ * measures, and a signal line to what it drives
+ */
+export function InstrumentLines({
+  scene,
+  inst,
+  dim,
+}: {
+  scene: Scene
+  inst: InstrumentSpec
+  dim: boolean
+}) {
+  const at = cellToPx(inst.at)
+  const to = (id: string | undefined) => {
+    const p = scene.parts.find((q) => q.id === id)
+    return p ? cellToPx(p.at) : undefined
+  }
+  // fed by another instrument, the line to it is a signal, not a process connection
+  const feeder = scene.instruments?.find((i) => i.tag === inst.measures)
+  const measures = feeder ? cellToPx(feeder.at) : to(inst.measures)
+  const drives = to(inst.drives)
+  const line = inst.signal ?? 'signal'
+  return (
+    <g className={dim ? 'link dim' : 'link'}>
+      {measures && (
+        <path
+          className={feeder ? 'route signal' : 'conn'}
+          d={roundedPath(wire(at, measures), 0)}
+        />
+      )}
+      {drives && (
+        <>
+          <path
+            className={`route ${line}`}
+            d={roundedPath(wire(at, drives), 0)}
+          />
+          {line === 'pneumatic' && <Slashes pts={wire(at, drives)} />}
+        </>
+      )}
+    </g>
+  )
+}
+
+/**
+ * an ISA-5.1 bubble: the tag's letters over its loop number, with what
+ * crosses it saying where it is (nothing in the field, a line on the control
+ * panel, a dashed line behind it, a square for a DCS, a diamond for a PLC),
+ * and its reading live beneath
+ */
+export function EngInstrument({
+  scene,
+  inst,
+  frame,
+  dim,
+}: {
+  scene: Scene
+  inst: InstrumentSpec
+  frame: Frame
+  dim: boolean
+}) {
+  const [x, y] = cellToPx(inst.at)
+  const { letters, loop } = splitTag(inst.tag)
+  const m = inst.mounting ?? 'field'
+  const R = BUBBLE
+  const v = frame.instruments?.[inst.tag]
+  const alarm =
+    v !== undefined &&
+    ((inst.low !== undefined && v < inst.low) ||
+      (inst.high !== undefined && v > inst.high))
+  const unit = readingUnit(inst, scene)
+  return (
+    <g
+      className={dim ? 'instrument dim' : 'instrument'}
+      transform={`translate(${x} ${y})`}
+    >
+      <title>{`${inst.tag}: ${describeTag(inst.tag)}`}</title>
+      {(m === 'dcs' || m === 'plc') && (
+        <rect x={-R} y={-R} width={2 * R} height={2 * R} className="ln sym" />
+      )}
+      {m === 'plc' ? (
+        <path className="ln sym" d={`M0 ${-R} L${R} 0 L0 ${R} L${-R} 0 Z`} />
+      ) : (
+        <circle r={R} className={alarm ? 'ln sym alarmStroke' : 'ln sym'} />
+      )}
+      {m !== 'field' && (
+        <path
+          className={m === 'behind-panel' ? 'ln thin dashed' : 'ln thin'}
+          d={`M${-R} 0 H${R}`}
+        />
+      )}
+      <text className="bubbleText" y={-6}>
+        {letters}
+      </text>
+      <text className="bubbleText" y={7}>
+        {loop}
+      </text>
+      {v !== undefined && Number.isFinite(v) && (
+        <text
+          className={alarm ? 'value bad' : 'value'}
+          // up and to the right, clear of the lines that leave the bubble
+          x={R + 4}
+          y={-R + 3}
+        >
+          {unit === '%' ? `${num(v)}%` : `${num(v)} ${unit}`.trim()}
+        </text>
+      )}
     </g>
   )
 }

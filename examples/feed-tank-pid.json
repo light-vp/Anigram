@@ -1,0 +1,158 @@
+{
+  "$schema": "https://raw.githubusercontent.com/light-vp/Anigram/main/schema/scene.v1.json",
+  "anigram": 1,
+  "id": "feed-tank-pid",
+  "title": "Feed tank level control",
+  "subtitle": "A pump fills a buffer tank; a level loop throttles the outlet so the tank never runs dry",
+  "sheet": "PID-001",
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Anigram examples",
+    "project": "Reference sheets",
+    "drawnBy": "Anigram",
+    "issued": "2026-10-11",
+    "revision": "A",
+    "status": "for review"
+  },
+  "size": [10, 4],
+  "units": {
+    "water": { "rate": "m³/h", "amount": "m³" },
+    "electric": { "rate": "kW", "amount": "kWh" }
+  },
+  "scale": { "water": 120, "electric": 40 },
+  "clock": { "start": 5, "rate": 1 },
+  "knobs": [
+    {
+      "id": "demand",
+      "label": "plant demand",
+      "value": 1,
+      "min": 0.4,
+      "max": 1.6,
+      "step": 0.05,
+      "format": "{pct}%"
+    }
+  ],
+  "parts": [
+    {
+      "id": "intake",
+      "kind": "river",
+      "label": "From river intake",
+      "at": [0, 1.6],
+      "labelSide": "below",
+      "behaviour": { "role": "source", "output": 140 }
+    },
+    {
+      "id": "mains",
+      "kind": "grid",
+      "label": "Electricity",
+      "at": [2, 3],
+      "behaviour": { "role": "source", "output": 60, "dispatchable": true }
+    },
+    {
+      "id": "pump",
+      "kind": "pump",
+      "label": "Feed pump",
+      "tag": "P-101",
+      "class": "CentrifugalPump",
+      "at": [2, 1.6],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": { "electric": 0.25, "water": 1 },
+        "capacity": 100
+      },
+      "note": "100 m³ an hour, flat out: less than the day shift draws, so the tank runs down while the plant works."
+    },
+    {
+      "id": "nrv",
+      "kind": "valve",
+      "label": "Non-return valve",
+      "tag": "V-101",
+      "class": "CheckValve",
+      "at": [3, 1.6],
+      "labelSide": "above",
+      "behaviour": { "role": "gate", "capacity": 200 }
+    },
+    {
+      "id": "tank",
+      "kind": "reservoir",
+      "label": "Feed tank",
+      "tag": "T-101",
+      "class": "Tank",
+      "at": [5, 1.6],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 300,
+        "start": 0.6,
+        "maxIn": 100,
+        "maxOut": 200,
+        "refill": { "below": 0.5, "until": 0.95 }
+      },
+      "note": "300 m³ of buffer between a steady pump and an unsteady plant. Its level switch starts the pump below half full."
+    },
+    {
+      "id": "lv",
+      "kind": "valve",
+      "label": "Level control valve",
+      "tag": "LV-101",
+      "class": "ControlValve",
+      "at": [7, 1.6],
+      "labelSide": "below",
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "clamp((prev('tank').fill - 0.2) / 0.3, 0, 1)"
+      },
+      "note": "Fully open above half full; closes as the level falls towards 20%, so the plant is cut back before the tank runs dry."
+    },
+    {
+      "id": "plant",
+      "kind": "factory",
+      "label": "To process plant",
+      "at": [9, 1.6],
+      "labelSide": "below",
+      "behaviour": {
+        "role": "sink",
+        "demand": "130 * shift(hour) * knob('demand') + 20"
+      }
+    }
+  ],
+  "links": [
+    { "from": "intake", "to": "pump", "domain": "water", "tag": "150-W-101" },
+    { "from": "mains", "to": "pump", "domain": "electric" },
+    { "from": "pump", "to": "nrv", "domain": "water", "tag": "100-W-102" },
+    { "from": "nrv", "to": "tank", "domain": "water" },
+    { "from": "tank", "to": "lv", "domain": "water", "tag": "150-W-103" },
+    { "from": "lv", "to": "plant", "domain": "water", "tag": "150-W-104" }
+  ],
+  "instruments": [
+    {
+      "tag": "LT-101",
+      "at": [5, 0.2],
+      "measures": "tank",
+      "low": 25,
+      "high": 95
+    },
+    {
+      "tag": "LIC-101",
+      "at": [7, 0.2],
+      "measures": "LT-101",
+      "drives": "lv",
+      "mounting": "dcs",
+      "low": 25,
+      "high": 95
+    },
+    { "tag": "FI-102", "at": [8, 3], "measures": "lv", "mounting": "panel" }
+  ],
+  "expect": [
+    {
+      "says": "The level loop keeps the tank from running dry, even through the day shift",
+      "check": "part('tank').fill > 0.15"
+    },
+    {
+      "says": "When the tank runs low the valve throttles and the plant is cut back",
+      "check": "part('plant').in < part('plant').demand",
+      "sometime": true
+    }
+  ]
+}

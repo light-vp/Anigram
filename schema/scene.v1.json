@@ -581,6 +581,79 @@
         "additionalProperties": false
       }
     },
+    "instruments": {
+      "type": "array",
+      "description": "instruments, drawn as ISA-5.1 bubbles on a P&ID",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "pattern": "^[A-Z]",
+            "description": "ISA-5.1: what it measures, what it does, then the loop number, like LIC-101"
+          },
+          "at": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "[column, row] on the grid, zero-based"
+          },
+          "measures": {
+            "type": "string",
+            "minLength": 1,
+            "description": "the part it is connected to"
+          },
+          "reads": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "description": "what it reads, like \"part('tank').fill * 100\"; a level or flow instrument reads its part when left out"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "drives": {
+            "type": "string",
+            "minLength": 1,
+            "description": "the valve or breaker a controller works"
+          },
+          "signal": {
+            "enum": [
+              "signal",
+              "pneumatic",
+              "data"
+            ],
+            "description": "how its signal to `drives` travels"
+          },
+          "mounting": {
+            "enum": [
+              "field",
+              "panel",
+              "behind-panel",
+              "dcs",
+              "plc"
+            ]
+          },
+          "low": {
+            "type": "number",
+            "description": "alarm below this reading"
+          },
+          "high": {
+            "type": "number",
+            "description": "alarm above this reading"
+          }
+        },
+        "required": [
+          "tag",
+          "at",
+          "measures"
+        ],
+        "additionalProperties": false
+      }
+    },
     "knobs": {
       "type": "array",
       "items": {

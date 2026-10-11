@@ -132,7 +132,7 @@ export const FUNCTIONS: Record<
   },
   part: {
     args: [1, 1],
-    doc: "part('id').in | .out | .fill | .demand: a part right now — only in a scene's `expect` checks",
+    doc: "part('id').in | .out | .fill | .demand: a part right now — only in a scene's `expect` checks and an instrument's `reads`",
   },
 }
 
