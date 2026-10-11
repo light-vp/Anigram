@@ -82,6 +82,44 @@ test('refs lists the knobs, switches and parts an expression reads', () => {
   assert.deepEqual([...r.parts], ['car'])
 })
 
+test('part() reads a part as it is now, with .demand, for expect checks', () => {
+  const r = exprRefs(
+    "part('house').in >= part('house').demand && prev('pv').out > 0",
+  )
+  assert.deepEqual([...r.reads], ['house'])
+  assert.deepEqual([...r.parts], ['pv'])
+  const now = { in: 2, out: 0, fill: 0, demand: 3 }
+  const fn = compileExpr("part('house').demand - part('house').in")
+  assert.equal(
+    fn({
+      hour: 0,
+      day: 0,
+      knob: () => 0,
+      on: () => false,
+      prev: () => now,
+      part: () => now,
+    }),
+    1,
+  )
+  // without a part() reader, as in a running signal, it reads as nothing
+  assert.equal(
+    fn({ hour: 0, day: 0, knob: () => 0, on: () => false, prev: () => now }),
+    0,
+  )
+  assert.throws(
+    () => compileExpr("prev('x').demand"),
+    /only \.in, \.out or \.fill can follow prev\(\)/,
+  )
+  assert.throws(
+    () => compileExpr("part('x')"),
+    /needs a field: \.in, \.out, \.fill or \.demand/,
+  )
+  assert.throws(
+    () => compileExpr("part('x').level"),
+    /\.demand can follow part\(\)/,
+  )
+})
+
 test('a mistyped name or function suggests the right one', () => {
   assert.throws(() => compileExpr('su(hour)'), /did you mean "sun"/)
   assert.throws(() => compileExpr('hourr * 2'), /did you mean "hour"/)

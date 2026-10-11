@@ -129,13 +129,53 @@ Arithmetic, comparisons, `&&` `||` `!`, `? :`, numbers, `hour` (0–24),
 `on('id')` a switch (1 or 0), `prev('id').in|out|fill` another part as it was
 last tick. Nothing else — expressions are parsed, never run as code.
 
+## Stories: `expect`
+
+A sheet makes claims ("the battery runs flat overnight, then the grid takes
+over"). Write each one as a check on the simulated day, and `check_scene`
+tells you whether the scene really does what it says:
+
+```json
+"expect": [
+  {
+    "says": "by early afternoon the panels have filled the battery",
+    "check": "part('battery').fill > 0.95",
+    "at": 13
+  },
+  {
+    "says": "overnight the battery runs dry and the grid takes over",
+    "check": "part('battery').fill < 0.05 && part('grid').out > 0",
+    "at": 2
+  },
+  {
+    "says": "the house is never short",
+    "check": "part('house').in >= 0.999 * part('house').demand"
+  }
+]
+```
+
+- `says` is the claim in words; `check` is a signal expression that is true
+  when it holds. `part('id').in|out|fill|demand` reads a part as it is at
+  that hour (`demand` is what a sink asked for). `knob()` and `on()` read the
+  controls the day was run with.
+- Checks run on the whole hours of the day. `at` picks one hour; `from` and
+  `to` a window, inclusive, wrapping past midnight; neither means every hour.
+- A check must hold at every hour it covers, unless `sometime: true`, when
+  one hour is enough.
+- Compare with a little room (`>= 0.999 * demand`, `fill > 0.95`): the
+  numbers are rounded to three decimals.
+
 ## Making a good one
 
-1. Start from the story: what should someone see happen over a day?
+1. Start from the story: what should someone see happen over a day? Write it
+   down as the `expect` list first.
 2. Lay the parts out left-to-right in the direction things flow; sources on
    the left or top, demand on the right or bottom.
 3. Validate. A field the format doesn't have is ignored with a warning, and
    a name that is nearly right (a kind, a role, a domain, a knob or part id)
-   comes back with the one it probably meant. Then **simulate a day** and read the table. Captions should say
-   what the numbers say. Tune signals until they do.
-4. Render it, look at it, fix crossings with `via` waypoints.
+   comes back with the one it probably meant.
+4. **Check it.** `check_scene` runs the day and reports every expectation;
+   when one fails it says at which hours and what the parts were doing.
+   `simulate_scene` has the hour-by-hour table. Tune signals until every
+   line holds, and make the captions say what the numbers say.
+5. Render it, look at the picture, fix crossings with `via` waypoints.

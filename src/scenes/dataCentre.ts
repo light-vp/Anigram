@@ -176,6 +176,23 @@ export const dataCentre: Scene = {
     { from: 'servers', to: 'cooling', domain: 'heat', loss: true },
     { from: 'servers', to: 'users', domain: 'data' },
   ],
+  expect: [
+    {
+      says: 'on mains, the servers are never short',
+      check: "part('servers').in >= 0.999 * part('servers').demand",
+    },
+    {
+      says: 'while the grid holds, the UPS and the diesel stand by',
+      check: "part('ups').out == 0 && part('genset').out == 0",
+    },
+    {
+      says: 'the evening peak draws the most power',
+      check: "part('grid').out > 1000",
+      from: 19,
+      to: 21,
+      sometime: true,
+    },
+  ],
   captions: [
     {
       from: 0,

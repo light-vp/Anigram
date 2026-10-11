@@ -41,6 +41,16 @@ export interface Env {
    * like chillers that work as hard as the servers they cool
    */
   prev: (id: string) => { in: number; out: number; fill: number }
+  /**
+   * a part as it is now, with what it asked for — only when checking a
+   * scene's `expect` list against a simulated day
+   */
+  part?: (id: string) => {
+    in: number
+    out: number
+    fill: number
+    demand: number
+  }
 }
 
 /**
@@ -152,6 +162,26 @@ export interface Switch {
   on: boolean
 }
 
+/**
+ * A line of the story the sheet tells, as a check on the simulated day:
+ * "the battery runs flat overnight" as `part('battery').fill < 0.05` at 23:00.
+ * `simulate_scene` and `check_scene` report each one, and CI holds the
+ * built-in sheets to theirs.
+ */
+export interface Expectation {
+  /** the claim in words, as a reader would put it */
+  says: string
+  /** an expression that is true (non-zero) when the claim holds */
+  check: string
+  /** the one hour it must hold at */
+  at?: number
+  /** a window of hours, inclusive at both ends; wraps past midnight if from > to */
+  from?: number
+  to?: number
+  /** true: holding at any one checked hour is enough, not every hour */
+  sometime?: boolean
+}
+
 export interface Caption {
   /** hours, inclusive start, exclusive end; wraps past midnight if from > to */
   from: number
@@ -181,6 +211,7 @@ export interface Scene {
   knobs?: Knob[]
   switches?: Switch[]
   captions?: Caption[]
+  expect?: Expectation[]
   clock: {
     /** hour of day the scene opens at */
     start: number

@@ -4,6 +4,7 @@
 // Drives the built server over stdio the way an assistant would:
 // `npm run build:mcp && node --test mcp/smoke.test.mjs`
 import assert from 'node:assert/strict'
+import { execFileSync } from 'node:child_process'
 import { existsSync, mkdtempSync, readFileSync, symlinkSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -63,11 +64,26 @@ before(async () => {
 })
 after(() => client.close())
 
+test('--version prints the package version and exits', () => {
+  const pkg = JSON.parse(
+    readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
+  )
+  const out = execFileSync(process.execPath, [server, '--version'], {
+    encoding: 'utf8',
+  })
+  assert.equal(out.trim(), pkg.version)
+  assert.match(
+    execFileSync(process.execPath, [server, '--help'], { encoding: 'utf8' }),
+    /ANIGRAM_ALLOW_PATHS/,
+  )
+})
+
 test('lists its tools', async () => {
   const { tools } = await client.listTools()
   const names = tools.map((t) => t.name).sort()
   assert.deepEqual(names, [
     'anigram_guide',
+    'check_scene',
     'edit_scene',
     'get_scene',
     'list_scenes',
@@ -246,6 +262,35 @@ test('render_scene shows the assistant a PNG by default', async () => {
   assert.equal(clash.error, true)
   const bad = await call('render_scene', { id: 'grid', out: 'x.gif' })
   assert.match(bad.text, /\.png or \.svg/)
+})
+
+test('check_scene says whether the story holds, and why not', async () => {
+  const good = await call('check_scene', { id: 'solar-home' })
+  assert.equal(good.data.ok, true, good.text)
+  assert.ok(good.data.expect.length >= 3)
+  assert.match(good.text, /expectations hold/)
+
+  const bad = await call('check_scene', {
+    id: 'solar-home',
+    switches: { ev: true },
+  })
+  assert.equal(bad.data.ok, false)
+  const miss = bad.data.expect.find((r) => !r.ok)
+  assert.ok(miss.failed.length > 0)
+  assert.ok(Object.keys(miss.values).length > 0)
+  assert.match(bad.text, /✗ .* fails at \d\d:00/)
+
+  const none = await call('check_scene', { scene: kettle })
+  assert.equal(none.data.ok, true)
+  assert.match(none.text, /no `expect` list/)
+
+  const broken = await call('check_scene', { scene: { id: 'x' } })
+  assert.equal(broken.data.ok, false)
+  assert.ok(broken.data.errors.length > 0)
+
+  const sim = await call('simulate_scene', { id: 'grid' })
+  assert.equal(sim.data.expect.length, 4)
+  assert.match(sim.text, /expect \(4 of 4 hold\)/)
 })
 
 test('files stay inside the working directory', async () => {

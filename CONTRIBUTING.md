@@ -18,6 +18,7 @@ npm run typecheck  # tsc -b
 npm run lint       # oxlint
 npm test           # the simulation's rules, in node's own test runner
 npm run test:mcp   # build the MCP server and drive it over stdio
+npm run eval       # a real assistant builds sheets with the server (costs tokens)
 npm run format     # prettier --write .
 ```
 

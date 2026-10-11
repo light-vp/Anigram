@@ -18,6 +18,7 @@ draw them.
 | `validate_scene` | Errors (won't load) and warnings (will run, probably not what you meant).                            |
 | `write_scene`    | Validate and save a `.json` scene file.                                                              |
 | `edit_scene`     | Add, move, update or remove parts and links in place.                                                |
+| `check_scene`    | Is it done? Validate, run the day, and check every line of the scene's `expect` list.                |
 | `simulate_scene` | Run a day headless: an hour-by-hour table, every alert, unmet demand. Knobs and switches can be set. |
 | `render_scene`   | The sheet at any hour, every flow labelled: a PNG the assistant can look at (default) or an SVG.     |
 | `share_link`     | A URL that opens the scene live in the browser. The scene travels in the link; nothing is uploaded.  |
@@ -28,7 +29,8 @@ parsing text.
 
 ## Install
 
-From a checkout (until it is on npm):
+Once it is on npm, `npx -y anigram-mcp` is all a client needs (see
+[RELEASING.md](../RELEASING.md)). Until then, from a checkout:
 
 ```sh
 git clone https://github.com/light-vp/Anigram anigram

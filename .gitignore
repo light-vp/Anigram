@@ -27,3 +27,6 @@ dist-ssr
 .claude/
 .env
 .env.*
+
+# eval runs (commit a baseline on purpose, with git add -f)
+eval/results/

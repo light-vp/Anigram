@@ -1,0 +1,50 @@
+[
+  {
+    "id": "off-grid-cabin",
+    "prompt": "Draw an off-grid cabin in the Highlands: a few solar panels, a small wind turbine, a battery bank and a diesel generator as backup, feeding lights, a fridge and a wood-pellet boiler's pump. Show that on a calm, cloudy evening the battery runs down and the generator starts, and that the fridge is never short."
+  },
+  {
+    "id": "heat-network",
+    "prompt": "Draw a district heat network: a gas CHP engine makes electricity and heat, a big thermal store tops up the network, and a hundred flats and a leisure centre draw heat. The CHP runs hardest in the morning peak, the store charges overnight and discharges at breakfast, and nobody goes cold."
+  },
+  {
+    "id": "rainwater-house",
+    "prompt": "Draw a house that harvests rainwater: the roof collects rain into an underground tank, a pump lifts it to the toilets and the garden, and mains water tops the tank up when it runs low. An afternoon storm should fill the tank; the toilets are never short."
+  },
+  {
+    "id": "hospital-backup",
+    "prompt": "Draw a hospital's power: mains through a breaker, a UPS battery, two diesel generators with a fuel tank, feeding theatres, wards and the chillers. Add a switch to trip the mains. With the mains on, the generators stay off; theatres are never short."
+  },
+  {
+    "id": "ev-hub",
+    "prompt": "Draw a motorway EV charging hub: a limited grid connection, a battery that buffers it, and eight rapid chargers whose demand peaks at lunchtime and in the early evening. The battery charges overnight and covers the peaks, so the grid connection never goes over its limit."
+  },
+  {
+    "id": "farm-biogas",
+    "prompt": "Draw a dairy farm's biogas plant: slurry feeds an anaerobic digester, the gas goes to a gas holder and a generator, the generator's heat warms the digester and the milking parlour, and spare electricity is exported. Milking happens at 5am and 4pm."
+  },
+  {
+    "id": "town-water",
+    "prompt": "Draw a small town's water supply: river intake, a treatment works, a pumped main up to a hilltop service reservoir, and the town below fed by gravity. Morning and evening demand peaks; the reservoir should drop during the day and recover overnight without ever running empty."
+  },
+  {
+    "id": "data-centre-heat-reuse",
+    "prompt": "Draw a data centre whose waste heat warms a public swimming pool next door through a heat pump, with dry coolers dumping whatever heat the pool can't take. Show the pool getting most of its heat from the servers in the evening."
+  },
+  {
+    "id": "hydrogen",
+    "prompt": "Draw a wind farm whose spare power runs an electrolyser making hydrogen into a storage tank, which a fuel cell turns back into electricity when the wind drops. The town it serves is never short, and the tank fills on the windy night."
+  },
+  {
+    "id": "heat-pump-home",
+    "prompt": "Draw a home with an air-source heat pump, a hot water cylinder and underfloor heating, on a time-of-use tariff: the heat pump heats the cylinder cheaply overnight and the house in the morning and evening. The showers are never cold."
+  },
+  {
+    "id": "tidal-lagoon",
+    "prompt": "Draw a tidal lagoon power station: the sea fills the lagoon through sluices on the flood tide, and the turbines generate as it empties on the ebb, feeding the grid. Show two generating windows in a day."
+  },
+  {
+    "id": "school-solar",
+    "prompt": "Draw a primary school with rooftop solar, a battery and night-storage heaters: the panels cover the daytime load during lessons, the battery takes the surplus at lunch, and the storage heaters charge overnight off the grid."
+  }
+]

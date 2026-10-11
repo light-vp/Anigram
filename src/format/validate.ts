@@ -7,6 +7,7 @@ import { didYouMean } from '../sim/suggest.ts'
 import type {
   Behaviour,
   Caption,
+  Expectation,
   Domain,
   Knob,
   LinkSpec,
@@ -63,6 +64,7 @@ export const FIELDS = {
     'knobs',
     'switches',
     'captions',
+    'expect',
     'clock',
   ],
   clock: ['start', 'rate'],
@@ -81,6 +83,7 @@ export const FIELDS = {
   ],
   link: ['from', 'to', 'domain', 'capacity', 'via', 'bend', 'loss'],
   caption: ['from', 'to', 'text'],
+  expect: ['says', 'check', 'at', 'from', 'to', 'sometime'],
   refill: ['below', 'until'],
   source: ['role', 'output', 'dispatchable', 'merit'],
   sink: ['role', 'demand', 'priority', 'absorbsSurplus'],
@@ -298,12 +301,45 @@ export function validateScene(input: unknown): Validation {
             path,
             `prev('${q}') — no part has that id${didYouMean(q, partIds)}`,
           )
+      for (const q of refs.reads)
+        err(
+          path,
+          `part('${q}') only works in an expect check; a signal reads another part with prev('${q}')`,
+        )
     } catch (e) {
       if (e instanceof ExprError)
         err(path, `${e.message} at character ${e.at + 1} of "${v}"`)
       else throw e
     }
     return v
+  }
+
+  /** an expect check reads parts as they are now, with part() */
+  const checkExpect = (path: string, v: string) => {
+    try {
+      const refs = exprRefs(v)
+      for (const k of refs.knobs)
+        if (!knobs.some((o) => o.id === k))
+          err(path, `knob('${k}') — no knob has that id`)
+      for (const w of refs.switches)
+        if (!switches.some((o) => o.id === w))
+          err(path, `on('${w}') — no switch has that id`)
+      for (const q of refs.parts)
+        err(
+          path,
+          `prev('${q}') is for signals; a check reads a part with part('${q}')`,
+        )
+      for (const q of refs.reads)
+        if (!partIds.has(q))
+          err(
+            path,
+            `part('${q}') — no part has that id${didYouMean(q, partIds)}`,
+          )
+    } catch (e) {
+      if (e instanceof ExprError)
+        err(path, `${e.message} at character ${e.at + 1} of "${v}"`)
+      else throw e
+    }
   }
 
   const parts: PartSpec[] = []
@@ -596,6 +632,42 @@ export function validateScene(input: unknown): Validation {
     })
   }
 
+  const expect: Expectation[] = []
+  if (s.expect !== undefined && !Array.isArray(s.expect))
+    err('expect', 'must be an array')
+  for (const [i, x] of (Array.isArray(s.expect) ? s.expect : []).entries()) {
+    const p = `expect[${i}]`
+    if (!isObj(x)) {
+      err(p, 'must be an object')
+      continue
+    }
+    unknownFields(p, x, FIELDS.expect)
+    const e: Expectation = {
+      says: str(`${p}.says`, x.says),
+      check: str(`${p}.check`, x.check),
+    }
+    if (e.check) checkExpect(`${p}.check`, e.check)
+    // checks run on the simulated day's whole hours
+    const hour = (f: 'at' | 'from' | 'to') => {
+      const v = num(`${p}.${f}`, x[f], { min: 0, max: 24 })
+      if (v % 1) err(`${p}.${f}`, 'checks run on the hour, so use a whole hour')
+      return v
+    }
+    if (x.at !== undefined) e.at = hour('at')
+    if (x.from !== undefined) e.from = hour('from')
+    if (x.to !== undefined) e.to = hour('to')
+    if ((e.from === undefined) !== (e.to === undefined))
+      err(p, 'give both from and to, or neither')
+    if (e.at !== undefined && e.from !== undefined)
+      err(p, 'give at, or from and to, not both')
+    if (x.sometime !== undefined) {
+      if (typeof x.sometime !== 'boolean')
+        err(`${p}.sometime`, 'must be true or false')
+      else if (x.sometime) e.sometime = true
+    }
+    expect.push(e)
+  }
+
   const clock = isObj(s.clock) ? s.clock : {}
   unknownFields('clock', clock, FIELDS.clock)
   if (s.clock !== undefined && !isObj(s.clock))
@@ -620,6 +692,7 @@ export function validateScene(input: unknown): Validation {
   if (knobs.length) scene.knobs = knobs
   if (switches.length) scene.switches = switches
   if (captions.length) scene.captions = captions
+  if (expect.length) scene.expect = expect
 
   return errors.length
     ? { ok: false, errors, warnings }
