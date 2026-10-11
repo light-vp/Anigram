@@ -54,6 +54,9 @@ jobs:
             exit 1
           fi
 
+      - name: App, package and changelog agree
+        run: npm run version:check
+
       - name: Typecheck, lint, test
         run: npm run typecheck && npm run lint && npm test
 

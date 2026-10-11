@@ -1,0 +1,25 @@
+name: Something's wrong
+description: A sheet draws wrongly, the app breaks, or an MCP tool misbehaves
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: And what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: where
+    attributes:
+      label: Where
+      description: >-
+        A link to the sheet (the app's "⧉ link" button copies one), or the
+        scene file attached, or the MCP tool call and its answer.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: For the MCP server, `npx -y anigram-mcp --version`. For the app, the browser.

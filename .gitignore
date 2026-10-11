@@ -30,3 +30,7 @@ dist-ssr
 
 # eval runs (commit a baseline on purpose, with git add -f)
 eval/results/
+
+# browser test output (screenshots in e2e/screenshots/ are committed)
+e2e/results/
+e2e/report/

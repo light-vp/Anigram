@@ -86,6 +86,9 @@ sheets in `src/scenes/*.ts` are scene files written as typed objects. In the
 app, **↓ json** saves the sheet on screen, **+ open** (or dropping a file on
 the page) loads one, and **⧉ link** copies a URL that carries the whole scene.
 
+Every part, every engineering symbol and every MCP tool is in the
+[reference docs](docs/README.md), written from the code so they stay true.
+
 ## The editor
 
 `?build=1` opens the editor, and **✎ edit** opens whatever sheet is on screen
@@ -178,6 +181,9 @@ npm run build:mcp  # the MCP server → mcp/dist/anigram-mcp.mjs
 npm run test:mcp   # build it and drive it over stdio
 npm run simulate   # a scene through a day, headless
 npm run schema     # rewrite schema/scene.v1.json after changing the format
+npm run e2e        # browser tests and sheet screenshots, against dist/ (build first)
+npm run e2e:update # accept a deliberate change to how a sheet looks
+npm run docs       # rewrite docs/reference/ from the code
 npm run typecheck  # tsc -b
 npm run lint       # oxlint
 npm run format     # prettier --write .
@@ -195,10 +201,14 @@ src/
   app/      the workbench, embed and screen views, URL params, export
   editor/   the editor: pure edits on a scene file, part templates, practice palettes, and its views
   packs/    the engineering drawing practices: classes, symbols, starters, house-rule checks
+  docs/     small renderers for the reference docs
 mcp/        the MCP server (bundled to one file by its own vite config)
 examples/   scene files
-docs/       the scene format
+docs/       the scene format, and the generated reference (parts, symbols, MCP tools)
+e2e/        browser tests (Playwright) and the sheet screenshots they compare against
 ```
+
+What changed in each release is in [CHANGELOG.md](CHANGELOG.md).
 
 See [ROADMAP.md](ROADMAP.md) for where it goes next.
 

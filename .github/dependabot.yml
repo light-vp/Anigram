@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Vaibhav Patel
+
+# A weekly PR for dependency updates, grouped so it's one PR rather than
+# twenty; security fixes arrive on their own as soon as they're published.
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    ignore:
+      # pinned: a new Playwright brings a new Chromium, which repaints every
+      # sheet screenshot. Bump it by hand with `npm run e2e:update`.
+      - dependency-name: '@playwright/test'
+    groups:
+      dev:
+        dependency-type: development
+        update-types: [minor, patch]
+      app:
+        dependency-type: production
+        update-types: [minor, patch]
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      actions:
+        patterns: ['*']

@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: MIT -->
 <!-- SPDX-FileCopyrightText: 2026 Vaibhav Patel -->
 
-# Releasing the MCP server
+# Releasing
 
 `anigram-mcp` is published to npm by `.github/workflows/publish-mcp.yml`,
 and only when a maintainer pushes a tag. Merging to `main` never publishes.
@@ -46,8 +46,11 @@ you as a required reviewer, so every publish waits for a click.
 
 ## Each release
 
-1. Bump `version` in `mcp/package.json` (semver: a new tool or option is a
-   minor, a fix is a patch) in a PR, and merge it.
+1. In a PR: bump `version` in both `package.json` and `mcp/package.json`
+   (one version for the app and the package; semver: a new tool, option or
+   part is a minor, a fix is a patch), and turn the changelog's
+   **Unreleased** section into a heading for that version. `npm run
+version:check` (in CI) fails until all three agree. Merge it.
 2. Tag the merge commit and push the tag:
 
    ```sh

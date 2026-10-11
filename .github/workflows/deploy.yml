@@ -1,0 +1,64 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Vaibhav Patel
+
+# Deploys the app to anigram.vaibhav.co.uk on every merge to main, the same
+# way the portfolio deploys itself: build, push dist/ to the `deploy` branch,
+# and Hostinger pulls that branch into the subdomain's folder when GitHub's
+# webhook tells it to. No secrets: the built-in token pushes the branch, and
+# Hostinger reads this public repo over HTTPS. One-time setup in SETUP.md.
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - 'eval/**'
+  workflow_dispatch:
+
+# one deploy at a time, and the newest wins
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # keep the contents:write token out of .git/config, where install
+          # scripts could read it
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Test
+        run: npm run typecheck && npm run lint && npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Push to the deploy branch
+        # pinned to an immutable commit SHA: this step holds a contents:write
+        # token, so never track a mutable ref here
+        uses: s0/git-publish-subdir-action@92faf786f11dfa44fc366ac3eb274d193ca1af7e # v2.6.0
+        env:
+          REPO: self
+          BRANCH: deploy
+          FOLDER: dist
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MESSAGE: 'Deploy {sha}'
