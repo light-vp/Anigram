@@ -60,18 +60,30 @@ jobs:
       - name: Build with a relative base
         run: npm run build -- --base=./
 
-      # the browser tests drive the root-based build, as deployed
-      - name: Build for the browser tests
-        run: npm run build
+  # The app in a real browser. Runs in Playwright's own image, pinned to the
+  # same version as package.json, so the browser and its fonts are identical
+  # on every run and the sheet screenshots can be compared pixel for pixel.
+  browser:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.56.1-noble
 
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          persist-credentials: false
 
-      - name: Install Playwright Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
 
       - name: Browser tests and screenshots
         run: npm run e2e
