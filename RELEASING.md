@@ -5,17 +5,35 @@
 
 `anigram-mcp` is published to npm by `.github/workflows/publish-mcp.yml`,
 and only when a maintainer pushes a tag. Merging to `main` never publishes.
+There is no npm token anywhere: the workflow uses npm's
+[Trusted Publishing](https://docs.npmjs.com/trusted-publishers), which lets
+it publish because it can prove it is this repository's run.
 
-## Once
+## Once: the first publish, by hand
 
-1. On npmjs.com, sign in as the account that should own the package and
-   create a **granular access token** with read and write access to
-   `anigram-mcp` (for the very first publish, to all packages, since the
-   name doesn't exist yet).
-2. In the GitHub repository, add it under Settings → Secrets and variables →
-   Actions as `NPM_TOKEN`.
-3. Optional: under Settings → Environments → `npm`, add yourself as a
-   required reviewer, so every publish waits for a click.
+npm can only name a trusted publisher for a package that already exists, so
+the very first version goes up from a maintainer's own machine, with their
+own login and 2FA:
+
+```sh
+git pull && npm ci && npm run test:mcp
+cd mcp && npm login && npm publish --access public
+```
+
+Then, on npmjs.com, open the `anigram-mcp` package → **Settings** →
+**Trusted Publisher** → **GitHub Actions**, and enter:
+
+| Field             | Value             |
+| ----------------- | ----------------- |
+| Organization/user | `light-vp`        |
+| Repository        | `Anigram`         |
+| Workflow filename | `publish-mcp.yml` |
+| Environment       | `npm`             |
+
+Optional, and worth it: on the same settings page, set publishing access to
+require 2FA and disallow tokens, so only the trusted workflow (or you, with
+2FA) can publish. In GitHub, Settings → Environments → `npm` can also list
+you as a required reviewer, so every publish waits for a click.
 
 ## Each release
 
@@ -28,7 +46,7 @@ and only when a maintainer pushes a tag. Merging to `main` never publishes.
    ```
 
 3. The workflow checks the tag matches the package version, runs every
-   check and the stdio smoke tests, then publishes with a provenance
+   check and the stdio smoke tests, then publishes. npm adds a provenance
    statement linking the package to that run.
 
 `npx -y anigram-mcp --version` prints the published version.
@@ -38,6 +56,6 @@ and only when a maintainer pushes a tag. Merging to `main` never publishes.
 `npm run eval` gives every prompt in `eval/prompts.json` to a real
 assistant with only this server to use, and scores what it made: valid,
 tells its story, right first time, looked at its drawing. It spends real
-tokens (roughly half a dollar a prompt), so run it before a release or after
+tokens (roughly $0.35 a prompt), so run it before a release or after
 changing the guide or a tool description, not on every PR. Compare against
-the last committed baseline in `eval/baseline.json`.
+the committed baseline in `eval/baseline.json`.

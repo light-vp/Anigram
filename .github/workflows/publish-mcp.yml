@@ -3,8 +3,9 @@
 
 # Publishes the MCP server to npm as `anigram-mcp`, only when a maintainer
 # pushes a tag like `mcp-v0.2.0` whose version matches mcp/package.json.
-# Nothing else triggers it. It needs an npm automation token in the
-# repository secret NPM_TOKEN; see RELEASING.md.
+# Nothing else triggers it. There is no npm token: npm's Trusted Publishing
+# lets this workflow publish by proving, over OIDC, that it is this repo's
+# run, once the package names it as its trusted publisher. See RELEASING.md.
 name: Publish anigram-mcp
 
 on:
@@ -14,7 +15,7 @@ on:
 
 permissions:
   contents: read
-  # lets npm sign the package with a provenance statement from this run
+  # the OIDC token npm's Trusted Publishing checks; it also signs provenance
   id-token: write
 
 jobs:
@@ -34,6 +35,10 @@ jobs:
           node-version: 24
           cache: npm
           registry-url: https://registry.npmjs.org
+
+      # Trusted Publishing needs npm 11.5.1 or later
+      - name: Update npm
+        run: npm install -g npm@^11.5.1
 
       - name: Install dependencies
         run: npm ci
@@ -56,6 +61,4 @@ jobs:
 
       - name: Publish
         working-directory: mcp
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish --provenance --access public
+        run: npm publish --access public
