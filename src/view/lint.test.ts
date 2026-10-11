@@ -97,3 +97,17 @@ test('a slanted run and a label on a part', () => {
   assert.ok(r.includes('label-collision'))
   for (const x of r) assert.ok(x in LAYOUT_RULES)
 })
+
+test('a long label beside a part in the last column runs off the sheet', () => {
+  const long = (side: 'left' | 'right') => ({
+    ...part('edge', [4, 2]),
+    label: 'A rather long name for a part',
+    labelSide: side,
+  })
+  const off = lintLayout(sheet([long('right')], [])).filter(
+    (f) => f.rule === 'label-off-sheet',
+  )
+  assert.equal(off.length, 1)
+  assert.match(off[0]!.message, /right edge.*"left"/)
+  assert.ok(!rules(sheet([long('left')], [])).includes('label-off-sheet'))
+})

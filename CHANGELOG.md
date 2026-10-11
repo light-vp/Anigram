@@ -35,7 +35,8 @@ Engineering drawings, an editor for scene files, and a release process.
   converter over 100% efficient, or a round trip that comes back bigger.
 - **MCP tools:** `new_scene` (a starter for each drawing practice),
   `check_drawing` (the practice's rules: tags, line numbers, symbols),
-  `lint_layout` and `auto_layout` (crossed lines, crowded labels, and a fix),
+  `lint_layout` and `auto_layout` (crossed lines, crowded labels, labels off
+  the sheet, and a fix),
   `export_dexpi` (a P&ID as DEXPI 1.3 Proteus XML), and one prompt per
   practice (`draw-pid`, `draw-single-line`, `draw-pfd`, `draw-sheet`).
 - **The editor** (`?build=1`) edits the scene file itself: place parts from
@@ -47,7 +48,7 @@ Engineering drawings, an editor for scene files, and a release process.
   every symbol in each symbol set, and every MCP tool with a real call.
 - **Browser tests** for the app, the embeds and the editor, and a
   screenshot of every built-in sheet in each drawing type, on every PR.
-- **Deploys itself.** A merge to `main` goes live at anigram.vaibhav.co.uk.
+- **Goes live on its own.** The portfolio's deploy now checks every 30 minutes for a new merge here and redeploys anigram.vaibhav.co.uk when there is one.
 
 ### Changed
 

@@ -179,7 +179,7 @@ pipes.
   `strict` any finding fails it, for CI and print-ready sheets.
 - `lint_layout` checks the sheet reads cleanly (no crossing or doubled
   lines, no line through a part, no slanted runs, no label on top of
-  another), and `auto_layout` lays a sheet out by its flow: a single-line
+  another or off the edge of the sheet), and `auto_layout` lays a sheet out by its flow: a single-line
   top to bottom with feeders dropping off the busbars, anything else left to
   right with P&ID instruments a row above what they serve.
 - `export_dexpi` writes a P&ID as DEXPI 1.3 (Proteus 4.1.1) XML for plant
