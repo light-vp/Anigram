@@ -175,6 +175,24 @@ export const hydroDam: Scene = {
     { from: 'step', to: 'town', domain: 'electric' },
     { from: 'national', to: 'town', domain: 'electric' },
   ],
+  expect: [
+    {
+      says: 'the storm fills the reservoir',
+      check: "part('lake').fill > 0.99",
+      at: 15,
+    },
+    {
+      says: 'once it is full, the spillway takes the rest',
+      check: "part('spill').in > 0",
+      from: 14,
+      to: 17,
+    },
+    {
+      says: 'with the intake open the town never needs the national grid',
+      check:
+        "part('national').out == 0 && part('town').in >= 0.999 * part('town').demand",
+    },
+  ],
   captions: [
     {
       from: 0,

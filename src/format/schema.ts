@@ -29,6 +29,7 @@ const cell: Schema = {
   maxItems: 2,
   description: '[column, row] on the grid, zero-based',
 }
+const hour: Schema = { type: 'integer', minimum: 0, maximum: 24 }
 const domain: Schema = { enum: [...DOMAINS] }
 const signal: Schema = {
   description:
@@ -231,6 +232,36 @@ export function sceneSchema(): Schema {
               text: str,
             },
             ['from', 'to', 'text'],
+          ),
+        },
+        expect: {
+          type: 'array',
+          description:
+            'the story as checks on the simulated day; simulate_scene and check_scene report each one',
+          items: object(
+            FIELDS.expect,
+            {
+              says: { ...str, description: 'the claim in words' },
+              check: {
+                type: 'string',
+                minLength: 1,
+                maxLength: MAX_EXPR_LENGTH,
+                description:
+                  "an expression that is true when the claim holds; part('id').in, .out, .fill or .demand reads a part, e.g. \"part('battery').fill < 0.05\"",
+              },
+              at: { ...hour, description: 'the one hour it must hold at' },
+              from: { ...hour, description: 'start of a window of hours' },
+              to: {
+                ...hour,
+                description:
+                  'end of the window, inclusive; wraps past midnight',
+              },
+              sometime: {
+                type: 'boolean',
+                description: 'true: holding at any checked hour is enough',
+              },
+            },
+            ['says', 'check'],
           ),
         },
         clock: object(FIELDS.clock, {

@@ -170,6 +170,27 @@ export const waterTower: Scene = {
     { from: 'main', to: 'valve', domain: 'water' },
     { from: 'valve', to: 'hydrant', domain: 'water' },
   ],
+  expect: [
+    {
+      says: 'at night the tower sits nearly full',
+      check: "part('tower').fill > 0.75",
+      at: 4,
+    },
+    {
+      says: 'morning showers drain it faster than the pump can refill it',
+      check: "part('tower').fill < 0.4 && part('pump').out > 0",
+      at: 8,
+    },
+    {
+      says: 'the pump rests once the tower is topped up',
+      check: "part('pump').out == 0",
+      at: 16,
+    },
+    {
+      says: 'the taps never run short',
+      check: "part('taps').in >= 0.999 * part('taps').demand",
+    },
+  ],
   captions: [
     {
       from: 0,

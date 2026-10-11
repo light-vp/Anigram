@@ -26,7 +26,8 @@ import type { Env } from './types.ts'
  *
  * The language is arithmetic, comparisons, `&&` `||` `!`, a ternary, and a
  * fixed set of functions. There is no assignment, no loops, no property access
- * except `.in` `.out` `.fill` on `prev()`, and nothing reaches JavaScript — it
+ * except `.in` `.out` `.fill` on `prev()` (and `.demand` on `part()`, which
+ * only a scene's `expect` checks can use), and nothing reaches JavaScript — it
  * is parsed here and evaluated by walking the tree, so a scene file from a
  * stranger can't run code.
  */
@@ -37,7 +38,10 @@ export type Compiled = (env: Env) => number
 export interface Refs {
   knobs: Set<string>
   switches: Set<string>
+  /** read with prev() */
   parts: Set<string>
+  /** read with part(), which only `expect` checks may use */
+  reads: Set<string>
 }
 
 export class ExprError extends Error {
@@ -126,7 +130,19 @@ export const FUNCTIONS: Record<
     args: [1, 1],
     doc: "prev('id').in | .out | .fill: another part as it was last tick",
   },
+  part: {
+    args: [1, 1],
+    doc: "part('id').in | .out | .fill | .demand: a part right now — only in a scene's `expect` checks",
+  },
 }
+
+const PREV_FIELDS: readonly Field[] = ['in', 'out', 'fill']
+const PART_FIELDS: readonly Field[] = ['in', 'out', 'fill', 'demand']
+const fieldList = (fs: readonly Field[]) =>
+  fs
+    .map((f) => `.${f}`)
+    .join(', ')
+    .replace(/, ([^,]*)$/, ' or $1')
 
 /** names an expression can read without calling anything */
 export const VARIABLES: Record<string, string> = {
@@ -140,10 +156,12 @@ type Node =
   | { t: 'str'; v: string; at: number }
   | { t: 'var'; name: string; at: number }
   | { t: 'call'; name: string; args: Node[]; at: number }
-  | { t: 'field'; of: Node; name: 'in' | 'out' | 'fill'; at: number }
+  | { t: 'field'; of: Node; name: Field; at: number }
   | { t: 'un'; op: string; a: Node }
   | { t: 'bin'; op: string; a: Node; b: Node }
   | { t: 'if'; c: Node; a: Node; b: Node }
+
+type Field = 'in' | 'out' | 'fill' | 'demand'
 
 type Tok = { k: 'num' | 'str' | 'id' | 'op' | 'end'; v: string; at: number }
 
@@ -273,12 +291,16 @@ function parse(src: string): Node {
     while (isOp('.')) {
       const dot = toks[p++]!
       const f = peek()
-      if (f.k !== 'id' || !['in', 'out', 'fill'].includes(f.v))
-        throw new ExprError('only .in, .out or .fill can follow prev()', f.at)
-      if (n.t !== 'call' || n.name !== 'prev')
-        throw new ExprError('only prev() has fields', dot.at)
+      if (n.t !== 'call' || (n.name !== 'prev' && n.name !== 'part'))
+        throw new ExprError('only prev() and part() have fields', dot.at)
+      const fields = n.name === 'part' ? PART_FIELDS : PREV_FIELDS
+      if (f.k !== 'id' || !fields.includes(f.v as Field))
+        throw new ExprError(
+          `only ${fieldList(fields)} can follow ${n.name}()`,
+          f.at,
+        )
       p++
-      n = { t: 'field', of: n, name: f.v as 'in' | 'out' | 'fill', at: dot.at }
+      n = { t: 'field', of: n, name: f.v as Field, at: dot.at }
     }
     return n
   }
@@ -317,7 +339,7 @@ function parse(src: string): Node {
           `${tok.v}() takes ${lo === hi ? lo : `${lo}–${hi}`} argument${hi === 1 ? '' : 's'}`,
           tok.at,
         )
-      const named = tok.v === 'knob' || tok.v === 'on' || tok.v === 'prev'
+      const named = ['knob', 'on', 'prev', 'part'].includes(tok.v)
       if (named !== (args[0]?.t === 'str'))
         throw new ExprError(
           named
@@ -327,9 +349,9 @@ function parse(src: string): Node {
         )
       if (args.slice(1).some((a) => a.t === 'str'))
         throw new ExprError(`${tok.v}() takes numbers, not text`, tok.at)
-      if (tok.v === 'prev' && !isOp('.'))
+      if ((tok.v === 'prev' || tok.v === 'part') && !isOp('.'))
         throw new ExprError(
-          "prev('id') needs a field: .in, .out or .fill",
+          `${tok.v}('id') needs a field: ${fieldList(tok.v === 'part' ? PART_FIELDS : PREV_FIELDS)}`,
           tok.at,
         )
       return { t: 'call', name: tok.v, args, at: tok.at }
@@ -366,9 +388,11 @@ function build(n: Node): Compiled {
       if (n.name === 'day') return (e) => e.day
       return () => Math.PI
     case 'field': {
-      const id = (n.of as { args: Node[] }).args[0] as { v: string }
+      const of = n.of as { name: string; args: Node[] }
+      const id = (of.args[0] as { v: string }).v
       const f = n.name
-      return (e) => e.prev(id.v)[f]
+      if (of.name === 'part') return (e) => e.part?.(id)[f] ?? NaN
+      return (e) => e.prev(id)[f as Exclude<Field, 'demand'>]
     }
     case 'call': {
       if (n.name === 'knob' || n.name === 'on') {
@@ -429,6 +453,7 @@ function collect(n: Node, refs: Refs) {
     if (id !== null && n.name === 'knob') refs.knobs.add(id)
     if (id !== null && n.name === 'on') refs.switches.add(id)
     if (id !== null && n.name === 'prev') refs.parts.add(id)
+    if (id !== null && n.name === 'part') refs.reads.add(id)
     n.args.forEach((a) => collect(a, refs))
   } else if (n.t === 'field') collect(n.of, refs)
   else if (n.t === 'un') collect(n.a, refs)
@@ -461,7 +486,12 @@ export function compileExpr(src: string): Compiled {
 
 /** what an expression reads; throws ExprError if it doesn't parse */
 export function exprRefs(src: string): Refs {
-  const refs: Refs = { knobs: new Set(), switches: new Set(), parts: new Set() }
+  const refs: Refs = {
+    knobs: new Set(),
+    switches: new Set(),
+    parts: new Set(),
+    reads: new Set(),
+  }
   collect(parse(src), refs)
   return refs
 }

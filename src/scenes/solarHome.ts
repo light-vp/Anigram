@@ -200,6 +200,27 @@ export const solarHome: Scene = {
     { from: 'air', to: 'hp', domain: 'heat' },
     { from: 'hp', to: 'rads', domain: 'heat' },
   ],
+  expect: [
+    {
+      says: 'by early afternoon the panels have filled the battery',
+      check: "part('battery').fill > 0.95",
+      at: 13,
+    },
+    {
+      says: 'at midday the spare power is exported to the grid',
+      check: "part('grid').in > 0",
+      at: 13,
+    },
+    {
+      says: 'overnight the battery runs dry and the grid takes over',
+      check: "part('battery').fill < 0.05 && part('grid').out > 0",
+      at: 2,
+    },
+    {
+      says: 'the house is never short',
+      check: "part('house').in >= 0.999 * part('house').demand",
+    },
+  ],
   captions: [
     {
       from: 0,

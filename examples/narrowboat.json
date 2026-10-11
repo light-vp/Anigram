@@ -233,6 +233,28 @@
       ]
     }
   ],
+  "expect": [
+    {
+      "says": "the panels fill the battery by mid-afternoon",
+      "check": "part('battery').fill > 0.95",
+      "at": 16
+    },
+    {
+      "says": "the engine stays off while the sun and the battery cope",
+      "check": "part('engine').out == 0",
+      "from": 10,
+      "to": 23
+    },
+    {
+      "says": "overnight the battery runs dry and the engine starts",
+      "check": "part('battery').fill < 0.05 && part('engine').out > 0",
+      "at": 5
+    },
+    {
+      "says": "the cabin is never short",
+      "check": "part('cabin').in >= 0.999 * part('cabin').demand"
+    }
+  ],
   "captions": [
     {
       "from": 6,

@@ -327,6 +327,29 @@ export const grid: Scene = {
     { from: 'tank', to: 'diesel', domain: 'fuel' },
     { from: 'diesel', to: 'hospital', domain: 'electric' },
   ],
+  expect: [
+    {
+      says: 'at night the reactor’s spare power pumps water up to the top lake',
+      check: "part('pump').out > 0",
+      from: 21,
+      to: 2,
+    },
+    {
+      says: 'the gas plant fires up to cover the morning ramp',
+      check: "part('gas').out > 0",
+      at: 9,
+    },
+    {
+      says: 'in the evening peak the top lake drains back through the turbine',
+      check: "part('hydro').out > 0 && part('lake').fill < 0.5",
+      at: 18,
+    },
+    {
+      says: 'the city, the hospital and the steelworks are never short',
+      check:
+        "part('city').in >= 0.999 * part('city').demand && part('hospital').in >= 0.999 * part('hospital').demand && part('factory').in >= 0.999 * part('factory').demand",
+    },
+  ],
   captions: [
     {
       from: 22,

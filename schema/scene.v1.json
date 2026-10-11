@@ -589,6 +589,53 @@
         "additionalProperties": false
       }
     },
+    "expect": {
+      "type": "array",
+      "description": "the story as checks on the simulated day; simulate_scene and check_scene report each one",
+      "items": {
+        "type": "object",
+        "properties": {
+          "says": {
+            "type": "string",
+            "minLength": 1,
+            "description": "the claim in words"
+          },
+          "check": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "description": "an expression that is true when the claim holds; part('id').in, .out, .fill or .demand reads a part, e.g. \"part('battery').fill < 0.05\""
+          },
+          "at": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 24,
+            "description": "the one hour it must hold at"
+          },
+          "from": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 24,
+            "description": "start of a window of hours"
+          },
+          "to": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 24,
+            "description": "end of the window, inclusive; wraps past midnight"
+          },
+          "sometime": {
+            "type": "boolean",
+            "description": "true: holding at any checked hour is enough"
+          }
+        },
+        "required": [
+          "says",
+          "check"
+        ],
+        "additionalProperties": false
+      }
+    },
     "clock": {
       "type": "object",
       "properties": {

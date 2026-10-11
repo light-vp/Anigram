@@ -41,6 +41,7 @@ import { z } from 'zod'
 
 import guideText from '../docs/scene-format.md?raw'
 import { stamp } from '../src/format/migrate.ts'
+import { checkExpectations, expectLines } from '../src/format/expect.ts'
 import { reportTable, simulateDay } from '../src/format/report.ts'
 import { SCHEMA_URL, sceneSchema } from '../src/format/schema.ts'
 import { encodeScene, HASH_KEY } from '../src/format/share.ts'
@@ -66,7 +67,7 @@ const server = new McpServer(
   {
     instructions:
       'Anigram draws living diagrams: engineering sheets of real systems (power grids, solar houses, water towers, data centres) where every moving line is read off a flow simulation. ' +
-      'A drawing is a JSON scene file. Call anigram_guide first for the format. Then: write the file (write_scene), validate it, simulate_scene to check the day tells the story you meant, ' +
+      'A drawing is a JSON scene file. Call anigram_guide first for the format. Then: write the file (write_scene) with an `expect` list stating its story, check_scene until every expectation holds (simulate_scene shows the hour-by-hour numbers when one fails), ' +
       'render_scene to look at it (a PNG by default: check the layout reads cleanly), and share_link to open it live in the browser. Built-in sheets (list_scenes / get_scene) are good starting points to copy.',
   },
 )
@@ -285,6 +286,18 @@ const checked = {
     .array(z.string())
     .describe('things that will run but are probably not what you meant'),
 }
+
+const expectOutput = z.object({
+  says: z.string(),
+  check: z.string(),
+  ok: z.boolean(),
+  hours: z.array(z.number()).describe('the hours it was checked at'),
+  failed: z.array(z.number()).describe('the hours it did not hold'),
+  values: z
+    .record(z.string(), z.number())
+    .optional()
+    .describe('what the parts it reads were doing at the first failure'),
+})
 
 /** a scene file; only the fields every valid scene has are spelled out */
 const sceneOutput = z.looseObject({
@@ -621,6 +634,9 @@ server.registerTool(
       unmet: z
         .record(z.string(), z.number())
         .describe('demands that went short over the day, by part id'),
+      expect: z
+        .array(expectOutput)
+        .describe("the scene's `expect` checks against this day"),
       warnings: z.array(z.string()),
       rows: z
         .array(z.record(z.string(), z.unknown()))
@@ -647,6 +663,7 @@ server.registerTool(
           .filter(([, t]) => (t.unmet ?? 0) > 1e-3)
           .map(([id, t]) => [id, t.unmet ?? 0]),
       )
+      const stories = checkExpectations(scene, report, args)
       const result: Json = {
         sheet: scene.sheet,
         title: scene.title,
@@ -654,6 +671,7 @@ server.registerTool(
         alerts: report.alerts,
         totals: report.totals,
         unmet: unmetBy,
+        expect: stories,
         warnings,
         ...(args.format === 'json'
           ? { rows: report.rows as unknown as Json[] }
@@ -680,8 +698,85 @@ server.registerTool(
           unmet.length
             ? `\nunmet demand over the day (rate × hours): ${unmet.join(', ')}`
             : '\nevery demand was met all day',
+          stories.length
+            ? `\nexpect (${stories.filter((r) => r.ok).length} of ${stories.length} hold):\n${expectLines(stories)}`
+            : '',
           warnings.length ? `\nwarnings:\n- ${warnings.join('\n- ')}` : '',
         ].join('\n'),
+      )
+    },
+  ),
+)
+
+server.registerTool(
+  'check_scene',
+  {
+    title: 'Check a scene tells its story',
+    description:
+      "One call for 'is it done?': validate the scene, run its day, and check every line of its `expect` list. " +
+      'ok is true only when the scene is valid and every expectation holds. Use it after each change; when one fails, the result says at which hours and what the parts it reads were doing. ' +
+      'A scene with no `expect` list passes with a reminder to add one.',
+    inputSchema: { ...sceneInput, ...controlsInput },
+    outputSchema: {
+      ...checked,
+      ok: z
+        .boolean()
+        .describe('valid, and every expectation holds under these controls'),
+      expect: z.array(expectOutput),
+      alerts: z.array(
+        z.object({ text: z.string(), hours: z.array(z.number()) }),
+      ),
+    },
+    annotations: { readOnlyHint: true },
+  },
+  guarded(
+    (args: {
+      scene?: Json | string
+      file?: string
+      id?: string
+      knobs?: Record<string, number>
+      switches?: Record<string, boolean>
+    }) => {
+      const v = validateScene(rawScene(args))
+      if (!v.scene) {
+        const result = {
+          ok: false,
+          errors: v.errors,
+          warnings: v.warnings,
+          expect: [],
+          alerts: [],
+        }
+        return data(
+          result,
+          `not valid — ${v.errors.length} error(s):\n- ${v.errors.join('\n- ')}`,
+        )
+      }
+      const scene = v.scene
+      checkControls(scene, args)
+      const report = simulateDay(scene, args)
+      const stories = checkExpectations(scene, report, args)
+      const ok = stories.every((r) => r.ok)
+      const result = {
+        ok,
+        errors: v.errors,
+        warnings: v.warnings,
+        expect: stories,
+        alerts: report.alerts,
+      }
+      const head = !stories.length
+        ? 'valid, but there is no `expect` list to check: add one line per claim the sheet makes (see the guide)'
+        : ok
+          ? `all ${stories.length} expectations hold`
+          : `${stories.filter((r) => !r.ok).length} of ${stories.length} expectations fail`
+      return data(
+        result,
+        [
+          head,
+          stories.length ? expectLines(stories) : '',
+          v.warnings.length ? `warnings:\n- ${v.warnings.join('\n- ')}` : '',
+        ]
+          .filter(Boolean)
+          .join('\n\n'),
       )
     },
   ),
