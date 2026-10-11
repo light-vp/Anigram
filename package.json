@@ -27,6 +27,7 @@
     "version:check": "node scripts/check-versions.mjs",
     "eval": "npm run build:mcp && node eval/run.mjs",
     "simulate": "node scripts/simulate-day.ts",
+    "bench": "node scripts/bench-solver.ts",
     "schema": "node scripts/write-schema.ts",
     "mcp": "node mcp/dist/anigram-mcp.mjs"
   },

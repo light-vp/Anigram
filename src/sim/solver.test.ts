@@ -478,3 +478,109 @@ test('a battery topping up from spare sun does not crank the generator beside it
     assert.equal(s.parts.gen!.out, 0)
   }
 })
+
+const sink = (id: string, demand: number, priority = 0): Scene['parts'][0] => ({
+  id,
+  kind: 'x',
+  label: id,
+  at,
+  behaviour: { role: 'sink', demand, priority },
+})
+const source = (id: string, output: number): Scene['parts'][0] => ({
+  id,
+  kind: 'x',
+  label: id,
+  at,
+  behaviour: { role: 'source', output },
+})
+const close = (a: number, b: number) =>
+  assert.ok(Math.abs(a - b) < 1e-4, `${a} is not ${b}`)
+
+test('a shortfall is shared in proportion to what each sink asks for', () => {
+  const m = compile(
+    scene(
+      [source('gen', 5), sink('a', 2), sink('b', 6)],
+      [
+        { from: 'gen', to: 'a', domain: 'electric' },
+        { from: 'gen', to: 'b', domain: 'electric' },
+      ],
+    ),
+  )
+  const r = solve(m, env(), 0.1, initialMemory(m))
+  close(r.parts.a!.in, 1.25)
+  close(r.parts.b!.in, 3.75)
+})
+
+test('a sink held back by its own breaker leaves the rest to the others', () => {
+  const m = compile(
+    scene(
+      [
+        source('gen', 9),
+        {
+          id: 'brk',
+          kind: 'x',
+          label: 'brk',
+          at,
+          behaviour: { role: 'gate', capacity: 1 },
+        },
+        sink('a', 4),
+        sink('b', 4),
+        sink('c', 6),
+      ],
+      [
+        { from: 'gen', to: 'brk', domain: 'electric' },
+        { from: 'brk', to: 'a', domain: 'electric' },
+        { from: 'gen', to: 'b', domain: 'electric' },
+        { from: 'gen', to: 'c', domain: 'electric' },
+      ],
+    ),
+  )
+  const r = solve(m, env(), 0.1, initialMemory(m))
+  // a gets all its breaker passes; b and c split the other 8 at 80% each
+  close(r.parts.a!.in, 1)
+  close(r.parts.b!.in, 3.2)
+  close(r.parts.c!.in, 4.8)
+})
+
+test('two feeders each at their limit, behind a supply that is short too', () => {
+  const parts: Scene['parts'] = [source('gen', 10)]
+  const links: Scene['links'] = []
+  for (const [f, limit] of [
+    ['f1', 2],
+    ['f2', 100],
+  ] as const) {
+    parts.push({
+      id: f,
+      kind: 'x',
+      label: f,
+      at,
+      behaviour: { role: 'gate', capacity: limit },
+    })
+    links.push({ from: 'gen', to: f, domain: 'electric' })
+    for (const h of ['x', 'y']) {
+      parts.push(sink(`${f}${h}`, 4))
+      links.push({ from: f, to: `${f}${h}`, domain: 'electric' })
+    }
+  }
+  const m = compile(scene(parts, links))
+  const r = solve(m, env(), 0.1, initialMemory(m))
+  // f1's houses get 1 each (25%); f2's share the other 8 and are fully served
+  close(r.parts.f1x!.in, 1)
+  close(r.parts.f1y!.in, 1)
+  close(r.parts.f2x!.in, 4)
+  close(r.parts.f2y!.in, 4)
+  // and with less to go round, f2's houses share what's left equally
+  const tight = compile(
+    scene(
+      [
+        { ...parts[0]!, behaviour: { role: 'source', output: 5 } },
+        ...parts.slice(1),
+      ],
+      links,
+    ),
+  )
+  const t = solve(tight, env(), 0.1, initialMemory(tight))
+  close(t.parts.f1x!.in, 1)
+  close(t.parts.f2x!.in, 1.5)
+  close(t.parts.f2y!.in, 1.5)
+})
