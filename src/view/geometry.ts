@@ -15,12 +15,28 @@ export const FOOT_H = 44
 export const TILE = 52
 export const TILE_R = 14
 
+/** an engineering sheet's foot: the legend beside the title block */
+export const ENG_FOOT_H = 124
+/** the ISO 7200 title block, bottom right inside the border */
+export const TITLE_W = 380
+export const TITLE_H = 90
+/** the border's inset from the sheet's edge */
+export const BORDER = 12
+
 export type Pt = [number, number]
 
+/** whether a sheet follows an engineering practice rather than being a picture */
+export const isEngineering = (scene: Pick<Scene, 'drawing'>) =>
+  !!scene.drawing && scene.drawing !== 'pictorial'
+
 export function sheetSize(scene: Scene): { w: number; h: number } {
+  const w = scene.size[0] * CELL + PAD * 2
+  if (!isEngineering(scene))
+    return { w, h: HEAD_H + scene.size[1] * CELL + FOOT_H }
+  // wide enough for the title block and a legend beside it
   return {
-    w: scene.size[0] * CELL + PAD * 2,
-    h: HEAD_H + scene.size[1] * CELL + FOOT_H,
+    w: Math.max(w, TITLE_W + BORDER + PAD + 180),
+    h: HEAD_H + scene.size[1] * CELL + ENG_FOOT_H,
   }
 }
 

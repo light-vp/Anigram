@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-// Golden drawings: every built-in sheet rendered to SVG at two hours,
+// Golden drawings: every built-in sheet rendered to SVG at two hours, and
+// the engineering reference sheets in examples/,
 // committed in test/drawings/. A change that moves a line on a built-in
 // sheet fails here, so the pictorial look can't shift while other drawing
 // types are added. When the change is meant, `npm run drawings:update`
@@ -66,6 +67,21 @@ test('every built-in sheet draws as it did', async () => {
       if (normalise(readFileSync(file, 'utf8')) !== normalise(drawn))
         changed.push(name)
     }
+  // and the engineering reference sheets, which carry instruments and a title block
+  for (const example of ['feed-tank-pid']) {
+    const name = `${example}-9.svg`
+    const file = new URL(name, DIR)
+    const scene = readFileSync(
+      new URL(`../examples/${example}.json`, import.meta.url),
+      'utf8',
+    )
+    const drawn = await svg({ scene, hour: 9 })
+    if (UPDATE || !existsSync(file)) {
+      writeFileSync(file, drawn)
+      if (!UPDATE) changed.push(`${name} (was missing, now written)`)
+    } else if (normalise(readFileSync(file, 'utf8')) !== normalise(drawn))
+      changed.push(name)
+  }
   assert.deepEqual(
     changed,
     [],

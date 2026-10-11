@@ -19,7 +19,9 @@ import type {
 } from '../sim/types.ts'
 import { rate, readout } from './format.ts'
 import {
+  BORDER,
   FOOT_H,
+  isEngineering,
   PAD,
   TILE,
   TILE_R,
@@ -45,6 +47,7 @@ import {
   InstrumentLines,
 } from './engineering.tsx'
 import { partWay } from './lines.ts'
+import { Border, TitleBlock } from './TitleBlock.tsx'
 import { measuredPart } from '../sim/instruments.ts'
 
 export interface SheetProps {
@@ -252,6 +255,8 @@ export function Sheet({
         ))}
       </g>
 
+      {eng && <Border w={w} h={h} />}
+      {eng && <TitleBlock scene={scene} w={w} h={h} />}
       {eng ? (
         <EngLegend
           scene={scene}
@@ -598,6 +603,15 @@ function Legend({ scene, h }: { scene: Scene; h: number }) {
  * just carries the words.
  */
 function Credit({ scene, w, h }: { scene: Scene; w: number; h: number }) {
+  // an engineering sheet signs bottom left, inside its border
+  if (isEngineering(scene))
+    return (
+      <a href={CREDIT_URL} target="_blank" rel="noopener">
+        <text className="credit" x={PAD} y={h - BORDER - 10}>
+          {CREDIT}
+        </text>
+      </a>
+    )
   const x = w - PAD
   const fits = legendItems(scene).end + 24 + CREDIT.length * 5.6 <= x
   return (

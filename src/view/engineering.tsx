@@ -15,7 +15,7 @@ import type {
 } from '../sim/types.ts'
 import { num, partDomain, rate, readout } from './format.ts'
 import {
-  FOOT_H,
+  ENG_FOOT_H,
   PAD,
   TILE,
   cellToPx,
@@ -284,13 +284,13 @@ export function EngLegend({
   ]
   const label = (t: (typeof types)[number]) =>
     t === 'loss' ? 'loss to surroundings' : names[t]
-  const y = h - FOOT_H / 2 - 4
-  let x = PAD
+  // a column down the left of the foot, beside the title block
+  const top = h - ENG_FOOT_H + 18
   return (
     <g>
-      {types.map((t) => {
-        const at = x
-        x += 34 + label(t).length * 6.2 + 22
+      {types.map((t, i) => {
+        const at = PAD
+        const y = top + i * 16
         return (
           <g key={t}>
             <path

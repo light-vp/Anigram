@@ -57,16 +57,16 @@ battery, and the engine as backup — check the battery runs flat overnight."_
 The server gives the assistant the scene format, validation with readable
 errors, a headless day of simulation, SVG rendering and share links:
 
-| Tool                         |                                                         |
-| ---------------------------- | ------------------------------------------------------- |
-| `anigram_guide`              | the format, every drawable part, the signal functions   |
-| `list_scenes` / `get_scene`  | the built-in sheets, as JSON to copy from               |
-| `validate_scene`             | errors and warnings, each pinned to the part it's about |
-| `write_scene` / `edit_scene` | save a scene file, or patch parts and links in place    |
-| `check_scene`                | valid, and every claim in its `expect` list holds       |
-| `simulate_scene`             | 24 hours, hour by hour, with every alert and shortfall  |
-| `render_scene`               | the sheet at any hour, as a PNG to look at or an SVG    |
-| `share_link`                 | a URL that opens it live; the scene rides in the link   |
+| Tool                         |                                                                    |
+| ---------------------------- | ------------------------------------------------------------------ |
+| `anigram_guide`              | the format, every drawable part, the signal functions              |
+| `list_scenes` / `get_scene`  | the built-in sheets, as JSON to copy from                          |
+| `validate_scene`             | errors and warnings, each pinned to the part it's about            |
+| `write_scene` / `edit_scene` | save a scene file, or patch parts and links in place               |
+| `check_scene`                | valid, and every claim in its `expect` list holds                  |
+| `simulate_scene`             | 24 hours, hour by hour, with every alert and shortfall             |
+| `render_scene`               | the sheet at any hour: a PNG to look at, an SVG, or a PDF to print |
+| `share_link`                 | a URL that opens it live; the scene rides in the link              |
 
 Setup for other clients is in [mcp/README.md](mcp/README.md). An example the
 server made: [examples/narrowboat.json](examples/narrowboat.json).

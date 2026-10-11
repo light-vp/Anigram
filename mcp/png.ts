@@ -52,6 +52,26 @@ export async function svgToPng(
   svg: string,
   width: number,
 ): Promise<Uint8Array> {
+  return render(svg, width, (image) => image.asPng())
+}
+
+/** render an SVG string to raw RGBA pixels, `width` pixels wide, for a PDF */
+export async function svgToPixels(
+  svg: string,
+  width: number,
+): Promise<{ width: number; height: number; rgba: Uint8Array }> {
+  return render(svg, width, (image) => ({
+    width: image.width,
+    height: image.height,
+    rgba: image.pixels.slice(),
+  }))
+}
+
+async function render<T>(
+  svg: string,
+  width: number,
+  take: (image: ReturnType<InstanceType<typeof Resvg>['render']>) => T,
+): Promise<T> {
   wasm ??= initWasm(readFileSync(join(here(), PNG_ASSETS.wasm)))
   await wasm
   const r = new Resvg(flattenVars(svg), {
@@ -66,7 +86,7 @@ export async function svgToPng(
   try {
     const image = r.render()
     try {
-      return image.asPng()
+      return take(image)
     } finally {
       image.free()
     }
