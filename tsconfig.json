@@ -9,6 +9,9 @@
     },
     {
       "path": "./tsconfig.mcp.json"
+    },
+    {
+      "path": "./tsconfig.e2e.json"
     }
   ]
 }

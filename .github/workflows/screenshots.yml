@@ -1,0 +1,66 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Vaibhav Patel
+
+# Re-records the sheet screenshots in e2e/screenshots/ and commits them to
+# the branch, when a change to how a sheet looks is meant. The pictures are
+# taken in the same Playwright image CI compares them in, which is why they
+# aren't recorded on a laptop. To use it, push a commit to a branch with
+# "[update screenshots]" in its message; the new pictures arrive as a commit
+# from github-actions, and show up in the PR as image diffs to review.
+# That commit doesn't start CI by itself (GitHub's rule for its own token):
+# the next push does.
+name: Update screenshots
+
+on:
+  push:
+    branches-ignore:
+      - main
+      - deploy
+
+jobs:
+  record:
+    if: contains(github.event.head_commit.message, '[update screenshots]')
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.56.1-noble
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # the write token is used once, by the push below, and kept out of
+          # .git/config where install scripts could read it
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Record the screenshots
+        run: npm run e2e:update -- e2e/visual.spec.ts
+
+      - name: Commit them to the branch
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+        run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE"
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add e2e/screenshots
+          if git diff --cached --quiet; then
+            echo 'the screenshots already match'
+            exit 0
+          fi
+          git commit -m 'Re-record the sheet screenshots'
+          git push "https://x-access-token:${TOKEN}@github.com/${REPO}.git" "HEAD:${BRANCH}"

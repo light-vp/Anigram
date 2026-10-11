@@ -1,6 +1,6 @@
 {
   "name": "anigram-mcp",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "MCP server for Anigram: let a coding assistant write, validate, simulate and draw living engineering diagrams.",
   "license": "MIT",
   "author": "Vaibhav Patel",

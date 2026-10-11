@@ -1,2 +1,6 @@
 test/golden/
 schema/
+docs/reference/
+e2e/screenshots/
+e2e/results/
+e2e/report/

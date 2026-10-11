@@ -1,0 +1,16 @@
+name: An idea
+description: A part, a drawing practice, a tool, or something the app should do
+labels: [idea]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What you'd like
+      description: What you're trying to draw or do, and what's in the way.
+    validations:
+      required: true
+  - type: textarea
+    id: example
+    attributes:
+      label: An example
+      description: A real system, a drawing standard, or a sketch helps.

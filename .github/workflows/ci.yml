@@ -1,9 +1,7 @@
 # SPDX-License-Identifier: MIT
 # SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-# CI only — this repo does not deploy itself. The portfolio's deploy workflow
-# (light-vp/vaibhav.co.uk) checks out this repo's main branch, builds it with
-# --base=./, and serves it at anigram.vaibhav.co.uk and vaibhav.co.uk/anigram-app/.
+# Every check a change has to pass. Deploying is deploy.yml's job, on merge.
 name: CI
 
 on:
@@ -34,11 +32,17 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Versions agree
+        run: npm run version:check
+
       - name: Typecheck
         run: npm run typecheck
 
       - name: Lint
         run: npm run lint
+
+      - name: Formatting
+        run: npm run format:check
 
       - name: Test
         run: npm test
@@ -49,6 +53,48 @@ jobs:
       - name: MCP server (build, then drive it over stdio)
         run: npm run test:mcp
 
-      # the deployed copy is built with a relative base — prove it works too
-      - name: Build with a relative base, as deployed
+      - name: Reference docs are up to date
+        run: npm run docs:check
+
+      # the portfolio still embeds a copy built with a relative base
+      - name: Build with a relative base
         run: npm run build -- --base=./
+
+  # The app in a real browser. Runs in Playwright's own image, pinned to the
+  # same version as package.json, so the browser and its fonts are identical
+  # on every run and the sheet screenshots can be compared pixel for pixel.
+  browser:
+    runs-on: ubuntu-latest
+    container: mcr.microsoft.com/playwright:v1.56.1-noble
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Browser tests and screenshots
+        run: npm run e2e
+
+      # on a failure: the trace of each failed test, and the screenshot diffs
+      - name: Keep the browser test report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: browser-report
+          path: |
+            e2e/report
+            e2e/results
+          retention-days: 14

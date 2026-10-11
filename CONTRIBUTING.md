@@ -19,11 +19,22 @@ npm run lint       # oxlint
 npm test           # the simulation's rules, in node's own test runner
 npm run test:mcp   # build the MCP server and drive it over stdio
 npm run eval       # a real assistant builds sheets with the server (costs tokens)
+npm run e2e -- --ignore-snapshots  # browser tests (after npm run build)
+npm run docs       # rewrite the reference docs after changing a part, symbol or tool
 npm run format     # prettier --write .
 ```
 
-Before opening a PR, make sure `typecheck`, `lint`, `test`, `test:mcp` and
-`build` all pass.
+Before opening a PR, make sure `typecheck`, `lint`, `test`, `test:mcp`,
+`build`, the browser tests and `docs:check` all pass. If people will notice the change,
+add a line under **Unreleased** in [CHANGELOG.md](CHANGELOG.md).
+
+CI also compares each sheet with a picture in `e2e/screenshots/`. Those
+pictures are taken inside Playwright's Docker image, because font rendering
+differs from one machine to the next, so locally the browser tests skip them
+(`--ignore-snapshots`). If your change is meant to alter how a sheet looks,
+push a commit with `[update screenshots]` in its message: CI records the new
+pictures and commits them to your branch, and the PR shows them beside the
+old ones.
 
 `npm test` includes **golden days**: each built-in sheet's hour-by-hour run,
 committed in `test/golden/`. If your change is meant to alter what a sheet
