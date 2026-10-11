@@ -86,5 +86,18 @@
     "id": "treatment-pfd",
     "drawing": "pfd",
     "prompt": "Draw a process flow diagram of a water treatment works: raw water from a reservoir is pumped through a clarifier and sand filters into a clear water tank, which feeds the town. Show the clear water tank buffering the evening peak so the town is never short."
+  },
+  {
+    "id": "dexpi-import",
+    "drawing": "pid",
+    "files": {
+      "reference.xml": "src/format/fixtures/dexpi-c01-reference.xml"
+    },
+    "prompt": "reference.xml in this folder is a P&ID exported as DEXPI from our plant design software. Turn it into a living P&ID saved as scene.json, keeping the plant's own tags, and give it an expect list that tells what the plant does over a day: product leaving the sheet, and the tank level moving."
+  },
+  {
+    "id": "sfiles-import",
+    "drawing": "pfd",
+    "prompt": "Here is a flowsheet in SFILES 2.0 notation: (raw)(mix)<1(pp)(hex)(r)(dist)[{bout}(prod)]{tout}(splt)1(prod). Make it a living process flow diagram saved as scene.json, with an expect list saying product leaves from both the column's bottom and its overhead, and the feed pump carries everything that enters."
   }
 ]

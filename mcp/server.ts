@@ -9,7 +9,8 @@
  *
  * Runs over stdio. Paths are resolved against the directory the client
  * started it in and must stay inside it (or a folder ANIGRAM_ALLOW_PATHS
- * names), and it only ever reads .json files and writes .json, .svg and .png.
+ * names), and it only ever reads .json and .xml files and writes .json, .xml,
+ * .svg, .png and .pdf.
  *
  * Every tool that returns data also returns it as `structuredContent`,
  * checked against the tool's `outputSchema`; the text beside it is the same
@@ -46,6 +47,8 @@ import { reportTable, simulateDay } from '../src/format/report.ts'
 import { SCHEMA_URL, sceneSchema } from '../src/format/schema.ts'
 import { encodeScene, HASH_KEY } from '../src/format/share.ts'
 import { toDexpi } from '../src/format/dexpi.ts'
+import { fromDexpi } from '../src/format/dexpiImport.ts'
+import { fromSfiles, toSfiles } from '../src/format/sfiles.ts'
 import { DOMAINS, DRAWINGS, validateScene } from '../src/format/validate.ts'
 import { PRACTICE, STARTERS } from '../src/packs/starters.ts'
 import { PART_KINDS } from '../src/parts/kinds.ts'
@@ -106,7 +109,7 @@ const server = new McpServer(
       'Anigram draws living diagrams: engineering sheets of real systems (power grids, solar houses, water towers, data centres) where every moving line is read off a flow simulation. ' +
       'A drawing is a JSON scene file. Call anigram_guide first for the format. Then: write the file (write_scene) with an `expect` list stating its story, check_scene until every expectation holds (simulate_scene shows the hour-by-hour numbers when one fails), ' +
       'render_scene to look at it (a PNG by default: check the layout reads cleanly), and share_link to open it live in the browser. Built-in sheets (list_scenes / get_scene) are good starting points to copy. ' +
-      "For an engineering drawing (a P&ID, a single-line diagram, a process flow diagram), start from new_scene with that `drawing`: it hands back a working starter and the practice's conventions. Before calling it done, run check_drawing (tags, line numbers, control loops, breakers, title block) and lint_layout (crossings, clashing labels); auto_layout lays a messy sheet out by its flow. export_dexpi hands a P&ID to plant design software. The draw-pid, draw-single-line, draw-pfd and draw-sheet prompts walk through the whole job.",
+      "For an engineering drawing (a P&ID, a single-line diagram, a process flow diagram), start from new_scene with that `drawing`: it hands back a working starter and the practice's conventions. Before calling it done, run check_drawing (tags, line numbers, control loops, breakers, title block) and lint_layout (crossings, clashing labels); auto_layout lays a messy sheet out by its flow. export_dexpi hands a P&ID to plant design software; import_dexpi opens one from it, and import_sfiles / export_sfiles read and write a flowsheet in SFILES 2.0 notation. The draw-pid, draw-single-line, draw-pfd and draw-sheet prompts walk through the whole job.",
   },
 )
 
@@ -1184,6 +1187,182 @@ server.registerTool(
       )
     },
   ),
+)
+
+const importOutput = {
+  notes: z.array(z.string()),
+  scene: sceneOutput
+    .optional()
+    .describe('the scene, when it was not saved to `out`'),
+  saved: z.string().optional(),
+}
+
+/** an imported scene: saved to `out`, or handed back whole */
+function imported(
+  scene: Scene,
+  notes: string[],
+  head: string,
+  extra: Json,
+  out: string | undefined,
+): Result {
+  const v = validateScene(structuredClone(scene))
+  const result: Json = { ...extra, notes, ...(out ? {} : { scene }) }
+  if (out) {
+    const path = pathFor(out, '.json')
+    writeFile(path, `${JSON.stringify(scene, null, 2)}\n`)
+    result.saved = path
+  }
+  const issues = [...v.errors, ...v.warnings]
+  return data(
+    result,
+    [
+      `${head}${result.saved ? `; saved to ${String(result.saved)}` : ''}`,
+      notes.length ? `notes:\n- ${notes.join('\n- ')}` : '',
+      issues.length ? `validation:\n- ${issues.join('\n- ')}` : '',
+      out ? '' : JSON.stringify(scene, null, 2),
+    ]
+      .filter(Boolean)
+      .join('\n\n'),
+  )
+}
+
+server.registerTool(
+  'import_dexpi',
+  {
+    title: 'Open a DEXPI P&ID',
+    description:
+      'Turn a DEXPI 1.3 (Proteus XML) P&ID from plant design software into a living P&ID scene: equipment with its tags, each piping segment as lines from nozzle to nozzle with its valves in place, off-page connectors as where flow enters and leaves, and the instrument loops with the valves they drive. Flanges and reducers are passed through. ' +
+      'Behaviours are guessed from each class (a pump passes up to its duty and can be stopped, a hand valve can be shut, a control valve follows a slider, a tank stores) and the notes say so: set real duties, then add an `expect` list and run check_scene. ' +
+      'Give `file` (a .xml path) or the XML itself; with `out` (a .json path) the scene is saved and not echoed back.',
+    inputSchema: {
+      file: z.string().optional().describe('path to a DEXPI .xml file'),
+      xml: z.string().optional().describe('the DEXPI XML itself'),
+      layout: z
+        .enum(['drawing', 'flow'])
+        .optional()
+        .describe(
+          "`drawing` keeps the file's own arrangement, `flow` lays it out by its flow; by default whichever reads more cleanly",
+        ),
+      sceneId: z.string().optional().describe("the new scene's id"),
+      out: z.string().optional().describe('save the scene to this .json path'),
+    },
+    outputSchema: {
+      counts: z.object({
+        equipment: z.number(),
+        valves: z.number(),
+        lines: z.number(),
+        instruments: z.number(),
+        fittings: z.number(),
+      }),
+      ...importOutput,
+    },
+    annotations: { readOnlyHint: false },
+  },
+  guarded(
+    (args: {
+      file?: string
+      xml?: string
+      layout?: 'drawing' | 'flow'
+      sceneId?: string
+      out?: string
+    }) => {
+      if (!!args.file === !!args.xml)
+        throw new Error(
+          'give the DEXPI file as `file` or as `xml`, one of them',
+        )
+      const src = args.file
+        ? readFileSync(pathFor(args.file, '.xml'), 'utf8')
+        : args.xml!
+      const r = fromDexpi(src, { id: args.sceneId, layout: args.layout })
+      const c = r.counts
+      return imported(
+        r.scene,
+        r.notes,
+        `"${r.scene.title}": ${c.equipment} equipment, ${c.valves} valve(s), ${c.lines} line(s), ${c.instruments} instrument(s), ${c.fittings} fitting(s) passed through, on a ${r.scene.size.join('×')} grid`,
+        { counts: c },
+        args.out,
+      )
+    },
+  ),
+)
+
+server.registerTool(
+  'import_sfiles',
+  {
+    title: 'Open an SFILES 2.0 flowsheet',
+    description:
+      'Turn an SFILES 2.0 string, the line notation for flowsheets, into a living process flow diagram laid out by its flow: `(raw)(pp)(hex)(r)[(prod)](dist){tout}(prod)`. ' +
+      'Units are `(raw)` feed, `(prod)` product, `(pp)` pump, `(comp)` compressor, `(hex)` heat exchanger, `(r)` reactor, `(dist)` column, `(flash)` flash drum, `(tank)`, `(v)` valve, `(mix)`/`(splt)`, `(lfil)` filter and the rest of the OntoCape set; `[...]` branches, `<&|...&|` flows in, digits and `<digit` are recycles. ' +
+      'Major equipment gets tags (P-101, E-101, C-101), behaviours are guessed as for a DEXPI import, and control units are left out. With `out` (a .json path) the scene is saved and not echoed back.',
+    inputSchema: {
+      sfiles: z.string().describe('the SFILES 2.0 string'),
+      title: z.string().optional().describe("the sheet's title"),
+      sceneId: z.string().optional().describe("the new scene's id"),
+      drawing: z
+        .enum(['pfd', 'pid'])
+        .optional()
+        .describe('pfd (the default), or pid to draw the valves too'),
+      out: z.string().optional().describe('save the scene to this .json path'),
+    },
+    outputSchema: {
+      counts: z.object({
+        units: z.number(),
+        streams: z.number(),
+        recycles: z.number(),
+        controls: z.number(),
+      }),
+      ...importOutput,
+    },
+    annotations: { readOnlyHint: false },
+  },
+  guarded(
+    (args: {
+      sfiles: string
+      title?: string
+      sceneId?: string
+      drawing?: 'pfd' | 'pid'
+      out?: string
+    }) => {
+      const r = fromSfiles(args.sfiles, {
+        id: args.sceneId,
+        title: args.title,
+        drawing: args.drawing,
+      })
+      const c = r.counts
+      return imported(
+        r.scene,
+        r.notes,
+        `${c.units} unit(s), ${c.streams} stream(s), ${c.recycles} recycle(s) on a ${r.scene.size.join('×')} grid`,
+        { counts: c },
+        args.out,
+      )
+    },
+  ),
+)
+
+server.registerTool(
+  'export_sfiles',
+  {
+    title: 'Write a flowsheet as SFILES 2.0',
+    description:
+      "Write a scene's process streams (water, heat and fuel; not power, signals or losses) as an SFILES 2.0 string, the line notation flowsheet tools and machine-learning datasets read. " +
+      'Each part becomes a unit by its class, then its label (a "Reactor", a "Flash drum"), then its role: sources are `(raw)`, sinks `(prod)`. Branches, recycles and feeds joining the main line are written the way the notation does.',
+    inputSchema: sceneInput,
+    outputSchema: {
+      sfiles: z.string(),
+      notes: z.array(z.string()),
+    },
+  },
+  guarded((args: { scene?: Json | string; file?: string; id?: string }) => {
+    const { scene } = loadScene(args)
+    const r = toSfiles(scene)
+    return data(
+      { sfiles: r.sfiles, notes: r.notes },
+      [r.sfiles, r.notes.length ? `notes:\n- ${r.notes.join('\n- ')}` : '']
+        .filter(Boolean)
+        .join('\n\n'),
+    )
+  }),
 )
 
 server.registerTool(

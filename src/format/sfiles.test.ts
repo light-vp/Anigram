@@ -160,3 +160,9 @@ test("Anigram's own P&ID writes as SFILES", () => {
   // and reads back as a sheet that validates
   load(fromSfiles(sfiles).scene)
 })
+
+test('a sheet with no process streams has nothing to write', () => {
+  const s = load(fromSfiles('(raw)(pp)(prod)').scene)
+  for (const l of s.links) l.domain = 'electric'
+  assert.throws(() => toSfiles(s), /nothing to write/)
+})

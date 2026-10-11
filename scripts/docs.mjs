@@ -10,6 +10,7 @@
 //
 // Needs the MCP server built first (`npm run build:mcp`); both scripts do it.
 import {
+  copyFileSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
@@ -127,11 +128,23 @@ const EXAMPLES = {
   lint_layout: { id: 'grid' },
   auto_layout: { id: 'water-tower', direction: 'right' },
   export_dexpi: { file: 'my-plant.json' },
+  import_dexpi: { file: 'reference-pid.xml', out: 'reference-pid.json' },
+  import_sfiles: {
+    sfiles: '(raw)(mix)<1(pp)(hex)(r)(dist)[{bout}(prod)]{tout}(splt)1(prod)',
+    title: 'Reactor with recycle',
+    out: 'reactor.json',
+  },
+  export_sfiles: { file: 'reactor.json' },
   render_scene: { id: 'water-tower', hour: 7, format: 'svg' },
   share_link: { id: 'water-tower', hour: 7 },
 }
 
 const work = mkdtempSync(join(tmpdir(), 'anigram-docs-'))
+// DEXPI's own reference P&ID, for import_dexpi's example
+copyFileSync(
+  join(root, 'src/format/fixtures/dexpi-c01-reference.xml'),
+  join(work, 'reference-pid.xml'),
+)
 const client = new Client({ name: 'docs', version: '0' })
 await client.connect(
   new StdioClientTransport({

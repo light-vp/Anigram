@@ -522,6 +522,13 @@ export function fromSfiles(
     parts.push(part)
   }
   if (!parts.length) throw new SfilesError('nothing but control units', 0)
+  // the products share what the feeds bring, so at full throughput nothing
+  // is short and the slider can push it until something is
+  const feeds = parts.filter((p) => p.behaviour.role === 'source').length
+  const sinks = parts.filter((p) => p.behaviour.role === 'sink')
+  const share = Math.round((Q * Math.max(feeds, 1) * 10) / sinks.length) / 10
+  for (const p of sinks)
+    p.behaviour = { role: 'sink', demand: `${share} * knob('throughput')` }
   if (guessed.sources)
     notes.push(
       `${guessed.sources} unit(s) with nothing flowing in are drawn as feeds`,
@@ -578,8 +585,12 @@ export function fromSfiles(
     scene.size = laid.size
   }
   notes.push(
-    `behaviours are guessed from each unit (feeds of ${Q * 1.5} m³/h, products taking ${Q} m³/h, pumps rated ${Q * 1.5} m³/h): set real duties before trusting a number`,
+    `behaviours are guessed from each unit (feeds of ${Q * 1.5} m³/h, products sharing ${Q} m³/h for each feed, pumps rated ${Q * 1.5} m³/h): set real duties before trusting a number`,
   )
+  if (g.recycles)
+    notes.push(
+      'flow is pulled by what the products take, so a recycle only carries what the feeds cannot supply: it is drawn, but idle while they keep up',
+    )
   return {
     scene,
     notes,

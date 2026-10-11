@@ -21,6 +21,9 @@ Most tools take a scene three ways: `id` for a built-in sheet, `file` for a scen
 - [`lint_layout`](#lint_layout): Check the sheet reads cleanly
 - [`auto_layout`](#auto_layout): Lay the sheet out by its flow
 - [`export_dexpi`](#export_dexpi): Export a P&ID as DEXPI
+- [`import_dexpi`](#import_dexpi): Open a DEXPI P&ID
+- [`import_sfiles`](#import_sfiles): Open an SFILES 2.0 flowsheet
+- [`export_sfiles`](#export_sfiles): Write a flowsheet as SFILES 2.0
 - [`render_scene`](#render_scene): Draw the sheet
 - [`share_link`](#share_link): Open it live
 
@@ -79,7 +82,7 @@ defaults to empty, `sheet` to `LD-100`, `clock` to `{ start: 6, rate: 1 }`.
 A file without it is read as version 1, and a file from an older version is
 upgraded when it loads, so scene files and share links keep working as the
 format grows. A file from a newer version than the reader knows is refused
-... (455 more lines)
+... (469 more lines)
 ```
 
 ## list_scenes
@@ -704,6 +707,115 @@ Write a P&ID (`"drawing": "pid"`) as DEXPI 1.3 Proteus XML, the exchange format 
   },
   "notes": [],
   "bytes": 25403
+}
+```
+
+## import_dexpi
+
+**Open a DEXPI P&ID**
+
+Turn a DEXPI 1.3 (Proteus XML) P&ID from plant design software into a living P&ID scene: equipment with its tags, each piping segment as lines from nozzle to nozzle with its valves in place, off-page connectors as where flow enters and leaves, and the instrument loops with the valves they drive. Flanges and reducers are passed through. Behaviours are guessed from each class (a pump passes up to its duty and can be stopped, a hand valve can be shut, a control valve follows a slider, a tank stores) and the notes say so: set real duties, then add an `expect` list and run check_scene. Give `file` (a .xml path) or the XML itself; with `out` (a .json path) the scene is saved and not echoed back.
+
+| parameter | type | required | what it is |
+| - | - | - | - |
+| `file` | string |  | path to a DEXPI .xml file |
+| `xml` | string |  | the DEXPI XML itself |
+| `layout` | string |  | `drawing` keeps the file's own arrangement, `flow` lays it out by its flow; by default whichever reads more cleanly One of `drawing`, `flow`. |
+| `sceneId` | string |  | the new scene's id |
+| `out` | string |  | save the scene to this .json path |
+
+**Example**
+
+```json
+{
+  "file": "reference-pid.xml",
+  "out": "reference-pid.json"
+}
+```
+
+```json
+{
+  "counts": {
+    "equipment": 5,
+    "valves": 11,
+    "lines": 11,
+    "instruments": 4,
+    "fittings": 3
+  },
+  "notes": [
+    "2 exchangers: the utility side (a line from off the sheet, through it and off again) is drawn as heat taken from the process, a tenth of the flow it pas...
+    "behaviours are guessed from each class (supplies of 90 m³/h in, demands of 60 m³/h out, pumps rated 90 m³/h): set real duties and demands before trustin...
+    "laid out by its flow, which reads more cleanly here than the file's own arrangement (1 layout findings against 3); pass layout \"drawing\" to keep the f...
+  ],
+  "saved": "./reference-pid.json"
+}
+```
+
+## import_sfiles
+
+**Open an SFILES 2.0 flowsheet**
+
+Turn an SFILES 2.0 string, the line notation for flowsheets, into a living process flow diagram laid out by its flow: `(raw)(pp)(hex)(r)[(prod)](dist){tout}(prod)`. Units are `(raw)` feed, `(prod)` product, `(pp)` pump, `(comp)` compressor, `(hex)` heat exchanger, `(r)` reactor, `(dist)` column, `(flash)` flash drum, `(tank)`, `(v)` valve, `(mix)`/`(splt)`, `(lfil)` filter and the rest of the OntoCape set; `[...]` branches, `<&|...&|` flows in, digits and `<digit` are recycles. Major equipment gets tags (P-101, E-101, C-101), behaviours are guessed as for a DEXPI import, and control units are left out. With `out` (a .json path) the scene is saved and not echoed back.
+
+| parameter | type | required | what it is |
+| - | - | - | - |
+| `sfiles` | string | yes | the SFILES 2.0 string |
+| `title` | string |  | the sheet's title |
+| `sceneId` | string |  | the new scene's id |
+| `drawing` | string |  | pfd (the default), or pid to draw the valves too One of `pfd`, `pid`. |
+| `out` | string |  | save the scene to this .json path |
+
+**Example**
+
+```json
+{
+  "sfiles": "(raw)(mix)<1(pp)(hex)(r)(dist)[{bout}(prod)]{tout}(splt)1(prod)",
+  "title": "Reactor with recycle",
+  "out": "reactor.json"
+}
+```
+
+```json
+{
+  "counts": {
+    "units": 9,
+    "streams": 9,
+    "recycles": 1,
+    "controls": 0
+  },
+  "notes": [
+    "outlet tags ({tout}, {bout}, {hot_in}…) are read but not drawn: each stream is one line",
+    "behaviours are guessed from each unit (feeds of 90 m³/h, products sharing 60 m³/h for each feed, pumps rated 90 m³/h): set real duties before trusting a...
+    "flow is pulled by what the products take, so a recycle only carries what the feeds cannot supply: it is drawn, but idle while they keep up"
+  ],
+  "saved": "./reactor.json"
+}
+```
+
+## export_sfiles
+
+**Write a flowsheet as SFILES 2.0**
+
+Write a scene's process streams (water, heat and fuel; not power, signals or losses) as an SFILES 2.0 string, the line notation flowsheet tools and machine-learning datasets read. Each part becomes a unit by its class, then its label (a "Reactor", a "Flash drum"), then its role: sources are `(raw)`, sinks `(prod)`. Branches, recycles and feeds joining the main line are written the way the notation does.
+
+| parameter | type | required | what it is |
+| - | - | - | - |
+| `scene` | object or string |  | a scene object (or its JSON text) |
+| `file` | string |  | path to a .json scene file, relative to the working directory |
+| `id` | string |  | a built-in sheet id, e.g. "grid" — see list_scenes |
+
+**Example**
+
+```json
+{
+  "file": "reactor.json"
+}
+```
+
+```json
+{
+  "sfiles": "(raw)(mix)<1(pp)(hex)(r)(dist)[(prod)](splt)1(prod)",
+  "notes": []
 }
 ```
 
