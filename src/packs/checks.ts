@@ -108,6 +108,40 @@ const iecLetters = (tag: string) => /-([A-Z]+)\d*$/.exec(tag)?.[1]
 const isaLoop = (tag: string | undefined) =>
   tag && /^[A-Z]{1,5}-?\d/.test(tag) ? splitTag(tag).loop : undefined
 
+/** the next number not yet used after a prefix, among these tags */
+const next = (tags: Array<string | undefined>, re: RegExp) =>
+  Math.max(0, ...tags.map((t) => Number(re.exec(t ?? '')?.[1] ?? 0))) + 1
+
+/**
+ * The tag a new piece of equipment of this class would get on this kind of
+ * sheet, after the tags already used: `P-102` on a P&ID, `-Q3` on a
+ * single-line. Undefined for a class that carries no tag.
+ */
+export function suggestTag(
+  drawing: DrawingType,
+  cls: string,
+  tags: Array<string | undefined>,
+): string | undefined {
+  if (UNTAGGED.has(cls)) return undefined
+  const letters = drawing === 'single-line' ? IEC_LETTERS : PID_LETTERS
+  const want = cls === 'ControlValve' ? undefined : letters[cls]?.[0]
+  if (!want) return undefined
+  return drawing === 'single-line'
+    ? `-${want}${next(tags, new RegExp(`-${want}(\\d+)$`))}`
+    : `${want}-${100 + next(tags, new RegExp(`^${want}-1(\\d\\d)$`))}`
+}
+
+/** the next line number (P&ID) or stream number (PFD) after these */
+export function suggestLineNumber(
+  drawing: DrawingType,
+  tags: Array<string | undefined>,
+): string | undefined {
+  if (drawing === 'pid')
+    return `100-W-${String(next(tags, /-(\d+)[A-Z]?$/)).padStart(3, '0')}`
+  if (drawing === 'pfd') return String(next(tags, /^(\d+)$/))
+  return undefined
+}
+
 export function drawingFindings(scene: Scene): DrawingFinding[] {
   const drawing = scene.drawing
   const pack = drawing ? PACKS[drawing] : undefined
@@ -120,9 +154,6 @@ export function drawingFindings(scene: Scene): DrawingFinding[] {
   const byId = new Map(scene.parts.map((p) => [p.id, p]))
   const cls = (p: PartSpec | undefined) => (p ? classOf(p, scene) : undefined)
   const name = (p: PartSpec) => p.tag ?? p.label
-  /** the next number not yet used after a prefix, among these tags */
-  const next = (tags: Array<string | undefined>, re: RegExp) =>
-    Math.max(0, ...tags.map((t) => Number(re.exec(t ?? '')?.[1] ?? 0))) + 1
 
   // title block
   const tb = scene.titleBlock ?? {}
@@ -158,13 +189,8 @@ export function drawingFindings(scene: Scene): DrawingFinding[] {
     if (c && UNTAGGED.has(c)) continue
     const path = `parts (${p.id})`
     if (!p.tag) {
-      const want = c ? letters[c]?.[0] : undefined
       // suggest the next free number for that letter, counting earlier suggestions
-      const tag =
-        want &&
-        (drawing === 'single-line'
-          ? `-${want}${next(partTags, new RegExp(`-${want}(\\d+)$`))}`
-          : `${want}-${100 + next(partTags, new RegExp(`^${want}-1(\\d\\d)$`))}`)
+      const tag = c ? suggestTag(drawing, c, partTags) : undefined
       if (tag) partTags.push(tag)
       find(
         'equipment-tag',
@@ -231,8 +257,8 @@ export function drawingFindings(scene: Scene): DrawingFinding[] {
           'line-number',
           path,
           drawing === 'pid'
-            ? `the line from ${ends} has no number; give it a "tag" of size, fluid and sequence, like "${suggest(`100-W-${String(next(tags, /-(\d+)[A-Z]?$/)).padStart(3, '0')}`)}"`
-            : `the stream from ${ends} has no number; give it a "tag", like "${suggest(String(next(tags, /^(\d+)$/)))}"`,
+            ? `the line from ${ends} has no number; give it a "tag" of size, fluid and sequence, like "${suggest(suggestLineNumber(drawing, tags)!)}"`
+            : `the stream from ${ends} has no number; give it a "tag", like "${suggest(suggestLineNumber(drawing, tags)!)}"`,
         )
         return
       }

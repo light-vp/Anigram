@@ -369,3 +369,35 @@ export function autoLayout(scene: Scene, direction?: Direction): LayoutResult {
   ]
   return { scene: next, direction: dir, moved }
 }
+
+type Raw = Record<string, unknown>
+
+/**
+ * A laid-out scene's geometry written into the file it came from: `size`,
+ * each part's `at` and `labelSide`, each link's corners and each instrument's
+ * cell, and nothing else, so the file keeps its own order and fields.
+ */
+export function withLayout<T extends object>(raw: T, laid: Scene): T {
+  const out = structuredClone(raw) as Raw & {
+    parts: Raw[]
+    links: Raw[]
+    instruments?: Raw[]
+  }
+  out.size = laid.size
+  out.parts.forEach((p, i) => {
+    const q = laid.parts[i]!
+    p.at = q.at
+    if (q.labelSide) p.labelSide = q.labelSide
+    else delete p.labelSide
+  })
+  out.links.forEach((l, i) => {
+    const q = laid.links[i]!
+    delete l.bend
+    if (q.via) l.via = q.via
+    else delete l.via
+  })
+  out.instruments?.forEach((x, i) => {
+    x.at = laid.instruments![i]!.at
+  })
+  return out as T
+}

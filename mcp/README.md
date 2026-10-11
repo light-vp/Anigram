@@ -26,7 +26,7 @@ draw them.
 | `export_dexpi`   | A P&ID as DEXPI 1.3 Proteus XML: equipment and nozzles, numbered lines with their valves, off-page connectors, instrument loops.                                                                                                           |
 | `simulate_scene` | Run a day headless: an hour-by-hour table, every alert, unmet demand. Knobs and switches can be set.                                                                                                                                       |
 | `render_scene`   | The sheet at any hour, every flow labelled: a PNG the assistant can look at (default), an SVG, or a one-page PDF on A4–A1 paper.                                                                                                           |
-| `share_link`     | A URL that opens the scene live in the browser. The scene travels in the link; nothing is uploaded.                                                                                                                                        |
+| `share_link`     | A URL that opens the scene live in the browser, or in the editor with `view: "editor"`. The scene travels in the link; nothing is uploaded.                                                                                                |
 
 Prompts `draw-pid`, `draw-single-line`, `draw-pfd` and `draw-sheet` take a
 one-line brief and hand the assistant the practice's conventions and the way

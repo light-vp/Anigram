@@ -64,7 +64,8 @@
   border-radius: 8px;
   padding: 4px 8px;
   min-width: 0;
-  width: 16em;
+  width: 22em;
+  max-width: 100%;
 }
 
 .title:hover,
@@ -502,6 +503,182 @@
   font-weight: 500;
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+
+/* while the sheet is being opened */
+
+.opening {
+  padding: 40px 24px;
+  color: var(--muted);
+  font-size: var(--fs-sm);
+}
+
+/* a part the drawing leaves off, still on the scene */
+
+.offDrawing rect {
+  fill: var(--card);
+  fill-opacity: 0.6;
+  stroke: var(--muted);
+  stroke-width: 1.2;
+  stroke-dasharray: 3 4;
+}
+
+.offDrawing text {
+  font-size: 11px;
+  fill: var(--ink-soft);
+}
+
+.offDrawing .offDrawingNote {
+  font-size: 9px;
+  fill: var(--muted);
+}
+
+/* fields in the side panel */
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 7.5em minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+
+.fieldRow .select {
+  border-radius: 8px;
+  min-width: 0;
+}
+
+.input {
+  font: inherit;
+  font-size: var(--fs-sm);
+  color: var(--ink);
+  background: transparent;
+  border: var(--b) solid var(--rule);
+  border-radius: 8px;
+  padding: 4px 8px;
+  min-width: 0;
+  width: 100%;
+}
+
+.input:focus,
+.expr:focus {
+  outline: none;
+  border-color: var(--ink);
+}
+
+.pair {
+  display: grid;
+  gap: 6px;
+}
+
+.signal {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.signalHead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+
+.expr {
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: var(--fs-xs);
+  color: var(--ink);
+  background: var(--desk-2);
+  border: var(--b) solid transparent;
+  border-radius: 8px;
+  padding: 6px 8px;
+  width: 100%;
+}
+
+.exprBad,
+.exprBad:focus {
+  border-color: var(--alarm);
+}
+
+.exprWhy {
+  font-size: var(--fs-xs);
+  line-height: 1.4;
+  color: var(--alarm);
+}
+
+.spark {
+  width: 60px;
+  height: 18px;
+  overflow: visible;
+}
+
+.spark polyline {
+  fill: none;
+  stroke: var(--ink-soft);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+
+.wireName {
+  font: inherit;
+  color: inherit;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  text-align: left;
+  cursor: pointer;
+}
+
+.wireName:hover {
+  text-decoration: underline;
+}
+
+/* the checks */
+
+.check summary {
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.check summary::marker {
+  color: var(--muted);
+}
+
+.check summary[data-tone='bad'] {
+  color: var(--alarm);
+}
+
+.check summary[data-tone='ok'] {
+  color: var(--muted);
+}
+
+.check ul {
+  list-style: none;
+  padding: 0 0 6px;
+  display: grid;
+  gap: 4px;
+  font-size: var(--fs-xs);
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.check button {
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.check button:hover {
+  color: var(--ink);
+  text-decoration: underline;
 }
 
 @media (max-width: 1100px) {

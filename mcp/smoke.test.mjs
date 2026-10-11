@@ -206,6 +206,19 @@ test('write, edit, simulate, render, share', async () => {
     /^https:\/\/anigram\.vaibhav\.co\.uk\/\?embed=1#scene=/,
   )
   assert.match(link.iframe, /^<iframe/)
+
+  // the editor gets the file as written, defaults and all left as they were
+  const edit = (
+    await call('share_link', { file: 'kettle.json', view: 'editor' })
+  ).data
+  assert.match(
+    edit.url,
+    /^https:\/\/anigram\.vaibhav\.co\.uk\/\?build=1#scene=/,
+  )
+  const { decodeScene } = await import('../src/format/share.ts')
+  const sent = await decodeScene(new URL(edit.url).hash.slice('#scene='.length))
+  const file = JSON.parse(readFileSync(join(cwd, 'kettle.json'), 'utf8'))
+  assert.deepEqual(sent, { anigram: 1, ...file })
 })
 
 test('mistakes come back as tool errors a model can act on', async () => {

@@ -30,7 +30,7 @@ export interface WorkbenchProps {
   /** why the last scene file wouldn't open */
   problem: string | null
   onDismiss: () => void
-  /** false inside the portfolio's playground iframe, which has its own header */
+  /** false inside the portfolio's iframe, which has its own header */
   header: boolean
   initial: Params
 }
@@ -87,6 +87,18 @@ export function Workbench({
     setShared(true)
     setTimeout(() => setShared(false), 1600)
     capture('link_copied', { scene: scene.id, builtIn })
+  }
+
+  /** the same sheet in the editor: a built-in by name, anything else whole in the link */
+  const openEditor = async () => {
+    const url = new URL(builtIn ? window.location.href : await sceneLink(scene))
+    url.searchParams.set('build', '1')
+    if (builtIn) {
+      url.searchParams.set('scene', scene.id)
+      url.hash = ''
+    }
+    capture('edit_opened', { scene: scene.id, builtIn })
+    window.location.href = url.href
   }
 
   // paper is a still: the clock stops and every flow is labelled instead
@@ -276,6 +288,14 @@ export function Workbench({
               title="The scene file: edit it by hand, or hand it to an assistant through the MCP server"
             >
               ↓ json
+            </button>
+            <button
+              type="button"
+              className={styles.tool}
+              onClick={() => void openEditor()}
+              title="Open this sheet in the editor: move parts, tag them, write their signals, save the file"
+            >
+              ✎ edit
             </button>
             <button type="button" className={styles.tool} onClick={print}>
               print

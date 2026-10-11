@@ -18,7 +18,9 @@ is being served. If the drawing shows it, the system is doing it.
 an [MCP server](#for-coding-assistants-the-mcp-server) so a coding assistant
 can write one from a paragraph, run it through a day to check the story
 holds, and hand you an SVG or a live link. The browser app is where people
-watch, tune and share them. MIT licensed: fork it, embed it, build on it.
+watch, tune and share them, and its editor works on the same file, so a
+person and an assistant can take turns on one drawing. MIT licensed: fork it,
+embed it, build on it.
 
 <p align="center"><img src="docs/sheet-grid.png" alt="The power grid sheet in paper mode at 18:00: every flow labelled in megawatts, from gas field and reactor core through the transmission line to the city, hospital and steelworks." width="900"></p>
 
@@ -84,6 +86,20 @@ sheets in `src/scenes/*.ts` are scene files written as typed objects. In the
 app, **↓ json** saves the sheet on screen, **+ open** (or dropping a file on
 the page) loads one, and **⧉ link** copies a URL that carries the whole scene.
 
+## The editor
+
+`?build=1` opens the editor, and **✎ edit** opens whatever sheet is on screen
+in it. It edits the scene file itself: open a file an assistant wrote (or a
+`share_link` with `view: "editor"`), move parts, tag them, write their
+signals, and **save file** hands back the same JSON with only your changes in
+it. On a P&ID, single-line or PFD the palette offers that practice's symbols,
+tagged as they land (a pump arrives as `P-102`), and the checks beside the
+sheet are the ones the MCP server runs: whether it runs, whether its story
+holds, what a reviewing engineer would mark up, and whether the layout reads
+cleanly. Signals are checked as you type, with the day they come to drawn
+beside them. `?build=1&drawing=pid` starts from a P&ID. Sheets saved by the
+old playground, and its `#sheet=` links, open in the editor as scene files.
+
 Anything that changes over the day is a **signal**: a number, or a small
 expression the solver evaluates (never runs as code):
 
@@ -141,6 +157,8 @@ The URL is the API:
 | `embed=1`           | just the sheet and a play bar; `embed=presentation` is the same                                                                |
 | `embed=app`         | the full app without its header                                                                                                |
 | `screen=1`          | wall-screen tour                                                                                                               |
+| `build=1`           | the editor, on `scene=<id>`, a `#scene=` link, or the sheet you left; `drawing=pid` (or `single-line`, `pfd`) starts one       |
+| `embed=build`       | the editor without its header                                                                                                  |
 | `theme=light\|dark` | the sheet's palette (`paper` and `blueprint` still work)                                                                       |
 | `mode=paper`        | frozen and labelled                                                                                                            |
 | `t=18.5`            | open at 18:30                                                                                                                  |
@@ -175,6 +193,8 @@ src/
   parts/    the glyph library: one SVG function per kind of part
   view/     the drawing sheet: geometry, palette, labels and flow tags, the title block
   app/      the workbench, embed and screen views, URL params, export
+  editor/   the editor: pure edits on a scene file, part templates, practice palettes, and its views
+  packs/    the engineering drawing practices: classes, symbols, starters, house-rule checks
 mcp/        the MCP server (bundled to one file by its own vite config)
 examples/   scene files
 docs/       the scene format

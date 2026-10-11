@@ -60,7 +60,7 @@ import { renderSheetSvg } from '../src/view/renderSvg.tsx'
 import { svgToPdf } from './pdf.ts'
 import type { Paper } from './pdf.ts'
 import { svgToPng } from './png.ts'
-import { autoLayout } from '../src/view/autoLayout.ts'
+import { autoLayout, withLayout } from '../src/view/autoLayout.ts'
 import type { Direction } from '../src/view/autoLayout.ts'
 import { lintLayout } from '../src/view/lint.ts'
 import type { LayoutFinding } from '../src/view/lint.ts'
@@ -1100,27 +1100,7 @@ server.registerTool(
       const { scene } = loadScene({ scene: structuredClone(raw) })
       const laid = autoLayout(scene, args.direction)
       // write the new geometry into the scene as given, so nothing else changes
-      const out = structuredClone(raw) as Json & {
-        parts: Json[]
-        links: Json[]
-        instruments?: Json[]
-      }
-      out.size = laid.scene.size
-      out.parts.forEach((p, i) => {
-        const q = laid.scene.parts[i]!
-        p.at = q.at
-        if (q.labelSide) p.labelSide = q.labelSide
-        else delete p.labelSide
-      })
-      out.links.forEach((l, i) => {
-        const q = laid.scene.links[i]!
-        delete l.bend
-        if (q.via) l.via = q.via
-        else delete l.via
-      })
-      out.instruments?.forEach((x, i) => {
-        x.at = laid.scene.instruments![i]!.at
-      })
+      const out = withLayout(raw, laid.scene)
       const findings = lintLayout(laid.scene)
       const result: Json = {
         direction: laid.direction,
@@ -1371,7 +1351,7 @@ server.registerTool(
       'view: app (the workbench, default), embed (just the sheet, for an iframe), paper (frozen and labelled), screen (full-bleed wall view).',
     inputSchema: {
       ...sceneInput,
-      view: z.enum(['app', 'embed', 'paper', 'screen']).optional(),
+      view: z.enum(['app', 'embed', 'paper', 'screen', 'editor']).optional(),
       hour: z.number().min(0).max(24).optional(),
       theme: z.enum(['light', 'dark']).optional(),
     },
@@ -1390,7 +1370,7 @@ server.registerTool(
       scene?: Json | string
       file?: string
       id?: string
-      view?: 'app' | 'embed' | 'paper' | 'screen'
+      view?: 'app' | 'embed' | 'paper' | 'screen' | 'editor'
       hour?: number
       theme?: 'light' | 'dark'
     }) => {
@@ -1399,6 +1379,7 @@ server.registerTool(
       if (view === 'embed') url.searchParams.set('embed', '1')
       if (view === 'paper') url.searchParams.set('mode', 'paper')
       if (view === 'screen') url.searchParams.set('screen', '1')
+      if (view === 'editor') url.searchParams.set('build', '1')
       if (args.hour !== undefined) url.searchParams.set('t', String(args.hour))
       if (args.theme) url.searchParams.set('theme', args.theme)
       // a built-in sheet needs no payload
@@ -1407,7 +1388,9 @@ server.registerTool(
         return data({ url: url.href, length: url.href.length })
       }
       const { scene } = loadScene(args)
-      url.hash = `${HASH_KEY}=${await encodeScene(stamp(scene))}`
+      // the editor gets the file as written, so saving it back changes only what the person did
+      const sent = view === 'editor' ? (rawScene(args) as Json) : scene
+      url.hash = `${HASH_KEY}=${await encodeScene(stamp(sent))}`
       const iframe =
         view === 'embed'
           ? `<iframe src="${url.href}" title="${scene.title.replace(/"/g, '&quot;')}" loading="lazy" style="width:100%;aspect-ratio:${aspect(scene)};border:0"></iframe>`
