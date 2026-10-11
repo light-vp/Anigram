@@ -20,6 +20,7 @@ import type { ThemeId } from '../view/palette.ts'
  *   ?mode=paper                      frozen and annotated, ready to print
  *   ?t=18.5                          start the clock at 18:30
  *   ?speed=2                         clock multiplier
+ *   ?credit=0                        leave off the "Made with Anigram" line (svg export too)
  *   #scene=…                         a whole scene file, deflated (see format/share.ts)
  */
 
@@ -41,6 +42,8 @@ export interface Params {
   paper: boolean
   hour: number | null
   speed: number | null
+  /** sign the sheet; on unless ?credit=0 */
+  credit: boolean
 }
 
 export function readParams(search = window.location.search): Params {
@@ -66,6 +69,7 @@ export function readParams(search = window.location.search): Params {
     paper: q.get('mode') === 'paper',
     hour: num('t'),
     speed: num('speed'),
+    credit: q.get('credit') !== '0',
   }
 }
 

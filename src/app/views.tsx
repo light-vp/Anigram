@@ -57,6 +57,7 @@ export function EmbedView({
         onSelect={setSelected}
         onToggle={(id) => sim.toggle(id)}
         className={styles.sheet}
+        credit={initial.credit}
       />
       {part && frame.parts[part.id] && (
         <div className={styles.note} role="status">
@@ -81,10 +82,12 @@ export function EmbedView({
 export function ScreenView({
   scene,
   theme,
+  credit,
   onDone,
 }: {
   scene: Scene
   theme: ThemeId
+  credit: boolean
   onDone: () => void
 }) {
   const reduced = usePrefersReducedMotion()
@@ -110,6 +113,7 @@ export function ScreenView({
         animate={!reduced}
         selected={null}
         className={styles.sheet}
+        credit={credit}
       />
       <p className={styles.screenCaption}>{caption ?? '\u00a0'}</p>
       <SourceLink />

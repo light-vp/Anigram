@@ -16,6 +16,8 @@ export interface RenderOptions extends Controls {
   theme?: ThemeId
   /** label every flow with its value and direction, as paper mode does (default true) */
   annotate?: boolean
+  /** sign the sheet "Made with Anigram · Vaibhav Patel" (default true) */
+  credit?: boolean
 }
 
 /**
@@ -36,6 +38,7 @@ export function renderSheetSvg(scene: Scene, opts: RenderOptions = {}): string {
       annotate={opts.annotate ?? true}
       animate={false}
       selected={null}
+      credit={opts.credit ?? true}
     />,
   ).replace('<svg ', `<svg width="${w}" height="${h}" `)
   return `<?xml version="1.0" encoding="UTF-8"?>\n${markup}`

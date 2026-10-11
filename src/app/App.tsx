@@ -87,7 +87,13 @@ export function App() {
     )
   if (initial.view === 'screen')
     return (
-      <ScreenView key={scene.id} scene={scene} theme={theme} onDone={next} />
+      <ScreenView
+        key={scene.id}
+        scene={scene}
+        theme={theme}
+        credit={initial.credit}
+        onDone={next}
+      />
     )
   return (
     <Workbench

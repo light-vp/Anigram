@@ -42,7 +42,13 @@ export interface SheetProps {
   onToggle?: (switchId: string) => void
   svgRef?: Ref<SVGSVGElement>
   className?: string
+  /** sign the bottom corner "Made with Anigram · Vaibhav Patel" (default true) */
+  credit?: boolean
 }
+
+/** the line every sheet carries unless its maker turns it off */
+export const CREDIT = 'Made with Anigram · Vaibhav Patel'
+export const CREDIT_URL = 'https://anigram.vaibhav.co.uk'
 
 /** the moving dots' spacing, by what flows: sparks for current, beads for water */
 const SPACING: Record<Domain, number> = {
@@ -66,6 +72,7 @@ export function Sheet({
   onToggle,
   svgRef,
   className,
+  credit = true,
 }: SheetProps) {
   const { w, h } = sheetSize(scene)
   const geometry = useMemo(
@@ -144,6 +151,7 @@ export function Sheet({
       </g>
 
       <Legend scene={scene} h={h} />
+      {credit && <Credit scene={scene} w={w} h={h} />}
     </svg>
   )
 }
@@ -404,17 +412,25 @@ function Header({
   )
 }
 
+/** the legend's entries and where each starts, by an estimated text width */
+function legendItems(scene: Scene) {
+  const domains = [...new Set(scene.links.map((l) => l.domain))]
+  let x = PAD
+  const items = domains.map((d) => {
+    const text = `${DOMAIN_NAMES[d]}${scene.units[d] ? ` · ${scene.units[d]!.rate}` : ''}`
+    const at = x
+    x += 20 + text.length * 6.2 + 22
+    return { d, text, at }
+  })
+  return { items, end: x - 22 }
+}
+
 /** what each colour carries, along the bottom */
 function Legend({ scene, h }: { scene: Scene; h: number }) {
-  const domains = [...new Set(scene.links.map((l) => l.domain))]
   const y = h - FOOT_H / 2 - 4
-  let x = PAD
   return (
     <g>
-      {domains.map((d) => {
-        const text = `${DOMAIN_NAMES[d]}${scene.units[d] ? ` · ${scene.units[d]!.rate}` : ''}`
-        const at = x
-        x += 20 + text.length * 6.2 + 22
+      {legendItems(scene).items.map(({ d, text, at }) => {
         return (
           <g key={d}>
             <line
@@ -433,6 +449,23 @@ function Legend({ scene, h }: { scene: Scene; h: number }) {
         )
       })}
     </g>
+  )
+}
+
+/**
+ * The maker's signature, bottom right on the legend's line, or tucked
+ * under it when the legend runs that far. A link in the SVG file; the PNG
+ * just carries the words.
+ */
+function Credit({ scene, w, h }: { scene: Scene; w: number; h: number }) {
+  const x = w - PAD
+  const fits = legendItems(scene).end + 24 + CREDIT.length * 5.6 <= x
+  return (
+    <a href={CREDIT_URL} target="_blank" rel="noopener">
+      <text className="credit" x={x} y={fits ? h - FOOT_H / 2 : h - 8}>
+        {CREDIT}
+      </text>
+    </a>
   )
 }
 

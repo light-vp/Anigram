@@ -710,6 +710,12 @@ server.registerTool(
         .boolean()
         .optional()
         .describe('label every flow (default true)'),
+      credit: z
+        .boolean()
+        .optional()
+        .describe(
+          'sign the bottom corner "Made with Anigram · Vaibhav Patel" (default true; false leaves it off)',
+        ),
       format: z
         .enum(['png', 'svg'])
         .optional()
@@ -749,6 +755,7 @@ server.registerTool(
       hour?: number
       theme?: 'light' | 'dark'
       labels?: boolean
+      credit?: boolean
       format?: 'png' | 'svg'
       width?: number
       out?: string
@@ -769,6 +776,7 @@ server.registerTool(
         hour: args.hour,
         theme: args.theme,
         annotate: args.labels ?? true,
+        credit: args.credit,
         knobs: args.knobs,
         switches: args.switches,
       })

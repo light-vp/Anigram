@@ -139,6 +139,7 @@ The URL is the API:
 | `mode=paper`        | frozen and labelled                                                                                                            |
 | `t=18.5`            | open at 18:30                                                                                                                  |
 | `speed=4`           | clock multiplier                                                                                                               |
+| `credit=0`          | leave off the "Made with Anigram · Vaibhav Patel" line (the downloaded SVG too)                                                |
 | `#scene=…`          | a whole scene file, deflated and base64url'd — what **⧉ link** and the MCP server's `share_link` write                         |
 
 ## Commands
@@ -179,6 +180,10 @@ See [ROADMAP.md](ROADMAP.md) for where it goes next.
 
 **[MIT](LICENSE).** Use it, fork it, change it, ship it in something
 commercial. No CLA, no strings: keep the copyright notice and that's all.
+
+Every drawing is signed "Made with Anigram · Vaibhav Patel" in its bottom
+corner. That's a request, not a licence term: turn it off with `credit=0` in
+the URL or `credit: false` on the MCP server's `render_scene`.
 
 ## Support the project
 
