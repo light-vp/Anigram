@@ -87,6 +87,7 @@ test('lists its tools', async () => {
     'check_drawing',
     'check_scene',
     'edit_scene',
+    'export_dexpi',
     'get_scene',
     'lint_layout',
     'list_scenes',
@@ -402,6 +403,25 @@ test('lint_layout finds what auto_layout fixes', async () => {
   const after = await call('lint_layout', { file: 'messy.json' })
   assert.equal(after.data.ok, true, after.text)
   assert.match(after.text, /reads cleanly/)
+})
+
+test('export_dexpi hands a P&ID to plant software', async () => {
+  const { data: starter } = await call('new_scene', { drawing: 'pid' })
+  const inline = await call('export_dexpi', { scene: starter.scene })
+  assert.equal(inline.error, false, inline.text)
+  assert.equal(inline.data.counts.loops, 1)
+  assert.match(inline.text, /<PlantModel>/)
+  const saved = await call('export_dexpi', {
+    scene: starter.scene,
+    out: 'plant.xml',
+  })
+  assert.doesNotMatch(saved.text, /<PlantModel>/)
+  const xml = readFileSync(join(cwd, 'plant.xml'), 'utf8')
+  assert.match(xml, /ComponentClass="CentrifugalPump"/)
+  assert.equal(saved.data.bytes, Buffer.byteLength(xml))
+  const wrong = await call('export_dexpi', { id: 'grid' })
+  assert.equal(wrong.error, true)
+  assert.match(wrong.text, /DEXPI describes P&IDs/)
 })
 
 test('each practice has a prompt that walks the job', async () => {

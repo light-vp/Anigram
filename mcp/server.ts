@@ -45,6 +45,7 @@ import { checkExpectations, expectLines } from '../src/format/expect.ts'
 import { reportTable, simulateDay } from '../src/format/report.ts'
 import { SCHEMA_URL, sceneSchema } from '../src/format/schema.ts'
 import { encodeScene, HASH_KEY } from '../src/format/share.ts'
+import { toDexpi } from '../src/format/dexpi.ts'
 import { DOMAINS, DRAWINGS, validateScene } from '../src/format/validate.ts'
 import { PRACTICE, STARTERS } from '../src/packs/starters.ts'
 import { PART_KINDS } from '../src/parts/kinds.ts'
@@ -198,7 +199,7 @@ function within(p: string, root: string): boolean {
 
 function pathFor(
   file: string,
-  ext: '.json' | '.svg' | '.png' | '.pdf',
+  ext: '.json' | '.svg' | '.png' | '.pdf' | '.xml',
 ): string {
   const p = resolve(process.cwd(), file)
   if (extname(p).toLowerCase() !== ext)
@@ -1139,6 +1140,67 @@ server.registerTool(
           lintText(findings),
           JSON.stringify(out, null, 2),
         ].join('\n\n'),
+      )
+    },
+  ),
+)
+
+server.registerTool(
+  'export_dexpi',
+  {
+    title: 'Export a P&ID as DEXPI',
+    description:
+      'Write a P&ID (`"drawing": "pid"`) as DEXPI 1.3 Proteus XML, the exchange format plant design software reads: equipment with its tags and nozzles, each numbered line as a piping system with its valves in place, off-page connectors, and the instrument loops (measuring, control, actuated valves). ' +
+      'It carries the plant, not the picture: positions are in millimetres on A3, and the receiving tool draws its own symbols. With `out` (a .xml path) the file is saved and only a summary comes back. ' +
+      'notes say what could not go across (a part with no DEXPI class, a valve outside any pipe); run check_drawing first so every item is tagged and every line numbered.',
+    inputSchema: {
+      ...sceneInput,
+      out: z.string().optional().describe('save the XML to this .xml path'),
+    },
+    outputSchema: {
+      counts: z.object({
+        equipment: z.number(),
+        lines: z.number(),
+        segments: z.number(),
+        instruments: z.number(),
+        loops: z.number(),
+      }),
+      notes: z.array(z.string()),
+      saved: z.string().optional(),
+      bytes: z.number(),
+    },
+    annotations: { readOnlyHint: false },
+  },
+  guarded(
+    (args: {
+      scene?: Json | string
+      file?: string
+      id?: string
+      out?: string
+    }) => {
+      const { scene } = loadScene(args)
+      const r = toDexpi(scene, { version: VERSION })
+      const result: Json = {
+        counts: r.counts,
+        notes: r.notes,
+        bytes: Buffer.byteLength(r.xml),
+      }
+      if (args.out) {
+        const path = pathFor(args.out, '.xml')
+        writeFile(path, r.xml)
+        result.saved = path
+      }
+      const c = r.counts
+      const head = `DEXPI 1.3 (Proteus 4.1.1): ${c.equipment} equipment, ${c.lines} line(s) in ${c.segments} segment(s), ${c.instruments} instrument(s) in ${c.loops} loop(s)${result.saved ? `; saved to ${String(result.saved)}` : ''}`
+      return data(
+        result,
+        [
+          head,
+          r.notes.length ? `notes:\n- ${r.notes.join('\n- ')}` : '',
+          args.out ? '' : r.xml,
+        ]
+          .filter(Boolean)
+          .join('\n\n'),
       )
     },
   ),
