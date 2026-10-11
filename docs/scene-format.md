@@ -113,6 +113,56 @@ Every part has one role. Numbers that can change over the day are
 - `loss: true` carries a converter's losses rather than its product.
 - Storage that should both charge and discharge needs a link each way.
 
+## Engineering drawings
+
+The same scene can be drawn the way an engineer would draw it. Set
+`drawing` and the sheet swaps the pictures for standard symbols, draws each
+line by what it carries, and leaves out what the practice doesn't show. The
+simulation still runs underneath: arrows fill in while something flows,
+valves and breakers show their state, tank levels move.
+
+| `drawing`     | draws                                                        | shows                   |
+| ------------- | ------------------------------------------------------------ | ----------------------- |
+| `pictorial`   | the illustrated sheet (the default)                          | everything              |
+| `pid`         | a P&ID: ISO 10628-2 symbols, ISA-5.1 tags and lines          | water, heat, fuel, data |
+| `single-line` | IEC 60617 symbols, or ANSI/IEEE 315 with `"symbols": "ansi"` | electric                |
+| `pfd`         | a process flow diagram: major equipment and streams          | water, heat, fuel       |
+
+A part none of whose links the practice shows is left off the sheet, so a
+P&ID of a pumping station has no power cables and a single-line has no
+pipes.
+
+```jsonc
+{
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Severn Water", "project": "Hill reservoir",
+    "drawnBy": "VP", "checkedBy": "AK", "approvedBy": "",
+    "issued": "2026-10-11", "revision": "B", "status": "for construction"
+  },
+  "parts": [
+    { "id": "p1", "kind": "pump", "tag": "P-101", "class": "CentrifugalPump", … }
+  ],
+  "links": [
+    { "from": "p1", "to": "t1", "domain": "water", "tag": "100-W-001", "line": "process" }
+  ]
+}
+```
+
+- `tag` on a part is its equipment tag (`P-101`, `=G1`); tags are unique on
+  a sheet. On a link it is the line number, drawn along the line.
+- `class` is the symbol a part is drawn as. The guide lists each practice's
+  classes; P&ID classes carry DEXPI's names. Without one, the part's `kind`
+  picks a class (a `pump` is a `CentrifugalPump` on a P&ID, a `Motor` on a
+  single-line) and then its role does (a source is an off-page connector on a
+  P&ID, a generator on a single-line). A part with no class at all draws as a
+  labelled box, with a warning.
+- `line` is what a link is drawn as: `process` (solid, heavy), `utility`
+  (solid, light), `signal` (dashed), `pneumatic` (slashed) or `data` (dotted).
+  It defaults to `signal` for data and `process` otherwise.
+- `titleBlock` fills the drawing's title block. `issued` is a date like
+  `2026-10-11`.
+
 ## Signals
 
 A signal is a number or an expression string:

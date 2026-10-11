@@ -4,7 +4,7 @@
 import { PART_KINDS } from '../parts/kinds.ts'
 import { MAX_EXPR_LENGTH } from '../sim/expr.ts'
 import { FORMAT_VERSION } from './migrate.ts'
-import { DOMAINS, FIELDS, ROLES } from './validate.ts'
+import { DOMAINS, DRAWINGS, FIELDS, LINE_TYPES, ROLES } from './validate.ts'
 
 /*
  * The scene format as a JSON Schema, so editors can check and autocomplete a
@@ -144,6 +144,33 @@ export function sceneSchema(): Schema {
         title: str,
         subtitle: { type: 'string' },
         sheet: { type: 'string', description: 'drawing number, like LD-101' },
+        drawing: {
+          enum: [...DRAWINGS],
+          description:
+            'the drawing practice the sheet follows: pictorial (the default), pid, single-line or pfd',
+        },
+        symbols: {
+          enum: ['iec', 'ansi'],
+          description:
+            "a single-line's symbol standard: IEC 60617 (the default) or ANSI/IEEE 315",
+        },
+        titleBlock: object(FIELDS.titleBlock, {
+          owner: {
+            ...str,
+            description: 'the organisation the drawing belongs to',
+          },
+          project: str,
+          drawnBy: str,
+          checkedBy: str,
+          approvedBy: str,
+          issued: {
+            type: 'string',
+            pattern: '^\\d{4}-\\d{2}-\\d{2}$',
+            description: 'date of issue, YYYY-MM-DD',
+          },
+          revision: str,
+          status: { ...str, description: 'e.g. "for review"' },
+        }),
         size: {
           type: 'array',
           items: { type: 'integer', minimum: 1, maximum: 40 },
@@ -174,6 +201,16 @@ export function sceneSchema(): Schema {
               note: { type: 'string' },
               labelSide: { enum: ['below', 'above', 'left', 'right'] },
               toggles: { type: 'string', description: 'a switch id' },
+              tag: {
+                ...str,
+                description:
+                  'its tag on an engineering drawing, like P-101 or FIC-101; unique on the sheet',
+              },
+              class: {
+                ...str,
+                description:
+                  "what exactly it is in the drawing practice's vocabulary, like CentrifugalPump; picks the symbol",
+              },
             },
             ['id', 'kind', 'label', 'at', 'behaviour'],
           ),
@@ -190,6 +227,15 @@ export function sceneSchema(): Schema {
               via: { type: 'array', items: cell },
               bend: { enum: ['hv', 'vh'] },
               loss: { type: 'boolean' },
+              line: {
+                enum: [...LINE_TYPES],
+                description:
+                  'how an engineering drawing draws it; process by default, signal for data',
+              },
+              tag: {
+                ...str,
+                description: 'its line number, like 50-W-101',
+              },
             },
             ['from', 'to', 'domain'],
           ),

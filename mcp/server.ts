@@ -48,6 +48,7 @@ import { encodeScene, HASH_KEY } from '../src/format/share.ts'
 import { DOMAINS, validateScene } from '../src/format/validate.ts'
 import { PART_KINDS } from '../src/parts/kinds.ts'
 import { SCENES } from '../src/scenes/index.ts'
+import { PACKS } from '../src/packs/catalogue.ts'
 import { FUNCTIONS, VARIABLES } from '../src/sim/expr.ts'
 import type { Scene } from '../src/sim/types.ts'
 import { sheetSize } from '../src/view/geometry.ts'
@@ -299,8 +300,18 @@ function guide(): string {
   const vars = Object.entries(VARIABLES)
     .map(([name, doc]) => `- \`${name}\` — ${doc}`)
     .join('\n')
+  const packs = Object.values(PACKS)
+    .map(
+      (pack) =>
+        `### ${pack.name} (\`"drawing": "${pack.drawing}"\`)\n${pack.follows}.\n\n${Object.entries(
+          pack.classes,
+        )
+          .map(([c, info]) => `- \`${c}\` — ${info.is}`)
+          .join('\n')}`,
+    )
+    .join('\n\n')
   const body = guideText.replace(/^<!--.*-->\n/gm, '')
-  return `${body}\nThe format as a JSON Schema: the \`anigram://schema/scene\` resource, or ${SCHEMA_URL} (put it in a file's \`$schema\` so editors check it).\n\n## Signal functions\n\n${vars}\n${fns}\n\n## Parts\n\n${kinds}\n\nDomains: ${DOMAINS.join(', ')}.\n`
+  return `${body}\nThe format as a JSON Schema: the \`anigram://schema/scene\` resource, or ${SCHEMA_URL} (put it in a file's \`$schema\` so editors check it).\n\n## Signal functions\n\n${vars}\n${fns}\n\n## Parts\n\n${kinds}\n\n## Engineering symbols\n\n${packs}\n\nDomains: ${DOMAINS.join(', ')}.\n`
 }
 
 // ---------------------------------------------------------------- output shapes
