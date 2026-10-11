@@ -165,6 +165,34 @@ tells you whether the scene really does what it says:
 - Compare with a little room (`>= 0.999 * demand`, `fill > 0.95`): the
   numbers are rounded to three decimals.
 
+## Real numbers
+
+A sheet can validate, run, and pass its own `expect` list while describing a
+machine that couldn't exist, because the same author wrote the numbers and the
+claims. The validator warns when a scene breaks the physics, with the fix:
+
+- **A machine runs on something.** A pump, heat pump, generator or other
+  conversion part is a `converter` whose `recipe` names what drives it. Made
+  a `source`, it makes its output from nothing, and whatever is linked into it
+  is ignored.
+- **Nothing is over 100% efficient.** With every energy domain in the same
+  unit, a converter's energy inputs add up to at least 1 per unit of output:
+  a 40% generator is `{ "fuel": 2.5 }`, a motor about `{ "electric": 1.1 }`.
+  A heat pump with a COP of 3.3 takes `{ "electric": 0.3, "heat": 0.7 }`, the
+  heat coming from an `air` source.
+- **A round trip comes back smaller.** Electricity made into hydrogen and back
+  returns about 0.35 of itself, a battery about 0.9. Units cancel around a
+  loop, so this is checked even when fuel is in t/h and power in MW.
+- **Junctions, valves and stores keep their domain.** Changing fuel into
+  electricity takes a converter.
+- **Every link is used.** A sink passes nothing on; a converter only draws
+  the domains in its recipe.
+
+Typical figures: gas or diesel set 35–42% (`fuel` 2.4–2.9), fuel cell 50%
+(`fuel` 2), PV 20% of the light that falls on it (`light` 5), wind or water
+turbine 90% of the shaft power (`mechanical` 1.1), electrolyser 70%
+(`electric` 1.4 per unit of hydrogen energy), gas boiler 90% (`fuel` 1.1).
+
 ## Making a good one
 
 1. Start from the story: what should someone see happen over a day? Write it
@@ -177,5 +205,7 @@ tells you whether the scene really does what it says:
 4. **Check it.** `check_scene` runs the day and reports every expectation;
    when one fails it says at which hours and what the parts were doing.
    `simulate_scene` has the hour-by-hour table. Tune signals until every
-   line holds, and make the captions say what the numbers say.
+   line holds, and make the captions say what the numbers say. Clear the
+   physics warnings too: a story that only holds because a machine is 200%
+   efficient isn't one.
 5. Render it, look at the picture, fix crossings with `via` waypoints.

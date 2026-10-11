@@ -741,6 +741,7 @@ server.registerTool(
     description:
       "One call for 'is it done?': validate the scene, run its day, and check every line of its `expect` list. " +
       'ok is true only when the scene is valid and every expectation holds. Use it after each change; when one fails, the result says at which hours and what the parts it reads were doing. ' +
+      'Warnings include physics: a machine made from nothing, a converter over 100% efficient, a round trip that comes back bigger. Fix those too, or the story only holds on paper. ' +
       'A scene with no `expect` list passes with a reminder to add one.',
     inputSchema: { ...sceneInput, ...controlsInput },
     outputSchema: {

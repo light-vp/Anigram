@@ -17,6 +17,7 @@ import type {
   Switch,
 } from '../sim/types.ts'
 import { FORMAT_VERSION, migrate } from './migrate.ts'
+import { physicsWarnings } from './physics.ts'
 
 /*
  * Checks a scene file — JSON from disk, a share link, or an assistant — and
@@ -694,7 +695,7 @@ export function validateScene(input: unknown): Validation {
   if (captions.length) scene.captions = captions
   if (expect.length) scene.expect = expect
 
-  return errors.length
-    ? { ok: false, errors, warnings }
-    : { ok: true, scene, errors, warnings }
+  if (errors.length) return { ok: false, errors, warnings }
+  warnings.push(...physicsWarnings(scene))
+  return { ok: true, scene, errors, warnings }
 }
