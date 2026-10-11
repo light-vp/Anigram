@@ -9,7 +9,7 @@
  *
  * Runs over stdio. Paths are resolved against the directory the client
  * started it in and must stay inside it (or a folder ANIGRAM_ALLOW_PATHS
- * names), and it only ever reads and writes .json and .svg files.
+ * names), and it only ever reads .json files and writes .json, .svg and .png.
  *
  * Every tool that returns data also returns it as `structuredContent`,
  * checked against the tool's `outputSchema`; the text beside it is the same
@@ -51,9 +51,15 @@ import { FUNCTIONS, VARIABLES } from '../src/sim/expr.ts'
 import type { Scene } from '../src/sim/types.ts'
 import { sheetSize } from '../src/view/geometry.ts'
 import { renderSheetSvg } from '../src/view/renderSvg.tsx'
+import { svgToPng } from './png.ts'
 
 const VERSION = '0.1.0'
 const APP_URL = process.env.ANIGRAM_APP_URL ?? 'https://anigram.vaibhav.co.uk/'
+
+/** PNG widths: the default is wide enough to read every flow label */
+const PNG_WIDTH = 1600
+const MIN_PNG_WIDTH = 200
+const MAX_PNG_WIDTH = 4000
 
 const server = new McpServer(
   { name: 'anigram', title: 'Anigram', version: VERSION },
@@ -61,7 +67,7 @@ const server = new McpServer(
     instructions:
       'Anigram draws living diagrams: engineering sheets of real systems (power grids, solar houses, water towers, data centres) where every moving line is read off a flow simulation. ' +
       'A drawing is a JSON scene file. Call anigram_guide first for the format. Then: write the file (write_scene), validate it, simulate_scene to check the day tells the story you meant, ' +
-      'render_scene to look at it as SVG, and share_link to open it live in the browser. Built-in sheets (list_scenes / get_scene) are good starting points to copy.',
+      'render_scene to look at it (a PNG by default: check the layout reads cleanly), and share_link to open it live in the browser. Built-in sheets (list_scenes / get_scene) are good starting points to copy.',
   },
 )
 
@@ -77,7 +83,27 @@ const data = (v: Json, summary?: string) => ({
   ...text(summary ?? JSON.stringify(v, null, 2)),
   structuredContent: v,
 })
-type Result = ReturnType<typeof text> | ReturnType<typeof data>
+
+/** a picture for the model to look at, with its details as data */
+const image = (png: Uint8Array, v: Json) => ({
+  content: [
+    {
+      type: 'image' as const,
+      data: Buffer.from(png).toString('base64'),
+      mimeType: 'image/png',
+    },
+    { type: 'text' as const, text: JSON.stringify(v, null, 2) },
+  ],
+  structuredContent: v,
+})
+type Result =
+  ReturnType<typeof text> | ReturnType<typeof data> | ReturnType<typeof image>
+
+/** width and height from a PNG's header */
+function pngSize(png: Uint8Array): { width: number; height: number } {
+  const v = new DataView(png.buffer, png.byteOffset, png.byteLength)
+  return { width: v.getUint32(16), height: v.getUint32(20) }
+}
 
 /** some clients send nested objects as JSON strings */
 const objectish = z.union([z.record(z.string(), z.unknown()), z.string()])
@@ -132,7 +158,7 @@ function within(p: string, root: string): boolean {
   return r === '' || (!isAbsolute(r) && r.split(sep)[0] !== '..')
 }
 
-function pathFor(file: string, ext: '.json' | '.svg'): string {
+function pathFor(file: string, ext: '.json' | '.svg' | '.png'): string {
   const p = resolve(process.cwd(), file)
   if (extname(p).toLowerCase() !== ext)
     throw new Error(`${file}: expected a ${ext} path`)
@@ -215,7 +241,7 @@ function aspect(scene: Scene): string {
   return (w / h).toFixed(3)
 }
 
-function writeFile(path: string, body: string) {
+function writeFile(path: string, body: string | Uint8Array) {
   mkdirSync(dirname(path), { recursive: true })
   writeFileSync(path, body)
 }
@@ -664,10 +690,12 @@ server.registerTool(
 server.registerTool(
   'render_scene',
   {
-    title: 'Draw the sheet as SVG',
+    title: 'Draw the sheet',
     description:
-      'Render the sheet at an hour of the day as a standalone SVG, the same drawing the app shows in paper mode: every flow labelled with its value and direction. ' +
-      'The scene runs from its opening hour first, so tanks and batteries show real levels. With `out`, the SVG is saved to that path and only the path is returned.',
+      'Draw the sheet at an hour of the day, the same drawing the app shows in paper mode: every flow labelled with its value and direction. ' +
+      'The scene runs from its opening hour first, so tanks and batteries show real levels. ' +
+      'By default it comes back as a PNG image: look at it to check the layout (crossed lines, labels on top of each other, parts too close) and fix the scene. ' +
+      'format svg returns the markup instead. With `out`, the drawing is saved to that .png or .svg path and only its details are returned.',
     inputSchema: {
       ...sceneInput,
       ...controlsInput,
@@ -682,26 +710,37 @@ server.registerTool(
         .boolean()
         .optional()
         .describe('label every flow (default true)'),
+      format: z
+        .enum(['png', 'svg'])
+        .optional()
+        .describe(
+          'png (default) to look at; svg for the markup. With `out`, taken from its extension',
+        ),
+      width: z
+        .number()
+        .int()
+        .min(MIN_PNG_WIDTH)
+        .max(MAX_PNG_WIDTH)
+        .optional()
+        .describe(`PNG width in pixels, default ${PNG_WIDTH}`),
       out: z
         .string()
         .optional()
-        .describe('save to this .svg path instead of returning the markup'),
+        .describe('save to this .png or .svg path instead of returning it'),
     },
     outputSchema: {
       hour: z.number().describe('the hour drawn'),
+      format: z.enum(['png', 'svg']),
       bytes: z.number(),
       aspect: z.number().describe('width ÷ height'),
-      saved: z
-        .string()
-        .optional()
-        .describe(
-          'with `out`, the path written; otherwise the SVG is the text',
-        ),
+      width: z.number().optional().describe('PNG width in pixels'),
+      height: z.number().optional().describe('PNG height in pixels'),
+      saved: z.string().optional().describe('with `out`, the path written'),
     },
     annotations: { readOnlyHint: false, idempotentHint: true },
   },
   guarded(
-    (args: {
+    async (args: {
       scene?: Json | string
       file?: string
       id?: string
@@ -710,8 +749,20 @@ server.registerTool(
       hour?: number
       theme?: 'light' | 'dark'
       labels?: boolean
+      format?: 'png' | 'svg'
+      width?: number
       out?: string
     }) => {
+      const fromOut = args.out
+        ? (extname(args.out).toLowerCase().slice(1) as 'png' | 'svg')
+        : undefined
+      if (fromOut && fromOut !== 'png' && fromOut !== 'svg')
+        throw new Error(`${args.out}: expected a .png or .svg path`)
+      if (fromOut && args.format && fromOut !== args.format)
+        throw new Error(
+          `format is ${args.format} but ${args.out} is a .${fromOut} path`,
+        )
+      const format = fromOut ?? args.format ?? 'png'
       const { scene } = loadScene(args)
       checkControls(scene, args)
       const svg = renderSheetSvg(scene, {
@@ -721,15 +772,30 @@ server.registerTool(
         knobs: args.knobs,
         switches: args.switches,
       })
-      const info = {
-        hour: args.hour ?? scene.clock.start,
-        bytes: svg.length,
-        aspect: Number(aspect(scene)),
+      const hour = args.hour ?? scene.clock.start
+      const ratio = Number(aspect(scene))
+      if (format === 'svg') {
+        const info = { hour, format, bytes: svg.length, aspect: ratio }
+        if (!args.out) return data(info, svg)
+        const path = pathFor(args.out, '.svg')
+        writeFile(path, svg)
+        return data({ ...info, saved: path })
       }
-      if (!args.out) return data(info, svg)
-      const path = pathFor(args.out, '.svg')
-      writeFile(path, svg)
-      return data({ ...info, saved: path })
+      // check the path before the slow part
+      const path = args.out ? pathFor(args.out, '.png') : undefined
+      const png = await svgToPng(svg, args.width ?? PNG_WIDTH)
+      const info = {
+        hour,
+        format,
+        bytes: png.length,
+        aspect: ratio,
+        ...pngSize(png),
+      }
+      if (path) {
+        writeFile(path, png)
+        return data({ ...info, saved: path })
+      }
+      return image(png, info)
     },
   ),
 )

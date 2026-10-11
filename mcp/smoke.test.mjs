@@ -21,7 +21,8 @@ const call = async (name, args = {}) => {
   const r = await client.callTool({ name, arguments: args })
   return {
     error: !!r.isError,
-    text: r.content[0].text,
+    text: r.content.find((c) => c.type === 'text')?.text,
+    image: r.content.find((c) => c.type === 'image'),
     data: r.structuredContent,
   }
 }
@@ -158,7 +159,11 @@ test('write, edit, simulate, render, share', async () => {
   assert.ok(Object.keys(short.data.unmet).length > 0)
   assert.ok(short.data.alerts.some((a) => /short/.test(a.text)))
 
-  const svg = await call('render_scene', { file: 'kettle.json', hour: 7.5 })
+  const svg = await call('render_scene', {
+    file: 'kettle.json',
+    hour: 7.5,
+    format: 'svg',
+  })
   assert.match(svg.text, /^<\?xml/)
   assert.match(svg.text, /<svg[^>]+width="/)
   assert.equal(svg.data.hour, 7.5)
@@ -170,6 +175,7 @@ test('write, edit, simulate, render, share', async () => {
     out: 'out/solar.svg',
   })
   assert.ok(readFileSync(saved.data.saved, 'utf8').includes('</svg>'))
+  assert.equal(saved.data.format, 'svg')
 
   const link = (
     await call('share_link', { file: 'kettle.json', view: 'embed' })
@@ -201,6 +207,47 @@ test('mistakes come back as tool errors a model can act on', async () => {
   assert.equal(knob.error, true)
 })
 
+const PNG_MAGIC = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]
+
+test('render_scene shows the assistant a PNG by default', async () => {
+  const r = await call('render_scene', { id: 'grid', hour: 18 })
+  assert.equal(r.error, false, r.text)
+  assert.equal(r.image.mimeType, 'image/png')
+  const png = Buffer.from(r.image.data, 'base64')
+  assert.deepEqual([...png.subarray(0, 8)], PNG_MAGIC)
+  assert.equal(r.data.format, 'png')
+  assert.equal(r.data.width, 1600)
+  assert.equal(r.data.bytes, png.length)
+  assert.ok(
+    Math.abs(r.data.width / r.data.height - r.data.aspect) < 0.01,
+    'keeps the sheet’s proportions',
+  )
+  // a drawing with colour and text in it, not a blank or all-black frame:
+  // the earlier, unflattened render came out a few KB of solid black
+  assert.ok(png.length > 40_000, `only ${png.length} bytes`)
+
+  const small = await call('render_scene', { id: 'grid', width: 400 })
+  assert.equal(small.data.width, 400)
+
+  const saved = await call('render_scene', {
+    id: 'solar-home',
+    theme: 'dark',
+    out: 'out/solar.png',
+  })
+  assert.equal(saved.image, undefined, 'a saved PNG is not sent back too')
+  const disk = readFileSync(saved.data.saved)
+  assert.deepEqual([...disk.subarray(0, 8)], PNG_MAGIC)
+
+  const clash = await call('render_scene', {
+    id: 'grid',
+    format: 'svg',
+    out: 'x.png',
+  })
+  assert.equal(clash.error, true)
+  const bad = await call('render_scene', { id: 'grid', out: 'x.gif' })
+  assert.match(bad.text, /\.png or \.svg/)
+})
+
 test('files stay inside the working directory', async () => {
   for (const file of ['../outside.json', join(tmpdir(), 'abs.json')]) {
     const r = await call('write_scene', { file, scene: kettle })
@@ -210,8 +257,10 @@ test('files stay inside the working directory', async () => {
   const read = await call('validate_scene', { file: '../../etc/x.json' })
   assert.equal(read.error, true)
   assert.match(read.text, /ANIGRAM_ALLOW_PATHS/)
-  const svg = await call('render_scene', { id: 'grid', out: '../grid.svg' })
-  assert.equal(svg.error, true)
+  for (const out of ['../grid.svg', '../grid.png']) {
+    const r = await call('render_scene', { id: 'grid', out })
+    assert.equal(r.error, true, out)
+  }
   // a symlink out of the folder is caught too
   symlinkSync(tmpdir(), join(cwd, 'link'))
   const via = await call('write_scene', {

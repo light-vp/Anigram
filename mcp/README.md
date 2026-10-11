@@ -19,7 +19,7 @@ draw them.
 | `write_scene`    | Validate and save a `.json` scene file.                                                              |
 | `edit_scene`     | Add, move, update or remove parts and links in place.                                                |
 | `simulate_scene` | Run a day headless: an hour-by-hour table, every alert, unmet demand. Knobs and switches can be set. |
-| `render_scene`   | The sheet as a standalone SVG at any hour, every flow labelled.                                      |
+| `render_scene`   | The sheet at any hour, every flow labelled: a PNG the assistant can look at (default) or an SVG.     |
 | `share_link`     | A URL that opens the scene live in the browser. The scene travels in the link; nothing is uploaded.  |
 
 Every tool except `anigram_guide` declares an output schema and returns its
@@ -55,7 +55,9 @@ claude mcp add anigram -- node /path/to/anigram/mcp/dist/anigram-mcp.mjs
 ```
 
 The built file is self-contained: React, the solver and the MCP SDK are
-bundled in, so it runs anywhere Node 20+ does.
+bundled in, so it runs anywhere Node 20+ does. Beside it sit the PNG
+renderer ([resvg](https://github.com/linebender/resvg) as wasm, no browser or
+native build) and the Inter font it draws text with.
 
 ## Try
 
@@ -71,7 +73,8 @@ numbers until the story holds, and hands back a link.
 
 - Paths are relative to the directory the client starts the server in, and
   must stay inside it: `../` and absolute paths elsewhere, and symlinks out of
-  it, are refused. It only reads and writes `.json` and `.svg` files.
+  it, are refused. It only reads `.json` files, and writes `.json`, `.svg`
+  and `.png`.
 - `ANIGRAM_ALLOW_PATHS` lets it use more folders, separated like `PATH`
   (`:` on macOS and Linux, `;` on Windows).
 - `ANIGRAM_APP_URL` points `share_link` at another copy of the app
