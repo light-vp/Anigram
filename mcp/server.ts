@@ -45,13 +45,14 @@ import { checkExpectations, expectLines } from '../src/format/expect.ts'
 import { reportTable, simulateDay } from '../src/format/report.ts'
 import { SCHEMA_URL, sceneSchema } from '../src/format/schema.ts'
 import { encodeScene, HASH_KEY } from '../src/format/share.ts'
-import { DOMAINS, validateScene } from '../src/format/validate.ts'
+import { DOMAINS, DRAWINGS, validateScene } from '../src/format/validate.ts'
+import { PRACTICE, STARTERS } from '../src/packs/starters.ts'
 import { PART_KINDS } from '../src/parts/kinds.ts'
 import { SCENES } from '../src/scenes/index.ts'
 import { PACKS } from '../src/packs/catalogue.ts'
 import { FUNCTION_LETTERS, MEASURED } from '../src/sim/instruments.ts'
 import { FUNCTIONS, VARIABLES } from '../src/sim/expr.ts'
-import type { Scene } from '../src/sim/types.ts'
+import type { DrawingType, Scene } from '../src/sim/types.ts'
 import { sheetSize } from '../src/view/geometry.ts'
 import { renderSheetSvg } from '../src/view/renderSvg.tsx'
 import { svgToPdf } from './pdf.ts'
@@ -98,7 +99,8 @@ const server = new McpServer(
     instructions:
       'Anigram draws living diagrams: engineering sheets of real systems (power grids, solar houses, water towers, data centres) where every moving line is read off a flow simulation. ' +
       'A drawing is a JSON scene file. Call anigram_guide first for the format. Then: write the file (write_scene) with an `expect` list stating its story, check_scene until every expectation holds (simulate_scene shows the hour-by-hour numbers when one fails), ' +
-      'render_scene to look at it (a PNG by default: check the layout reads cleanly), and share_link to open it live in the browser. Built-in sheets (list_scenes / get_scene) are good starting points to copy.',
+      'render_scene to look at it (a PNG by default: check the layout reads cleanly), and share_link to open it live in the browser. Built-in sheets (list_scenes / get_scene) are good starting points to copy. ' +
+      "For an engineering drawing (a P&ID, a single-line diagram, a process flow diagram), start from new_scene with that `drawing`: it hands back a working starter and the practice's conventions. The draw-pid, draw-single-line, draw-pfd and draw-sheet prompts walk through the whole job.",
   },
 )
 
@@ -442,6 +444,116 @@ server.registerTool(
   },
   guarded(({ id }: { id: string }) => data(rawScene({ id }) as Json)),
 )
+
+const DRAWING_NAMES: Record<DrawingType, string> = {
+  pictorial: 'a pictorial sheet',
+  pid: 'a P&ID',
+  'single-line': 'a single-line diagram',
+  pfd: 'a process flow diagram',
+}
+
+server.registerTool(
+  'new_scene',
+  {
+    title: 'Start a new sheet',
+    description:
+      'A small, working starter for a drawing practice: pictorial (the default), pid, single-line or pfd. It validates with no warnings and its `expect` list holds, ' +
+      "and it shows the practice's conventions (tags, classes, instruments, title block). Edit it into the system you were asked for. With `file`, it is also saved there.",
+    inputSchema: {
+      drawing: z
+        .enum(DRAWINGS as [DrawingType, ...DrawingType[]])
+        .optional()
+        .describe('the drawing practice; default pictorial'),
+      id: z
+        .string()
+        .optional()
+        .describe('the new scene id, lowercase-and-dashes'),
+      title: z.string().optional(),
+      file: z
+        .string()
+        .optional()
+        .describe('save the starter to this .json path as well'),
+    },
+    outputSchema: {
+      drawing: z.string(),
+      practice: z.string().describe("the practice's conventions"),
+      scene: sceneOutput,
+      saved: z.string().optional(),
+    },
+    annotations: { idempotentHint: true },
+  },
+  guarded(
+    (args: {
+      drawing?: DrawingType
+      id?: string
+      title?: string
+      file?: string
+    }) => {
+      const drawing = args.drawing ?? 'pictorial'
+      const scene = {
+        $schema: SCHEMA_URL,
+        ...structuredClone(STARTERS[drawing]),
+        ...(args.id ? { id: args.id } : {}),
+        ...(args.title ? { title: args.title } : {}),
+      }
+      const result: Json = {
+        drawing,
+        practice: PRACTICE[drawing],
+        scene: scene as Json,
+      }
+      if (args.file) {
+        const path = pathFor(args.file, '.json')
+        writeFile(path, `${JSON.stringify(scene, null, 2)}\n`)
+        result.saved = path
+      }
+      return data(result)
+    },
+  ),
+)
+
+// one prompt per practice: the conventions, then the way to work
+for (const drawing of DRAWINGS) {
+  const what = DRAWING_NAMES[drawing]
+  const pack = PACKS[drawing]
+  server.registerPrompt(
+    drawing === 'pictorial' ? 'draw-sheet' : `draw-${drawing}`,
+    {
+      title: `Draw ${what}`,
+      description: `Draw ${what} of a system with Anigram${pack ? `, following ${pack.follows}` : ''}.`,
+      argsSchema: {
+        brief: z
+          .string()
+          .describe('the system to draw, in a sentence or a paragraph'),
+      },
+    },
+    ({ brief }) => ({
+      messages: [
+        {
+          role: 'user' as const,
+          content: {
+            type: 'text' as const,
+            text: [
+              `Draw ${what} with Anigram: ${brief}`,
+              '',
+              PRACTICE[drawing],
+              '',
+              'Work like this:',
+              `1. Call new_scene with drawing "${drawing}" for a starter that already works, and anigram_guide for the format${pack ? ` and the ${pack.name} classes` : ''}.`,
+              "2. Replace the starter's parts, links" +
+                (drawing === 'pid' ? ', instruments' : '') +
+                ' and `expect` list with the system in the brief, keeping its conventions. Save it with write_scene.',
+              '3. Run check_scene until every expectation holds and no warnings are left.',
+              '4. render_scene and look at the PNG: fix crossed lines, crowded labels and anything missing a tag.',
+              drawing === 'pictorial'
+                ? '5. share_link to open it live.'
+                : '5. render_scene to a .pdf path for a print on A3 paper, and share_link to open it live.',
+            ].join('\n'),
+          },
+        },
+      ],
+    }),
+  )
+}
 
 server.registerTool(
   'validate_scene',

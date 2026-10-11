@@ -26,6 +26,8 @@ export interface SymbolProps {
   phase: number
   part: PartSpec
   symbols: SymbolSet
+  /** a busbar's reach either side of its centre, to cover every feeder */
+  span?: [number, number]
 }
 
 export type SymbolGlyph = (props: SymbolProps) => ReactNode
@@ -387,8 +389,14 @@ const Turbine: SymbolGlyph = ({ s }) => (
   </g>
 )
 
-const Busbar: SymbolGlyph = () => (
-  <rect x={-50} y={-2.5} width={100} height={5} className="inkf" />
+const Busbar: SymbolGlyph = ({ span = [-50, 50] }) => (
+  <rect
+    x={span[0]}
+    y={-2.5}
+    width={span[1] - span[0]}
+    height={5}
+    className="inkf"
+  />
 )
 
 /** what a part with no symbol in this practice draws as: its class or kind in a box that fits it */

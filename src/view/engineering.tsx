@@ -135,6 +135,7 @@ export function EngPart({
   part,
   frame,
   way,
+  span,
   selected,
   dim,
   onClick,
@@ -143,6 +144,8 @@ export function EngPart({
   part: PartSpec
   frame: Frame
   way: Way
+  /** a busbar's reach either side of its centre */
+  span?: [number, number]
   selected: boolean
   dim: boolean
   onClick: () => void
@@ -181,6 +184,7 @@ export function EngPart({
           phase={frame.partPhase[part.id] ?? 0}
           part={part}
           symbols={scene.symbols ?? 'iec'}
+          span={span}
         />
       </g>
       <rect className="hit" x={-half} y={-half} width={TILE} height={TILE} />
@@ -193,11 +197,13 @@ export function EngLabel({
   scene,
   part,
   frame,
+  span,
   dim,
 }: {
   scene: Scene
   part: PartSpec
   frame: Frame
+  span?: [number, number]
   dim: boolean
 }) {
   const s = frame.parts[part.id]
@@ -206,7 +212,11 @@ export function EngLabel({
   const [x, y] = cellToPx(part.at)
   // a busbar's name sits above its left end, clear of the feeders below it
   const o = busbar
-    ? { dx: -46, dy: part.tag ? -22 : -9, anchor: 'start' as const }
+    ? {
+        dx: (span?.[0] ?? -50) + 4,
+        dy: part.tag ? -22 : -9,
+        anchor: 'start' as const,
+      }
     : LABEL_OFFSET[part.labelSide ?? 'below']
   const r = sheetReadout(scene, part, frame)
   let line = 0

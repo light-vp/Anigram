@@ -46,7 +46,7 @@ import {
   EngPart,
   InstrumentLines,
 } from './engineering.tsx'
-import { partWay } from './lines.ts'
+import { busbarSpans, partWay, tapBusbars } from './lines.ts'
 import { Border, TitleBlock } from './TitleBlock.tsx'
 import { measuredPart } from '../sim/instruments.ts'
 
@@ -99,7 +99,12 @@ export function Sheet({
   // an engineering drawing draws a two-way pair (charge and discharge) as one line
   const eng = !!scene.drawing && scene.drawing !== 'pictorial'
   const geometry = useMemo(
-    () => scene.links.map((l) => linkPoints(scene, l, !eng)),
+    () =>
+      scene.links.map((l) =>
+        eng
+          ? tapBusbars(scene, l, linkPoints(scene, l, false))
+          : linkPoints(scene, l),
+      ),
     [scene, eng],
   )
   const traced =
@@ -111,6 +116,13 @@ export function Sheet({
   const shown = eng ? shownParts(scene) : null
   const drawn = (i: number) => !eng || shows(scene.links[i]!, scene)
   const tags = annotate ? flowTags(scene, frame, geometry, shown, drawn) : []
+  const spans = eng
+    ? busbarSpans(
+        scene,
+        scene.links.filter((_, i) => drawn(i)),
+        geometry.filter((_, i) => drawn(i)),
+      )
+    : null
   // instruments are a P&ID's
   const instruments = scene.drawing === 'pid' ? (scene.instruments ?? []) : []
   // an instrument dims with the part at the end of its signal
@@ -188,6 +200,7 @@ export function Sheet({
                   scene.links.filter((_, i) => drawn(i)),
                   geometry.filter((_, i) => drawn(i)),
                 )}
+                span={spans!.get(part.id)}
                 selected={selected === part.id}
                 dim={!!lit && !lit.parts.has(part.id)}
                 onClick={() => {
@@ -220,6 +233,7 @@ export function Sheet({
                 scene={scene}
                 part={part}
                 frame={frame}
+                span={spans!.get(part.id)}
                 dim={!!lit && !lit.parts.has(part.id)}
               />
             )

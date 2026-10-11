@@ -166,6 +166,11 @@ pipes.
   `subtitle` in the middle (with `project` above them), and drawn, checked,
   approved, issued, revision and `sheet` along the bottom. Fields left out
   stay as empty boxes. `issued` is a date like `2026-10-11`.
+- On a single-line, a busbar stretches to reach every feeder, and a feeder
+  on another row drops straight from the bar above it rather than from its
+  centre.
+- The MCP server's `new_scene` returns a small, working sheet for each
+  practice, already tagged and titled, to edit rather than start blank.
 - `render_scene` with a `.pdf` path prints the sheet on one landscape page
   of A3 (or `paper`: `A4`, `A2`, `A1`), for filing or printing.
 
