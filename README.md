@@ -64,7 +64,7 @@ errors, a headless day of simulation, SVG rendering and share links:
 | `validate_scene`             | errors and warnings, each pinned to the part it's about |
 | `write_scene` / `edit_scene` | save a scene file, or patch parts and links in place    |
 | `simulate_scene`             | 24 hours, hour by hour, with every alert and shortfall  |
-| `render_scene`               | the sheet as a standalone SVG at any hour               |
+| `render_scene`               | the sheet at any hour, as a PNG to look at or an SVG    |
 | `share_link`                 | a URL that opens it live; the scene rides in the link   |
 
 Setup for other clients is in [mcp/README.md](mcp/README.md). An example the
