@@ -13,7 +13,8 @@ updates:
     open-pull-requests-limit: 5
     ignore:
       # pinned: a new Playwright brings a new Chromium, which repaints every
-      # sheet screenshot. Bump it by hand with `npm run e2e:update`.
+      # sheet screenshot. Bump it by hand, with the image tag in the
+      # workflows, and re-record with an [update screenshots] commit.
       - dependency-name: '@playwright/test'
     groups:
       dev:

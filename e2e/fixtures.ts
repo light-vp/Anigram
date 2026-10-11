@@ -22,8 +22,8 @@ const font = (file: string) =>
 /**
  * The sheet asks for Inter and falls back to the system's sans, which differs
  * between machines. The MCP server bundles Inter for its PNG renderer; the
- * screenshots load the same files, so a sheet looks the same wherever it is
- * compared.
+ * screenshots load the same files, so a sheet never depends on what fonts a
+ * machine happens to have.
  */
 const PINNED_FONT = [
   ['Inter-Regular.ttf', 400],

@@ -6,9 +6,12 @@ import { defineConfig, devices } from '@playwright/test'
 /*
  * Browser tests: the app as people meet it, built and served the way it is
  * deployed. `npm run build` first; `npm run e2e` serves dist/ and drives it.
- * Screenshots of the sheets live in e2e/screenshots/ and are compared with
- * the sheet font pinned (see e2e/fonts.ts), so they hold across machines.
- * `npm run e2e:update` rewrites them when a change to a drawing is meant.
+ * Screenshots of the sheets live in e2e/screenshots/. They are recorded and
+ * compared inside Playwright's own Docker image (CI's `browser` job), where
+ * the browser and its font rendering never change; on any other machine,
+ * run `npm run e2e -- --ignore-snapshots`. To re-record them when a change
+ * to a drawing is meant, push a commit with "[update screenshots]" in its
+ * message (see .github/workflows/screenshots.yml).
  */
 
 const PORT = 4179

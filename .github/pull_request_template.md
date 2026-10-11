@@ -9,7 +9,7 @@
 ## Checked
 
 - [ ] `npm run typecheck`, `npm run lint`, `npm test`, `npm run test:mcp`
-- [ ] `npm run build && npm run e2e` (browser tests and sheet screenshots)
-- [ ] If a sheet's drawing changed on purpose: `npm run e2e:update` / `npm run drawings:update`, and the new pictures are in this PR
+- [ ] `npm run build && npm run e2e -- --ignore-snapshots` (browser tests; CI compares the screenshots)
+- [ ] If a sheet's drawing changed on purpose: `npm run drawings:update`, and a commit with `[update screenshots]` in its message
 - [ ] If a part, symbol or MCP tool changed: `npm run docs`
 - [ ] A line under **Unreleased** in `CHANGELOG.md`, if people will notice

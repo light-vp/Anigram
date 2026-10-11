@@ -14,8 +14,8 @@ import { expect, pinFont, sceneLink, sheetOf, test } from './fixtures.ts'
  * with e2e/screenshots/. The MCP golden drawings pin the SVG the server
  * writes; these pin what a person sees: the app's CSS, the fonts, the
  * engineering symbols as Chromium paints them. When a change to a drawing is
- * meant, `npm run e2e:update` rewrites the pictures and the diff goes in the
- * PR for review.
+ * meant, a commit with [update screenshots] in its message has CI re-record
+ * them, and the diff goes in the PR for review.
  */
 
 const example = (name: string) =>
