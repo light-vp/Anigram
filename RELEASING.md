@@ -22,6 +22,10 @@ git pull && npm ci && npm run test:mcp
 cd mcp && npm login && npm publish --access public
 ```
 
+`npm pack` and `npm publish` build `mcp/dist` first (the `prepack` script),
+so a package can't go up without the server in it. `npm pack --dry-run` in
+`mcp/` lists what would ship.
+
 Then, on npmjs.com, open the `anigram-mcp` package → **Settings** →
 **Trusted Publisher** → **GitHub Actions**, and enter:
 

@@ -1,12 +1,15 @@
 {
   "name": "anigram-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "MCP server for Anigram: let a coding assistant write, validate, simulate and draw living engineering diagrams.",
   "license": "MIT",
   "author": "Vaibhav Patel",
   "type": "module",
   "bin": {
     "anigram-mcp": "dist/anigram-mcp.mjs"
+  },
+  "scripts": {
+    "prepack": "npm --prefix .. run build:mcp"
   },
   "files": [
     "dist"
