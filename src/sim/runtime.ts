@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
+import { compileReader } from './instruments.ts'
+import type { Reader } from './instruments.ts'
 import { compile, initialMemory, solve } from './solver.ts'
 import type { Compiled, LinkState, Memory, PartState } from './solver.ts'
 import type { Env, Scene } from './types.ts'
@@ -15,6 +17,8 @@ export interface Frame {
   linkPhase: Float64Array
   partPhase: Record<string, number>
   alerts: Alert[]
+  /** each instrument's reading, by tag */
+  instruments: Record<string, number>
 }
 
 export interface Alert {
@@ -44,6 +48,7 @@ export class Simulation {
   switches: Record<string, boolean> = {}
   frame: Frame
   private memory: Memory
+  private readers: Reader[]
   private listeners = new Set<() => void>()
   /**
    * where a replayed day stood at each whole hour after the opening hour,
@@ -62,6 +67,9 @@ export class Simulation {
     for (const k of scene.knobs ?? []) this.knobs[k.id] = k.value
     for (const s of scene.switches ?? []) this.switches[s.id] = s.on
     this.memory = initialMemory(this.model)
+    this.readers = (scene.instruments ?? []).flatMap(
+      (i) => compileReader(i, scene) ?? [],
+    )
     this.frame = this.emptyFrame()
     // settle the stores into a believable state before the first paint
     this.compute(1e-3)
@@ -86,6 +94,7 @@ export class Simulation {
       linkPhase: new Float64Array(this.scene.links.length),
       partPhase: Object.fromEntries(this.scene.parts.map((p) => [p.id, 0])),
       alerts: [],
+      instruments: {},
     }
   }
 
@@ -125,7 +134,18 @@ export class Simulation {
       parts: sol.parts,
       links: sol.links,
       alerts: this.alerts(sol.parts, sol.links),
+      instruments: this.read(sol.parts),
     }
+  }
+
+  /** what each instrument reads, from the parts as they are now */
+  private read(parts: Record<string, PartState>): Record<string, number> {
+    if (!this.readers.length) return {}
+    const env: Env = {
+      ...this.env(),
+      part: (id) => parts[id] ?? { in: 0, out: 0, fill: 0, demand: 0 },
+    }
+    return Object.fromEntries(this.readers.map((r) => [r.tag, r.read(env)]))
   }
 
   private alerts(

@@ -4,7 +4,14 @@
 import { PART_KINDS } from '../parts/kinds.ts'
 import { MAX_EXPR_LENGTH } from '../sim/expr.ts'
 import { FORMAT_VERSION } from './migrate.ts'
-import { DOMAINS, DRAWINGS, FIELDS, LINE_TYPES, ROLES } from './validate.ts'
+import {
+  DOMAINS,
+  DRAWINGS,
+  FIELDS,
+  LINE_TYPES,
+  MOUNTINGS,
+  ROLES,
+} from './validate.ts'
 
 /*
  * The scene format as a JSON Schema, so editors can check and autocomplete a
@@ -238,6 +245,43 @@ export function sceneSchema(): Schema {
               },
             },
             ['from', 'to', 'domain'],
+          ),
+        },
+        instruments: {
+          type: 'array',
+          description: 'instruments, drawn as ISA-5.1 bubbles on a P&ID',
+          items: object(
+            FIELDS.instrument,
+            {
+              tag: {
+                type: 'string',
+                pattern: '^[A-Z]',
+                description:
+                  'ISA-5.1: what it measures, what it does, then the loop number, like LIC-101',
+              },
+              at: cell,
+              measures: { ...str, description: 'the part it is connected to' },
+              reads: {
+                type: 'string',
+                minLength: 1,
+                maxLength: MAX_EXPR_LENGTH,
+                description:
+                  'what it reads, like "part(\'tank\').fill * 100"; a level or flow instrument reads its part when left out',
+              },
+              unit: { type: 'string' },
+              drives: {
+                ...str,
+                description: 'the valve or breaker a controller works',
+              },
+              signal: {
+                enum: ['signal', 'pneumatic', 'data'],
+                description: 'how its signal to `drives` travels',
+              },
+              mounting: { enum: [...MOUNTINGS] },
+              low: { ...num, description: 'alarm below this reading' },
+              high: { ...num, description: 'alarm above this reading' },
+            },
+            ['tag', 'at', 'measures'],
           ),
         },
         knobs: {

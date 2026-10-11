@@ -25,15 +25,16 @@ test('the committed schema is up to date (run `npm run schema` if not)', () => {
   )
 })
 
-test('every built-in sheet and the example file match the schema', () => {
+test('every built-in sheet and the example files match the schema', () => {
   for (const s of SCENES) {
     const v = validateScene(stamp(JSON.parse(JSON.stringify(s))))
     assert.ok(check(v.scene), `${s.id}: ${ajv.errorsText(check.errors)}`)
   }
-  assert.ok(
-    check(read('../../examples/narrowboat.json')),
-    ajv.errorsText(check.errors),
-  )
+  for (const f of ['narrowboat', 'feed-tank-pid'])
+    assert.ok(
+      check(read(`../../examples/${f}.json`)),
+      `${f}: ${ajv.errorsText(check.errors)}`,
+    )
 })
 
 test('the schema rejects what the validator warns or errors about', () => {

@@ -9,6 +9,8 @@ import type {
   Caption,
   Expectation,
   Domain,
+  InstrumentMounting,
+  InstrumentSpec,
   DrawingType,
   Knob,
   LineType,
@@ -22,6 +24,7 @@ import type {
 import { FORMAT_VERSION, migrate } from './migrate.ts'
 import { packWarnings } from '../packs/catalogue.ts'
 import { physicsWarnings } from './physics.ts'
+import { isIsaTag, splitTag } from '../sim/instruments.ts'
 
 /*
  * Checks a scene file — JSON from disk, a share link, or an assistant — and
@@ -84,6 +87,7 @@ export const FIELDS = {
     'scale',
     'parts',
     'links',
+    'instruments',
     'knobs',
     'switches',
     'captions',
@@ -127,6 +131,18 @@ export const FIELDS = {
     'line',
     'tag',
   ],
+  instrument: [
+    'tag',
+    'at',
+    'measures',
+    'reads',
+    'unit',
+    'drives',
+    'signal',
+    'mounting',
+    'low',
+    'high',
+  ],
   caption: ['from', 'to', 'text'],
   expect: ['says', 'check', 'at', 'from', 'to', 'sometime'],
   refill: ['below', 'until'],
@@ -147,6 +163,14 @@ export const FIELDS = {
   ],
   vent: ['role'],
 } as const
+
+export const MOUNTINGS: readonly InstrumentMounting[] = [
+  'field',
+  'panel',
+  'behind-panel',
+  'dcs',
+  'plc',
+]
 
 export interface Validation {
   ok: boolean
@@ -673,6 +697,139 @@ export function validateScene(input: unknown): Validation {
     }
   }
 
+  const instruments: InstrumentSpec[] = []
+  if (s.instruments !== undefined && !Array.isArray(s.instruments))
+    err('instruments', 'must be an array')
+  const partTags = new Map(
+    parts.filter((q) => q.tag).map((q) => [q.tag!, q.id]),
+  )
+  const instrumentTags = new Set(
+    (Array.isArray(s.instruments) ? s.instruments : [])
+      .filter(isObj)
+      .map((x) => x.tag)
+      .filter(isStr),
+  )
+  const partRef = (path: string, v: unknown): string => {
+    const ref = str(path, v)
+    if (ref && !partIds.has(ref))
+      err(path, `no part has id "${ref}"${didYouMean(ref, partIds)}`)
+    return ref
+  }
+  for (const [i, x] of (Array.isArray(s.instruments)
+    ? s.instruments
+    : []
+  ).entries()) {
+    let p = `instruments[${i}]`
+    if (!isObj(x)) {
+      err(p, 'must be an object')
+      continue
+    }
+    const tag = str(`${p}.tag`, x.tag)
+    if (tag) p = `instruments[${i}] (${tag})`
+    unknownFields(p, x, FIELDS.instrument)
+    if (tag && !isIsaTag(tag))
+      warn(
+        `${p}.tag`,
+        'an ISA-5.1 tag is letters then a loop number, like "LIC-101": the first letter is what it measures, the rest what it does',
+      )
+    if (partTags.has(tag))
+      err(`${p}.tag`, `${partTags.get(tag)} already has the tag "${tag}"`)
+    if (instruments.some((o) => o.tag === tag))
+      err(`${p}.tag`, `another instrument already has the tag "${tag}"`)
+    let at: [number, number] = [0, 0]
+    if (!isCell(x.at)) err(`${p}.at`, 'must be [column, row]')
+    else {
+      at = x.at
+      if (at[0] < 0 || at[1] < 0 || at[0] > size[0] - 1 || at[1] > size[1] - 1)
+        warn(`${p}.at`, `[${at}] is outside the ${size[0]}×${size[1]} grid`)
+    }
+    // it measures a part, or takes its signal from another instrument
+    const measures = str(`${p}.measures`, x.measures)
+    if (measures && !partIds.has(measures) && !instrumentTags.has(measures))
+      err(
+        `${p}.measures`,
+        `no part or instrument is "${measures}"${didYouMean(measures, [...partIds, ...instrumentTags])}`,
+      )
+    if (measures === tag)
+      err(`${p}.measures`, 'an instrument cannot measure itself')
+    const inst: InstrumentSpec = { tag, at, measures }
+    if (x.reads !== undefined) {
+      inst.reads = str(`${p}.reads`, x.reads)
+      // a reading is of the parts as they are now, like an expect check, but prev() works too
+      try {
+        const refs = exprRefs(inst.reads)
+        for (const k of refs.knobs)
+          if (!knobs.some((o) => o.id === k))
+            err(`${p}.reads`, `knob('${k}') — no knob has that id`)
+        for (const w of refs.switches)
+          if (!switches.some((o) => o.id === w))
+            err(`${p}.reads`, `on('${w}') — no switch has that id`)
+        for (const q of [...refs.parts, ...refs.reads])
+          if (!partIds.has(q))
+            err(
+              `${p}.reads`,
+              `part('${q}') — no part has that id${didYouMean(q, partIds)}`,
+            )
+      } catch (e) {
+        if (e instanceof ExprError)
+          err(
+            `${p}.reads`,
+            `${e.message} at character ${e.at + 1} of "${inst.reads}"`,
+          )
+        else throw e
+      }
+    }
+    if (x.unit !== undefined) inst.unit = str(`${p}.unit`, x.unit, '')
+    if (x.drives !== undefined) inst.drives = partRef(`${p}.drives`, x.drives)
+    if (x.signal !== undefined) {
+      if (!['signal', 'pneumatic', 'data'].includes(x.signal as string))
+        err(`${p}.signal`, 'must be signal, pneumatic or data')
+      else inst.signal = x.signal as InstrumentSpec['signal']
+    }
+    if (x.mounting !== undefined) {
+      if (!MOUNTINGS.includes(x.mounting as InstrumentMounting))
+        err(
+          `${p}.mounting`,
+          `must be ${MOUNTINGS.join(', ')}${didYouMean(String(x.mounting), MOUNTINGS)}`,
+        )
+      else inst.mounting = x.mounting as InstrumentMounting
+    }
+    if (x.low !== undefined) inst.low = num(`${p}.low`, x.low)
+    if (x.high !== undefined) inst.high = num(`${p}.high`, x.high)
+    if (
+      inst.low !== undefined &&
+      inst.high !== undefined &&
+      inst.low >= inst.high
+    )
+      err(p, 'low must be below high')
+
+    // what the tag says against what the instrument is wired to
+    const { letters } = splitTag(tag)
+    const measured = parts.find((q) => q.id === inst.measures)
+    const driven = parts.find((q) => q.id === inst.drives)
+    if (letters.slice(1).includes('C') && !inst.drives)
+      warn(
+        p,
+        `${tag} is a controller, so it should drive something: give it "drives", the valve or breaker it works`,
+      )
+    if (driven && driven.behaviour.role !== 'gate')
+      warn(
+        `${p}.drives`,
+        `${driven.id} is a ${driven.behaviour.role}; a controller drives a gate, a valve or breaker whose "open" follows it`,
+      )
+    if (
+      letters[0] === 'L' &&
+      inst.reads === undefined &&
+      measured &&
+      measured.behaviour.role !== 'storage'
+    )
+      warn(
+        p,
+        `a level instrument reads a store's fill, but ${measured.id} is a ${measured.behaviour.role}; give it "reads"`,
+      )
+    instruments.push(inst)
+  }
+
   const captions: Caption[] = []
   if (s.captions !== undefined && !Array.isArray(s.captions))
     err('captions', 'must be an array')
@@ -777,6 +934,14 @@ export function validateScene(input: unknown): Validation {
         err('titleBlock.issued', 'must be a date like "2026-10-11"')
       if (Object.keys(tb).length) scene.titleBlock = tb
     }
+  }
+  if (instruments.length) {
+    scene.instruments = instruments
+    if (scene.drawing !== 'pid')
+      warn(
+        'instruments',
+        'instruments are drawn only on a P&ID ("drawing": "pid")',
+      )
   }
   if (knobs.length) scene.knobs = knobs
   if (switches.length) scene.switches = switches

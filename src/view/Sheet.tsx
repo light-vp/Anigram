@@ -10,7 +10,13 @@ import { BAR_KINDS, glyphFor } from '../parts/index.ts'
 import { clockTime } from '../sim/profiles.ts'
 import type { Frame } from '../sim/runtime.ts'
 import type { LinkState } from '../sim/solver.ts'
-import type { Domain, LinkSpec, PartSpec, Scene } from '../sim/types.ts'
+import type {
+  Domain,
+  InstrumentSpec,
+  LinkSpec,
+  PartSpec,
+  Scene,
+} from '../sim/types.ts'
 import { rate, readout } from './format.ts'
 import {
   FOOT_H,
@@ -30,8 +36,16 @@ import { LABEL_OFFSET, glyphBox, labelBox, placeTags } from './layout.ts'
 import type { Tag } from './layout.ts'
 import { SHEET_CSS } from './sheetStyle.ts'
 import { trace } from './trace.ts'
-import { EngLabel, EngLegend, EngLink, EngPart } from './engineering.tsx'
+import {
+  EngInstrument,
+  EngLabel,
+  EngLegend,
+  EngLink,
+  EngPart,
+  InstrumentLines,
+} from './engineering.tsx'
 import { partWay } from './lines.ts'
+import { measuredPart } from '../sim/instruments.ts'
 
 export interface SheetProps {
   scene: Scene
@@ -94,6 +108,11 @@ export function Sheet({
   const shown = eng ? shownParts(scene) : null
   const drawn = (i: number) => !eng || shows(scene.links[i]!, scene)
   const tags = annotate ? flowTags(scene, frame, geometry, shown, drawn) : []
+  // instruments are a P&ID's
+  const instruments = scene.drawing === 'pid' ? (scene.instruments ?? []) : []
+  // an instrument dims with the part at the end of its signal
+  const quiet = (i: InstrumentSpec) =>
+    !!lit && !lit.parts.has(measuredPart(i, scene)?.id ?? '')
 
   return (
     <svg
@@ -142,6 +161,14 @@ export function Sheet({
             />
           ),
         )}
+        {instruments.map((inst) => (
+          <InstrumentLines
+            key={inst.tag}
+            scene={scene}
+            inst={inst}
+            dim={quiet(inst)}
+          />
+        ))}
       </g>
 
       <g>
@@ -205,6 +232,20 @@ export function Sheet({
         )}
       </g>
 
+      {instruments.length > 0 && (
+        <g>
+          {instruments.map((inst) => (
+            <EngInstrument
+              key={inst.tag}
+              scene={scene}
+              inst={inst}
+              frame={frame}
+              dim={quiet(inst)}
+            />
+          ))}
+        </g>
+      )}
+
       <g>
         {tags.map((t) => (
           <FlowTag key={t.link} tag={t} dim={!!lit && !lit.links.has(t.link)} />
@@ -216,6 +257,11 @@ export function Sheet({
           scene={scene}
           links={scene.links.filter((_, i) => drawn(i))}
           h={h}
+          also={instruments.flatMap((i) =>
+            i.drives || scene.instruments?.some((o) => o.tag === i.measures)
+              ? [i.signal ?? 'signal']
+              : [],
+          )}
         />
       ) : (
         <Legend scene={scene} h={h} />

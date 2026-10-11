@@ -22,6 +22,9 @@ export const SYMBOL_CSS = `
 .eng .route.idle { stroke: var(--muted); }
 .eng .arrow { fill: var(--ink); }
 .eng .arrow.idle { fill: var(--paper); stroke: var(--muted); stroke-width: 1; }
+.eng .conn { fill: none; stroke: var(--ink); stroke-width: 1; }
+.ln.dashed { stroke-dasharray: 3 2.5; }
+.bubbleText { font-size: 9.5px; font-weight: 600; fill: var(--ink); text-anchor: middle; dominant-baseline: central; letter-spacing: 0.02em; }
 .eng .tagLabel { font-size: 11.5px; font-weight: 650; fill: var(--ink); letter-spacing: 0.02em; }
 .eng .lineNo { font-size: 9.5px; fill: var(--ink); font-variant-numeric: tabular-nums; paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }
 `
