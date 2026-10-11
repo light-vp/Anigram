@@ -7,7 +7,9 @@
 and only when a maintainer pushes a tag. Merging to `main` never publishes.
 There is no npm token anywhere: the workflow uses npm's
 [Trusted Publishing](https://docs.npmjs.com/trusted-publishers), which lets
-it publish because it can prove it is this repository's run.
+it stage a release because it can prove it is this repository's run. A
+staged release is not live until a maintainer approves it with 2FA, so a
+stolen CI credential can never ship a version on its own.
 
 ## Once: the first publish, by hand
 
@@ -30,6 +32,9 @@ Then, on npmjs.com, open the `anigram-mcp` package → **Settings** →
 | Workflow filename | `publish-mcp.yml` |
 | Environment       | `npm`             |
 
+Leave **Allow npm publish** and **Allow npm dist-tag** unticked. The
+workflow only runs `npm stage publish`, which is always allowed.
+
 Optional, and worth it: on the same settings page, set publishing access to
 require 2FA and disallow tokens, so only the trusted workflow (or you, with
 2FA) can publish. In GitHub, Settings → Environments → `npm` can also list
@@ -46,8 +51,11 @@ you as a required reviewer, so every publish waits for a click.
    ```
 
 3. The workflow checks the tag matches the package version, runs every
-   check and the stdio smoke tests, then publishes. npm adds a provenance
-   statement linking the package to that run.
+   check and the stdio smoke tests, then stages the release. npm adds a
+   provenance statement linking the package to that run.
+4. Approve it: on npmjs.com, or from your machine with
+   `npm stage list` then `npm stage approve anigram-mcp@0.2.0` (asks for
+   2FA). Until then nobody can install it.
 
 `npx -y anigram-mcp --version` prints the published version.
 

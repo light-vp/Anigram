@@ -4,8 +4,9 @@
 # Publishes the MCP server to npm as `anigram-mcp`, only when a maintainer
 # pushes a tag like `mcp-v0.2.0` whose version matches mcp/package.json.
 # Nothing else triggers it. There is no npm token: npm's Trusted Publishing
-# lets this workflow publish by proving, over OIDC, that it is this repo's
-# run, once the package names it as its trusted publisher. See RELEASING.md.
+# lets this workflow stage a release by proving, over OIDC, that it is this
+# repo's run. A staged version is not live until a maintainer approves it on
+# npmjs.com (or `npm stage approve`) with 2FA. See RELEASING.md.
 name: Publish anigram-mcp
 
 on:
@@ -36,9 +37,9 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
 
-      # Trusted Publishing needs npm 11.5.1 or later
+      # staged publishing needs npm 11.15.0 or later
       - name: Update npm
-        run: npm install -g npm@^11.5.1
+        run: npm install -g npm@^11.15.0
 
       - name: Install dependencies
         run: npm ci
@@ -59,6 +60,7 @@ jobs:
       - name: Build and drive the server over stdio
         run: npm run test:mcp
 
-      - name: Publish
+      # stages the version; it goes live only when a maintainer approves it
+      - name: Stage the release
         working-directory: mcp
-        run: npm publish --access public
+        run: npm stage publish --access public
