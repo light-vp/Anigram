@@ -48,5 +48,6 @@ export const SHEET_CSS = `
 .clock { font-size: 20px; font-weight: 500; fill: var(--ink); text-anchor: end; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
 .meta { font-size: 11px; fill: var(--muted); text-anchor: end; letter-spacing: 0.02em; }
 .legend { font-size: 11px; fill: var(--muted); dominant-baseline: central; }
+.credit { font-size: 10px; fill: var(--muted); text-anchor: end; letter-spacing: 0.02em; }
 .rule { stroke: var(--line); stroke-width: 1; }
 `

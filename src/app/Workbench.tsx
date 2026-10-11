@@ -338,6 +338,7 @@ export function Workbench({
               frame={frame}
               theme={theme}
               annotate={paper || reduced}
+              credit={initial.credit}
               animate={!paper && !reduced}
               selected={selected}
               onSelect={setSelected}
