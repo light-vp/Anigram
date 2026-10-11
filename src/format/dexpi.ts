@@ -41,6 +41,8 @@ const PIPING: Record<string, string> = {
   GlobeValve: 'GlobeValve',
   BallValve: 'BallValve',
   CheckValve: 'CheckValve',
+  ButterflyValve: 'ButterflyValve',
+  SafetyValve: 'SpringLoadedGlobeSafetyValve',
   // a control valve is a globe valve whose actuator is in an actuating system
   ControlValve: 'GlobeValve',
   Junction: 'PipeTee',
