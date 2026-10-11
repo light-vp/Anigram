@@ -112,6 +112,38 @@ export type Behaviour =
 
 export type LabelSide = 'below' | 'above' | 'left' | 'right'
 
+/**
+ * What kind of drawing the sheet is. `pictorial` is Anigram's own picture
+ * style; the others follow an engineering drawing practice, each drawn by
+ * its own pack of symbols and rules (see src/packs).
+ */
+export type DrawingType = 'pictorial' | 'pid' | 'single-line' | 'pfd'
+
+/** which symbol standard a single-line draws in */
+export type SymbolSet = 'iec' | 'ansi'
+
+/**
+ * What a line on an engineering drawing stands for, which sets how it is
+ * drawn: a process line solid and heavy, a signal dashed, and so on.
+ */
+export type LineType = 'process' | 'utility' | 'signal' | 'pneumatic' | 'data'
+
+/** The title block's fields (after ISO 7200), beside the sheet's title and number */
+export interface TitleBlock {
+  /** the organisation the drawing belongs to */
+  owner?: string
+  project?: string
+  /** the people who drew, checked and approved it */
+  drawnBy?: string
+  checkedBy?: string
+  approvedBy?: string
+  /** date of issue, YYYY-MM-DD */
+  issued?: string
+  revision?: string
+  /** e.g. "for review", "issued for construction" */
+  status?: string
+}
+
 export interface PartSpec {
   id: string
   /** which glyph to draw — see src/parts */
@@ -125,6 +157,17 @@ export interface PartSpec {
   labelSide?: LabelSide
   /** a switch-type control id; clicking the part flips it */
   toggles?: string
+  /**
+   * the part's tag on an engineering drawing: `P-101`, `FIC-101`, `-QA1`.
+   * Unique on the sheet.
+   */
+  tag?: string
+  /**
+   * what exactly it is, in the drawing practice's own vocabulary (DEXPI class
+   * names on a P&ID: `CentrifugalPump`, `GateValve`). Picks the symbol; the
+   * `kind` still picks the pictorial glyph.
+   */
+  class?: string
 }
 
 export interface LinkSpec {
@@ -139,6 +182,10 @@ export interface LinkSpec {
   bend?: 'hv' | 'vh'
   /** carries the `from` converter's losses rather than its product */
   loss?: boolean
+  /** how an engineering drawing draws it; by default a process line, or a signal for data */
+  line?: LineType
+  /** the line number on an engineering drawing, e.g. `50-W-101` */
+  tag?: string
 }
 
 export interface Knob {
@@ -201,6 +248,11 @@ export interface Scene {
   subtitle: string
   /** drawing number for the title block, e.g. `LD-001` */
   sheet: string
+  /** the drawing practice the sheet follows; pictorial when left out */
+  drawing?: DrawingType
+  /** a single-line's symbol standard, IEC 60617 or ANSI/IEEE 315; IEC when left out */
+  symbols?: SymbolSet
+  titleBlock?: TitleBlock
   /** columns × rows of the grid the parts sit on */
   size: [number, number]
   units: Partial<Record<Domain, Units>>

@@ -27,6 +27,64 @@
       "type": "string",
       "description": "drawing number, like LD-101"
     },
+    "drawing": {
+      "enum": [
+        "pictorial",
+        "pid",
+        "single-line",
+        "pfd"
+      ],
+      "description": "the drawing practice the sheet follows: pictorial (the default), pid, single-line or pfd"
+    },
+    "symbols": {
+      "enum": [
+        "iec",
+        "ansi"
+      ],
+      "description": "a single-line's symbol standard: IEC 60617 (the default) or ANSI/IEEE 315"
+    },
+    "titleBlock": {
+      "type": "object",
+      "properties": {
+        "owner": {
+          "type": "string",
+          "minLength": 1,
+          "description": "the organisation the drawing belongs to"
+        },
+        "project": {
+          "type": "string",
+          "minLength": 1
+        },
+        "drawnBy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "checkedBy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approvedBy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "issued": {
+          "type": "string",
+          "pattern": "^\\d{4}-\\d{2}-\\d{2}$",
+          "description": "date of issue, YYYY-MM-DD"
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "string",
+          "minLength": 1,
+          "description": "e.g. \"for review\""
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
     "size": {
       "type": "array",
       "items": {
@@ -428,6 +486,16 @@
           "toggles": {
             "type": "string",
             "description": "a switch id"
+          },
+          "tag": {
+            "type": "string",
+            "minLength": 1,
+            "description": "its tag on an engineering drawing, like P-101 or FIC-101; unique on the sheet"
+          },
+          "class": {
+            "type": "string",
+            "minLength": 1,
+            "description": "what exactly it is in the drawing practice's vocabulary, like CentrifugalPump; picks the symbol"
           }
         },
         "required": [
@@ -488,6 +556,21 @@
           },
           "loss": {
             "type": "boolean"
+          },
+          "line": {
+            "enum": [
+              "process",
+              "utility",
+              "signal",
+              "pneumatic",
+              "data"
+            ],
+            "description": "how an engineering drawing draws it; process by default, signal for data"
+          },
+          "tag": {
+            "type": "string",
+            "minLength": 1,
+            "description": "its line number, like 50-W-101"
           }
         },
         "required": [

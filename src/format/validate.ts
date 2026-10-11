@@ -9,14 +9,19 @@ import type {
   Caption,
   Expectation,
   Domain,
+  DrawingType,
   Knob,
+  LineType,
   LinkSpec,
   PartSpec,
   Scene,
   Signal,
   Switch,
+  TitleBlock,
 } from '../sim/types.ts'
 import { FORMAT_VERSION, migrate } from './migrate.ts'
+import { packWarnings } from '../packs/catalogue.ts'
+import { physicsWarnings } from './physics.ts'
 
 /*
  * Checks a scene file — JSON from disk, a share link, or an assistant — and
@@ -34,6 +39,21 @@ export const DOMAINS: readonly Domain[] = [
   'heat',
   'fuel',
   'mechanical',
+  'data',
+]
+
+export const DRAWINGS: readonly DrawingType[] = [
+  'pictorial',
+  'pid',
+  'single-line',
+  'pfd',
+]
+
+export const LINE_TYPES: readonly LineType[] = [
+  'process',
+  'utility',
+  'signal',
+  'pneumatic',
   'data',
 ]
 
@@ -56,6 +76,9 @@ export const FIELDS = {
     'title',
     'subtitle',
     'sheet',
+    'drawing',
+    'symbols',
+    'titleBlock',
     'size',
     'units',
     'scale',
@@ -68,6 +91,16 @@ export const FIELDS = {
     'clock',
   ],
   clock: ['start', 'rate'],
+  titleBlock: [
+    'owner',
+    'project',
+    'drawnBy',
+    'checkedBy',
+    'approvedBy',
+    'issued',
+    'revision',
+    'status',
+  ],
   units: ['rate', 'amount'],
   knob: ['id', 'label', 'min', 'max', 'step', 'value', 'format'],
   switch: ['id', 'label', 'on'],
@@ -80,8 +113,20 @@ export const FIELDS = {
     'note',
     'labelSide',
     'toggles',
+    'tag',
+    'class',
   ],
-  link: ['from', 'to', 'domain', 'capacity', 'via', 'bend', 'loss'],
+  link: [
+    'from',
+    'to',
+    'domain',
+    'capacity',
+    'via',
+    'bend',
+    'loss',
+    'line',
+    'tag',
+  ],
   caption: ['from', 'to', 'text'],
   expect: ['says', 'check', 'at', 'from', 'to', 'sometime'],
   refill: ['below', 'until'],
@@ -394,6 +439,13 @@ export function validateScene(input: unknown): Validation {
           )}`,
         )
     }
+    if (raw.tag !== undefined) {
+      part.tag = str(`${p}.tag`, raw.tag)
+      const twin = parts.find((q) => q.tag === part.tag)
+      if (part.tag && twin)
+        err(`${p}.tag`, `${twin.id} already has the tag "${part.tag}"`)
+    }
+    if (raw.class !== undefined) part.class = str(`${p}.class`, raw.class)
     parts.push(part)
   }
 
@@ -573,6 +625,15 @@ export function validateScene(input: unknown): Validation {
         `units.${link.domain}`,
         'links carry this domain but it has no units',
       )
+    if (raw.line !== undefined) {
+      if (!LINE_TYPES.includes(raw.line as LineType))
+        err(
+          `${p}.line`,
+          `unknown line type "${String(raw.line)}"${didYouMean(String(raw.line), LINE_TYPES)}; the line types are ${LINE_TYPES.join(', ')}`,
+        )
+      else link.line = raw.line as LineType
+    }
+    if (raw.tag !== undefined) link.tag = str(`${p}.tag`, raw.tag)
     const twin = links.findIndex(
       (o) =>
         o.from === link.from &&
@@ -689,12 +750,40 @@ export function validateScene(input: unknown): Validation {
       rate: num('clock.rate', clock.rate, { fallback: 1, min: 0.01, max: 24 }),
     },
   }
+  if (s.drawing !== undefined) {
+    if (!DRAWINGS.includes(s.drawing as DrawingType))
+      err(
+        'drawing',
+        `unknown drawing type "${String(s.drawing)}"${didYouMean(String(s.drawing), DRAWINGS)}; the types are ${DRAWINGS.join(', ')}`,
+      )
+    else if (s.drawing !== 'pictorial') scene.drawing = s.drawing as DrawingType
+  }
+  if (s.symbols !== undefined) {
+    if (s.symbols !== 'iec' && s.symbols !== 'ansi')
+      err('symbols', 'must be "iec" or "ansi"')
+    else if (scene.drawing !== 'single-line')
+      warn('symbols', 'only a single-line drawing chooses its symbol standard')
+    else scene.symbols = s.symbols
+  }
+  if (s.titleBlock !== undefined) {
+    if (!isObj(s.titleBlock)) err('titleBlock', 'must be an object')
+    else {
+      unknownFields('titleBlock', s.titleBlock, FIELDS.titleBlock)
+      const tb: TitleBlock = {}
+      for (const f of FIELDS.titleBlock)
+        if (s.titleBlock[f] !== undefined)
+          tb[f] = str(`titleBlock.${f}`, s.titleBlock[f])
+      if (tb.issued && !/^\d{4}-\d{2}-\d{2}$/.test(tb.issued))
+        err('titleBlock.issued', 'must be a date like "2026-10-11"')
+      if (Object.keys(tb).length) scene.titleBlock = tb
+    }
+  }
   if (knobs.length) scene.knobs = knobs
   if (switches.length) scene.switches = switches
   if (captions.length) scene.captions = captions
   if (expect.length) scene.expect = expect
 
-  return errors.length
-    ? { ok: false, errors, warnings }
-    : { ok: true, scene, errors, warnings }
+  if (errors.length) return { ok: false, errors, warnings }
+  warnings.push(...physicsWarnings(scene), ...packWarnings(scene))
+  return { ok: true, scene, errors, warnings }
 }

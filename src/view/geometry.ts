@@ -29,8 +29,12 @@ export function cellToPx([c, r]: Pt): Pt {
   return [PAD + c * CELL + CELL / 2, HEAD_H + r * CELL + CELL / 2]
 }
 
-/** the corner points of a link, in sheet units */
-export function linkPoints(scene: Scene, link: LinkSpec): Pt[] {
+/**
+ * the corner points of a link, in sheet units. Two links running both ways
+ * between the same parts sit side by side, unless `apart` is false (an
+ * engineering drawing draws them as one line).
+ */
+export function linkPoints(scene: Scene, link: LinkSpec, apart = true): Pt[] {
   const from = scene.parts.find((p) => p.id === link.from)!.at
   const to = scene.parts.find((p) => p.id === link.to)!.at
   let cells: Pt[]
@@ -43,7 +47,7 @@ export function linkPoints(scene: Scene, link: LinkSpec): Pt[] {
   // two links running both ways between the same parts (charge / discharge)
   // sit side by side rather than on top of each other
   const twin = scene.links.some((l) => l.from === link.to && l.to === link.from)
-  if (twin && pts.length === 2) {
+  if (twin && apart && pts.length === 2) {
     const [[x1, y1], [x2, y2]] = pts as [Pt, Pt]
     const len = Math.hypot(x2 - x1, y2 - y1) || 1
     const nx = (-(y2 - y1) / len) * 5

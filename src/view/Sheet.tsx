@@ -4,6 +4,8 @@
 import type { CSSProperties, Ref } from 'react'
 import { useMemo } from 'react'
 
+import { shownParts, shows } from '../packs/catalogue.ts'
+import { SYMBOL_CSS } from '../packs/symbolCss.ts'
 import { BAR_KINDS, glyphFor } from '../parts/index.ts'
 import { clockTime } from '../sim/profiles.ts'
 import type { Frame } from '../sim/runtime.ts'
@@ -28,6 +30,8 @@ import { LABEL_OFFSET, glyphBox, labelBox, placeTags } from './layout.ts'
 import type { Tag } from './layout.ts'
 import { SHEET_CSS } from './sheetStyle.ts'
 import { trace } from './trace.ts'
+import { EngLabel, EngLegend, EngLink, EngPart } from './engineering.tsx'
+import { partWay } from './lines.ts'
 
 export interface SheetProps {
   scene: Scene
@@ -75,21 +79,26 @@ export function Sheet({
   credit = true,
 }: SheetProps) {
   const { w, h } = sheetSize(scene)
+  // an engineering drawing draws a two-way pair (charge and discharge) as one line
+  const eng = !!scene.drawing && scene.drawing !== 'pictorial'
   const geometry = useMemo(
-    () => scene.links.map((l) => linkPoints(scene, l)),
-    [scene],
+    () => scene.links.map((l) => linkPoints(scene, l, !eng)),
+    [scene, eng],
   )
   const traced =
     selected && frame.links.length ? trace(scene, frame.links, selected) : null
   // a part with nothing flowing through it (a tripped breaker) dims nothing
   const lit = traced && traced.links.size ? traced : null
   const vars = paletteVars(THEMES[theme]) as CSSProperties
-  const tags = annotate ? flowTags(scene, frame, geometry) : []
+  // an engineering drawing draws only what its practice shows
+  const shown = eng ? shownParts(scene) : null
+  const drawn = (i: number) => !eng || shows(scene.links[i]!, scene)
+  const tags = annotate ? flowTags(scene, frame, geometry, shown, drawn) : []
 
   return (
     <svg
       ref={svgRef}
-      className={className ? `sheet ${className}` : 'sheet'}
+      className={['sheet', eng && 'eng', className].filter(Boolean).join(' ')}
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${w} ${h}`}
       style={vars}
@@ -98,50 +107,102 @@ export function Sheet({
       onClick={() => onSelect?.(null)}
     >
       <style>{SHEET_CSS}</style>
+      {eng && <style>{SYMBOL_CSS}</style>}
       <rect className="bg" width={w} height={h} />
       <Header scene={scene} frame={frame} w={w} />
 
       <g>
-        {scene.links.map((link, i) => (
-          <LinkView
-            key={i}
-            scene={scene}
-            link={link}
-            pts={geometry[i]!}
-            st={frame.links[i]}
-            phase={animate ? frame.linkPhase[i]! : 0}
-            animate={animate}
-            annotate={annotate}
-            dim={!!lit && !lit.links.has(i)}
-          />
-        ))}
+        {scene.links.map((link, i) =>
+          eng ? (
+            drawn(i) &&
+            twinBefore(scene, i) < 0 && (
+              <EngLink
+                key={i}
+                scene={scene}
+                link={link}
+                pts={geometry[i]!}
+                st={frame.links[i]}
+                back={frame.links[twinAfter(scene, i)]}
+                phase={animate ? frame.linkPhase[i]! : 0}
+                animate={animate}
+                dim={!!lit && !lit.links.has(i)}
+              />
+            )
+          ) : (
+            <LinkView
+              key={i}
+              scene={scene}
+              link={link}
+              pts={geometry[i]!}
+              st={frame.links[i]}
+              phase={animate ? frame.linkPhase[i]! : 0}
+              animate={animate}
+              annotate={annotate}
+              dim={!!lit && !lit.links.has(i)}
+            />
+          ),
+        )}
       </g>
 
       <g>
-        {scene.parts.map((part) => (
-          <PartView
-            key={part.id}
-            scene={scene}
-            part={part}
-            frame={frame}
-            selected={selected === part.id}
-            dim={!!lit && !lit.parts.has(part.id)}
-            onSelect={onSelect}
-            onToggle={onToggle}
-          />
-        ))}
+        {scene.parts.map((part) =>
+          eng ? (
+            shown!.has(part.id) && (
+              <EngPart
+                key={part.id}
+                scene={scene}
+                part={part}
+                frame={frame}
+                way={partWay(
+                  part,
+                  scene.links.filter((_, i) => drawn(i)),
+                  geometry.filter((_, i) => drawn(i)),
+                )}
+                selected={selected === part.id}
+                dim={!!lit && !lit.parts.has(part.id)}
+                onClick={() => {
+                  if (part.toggles) onToggle?.(part.toggles)
+                  onSelect?.(part.id)
+                }}
+              />
+            )
+          ) : (
+            <PartView
+              key={part.id}
+              scene={scene}
+              part={part}
+              frame={frame}
+              selected={selected === part.id}
+              dim={!!lit && !lit.parts.has(part.id)}
+              onSelect={onSelect}
+              onToggle={onToggle}
+            />
+          ),
+        )}
       </g>
 
       <g>
-        {scene.parts.map((part) => (
-          <PartLabel
-            key={part.id}
-            scene={scene}
-            part={part}
-            frame={frame}
-            dim={!!lit && !lit.parts.has(part.id)}
-          />
-        ))}
+        {scene.parts.map((part) =>
+          eng ? (
+            shown!.has(part.id) && (
+              <EngLabel
+                key={part.id}
+                scene={scene}
+                part={part}
+                frame={frame}
+                dim={!!lit && !lit.parts.has(part.id)}
+              />
+            )
+          ) : (
+            <PartLabel
+              key={part.id}
+              scene={scene}
+              part={part}
+              frame={frame}
+              dim={!!lit && !lit.parts.has(part.id)}
+            />
+          ),
+        )}
       </g>
 
       <g>
@@ -150,14 +211,47 @@ export function Sheet({
         ))}
       </g>
 
-      <Legend scene={scene} h={h} />
+      {eng ? (
+        <EngLegend
+          scene={scene}
+          links={scene.links.filter((_, i) => drawn(i))}
+          h={h}
+        />
+      ) : (
+        <Legend scene={scene} h={h} />
+      )}
       {credit && <Credit scene={scene} w={w} h={h} />}
     </svg>
   )
 }
 
-function flowTags(scene: Scene, frame: Frame, geometry: Pt[][]): Tag[] {
-  const obstacles = scene.parts.flatMap((p) => {
+/** the earlier link of a two-way pair, if this is the later one */
+function twinBefore(scene: Scene, i: number): number {
+  const l = scene.links[i]!
+  return scene.links.findIndex(
+    (o, j) =>
+      j < i && o.from === l.to && o.to === l.from && o.domain === l.domain,
+  )
+}
+
+/** the later link of a two-way pair, if this is the earlier one */
+function twinAfter(scene: Scene, i: number): number {
+  const l = scene.links[i]!
+  return scene.links.findIndex(
+    (o, j) =>
+      j > i && o.from === l.to && o.to === l.from && o.domain === l.domain,
+  )
+}
+
+function flowTags(
+  scene: Scene,
+  frame: Frame,
+  geometry: Pt[][],
+  shown: Set<string> | null,
+  drawn: (i: number) => boolean,
+): Tag[] {
+  const parts = shown ? scene.parts.filter((p) => shown.has(p.id)) : scene.parts
+  const obstacles = parts.flatMap((p) => {
     const s = frame.parts[p.id]
     return s && !BAR_KINDS.has(p.kind)
       ? [glyphBox(p), labelBox(p, readout(scene, p, s).value)]
@@ -165,7 +259,7 @@ function flowTags(scene: Scene, frame: Frame, geometry: Pt[][]): Tag[] {
   })
   const items = scene.links.flatMap((l, i) => {
     const flow = frame.links[i]?.flow ?? 0
-    return flow > 1e-6
+    return flow > 1e-6 && drawn(i)
       ? [{ link: i, pts: geometry[i]!, text: rate(scene, l.domain, flow) }]
       : []
   })
