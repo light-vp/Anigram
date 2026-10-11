@@ -83,6 +83,7 @@ test('lists its tools', async () => {
   const names = tools.map((t) => t.name).sort()
   assert.deepEqual(names, [
     'anigram_guide',
+    'check_drawing',
     'check_scene',
     'edit_scene',
     'get_scene',
@@ -342,6 +343,37 @@ test('new_scene starts each practice from a sheet that already works', async () 
   assert.equal(saved.data.saved, join(cwd, 'plant.json'))
   const plain = await call('new_scene')
   assert.equal(plain.data.drawing, 'pictorial')
+})
+
+test('check_drawing marks up a sheet the way an engineer would', async () => {
+  const { data: starter } = await call('new_scene', { drawing: 'pid' })
+  const clean = await call('check_drawing', {
+    scene: starter.scene,
+    strict: true,
+  })
+  assert.equal(clean.data.ok, true, clean.text)
+  assert.deepEqual(clean.data.findings, [])
+
+  const grid = (await call('get_scene', { id: 'grid' })).data
+  grid.drawing = 'single-line'
+  const loose = await call('check_drawing', { scene: grid })
+  assert.equal(loose.data.ok, true)
+  assert.ok(loose.data.findings.some((f) => f.rule === 'protection'))
+  assert.match(loose.text, /\[equipment-tag\] parts \(gas\)/)
+  const strict = await call('check_drawing', { scene: grid, strict: true })
+  assert.equal(strict.data.ok, false)
+
+  const plain = await call('check_drawing', { id: 'grid', strict: true })
+  assert.equal(plain.data.ok, true)
+  assert.match(plain.text, /pictorial/)
+  assert.match(
+    (await call('check_scene', { scene: grid })).text,
+    /check_drawing/,
+  )
+  assert.match(
+    (await call('anigram_guide')).text,
+    /`protection` \(single-line\)/,
+  )
 })
 
 test('each practice has a prompt that walks the job', async () => {

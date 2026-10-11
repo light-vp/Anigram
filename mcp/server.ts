@@ -50,6 +50,7 @@ import { PRACTICE, STARTERS } from '../src/packs/starters.ts'
 import { PART_KINDS } from '../src/parts/kinds.ts'
 import { SCENES } from '../src/scenes/index.ts'
 import { PACKS } from '../src/packs/catalogue.ts'
+import { DRAWING_RULES, drawingFindings } from '../src/packs/checks.ts'
 import { FUNCTION_LETTERS, MEASURED } from '../src/sim/instruments.ts'
 import { FUNCTIONS, VARIABLES } from '../src/sim/expr.ts'
 import type { DrawingType, Scene } from '../src/sim/types.ts'
@@ -325,8 +326,11 @@ function guide(): string {
   )
     .map(([l, m]) => `${l} ${m}`)
     .join('; ')}.`
+  const rules = Object.entries(DRAWING_RULES)
+    .map(([rule, r]) => `- \`${rule}\` (${r.practices.join(', ')}) — ${r.says}`)
+    .join('\n')
   const body = guideText.replace(/^<!--.*-->\n/gm, '')
-  return `${body}\nThe format as a JSON Schema: the \`anigram://schema/scene\` resource, or ${SCHEMA_URL} (put it in a file's \`$schema\` so editors check it).\n\n## Signal functions\n\n${vars}\n${fns}\n\n## Parts\n\n${kinds}\n\n## Engineering symbols\n\n${packs}\n\n### ISA-5.1 instrument letters\n\n${isa}\n\nDomains: ${DOMAINS.join(', ')}.\n`
+  return `${body}\nThe format as a JSON Schema: the \`anigram://schema/scene\` resource, or ${SCHEMA_URL} (put it in a file's \`$schema\` so editors check it).\n\n## Signal functions\n\n${vars}\n${fns}\n\n## Parts\n\n${kinds}\n\n## Engineering symbols\n\n${packs}\n\n### ISA-5.1 instrument letters\n\n${isa}\n\n### What check_drawing marks up\n\n${rules}\n\nDomains: ${DOMAINS.join(', ')}.\n`
 }
 
 // ---------------------------------------------------------------- output shapes
@@ -542,7 +546,9 @@ for (const drawing of DRAWINGS) {
               "2. Replace the starter's parts, links" +
                 (drawing === 'pid' ? ', instruments' : '') +
                 ' and `expect` list with the system in the brief, keeping its conventions. Save it with write_scene.',
-              '3. Run check_scene until every expectation holds and no warnings are left.',
+              drawing === 'pictorial'
+                ? '3. Run check_scene until every expectation holds and no warnings are left.'
+                : '3. Run check_scene until every expectation holds and no warnings are left, then check_drawing until it has nothing to mark up.',
               '4. render_scene and look at the PNG: fix crossed lines, crowded labels and anything missing a tag.',
               drawing === 'pictorial'
                 ? '5. share_link to open it live.'
@@ -937,9 +943,75 @@ server.registerTool(
           head,
           stories.length ? expectLines(stories) : '',
           v.warnings.length ? `warnings:\n- ${v.warnings.join('\n- ')}` : '',
+          practiceNote(scene),
         ]
           .filter(Boolean)
           .join('\n\n'),
+      )
+    },
+  ),
+)
+
+/** a one-line pointer from check_scene to check_drawing, when the sheet has notes */
+function practiceNote(scene: Scene): string {
+  const n = drawingFindings(scene).length
+  return n
+    ? `${n} drawing-practice note(s) on this ${DRAWING_NAMES[scene.drawing!]}: check_drawing lists them with fixes`
+    : ''
+}
+
+server.registerTool(
+  'check_drawing',
+  {
+    title: "Check a sheet against its practice's rules",
+    description:
+      "For an engineering drawing (pid, single-line, pfd): what an engineer reviewing the sheet would mark up. Every equipment item tagged in the practice's scheme (ISA letters on a P&ID, IEC 81346 on a single-line), " +
+      'lines and streams numbered, control valves driven by a controller and loops sharing a number, feeders and generators behind a breaker, the title block filled. ' +
+      'Each finding names its rule and says how to fix it. Advisory by default: ok stays true. With `strict` (for CI and print-ready sheets), ok is false while any finding is left. ' +
+      'A pictorial sheet has no practice rules and passes.',
+    inputSchema: {
+      ...sceneInput,
+      strict: z
+        .boolean()
+        .optional()
+        .describe('make every finding a failure; default false'),
+    },
+    outputSchema: {
+      ok: z.boolean().describe('valid, and (when strict) no findings'),
+      drawing: z.string(),
+      strict: z.boolean(),
+      errors: z.array(z.string()),
+      findings: z.array(
+        z.object({ rule: z.string(), path: z.string(), message: z.string() }),
+      ),
+    },
+    annotations: { readOnlyHint: true },
+  },
+  guarded(
+    (args: {
+      scene?: Json | string
+      file?: string
+      id?: string
+      strict?: boolean
+    }) => {
+      const v = validateScene(rawScene(args))
+      const strict = !!args.strict
+      const drawing = v.scene?.drawing ?? 'pictorial'
+      const findings = v.scene ? drawingFindings(v.scene) : []
+      const ok = !!v.scene && (!strict || findings.length === 0)
+      const head = !v.scene
+        ? `not valid — ${v.errors.length} error(s):\n- ${v.errors.join('\n- ')}`
+        : drawing === 'pictorial'
+          ? 'a pictorial sheet: no drawing-practice rules to check (set `drawing` to pid, single-line or pfd)'
+          : findings.length
+            ? `${findings.length} finding(s) on this ${DRAWING_NAMES[drawing]}${strict ? ' (strict: each one fails the check)' : ''}:`
+            : `this ${DRAWING_NAMES[drawing]} follows its practice: nothing to mark up`
+      return data(
+        { ok, drawing, strict, errors: v.errors, findings },
+        [
+          head,
+          ...findings.map((f) => `- [${f.rule}] ${f.path}: ${f.message}`),
+        ].join('\n'),
       )
     },
   ),

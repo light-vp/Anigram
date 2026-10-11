@@ -251,6 +251,15 @@ const SINGLE_LINE = {
       },
     },
     {
+      id: 'q4',
+      kind: 'breaker',
+      label: 'Generator breaker',
+      tag: '-Q4',
+      at: [5, 0],
+      labelSide: 'above',
+      behaviour: { role: 'gate', capacity: 400 },
+    },
+    {
       id: 'gen',
       kind: 'generator',
       label: 'Standby set',
@@ -273,7 +282,8 @@ const SINGLE_LINE = {
     { from: 'board', to: 'q3', domain: 'electric' },
     { from: 'q3', to: 'essential', domain: 'electric' },
     { from: 'diesel', to: 'gen', domain: 'fuel' },
-    { from: 'gen', to: 'board', domain: 'electric' },
+    { from: 'gen', to: 'q4', domain: 'electric' },
+    { from: 'q4', to: 'board', domain: 'electric' },
   ],
   expect: [
     {
@@ -368,10 +378,10 @@ const PFD = {
     },
   ],
   links: [
-    { from: 'gas', to: 'boiler', domain: 'fuel' },
+    { from: 'gas', to: 'boiler', domain: 'fuel', tag: '1' },
     { from: 'boiler', to: 'flue', domain: 'heat', loss: true },
-    { from: 'boiler', to: 'store', domain: 'heat' },
-    { from: 'store', to: 'town', domain: 'heat' },
+    { from: 'boiler', to: 'store', domain: 'heat', tag: '2' },
+    { from: 'store', to: 'town', domain: 'heat', tag: '3' },
   ],
   expect: [
     {
