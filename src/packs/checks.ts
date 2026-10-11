@@ -86,7 +86,8 @@ const IEC_LETTERS: Record<string, string[]> = {
   Fuse: ['F', 'Q'],
   Battery: ['G'],
   PhotovoltaicArray: ['G'],
-  Inverter: ['T'],
+  // U is the older IEC 61346 letter for a converter, still in wide use
+  Inverter: ['T', 'U'],
   Motor: ['M'],
   Load: ['E', 'M', 'W', 'X', 'P', 'C', 'R'],
   Busbar: ['W'],

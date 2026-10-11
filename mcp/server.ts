@@ -106,7 +106,7 @@ const server = new McpServer(
       'Anigram draws living diagrams: engineering sheets of real systems (power grids, solar houses, water towers, data centres) where every moving line is read off a flow simulation. ' +
       'A drawing is a JSON scene file. Call anigram_guide first for the format. Then: write the file (write_scene) with an `expect` list stating its story, check_scene until every expectation holds (simulate_scene shows the hour-by-hour numbers when one fails), ' +
       'render_scene to look at it (a PNG by default: check the layout reads cleanly), and share_link to open it live in the browser. Built-in sheets (list_scenes / get_scene) are good starting points to copy. ' +
-      "For an engineering drawing (a P&ID, a single-line diagram, a process flow diagram), start from new_scene with that `drawing`: it hands back a working starter and the practice's conventions. The draw-pid, draw-single-line, draw-pfd and draw-sheet prompts walk through the whole job.",
+      "For an engineering drawing (a P&ID, a single-line diagram, a process flow diagram), start from new_scene with that `drawing`: it hands back a working starter and the practice's conventions. Before calling it done, run check_drawing (tags, line numbers, control loops, breakers, title block) and lint_layout (crossings, clashing labels); auto_layout lays a messy sheet out by its flow. export_dexpi hands a P&ID to plant design software. The draw-pid, draw-single-line, draw-pfd and draw-sheet prompts walk through the whole job.",
   },
 )
 
@@ -961,7 +961,7 @@ server.registerTool(
 function practiceNote(scene: Scene): string {
   const n = drawingFindings(scene).length
   return n
-    ? `${n} drawing-practice note(s) on this ${DRAWING_NAMES[scene.drawing!]}: check_drawing lists them with fixes`
+    ? `${n} drawing-practice note(s) on this sheet (${DRAWING_NAMES[scene.drawing!]}): check_drawing lists them with fixes`
     : ''
 }
 
@@ -1009,8 +1009,8 @@ server.registerTool(
         : drawing === 'pictorial'
           ? 'a pictorial sheet: no drawing-practice rules to check (set `drawing` to pid, single-line or pfd)'
           : findings.length
-            ? `${findings.length} finding(s) on this ${DRAWING_NAMES[drawing]}${strict ? ' (strict: each one fails the check)' : ''}:`
-            : `this ${DRAWING_NAMES[drawing]} follows its practice: nothing to mark up`
+            ? `${findings.length} finding(s) on this sheet (${DRAWING_NAMES[drawing]})${strict ? '; strict, so each one fails the check' : ''}:`
+            : `nothing to mark up: this sheet follows the practice of ${DRAWING_NAMES[drawing]}`
       return data(
         { ok, drawing, strict, errors: v.errors, findings },
         [

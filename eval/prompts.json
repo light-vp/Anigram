@@ -46,5 +46,45 @@
   {
     "id": "school-solar",
     "prompt": "Draw a primary school with rooftop solar, a battery and night-storage heaters: the panels cover the daytime load during lessons, the battery takes the surplus at lunch, and the storage heaters charge overnight off the grid."
+  },
+  {
+    "id": "cooling-water-pid",
+    "drawing": "pid",
+    "prompt": "Draw a P&ID of a cooling water loop: a pump draws from a cooling tower basin, pushes water through a plate heat exchanger that cools a process, and back up to the tower. A temperature transmitter on the return line feeds a temperature controller that throttles a control valve on the supply. Show the pump running all day and the valve opening further in the afternoon heat."
+  },
+  {
+    "id": "dosing-pid",
+    "drawing": "pid",
+    "prompt": "Draw a P&ID of a chlorine dosing skid: a day tank of hypochlorite, a metering pump, a non-return valve and an isolating valve into a town water main. A flow meter on the main tells a flow controller how hard to drive a control valve on the dosing line. Show the dose following the morning and evening demand peaks, and the day tank running down."
+  },
+  {
+    "id": "boiler-feed-pid",
+    "drawing": "pid",
+    "prompt": "Draw a P&ID of a boiler feedwater system: make-up water comes in from off the sheet through a level control valve into a feedwater tank, a feed pump lifts it into a steam drum, and the drum's steam leaves off the sheet. A level transmitter and controller hold the tank level by working the make-up valve. Show the tank never running dry."
+  },
+  {
+    "id": "factory-sld",
+    "drawing": "single-line",
+    "prompt": "Draw a single-line diagram of a factory's electrical supply: an 11 kV intake, a transformer stepping down to 400 V, an incoming breaker onto the main LV board, and feeders with their own breakers to the production line, the compressors and the offices. Show the production line's load jumping when the shift starts at 6 and the transformer never overloading."
+  },
+  {
+    "id": "solar-farm-sld",
+    "drawing": "single-line",
+    "prompt": "Draw a single-line diagram of a 5 MW solar farm: four PV arrays, each through its own inverter and breaker onto a collector busbar, then a step-up transformer and a breaker to the grid connection. Show the export peaking at midday and nothing exported at night."
+  },
+  {
+    "id": "hospital-sld",
+    "drawing": "single-line",
+    "prompt": "Draw a single-line diagram of a hospital's supply: the utility feed through a transformer and breaker to the main board, a standby generator with its own breaker, and essential and non-essential feeders. During a grid outage from 14:00 to 16:00 the generator starts and carries the essential load, and the non-essential load is shed."
+  },
+  {
+    "id": "brewery-pfd",
+    "drawing": "pfd",
+    "prompt": "Draw a process flow diagram of a small brewery's hot side: a gas boiler heats water for the mash tun, the wort goes to a kettle to boil, then through a plate cooler into a fermenter, with the cooler's warm water going back to a hot liquor tank. Show the boiler working hardest during the morning boil and the hot liquor tank filling up afterwards."
+  },
+  {
+    "id": "treatment-pfd",
+    "drawing": "pfd",
+    "prompt": "Draw a process flow diagram of a water treatment works: raw water from a reservoir is pumped through a clarifier and sand filters into a clear water tank, which feeds the town. Show the clear water tank buffering the evening peak so the town is never short."
   }
 ]

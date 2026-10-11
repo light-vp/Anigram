@@ -57,17 +57,20 @@ battery, and the engine as backup — check the battery runs flat overnight."_
 The server gives the assistant the scene format, validation with readable
 errors, a headless day of simulation, SVG rendering and share links:
 
-| Tool                         |                                                                    |
-| ---------------------------- | ------------------------------------------------------------------ |
-| `anigram_guide`              | the format, every drawable part, the signal functions              |
-| `list_scenes` / `get_scene`  | the built-in sheets, as JSON to copy from                          |
-| `new_scene`                  | a working starter for a P&ID, single-line, PFD or pictorial sheet  |
-| `validate_scene`             | errors and warnings, each pinned to the part it's about            |
-| `write_scene` / `edit_scene` | save a scene file, or patch parts and links in place               |
-| `check_scene`                | valid, and every claim in its `expect` list holds                  |
-| `simulate_scene`             | 24 hours, hour by hour, with every alert and shortfall             |
-| `render_scene`               | the sheet at any hour: a PNG to look at, an SVG, or a PDF to print |
-| `share_link`                 | a URL that opens it live; the scene rides in the link              |
+| Tool                          |                                                                     |
+| ----------------------------- | ------------------------------------------------------------------- |
+| `anigram_guide`               | the format, every drawable part, the signal functions               |
+| `list_scenes` / `get_scene`   | the built-in sheets, as JSON to copy from                           |
+| `new_scene`                   | a working starter for a P&ID, single-line, PFD or pictorial sheet   |
+| `validate_scene`              | errors and warnings, each pinned to the part it's about             |
+| `write_scene` / `edit_scene`  | save a scene file, or patch parts and links in place                |
+| `check_scene`                 | valid, and every claim in its `expect` list holds                   |
+| `check_drawing`               | what an engineer would mark up: tags, line numbers, loops, breakers |
+| `lint_layout` / `auto_layout` | lines crossing, labels clashing; or lay the sheet out by its flow   |
+| `export_dexpi`                | a P&ID as DEXPI Proteus XML, for plant design software              |
+| `simulate_scene`              | 24 hours, hour by hour, with every alert and shortfall              |
+| `render_scene`                | the sheet at any hour: a PNG to look at, an SVG, or a PDF to print  |
+| `share_link`                  | a URL that opens it live; the scene rides in the link               |
 
 Each practice also has a prompt (`draw-pid`, `draw-single-line`, `draw-pfd`,
 `draw-sheet`) that carries its conventions. Setup for other clients is in [mcp/README.md](mcp/README.md). An example the

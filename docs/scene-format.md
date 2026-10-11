@@ -171,6 +171,23 @@ pipes.
   centre.
 - The MCP server's `new_scene` returns a small, working sheet for each
   practice, already tagged and titled, to edit rather than start blank.
+- The MCP server's `check_drawing` marks the sheet up the way a reviewing
+  engineer would: equipment tagged in the practice's scheme (ISA letters on a
+  P&ID, IEC 81346 on a single-line), lines and streams numbered, control
+  valves driven by a controller and loops sharing a number, loads and
+  generators behind a breaker, the title block filled. It advises; with
+  `strict` any finding fails it, for CI and print-ready sheets.
+- `lint_layout` checks the sheet reads cleanly (no crossing or doubled
+  lines, no line through a part, no slanted runs, no label on top of
+  another), and `auto_layout` lays a sheet out by its flow: a single-line
+  top to bottom with feeders dropping off the busbars, anything else left to
+  right with P&ID instruments a row above what they serve.
+- `export_dexpi` writes a P&ID as DEXPI 1.3 (Proteus 4.1.1) XML for plant
+  design software. It carries the plant rather than the picture: equipment
+  with tags and nozzles, each numbered line as a piping system with its
+  valves in place, off-page connectors, and instrument loops through to the
+  actuated valve. The P&ID classes map to DEXPI's (a `ControlValve` goes
+  across as a `GlobeValve` with an actuating system).
 - `render_scene` with a `.pdf` path prints the sheet on one landscape page
   of A3 (or `paper`: `A4`, `A2`, `A1`), for filing or printing.
 

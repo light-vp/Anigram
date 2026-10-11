@@ -26,6 +26,16 @@
  *   looked     it rendered the sheet to look at it
  *   calls      Anigram tool calls, and how many came back as errors
  *   turns, cost, seconds   from Claude Code's own result line
+ *
+ * Prompts with a `drawing` ask for an engineering sheet, and also record:
+ *   practice   the scene is that drawing type
+ *   standard   check_drawing has nothing to mark up (and how many it found)
+ *   tidy       lint_layout has nothing to mark up (and how many it found)
+ *   dexpi      a P&ID exports to DEXPI with nothing left out
+ * The summary gives each practice its own line, so steering for one
+ * practice can be tuned without hiding what it does to the others.
+ *
+ *   node eval/run.mjs --practice pid,single-line,pfd   # the engineering prompts
  */
 
 import { spawn } from 'node:child_process'
@@ -44,6 +54,7 @@ const server = join(here, '../mcp/dist/anigram-mcp.mjs')
 const { values: opts } = parseArgs({
   options: {
     only: { type: 'string' },
+    practice: { type: 'string' },
     runs: { type: 'string', default: '1' },
     model: { type: 'string' },
     timeout: { type: 'string', default: '600' },
@@ -56,7 +67,12 @@ const SUFFIX =
 
 const all = JSON.parse(readFileSync(join(here, 'prompts.json'), 'utf8'))
 const only = opts.only?.split(',').map((s) => s.trim())
-const cases = only ? all.filter((c) => only.includes(c.id)) : all
+const practices = opts.practice?.split(',').map((s) => s.trim())
+const cases = all.filter(
+  (c) =>
+    (!only || only.includes(c.id)) &&
+    (!practices || practices.includes(c.drawing ?? 'pictorial')),
+)
 if (only && cases.length !== only.length)
   throw new Error(
     `unknown prompt id; the ids are ${all.map((c) => c.id).join(', ')}`,
@@ -134,7 +150,7 @@ function trace(events) {
 }
 
 /** check the saved scene with the server itself */
-async function score(dir) {
+async function score(dir, drawing) {
   const client = new Client({ name: 'anigram-eval', version: '0' })
   await client.connect(
     new StdioClientTransport({
@@ -150,13 +166,32 @@ async function score(dir) {
     })
     if (r.isError) return { saved: false }
     const d = r.structuredContent
-    return {
+    const row = {
       saved: true,
       valid: d.errors.length === 0,
       expect: d.expect.length,
       holds: d.ok && d.expect.length > 0,
       failing: d.expect.filter((x) => !x.ok).map((x) => x.says),
     }
+    if (!drawing || !row.valid) return row
+    const call = async (name, args = {}) =>
+      await client.callTool({
+        name,
+        arguments: { file: 'scene.json', ...args },
+      })
+    const std = (await call('check_drawing')).structuredContent
+    const lint = (await call('lint_layout')).structuredContent
+    row.practice = std.drawing === drawing
+    row.findings = std.findings.length
+    row.standard = row.practice && std.findings.length === 0
+    row.rules = [...new Set(std.findings.map((f) => f.rule))]
+    row.layout = lint.findings.length
+    row.tidy = lint.findings.length === 0
+    if (drawing === 'pid' && row.practice) {
+      const x = await call('export_dexpi')
+      row.dexpi = !x.isError && x.structuredContent.notes.length === 0
+    }
+    return row
   } finally {
     await client.close()
   }
@@ -171,10 +206,11 @@ for (const c of cases) {
     process.stderr.write(`${c.id} #${i + 1} … `)
     const { code, events, err } = await runClaude(dir, c.prompt)
     const { order, result } = trace(events)
-    const s = await score(dir)
+    const s = await score(dir, c.drawing)
     const firstWrite = order.find((x) => x.tool === 'write_scene')
     const row = {
       id: c.id,
+      drawing: c.drawing ?? 'pictorial',
       run: i + 1,
       dir,
       exit: code,
@@ -196,11 +232,13 @@ for (const c of cases) {
   }
 }
 
-const pct = (k) =>
-  `${Math.round((100 * rows.filter((r) => r[k]).length) / rows.length)}%`
-const mean = (k) =>
-  rows.length
-    ? (rows.reduce((a, r) => a + (r[k] ?? 0), 0) / rows.length).toFixed(1)
+const pct = (k, of = rows) =>
+  of.length
+    ? `${Math.round((100 * of.filter((r) => r[k]).length) / of.length)}%`
+    : '–'
+const mean = (k, of = rows) =>
+  of.length
+    ? (of.reduce((a, r) => a + (r[k] ?? 0), 0) / of.length).toFixed(1)
     : '0'
 const summary = {
   when: new Date().toISOString(),
@@ -213,6 +251,30 @@ const summary = {
   calls: mean('calls'),
   errors: mean('errors'),
   cost: rows.reduce((a, r) => a + (r.cost ?? 0), 0).toFixed(2),
+  // each practice on its own, so one can be tuned without hiding the others
+  practices: Object.fromEntries(
+    [...new Set(rows.map((r) => r.drawing))].map((d) => {
+      const of = rows.filter((r) => r.drawing === d)
+      return [
+        d,
+        {
+          runs: of.length,
+          holds: pct('holds', of),
+          first: pct('first', of),
+          ...(d === 'pictorial'
+            ? {}
+            : {
+                practice: pct('practice', of),
+                standard: pct('standard', of),
+                tidy: pct('tidy', of),
+                findings: mean('findings', of),
+                ...(d === 'pid' ? { dexpi: pct('dexpi', of) } : {}),
+              }),
+          calls: mean('calls', of),
+        },
+      ]
+    }),
+  ),
 }
 
 const outDir = join(here, 'results')
@@ -222,12 +284,22 @@ writeFileSync(file, `${JSON.stringify({ summary, rows }, null, 2)}\n`)
 
 const yes = (v) => (v ? '✓' : '·')
 console.log(
-  '| prompt | valid | holds | first try | looked | calls (errors) | turns | cost |',
+  '| prompt | valid | holds | first try | looked | standard | tidy | calls (errors) | turns | cost |',
 )
-console.log('| --- | --- | --- | --- | --- | --- | --- | --- |')
+console.log('| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |')
+const eng = (r, k, n) =>
+  r.drawing === 'pictorial' ? '–' : `${yes(r[k])}${r[n] ? ` (${r[n]})` : ''}`
 for (const r of rows)
   console.log(
-    `| ${r.id}${runs > 1 ? ` #${r.run}` : ''} | ${yes(r.valid)} | ${yes(r.holds)} | ${yes(r.first)} | ${yes(r.looked)} | ${r.calls} (${r.errors}) | ${r.turns ?? '–'} | ${r.cost === null ? '–' : `$${r.cost.toFixed(2)}`} |`,
+    `| ${r.id}${runs > 1 ? ` #${r.run}` : ''} | ${yes(r.valid)} | ${yes(r.holds)} | ${yes(r.first)} | ${yes(r.looked)} | ${eng(r, 'standard', 'findings')} | ${eng(r, 'tidy', 'layout')} | ${r.calls} (${r.errors}) | ${r.turns ?? '–'} | ${r.cost === null ? '–' : `$${r.cost.toFixed(2)}`} |`,
+  )
+console.log(
+  '\n| practice | runs | holds | first try | right type | standard | tidy | DEXPI | calls |',
+)
+console.log('| --- | --- | --- | --- | --- | --- | --- | --- | --- |')
+for (const [d, p] of Object.entries(summary.practices))
+  console.log(
+    `| ${d} | ${p.runs} | ${p.holds} | ${p.first} | ${p.practice ?? '–'} | ${p.standard ?? '–'} | ${p.tidy ?? '–'} | ${p.dexpi ?? '–'} | ${p.calls} |`,
   )
 console.log(
   `\n${summary.runs} runs: ${summary.valid} valid, ${summary.holds} tell their story, ${summary.first} right first time, ${summary.looked} looked at their drawing; ${summary.calls} calls (${summary.errors} errors) each; $${summary.cost} in all.\n${file}`,
