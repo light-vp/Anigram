@@ -150,7 +150,7 @@ const SINGLE_LINE = {
     revision: 'A',
     status: 'draft',
   },
-  size: [7, 3],
+  size: [8, 3],
   units: {
     electric: { rate: 'kW', amount: 'kWh' },
     fuel: { rate: 'kW', amount: 'kWh' },
@@ -241,7 +241,7 @@ const SINGLE_LINE = {
       id: 'diesel',
       kind: 'fueltank',
       label: 'Diesel',
-      at: [6, 1],
+      at: [7, 0],
       behaviour: {
         role: 'storage',
         capacity: 20000,
@@ -255,8 +255,8 @@ const SINGLE_LINE = {
       kind: 'breaker',
       label: 'Generator breaker',
       tag: '-Q4',
-      at: [5, 0],
-      labelSide: 'above',
+      at: [7, 1],
+      labelSide: 'right',
       behaviour: { role: 'gate', capacity: 400 },
     },
     {
@@ -264,7 +264,7 @@ const SINGLE_LINE = {
       kind: 'generator',
       label: 'Standby set',
       tag: '-G1',
-      at: [6, 0],
+      at: [7, 2],
       behaviour: {
         role: 'converter',
         output: 'electric',
@@ -434,7 +434,7 @@ const PICTORIAL = {
       id: 'grid',
       kind: 'grid',
       label: 'Grid',
-      at: [0, 2],
+      at: [0, 1],
       behaviour: { role: 'source', output: 10, dispatchable: true },
     },
     {

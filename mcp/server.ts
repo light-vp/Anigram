@@ -59,6 +59,10 @@ import { renderSheetSvg } from '../src/view/renderSvg.tsx'
 import { svgToPdf } from './pdf.ts'
 import type { Paper } from './pdf.ts'
 import { svgToPng } from './png.ts'
+import { autoLayout } from '../src/view/autoLayout.ts'
+import type { Direction } from '../src/view/autoLayout.ts'
+import { lintLayout } from '../src/view/lint.ts'
+import type { LayoutFinding } from '../src/view/lint.ts'
 
 /** mcp/package.json's version, written in at build time */
 declare const __ANIGRAM_MCP_VERSION__: string
@@ -1012,6 +1016,129 @@ server.registerTool(
           head,
           ...findings.map((f) => `- [${f.rule}] ${f.path}: ${f.message}`),
         ].join('\n'),
+      )
+    },
+  ),
+)
+
+const layoutFinding = z.object({
+  rule: z.string(),
+  path: z.string(),
+  message: z.string(),
+})
+
+function lintText(findings: LayoutFinding[]): string {
+  return findings.length
+    ? `${findings.length} layout finding(s):\n${findings.map((f) => `- [${f.rule}] ${f.path}: ${f.message}`).join('\n')}`
+    : 'the layout reads cleanly: no crossings, overlaps, lines through parts or labels on top of each other'
+}
+
+server.registerTool(
+  'lint_layout',
+  {
+    title: 'Check the sheet reads cleanly',
+    description:
+      "Check the drawing's geometry without rendering it: lines that cross or run on top of each other, a line through a part that is not one of its ends, slanted runs, and labels landing on parts or other labels. " +
+      'Each finding says what to move. Engineering sheets are checked as they draw (only the lines the practice shows, busbars tapped where their feeders are). auto_layout fixes most of these at once.',
+    inputSchema: sceneInput,
+    outputSchema: {
+      ok: z.boolean().describe('valid, with no layout findings'),
+      errors: z.array(z.string()),
+      findings: z.array(layoutFinding),
+    },
+    annotations: { readOnlyHint: true },
+  },
+  guarded((args: { scene?: Json | string; file?: string; id?: string }) => {
+    const v = validateScene(rawScene(args))
+    if (!v.scene)
+      return data(
+        { ok: false, errors: v.errors, findings: [] },
+        `not valid — ${v.errors.length} error(s):\n- ${v.errors.join('\n- ')}`,
+      )
+    const findings = lintLayout(v.scene)
+    return data(
+      { ok: findings.length === 0, errors: v.errors, findings },
+      lintText(findings),
+    )
+  }),
+)
+
+server.registerTool(
+  'auto_layout',
+  {
+    title: 'Lay the sheet out by its flow',
+    description:
+      'Place every part on the grid by how things flow, as a drafter would: sources first, each step one column on, lines straight where they can be and turning square where they cannot, long links routed through empty cells, and P&ID instruments a row above what they serve. ' +
+      'Single-line diagrams run top to bottom (supply at the top, feeders dropping off the busbars, loads at the bottom); everything else runs left to right, or set `direction`. ' +
+      'It rewrites `at`, `via`, `bend`, `labelSide`, instrument cells and `size`, and nothing else. With `file`, the file is updated in place. Returns the scene and a lint_layout of the result; nudge anything it leaves with edit_scene.',
+    inputSchema: {
+      ...sceneInput,
+      direction: z
+        .enum(['right', 'down'])
+        .optional()
+        .describe(
+          'which way the flow runs; default down for a single-line, right otherwise',
+        ),
+    },
+    outputSchema: {
+      direction: z.string(),
+      moved: z.array(z.string()).describe('the parts that changed cell'),
+      scene: sceneOutput,
+      findings: z.array(layoutFinding),
+      saved: z.string().optional(),
+    },
+  },
+  guarded(
+    (args: {
+      scene?: Json | string
+      file?: string
+      id?: string
+      direction?: Direction
+    }) => {
+      const raw = rawScene(args) as Json
+      const { scene } = loadScene({ scene: structuredClone(raw) })
+      const laid = autoLayout(scene, args.direction)
+      // write the new geometry into the scene as given, so nothing else changes
+      const out = structuredClone(raw) as Json & {
+        parts: Json[]
+        links: Json[]
+        instruments?: Json[]
+      }
+      out.size = laid.scene.size
+      out.parts.forEach((p, i) => {
+        const q = laid.scene.parts[i]!
+        p.at = q.at
+        if (q.labelSide) p.labelSide = q.labelSide
+        else delete p.labelSide
+      })
+      out.links.forEach((l, i) => {
+        const q = laid.scene.links[i]!
+        delete l.bend
+        if (q.via) l.via = q.via
+        else delete l.via
+      })
+      out.instruments?.forEach((x, i) => {
+        x.at = laid.scene.instruments![i]!.at
+      })
+      const findings = lintLayout(laid.scene)
+      const result: Json = {
+        direction: laid.direction,
+        moved: laid.moved,
+        scene: out,
+        findings,
+      }
+      if (args.file) {
+        const path = pathFor(args.file, '.json')
+        writeFile(path, `${JSON.stringify(out, null, 2)}\n`)
+        result.saved = path
+      }
+      return data(
+        result,
+        [
+          `laid out ${laid.direction === 'down' ? 'top to bottom' : 'left to right'} on a ${laid.scene.size.join('×')} grid; ${laid.moved.length} part(s) moved${result.saved ? `; saved to ${String(result.saved)}` : ''}`,
+          lintText(findings),
+          JSON.stringify(out, null, 2),
+        ].join('\n\n'),
       )
     },
   ),

@@ -83,10 +83,12 @@ test('lists its tools', async () => {
   const names = tools.map((t) => t.name).sort()
   assert.deepEqual(names, [
     'anigram_guide',
+    'auto_layout',
     'check_drawing',
     'check_scene',
     'edit_scene',
     'get_scene',
+    'lint_layout',
     'list_scenes',
     'new_scene',
     'render_scene',
@@ -374,6 +376,32 @@ test('check_drawing marks up a sheet the way an engineer would', async () => {
     (await call('anigram_guide')).text,
     /`protection` \(single-line\)/,
   )
+})
+
+test('lint_layout finds what auto_layout fixes', async () => {
+  const messy = structuredClone(
+    (await call('new_scene', { drawing: 'single-line' })).data.scene,
+  )
+  // everything piled into one row: lines run through parts
+  messy.parts.forEach((p, i) => (p.at = [i, 0]))
+  messy.size = [messy.parts.length, 1]
+  const before = await call('lint_layout', { scene: messy })
+  assert.equal(before.data.ok, false)
+  assert.ok(before.data.findings.some((f) => f.rule === 'through-part'))
+
+  const write = await call('write_scene', { file: 'messy.json', scene: messy })
+  assert.equal(write.error, false, write.text)
+  const laid = await call('auto_layout', { file: 'messy.json' })
+  assert.equal(laid.error, false, laid.text)
+  assert.equal(laid.data.direction, 'down')
+  assert.deepEqual(laid.data.findings, [])
+  assert.ok(laid.data.moved.length > 0)
+  const saved = JSON.parse(readFileSync(join(cwd, 'messy.json'), 'utf8'))
+  assert.deepEqual(saved.size, laid.data.scene.size)
+  assert.equal(saved.titleBlock.owner, messy.titleBlock.owner)
+  const after = await call('lint_layout', { file: 'messy.json' })
+  assert.equal(after.data.ok, true, after.text)
+  assert.match(after.text, /reads cleanly/)
 })
 
 test('each practice has a prompt that walks the job', async () => {

@@ -30,7 +30,7 @@ test('every starter and the reference P&ID follow their practice', () => {
 test('every finding names a known rule', () => {
   const s = starter('pid')
   s.titleBlock = {}
-  delete s.sheet
+  delete (s as Partial<Scene>).sheet
   for (const p of s.parts) delete p.tag
   for (const l of s.links) delete l.tag
   s.instruments = []
@@ -40,7 +40,7 @@ test('every finding names a known rule', () => {
 test('the title block and drawing number are asked for', () => {
   const s = starter('pfd')
   s.titleBlock = { owner: 'Acme' }
-  delete s.sheet
+  delete (s as Partial<Scene>).sheet
   const f = drawingFindings(load(s)).filter((x) => x.rule === 'title-block')
   assert.equal(f.length, 2)
   assert.match(f[0]!.message, /drawn by, issue date, revision, status/)
