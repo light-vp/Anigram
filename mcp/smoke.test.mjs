@@ -83,9 +83,13 @@ test('lists its tools', async () => {
   const names = tools.map((t) => t.name).sort()
   assert.deepEqual(names, [
     'anigram_guide',
+    'auto_layout',
+    'check_drawing',
     'check_scene',
     'edit_scene',
+    'export_dexpi',
     'get_scene',
+    'lint_layout',
     'list_scenes',
     'new_scene',
     'render_scene',
@@ -342,6 +346,82 @@ test('new_scene starts each practice from a sheet that already works', async () 
   assert.equal(saved.data.saved, join(cwd, 'plant.json'))
   const plain = await call('new_scene')
   assert.equal(plain.data.drawing, 'pictorial')
+})
+
+test('check_drawing marks up a sheet the way an engineer would', async () => {
+  const { data: starter } = await call('new_scene', { drawing: 'pid' })
+  const clean = await call('check_drawing', {
+    scene: starter.scene,
+    strict: true,
+  })
+  assert.equal(clean.data.ok, true, clean.text)
+  assert.deepEqual(clean.data.findings, [])
+
+  const grid = (await call('get_scene', { id: 'grid' })).data
+  grid.drawing = 'single-line'
+  const loose = await call('check_drawing', { scene: grid })
+  assert.equal(loose.data.ok, true)
+  assert.ok(loose.data.findings.some((f) => f.rule === 'protection'))
+  assert.match(loose.text, /\[equipment-tag\] parts \(gas\)/)
+  const strict = await call('check_drawing', { scene: grid, strict: true })
+  assert.equal(strict.data.ok, false)
+
+  const plain = await call('check_drawing', { id: 'grid', strict: true })
+  assert.equal(plain.data.ok, true)
+  assert.match(plain.text, /pictorial/)
+  assert.match(
+    (await call('check_scene', { scene: grid })).text,
+    /check_drawing/,
+  )
+  assert.match(
+    (await call('anigram_guide')).text,
+    /`protection` \(single-line\)/,
+  )
+})
+
+test('lint_layout finds what auto_layout fixes', async () => {
+  const messy = structuredClone(
+    (await call('new_scene', { drawing: 'single-line' })).data.scene,
+  )
+  // everything piled into one row: lines run through parts
+  messy.parts.forEach((p, i) => (p.at = [i, 0]))
+  messy.size = [messy.parts.length, 1]
+  const before = await call('lint_layout', { scene: messy })
+  assert.equal(before.data.ok, false)
+  assert.ok(before.data.findings.some((f) => f.rule === 'through-part'))
+
+  const write = await call('write_scene', { file: 'messy.json', scene: messy })
+  assert.equal(write.error, false, write.text)
+  const laid = await call('auto_layout', { file: 'messy.json' })
+  assert.equal(laid.error, false, laid.text)
+  assert.equal(laid.data.direction, 'down')
+  assert.deepEqual(laid.data.findings, [])
+  assert.ok(laid.data.moved.length > 0)
+  const saved = JSON.parse(readFileSync(join(cwd, 'messy.json'), 'utf8'))
+  assert.deepEqual(saved.size, laid.data.scene.size)
+  assert.equal(saved.titleBlock.owner, messy.titleBlock.owner)
+  const after = await call('lint_layout', { file: 'messy.json' })
+  assert.equal(after.data.ok, true, after.text)
+  assert.match(after.text, /reads cleanly/)
+})
+
+test('export_dexpi hands a P&ID to plant software', async () => {
+  const { data: starter } = await call('new_scene', { drawing: 'pid' })
+  const inline = await call('export_dexpi', { scene: starter.scene })
+  assert.equal(inline.error, false, inline.text)
+  assert.equal(inline.data.counts.loops, 1)
+  assert.match(inline.text, /<PlantModel>/)
+  const saved = await call('export_dexpi', {
+    scene: starter.scene,
+    out: 'plant.xml',
+  })
+  assert.doesNotMatch(saved.text, /<PlantModel>/)
+  const xml = readFileSync(join(cwd, 'plant.xml'), 'utf8')
+  assert.match(xml, /ComponentClass="CentrifugalPump"/)
+  assert.equal(saved.data.bytes, Buffer.byteLength(xml))
+  const wrong = await call('export_dexpi', { id: 'grid' })
+  assert.equal(wrong.error, true)
+  assert.match(wrong.text, /DEXPI describes P&IDs/)
 })
 
 test('each practice has a prompt that walks the job', async () => {

@@ -45,11 +45,13 @@ import { checkExpectations, expectLines } from '../src/format/expect.ts'
 import { reportTable, simulateDay } from '../src/format/report.ts'
 import { SCHEMA_URL, sceneSchema } from '../src/format/schema.ts'
 import { encodeScene, HASH_KEY } from '../src/format/share.ts'
+import { toDexpi } from '../src/format/dexpi.ts'
 import { DOMAINS, DRAWINGS, validateScene } from '../src/format/validate.ts'
 import { PRACTICE, STARTERS } from '../src/packs/starters.ts'
 import { PART_KINDS } from '../src/parts/kinds.ts'
 import { SCENES } from '../src/scenes/index.ts'
 import { PACKS } from '../src/packs/catalogue.ts'
+import { DRAWING_RULES, drawingFindings } from '../src/packs/checks.ts'
 import { FUNCTION_LETTERS, MEASURED } from '../src/sim/instruments.ts'
 import { FUNCTIONS, VARIABLES } from '../src/sim/expr.ts'
 import type { DrawingType, Scene } from '../src/sim/types.ts'
@@ -58,6 +60,10 @@ import { renderSheetSvg } from '../src/view/renderSvg.tsx'
 import { svgToPdf } from './pdf.ts'
 import type { Paper } from './pdf.ts'
 import { svgToPng } from './png.ts'
+import { autoLayout } from '../src/view/autoLayout.ts'
+import type { Direction } from '../src/view/autoLayout.ts'
+import { lintLayout } from '../src/view/lint.ts'
+import type { LayoutFinding } from '../src/view/lint.ts'
 
 /** mcp/package.json's version, written in at build time */
 declare const __ANIGRAM_MCP_VERSION__: string
@@ -100,7 +106,7 @@ const server = new McpServer(
       'Anigram draws living diagrams: engineering sheets of real systems (power grids, solar houses, water towers, data centres) where every moving line is read off a flow simulation. ' +
       'A drawing is a JSON scene file. Call anigram_guide first for the format. Then: write the file (write_scene) with an `expect` list stating its story, check_scene until every expectation holds (simulate_scene shows the hour-by-hour numbers when one fails), ' +
       'render_scene to look at it (a PNG by default: check the layout reads cleanly), and share_link to open it live in the browser. Built-in sheets (list_scenes / get_scene) are good starting points to copy. ' +
-      "For an engineering drawing (a P&ID, a single-line diagram, a process flow diagram), start from new_scene with that `drawing`: it hands back a working starter and the practice's conventions. The draw-pid, draw-single-line, draw-pfd and draw-sheet prompts walk through the whole job.",
+      "For an engineering drawing (a P&ID, a single-line diagram, a process flow diagram), start from new_scene with that `drawing`: it hands back a working starter and the practice's conventions. Before calling it done, run check_drawing (tags, line numbers, control loops, breakers, title block) and lint_layout (crossings, clashing labels); auto_layout lays a messy sheet out by its flow. export_dexpi hands a P&ID to plant design software. The draw-pid, draw-single-line, draw-pfd and draw-sheet prompts walk through the whole job.",
   },
 )
 
@@ -193,7 +199,7 @@ function within(p: string, root: string): boolean {
 
 function pathFor(
   file: string,
-  ext: '.json' | '.svg' | '.png' | '.pdf',
+  ext: '.json' | '.svg' | '.png' | '.pdf' | '.xml',
 ): string {
   const p = resolve(process.cwd(), file)
   if (extname(p).toLowerCase() !== ext)
@@ -325,8 +331,11 @@ function guide(): string {
   )
     .map(([l, m]) => `${l} ${m}`)
     .join('; ')}.`
+  const rules = Object.entries(DRAWING_RULES)
+    .map(([rule, r]) => `- \`${rule}\` (${r.practices.join(', ')}) — ${r.says}`)
+    .join('\n')
   const body = guideText.replace(/^<!--.*-->\n/gm, '')
-  return `${body}\nThe format as a JSON Schema: the \`anigram://schema/scene\` resource, or ${SCHEMA_URL} (put it in a file's \`$schema\` so editors check it).\n\n## Signal functions\n\n${vars}\n${fns}\n\n## Parts\n\n${kinds}\n\n## Engineering symbols\n\n${packs}\n\n### ISA-5.1 instrument letters\n\n${isa}\n\nDomains: ${DOMAINS.join(', ')}.\n`
+  return `${body}\nThe format as a JSON Schema: the \`anigram://schema/scene\` resource, or ${SCHEMA_URL} (put it in a file's \`$schema\` so editors check it).\n\n## Signal functions\n\n${vars}\n${fns}\n\n## Parts\n\n${kinds}\n\n## Engineering symbols\n\n${packs}\n\n### ISA-5.1 instrument letters\n\n${isa}\n\n### What check_drawing marks up\n\n${rules}\n\nDomains: ${DOMAINS.join(', ')}.\n`
 }
 
 // ---------------------------------------------------------------- output shapes
@@ -542,7 +551,9 @@ for (const drawing of DRAWINGS) {
               "2. Replace the starter's parts, links" +
                 (drawing === 'pid' ? ', instruments' : '') +
                 ' and `expect` list with the system in the brief, keeping its conventions. Save it with write_scene.',
-              '3. Run check_scene until every expectation holds and no warnings are left.',
+              drawing === 'pictorial'
+                ? '3. Run check_scene until every expectation holds and no warnings are left.'
+                : '3. Run check_scene until every expectation holds and no warnings are left, then check_drawing until it has nothing to mark up.',
               '4. render_scene and look at the PNG: fix crossed lines, crowded labels and anything missing a tag.',
               drawing === 'pictorial'
                 ? '5. share_link to open it live.'
@@ -937,6 +948,256 @@ server.registerTool(
           head,
           stories.length ? expectLines(stories) : '',
           v.warnings.length ? `warnings:\n- ${v.warnings.join('\n- ')}` : '',
+          practiceNote(scene),
+        ]
+          .filter(Boolean)
+          .join('\n\n'),
+      )
+    },
+  ),
+)
+
+/** a one-line pointer from check_scene to check_drawing, when the sheet has notes */
+function practiceNote(scene: Scene): string {
+  const n = drawingFindings(scene).length
+  return n
+    ? `${n} drawing-practice note(s) on this sheet (${DRAWING_NAMES[scene.drawing!]}): check_drawing lists them with fixes`
+    : ''
+}
+
+server.registerTool(
+  'check_drawing',
+  {
+    title: "Check a sheet against its practice's rules",
+    description:
+      "For an engineering drawing (pid, single-line, pfd): what an engineer reviewing the sheet would mark up. Every equipment item tagged in the practice's scheme (ISA letters on a P&ID, IEC 81346 on a single-line), " +
+      'lines and streams numbered, control valves driven by a controller and loops sharing a number, feeders and generators behind a breaker, the title block filled. ' +
+      'Each finding names its rule and says how to fix it. Advisory by default: ok stays true. With `strict` (for CI and print-ready sheets), ok is false while any finding is left. ' +
+      'A pictorial sheet has no practice rules and passes.',
+    inputSchema: {
+      ...sceneInput,
+      strict: z
+        .boolean()
+        .optional()
+        .describe('make every finding a failure; default false'),
+    },
+    outputSchema: {
+      ok: z.boolean().describe('valid, and (when strict) no findings'),
+      drawing: z.string(),
+      strict: z.boolean(),
+      errors: z.array(z.string()),
+      findings: z.array(
+        z.object({ rule: z.string(), path: z.string(), message: z.string() }),
+      ),
+    },
+    annotations: { readOnlyHint: true },
+  },
+  guarded(
+    (args: {
+      scene?: Json | string
+      file?: string
+      id?: string
+      strict?: boolean
+    }) => {
+      const v = validateScene(rawScene(args))
+      const strict = !!args.strict
+      const drawing = v.scene?.drawing ?? 'pictorial'
+      const findings = v.scene ? drawingFindings(v.scene) : []
+      const ok = !!v.scene && (!strict || findings.length === 0)
+      const head = !v.scene
+        ? `not valid — ${v.errors.length} error(s):\n- ${v.errors.join('\n- ')}`
+        : drawing === 'pictorial'
+          ? 'a pictorial sheet: no drawing-practice rules to check (set `drawing` to pid, single-line or pfd)'
+          : findings.length
+            ? `${findings.length} finding(s) on this sheet (${DRAWING_NAMES[drawing]})${strict ? '; strict, so each one fails the check' : ''}:`
+            : `nothing to mark up: this sheet follows the practice of ${DRAWING_NAMES[drawing]}`
+      return data(
+        { ok, drawing, strict, errors: v.errors, findings },
+        [
+          head,
+          ...findings.map((f) => `- [${f.rule}] ${f.path}: ${f.message}`),
+        ].join('\n'),
+      )
+    },
+  ),
+)
+
+const layoutFinding = z.object({
+  rule: z.string(),
+  path: z.string(),
+  message: z.string(),
+})
+
+function lintText(findings: LayoutFinding[]): string {
+  return findings.length
+    ? `${findings.length} layout finding(s):\n${findings.map((f) => `- [${f.rule}] ${f.path}: ${f.message}`).join('\n')}`
+    : 'the layout reads cleanly: no crossings, overlaps, lines through parts or labels on top of each other'
+}
+
+server.registerTool(
+  'lint_layout',
+  {
+    title: 'Check the sheet reads cleanly',
+    description:
+      "Check the drawing's geometry without rendering it: lines that cross or run on top of each other, a line through a part that is not one of its ends, slanted runs, and labels landing on parts or other labels. " +
+      'Each finding says what to move. Engineering sheets are checked as they draw (only the lines the practice shows, busbars tapped where their feeders are). auto_layout fixes most of these at once.',
+    inputSchema: sceneInput,
+    outputSchema: {
+      ok: z.boolean().describe('valid, with no layout findings'),
+      errors: z.array(z.string()),
+      findings: z.array(layoutFinding),
+    },
+    annotations: { readOnlyHint: true },
+  },
+  guarded((args: { scene?: Json | string; file?: string; id?: string }) => {
+    const v = validateScene(rawScene(args))
+    if (!v.scene)
+      return data(
+        { ok: false, errors: v.errors, findings: [] },
+        `not valid — ${v.errors.length} error(s):\n- ${v.errors.join('\n- ')}`,
+      )
+    const findings = lintLayout(v.scene)
+    return data(
+      { ok: findings.length === 0, errors: v.errors, findings },
+      lintText(findings),
+    )
+  }),
+)
+
+server.registerTool(
+  'auto_layout',
+  {
+    title: 'Lay the sheet out by its flow',
+    description:
+      'Place every part on the grid by how things flow, as a drafter would: sources first, each step one column on, lines straight where they can be and turning square where they cannot, long links routed through empty cells, and P&ID instruments a row above what they serve. ' +
+      'Single-line diagrams run top to bottom (supply at the top, feeders dropping off the busbars, loads at the bottom); everything else runs left to right, or set `direction`. ' +
+      'It rewrites `at`, `via`, `bend`, `labelSide`, instrument cells and `size`, and nothing else. With `file`, the file is updated in place. Returns the scene and a lint_layout of the result; nudge anything it leaves with edit_scene.',
+    inputSchema: {
+      ...sceneInput,
+      direction: z
+        .enum(['right', 'down'])
+        .optional()
+        .describe(
+          'which way the flow runs; default down for a single-line, right otherwise',
+        ),
+    },
+    outputSchema: {
+      direction: z.string(),
+      moved: z.array(z.string()).describe('the parts that changed cell'),
+      scene: sceneOutput,
+      findings: z.array(layoutFinding),
+      saved: z.string().optional(),
+    },
+  },
+  guarded(
+    (args: {
+      scene?: Json | string
+      file?: string
+      id?: string
+      direction?: Direction
+    }) => {
+      const raw = rawScene(args) as Json
+      const { scene } = loadScene({ scene: structuredClone(raw) })
+      const laid = autoLayout(scene, args.direction)
+      // write the new geometry into the scene as given, so nothing else changes
+      const out = structuredClone(raw) as Json & {
+        parts: Json[]
+        links: Json[]
+        instruments?: Json[]
+      }
+      out.size = laid.scene.size
+      out.parts.forEach((p, i) => {
+        const q = laid.scene.parts[i]!
+        p.at = q.at
+        if (q.labelSide) p.labelSide = q.labelSide
+        else delete p.labelSide
+      })
+      out.links.forEach((l, i) => {
+        const q = laid.scene.links[i]!
+        delete l.bend
+        if (q.via) l.via = q.via
+        else delete l.via
+      })
+      out.instruments?.forEach((x, i) => {
+        x.at = laid.scene.instruments![i]!.at
+      })
+      const findings = lintLayout(laid.scene)
+      const result: Json = {
+        direction: laid.direction,
+        moved: laid.moved,
+        scene: out,
+        findings,
+      }
+      if (args.file) {
+        const path = pathFor(args.file, '.json')
+        writeFile(path, `${JSON.stringify(out, null, 2)}\n`)
+        result.saved = path
+      }
+      return data(
+        result,
+        [
+          `laid out ${laid.direction === 'down' ? 'top to bottom' : 'left to right'} on a ${laid.scene.size.join('×')} grid; ${laid.moved.length} part(s) moved${result.saved ? `; saved to ${String(result.saved)}` : ''}`,
+          lintText(findings),
+          JSON.stringify(out, null, 2),
+        ].join('\n\n'),
+      )
+    },
+  ),
+)
+
+server.registerTool(
+  'export_dexpi',
+  {
+    title: 'Export a P&ID as DEXPI',
+    description:
+      'Write a P&ID (`"drawing": "pid"`) as DEXPI 1.3 Proteus XML, the exchange format plant design software reads: equipment with its tags and nozzles, each numbered line as a piping system with its valves in place, off-page connectors, and the instrument loops (measuring, control, actuated valves). ' +
+      'It carries the plant, not the picture: positions are in millimetres on A3, and the receiving tool draws its own symbols. With `out` (a .xml path) the file is saved and only a summary comes back. ' +
+      'notes say what could not go across (a part with no DEXPI class, a valve outside any pipe); run check_drawing first so every item is tagged and every line numbered.',
+    inputSchema: {
+      ...sceneInput,
+      out: z.string().optional().describe('save the XML to this .xml path'),
+    },
+    outputSchema: {
+      counts: z.object({
+        equipment: z.number(),
+        lines: z.number(),
+        segments: z.number(),
+        instruments: z.number(),
+        loops: z.number(),
+      }),
+      notes: z.array(z.string()),
+      saved: z.string().optional(),
+      bytes: z.number(),
+    },
+    annotations: { readOnlyHint: false },
+  },
+  guarded(
+    (args: {
+      scene?: Json | string
+      file?: string
+      id?: string
+      out?: string
+    }) => {
+      const { scene } = loadScene(args)
+      const r = toDexpi(scene, { version: VERSION })
+      const result: Json = {
+        counts: r.counts,
+        notes: r.notes,
+        bytes: Buffer.byteLength(r.xml),
+      }
+      if (args.out) {
+        const path = pathFor(args.out, '.xml')
+        writeFile(path, r.xml)
+        result.saved = path
+      }
+      const c = r.counts
+      const head = `DEXPI 1.3 (Proteus 4.1.1): ${c.equipment} equipment, ${c.lines} line(s) in ${c.segments} segment(s), ${c.instruments} instrument(s) in ${c.loops} loop(s)${result.saved ? `; saved to ${String(result.saved)}` : ''}`
+      return data(
+        result,
+        [
+          head,
+          r.notes.length ? `notes:\n- ${r.notes.join('\n- ')}` : '',
+          args.out ? '' : r.xml,
         ]
           .filter(Boolean)
           .join('\n\n'),

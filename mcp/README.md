@@ -10,23 +10,28 @@ draw them.
 
 ## Tools
 
-| Tool             | What it does                                                                                                                     |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `anigram_guide`  | The scene format, every part that has a drawing, the signal functions. Read first.                                               |
-| `list_scenes`    | The built-in sheets.                                                                                                             |
-| `get_scene`      | A built-in sheet as JSON — the best example to copy.                                                                             |
-| `new_scene`      | A working starter for a practice (pictorial, P&ID, single-line, PFD) and that practice's house rules. Optionally saves it.       |
-| `validate_scene` | Errors (won't load) and warnings (will run, probably not what you meant).                                                        |
-| `write_scene`    | Validate and save a `.json` scene file.                                                                                          |
-| `edit_scene`     | Add, move, update or remove parts and links in place.                                                                            |
-| `check_scene`    | Is it done? Validate, run the day, and check every line of the scene's `expect` list.                                            |
-| `simulate_scene` | Run a day headless: an hour-by-hour table, every alert, unmet demand. Knobs and switches can be set.                             |
-| `render_scene`   | The sheet at any hour, every flow labelled: a PNG the assistant can look at (default), an SVG, or a one-page PDF on A4–A1 paper. |
-| `share_link`     | A URL that opens the scene live in the browser. The scene travels in the link; nothing is uploaded.                              |
+| Tool             | What it does                                                                                                                                                                                                                               |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `anigram_guide`  | The scene format, every part that has a drawing, the signal functions. Read first.                                                                                                                                                         |
+| `list_scenes`    | The built-in sheets.                                                                                                                                                                                                                       |
+| `get_scene`      | A built-in sheet as JSON — the best example to copy.                                                                                                                                                                                       |
+| `new_scene`      | A working starter for a practice (pictorial, P&ID, single-line, PFD) and that practice's house rules. Optionally saves it.                                                                                                                 |
+| `validate_scene` | Errors (won't load) and warnings (will run, probably not what you meant).                                                                                                                                                                  |
+| `write_scene`    | Validate and save a `.json` scene file.                                                                                                                                                                                                    |
+| `edit_scene`     | Add, move, update or remove parts and links in place.                                                                                                                                                                                      |
+| `check_scene`    | Is it done? Validate, run the day, and check every line of the scene's `expect` list.                                                                                                                                                      |
+| `check_drawing`  | For a P&ID, single-line or PFD: what an engineer would mark up (tags in the practice's scheme, numbered lines, closed control loops, protected feeders, a filled title block), each with its fix. Advisory; `strict` fails on any finding. |
+| `lint_layout`    | Does the sheet read cleanly? Crossing or overlapping lines, a line through a part, slanted runs, labels on top of things.                                                                                                                  |
+| `auto_layout`    | Lay the sheet out by its flow: single-lines top to bottom, everything else left to right, instruments above what they serve. Rewrites only the geometry.                                                                                   |
+| `export_dexpi`   | A P&ID as DEXPI 1.3 Proteus XML: equipment and nozzles, numbered lines with their valves, off-page connectors, instrument loops.                                                                                                           |
+| `simulate_scene` | Run a day headless: an hour-by-hour table, every alert, unmet demand. Knobs and switches can be set.                                                                                                                                       |
+| `render_scene`   | The sheet at any hour, every flow labelled: a PNG the assistant can look at (default), an SVG, or a one-page PDF on A4–A1 paper.                                                                                                           |
+| `share_link`     | A URL that opens the scene live in the browser. The scene travels in the link; nothing is uploaded.                                                                                                                                        |
 
 Prompts `draw-pid`, `draw-single-line`, `draw-pfd` and `draw-sheet` take a
 one-line brief and hand the assistant the practice's conventions and the way
-to work: start from `new_scene`, keep `check_scene` green, look at the render.
+to work: start from `new_scene`, keep `check_scene` and `check_drawing` green,
+look at the render.
 
 Every tool except `anigram_guide` declares an output schema and returns its
 result as structured content too, so a client can read fields instead of
