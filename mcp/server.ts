@@ -8,11 +8,32 @@
  * day and read the numbers back.
  *
  * Runs over stdio. Paths are resolved against the directory the client
- * started it in, and it only ever writes .json and .svg files.
+ * started it in and must stay inside it (or a folder ANIGRAM_ALLOW_PATHS
+ * names), and it only ever reads and writes .json and .svg files.
+ *
+ * Every tool that returns data also returns it as `structuredContent`,
+ * checked against the tool's `outputSchema`; the text beside it is the same
+ * data as JSON, or a readable summary, for clients that only show text.
  */
 
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs'
-import { dirname, extname, resolve } from 'node:path'
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  realpathSync,
+  writeFileSync,
+} from 'node:fs'
+import {
+  basename,
+  delimiter,
+  dirname,
+  extname,
+  isAbsolute,
+  join,
+  relative,
+  resolve,
+  sep,
+} from 'node:path'
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
@@ -49,8 +70,14 @@ const server = new McpServer(
 type Json = Record<string, unknown>
 
 const text = (t: string) => ({ content: [{ type: 'text' as const, text: t }] })
-const json = (v: unknown) => text(JSON.stringify(v, null, 2))
 const fail = (t: string) => ({ ...text(t), isError: true })
+
+/** data for the model to read: structured, and as text (JSON unless a summary is given) */
+const data = (v: Json, summary?: string) => ({
+  ...text(summary ?? JSON.stringify(v, null, 2)),
+  structuredContent: v,
+})
+type Result = ReturnType<typeof text> | ReturnType<typeof data>
 
 /** some clients send nested objects as JSON strings */
 const objectish = z.union([z.record(z.string(), z.unknown()), z.string()])
@@ -78,10 +105,42 @@ const controlsInput = {
     .describe('switch states by id, e.g. { "mains": false }'),
 }
 
+/** a path with symlinks resolved, even when its last parts don't exist yet */
+function realish(p: string): string {
+  const rest: string[] = []
+  let cur = p
+  while (!existsSync(cur)) {
+    const up = dirname(cur)
+    if (up === cur) break
+    rest.unshift(basename(cur))
+    cur = up
+  }
+  return join(realpathSync(cur), ...rest)
+}
+
+/** the folders files may be read from and written to */
+const ROOTS = [
+  process.cwd(),
+  ...(process.env.ANIGRAM_ALLOW_PATHS ?? '')
+    .split(delimiter)
+    .filter(Boolean)
+    .map((p) => resolve(process.cwd(), p)),
+].map(realish)
+
+function within(p: string, root: string): boolean {
+  const r = relative(root, p)
+  return r === '' || (!isAbsolute(r) && r.split(sep)[0] !== '..')
+}
+
 function pathFor(file: string, ext: '.json' | '.svg'): string {
   const p = resolve(process.cwd(), file)
   if (extname(p).toLowerCase() !== ext)
     throw new Error(`${file}: expected a ${ext} path`)
+  if (!ROOTS.some((root) => within(realish(p), root)))
+    throw new Error(
+      `${file}: outside the working directory (${process.cwd()}); ` +
+        'set ANIGRAM_ALLOW_PATHS to let the server use other folders',
+    )
   return p
 }
 
@@ -162,9 +221,7 @@ function writeFile(path: string, body: string) {
 }
 
 /** wrap a handler so a thrown error becomes a readable tool error, not a protocol failure */
-function guarded<A>(
-  fn: (args: A) => Promise<ReturnType<typeof text>> | ReturnType<typeof text>,
-) {
+function guarded<A>(fn: (args: A) => Promise<Result> | Result) {
   return async (args: A) => {
     try {
       return await fn(args)
@@ -192,6 +249,23 @@ function guide(): string {
   const body = guideText.replace(/^<!--.*-->\n/gm, '')
   return `${body}\nThe format as a JSON Schema: the \`anigram://schema/scene\` resource, or ${SCHEMA_URL} (put it in a file's \`$schema\` so editors check it).\n\n## Signal functions\n\n${vars}\n${fns}\n\n## Parts\n\n${kinds}\n\nDomains: ${DOMAINS.join(', ')}.\n`
 }
+
+// ---------------------------------------------------------------- output shapes
+
+const checked = {
+  ok: z.boolean().describe('true when the scene has no errors'),
+  errors: z.array(z.string()).describe('problems that stop it loading'),
+  warnings: z
+    .array(z.string())
+    .describe('things that will run but are probably not what you meant'),
+}
+
+/** a scene file; only the fields every valid scene has are spelled out */
+const sceneOutput = z.looseObject({
+  anigram: z.number().describe('the format version'),
+  id: z.string(),
+  title: z.string(),
+})
 
 // ---------------------------------------------------------------- reading
 
@@ -240,11 +314,23 @@ server.registerTool(
     title: 'List built-in sheets',
     description:
       'The built-in sheets: id, drawing number, title and subtitle. Each is a complete scene to read or copy.',
+    outputSchema: {
+      scenes: z.array(
+        z.object({
+          id: z.string(),
+          sheet: z.string().optional(),
+          title: z.string(),
+          subtitle: z.string().optional(),
+          parts: z.number(),
+          links: z.number(),
+        }),
+      ),
+    },
     annotations: { readOnlyHint: true },
   },
   () =>
-    json(
-      SCENES.map((s) => ({
+    data({
+      scenes: SCENES.map((s) => ({
         id: s.id,
         sheet: s.sheet,
         title: s.title,
@@ -252,7 +338,7 @@ server.registerTool(
         parts: s.parts.length,
         links: s.links.length,
       })),
-    ),
+    }),
 )
 
 server.registerTool(
@@ -262,9 +348,10 @@ server.registerTool(
     description:
       'A built-in sheet as scene-file JSON — the best example of the format to copy from.',
     inputSchema: { id: z.string().describe('sheet id from list_scenes') },
+    outputSchema: sceneOutput,
     annotations: { readOnlyHint: true },
   },
-  guarded(({ id }: { id: string }) => json(rawScene({ id }))),
+  guarded(({ id }: { id: string }) => data(rawScene({ id }) as Json)),
 )
 
 server.registerTool(
@@ -274,11 +361,12 @@ server.registerTool(
     description:
       'Check a scene file. Errors stop it loading; warnings are things that will run but probably are not what you meant (a part nothing feeds, two parts in one cell, a kind with no drawing).',
     inputSchema: { scene: sceneInput.scene, file: sceneInput.file },
+    outputSchema: checked,
     annotations: { readOnlyHint: true },
   },
   guarded((args: { scene?: Json | string; file?: string }) => {
     const v = validateScene(rawScene(args))
-    return json({ ok: v.ok, errors: v.errors, warnings: v.warnings })
+    return data({ ok: v.ok, errors: v.errors, warnings: v.warnings })
   }),
 )
 
@@ -299,6 +387,10 @@ server.registerTool(
       scene: objectish.describe('the scene object (or its JSON text)'),
       force: z.boolean().optional().describe('save even if it has errors'),
     },
+    outputSchema: {
+      saved: z.string().describe('the absolute path written'),
+      ...checked,
+    },
     annotations: { destructiveHint: true, idempotentHint: true },
   },
   guarded((args: { file: string; scene: Json | string; force?: boolean }) => {
@@ -310,7 +402,7 @@ server.registerTool(
       )
     const path = pathFor(args.file, '.json')
     writeFile(path, `${JSON.stringify(v.scene ?? raw, null, 2)}\n`)
-    return json({
+    return data({
       saved: path,
       ok: v.ok,
       errors: v.errors,
@@ -422,6 +514,16 @@ server.registerTool(
         .optional()
         .describe('save to `file` even if the result has errors'),
     },
+    outputSchema: {
+      saved: z
+        .string()
+        .nullable()
+        .describe('the path written, or null when nothing was saved'),
+      ...checked,
+      scene: z
+        .record(z.string(), z.unknown())
+        .describe('the edited scene, normalised when it is valid'),
+    },
     annotations: { destructiveHint: true },
   },
   guarded(
@@ -439,7 +541,7 @@ server.registerTool(
         saved = pathFor(args.file, '.json')
         writeFile(saved, `${JSON.stringify(v.scene ?? edited, null, 2)}\n`)
       }
-      return json({
+      return data({
         saved: saved ?? null,
         ok: v.ok,
         errors: v.errors,
@@ -469,7 +571,35 @@ server.registerTool(
       format: z
         .enum(['table', 'json'])
         .optional()
-        .describe('table (default) is compact; json has every number'),
+        .describe(
+          'table (default) is a compact hour-by-hour text; json also puts every hourly number in the result',
+        ),
+    },
+    outputSchema: {
+      sheet: z.string().optional(),
+      title: z.string(),
+      start: z.number().describe('the hour the day started at'),
+      alerts: z
+        .array(z.object({ text: z.string(), hours: z.array(z.number()) }))
+        .describe('every distinct alert, with the hours it was showing'),
+      totals: z
+        .record(
+          z.string(),
+          z.object({
+            in: z.number(),
+            out: z.number(),
+            unmet: z.number().optional(),
+          }),
+        )
+        .describe("per part, the day's throughput (rate × hours)"),
+      unmet: z
+        .record(z.string(), z.number())
+        .describe('demands that went short over the day, by part id'),
+      warnings: z.array(z.string()),
+      rows: z
+        .array(z.record(z.string(), z.unknown()))
+        .optional()
+        .describe('hour by hour, with format json'),
     },
     annotations: { readOnlyHint: true },
   },
@@ -486,7 +616,24 @@ server.registerTool(
       const { scene, warnings } = loadScene(args)
       checkControls(scene, args)
       const report = simulateDay(scene, args)
-      if (args.format === 'json') return json({ warnings, ...report })
+      const unmetBy = Object.fromEntries(
+        Object.entries(report.totals)
+          .filter(([, t]) => (t.unmet ?? 0) > 1e-3)
+          .map(([id, t]) => [id, t.unmet ?? 0]),
+      )
+      const result: Json = {
+        sheet: scene.sheet,
+        title: scene.title,
+        start: report.start,
+        alerts: report.alerts,
+        totals: report.totals,
+        unmet: unmetBy,
+        warnings,
+        ...(args.format === 'json'
+          ? { rows: report.rows as unknown as Json[] }
+          : {}),
+      }
+      if (args.format === 'json') return data(result)
       const alerts = report.alerts.length
         ? report.alerts
             .map(
@@ -495,10 +642,9 @@ server.registerTool(
             )
             .join('\n')
         : 'none'
-      const unmet = Object.entries(report.totals)
-        .filter(([, t]) => (t.unmet ?? 0) > 1e-3)
-        .map(([id, t]) => `${id} ${t.unmet}`)
-      return text(
+      const unmet = Object.entries(unmetBy).map(([id, u]) => `${id} ${u}`)
+      return data(
+        result,
         [
           `${scene.sheet} ${scene.title} — one day from ${String(scene.clock.start).padStart(2, '0')}:00`,
           '',
@@ -541,6 +687,17 @@ server.registerTool(
         .optional()
         .describe('save to this .svg path instead of returning the markup'),
     },
+    outputSchema: {
+      hour: z.number().describe('the hour drawn'),
+      bytes: z.number(),
+      aspect: z.number().describe('width ÷ height'),
+      saved: z
+        .string()
+        .optional()
+        .describe(
+          'with `out`, the path written; otherwise the SVG is the text',
+        ),
+    },
     annotations: { readOnlyHint: false, idempotentHint: true },
   },
   guarded(
@@ -564,10 +721,15 @@ server.registerTool(
         knobs: args.knobs,
         switches: args.switches,
       })
-      if (!args.out) return text(svg)
+      const info = {
+        hour: args.hour ?? scene.clock.start,
+        bytes: svg.length,
+        aspect: Number(aspect(scene)),
+      }
+      if (!args.out) return data(info, svg)
       const path = pathFor(args.out, '.svg')
       writeFile(path, svg)
-      return json({ saved: path, bytes: svg.length })
+      return data({ ...info, saved: path })
     },
   ),
 )
@@ -584,6 +746,14 @@ server.registerTool(
       view: z.enum(['app', 'embed', 'paper', 'screen']).optional(),
       hour: z.number().min(0).max(24).optional(),
       theme: z.enum(['light', 'dark']).optional(),
+    },
+    outputSchema: {
+      url: z.string(),
+      length: z.number().describe('characters in the url'),
+      iframe: z
+        .string()
+        .optional()
+        .describe('with view embed, a ready-to-paste iframe'),
     },
     annotations: { readOnlyHint: true },
   },
@@ -606,7 +776,7 @@ server.registerTool(
       // a built-in sheet needs no payload
       if (args.id !== undefined && SCENES.some((s) => s.id === args.id)) {
         url.searchParams.set('scene', args.id)
-        return json({ url: url.href })
+        return data({ url: url.href, length: url.href.length })
       }
       const { scene } = loadScene(args)
       url.hash = `${HASH_KEY}=${await encodeScene(stamp(scene))}`
@@ -614,7 +784,7 @@ server.registerTool(
         view === 'embed'
           ? `<iframe src="${url.href}" title="${scene.title.replace(/"/g, '&quot;')}" loading="lazy" style="width:100%;aspect-ratio:${aspect(scene)};border:0"></iframe>`
           : undefined
-      return json({
+      return data({
         url: url.href,
         length: url.href.length,
         ...(iframe ? { iframe } : {}),

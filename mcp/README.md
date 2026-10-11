@@ -22,6 +22,10 @@ draw them.
 | `render_scene`   | The sheet as a standalone SVG at any hour, every flow labelled.                                      |
 | `share_link`     | A URL that opens the scene live in the browser. The scene travels in the link; nothing is uploaded.  |
 
+Every tool except `anigram_guide` declares an output schema and returns its
+result as structured content too, so a client can read fields instead of
+parsing text.
+
 ## Install
 
 From a checkout (until it is on npm):
@@ -65,8 +69,11 @@ numbers until the story holds, and hands back a link.
 
 ## Settings
 
-- Paths are relative to the directory the client starts the server in. It
-  only writes `.json` and `.svg` files.
+- Paths are relative to the directory the client starts the server in, and
+  must stay inside it: `../` and absolute paths elsewhere, and symlinks out of
+  it, are refused. It only reads and writes `.json` and `.svg` files.
+- `ANIGRAM_ALLOW_PATHS` lets it use more folders, separated like `PATH`
+  (`:` on macOS and Linux, `;` on Windows).
 - `ANIGRAM_APP_URL` points `share_link` at another copy of the app
   (default `https://anigram.vaibhav.co.uk/`), e.g. `http://localhost:5173/`
   while you run `npm run dev`.
