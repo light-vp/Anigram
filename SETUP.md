@@ -3,60 +3,34 @@
 
 # Deploy setup — served at anigram.vaibhav.co.uk
 
-Anigram deploys itself, the same way the portfolio does. On every merge to
-`main`, `.github/workflows/deploy.yml` runs the checks, builds `dist/`, and
-pushes it to this repo's **`deploy`** branch. Hostinger pulls that branch
-into the subdomain's folder whenever GitHub's webhook tells it a push
-happened. No secrets are involved: the workflow's built-in token pushes the
-branch, and Hostinger reads this public repo over HTTPS.
+Anigram has no hosting of its own. The portfolio repo
+(`light-vp/vaibhav.co.uk`) deploys it: its GitHub Action checks out this
+repo's `main`, builds it with a relative base (`--base=./`), and folds the
+output into the site's `dist/anigram-app/`. Hostinger serves that folder at
+`https://vaibhav.co.uk/anigram-app/` (what the portfolio's own pages embed,
+same-origin) and, as it is the subdomain's document root, at
+`https://anigram.vaibhav.co.uk/` (the canonical address, and the one share
+links use).
 
-`.github/workflows/ci.yml` checks every PR (typecheck, lint, tests, the MCP
-server over stdio, the reference docs, browser tests and sheet screenshots)
-with a read-only token.
+Anigram can't pull its own build into Hostinger: Hostinger's GitHub
+integration allows one repository per website, and the subdomain belongs to
+the vaibhav.co.uk website, whose one repository is the portfolio. So the
+portfolio's deploy runs every 30 minutes as well as on its own merges, and
+redeploys when this repo's `main` has a commit newer than the one it last
+shipped (`anigram-app/anigram-commit.txt` on its `deploy` branch).
 
-## One-time setup in Hostinger
-
-Do this after the first merge that carries `deploy.yml`, so the `deploy`
-branch exists.
-
-**1. Give the subdomain its own folder** (hPanel)
-
-1. **Domains → Subdomains**: delete `anigram.vaibhav.co.uk`. Until now it
-   pointed at `public_html/anigram-app`, which the portfolio's deploy fills.
-2. Create it again: subdomain `anigram`, tick **Custom folder for
-   subdomain**, folder `anigram`. Leave the folder empty.
-
-The subdomain is down between these steps and the first deploy below:
-a few minutes.
-
-**2. Point Git at it** (hPanel)
-
-1. **Advanced → Git → Create a new repository**.
-2. Repository address: `https://github.com/light-vp/Anigram.git`
-3. Branch: `deploy`
-4. Install path: the `anigram` folder from step 1.
-5. **Create**, then **Deploy** once. `https://anigram.vaibhav.co.uk/` loads.
-
-**3. Make it automatic** (hPanel, then GitHub)
-
-1. In hPanel's Git list, **Auto deployment** next to the new repository →
-   copy the **Webhook URL**.
-2. GitHub → this repo → **Settings → Webhooks → Add webhook**: paste the
-   URL, content type `application/json`, "Just the push event", **Add
-   webhook**.
-
-From then on a merge to `main` is live in a couple of minutes. To redeploy
-without a change, run **Actions → Deploy → Run workflow**.
-
-Once this works, the portfolio's deploy can stop copying Anigram into
-`public_html/anigram-app/` for the subdomain. It still builds the copy at
-`vaibhav.co.uk/anigram-app/` that its own pages embed same-origin, until
-those embeds point at the subdomain.
+This repo's `.github/workflows/ci.yml` checks every PR (typecheck, lint,
+tests, the MCP server over stdio, the reference docs, browser tests and
+sheet screenshots) with a read-only token.
 
 ## Releasing a change
 
-1. PR → merge to `main` (CI must be green). It deploys itself.
-2. For the npm package, see [RELEASING.md](RELEASING.md).
+1. PR → merge to `main` (CI must be green).
+2. It is live within about half an hour. To ship it at once, run the
+   portfolio's **Deploy to Hostinger** workflow by hand (Actions → Deploy to
+   Hostinger → Run workflow). GitHub pauses scheduled workflows in a repo
+   with no commits for 60 days; a manual run turns them back on.
+3. For the npm package, see [RELEASING.md](RELEASING.md).
 
 ## URLs
 
@@ -73,10 +47,11 @@ those embeds point at the subdomain.
 - `https://anigram.vaibhav.co.uk/?screen=1` — the wall-screen tour.
 - The portfolio's brief page lives at `https://vaibhav.co.uk/anigram`.
 
-Notes: `public/.htaccess` ships with the build. It sets
+Notes: the portfolio's deploy strips this repo's `public/.htaccess` and
+writes a minimal one into `dist/anigram-app/`. It sets
 `Content-Security-Policy: frame-ancestors` so only vaibhav.co.uk can frame
-the app, and sends deep links to `index.html`. The portfolio's copy at
-`/anigram-app/` replaces it with a minimal one of its own. The in-app
+the app, and turns `RewriteEngine On` with no rules so the portfolio's own
+route rewrites don't apply when the folder is served as the subdomain. The in-app
 **"source"** link points at the public repo.
 
 ## Rename (Living Diagrams → Anigram)

@@ -150,7 +150,7 @@ const SINGLE_LINE = {
     revision: 'A',
     status: 'draft',
   },
-  size: [8, 3],
+  size: [9, 3],
   units: {
     electric: { rate: 'kW', amount: 'kWh' },
     fuel: { rate: 'kW', amount: 'kWh' },
