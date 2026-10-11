@@ -1,9 +1,8 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { useCallback, useEffect, useState } from 'react'
+import { Suspense, lazy, useCallback, useEffect, useState } from 'react'
 
-import { Builder } from '../build/Builder'
 import { SCENES, findScene } from '../scenes/index.ts'
 import type { ThemeId } from '../view/palette.ts'
 import { decodeScene, sceneFromHash } from '../format/share.ts'
@@ -12,6 +11,11 @@ import { capture } from './analytics'
 import { readParams, writeSceneHash, writeSceneParam } from './params'
 import { EmbedView, ScreenView } from './views'
 import { Workbench } from './Workbench'
+
+// the editor is its own chunk: most visits only watch a sheet
+const Editor = lazy(() =>
+  import('../editor/Editor.tsx').then((m) => ({ default: m.Editor })),
+)
 
 const initial = readParams()
 
@@ -75,11 +79,13 @@ export function App() {
 
   if (initial.view === 'build' || initial.view === 'build-embed')
     return (
-      <Builder
-        theme={theme}
-        onTheme={setTheme}
-        header={initial.view === 'build'}
-      />
+      <Suspense fallback={null}>
+        <Editor
+          theme={theme}
+          onTheme={setTheme}
+          header={initial.view === 'build'}
+        />
+      </Suspense>
     )
   if (initial.view === 'embed')
     return (

@@ -1,46 +1,87 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import {
-  heating,
-  home,
-  shift,
-  sun,
-  traffic,
-  water,
-  wind,
-} from '../sim/profiles.ts'
-import type { Behaviour, Domain, Env } from '../sim/types.ts'
+import { heating, home, shift, sun, traffic, water } from '../sim/profiles.ts'
+import type {
+  Behaviour,
+  Domain,
+  PartSpec,
+  Switch,
+  Units,
+} from '../sim/types.ts'
 
 /*
- * The parts a person can build with. Each preset is one glyph with one
- * behaviour and one number worth turning — its size — so the playground
- * never asks for a recipe or a merit order. The curated scenes are free to
- * be more particular; these are the honest defaults.
+ * The parts a person can drop on a sheet. Each template writes a plain scene
+ * part (numbers and expression strings, never functions), so whatever the
+ * editor makes is exactly what a file holds and what an assistant would
+ * write. A template has one number worth turning, its size, and a shape for
+ * the day; both stay visible in the part's signals (`2.4 * home(hour) / 1.2`)
+ * so the editor can read them back and offer the slider again.
  */
 
 export type ProfileId =
   'flat' | 'sun' | 'wind' | 'home' | 'shift' | 'heating' | 'water' | 'traffic'
 
-/** a day's shape scaled so its busiest hour is exactly 1 — the size is the peak */
-function peakOne(f: (hour: number) => number) {
+/** the busiest value of a day curve, sampled as the old playground did */
+function peakOf(f: (hour: number) => number): number {
   let max = 0
   for (let h = 0; h < 24; h += 0.05) max = Math.max(max, f(h))
-  return (hour: number) => f(hour) / (max || 1)
+  return max || 1
 }
 
-export const PROFILES: Record<
-  ProfileId,
-  { label: string; at: (hour: number, day: number) => number }
-> = {
-  flat: { label: 'steady', at: () => 1 },
-  sun: { label: 'daylight', at: peakOne(sun) },
-  wind: { label: 'gusty', at: (h, d) => wind(h, d) },
-  home: { label: 'a home’s day', at: peakOne(home) },
-  shift: { label: 'a working shift', at: peakOne(shift) },
-  heating: { label: 'heating hours', at: peakOne(heating) },
-  water: { label: 'showers & dinner', at: peakOne(water) },
-  traffic: { label: 'evening peak', at: peakOne(traffic) },
+/** a number as an expression writes it: short, but exact enough */
+export const fmt = (n: number) => String(Number(n.toPrecision(6)))
+
+/** a curve that peaks at exactly 1, as an expression */
+const scaled = (fn: string, f: (hour: number) => number) => {
+  const peak = peakOf(f)
+  return Math.abs(peak - 1) < 1e-9
+    ? `${fn}(hour)`
+    : `${fn}(hour) / ${fmt(peak)}`
+}
+
+/**
+ * The shapes of a day a part can follow, each an expression that peaks at 1,
+ * so a part's size is its busiest value. `flat` is no shape at all.
+ */
+export const PROFILES: Record<ProfileId, { label: string; shape?: string }> = {
+  flat: { label: 'steady' },
+  sun: { label: 'daylight', shape: scaled('sun', sun) },
+  wind: { label: 'gusty', shape: 'wind(hour, day)' },
+  home: { label: 'a home’s day', shape: scaled('home', home) },
+  shift: { label: 'a working shift', shape: scaled('shift', shift) },
+  heating: { label: 'heating hours', shape: scaled('heating', heating) },
+  water: { label: 'showers & dinner', shape: scaled('water', water) },
+  traffic: { label: 'evening peak', shape: scaled('traffic', traffic) },
+}
+
+/** size × shape as a signal: a plain number when the shape is flat */
+export const signalOf = (size: number, shape?: string): number | string =>
+  shape ? `${fmt(size)} * ${shape}` : size
+
+/**
+ * Read a signal back as a size and whatever multiplies it, when it has that
+ * form: `7 * on('car')` is size 7 times `on('car')`, `30` is size 30. Lets the
+ * inspector offer a slider on any part, not only one the editor made.
+ */
+export function dialOf(
+  signal: unknown,
+): { size: number; shape?: string } | undefined {
+  if (typeof signal === 'number') return { size: signal }
+  if (typeof signal !== 'string') return undefined
+  const m = /^\s*(\d+(?:\.\d+)?(?:e[+-]?\d+)?)\s*(?:\*\s*(.+?))?\s*$/i.exec(
+    signal,
+  )
+  if (!m) return undefined
+  return m[2] ? { size: Number(m[1]), shape: m[2] } : { size: Number(m[1]) }
+}
+
+/** the profile a shape expression is, if it is one of ours */
+export function profileOf(shape: string | undefined): ProfileId | undefined {
+  if (!shape) return 'flat'
+  return (Object.keys(PROFILES) as ProfileId[]).find(
+    (id) => PROFILES[id].shape === shape,
+  )
 }
 
 export type Group = 'make' | 'convert' | 'carry' | 'store' | 'use'
@@ -53,16 +94,16 @@ export const GROUPS: Array<{ id: Group; label: string }> = [
   { id: 'use', label: 'Use' },
 ]
 
-/** what a preset's behaviour is built from */
+/** what a template's behaviour is built from */
 export interface Dial {
   size: number
-  /** the profile's multiplier at this moment */
-  shape: (e: Env) => number
-  /** whether this part's own switch is on */
-  on: (e: Env) => boolean
+  /** the profile's curve, peaking at 1, or nothing for a steady part */
+  shape?: string
+  /** whether this part's own switch is on, as an expression */
+  on: string
 }
 
-export interface Preset {
+export interface Template {
   kind: string
   name: string
   group: Group
@@ -79,7 +120,7 @@ export interface Preset {
   behaviour: (d: Dial) => Behaviour
 }
 
-export const UNITS: Record<Domain, { rate: string; amount: string }> = {
+export const UNITS: Record<Domain, Units> = {
   light: { rate: 'kW', amount: 'kWh' },
   electric: { rate: 'kW', amount: 'kWh' },
   heat: { rate: 'kW', amount: 'kWh' },
@@ -89,7 +130,7 @@ export const UNITS: Record<Domain, { rate: string; amount: string }> = {
   data: { rate: 'req/s', amount: 'req' },
 }
 
-const PRESET_LIST: Preset[] = [
+const TEMPLATE_LIST: Template[] = [
   // make
   {
     kind: 'sun',
@@ -102,7 +143,7 @@ const PRESET_LIST: Preset[] = [
     note: 'Light on a roof. Feed it to solar panels.',
     behaviour: ({ size, shape }) => ({
       role: 'source',
-      output: (e) => size * shape(e),
+      output: signalOf(size, shape),
     }),
   },
   {
@@ -116,7 +157,7 @@ const PRESET_LIST: Preset[] = [
     note: 'Free once built, but it blows when it blows.',
     behaviour: ({ size, shape }) => ({
       role: 'source',
-      output: (e) => size * shape(e),
+      output: signalOf(size, shape),
     }),
   },
   {
@@ -249,11 +290,7 @@ const PRESET_LIST: Preset[] = [
     gives: ['electric'],
     switch: { on: 'closed', off: 'tripped', start: true },
     note: 'Trip it and everything downstream goes dark.',
-    behaviour: ({ on }) => ({
-      role: 'gate',
-      capacity: 1e4,
-      open: (e) => (on(e) ? 1 : 0),
-    }),
+    behaviour: ({ on }) => ({ role: 'gate', capacity: 1e4, open: on }),
   },
   {
     kind: 'manifold',
@@ -272,11 +309,7 @@ const PRESET_LIST: Preset[] = [
     gives: ['water'],
     switch: { on: 'open', off: 'shut', start: true },
     note: 'Shut it and the water stops here.',
-    behaviour: ({ on }) => ({
-      role: 'gate',
-      capacity: 1e4,
-      open: (e) => (on(e) ? 1 : 0),
-    }),
+    behaviour: ({ on }) => ({ role: 'gate', capacity: 1e4, open: on }),
   },
 
   // store
@@ -292,8 +325,8 @@ const PRESET_LIST: Preset[] = [
       role: 'storage',
       capacity: size,
       start: 0.6,
-      maxIn: size * 0.35,
-      maxOut: size * 0.5,
+      maxIn: Number(fmt(size * 0.35)),
+      maxOut: Number(fmt(size * 0.5)),
       efficiency: 0.92,
     }),
   },
@@ -327,7 +360,7 @@ const PRESET_LIST: Preset[] = [
     note: 'Kettle, fridge, lights. Peaks at breakfast and dinner.',
     behaviour: ({ size, shape }) => ({
       role: 'sink',
-      demand: (e) => size * shape(e),
+      demand: signalOf(size, shape),
       priority: 1,
     }),
   },
@@ -342,7 +375,7 @@ const PRESET_LIST: Preset[] = [
     note: 'Plug it in and watch what has to work harder.',
     behaviour: ({ size, on }) => ({
       role: 'sink',
-      demand: (e) => (on(e) ? size : 0),
+      demand: signalOf(size, on),
     }),
   },
   {
@@ -356,7 +389,7 @@ const PRESET_LIST: Preset[] = [
     note: 'Runs one shift, seven till seven.',
     behaviour: ({ size, shape }) => ({
       role: 'sink',
-      demand: (e) => size * shape(e),
+      demand: signalOf(size, shape),
     }),
   },
   {
@@ -370,7 +403,7 @@ const PRESET_LIST: Preset[] = [
     note: 'Served before anything else on the same supply.',
     behaviour: ({ size, shape }) => ({
       role: 'sink',
-      demand: (e) => size * shape(e),
+      demand: signalOf(size, shape),
       priority: 5,
     }),
   },
@@ -385,7 +418,7 @@ const PRESET_LIST: Preset[] = [
     note: 'Busiest in the evening, when everyone is online.',
     behaviour: ({ size, shape }) => ({
       role: 'sink',
-      demand: (e) => size * shape(e),
+      demand: signalOf(size, shape),
       priority: 2,
     }),
   },
@@ -400,7 +433,7 @@ const PRESET_LIST: Preset[] = [
     note: 'On early, off while everyone is out, on all evening.',
     behaviour: ({ size, shape }) => ({
       role: 'sink',
-      demand: (e) => size * shape(e),
+      demand: signalOf(size, shape),
     }),
   },
   {
@@ -414,17 +447,69 @@ const PRESET_LIST: Preset[] = [
     note: 'Everyone showers at the same time.',
     behaviour: ({ size, shape }) => ({
       role: 'sink',
-      demand: (e) => size * shape(e),
+      demand: signalOf(size, shape),
       priority: 1,
     }),
   },
 ]
 
-export const PRESETS: ReadonlyMap<string, Preset> = new Map(
-  PRESET_LIST.map((p) => [p.kind, p]),
+export const TEMPLATES: ReadonlyMap<string, Template> = new Map(
+  TEMPLATE_LIST.map((t) => [t.kind, t]),
 )
 
-export const PRESETS_BY_GROUP = GROUPS.map((g) => ({
+export const TEMPLATES_BY_GROUP = GROUPS.map((g) => ({
   ...g,
-  presets: PRESET_LIST.filter((p) => p.group === g.id),
+  templates: TEMPLATE_LIST.filter((t) => t.group === g.id),
 }))
+
+export interface Made {
+  part: PartSpec
+  /** the part's own switch, for a template that has one */
+  switch?: Switch
+}
+
+/**
+ * A new part from a template. Left out, the size is the template's and the
+ * day follows its first profile; a switch starts as the template says.
+ */
+export function makePart(
+  t: Template,
+  o: {
+    id: string
+    at: [number, number]
+    label?: string
+    size?: number
+    profile?: ProfileId
+    on?: boolean
+  },
+): Made {
+  const size = o.size ?? t.size?.value ?? 0
+  const profile = o.profile ?? t.profiles?.[0] ?? 'flat'
+  const part: PartSpec = {
+    id: o.id,
+    kind: t.kind,
+    label: o.label?.trim() || t.name,
+    at: o.at,
+    behaviour: t.behaviour({
+      size,
+      shape: PROFILES[profile].shape,
+      on: `on('${o.id}')`,
+    }),
+    note: t.note,
+  }
+  if (!t.switch) return { part }
+  part.toggles = o.id
+  return {
+    part,
+    switch: { id: o.id, label: part.label, on: o.on ?? t.switch.start },
+  }
+}
+
+/** the part that feeds a domain from off the drawing, when a practice hides it */
+export const SUPPLY: Partial<Record<Domain, string>> = {
+  electric: 'grid',
+  fuel: 'gaswell',
+  heat: 'air',
+  light: 'sun',
+  water: 'well',
+}

@@ -58,7 +58,7 @@ export interface Env {
  * controls — `"32 * sun(hour) * (1 - 0.85 * knob('cloud'))"`. See `expr.ts`
  * for the language. Expressions are what keep a scene plain JSON, and every
  * built-in sheet uses them; a function is still accepted for scenes built in
- * code (the playground's presets), but it can't be saved to a file.
+ * code, but it can't be saved to a file.
  */
 export type Signal = number | string | ((env: Env) => number)
 

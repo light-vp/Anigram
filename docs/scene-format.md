@@ -188,6 +188,9 @@ pipes.
   valves in place, off-page connectors, and instrument loops through to the
   actuated valve. The P&ID classes map to DEXPI's (a `ControlValve` goes
   across as a `GlobeValve` with an actuating system).
+- The app's editor (`?build=1`) edits the scene file itself, so saving it
+  back changes only what the person changed. `share_link` with
+  `view: "editor"` opens a file there.
 - `render_scene` with a `.pdf` path prints the sheet on one landscape page
   of A3 (or `paper`: `A4`, `A2`, `A1`), for filing or printing.
 

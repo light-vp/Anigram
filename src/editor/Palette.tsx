@@ -1,0 +1,125 @@
+// SPDX-License-Identifier: MIT
+// SPDX-FileCopyrightText: 2026 Vaibhav Patel
+
+import type { CSSProperties } from 'react'
+
+import { PackSymbol } from '../packs/symbols.tsx'
+import { glyphFor } from '../parts/index.ts'
+import type { PartState } from '../sim/solver.ts'
+import type { DrawingType, PartSpec, SymbolSet } from '../sim/types.ts'
+import { THEMES, paletteVars } from '../view/palette.ts'
+import type { ThemeId } from '../view/palette.ts'
+import { paletteFor } from './practice.ts'
+import type { PaletteItem } from './practice.ts'
+import styles from './Editor.module.css'
+
+/** how a part looks in the bin: switched on and mid-way through its work */
+const SHOWN: PartState = {
+  in: 1,
+  out: 1,
+  demand: 1,
+  avail: 1,
+  level: 0.6,
+  fill: 0.6,
+  loss: 0,
+  open: 1,
+  starting: false,
+  activity: 0.6,
+}
+
+export function GlyphIcon({ kind }: { kind: string }) {
+  const Glyph = glyphFor(kind)
+  return <Glyph s={SHOWN} phase={0} />
+}
+
+/** a palette item as the sheet would draw it */
+function ItemIcon({
+  item,
+  drawing,
+  symbols,
+}: {
+  item: PaletteItem
+  drawing: DrawingType | undefined
+  symbols: SymbolSet
+}) {
+  if (item.letters)
+    return (
+      <g>
+        <circle r={16} className="ln" />
+        <text className="bubbleText">{item.letters}</text>
+      </g>
+    )
+  if (!drawing || drawing === 'pictorial' || !item.class)
+    return <GlyphIcon kind={item.template} />
+  const part: PartSpec = {
+    id: item.key,
+    kind: item.template,
+    label: item.name,
+    at: [0, 0],
+    behaviour: { role: 'bus' },
+    class: item.class,
+  }
+  return (
+    <g transform="scale(0.8)">
+      <PackSymbol
+        cls={item.class}
+        name={item.name}
+        s={SHOWN}
+        phase={0}
+        part={part}
+        symbols={symbols}
+        span={[-24, 24]}
+      />
+    </g>
+  )
+}
+
+/** the parts bin: the templates, or the sheet's own practice */
+export function Palette({
+  theme,
+  drawing,
+  symbols,
+  armed,
+  onArm,
+}: {
+  theme: ThemeId
+  drawing: DrawingType | undefined
+  symbols: SymbolSet
+  armed: string | null
+  onArm: (key: string) => void
+}) {
+  const vars = paletteVars(THEMES[theme]) as CSSProperties
+  return (
+    <nav className={styles.palette} aria-label="Parts">
+      {paletteFor(drawing).map((g) => (
+        <div key={g.id} className={styles.group}>
+          <h2 className={styles.groupName}>{g.label}</h2>
+          <div className={styles.bin}>
+            {g.items.map((it) => (
+              <button
+                key={it.key}
+                type="button"
+                className={styles.piece}
+                aria-pressed={armed === it.key}
+                onClick={() => onArm(it.key)}
+                title={it.note}
+              >
+                <svg
+                  viewBox="-22 -22 44 44"
+                  style={vars}
+                  className={
+                    drawing && drawing !== 'pictorial' ? 'eng' : undefined
+                  }
+                  aria-hidden="true"
+                >
+                  <ItemIcon item={it} drawing={drawing} symbols={symbols} />
+                </svg>
+                <span>{it.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+    </nav>
+  )
+}
