@@ -54,7 +54,33 @@ import { sheetSize } from '../src/view/geometry.ts'
 import { renderSheetSvg } from '../src/view/renderSvg.tsx'
 import { svgToPng } from './png.ts'
 
-const VERSION = '0.1.0'
+/** mcp/package.json's version, written in at build time */
+declare const __ANIGRAM_MCP_VERSION__: string
+const VERSION = __ANIGRAM_MCP_VERSION__
+
+// answer --version and --help without starting the stdio server
+const flag = process.argv[2]
+if (flag === '--version' || flag === '-v') {
+  console.log(VERSION)
+  process.exit(0)
+}
+if (flag === '--help' || flag === '-h') {
+  console.log(
+    [
+      `anigram-mcp ${VERSION}: the Anigram MCP server, over stdio.`,
+      '',
+      'Add it to an MCP client rather than running it by hand, e.g.',
+      '  claude mcp add anigram -- npx -y anigram-mcp',
+      '',
+      'Settings (environment variables):',
+      '  ANIGRAM_ALLOW_PATHS  more folders it may read and write, separated like PATH',
+      '  ANIGRAM_APP_URL      the app share_link points at',
+      '',
+      'https://github.com/light-vp/Anigram/tree/main/mcp',
+    ].join('\n'),
+  )
+  process.exit(0)
+}
 const APP_URL = process.env.ANIGRAM_APP_URL ?? 'https://anigram.vaibhav.co.uk/'
 
 /** PNG widths: the default is wide enough to read every flow label */

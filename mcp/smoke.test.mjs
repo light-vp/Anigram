@@ -4,6 +4,7 @@
 // Drives the built server over stdio the way an assistant would:
 // `npm run build:mcp && node --test mcp/smoke.test.mjs`
 import assert from 'node:assert/strict'
+import { execFileSync } from 'node:child_process'
 import { existsSync, mkdtempSync, readFileSync, symlinkSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -62,6 +63,20 @@ before(async () => {
   )
 })
 after(() => client.close())
+
+test('--version prints the package version and exits', () => {
+  const pkg = JSON.parse(
+    readFileSync(new URL('./package.json', import.meta.url), 'utf8'),
+  )
+  const out = execFileSync(process.execPath, [server, '--version'], {
+    encoding: 'utf8',
+  })
+  assert.equal(out.trim(), pkg.version)
+  assert.match(
+    execFileSync(process.execPath, [server, '--help'], { encoding: 'utf8' }),
+    /ANIGRAM_ALLOW_PATHS/,
+  )
+})
 
 test('lists its tools', async () => {
   const { tools } = await client.listTools()

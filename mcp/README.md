@@ -29,7 +29,8 @@ parsing text.
 
 ## Install
 
-From a checkout (until it is on npm):
+Once it is on npm, `npx -y anigram-mcp` is all a client needs (see
+[RELEASING.md](../RELEASING.md)). Until then, from a checkout:
 
 ```sh
 git clone https://github.com/light-vp/Anigram anigram

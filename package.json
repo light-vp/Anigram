@@ -19,6 +19,7 @@
     "test": "node --test 'src/**/*.test.ts'",
     "golden:update": "UPDATE_GOLDEN=1 node --test src/format/golden.test.ts",
     "test:mcp": "npm run build:mcp && node --test mcp/smoke.test.mjs",
+    "eval": "npm run build:mcp && node eval/run.mjs",
     "simulate": "node scripts/simulate-day.ts",
     "schema": "node scripts/write-schema.ts",
     "mcp": "node mcp/dist/anigram-mcp.mjs"

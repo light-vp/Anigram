@@ -1,0 +1,61 @@
+# SPDX-License-Identifier: MIT
+# SPDX-FileCopyrightText: 2026 Vaibhav Patel
+
+# Publishes the MCP server to npm as `anigram-mcp`, only when a maintainer
+# pushes a tag like `mcp-v0.2.0` whose version matches mcp/package.json.
+# Nothing else triggers it. It needs an npm automation token in the
+# repository secret NPM_TOKEN; see RELEASING.md.
+name: Publish anigram-mcp
+
+on:
+  push:
+    tags:
+      - 'mcp-v*'
+
+permissions:
+  contents: read
+  # lets npm sign the package with a provenance statement from this run
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: The tag matches the package version
+        env:
+          TAG: ${{ github.ref_name }}
+        run: |
+          version=$(node -p "require('./mcp/package.json').version")
+          if [ "$TAG" != "mcp-v$version" ]; then
+            echo "tag $TAG does not match mcp/package.json version $version" >&2
+            exit 1
+          fi
+
+      - name: Typecheck, lint, test
+        run: npm run typecheck && npm run lint && npm test
+
+      - name: Build and drive the server over stdio
+        run: npm run test:mcp
+
+      - name: Publish
+        working-directory: mcp
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --provenance --access public
