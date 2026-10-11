@@ -54,6 +54,8 @@ import { FUNCTIONS, VARIABLES } from '../src/sim/expr.ts'
 import type { Scene } from '../src/sim/types.ts'
 import { sheetSize } from '../src/view/geometry.ts'
 import { renderSheetSvg } from '../src/view/renderSvg.tsx'
+import { svgToPdf } from './pdf.ts'
+import type { Paper } from './pdf.ts'
 import { svgToPng } from './png.ts'
 
 /** mcp/package.json's version, written in at build time */
@@ -187,7 +189,10 @@ function within(p: string, root: string): boolean {
   return r === '' || (!isAbsolute(r) && r.split(sep)[0] !== '..')
 }
 
-function pathFor(file: string, ext: '.json' | '.svg' | '.png'): string {
+function pathFor(
+  file: string,
+  ext: '.json' | '.svg' | '.png' | '.pdf',
+): string {
   const p = resolve(process.cwd(), file)
   if (extname(p).toLowerCase() !== ext)
     throw new Error(`${file}: expected a ${ext} path`)
@@ -836,7 +841,8 @@ server.registerTool(
       'Draw the sheet at an hour of the day, the same drawing the app shows in paper mode: every flow labelled with its value and direction. ' +
       'The scene runs from its opening hour first, so tanks and batteries show real levels. ' +
       'By default it comes back as a PNG image: look at it to check the layout (crossed lines, labels on top of each other, parts too close) and fix the scene. ' +
-      'format svg returns the markup instead. With `out`, the drawing is saved to that .png or .svg path and only its details are returned.',
+      'format svg returns the markup instead. With `out`, the drawing is saved to that .png, .svg or .pdf path and only its details are returned. ' +
+      'A PDF is one landscape page of ISO A paper (A3 unless `paper` says otherwise) for printing and filing; an engineering drawing carries its title block. A PDF needs `out`.',
     inputSchema: {
       ...sceneInput,
       ...controlsInput,
@@ -858,11 +864,15 @@ server.registerTool(
           'sign the bottom corner "Made with Anigram · Vaibhav Patel" (default true; false leaves it off)',
         ),
       format: z
-        .enum(['png', 'svg'])
+        .enum(['png', 'svg', 'pdf'])
         .optional()
         .describe(
-          'png (default) to look at; svg for the markup. With `out`, taken from its extension',
+          'png (default) to look at; svg for the markup; pdf to print. With `out`, taken from its extension',
         ),
+      paper: z
+        .enum(['A4', 'A3', 'A2', 'A1'])
+        .optional()
+        .describe('the PDF page, landscape; default A3'),
       width: z
         .number()
         .int()
@@ -873,12 +883,15 @@ server.registerTool(
       out: z
         .string()
         .optional()
-        .describe('save to this .png or .svg path instead of returning it'),
+        .describe(
+          'save to this .png, .svg or .pdf path instead of returning it',
+        ),
     },
     outputSchema: {
       hour: z.number().describe('the hour drawn'),
-      format: z.enum(['png', 'svg']),
+      format: z.enum(['png', 'svg', 'pdf']),
       bytes: z.number(),
+      paper: z.string().optional().describe('the PDF page size'),
       aspect: z.number().describe('width ÷ height'),
       width: z.number().optional().describe('PNG width in pixels'),
       height: z.number().optional().describe('PNG height in pixels'),
@@ -897,20 +910,29 @@ server.registerTool(
       theme?: 'light' | 'dark'
       labels?: boolean
       credit?: boolean
-      format?: 'png' | 'svg'
+      format?: 'png' | 'svg' | 'pdf'
+      paper?: Paper
       width?: number
       out?: string
     }) => {
       const fromOut = args.out
-        ? (extname(args.out).toLowerCase().slice(1) as 'png' | 'svg')
+        ? (extname(args.out).toLowerCase().slice(1) as 'png' | 'svg' | 'pdf')
         : undefined
-      if (fromOut && fromOut !== 'png' && fromOut !== 'svg')
-        throw new Error(`${args.out}: expected a .png or .svg path`)
+      if (fromOut && !['png', 'svg', 'pdf'].includes(fromOut))
+        throw new Error(`${args.out}: expected a .png, .svg or .pdf path`)
       if (fromOut && args.format && fromOut !== args.format)
         throw new Error(
           `format is ${args.format} but ${args.out} is a .${fromOut} path`,
         )
       const format = fromOut ?? args.format ?? 'png'
+      if (format === 'pdf' && !args.out)
+        throw new Error(
+          'a PDF is saved to a file: give `out`, a .pdf path such as "sheet.pdf"',
+        )
+      if (args.paper && format !== 'pdf')
+        throw new Error(
+          'paper sets the PDF page; it does nothing for png or svg',
+        )
       const { scene } = loadScene(args)
       checkControls(scene, args)
       const svg = renderSheetSvg(scene, {
@@ -929,6 +951,24 @@ server.registerTool(
         const path = pathFor(args.out, '.svg')
         writeFile(path, svg)
         return data({ ...info, saved: path })
+      }
+      if (format === 'pdf') {
+        const path = pathFor(args.out!, '.pdf')
+        const paper = args.paper ?? 'A3'
+        const { pdf } = await svgToPdf(svg, ratio, paper, {
+          title: `${scene.sheet} ${scene.title}`,
+          author: scene.titleBlock?.drawnBy ?? scene.titleBlock?.owner,
+          subject: scene.subtitle || undefined,
+        })
+        writeFile(path, pdf)
+        return data({
+          hour,
+          format,
+          bytes: pdf.length,
+          aspect: ratio,
+          paper,
+          saved: path,
+        })
       }
       // check the path before the slow part
       const path = args.out ? pathFor(args.out, '.png') : undefined

@@ -261,7 +261,39 @@ test('render_scene shows the assistant a PNG by default', async () => {
   })
   assert.equal(clash.error, true)
   const bad = await call('render_scene', { id: 'grid', out: 'x.gif' })
-  assert.match(bad.text, /\.png or \.svg/)
+  assert.match(bad.text, /\.png, \.svg or \.pdf/)
+})
+
+test('render_scene prints a PDF on ISO A paper', async () => {
+  const r = await call('render_scene', {
+    id: 'water-tower',
+    out: 'print/tower.pdf',
+    paper: 'A4',
+  })
+  assert.equal(r.error, false, r.text)
+  assert.equal(r.data.format, 'pdf')
+  assert.equal(r.data.paper, 'A4')
+  const pdf = readFileSync(r.data.saved)
+  assert.equal(pdf.subarray(0, 8).toString('latin1'), '%PDF-1.4')
+  assert.match(pdf.subarray(-6).toString('latin1'), /%%EOF\n$/)
+  const text = pdf.toString('latin1')
+  // an A4 landscape page, with the sheet as one image and its title filed
+  assert.match(text, /\/MediaBox \[0 0 841\.89 595\.28\]/)
+  assert.match(text, /\/Subtype \/Image/)
+  assert.match(text, /\/Title <feff/)
+  // the cross-reference table points at each object
+  const xref = Number(/startxref\n(\d+)/.exec(text)[1])
+  assert.equal(text.slice(xref, xref + 4), 'xref')
+  for (const [, off, n] of text
+    .slice(xref)
+    .matchAll(/^(\d{10}) 00000 n $/gm)
+    .map((m, i) => [m[0], Number(m[1]), i + 1]))
+    assert.equal(text.slice(off, off + `${n} 0 obj`.length), `${n} 0 obj`)
+
+  const loose = await call('render_scene', { id: 'grid', format: 'pdf' })
+  assert.match(loose.text, /a PDF is saved to a file: give `out`/)
+  const wrong = await call('render_scene', { id: 'grid', paper: 'A3' })
+  assert.match(wrong.text, /paper sets the PDF page/)
 })
 
 test('check_scene says whether the story holds, and why not', async () => {

@@ -160,8 +160,14 @@ pipes.
 - `line` is what a link is drawn as: `process` (solid, heavy), `utility`
   (solid, light), `signal` (dashed), `pneumatic` (slashed) or `data` (dotted).
   It defaults to `signal` for data and `process` otherwise.
-- `titleBlock` fills the drawing's title block. `issued` is a date like
-  `2026-10-11`.
+- `titleBlock` fills the drawing's ISO 7200 title block, which every
+  engineering sheet carries in the bottom right of its border: owner,
+  document type (from `drawing`) and status along the top, `title` and
+  `subtitle` in the middle (with `project` above them), and drawn, checked,
+  approved, issued, revision and `sheet` along the bottom. Fields left out
+  stay as empty boxes. `issued` is a date like `2026-10-11`.
+- `render_scene` with a `.pdf` path prints the sheet on one landscape page
+  of A3 (or `paper`: `A4`, `A2`, `A1`), for filing or printing.
 
 ### Instruments
 

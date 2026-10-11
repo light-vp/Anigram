@@ -27,4 +27,12 @@ export const SYMBOL_CSS = `
 .bubbleText { font-size: 9.5px; font-weight: 600; fill: var(--ink); text-anchor: middle; dominant-baseline: central; letter-spacing: 0.02em; }
 .eng .tagLabel { font-size: 11.5px; font-weight: 650; fill: var(--ink); letter-spacing: 0.02em; }
 .eng .lineNo { font-size: 9.5px; fill: var(--ink); font-variant-numeric: tabular-nums; paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }
+
+.tbCell { fill: var(--paper); stroke: var(--ink); stroke-width: 0.6; }
+.tbFrame { fill: none; stroke: var(--ink); stroke-width: 1.4; }
+.tbLabel { font-size: 6.5px; fill: var(--muted); letter-spacing: 0.06em; }
+.tbValue { font-size: 9.5px; fill: var(--ink); }
+.tbValue.muted { font-size: 8.5px; fill: var(--muted); }
+.tbTitle { font-size: 12.5px; font-weight: 600; fill: var(--ink); }
+.eng .credit { text-anchor: start; }
 `
