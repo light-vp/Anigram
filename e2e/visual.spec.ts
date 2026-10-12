@@ -40,11 +40,8 @@ const SHEETS: Array<{ name: string; scene: unknown }> = [
   { name: 'water-tower-pid', scene: asDrawing('water-tower', 'pid') },
 ]
 
-/** the corner "source" link floats over the sheet; it isn't part of the drawing */
 const shoot = (page: Page, name: string) =>
-  expect(sheetOf(page)).toHaveScreenshot(name, {
-    mask: [page.getByRole('link', { name: /source/ })],
-  })
+  expect(sheetOf(page)).toHaveScreenshot(name)
 
 for (const theme of ['light', 'dark'] as const)
   for (const s of SCENES)

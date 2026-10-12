@@ -68,9 +68,11 @@ export function EmbedView({
       )}
       <div className={styles.bar}>
         <Transport sim={sim} frame={frame} compact />
-        {caption && <p className={styles.caption}>{caption}</p>}
+        <div className={styles.foot}>
+          <p className={styles.caption}>{caption ?? ''}</p>
+          <SourceLink inline />
+        </div>
       </div>
-      <SourceLink />
     </div>
   )
 }

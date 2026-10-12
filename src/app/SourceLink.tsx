@@ -8,12 +8,14 @@ export { REPO_URL }
 
 /**
  * Anigram is open source; every embed carries a way back to the code so
- * anyone who likes a drawing can fork it and make their own.
+ * anyone who likes a drawing can fork it and make their own. In an embed it
+ * sits in the play bar, clear of the sheet's clock; on a wall screen it
+ * floats in the corner.
  */
-export function SourceLink() {
+export function SourceLink({ inline = false }: { inline?: boolean }) {
   return (
     <a
-      className={styles.floating}
+      className={inline ? styles.inline : styles.floating}
       href={REPO_URL}
       target="_blank"
       rel="noreferrer"
