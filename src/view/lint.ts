@@ -3,7 +3,14 @@
 
 import { classOf, shownParts, shows } from '../packs/catalogue.ts'
 import type { LinkSpec, PartSpec, Scene } from '../sim/types.ts'
-import { TILE, cellToPx, isEngineering, linkPoints } from './geometry.ts'
+import {
+  BORDER,
+  TILE,
+  cellToPx,
+  isEngineering,
+  linkPoints,
+  sheetSize,
+} from './geometry.ts'
 import type { Pt } from './geometry.ts'
 import { LABEL_OFFSET } from './layout.ts'
 import type { Box } from './layout.ts'
@@ -32,6 +39,7 @@ export const LAYOUT_RULES: Record<string, string> = {
   'through-part': "a line runs through a part that isn't one of its ends",
   slanted: 'a line runs at a slant rather than across or up and down',
   'label-collision': "a part's words land on another part or its words",
+  'label-off-sheet': "a part's words run off the edge of the sheet",
 }
 
 /** a nominal reading, for sizing labels before anything has run */
@@ -240,12 +248,21 @@ export function lintLayout(scene: Scene): LayoutFinding[] {
       )
   }
 
+  // an engineering sheet's border is the edge of the drawing
+  const { w } = sheetSize(scene)
+  const edge = isEngineering(scene) ? BORDER : 0
   const labels = parts.map((p) => ({
     p,
     box: labelBoxOf(scene, p, spans.get(p.id)),
   }))
   for (const { p, box } of labels) {
     if (!box) continue
+    if (box.x0 < edge || box.x1 > w - edge)
+      find(
+        'label-off-sheet',
+        `parts (${p.id})`,
+        `${p.id}'s label runs off the ${box.x0 < edge ? 'left' : 'right'} edge of the sheet; set its "labelSide" to ${box.x0 < edge ? '"right"' : '"left"'}, "above" or "below", or move it in from the edge`,
+      )
     const on = [
       ...parts
         .filter((q) => q !== p && hits(box, partBox(scene, q, spans.get(q.id))))

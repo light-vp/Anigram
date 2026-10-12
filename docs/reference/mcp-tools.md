@@ -582,7 +582,7 @@ For an engineering drawing (pid, single-line, pfd): what an engineer reviewing t
 
 **Check the sheet reads cleanly** · read-only
 
-Check the drawing's geometry without rendering it: lines that cross or run on top of each other, a line through a part that is not one of its ends, slanted runs, and labels landing on parts or other labels. Each finding says what to move. Engineering sheets are checked as they draw (only the lines the practice shows, busbars tapped where their feeders are). auto_layout fixes most of these at once.
+Check the drawing's geometry without rendering it: lines that cross or run on top of each other, a line through a part that is not one of its ends, slanted runs, labels landing on parts or other labels, and labels running off the edge of the sheet. Each finding says what to move. Engineering sheets are checked as they draw (only the lines the practice shows, busbars tapped where their feeders are). auto_layout fixes most of these at once.
 
 | parameter | type | required | what it is |
 | - | - | - | - |
