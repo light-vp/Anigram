@@ -9,7 +9,10 @@ import type { ThemeId } from '../view/palette.ts'
 /*
  * The URL is the embed API. Every way of showing a sheet is a query string:
  *
- *   ?scene=grid                      which sheet (old cloud ids still resolve)
+ *   (nothing)                        the editor: Anigram's home, on the sheet you left
+ *   ?examples                        the built-in sheets, running, with their dials
+ *   ?docs                            how it works, the MCP server, the URL API
+ *   ?scene=grid                      that sheet running (old cloud ids still resolve)
  *   ?embed=1                         just the sheet and a play bar, for an iframe
  *   ?embed=presentation&scene=…      the portfolio's existing embed — same as embed=1
  *   ?embed=app                       the full app without its header
@@ -22,11 +25,12 @@ import type { ThemeId } from '../view/palette.ts'
  *   ?t=18.5                          start the clock at 18:30
  *   ?speed=2                         clock multiplier
  *   ?credit=0                        leave off the "Made with Anigram" line (svg export too)
- *   #scene=…                         a whole scene file, deflated (see format/share.ts)
+ *   #scene=…                         a whole scene file, deflated (see format/share.ts); running,
+ *                                    or in the editor with ?build=1
  */
 
 export type View =
-  'app' | 'app-embed' | 'build' | 'build-embed' | 'embed' | 'screen'
+  'app' | 'app-embed' | 'build' | 'build-embed' | 'embed' | 'screen' | 'docs'
 
 const THEME_ALIASES: Record<string, ThemeId> = {
   light: 'light',
@@ -47,15 +51,23 @@ export interface Params {
   credit: boolean
 }
 
-export function readParams(search = window.location.search): Params {
+export function readParams(
+  search = window.location.search,
+  hash = window.location.hash,
+): Params {
   const q = new URLSearchParams(search)
   const embed = q.get('embed')
-  let view: View = 'app'
+  // a sheet named in the address runs; with nothing named, Anigram opens on the editor
+  const showing =
+    q.has('scene') || q.has('examples') || hash.startsWith(`#${HASH_KEY}=`)
+  let view: View = 'build'
   if (q.has('screen')) view = 'screen'
   else if (embed === 'build') view = 'build-embed'
   else if (q.has('build')) view = 'build'
   else if (embed === 'app') view = 'app-embed'
   else if (embed !== null) view = 'embed'
+  else if (q.has('docs')) view = 'docs'
+  else if (showing) view = 'app'
   const theme = q.get('theme')
   const num = (k: string) => {
     const v = q.get(k)

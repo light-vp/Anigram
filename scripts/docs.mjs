@@ -48,6 +48,7 @@ const { kindSvg, classSvg } = await vite.ssrLoadModule(
 )
 const { PART_KINDS } = await vite.ssrLoadModule('/src/parts/kinds.ts')
 const { PACKS } = await vite.ssrLoadModule('/src/packs/catalogue.ts')
+const { MCP_TOOLS } = await vite.ssrLoadModule('/src/site/docsContent.ts')
 await vite.close()
 
 const GROUPS = {
@@ -182,6 +183,15 @@ function params(schema) {
 }
 
 const { tools } = await client.listTools()
+// the app's docs page lists the tools by hand; it must name every one
+{
+  const listed = MCP_TOOLS.map(([name]) => name).sort()
+  const served = tools.map((t) => t.name).sort()
+  if (listed.join() !== served.join())
+    throw new Error(
+      `docs: MCP_TOOLS in src/site/docsContent.ts lists ${listed.join(', ')}, but the server has ${served.join(', ')}`,
+    )
+}
 const { prompts } = await client.listPrompts()
 let mcp = HEAD(
   'MCP tools',

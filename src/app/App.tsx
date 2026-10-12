@@ -12,6 +12,10 @@ import { readParams, writeSceneHash, writeSceneParam } from './params'
 import { EmbedView, ScreenView } from './views'
 import { Workbench } from './Workbench'
 
+const Docs = lazy(() =>
+  import('../site/Docs.tsx').then((m) => ({ default: m.Docs })),
+)
+
 // the editor is its own chunk: most visits only watch a sheet
 const Editor = lazy(() =>
   import('../editor/Editor.tsx').then((m) => ({ default: m.Editor })),
@@ -35,6 +39,14 @@ export function App() {
   }, [theme])
 
   useEffect(() => {
+    if (initial.view === 'docs') {
+      document.title = 'Docs · Anigram'
+      return
+    }
+    if (initial.view === 'build' || initial.view === 'build-embed') {
+      document.title = 'Anigram · draw a living diagram'
+      return
+    }
     document.title = `${scene.title} · Anigram`
     capture('scene_loaded', { scene: scene.id, view: initial.view })
   }, [scene])
@@ -85,6 +97,12 @@ export function App() {
           onTheme={setTheme}
           header={initial.view === 'build'}
         />
+      </Suspense>
+    )
+  if (initial.view === 'docs')
+    return (
+      <Suspense fallback={null}>
+        <Docs />
       </Suspense>
     )
   if (initial.view === 'embed')

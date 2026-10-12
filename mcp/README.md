@@ -42,18 +42,12 @@ parsing text.
 
 ## Install
 
-Once it is on npm, `npx -y anigram-mcp` is all a client needs (see
-[RELEASING.md](../RELEASING.md)). Until then, from a checkout:
-
-```sh
-git clone https://github.com/light-vp/Anigram anigram
-cd anigram && npm ci && npm run build:mcp
-```
+It is [`anigram-mcp` on npm](https://www.npmjs.com/package/anigram-mcp).
 
 **Claude Code**
 
 ```sh
-claude mcp add anigram -- node /path/to/anigram/mcp/dist/anigram-mcp.mjs
+claude mcp add anigram -- npx -y anigram-mcp
 ```
 
 **Claude Desktop, Cursor and others** (`mcpServers` in the client's config):
@@ -61,13 +55,14 @@ claude mcp add anigram -- node /path/to/anigram/mcp/dist/anigram-mcp.mjs
 ```json
 {
   "mcpServers": {
-    "anigram": {
-      "command": "node",
-      "args": ["/path/to/anigram/mcp/dist/anigram-mcp.mjs"]
-    }
+    "anigram": { "command": "npx", "args": ["-y", "anigram-mcp"] }
   }
 }
 ```
+
+To run it from a checkout instead, `npm ci && npm run build:mcp` and point
+the client at `node /path/to/anigram/mcp/dist/anigram-mcp.mjs`. The same
+setup, with every tool, is on the [docs page](https://anigram.vaibhav.co.uk/?docs#mcp).
 
 The built file is self-contained: React, the solver and the MCP SDK are
 bundled in, so it runs anywhere Node 20+ does. Beside it sit the PNG

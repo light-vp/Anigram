@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
+import { REPO_URL } from '../site/links.ts'
 import styles from './SourceLink.module.css'
 
-/** The public source repository (MIT). */
-export const REPO_URL = 'https://github.com/light-vp/Anigram'
+export { REPO_URL }
 
 /**
  * Anigram is open source; every embed carries a way back to the code so

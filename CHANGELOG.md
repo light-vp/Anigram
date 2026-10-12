@@ -17,7 +17,7 @@ entry says so under **Changed**.
 
 ## Unreleased
 
-Real plants in: open the drawings plant software and flowsheet tools write.
+Real plants in, and the editor as the home page.
 
 ### Added
 
@@ -29,12 +29,20 @@ Real plants in: open the drawings plant software and flowsheet tools write.
 - **SFILES 2.0.** `import_sfiles` opens a flowsheet string as a living PFD
   laid out by its flow; `export_sfiles` writes any scene's process streams
   as one.
+- **Docs in the app** (`?docs`): how the drawings run, the editor, the MCP
+  server with its setup and every tool, scene files, engineering drawings,
+  import and export, the URL API, and development notes.
 - **P&ID symbols:** `ButterflyValve` (its disc turns as it shuts) and
   `SafetyValve`, both also exported to DEXPI.
 - `npm run bench` times the solver on a 288-part town.
 
 ### Changed
 
+- **The editor is the home page.** anigram.vaibhav.co.uk opens on the
+  editor, on the sheet you left; the five built-in sheets moved to
+  `?examples`. Links to a sheet (`?scene=`, `#scene=`) still open it running,
+  and `?build=1` still opens the editor. One header across the editor, the
+  examples and the docs.
 - **The solver is ten times faster** on big sheets: 0.2 ms a tick at 300
   parts (was 2.1 ms). When there isn't enough to go round, consumers of
   equal priority now share the shortfall fairly (max-min) instead of the

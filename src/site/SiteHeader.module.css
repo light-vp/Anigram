@@ -1,0 +1,81 @@
+/* SPDX-License-Identifier: MIT */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+.header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 20px;
+  min-height: 32px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink);
+  font-size: var(--fs-md);
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.logo {
+  display: block;
+  flex: none;
+  color: var(--ink);
+}
+
+.nav {
+  display: flex;
+  gap: 2px;
+}
+
+.link,
+.on {
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    color 0.15s,
+    background 0.15s;
+}
+
+.link {
+  color: var(--muted);
+}
+
+.link:hover {
+  color: var(--ink);
+}
+
+.on {
+  color: var(--ink);
+  background: var(--desk-2);
+}
+
+.spacer {
+  flex: 1;
+}
+
+.out {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.out:hover {
+  color: var(--ink);
+}
+
+@media (max-width: 720px) {
+  .header {
+    gap: 6px 12px;
+  }
+
+  .nav {
+    order: 3;
+    width: 100%;
+  }
+}
