@@ -188,6 +188,18 @@ pipes.
   valves in place, off-page connectors, and instrument loops through to the
   actuated valve. The P&ID classes map to DEXPI's (a `ControlValve` goes
   across as a `GlobeValve` with an actuating system).
+- `import_dexpi` goes the other way: a DEXPI 1.3 P&ID from plant design
+  software opens as a living P&ID. Equipment keeps its tags, each piping
+  segment becomes lines from nozzle to nozzle with its valves in place
+  (flanges and reducers passed through), and instrument loops keep the
+  valves they drive. The file says nothing about behaviour, so each class
+  gets the usual one (a pump that can be stopped, a hand valve that can be
+  shut, a control valve on a slider, a tank that stores) and the notes say
+  so; set real duties and add an `expect` list before trusting a number.
+- `import_sfiles` and `export_sfiles` read and write SFILES 2.0, the line
+  notation for flowsheets: `(raw)(pp)(hex)(r)[(prod)](dist)(prod)`. A string
+  opens as a PFD laid out by its flow, with major equipment tagged; a scene's
+  process streams write back as a string, recycles and all.
 - The app's editor (`?build=1`) edits the scene file itself, so saving it
   back changes only what the person changed. `share_link` with
   `view: "editor"` opens a file there.

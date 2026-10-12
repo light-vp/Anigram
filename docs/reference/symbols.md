@@ -22,6 +22,8 @@ Follows ISO 10628-2 symbols, ISA-5.1 tags and lines. Draws water, heat, fuel, da
 | <img src="symbols/GlobeValve.svg" width="48" height="48" alt=""> | same | `GlobeValve` | a globe valve; filled when shut | — |
 | <img src="symbols/BallValve.svg" width="48" height="48" alt=""> | same | `BallValve` | a ball valve; filled when shut | — |
 | <img src="symbols/CheckValve.svg" width="48" height="48" alt=""> | same | `CheckValve` | a non-return valve | — |
+| <img src="symbols/ButterflyValve.svg" width="48" height="48" alt=""> | same | `ButterflyValve` | a butterfly valve; its disc turns across the bore as it shuts | — |
+| <img src="symbols/SafetyValve.svg" width="48" height="48" alt=""> | same | `SafetyValve` | a spring-loaded safety or relief valve; shut until pressure lifts it | — |
 | <img src="symbols/ControlValve.svg" width="48" height="48" alt=""> | same | `ControlValve` | a valve with an actuator; its opening follows the signal | — |
 | <img src="symbols/ElectricMotor.svg" width="48" height="48" alt=""> | same | `ElectricMotor` | an electric motor | — |
 | <img src="symbols/Turbine.svg" width="48" height="48" alt=""> | same | `Turbine` | a steam, gas or hydraulic turbine | `turbine` |

@@ -193,6 +193,31 @@ const CheckValve: SymbolGlyph = () => (
   </g>
 )
 
+const ButterflyValve: SymbolGlyph = ({ s }) => {
+  // the disc turns across the bore as it shuts
+  const a = 90 * (1 - Math.min(1, Math.max(0, s.open)))
+  return (
+    <g>
+      <path className="ln" d="M-9 -8 V8 M9 -8 V8 M-9 0 H-6 M6 0 H9" />
+      <g transform={`rotate(${-a})`}>
+        <path className="ln" d="M-6 0 H6" />
+      </g>
+      <circle r={2} className="inkf" />
+    </g>
+  )
+}
+
+const SafetyValve: SymbolGlyph = ({ s }) => (
+  <g>
+    {/* a spring on the bonnet holds it shut until pressure lifts it */}
+    <path
+      className="ln thin"
+      d="M0 -7 V-9 L-4 -11 L4 -14 L-4 -17 L4 -20 L0 -22"
+    />
+    <Bowtie s={s} />
+  </g>
+)
+
 const ControlValve: SymbolGlyph = ({ s }) => (
   <g>
     {/* the stem and a diaphragm actuator; the stem lifts as it opens */}
@@ -430,6 +455,8 @@ const SYMBOLS: Record<string, SymbolGlyph> = {
   GlobeValve,
   BallValve,
   CheckValve,
+  ButterflyValve,
+  SafetyValve,
   ControlValve,
   ElectricMotor,
   Junction,

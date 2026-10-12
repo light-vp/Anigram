@@ -72,8 +72,9 @@ export function splitTag(tag: string): { letters: string; loop: string } {
   return m ? { letters: m[1]!, loop: m[2]! } : { letters: tag, loop: '' }
 }
 
-/** whether a tag reads as ISA-5.1: letters, an optional dash, then a loop number */
-export const isIsaTag = (tag: string) => /^[A-Z]{1,5}-?\d{1,6}[A-Z]?$/.test(tag)
+/** whether a tag reads as ISA-5.1: letters, an optional dash, then a loop number (`4712.02` too) */
+export const isIsaTag = (tag: string) =>
+  /^[A-Z]{1,5}-?\d{1,6}(\.\d{1,3})?[A-Z]?$/.test(tag)
 
 /** the part at the far end of an instrument's signal: a controller fed by a transmitter measures what the transmitter does */
 export function measuredPart(

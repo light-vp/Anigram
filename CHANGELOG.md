@@ -17,6 +17,31 @@ entry says so under **Changed**.
 
 ## Unreleased
 
+Real plants in: open the drawings plant software and flowsheet tools write.
+
+### Added
+
+- **DEXPI import.** `import_dexpi` opens a DEXPI 1.3 (Proteus XML) P&ID as
+  a living P&ID: equipment with its tags, each piping segment as lines with
+  its valves in place, off-page connectors, and instrument loops with the
+  valves they drive. DEXPI's own reference P&ID opens and runs. Behaviours
+  are guessed from each class and the notes say which.
+- **SFILES 2.0.** `import_sfiles` opens a flowsheet string as a living PFD
+  laid out by its flow; `export_sfiles` writes any scene's process streams
+  as one.
+- **P&ID symbols:** `ButterflyValve` (its disc turns as it shuts) and
+  `SafetyValve`, both also exported to DEXPI.
+- `npm run bench` times the solver on a 288-part town.
+
+### Changed
+
+- **The solver is ten times faster** on big sheets: 0.2 ms a tick at 300
+  parts (was 2.1 ms). When there isn't enough to go round, consumers of
+  equal priority now share the shortfall fairly (max-min) instead of the
+  first in the file taking all it wants.
+- Instrument tags may carry a dotted loop number, `PV-4712.02`, as DEXPI
+  files write them.
+
 ## 0.2.0
 
 Engineering drawings, an editor for scene files, and a release process.

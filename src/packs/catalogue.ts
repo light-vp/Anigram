@@ -63,6 +63,14 @@ const PID: PackInfo = {
     GlobeValve: { is: 'a globe valve; filled when shut', inline: true },
     BallValve: { is: 'a ball valve; filled when shut', inline: true },
     CheckValve: { is: 'a non-return valve', inline: true },
+    ButterflyValve: {
+      is: 'a butterfly valve; its disc turns across the bore as it shuts',
+      inline: true,
+    },
+    SafetyValve: {
+      is: 'a spring-loaded safety or relief valve; shut until pressure lifts it',
+      inline: true,
+    },
     ControlValve: {
       is: 'a valve with an actuator; its opening follows the signal',
       inline: true,

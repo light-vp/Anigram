@@ -32,6 +32,9 @@
  *   standard   check_drawing has nothing to mark up (and how many it found)
  *   tidy       lint_layout has nothing to mark up (and how many it found)
  *   dexpi      a P&ID exports to DEXPI with nothing left out
+ * A prompt's `files` ({ "name in the folder": "path in the repo" }) are
+ * copied into the folder it runs in, for prompts about a file the user has.
+ *
  * The summary gives each practice its own line, so steering for one
  * practice can be tuned without hiding what it does to the others.
  *
@@ -39,7 +42,13 @@
  */
 
 import { spawn } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import {
+  copyFileSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -202,6 +211,9 @@ const rows = []
 for (const c of cases) {
   for (let i = 0; i < runs; i++) {
     const dir = mkdtempSync(join(tmpdir(), `anigram-eval-${c.id}-`))
+    // files the prompt talks about, copied in from the repo
+    for (const [name, from] of Object.entries(c.files ?? {}))
+      copyFileSync(join(here, '..', from), join(dir, name))
     const started = Date.now()
     process.stderr.write(`${c.id} #${i + 1} … `)
     const { code, events, err } = await runClaude(dir, c.prompt)

@@ -5,7 +5,13 @@
 // `npm run build:mcp && node --test mcp/smoke.test.mjs`
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { existsSync, mkdtempSync, readFileSync, symlinkSync } from 'node:fs'
+import {
+  copyFileSync,
+  existsSync,
+  mkdtempSync,
+  readFileSync,
+  symlinkSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { after, before, test } from 'node:test'
@@ -88,7 +94,10 @@ test('lists its tools', async () => {
     'check_scene',
     'edit_scene',
     'export_dexpi',
+    'export_sfiles',
     'get_scene',
+    'import_dexpi',
+    'import_sfiles',
     'lint_layout',
     'list_scenes',
     'new_scene',
@@ -435,6 +444,62 @@ test('export_dexpi hands a P&ID to plant software', async () => {
   const wrong = await call('export_dexpi', { id: 'grid' })
   assert.equal(wrong.error, true)
   assert.match(wrong.text, /DEXPI describes P&IDs/)
+})
+
+test('import_dexpi opens a P&ID from plant software', async () => {
+  copyFileSync(
+    fileURLToPath(
+      new URL(
+        '../src/format/fixtures/dexpi-c01-reference.xml',
+        import.meta.url,
+      ),
+    ),
+    join(cwd, 'reference.xml'),
+  )
+  const r = await call('import_dexpi', {
+    file: 'reference.xml',
+    out: 'reference.json',
+  })
+  assert.equal(r.error, false, r.text)
+  assert.equal(r.data.counts.equipment, 5)
+  assert.ok(r.data.notes.some((n) => /guessed/.test(n)))
+  assert.doesNotMatch(r.text, /"parts"/)
+  const checked = await call('check_scene', { file: 'reference.json' })
+  assert.equal(checked.error, false, checked.text)
+  // back out as DEXPI, the tags survive
+  const back = await call('export_dexpi', { file: 'reference.json' })
+  assert.equal(back.error, false, back.text)
+  assert.equal(back.data.counts.equipment, 5)
+  const both = await call('import_dexpi', {
+    file: 'reference.xml',
+    xml: '<a/>',
+  })
+  assert.equal(both.error, true)
+  const notDexpi = await call('import_dexpi', { xml: '<svg></svg>' })
+  assert.equal(notDexpi.error, true)
+  assert.match(notDexpi.text, /not a DEXPI file/)
+  const outside = await call('import_dexpi', { file: '../elsewhere.xml' })
+  assert.equal(outside.error, true)
+  assert.match(outside.text, /outside the working directory/)
+})
+
+test('SFILES 2.0 flowsheets go in and out', async () => {
+  const src = '(raw)(mix)<1(pp)(hex)(r)(dist)[{bout}(prod)]{tout}(splt)1(prod)'
+  const r = await call('import_sfiles', { sfiles: src, title: 'Loop' })
+  assert.equal(r.error, false, r.text)
+  assert.equal(r.data.scene.drawing, 'pfd')
+  assert.deepEqual(r.data.counts, {
+    units: 9,
+    streams: 9,
+    recycles: 1,
+    controls: 0,
+  })
+  const out = await call('export_sfiles', { scene: r.data.scene })
+  assert.equal(out.error, false, out.text)
+  assert.match(out.data.sfiles, /^\(raw\)\(mix\)<1/)
+  const bad = await call('import_sfiles', { sfiles: '(raw)[(prod)' })
+  assert.equal(bad.error, true)
+  assert.match(bad.text, /never closed/)
 })
 
 test('each practice has a prompt that walks the job', async () => {
