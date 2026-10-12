@@ -47,6 +47,8 @@ Real plants in, and the editor as the home page.
   parts (was 2.1 ms). When there isn't enough to go round, consumers of
   equal priority now share the shortfall fairly (max-min) instead of the
   first in the file taking all it wants.
+- An embed's "source ↗" link sits in its play bar instead of over the
+  sheet's corner, where it covered the clock.
 - Instrument tags may carry a dotted loop number, `PV-4712.02`, as DEXPI
   files write them.
 
