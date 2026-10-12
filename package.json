@@ -31,7 +31,7 @@
     "mcp": "node mcp/dist/anigram-mcp.mjs"
   },
   "dependencies": {
-    "@sentry/react": "^10.65.0",
+    "@sentry/react": "^11.6.0",
     "posthog-js": "^1.438.3",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
