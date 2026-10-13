@@ -1,19 +1,21 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
+import { REPO_URL } from '../site/links.ts'
 import styles from './SourceLink.module.css'
 
-/** The public source repository (MIT). */
-export const REPO_URL = 'https://github.com/light-vp/Anigram'
+export { REPO_URL }
 
 /**
  * Anigram is open source; every embed carries a way back to the code so
- * anyone who likes a drawing can fork it and make their own.
+ * anyone who likes a drawing can fork it and make their own. In an embed it
+ * sits in the play bar, clear of the sheet's clock; on a wall screen it
+ * floats in the corner.
  */
-export function SourceLink() {
+export function SourceLink({ inline = false }: { inline?: boolean }) {
   return (
     <a
-      className={styles.floating}
+      className={inline ? styles.inline : styles.floating}
       href={REPO_URL}
       target="_blank"
       rel="noreferrer"

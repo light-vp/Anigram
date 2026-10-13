@@ -16,7 +16,7 @@ import { captionAt } from '../sim/captions.ts'
 import { Alerts, Controls, Inspector } from './panels'
 import { embedSnippet, sceneLink } from './params'
 import type { Params } from './params'
-import { REPO_URL } from './SourceLink'
+import { SiteHeader } from '../site/SiteHeader.tsx'
 import { Transport } from './Transport'
 import styles from './Workbench.module.css'
 
@@ -147,39 +147,7 @@ export function Workbench({
         readFile(e.dataTransfer.files[0])
       }}
     >
-      {header && (
-        <header className={styles.header}>
-          <div className={styles.brand}>
-            <svg
-              className={styles.logo}
-              viewBox="0 0 24 24"
-              aria-hidden="true"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth={1.6}
-              strokeLinecap="round"
-            >
-              <rect x={2.5} y={2.5} width={19} height={19} rx={6} />
-              <path d="M7 12 H17" />
-              <circle cx={10} cy={12} r={1.4} fill="currentColor" />
-            </svg>
-            <span>
-              <strong>Anigram</strong>
-              <span className={styles.tag}>
-                living diagrams of real machines
-              </span>
-            </span>
-          </div>
-          <a
-            className={styles.source}
-            href={REPO_URL}
-            target="_blank"
-            rel="noreferrer"
-          >
-            source ↗
-          </a>
-        </header>
-      )}
+      {header && <SiteHeader page="examples" />}
 
       <nav className={styles.tabs} aria-label="Sheets">
         {SCENES.map((s) => (

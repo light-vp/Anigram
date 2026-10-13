@@ -19,3 +19,15 @@
   opacity: 1;
   color: var(--ink);
 }
+
+.inline {
+  flex: none;
+  padding: 0 4px;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.inline:hover {
+  color: var(--ink);
+}

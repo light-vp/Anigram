@@ -15,13 +15,6 @@
   padding-top: 10px;
 }
 
-.header {
-  display: flex;
-  align-items: baseline;
-  gap: 10px;
-  font-size: var(--fs-md);
-}
-
 .muted {
   color: var(--muted);
   font-size: var(--fs-sm);
@@ -29,16 +22,6 @@
 
 .spacer {
   flex: 1;
-}
-
-.link {
-  font-size: var(--fs-sm);
-  color: var(--muted);
-  text-decoration: none;
-}
-
-.link:hover {
-  color: var(--ink);
 }
 
 .tools {
@@ -734,4 +717,14 @@
     width: 72px;
     flex: none;
   }
+}
+
+.more {
+  margin-top: 10px;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+.more a {
+  color: var(--ink);
 }

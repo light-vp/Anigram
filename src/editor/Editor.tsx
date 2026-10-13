@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { capture } from '../app/analytics'
 import { Alerts } from '../app/panels'
-import { REPO_URL } from '../app/SourceLink'
+import { SiteHeader } from '../site/SiteHeader.tsx'
 import { validateScene } from '../format/validate.ts'
 import type { Scene } from '../sim/types.ts'
 import { autoLayout, withLayout } from '../view/autoLayout.ts'
@@ -354,24 +354,7 @@ function Editing({
         void openFile(file)
       }}
     >
-      {header && (
-        <header className={styles.header}>
-          <strong>Anigram</strong>
-          <span className={styles.muted}>editor: draw a living diagram</span>
-          <span className={styles.spacer} />
-          <a href="./" className={styles.link}>
-            the sheets
-          </a>
-          <a
-            href={REPO_URL}
-            className={styles.link}
-            target="_blank"
-            rel="noreferrer"
-          >
-            source ↗
-          </a>
-        </header>
-      )}
+      {header && <SiteHeader page="editor" />}
 
       <div className={styles.tools} role="toolbar" aria-label="Editor">
         <TitleInput
@@ -560,6 +543,11 @@ function Editing({
                       same JSON.
                     </li>
                   </ol>
+                  <p className={styles.more}>
+                    Or have your coding assistant draw it with the{' '}
+                    <a href="./?docs#mcp">MCP server</a>. More in the{' '}
+                    <a href="./?docs">docs</a>.
+                  </p>
                 </section>
               )}
             </aside>
