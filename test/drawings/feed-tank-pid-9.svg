@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="1280" height="688" class="sheet eng" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 688" style="--paper:#ffffff;--line:#e3e3e1;--tile:#fafaf9;--ink:#18181b;--muted:#8a8a87;--lit:#f5b301;--alarm:#e5484d;--light:#f5b301;--electric:#f08c00;--water:#2f7cf6;--heat:#e5484d;--fuel:#12a594;--mechanical:#71717a;--data:#7c5cf0" role="img" aria-label="Feed tank level control: A pump fills a buffer tank; a level loop throttles the outlet so the tank never runs dry"><style>
+<svg width="1280" height="688" class="sheet eng" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 688" style="--paper:#ffffff;--line:#e3e3e1;--tile:#fafaf9;--ink:#18181b;--muted:#8a8a87;--lit:#f5b301;--alarm:#e5484d;--light:#f5b301;--electric:#f08c00;--water:#2f7cf6;--heat:#e5484d;--fuel:#12a594;--mechanical:#71717a;--data:#7c5cf0;--oil:#b4651e;--air:#0f9fbf" role="img" aria-label="Feed tank level control: A pump fills a buffer tank; a level loop throttles the outlet so the tank never runs dry"><style>
 .sheet { font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
 .ln { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
 .ln.thin, .thin { stroke-width: 1; }
@@ -50,6 +50,8 @@
 .ln.alarm, .alarmStroke { stroke: var(--alarm); }
 .ln.live { stroke: var(--muted); stroke-dasharray: 2 3; }
 .lvl { fill: var(--water); opacity: 0.35; stroke: none; }
+.lvl.oil { fill: var(--oil); }
+.lvl.air { fill: var(--air); }
 .lvl.low { fill: var(--alarm); }
 .symText { font-size: 13px; font-weight: 600; fill: var(--ink); text-anchor: middle; dominant-baseline: central; }
 .symText.small { font-size: 8.5px; font-weight: 500; }
@@ -60,6 +62,8 @@
 .eng .route.data { stroke-width: 1.6; stroke-dasharray: 0.1 5; }
 .eng .route.pneumatic { stroke-width: 1; }
 .eng .route.idle { stroke: var(--muted); }
+.eng .shaft { fill: none; stroke: var(--ink); stroke-width: 4; }
+.eng .shaftCore { fill: none; stroke: var(--paper); stroke-width: 2; }
 .eng .arrow { fill: var(--ink); }
 .eng .arrow.idle { fill: var(--paper); stroke: var(--muted); stroke-width: 1; }
 .eng .conn { fill: none; stroke: var(--ink); stroke-width: 1; }

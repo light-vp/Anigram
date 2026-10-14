@@ -55,6 +55,7 @@ export const DRAWINGS: readonly DrawingType[] = [
   'pid',
   'single-line',
   'pfd',
+  'fluid-power',
 ]
 
 export const LINE_TYPES: readonly LineType[] = [

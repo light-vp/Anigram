@@ -353,7 +353,13 @@ test('check_scene says whether the story holds, and why not', async () => {
 })
 
 test('new_scene starts each practice from a sheet that already works', async () => {
-  for (const drawing of ['pictorial', 'pid', 'single-line', 'pfd']) {
+  for (const drawing of [
+    'pictorial',
+    'pid',
+    'single-line',
+    'pfd',
+    'fluid-power',
+  ]) {
     const r = await call('new_scene', { drawing, id: `my-${drawing}` })
     assert.equal(r.error, false, r.text)
     assert.equal(r.data.drawing, drawing)
@@ -505,6 +511,7 @@ test('SFILES 2.0 flowsheets go in and out', async () => {
 test('each practice has a prompt that walks the job', async () => {
   const { prompts } = await client.listPrompts()
   assert.deepEqual(prompts.map((p) => p.name).sort(), [
+    'draw-fluid-power',
     'draw-pfd',
     'draw-pid',
     'draw-sheet',

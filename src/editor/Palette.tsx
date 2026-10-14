@@ -3,6 +3,7 @@
 
 import type { CSSProperties } from 'react'
 
+import { reachOf } from '../packs/catalogue.ts'
 import { PackSymbol } from '../packs/symbols.tsx'
 import { glyphFor } from '../parts/index.ts'
 import type { PartState } from '../sim/solver.ts'
@@ -61,8 +62,10 @@ function ItemIcon({
     behaviour: { role: 'bus' },
     class: item.class,
   }
+  // a wide symbol (a directional valve, a cylinder's rod) is shrunk to fit
+  const k = Math.min(0.8, 20 / reachOf(item.class))
   return (
-    <g transform="scale(0.8)">
+    <g transform={`scale(${+k.toFixed(3)})`}>
       <PackSymbol
         cls={item.class}
         name={item.name}

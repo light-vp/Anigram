@@ -39,7 +39,7 @@ export const MCP_TOOLS: Array<[string, string]> = [
   ['get_scene', 'a built-in sheet as JSON, the best example to copy'],
   [
     'new_scene',
-    'a working starter for a P&ID, single-line, PFD or pictorial sheet, with that practice’s rules',
+    'a working starter for a P&ID, single-line, PFD, fluid-power or pictorial sheet, with that practice’s rules',
   ],
   [
     'validate_scene',
@@ -106,7 +106,7 @@ export const SECTIONS: Section[] = [
         ],
       },
       {
-        p: '**start from** begins a new sheet from a starter: a pictorial sheet, a P&ID, a single-line diagram or a process flow diagram. On an engineering drawing the palette offers that practice’s symbols, tagged as they land (a pump arrives as `P-102`).',
+        p: '**start from** begins a new sheet from a starter: a pictorial sheet, a P&ID, a single-line diagram, a process flow diagram or a hydraulic circuit. On an engineering drawing the palette offers that practice’s symbols, tagged as they land (a pump arrives as `P-102`).',
       },
       {
         p: 'The checks beside the sheet are the ones the MCP server runs: whether it runs, whether its story holds, what a reviewing engineer would mark up, and whether the layout reads cleanly. Your sheet is kept in this browser between visits. Drop a scene file anywhere on the page to open it.',
@@ -138,7 +138,7 @@ export const SECTIONS: Section[] = [
         p: '“Draw a narrowboat with solar panels on the roof, a leisure battery and the engine’s alternator as backup. Check the battery runs flat overnight and the engine takes over, then give me a link.” The assistant reads the guide, writes the file, simulates a day, fixes the numbers until the story holds, and shares the link, which opens here.',
       },
       {
-        p: 'For an engineering drawing, the prompts `draw-pid`, `draw-single-line`, `draw-pfd` and `draw-sheet` hand the assistant that practice’s conventions and the way to work.',
+        p: 'For an engineering drawing, the prompts `draw-pid`, `draw-single-line`, `draw-pfd`, `draw-fluid-power` and `draw-sheet` hand the assistant that practice’s conventions and the way to work.',
       },
       { h: 'Tools' },
       {
@@ -314,11 +314,15 @@ export const SECTIONS: Section[] = [
               'IEC 60617 or ANSI/IEEE 315 symbols, IEC 81346 tags',
             ],
             ['process flow (`pfd`)', 'ISO 10628-1 major equipment and streams'],
+            [
+              'fluid power (`fluid-power`)',
+              'ISO 1219-1 hydraulic and pneumatic symbols, ISO 1219-2 layout and tags; cylinders stroke and valves shift as it runs',
+            ],
           ],
         },
       },
       {
-        p: `Engineering sheets carry an ISO 7200 title block and print on one page of ISO A paper. The drawing checks mark up what an engineer would: untagged equipment, unnumbered lines, a control valve no controller drives, a load with no breaker. Every symbol: [the symbol reference](${BLOB}/docs/reference/symbols.md).`,
+        p: `Engineering sheets carry an ISO 7200 title block and print on one page of ISO A paper. The drawing checks mark up what an engineer would: untagged equipment, unnumbered lines, a control valve no controller drives, a load with no breaker, a pump with no relief valve. Every symbol: [the symbol reference](${BLOB}/docs/reference/symbols.md).`,
       },
     ],
   },

@@ -38,7 +38,7 @@
  * The summary gives each practice its own line, so steering for one
  * practice can be tuned without hiding what it does to the others.
  *
- *   node eval/run.mjs --practice pid,single-line,pfd   # the engineering prompts
+ *   node eval/run.mjs --practice pid,single-line,pfd,fluid-power   # the engineering prompts
  */
 
 import { spawn } from 'node:child_process'

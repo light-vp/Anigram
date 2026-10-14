@@ -109,7 +109,7 @@ const server = new McpServer(
       'Anigram draws living diagrams: engineering sheets of real systems (power grids, solar houses, water towers, data centres) where every moving line is read off a flow simulation. ' +
       'A drawing is a JSON scene file. Call anigram_guide first for the format. Then: write the file (write_scene) with an `expect` list stating its story, check_scene until every expectation holds (simulate_scene shows the hour-by-hour numbers when one fails), ' +
       'render_scene to look at it (a PNG by default: check the layout reads cleanly), and share_link to open it live in the browser. Built-in sheets (list_scenes / get_scene) are good starting points to copy. ' +
-      "For an engineering drawing (a P&ID, a single-line diagram, a process flow diagram), start from new_scene with that `drawing`: it hands back a working starter and the practice's conventions. Before calling it done, run check_drawing (tags, line numbers, control loops, breakers, title block) and lint_layout (crossings, clashing labels); auto_layout lays a messy sheet out by its flow. export_dexpi hands a P&ID to plant design software; import_dexpi opens one from it, and import_sfiles / export_sfiles read and write a flowsheet in SFILES 2.0 notation. The draw-pid, draw-single-line, draw-pfd and draw-sheet prompts walk through the whole job.",
+      "For an engineering drawing (a P&ID, a single-line diagram, a process flow diagram, a fluid-power circuit), start from new_scene with that `drawing`: it hands back a working starter and the practice's conventions. Before calling it done, run check_drawing (tags, line numbers, control loops, breakers, title block) and lint_layout (crossings, clashing labels); auto_layout lays a messy sheet out by its flow. export_dexpi hands a P&ID to plant design software; import_dexpi opens one from it, and import_sfiles / export_sfiles read and write a flowsheet in SFILES 2.0 notation. The draw-pid, draw-single-line, draw-pfd, draw-fluid-power and draw-sheet prompts walk through the whole job.",
   },
 )
 
@@ -462,6 +462,7 @@ const DRAWING_NAMES: Record<DrawingType, string> = {
   pid: 'a P&ID',
   'single-line': 'a single-line diagram',
   pfd: 'a process flow diagram',
+  'fluid-power': 'a fluid-power circuit diagram',
 }
 
 server.registerTool(
@@ -469,7 +470,7 @@ server.registerTool(
   {
     title: 'Start a new sheet',
     description:
-      'A small, working starter for a drawing practice: pictorial (the default), pid, single-line or pfd. It validates with no warnings and its `expect` list holds, ' +
+      'A small, working starter for a drawing practice: pictorial (the default), pid, single-line, pfd or fluid-power. It validates with no warnings and its `expect` list holds, ' +
       "and it shows the practice's conventions (tags, classes, instruments, title block). Edit it into the system you were asked for. With `file`, it is also saved there.",
     inputSchema: {
       drawing: z
@@ -995,8 +996,8 @@ server.registerTool(
   {
     title: "Check a sheet against its practice's rules",
     description:
-      "For an engineering drawing (pid, single-line, pfd): what an engineer reviewing the sheet would mark up. Every equipment item tagged in the practice's scheme (ISA letters on a P&ID, IEC 81346 on a single-line), " +
-      'lines and streams numbered, control valves driven by a controller and loops sharing a number, feeders and generators behind a breaker, the title block filled. ' +
+      "For an engineering drawing (pid, single-line, pfd, fluid-power): what an engineer reviewing the sheet would mark up. Every equipment item tagged in the practice's scheme (ISA letters on a P&ID, IEC 81346 on a single-line, ISO 1219-2 codes on a fluid-power circuit), " +
+      'lines and streams numbered, control valves driven by a controller and loops sharing a number, feeders and generators behind a breaker, oil returning to a tank, pumps behind a relief valve, air exhausting through a silencer, the title block filled. ' +
       'Each finding names its rule and says how to fix it. Advisory by default: ok stays true. With `strict` (for CI and print-ready sheets), ok is false while any finding is left. ' +
       'A pictorial sheet has no practice rules and passes.',
     inputSchema: {
@@ -1032,7 +1033,7 @@ server.registerTool(
       const head = !v.scene
         ? `not valid — ${v.errors.length} error(s):\n- ${v.errors.join('\n- ')}`
         : drawing === 'pictorial'
-          ? 'a pictorial sheet: no drawing-practice rules to check (set `drawing` to pid, single-line or pfd)'
+          ? 'a pictorial sheet: no drawing-practice rules to check (set `drawing` to pid, single-line, pfd or fluid-power)'
           : findings.length
             ? `${findings.length} finding(s) on this sheet (${DRAWING_NAMES[drawing]})${strict ? '; strict, so each one fails the check' : ''}:`
             : `nothing to mark up: this sheet follows the practice of ${DRAWING_NAMES[drawing]}`
@@ -1095,15 +1096,15 @@ server.registerTool(
     title: 'Lay the sheet out by its flow',
     description:
       'Place every part on the grid by how things flow, as a drafter would: sources first, each step one column on, lines straight where they can be and turning square where they cannot, long links routed through empty cells, and P&ID instruments a row above what they serve. ' +
-      'Single-line diagrams run top to bottom (supply at the top, feeders dropping off the busbars, loads at the bottom); everything else runs left to right, or set `direction`. ' +
+      'Single-line diagrams run top to bottom (supply at the top, feeders dropping off the busbars, loads at the bottom); fluid-power circuits bottom to top (pump and tank at the bottom, actuators at the top); everything else runs left to right, or set `direction`. ' +
       'It rewrites `at`, `via`, `bend`, `labelSide`, instrument cells and `size`, and nothing else. With `file`, the file is updated in place. Returns the scene and a lint_layout of the result; nudge anything it leaves with edit_scene.',
     inputSchema: {
       ...sceneInput,
       direction: z
-        .enum(['right', 'down'])
+        .enum(['right', 'down', 'up'])
         .optional()
         .describe(
-          'which way the flow runs; default down for a single-line, right otherwise',
+          'which way the flow runs; default down for a single-line, up for a fluid-power circuit, right otherwise',
         ),
     },
     outputSchema: {
@@ -1141,7 +1142,7 @@ server.registerTool(
       return data(
         result,
         [
-          `laid out ${laid.direction === 'down' ? 'top to bottom' : 'left to right'} on a ${laid.scene.size.join('×')} grid; ${laid.moved.length} part(s) moved${result.saved ? `; saved to ${String(result.saved)}` : ''}`,
+          `laid out ${{ down: 'top to bottom', up: 'bottom to top', right: 'left to right' }[laid.direction]} on a ${laid.scene.size.join('×')} grid; ${laid.moved.length} part(s) moved${result.saved ? `; saved to ${String(result.saved)}` : ''}`,
           lintText(findings),
           JSON.stringify(out, null, 2),
         ].join('\n\n'),

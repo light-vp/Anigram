@@ -9,7 +9,7 @@
 - **[Parts](reference/parts.md)**: every kind of part, as the pictorial sheet
   draws it.
 - **[Engineering symbols](reference/symbols.md)**: every symbol class each
-  drawing practice draws (P&ID, single-line, PFD), in IEC and ANSI.
+  drawing practice draws (P&ID, single-line, PFD, fluid power), in IEC and ANSI.
 - **[MCP tools](reference/mcp-tools.md)**: every tool the `anigram-mcp`
   server offers, with its parameters and a real call and answer.
 - **[The MCP server](../mcp/README.md)**: installing it in Claude Code and

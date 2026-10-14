@@ -201,7 +201,13 @@ export type LabelSide = 'below' | 'above' | 'left' | 'right'
  * style; the others follow an engineering drawing practice, each drawn by
  * its own pack of symbols and rules (see src/packs).
  */
-export type DrawingType = 'pictorial' | 'pid' | 'single-line' | 'pfd'
+export type DrawingType =
+  | 'pictorial'
+  | 'pid'
+  | 'single-line'
+  | 'pfd'
+  /** a hydraulic or pneumatic circuit diagram (ISO 1219) */
+  | 'fluid-power'
 
 /** which symbol standard a single-line draws in */
 export type SymbolSet = 'iec' | 'ansi'

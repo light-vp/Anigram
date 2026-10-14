@@ -17,11 +17,19 @@ const VALUE = '000.0 kW'
  * keep lines from crossing, then line each part up with what feeds it.
  *
  * Single-lines run top to bottom, as they are drawn: supply at the top,
- * loads at the bottom, feeders dropping off the busbars. Everything else
- * runs left to right. React-free; the MCP server's auto_layout calls it.
+ * loads at the bottom, feeders dropping off the busbars. Fluid-power
+ * circuits run bottom to top, as ISO 1219-2 lays them out: the pump and
+ * tank at the bottom, the actuators at the top. Everything else runs left
+ * to right. React-free; the MCP server's auto_layout calls it.
  */
 
-export type Direction = 'right' | 'down'
+export type Direction = 'right' | 'down' | 'up'
+
+/** which way a sheet's flow runs when nobody says */
+const DIRECTION: Partial<Record<string, Direction>> = {
+  'single-line': 'down',
+  'fluid-power': 'up',
+}
 
 export interface LayoutResult {
   scene: Scene
@@ -35,8 +43,7 @@ type Cell = [number, number]
 const key = ([c, r]: Cell) => `${c},${r}`
 
 export function autoLayout(scene: Scene, direction?: Direction): LayoutResult {
-  const dir: Direction =
-    direction ?? (scene.drawing === 'single-line' ? 'down' : 'right')
+  const dir: Direction = direction ?? DIRECTION[scene.drawing ?? ''] ?? 'right'
   const eng = isEngineering(scene)
   const shown = shownParts(scene)
   const laid = scene.parts.filter((p) => !eng || shown.has(p.id))
@@ -208,7 +215,7 @@ export function autoLayout(scene: Scene, direction?: Direction): LayoutResult {
 
   // nothing else shares a busbar's line inside its reach: a part beside the
   // bar moves out past the feeders the bar has to stretch to
-  if (dir === 'down')
+  if (dir !== 'right')
     for (const l of layers) {
       const bars = l.filter(busbar)
       for (const b of bars) {
@@ -235,14 +242,16 @@ export function autoLayout(scene: Scene, direction?: Direction): LayoutResult {
     (p) => Math.max(p.label.length, (p.tag ?? '').length, VALUE.length) * 6.4,
   )
   const gap =
-    dir === 'down'
+    dir !== 'right'
       ? Math.max(
           1,
           Math.ceil(((TILE / 2 + 10 + Math.max(...words) + 16) / CELL) * 2) / 2,
         )
       : 1
+  // running up the sheet, the last layer is the top row
+  const top = layers.length - 1
   const cellOf = (id: string): Cell => {
-    const a = layer.get(id)!
+    const a = dir === 'up' ? top - layer.get(id)! : layer.get(id)!
     const b = place.get(id)! * gap + shift
     return dir === 'right' ? [a, b] : [b, a]
   }
@@ -354,7 +363,7 @@ export function autoLayout(scene: Scene, direction?: Direction): LayoutResult {
 
   // words go beside a part on a sheet that runs downwards, below otherwise
   for (const p of next.parts) {
-    if (dir === 'down' && !busbar(p.id)) p.labelSide = 'right'
+    if (dir !== 'right' && !busbar(p.id)) p.labelSide = 'right'
     else delete p.labelSide
   }
 

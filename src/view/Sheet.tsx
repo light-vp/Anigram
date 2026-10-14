@@ -47,7 +47,7 @@ import {
   EngPart,
   InstrumentLines,
 } from './engineering.tsx'
-import { busbarSpans, partWay, tapBusbars } from './lines.ts'
+import { busbarSpans, engPoints, partWay } from './lines.ts'
 import { Border, TitleBlock } from './TitleBlock.tsx'
 import { measuredPart } from '../sim/instruments.ts'
 
@@ -104,9 +104,7 @@ export function Sheet({
   const geometry = useMemo(
     () =>
       scene.links.map((l) =>
-        eng
-          ? tapBusbars(scene, l, linkPoints(scene, l, false))
-          : linkPoints(scene, l),
+        eng ? engPoints(scene, l) : linkPoints(scene, l),
       ),
     [scene, eng],
   )

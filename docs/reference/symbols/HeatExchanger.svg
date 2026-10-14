@@ -52,6 +52,8 @@
 .ln.alarm, .alarmStroke { stroke: var(--alarm); }
 .ln.live { stroke: var(--muted); stroke-dasharray: 2 3; }
 .lvl { fill: var(--water); opacity: 0.35; stroke: none; }
+.lvl.oil { fill: var(--oil); }
+.lvl.air { fill: var(--air); }
 .lvl.low { fill: var(--alarm); }
 .symText { font-size: 13px; font-weight: 600; fill: var(--ink); text-anchor: middle; dominant-baseline: central; }
 .symText.small { font-size: 8.5px; font-weight: 500; }
@@ -62,6 +64,8 @@
 .eng .route.data { stroke-width: 1.6; stroke-dasharray: 0.1 5; }
 .eng .route.pneumatic { stroke-width: 1; }
 .eng .route.idle { stroke: var(--muted); }
+.eng .shaft { fill: none; stroke: var(--ink); stroke-width: 4; }
+.eng .shaftCore { fill: none; stroke: var(--paper); stroke-width: 2; }
 .eng .arrow { fill: var(--ink); }
 .eng .arrow.idle { fill: var(--paper); stroke: var(--muted); stroke-width: 1; }
 .eng .conn { fill: none; stroke: var(--ink); stroke-width: 1; }

@@ -59,24 +59,24 @@ battery, and the engine as backup — check the battery runs flat overnight."_
 The server gives the assistant the scene format, validation with readable
 errors, a headless day of simulation, SVG rendering and share links:
 
-| Tool                              |                                                                     |
-| --------------------------------- | ------------------------------------------------------------------- |
-| `anigram_guide`                   | the format, every drawable part, the signal functions               |
-| `list_scenes` / `get_scene`       | the built-in sheets, as JSON to copy from                           |
-| `new_scene`                       | a working starter for a P&ID, single-line, PFD or pictorial sheet   |
-| `validate_scene`                  | errors and warnings, each pinned to the part it's about             |
-| `write_scene` / `edit_scene`      | save a scene file, or patch parts and links in place                |
-| `check_scene`                     | valid, and every claim in its `expect` list holds                   |
-| `check_drawing`                   | what an engineer would mark up: tags, line numbers, loops, breakers |
-| `lint_layout` / `auto_layout`     | lines crossing, labels clashing; or lay the sheet out by its flow   |
-| `export_dexpi`                    | a P&ID as DEXPI Proteus XML, for plant design software              |
-| `import_dexpi`                    | open a DEXPI P&ID from plant design software as a living sheet      |
-| `import_sfiles` / `export_sfiles` | a flowsheet in SFILES 2.0 notation in, or out                       |
-| `simulate_scene`                  | 24 hours, hour by hour, with every alert and shortfall              |
-| `render_scene`                    | the sheet at any hour: a PNG to look at, an SVG, or a PDF to print  |
-| `share_link`                      | a URL that opens it live; the scene rides in the link               |
+| Tool                              |                                                                                |
+| --------------------------------- | ------------------------------------------------------------------------------ |
+| `anigram_guide`                   | the format, every drawable part, the signal functions                          |
+| `list_scenes` / `get_scene`       | the built-in sheets, as JSON to copy from                                      |
+| `new_scene`                       | a working starter for a P&ID, single-line, PFD, fluid-power or pictorial sheet |
+| `validate_scene`                  | errors and warnings, each pinned to the part it's about                        |
+| `write_scene` / `edit_scene`      | save a scene file, or patch parts and links in place                           |
+| `check_scene`                     | valid, and every claim in its `expect` list holds                              |
+| `check_drawing`                   | what an engineer would mark up: tags, line numbers, loops, breakers            |
+| `lint_layout` / `auto_layout`     | lines crossing, labels clashing; or lay the sheet out by its flow              |
+| `export_dexpi`                    | a P&ID as DEXPI Proteus XML, for plant design software                         |
+| `import_dexpi`                    | open a DEXPI P&ID from plant design software as a living sheet                 |
+| `import_sfiles` / `export_sfiles` | a flowsheet in SFILES 2.0 notation in, or out                                  |
+| `simulate_scene`                  | 24 hours, hour by hour, with every alert and shortfall                         |
+| `render_scene`                    | the sheet at any hour: a PNG to look at, an SVG, or a PDF to print             |
+| `share_link`                      | a URL that opens it live; the scene rides in the link                          |
 
-Each practice also has a prompt (`draw-pid`, `draw-single-line`, `draw-pfd`,
+Each practice also has a prompt (`draw-pid`, `draw-single-line`, `draw-pfd`, `draw-fluid-power`,
 `draw-sheet`) that carries its conventions. Setup for other clients is in [mcp/README.md](mcp/README.md). An example the
 server made: [examples/narrowboat.json](examples/narrowboat.json).
 
@@ -100,7 +100,7 @@ opens whatever sheet is on screen in it, and `?build=1` opens it from any
 link. It edits the scene file itself: open a file an assistant wrote (or a
 `share_link` with `view: "editor"`), move parts, tag them, write their
 signals, and **save file** hands back the same JSON with only your changes in
-it. On a P&ID, single-line or PFD the palette offers that practice's symbols,
+it. On a P&ID, single-line, PFD or fluid-power circuit the palette offers that practice's symbols,
 tagged as they land (a pump arrives as `P-102`), and the checks beside the
 sheet are the ones the MCP server runs: whether it runs, whether its story
 holds, what a reviewing engineer would mark up, and whether the layout reads
@@ -159,25 +159,25 @@ npm run simulate examples/narrowboat.json   # a scene file
 
 The URL is the API:
 
-| Param               |                                                                                                                                |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| (nothing)           | the editor, on the sheet you left                                                                                              |
-| `examples`          | the built-in sheets, running, with their dials                                                                                 |
-| `docs`              | how it works, the MCP server and this table; `?docs#mcp` opens at the MCP server                                               |
-| `scene=<id>`        | `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre` (the old `cdn` / `microservices` / `oauth2` ids still resolve) |
-| `embed=1`           | just the sheet and a play bar; `embed=presentation` is the same                                                                |
-| `embed=app`         | the full app without its header                                                                                                |
-| `screen=1`          | wall-screen tour                                                                                                               |
-| `build=1`           | the editor, on `scene=<id>`, a `#scene=` link, or the sheet you left; `drawing=pid` (or `single-line`, `pfd`) starts one       |
-| `embed=build`       | the editor without its header                                                                                                  |
-| `theme=light\|dark` | the sheet's palette (`paper` and `blueprint` still work)                                                                       |
-| `mode=paper`        | frozen and labelled                                                                                                            |
-| `t=18.5`            | open at 18:30                                                                                                                  |
-| `speed=4`           | clock multiplier                                                                                                               |
-| `credit=0`          | leave off the "Made with Anigram · Vaibhav Patel" line (the downloaded SVG too)                                                |
-| `#scene=…`          | a whole scene file, deflated and base64url'd — what **⧉ link** and the MCP server's `share_link` write                         |
-| `paused=1`          | open with the clock stopped                                                                                                    |
-| `controls=0`        | leave off the play bar                                                                                                         |
+| Param               |                                                                                                                                                  |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| (nothing)           | the editor, on the sheet you left                                                                                                                |
+| `examples`          | the built-in sheets, running, with their dials                                                                                                   |
+| `docs`              | how it works, the MCP server and this table; `?docs#mcp` opens at the MCP server                                                                 |
+| `scene=<id>`        | `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`, `garden-machine` (the old `cdn` / `microservices` / `oauth2` ids still resolve) |
+| `embed=1`           | just the sheet and a play bar; `embed=presentation` is the same                                                                                  |
+| `embed=app`         | the full app without its header                                                                                                                  |
+| `screen=1`          | wall-screen tour                                                                                                                                 |
+| `build=1`           | the editor, on `scene=<id>`, a `#scene=` link, or the sheet you left; `drawing=pid` (or `single-line`, `pfd`, `fluid-power`) starts one          |
+| `embed=build`       | the editor without its header                                                                                                                    |
+| `theme=light\|dark` | the sheet's palette (`paper` and `blueprint` still work)                                                                                         |
+| `mode=paper`        | frozen and labelled                                                                                                                              |
+| `t=18.5`            | open at 18:30                                                                                                                                    |
+| `speed=4`           | clock multiplier                                                                                                                                 |
+| `credit=0`          | leave off the "Made with Anigram · Vaibhav Patel" line (the downloaded SVG too)                                                                  |
+| `#scene=…`          | a whole scene file, deflated and base64url'd — what **⧉ link** and the MCP server's `share_link` write                                           |
+| `paused=1`          | open with the clock stopped                                                                                                                      |
+| `controls=0`        | leave off the play bar                                                                                                                           |
 
 ### Without an iframe
 
