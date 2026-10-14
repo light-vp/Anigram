@@ -106,10 +106,14 @@
       "class": "ReliefValve",
       "at": [0, 3],
       "labelSide": "right",
-      "note": "Shut while the cylinder takes the flow; lifts to pass it back to tank at the end of a stroke and while the valve is centred.",
+      "note": "Set to 150 bar. Shut while the cylinder takes the flow; lifts to pass it back to tank at the end of a stroke and while the valve is centred.",
       "behaviour": {
         "role": "gate",
-        "capacity": 60
+        "capacity": 40,
+        "relief": {
+          "at": 150,
+          "full": 160
+        }
       }
     },
     {
@@ -119,7 +123,7 @@
       "at": [0, 4],
       "behaviour": {
         "role": "sink",
-        "demand": 60,
+        "demand": 40,
         "absorbsSurplus": true
       }
     },
@@ -139,6 +143,10 @@
           "oil": 1
         },
         "capacity": 40
+      },
+      "effort": {
+        "boost": "200 - 60 * pow(part('pump').out / 40, 2)",
+        "max": 190
       }
     },
     {
@@ -237,13 +245,13 @@
   ],
   "expect": [
     {
-      "says": "On its way out the ram takes the whole of the pump’s flow, and the relief valve stays shut",
-      "check": "part('cylinder').in > 39 && part('relief').out < 0.01",
+      "says": "On its way out the ram takes the whole of the pump’s flow, and the relief valve stays shut below 150 bar",
+      "check": "part('cylinder').in > 39 && part('relief').out < 0.01 && part('tee').effort < 150",
       "at": 8
     },
     {
-      "says": "The ram goes all the way out and holds there, with the pump’s flow going over the relief valve",
-      "check": "part('cylinder').fill > 0.95 && part('relief').out > 39",
+      "says": "The ram goes all the way out and holds there, with the pump’s flow going over the relief valve at just above its 150 bar",
+      "check": "part('cylinder').fill > 0.95 && part('relief').out > 30 && between(part('tee').effort, 150, 165)",
       "at": 9
     },
     {

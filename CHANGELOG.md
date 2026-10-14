@@ -17,7 +17,7 @@ entry says so under **Changed**.
 
 ## Unreleased
 
-Real plants in, and the editor as the home page.
+Real plants in, pressure and voltage, event chains, fluid-power circuits, an embeddable element, and the editor as the home page.
 
 ### Added
 
@@ -44,7 +44,8 @@ Real plants in, and the editor as the home page.
   gauges. Working lines solid, pilot and drain lines dashed, shafts double.
   Pictorial parts to match (`cylinder`, `powerpack`, `dcv`, `accumulator`,
   `compressor`, `motor`, `oiltank`), a `draw-fluid-power` prompt, a
-  hydraulic press starter (also `examples/hydraulic-press.json`), and
+  hydraulic press starter (also `examples/hydraulic-press.json`) whose
+  relief valve holds the line at 150 bar, and
   checks that oil returns to a reservoir, a pump has a relief valve before
   its directional valve, and exhaust air leaves through a silencer.
   `auto_layout` lays a circuit out bottom to top (`direction: "up"`).

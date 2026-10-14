@@ -126,7 +126,7 @@ test('the guide covers the format, the functions and the parts', async () => {
 
 test('built-in sheets come back as scene files', async () => {
   const list = await call('list_scenes')
-  assert.equal(list.data.scenes.length, 5)
+  assert.equal(list.data.scenes.length, 6)
   assert.deepEqual(JSON.parse(list.text), list.data)
   const grid = await call('get_scene', { id: 'grid' })
   assert.equal(grid.data.sheet, 'LD-001')

@@ -27,6 +27,9 @@
 .label { font-size: 11.5px; font-weight: 550; fill: var(--ink); }
 .value { font-size: 10.5px; fill: var(--muted); font-variant-numeric: tabular-nums; }
 .value.bad { fill: var(--alarm); }
+.chainArrow { fill: none; stroke: var(--muted); stroke-width: 1.25; stroke-dasharray: 3 4; opacity: 0.55; }
+.chainArrow.live { stroke: var(--lit); opacity: 1; stroke-dasharray: none; stroke-width: 1.75; }
+.chainRing { fill: none; stroke: var(--lit); stroke-width: 2; }
 
 .route { fill: none; stroke: var(--line); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .route.loss { stroke-dasharray: 1 5; stroke-width: 1.5; stroke: var(--muted); opacity: 0.6; }

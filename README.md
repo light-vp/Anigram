@@ -24,15 +24,16 @@ embed it, build on it.
 
 <p align="center"><img src="docs/sheet-grid.png" alt="The power grid sheet in paper mode at 18:00: every flow labelled in megawatts, from gas field and reactor core through the transmission line to the city, hospital and steelworks." width="900"></p>
 
-## Five sheets to start
+## Six sheets to start
 
-| Sheet                          | What it shows                                                                                                                                                        | Poke it                                               |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
-| **LD-001 The power grid**      | gas, nuclear and wind feeding a city; pumped hydro storing night-time surplus for the evening peak; two thirds of a reactor's heat leaving through the cooling tower | trip the transmission breaker; change wind and demand |
-| **LD-002 A solar house**       | panels → inverter → consumer unit; a battery that only fills from spare sun; a heat pump pulling free heat out of cold air; import and export                        | plug the car in; add cloud; make it colder            |
-| **LD-003 A town's water**      | borehole pump, treatment, a water tower on a float switch, gravity doing the rest; leaks                                                                             | open the fire hydrant; grow the town                  |
-| **LD-004 A hydroelectric dam** | rain into a reservoir, a turbine into a town, and the spillway in a storm                                                                                            | shut the intake gate; make it rain                    |
-| **LD-005 A data centre**       | electricity in, requests and heat out; UPS batteries bridging the minutes a diesel needs to start                                                                    | trip the mains; push traffic past capacity            |
+| Sheet                                  | What it shows                                                                                                                                                        | Poke it                                               |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| **LD-001 The power grid**              | gas, nuclear and wind feeding a city; pumped hydro storing night-time surplus for the evening peak; two thirds of a reactor's heat leaving through the cooling tower | trip the transmission breaker; change wind and demand |
+| **LD-002 A solar house**               | panels → inverter → consumer unit; a battery that only fills from spare sun; a heat pump pulling free heat out of cold air; import and export                        | plug the car in; add cloud; make it colder            |
+| **LD-003 A town's water**              | borehole pump, treatment, a water tower on a float switch, gravity doing the rest; leaks                                                                             | open the fire hydrant; grow the town                  |
+| **LD-004 A hydroelectric dam**         | rain into a reservoir, a turbine into a town, and the spillway in a storm                                                                                            | shut the intake gate; make it rain                    |
+| **LD-005 A data centre**               | electricity in, requests and heat out; UPS batteries bridging the minutes a diesel needs to start                                                                    | trip the mains; push traffic past capacity            |
+| **LD-006 A garden that waters itself** | an event chain: sun starts the pump, a float stops it, a timer opens the sprinkler on tank pressure                                                                  | cloud the sky; watch every link wait for it           |
 
 ## One drawing, three media
 
@@ -234,7 +235,7 @@ npm run format     # prettier --write .
 src/
   sim/      the rulebook — React-free, runs in node: types, solver, signal expressions, clock, day curves
   format/   scene files: validation, a headless day report, share links
-  scenes/   the five sheets, as data
+  scenes/   the six sheets, as data
   parts/    the glyph library: one SVG function per kind of part
   view/     the drawing sheet: geometry, palette, labels and flow tags, the title block
   app/      the workbench, embed and screen views, URL params, export
