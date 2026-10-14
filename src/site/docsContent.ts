@@ -340,6 +340,8 @@ export const SECTIONS: Section[] = [
             ['`mode=paper`', 'frozen, every flow labelled, ready to print'],
             ['`t=18.5`, `speed=4`', 'open at 18:30; run four times as fast'],
             ['`credit=0`', 'leave off the “Made with Anigram” line'],
+            ['`paused=1`', 'open with the clock stopped'],
+            ['`controls=0`', 'leave off the play bar'],
           ],
         },
       },
@@ -347,6 +349,54 @@ export const SECTIONS: Section[] = [
         code: `<iframe src="https://anigram.vaibhav.co.uk/?embed=1&scene=grid"
   title="The power grid" loading="lazy"
   style="width:100%;aspect-ratio:16/10;border:0"></iframe>`,
+      },
+      { h: 'Without an iframe: <living-diagram>' },
+      {
+        p: 'One script defines a `<living-diagram>` element that runs a sheet right in your page. It sits in its own shadow root, so your CSS can’t break the drawing and its CSS can’t leak into your page. It is as wide as its container and as tall as the sheet’s proportions make it, and it loads no analytics.',
+      },
+      {
+        code: `<script type="module" src="https://anigram.vaibhav.co.uk/living-diagram.js"></script>
+
+<living-diagram scene="water-tower"></living-diagram>`,
+      },
+      {
+        code: `<living-diagram src="./my-plant.json" theme="auto" hour="18"></living-diagram>
+
+<living-diagram>
+  <script type="application/json">{ "anigram": 1, ...your scene... }</script>
+</living-diagram>`,
+      },
+      {
+        table: {
+          head: ['attribute', 'does'],
+          rows: [
+            [
+              '`src`',
+              'the URL of a scene file (your server must allow the fetch)',
+            ],
+            [
+              '`scene`',
+              'a built-in sheet: `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`',
+            ],
+            ['`share`', 'a `#scene=…` share link, or just the text after it'],
+            [
+              '`<script type="application/json">`',
+              'a whole scene file inside the element',
+            ],
+            [
+              '`theme`',
+              '`light` (default), `dark`, or `auto` to follow the reader’s system',
+            ],
+            ['`hour`, `speed`', 'open at that hour; clock multiplier'],
+            ['`paused`', 'open with the clock stopped'],
+            ['`controls="false"`', 'leave off the play bar'],
+            ['`credit="false"`', 'leave off the “Made with Anigram” line'],
+            ['`mode="paper"`', 'frozen, every flow labelled'],
+          ],
+        },
+      },
+      {
+        p: 'The first of `src`, `share`, an inline script and `scene` wins. Every scene is validated first: a bad one shows what is wrong in place of the sheet and fires an `error` event (`event.detail.errors`). A good one fires `load` with its `id` and `title`. Changing an attribute changes the running sheet.',
       },
     ],
   },
@@ -366,6 +416,7 @@ export const SECTIONS: Section[] = [
   view/     the drawing sheet: geometry, labels, title block, auto layout, layout lint
   packs/    the drawing practices: classes, symbols, starters, house-rule checks
   app/      the examples, embed and screen views, URL params
+  element/  the <living-diagram> web component
   editor/   the editor: pure edits on a scene file, palettes, history
   site/     the header and these docs
 mcp/        the MCP server (one bundled file, plus PNG and PDF renderers)
@@ -405,7 +456,7 @@ npm run eval       # a real assistant builds sheets (costs tokens)`,
           'Effort as well as flow: pressure, voltage and temperature, so a pipe can be undersized and a feeder can sag.',
           'Hydraulic and pneumatic parts after ISO 1219.',
           'Event chains: trip the breaker at 18:00, and watch what follows.',
-          'Storyboards exported as GIF or MP4, a hosted MCP endpoint, and a `<living-diagram>` web component.',
+          'Storyboards exported as GIF or MP4, and a hosted MCP endpoint.',
         ],
       },
       { p: `The full plan: [ROADMAP.md](${BLOB}/ROADMAP.md).` },

@@ -35,6 +35,12 @@ Real plants in, and the editor as the home page.
 - **P&ID symbols:** `ButterflyValve` (its disc turns as it shuts) and
   `SafetyValve`, both also exported to DEXPI.
 - `npm run bench` times the solver on a 288-part town.
+- **`<living-diagram>`**, a web component for pages that can't use an
+  iframe: one script, then `<living-diagram src="plant.json">` (or
+  `scene=`, `share=`, or the scene inline). It runs in its own shadow root,
+  sizes to the sheet, follows `theme="auto"`, and shows what's wrong with a
+  bad scene instead of a blank box. No analytics.
+- Embeds take `?paused=1` and `?controls=0`.
 
 ### Changed
 
