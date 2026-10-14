@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { compileExpr } from '../sim/expr.ts'
+import { compileExpr, NEVER } from '../sim/expr.ts'
 import type { Env, Expectation, Scene } from '../sim/types.ts'
 import type { Controls, DayReport, HourRow } from './report.ts'
 
@@ -40,7 +40,8 @@ function window(e: Expectation, hours: number[]): number[] {
 }
 
 /** every part('id').field an expression reads, for explaining a failure */
-const READ = /part\(\s*(['"])([^'"]+)\1\s*\)\s*\.\s*(in|out|fill|demand)/g
+const READ =
+  /part\(\s*(['"])([^'"]+)\1\s*\)\s*\.\s*(in|out|fill|demand|effort)/g
 
 export function checkExpectations(
   scene: Scene,
@@ -67,7 +68,18 @@ export function checkExpectations(
         effort: s?.effort ?? NaN,
       }
     }
-    return { hour: hourOf(row), day: 0, knob, on, prev: read, part: read }
+    const c = row.controls
+    return {
+      hour: hourOf(row),
+      day: 0,
+      knob: c ? (id) => c.knobs[id] ?? knob(id) : knob,
+      on: c ? (id) => c.switches[id] ?? on(id) : on,
+      prev: read,
+      part: read,
+      // an event "fired" at an hour if it fired within the hour before it
+      fired: (id) => ((row.since?.[id] ?? NEVER) < 1 ? 1 : 0),
+      since: (id) => row.since?.[id] ?? NEVER,
+    }
   }
 
   return (scene.expect ?? []).map((e) => {

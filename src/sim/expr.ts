@@ -26,8 +26,9 @@ import type { Env } from './types.ts'
  *
  * The language is arithmetic, comparisons, `&&` `||` `!`, a ternary, and a
  * fixed set of functions. There is no assignment, no loops, no property access
- * except `.in` `.out` `.fill` on `prev()` (and `.demand` on `part()`, which
- * only a scene's `expect` checks can use), and nothing reaches JavaScript — it
+ * except `.in` `.out` `.fill` `.effort` on `prev()` (and `.demand` on
+ * `part()`, which reads a part as it is now and only some expressions may
+ * use), and nothing reaches JavaScript — it
  * is parsed here and evaluated by walking the tree, so a scene file from a
  * stranger can't run code.
  */
@@ -40,9 +41,14 @@ export interface Refs {
   switches: Set<string>
   /** read with prev() */
   parts: Set<string>
-  /** read with part(), which only `expect` checks may use */
+  /** read with part(), which only some expressions may use */
   reads: Set<string>
+  /** events read with fired() or since() */
+  events: Set<string>
 }
+
+/** what since() reads for an event that hasn't fired: a long time ago */
+export const NEVER = 1e9
 
 export class ExprError extends Error {
   readonly at: number
@@ -128,16 +134,24 @@ export const FUNCTIONS: Record<
   on: { args: [1, 1], doc: "on('id'): 1 if a switch is on, else 0" },
   prev: {
     args: [1, 1],
-    doc: "prev('id').in | .out | .fill: another part as it was last tick",
+    doc: "prev('id').in | .out | .fill | .effort: another part as it was last tick",
   },
   part: {
     args: [1, 1],
-    doc: "part('id').in | .out | .fill | .demand: a part right now — only in a scene's `expect` checks and an instrument's `reads`",
+    doc: "part('id').in | .out | .fill | .demand | .effort: a part right now — only in `expect` checks, an instrument's `reads`, an event's `when`, and a part's `effort`",
+  },
+  fired: {
+    args: [1, 1],
+    doc: "fired('id'): 1 in the tick after an event fires, else 0 — how one event follows another",
+  },
+  since: {
+    args: [1, 1],
+    doc: "since('id'): hours since an event last fired; very large if it hasn't",
   },
 }
 
-const PREV_FIELDS: readonly Field[] = ['in', 'out', 'fill']
-const PART_FIELDS: readonly Field[] = ['in', 'out', 'fill', 'demand']
+const PREV_FIELDS: readonly Field[] = ['in', 'out', 'fill', 'effort']
+const PART_FIELDS: readonly Field[] = ['in', 'out', 'fill', 'demand', 'effort']
 const fieldList = (fs: readonly Field[]) =>
   fs
     .map((f) => `.${f}`)
@@ -161,7 +175,7 @@ type Node =
   | { t: 'bin'; op: string; a: Node; b: Node }
   | { t: 'if'; c: Node; a: Node; b: Node }
 
-type Field = 'in' | 'out' | 'fill' | 'demand'
+type Field = 'in' | 'out' | 'fill' | 'demand' | 'effort'
 
 type Tok = { k: 'num' | 'str' | 'id' | 'op' | 'end'; v: string; at: number }
 
@@ -339,7 +353,9 @@ function parse(src: string): Node {
           `${tok.v}() takes ${lo === hi ? lo : `${lo}–${hi}`} argument${hi === 1 ? '' : 's'}`,
           tok.at,
         )
-      const named = ['knob', 'on', 'prev', 'part'].includes(tok.v)
+      const named = ['knob', 'on', 'prev', 'part', 'fired', 'since'].includes(
+        tok.v,
+      )
       if (named !== (args[0]?.t === 'str'))
         throw new ExprError(
           named
@@ -399,6 +415,12 @@ function build(n: Node): Compiled {
         const id = (n.args[0] as { v: string }).v
         return n.name === 'knob' ? (e) => e.knob(id) : (e) => (e.on(id) ? 1 : 0)
       }
+      if (n.name === 'fired' || n.name === 'since') {
+        const id = (n.args[0] as { v: string }).v
+        return n.name === 'fired'
+          ? (e) => e.fired?.(id) ?? 0
+          : (e) => e.since?.(id) ?? NEVER
+      }
       const fn = FUNCTIONS[n.name]!.fn!
       const args = n.args.map(build)
       return (e) => fn(...args.map((a) => a(e)))
@@ -454,6 +476,8 @@ function collect(n: Node, refs: Refs) {
     if (id !== null && n.name === 'on') refs.switches.add(id)
     if (id !== null && n.name === 'prev') refs.parts.add(id)
     if (id !== null && n.name === 'part') refs.reads.add(id)
+    if (id !== null && (n.name === 'fired' || n.name === 'since'))
+      refs.events.add(id)
     n.args.forEach((a) => collect(a, refs))
   } else if (n.t === 'field') collect(n.of, refs)
   else if (n.t === 'un') collect(n.a, refs)
@@ -491,6 +515,7 @@ export function exprRefs(src: string): Refs {
     switches: new Set(),
     parts: new Set(),
     reads: new Set(),
+    events: new Set(),
   }
   collect(parse(src), refs)
   return refs

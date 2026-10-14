@@ -43,6 +43,11 @@ const signal: Schema = {
     'a number, or an expression of the hour and the controls, like "32 * sun(hour) * (1 - 0.85 * knob(\'cloud\'))"',
   anyOf: [num, { type: 'string', minLength: 1, maxLength: MAX_EXPR_LENGTH }],
 }
+const nowSignal: Schema = {
+  ...signal,
+  description:
+    "a number, or an expression read once the tick's flows are in, so part('id') reads a part as it is now",
+}
 const byDomain = (value: Schema): Schema => ({
   type: 'object',
   propertyNames: domain,
@@ -91,7 +96,22 @@ const behaviours: Record<(typeof ROLES)[number], Schema> = {
   bus: object(FIELDS.bus, { role: { const: 'bus' } }, ['role']),
   gate: object(
     FIELDS.gate,
-    { role: { const: 'gate' }, capacity: { ...num, minimum: 0 }, open: signal },
+    {
+      role: { const: 'gate' },
+      capacity: { ...num, minimum: 0 },
+      open: signal,
+      relief: object(
+        FIELDS.relief,
+        {
+          at: { ...num, minimum: 0, description: 'the effort it lifts at' },
+          full: {
+            ...num,
+            description: 'where it is wide open; 10% over `at` if left out',
+          },
+        },
+        ['at'],
+      ),
+    },
     ['role', 'capacity'],
   ),
   converter: object(
@@ -154,7 +174,7 @@ export function sceneSchema(): Schema {
         drawing: {
           enum: [...DRAWINGS],
           description:
-            'the drawing practice the sheet follows: pictorial (the default), pid, single-line or pfd',
+            'the drawing practice the sheet follows: pictorial (the default), pid, single-line, pfd or fluid-power',
         },
         symbols: {
           enum: ['iec', 'ansi'],
@@ -186,7 +206,19 @@ export function sceneSchema(): Schema {
           description: 'grid columns × rows',
         },
         units: byDomain(
-          object(FIELDS.units, { rate: str, amount: str }, ['rate', 'amount']),
+          object(
+            FIELDS.units,
+            {
+              rate: str,
+              amount: str,
+              effort: {
+                ...str,
+                description:
+                  "the effort's unit, like bar, V or °C; the domain's usual one when left out",
+              },
+            },
+            ['rate', 'amount'],
+          ),
         ),
         scale: byDomain({ ...num, exclusiveMinimum: 0 }),
         parts: {
@@ -218,6 +250,30 @@ export function sceneSchema(): Schema {
                 description:
                   "what exactly it is in the drawing practice's vocabulary, like CentrifugalPump; picks the symbol",
               },
+              effort: object(FIELDS.effort, {
+                set: {
+                  ...nowSignal,
+                  description:
+                    'holds its outlet at this pressure, voltage or temperature',
+                },
+                boost: {
+                  ...nowSignal,
+                  description: "adds this to what arrives, like a pump's head",
+                },
+                ratio: {
+                  ...num,
+                  minimum: 0,
+                  description:
+                    "multiplies what arrives, like a transformer's turns ratio",
+                },
+                drop: {
+                  ...num,
+                  minimum: 0,
+                  description: 'lost through the part at its full capacity',
+                },
+                min: { ...num, description: 'alarm below this' },
+                max: { ...num, description: 'alarm above this' },
+              }),
             },
             ['id', 'kind', 'label', 'at', 'behaviour'],
           ),
@@ -242,6 +298,12 @@ export function sceneSchema(): Schema {
               tag: {
                 ...str,
                 description: 'its line number, like 50-W-101',
+              },
+              drop: {
+                ...num,
+                minimum: 0,
+                description:
+                  'effort lost along it when it carries its capacity: volts down a cable, bar along a pipe',
               },
             },
             ['from', 'to', 'domain'],
@@ -322,6 +384,54 @@ export function sceneSchema(): Schema {
               text: str,
             },
             ['from', 'to', 'text'],
+          ),
+        },
+        events: {
+          type: 'array',
+          description:
+            "cause and effect: each event flips a switch or sets a knob when its condition turns true; the next can follow it with fired('id')",
+          items: object(
+            FIELDS.event,
+            {
+              id: str,
+              says: { ...str, description: 'what happens, in words' },
+              when: {
+                type: 'string',
+                minLength: 1,
+                maxLength: MAX_EXPR_LENGTH,
+                description:
+                  'fires each time this turns true, like "part(\'tank\').fill > 0.9" or "fired(\'ball\')"',
+              },
+              after: {
+                ...num,
+                minimum: 0,
+                description: 'hours it waits before acting',
+              },
+              then: {
+                type: 'array',
+                minItems: 1,
+                items: {
+                  oneOf: [
+                    object(
+                      FIELDS.switchAction,
+                      { switch: str, on: { type: 'boolean' } },
+                      ['switch', 'on'],
+                    ),
+                    object(FIELDS.knobAction, { knob: str, value: num }, [
+                      'knob',
+                      'value',
+                    ]),
+                  ],
+                },
+              },
+              at: { ...str, description: 'the part it happens at' },
+              once: {
+                type: 'boolean',
+                description:
+                  'fire at most once; otherwise it re-arms when its condition turns false',
+              },
+            },
+            ['id', 'says', 'when', 'then'],
           ),
         },
         expect: {

@@ -69,11 +69,21 @@ test('an instrument with an explicit reading uses it', () => {
   const sim = new Simulation(validateScene(raw).scene!)
   sim.tick(0.1)
   assert.ok(sim.frame.instruments['JI-103']! >= 0)
-  // a pressure gauge with no reading given reads nothing, but still draws
+  // on a sheet that sets no pressures, a pressure gauge with no reading
+  // given reads nothing, but still draws
   raw.instruments.push({ tag: 'PI-104', at: [3, 0], measures: 'pump' })
   const v = validateScene(raw)
   assert.ok(v.ok)
   assert.equal(new Simulation(v.scene!).frame.instruments['PI-104'], undefined)
+  // once the pump has a head, it reads the pressure the pump makes
+  const pump = raw.parts.find((p: { id: string }) => p.id === 'pump')
+  pump.effort = { boost: 3 }
+  raw.units.water.effort = 'bar'
+  const withHead = validateScene(raw)
+  assert.deepEqual(withHead.errors, [])
+  const sim2 = new Simulation(withHead.scene!)
+  assert.equal(sim2.frame.instruments['PI-104'], sim2.frame.parts.pump!.effort)
+  assert.ok(sim2.frame.parts.pump!.effort >= 3)
 })
 
 test('instruments are checked against the parts they are wired to', () => {

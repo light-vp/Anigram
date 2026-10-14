@@ -108,15 +108,15 @@ test('part() reads a part as it is now, with .demand, for expect checks', () => 
   )
   assert.throws(
     () => compileExpr("prev('x').demand"),
-    /only \.in, \.out or \.fill can follow prev\(\)/,
+    /only \.in, \.out, \.fill or \.effort can follow prev\(\)/,
   )
   assert.throws(
     () => compileExpr("part('x')"),
-    /needs a field: \.in, \.out, \.fill or \.demand/,
+    /needs a field: \.in, \.out, \.fill, \.demand or \.effort/,
   )
   assert.throws(
     () => compileExpr("part('x').level"),
-    /\.demand can follow part\(\)/,
+    /\.effort can follow part\(\)/,
   )
 })
 
@@ -132,4 +132,28 @@ test('runaway expressions are refused, not crashed on', () => {
   )
   assert.throws(() => compileExpr('-'.repeat(200) + '1'), ExprError)
   assert.throws(() => compileExpr('1+'.repeat(1500) + '1'), /characters long/)
+})
+
+test('fired() and since() read events, and effort is a field', () => {
+  const r = exprRefs("fired('ball') || since('lever') < 0.5")
+  assert.deepEqual([...r.events].sort(), ['ball', 'lever'])
+  const fn = compileExpr("fired('ball') + since('lever') + prev('p').effort")
+  const env = {
+    hour: 0,
+    day: 0,
+    knob: () => 0,
+    on: () => false,
+    prev: () => ({ in: 0, out: 0, fill: 0, effort: 3 }),
+  }
+  assert.equal(
+    fn({
+      ...env,
+      fired: () => 1,
+      since: (id: string) => (id === 'lever' ? 2 : 0),
+    }),
+    6,
+  )
+  // with no events running, nothing has fired, long ago
+  assert.equal(compileExpr("since('x') > 1000")(env), 1)
+  assert.throws(() => compileExpr('fired(1)'), /quoted id/)
 })

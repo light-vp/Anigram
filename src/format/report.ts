@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import { captionAt } from '../sim/captions.ts'
+import { NEVER } from '../sim/expr.ts'
 import { Simulation } from '../sim/runtime.ts'
 import type { Frame } from '../sim/runtime.ts'
 import type { Scene } from '../sim/types.ts'
@@ -25,6 +26,15 @@ export interface HourRow {
   parts: Record<string, PartSample>
   caption: string | null
   alerts: string[]
+  /**
+   * on a sheet with events: hours since each last fired, and the controls
+   * as the chain had left them
+   */
+  since?: Record<string, number>
+  controls?: {
+    knobs: Record<string, number>
+    switches: Record<string, boolean>
+  }
 }
 
 export interface PartSample {
@@ -47,6 +57,8 @@ export interface DayReport {
   alerts: Array<{ text: string; hours: number[] }>
   /** per part, the day's total throughput (rate × hours) */
   totals: Record<string, { in: number; out: number; unmet?: number }>
+  /** each event in the chain and the hours it fired in, in the order they first fired */
+  events?: Array<{ id: string; says: string; hours: number[] }>
 }
 
 /** simulated hours per solver step: a two-minute slice */
@@ -105,6 +117,7 @@ export function simulateDay(scene: Scene, controls: Controls = {}): DayReport {
       const row: PartSample = { in: round(s.in), out: round(s.out) }
       if (p.behaviour.role === 'sink') row.demand = round(s.demand)
       if (p.behaviour.role === 'storage') row.fill = round(s.fill)
+      if (Number.isFinite(s.effort)) row.effort = round(s.effort)
       parts[p.id] = row
     }
     const hour = Math.round(f.hour * 100) / 100
@@ -120,19 +133,51 @@ export function simulateDay(scene: Scene, controls: Controls = {}): DayReport {
         entry.hours.push(Math.floor(hour))
       alerts.set(key, entry)
     }
-    return {
+    const row: HourRow = {
       hour,
       parts,
       caption: captionAt(scene, f.hour),
       alerts: f.alerts.map((a) => a.text),
     }
+    if (scene.events?.length) {
+      row.since = Object.fromEntries(
+        Object.entries(f.events).map(([id, e]) => [
+          id,
+          Number.isFinite(e.since) ? round(e.since) : NEVER,
+        ]),
+      )
+      row.controls = {
+        knobs: Object.fromEntries(
+          (scene.knobs ?? []).map((k) => [k.id, sim.knob(k.id)]),
+        ),
+        switches: Object.fromEntries(
+          (scene.switches ?? []).map((w) => [w.id, sim.switchOn(w.id)]),
+        ),
+      }
+    }
+    return row
   }
+  /** when each event fired, by the hour it fired in */
+  const fired = new Map<string, number[]>()
+  const counts = new Map<string, number>()
+  const noteEvents = () => {
+    for (const [id, e] of Object.entries(sim.frame.events)) {
+      if (e.count === (counts.get(id) ?? 0)) continue
+      counts.set(id, e.count)
+      const h = Math.floor(sim.frame.hour + 1e-6) % 24
+      const hours = fired.get(id) ?? []
+      if (!hours.includes(h)) hours.push(h)
+      fired.set(id, hours)
+    }
+  }
+  noteEvents()
 
   rows.push(sample(sim.frame))
   for (let h = 0; h < 24; h++) {
     const per = Math.round(1 / STEP)
     for (let i = 0; i < per; i++) {
       advance(sim, STEP)
+      noteEvents()
       for (const p of scene.parts) {
         const s = sim.frame.parts[p.id]!
         const t = totals[p.id]!
@@ -149,13 +194,20 @@ export function simulateDay(scene: Scene, controls: Controls = {}): DayReport {
     t.out = round(t.out)
     if (t.unmet !== undefined) t.unmet = round(t.unmet)
   }
-  return {
+  const report: DayReport = {
     scene: scene.id,
     start: scene.clock.start,
     rows,
     alerts: [...alerts.values()].map(({ text, hours }) => ({ text, hours })),
     totals,
   }
+  if (scene.events?.length)
+    report.events = [...fired].map(([id, hours]) => ({
+      id,
+      says: scene.events!.find((e) => e.id === id)!.says,
+      hours,
+    }))
+  return report
 }
 
 /** the report as a fixed-width table, one column per part — easy to read in a terminal or a chat */

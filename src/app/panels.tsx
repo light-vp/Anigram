@@ -62,7 +62,7 @@ export function Controls({ scene, sim }: { scene: Scene; sim: Simulation }) {
     <section className={styles.card} aria-label="Controls">
       <h2 className={styles.h}>Try</h2>
       {scene.knobs?.map((k) => {
-        const v = sim.knobs[k.id] ?? k.value
+        const v = sim.knob(k.id)
         return (
           <label key={k.id} className={styles.knob}>
             <span className={styles.knobHead}>
@@ -84,7 +84,7 @@ export function Controls({ scene, sim }: { scene: Scene; sim: Simulation }) {
         <label key={sw.id} className={styles.switch}>
           <input
             type="checkbox"
-            checked={sim.switches[sw.id] ?? sw.on}
+            checked={sim.switchOn(sw.id)}
             onChange={() => sim.toggle(sw.id)}
           />
           <span>{sw.label}</span>
