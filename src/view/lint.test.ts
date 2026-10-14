@@ -7,7 +7,8 @@ import { test } from 'node:test'
 import { validateScene } from '../format/validate.ts'
 import { STARTERS } from '../packs/starters.ts'
 import { SCENES } from '../scenes/index.ts'
-import { LAYOUT_RULES, lintLayout } from './lint.ts'
+import type { Scene } from '../sim/types.ts'
+import { LAYOUT_RULES, labelBoxOf, lintLayout } from './lint.ts'
 
 const part = (id: string, at: [number, number]) => ({
   id,
@@ -110,4 +111,13 @@ test('a long label beside a part in the last column runs off the sheet', () => {
   assert.equal(off.length, 1)
   assert.match(off[0]!.message, /right edge.*"left"/)
   assert.ok(!rules(sheet([long('left')], [])).includes('label-off-sheet'))
+})
+
+test("a pressure line makes a part's label one line taller", () => {
+  const press = STARTERS['fluid-power'] as unknown as Scene
+  const pump = press.parts.find((p) => p.id === 'pump')!
+  const plain = labelBoxOf(press, pump)!
+  const tall = labelBoxOf(press, pump, undefined, true)!
+  assert.equal(tall.y1 - tall.y0, plain.y1 - plain.y0 + 14)
+  assert.equal(tall.x0, plain.x0)
 })
