@@ -184,7 +184,11 @@ export const gardenMachine: Scene = {
       from: 'board',
       to: 'pump',
       domain: 'electric',
-      via: [[2, 2]],
+      // in from above, so the pump's words on its left stay clear of it
+      via: [
+        [2, 1.5],
+        [3, 1.5],
+      ],
     },
     { from: 'well', to: 'pump', domain: 'water', bend: 'vh' },
     { from: 'pump', to: 'tank', domain: 'water' },

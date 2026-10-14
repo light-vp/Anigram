@@ -19,6 +19,7 @@ import type {
 } from '../sim/types.ts'
 import { ChainArrows, ChainRings, chainEdges } from './chain.tsx'
 import { effortReadout, rate, readout } from './format.ts'
+import { labelBoxOf } from './lint.ts'
 import {
   BORDER,
   FOOT_H,
@@ -322,11 +323,19 @@ function flowTags(
   drawn: (i: number) => boolean,
 ): Tag[] {
   const parts = shown ? scene.parts.filter((p) => shown.has(p.id)) : scene.parts
+  const eng = isEngineering(scene)
   const obstacles = parts.flatMap((p) => {
     const s = frame.parts[p.id]
-    return s && !BAR_KINDS.has(p.kind)
-      ? [glyphBox(p), labelBox(p, readout(scene, p, s).value)]
-      : [glyphBox(p)]
+    if (!s) return [glyphBox(p)]
+    const effort = !!effortReadout(scene, p, s)
+    // an engineering label sits where its symbol's reach puts it, with a tag
+    if (eng) {
+      const box = labelBoxOf(scene, p, undefined, effort)
+      return box ? [glyphBox(p), box] : [glyphBox(p)]
+    }
+    return BAR_KINDS.has(p.kind)
+      ? [glyphBox(p)]
+      : [glyphBox(p), labelBox(p, readout(scene, p, s).value, +effort)]
   })
   const items = scene.links.flatMap((l, i) => {
     const flow = frame.links[i]?.flow ?? 0

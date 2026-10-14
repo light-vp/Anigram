@@ -367,7 +367,7 @@ export const SECTIONS: Section[] = [
             ['`?examples`', 'the built-in sheets, running'],
             [
               '`?scene=grid`',
-              'one sheet running: `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`',
+              'one sheet running: `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`, `garden-machine`',
             ],
             ['`#scene=…`', 'a whole scene file carried in the link'],
             [
@@ -426,7 +426,7 @@ export const SECTIONS: Section[] = [
             ],
             [
               '`scene`',
-              'a built-in sheet: `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`',
+              'a built-in sheet: `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`, `garden-machine`',
             ],
             ['`share`', 'a `#scene=…` share link, or just the text after it'],
             [

@@ -65,11 +65,15 @@ export function drawnLinks(scene: Scene): Drawn[] {
 const hits = (a: Box, b: Box) =>
   a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1
 
-/** where a part's words sit on the sheet, as the sheet sets them */
-function labelBoxOf(
+/**
+ * where a part's words sit on the sheet, as the sheet sets them; `effort`
+ * adds the pressure or voltage line some parts read under their value
+ */
+export function labelBoxOf(
   scene: Scene,
   part: PartSpec,
   span?: [number, number],
+  effort = false,
 ): Box | undefined {
   const [x, y] = cellToPx(part.at)
   const eng = isEngineering(scene)
@@ -83,6 +87,7 @@ function labelBoxOf(
     ...(eng && part.tag ? [part.tag] : []),
     part.label,
     ...(busbar ? [] : [VALUE]),
+    ...(effort ? [VALUE] : []),
   ]
   const w = Math.max(...lines.map((l) => l.length)) * 6.4 + 4
   const left =
