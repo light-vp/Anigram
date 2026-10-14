@@ -30,6 +30,9 @@ export const GLYPHS: Record<PartKind, Glyph> = {
   gasplant: G.GasPlant,
   pump: G.Pump,
   heatpump: G.HeatPump,
+  motor: G.Motor,
+  powerpack: G.PowerPack,
+  compressor: G.Compressor,
   servers: G.Servers,
   // carriers and switchgear
   busbar: G.Busbar,
@@ -37,12 +40,15 @@ export const GLYPHS: Record<PartKind, Glyph> = {
   breaker: G.Breaker,
   valve: G.Valve,
   pylon: G.Pylon,
+  dcv: G.DirectionalValve,
   // storage
   battery: G.Battery,
   reservoir: G.Reservoir,
   watertower: G.WaterTower,
   hottank: G.HotTank,
   fueltank: G.FuelTank,
+  oiltank: G.OilTank,
+  accumulator: G.Accumulator,
   // water
   well: G.Well,
   treatment: G.Treatment,
@@ -57,6 +63,7 @@ export const GLYPHS: Record<PartKind, Glyph> = {
   factory: G.Factory,
   radiator: G.Radiator,
   car: G.Car,
+  cylinder: G.Cylinder,
   globe: G.Globe,
   // where waste goes
   coolingtower: G.CoolingTower,

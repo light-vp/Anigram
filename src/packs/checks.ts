@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import { splitTag } from '../sim/instruments.ts'
-import type { DrawingType, PartSpec, Scene } from '../sim/types.ts'
+import type { DrawingType, LinkSpec, PartSpec, Scene } from '../sim/types.ts'
 import { PACKS, classOf, shownParts, shows } from './catalogue.ts'
 import { lineOf } from '../view/lines.ts'
 
@@ -30,16 +30,16 @@ export const DRAWING_RULES: Record<
   { practices: DrawingType[]; says: string }
 > = {
   'title-block': {
-    practices: ['pid', 'single-line', 'pfd'],
+    practices: ['pid', 'single-line', 'pfd', 'fluid-power'],
     says: 'the title block names the owner, who drew it, the issue date, revision and status, and the sheet has a drawing number',
   },
   'equipment-tag': {
-    practices: ['pid', 'single-line', 'pfd'],
+    practices: ['pid', 'single-line', 'pfd', 'fluid-power'],
     says: 'every piece of equipment on the sheet has a tag',
   },
   'tag-letter': {
-    practices: ['pid', 'single-line', 'pfd'],
-    says: 'a tag starts with the letter code for what the part is (P pump, T tank, E exchanger on a P&ID; -Q switch, -T transformer, -G generator in IEC 81346)',
+    practices: ['pid', 'single-line', 'pfd', 'fluid-power'],
+    says: 'a tag starts with the letter code for what the part is (P pump, T tank, E exchanger on a P&ID; -Q switch, -T transformer, -G generator in IEC 81346; P pump, A actuator, V valve after the circuit number in ISO 1219-2)',
   },
   'line-number': {
     practices: ['pid', 'pfd'],
@@ -56,6 +56,18 @@ export const DRAWING_RULES: Record<
   protection: {
     practices: ['single-line'],
     says: 'a load, motor or generator joins a busbar through a breaker, disconnector or fuse',
+  },
+  'return-to-tank': {
+    practices: ['fluid-power'],
+    says: 'every hydraulic circuit returns its oil to a reservoir',
+  },
+  'relief-protection': {
+    practices: ['fluid-power'],
+    says: 'a hydraulic pump has a relief valve on its pressure line, before the first directional valve',
+  },
+  exhaust: {
+    practices: ['fluid-power'],
+    says: 'pneumatic exhausts vent to atmosphere through a silencer or an exhaust port',
   },
 }
 
@@ -94,8 +106,63 @@ const IEC_LETTERS: Record<string, string[]> = {
   Cable: ['W'],
 }
 
+/** ISO 1219-2 component codes, the letter between the circuit and the number: `1A1` */
+const FP_LETTERS: Record<string, string[]> = {
+  HydraulicPump: ['P'],
+  VariablePump: ['P'],
+  AirCompressor: ['P'],
+  HydraulicMotor: ['A'],
+  PneumaticMotor: ['A'],
+  DoubleActingCylinder: ['A'],
+  SingleActingCylinder: ['A'],
+  ElectricMotor: ['M'],
+  DirectionalValve43: ['V'],
+  DirectionalValve42: ['V'],
+  DirectionalValve52: ['V'],
+  DirectionalValve32: ['V'],
+  ReliefValve: ['V'],
+  ReducingValve: ['V'],
+  NonReturnValve: ['V'],
+  ThrottleValve: ['V'],
+  FlowControlValve: ['V'],
+  ShuttleValve: ['V'],
+  ShutOffValve: ['V'],
+  Filter: ['Z'],
+  AirServiceUnit: ['Z'],
+  Accumulator: ['Z'],
+  PressureGauge: ['Z', 'S'],
+}
+
+/** an ISO 1219-2 tag's component code: `1A1` and `2-1V3` give A and V */
+const fpLetters = (tag: string) => /^(?:\d+-)?\d+([A-Z]+)\d+$/.exec(tag)?.[1]
+
+/** the supply (pumps, their motors, conditioning) is circuit 0 on a fluid-power sheet */
+const SUPPLY_LETTERS = new Set(['P', 'M', 'Z'])
+
+const PUMPS = new Set(['HydraulicPump', 'VariablePump'])
+const DIRECTIONAL = new Set([
+  'DirectionalValve43',
+  'DirectionalValve42',
+  'DirectionalValve52',
+  'DirectionalValve32',
+])
+const ACTUATORS = new Set([
+  'DoubleActingCylinder',
+  'SingleActingCylinder',
+  'HydraulicMotor',
+  'PneumaticMotor',
+])
+
 /** classes that are not equipment, so carry no tag of their own */
-const UNTAGGED = new Set(['OffPageConnector', 'Junction', 'Cable'])
+const UNTAGGED = new Set([
+  'OffPageConnector',
+  'Junction',
+  'Cable',
+  'Reservoir',
+  'Silencer',
+  'Exhaust',
+  'PressureSource',
+])
 const SWITCHING = new Set(['CircuitBreaker', 'Disconnector', 'Fuse'])
 const UNPROTECTED = new Set(['Load', 'Motor', 'Generator'])
 
@@ -123,12 +190,22 @@ export function suggestTag(
   tags: Array<string | undefined>,
 ): string | undefined {
   if (UNTAGGED.has(cls)) return undefined
-  const letters = drawing === 'single-line' ? IEC_LETTERS : PID_LETTERS
+  const letters = lettersFor(drawing)
   const want = cls === 'ControlValve' ? undefined : letters[cls]?.[0]
   if (!want) return undefined
+  if (drawing === 'fluid-power') {
+    const circuit = SUPPLY_LETTERS.has(want) ? 0 : 1
+    return `${circuit}${want}${next(tags, new RegExp(`^(?:\\d+-)?${circuit}${want}(\\d+)$`))}`
+  }
   return drawing === 'single-line'
     ? `-${want}${next(tags, new RegExp(`-${want}(\\d+)$`))}`
     : `${want}-${100 + next(tags, new RegExp(`^${want}-1(\\d\\d)$`))}`
+}
+
+/** the letter codes a practice tags each class with */
+function lettersFor(drawing: DrawingType): Record<string, string[]> {
+  if (drawing === 'single-line') return IEC_LETTERS
+  return drawing === 'fluid-power' ? FP_LETTERS : PID_LETTERS
 }
 
 /** the next line number (P&ID) or stream number (PFD) after these */
@@ -140,6 +217,15 @@ export function suggestLineNumber(
     return `100-W-${String(next(tags, /-(\d+)[A-Z]?$/)).padStart(3, '0')}`
   if (drawing === 'pfd') return String(next(tags, /^(\d+)$/))
   return undefined
+}
+
+/** what a practice's drawing numbers start with */
+const SHEET_PREFIX: Record<DrawingType, string> = {
+  pictorial: 'LD',
+  pid: 'PID',
+  pfd: 'PFD',
+  'single-line': 'SLD',
+  'fluid-power': 'FP',
 }
 
 export function drawingFindings(scene: Scene): DrawingFinding[] {
@@ -177,12 +263,12 @@ export function drawingFindings(scene: Scene): DrawingFinding[] {
     find(
       'title-block',
       'sheet',
-      `the sheet has no drawing number; set "sheet", e.g. "${drawing === 'pid' ? 'PID' : drawing === 'pfd' ? 'PFD' : 'SLD'}-001"`,
+      `the sheet has no drawing number; set "sheet", e.g. "${SHEET_PREFIX[drawing]}-001"`,
     )
 
   // tags
   const ansi = drawing === 'single-line' && scene.symbols === 'ansi'
-  const letters = drawing === 'single-line' ? IEC_LETTERS : PID_LETTERS
+  const letters = lettersFor(drawing)
   const partTags = scene.parts.map((p) => p.tag)
   for (const p of parts) {
     const c = cls(p)
@@ -213,19 +299,26 @@ export function drawingFindings(scene: Scene): DrawingFinding[] {
     }
     if (!allowed) continue
     const got =
-      drawing === 'single-line' ? iecLetters(p.tag) : splitTag(p.tag).letters
+      drawing === 'single-line'
+        ? iecLetters(p.tag)
+        : drawing === 'fluid-power'
+          ? fpLetters(p.tag)
+          : splitTag(p.tag).letters
     const ok =
       got !== undefined &&
       (drawing === 'single-line'
         ? allowed.includes(got[0]!)
         : allowed.includes(got))
+    const what = pack.classes[c]!.is.replace(/^an? /, '').split(/[;:]/)[0]
     if (!ok)
       find(
         'tag-letter',
         `${path}.tag`,
         drawing === 'single-line'
-          ? `${p.tag}: IEC 81346 tags a ${pack.classes[c]!.is.replace(/^an? /, '').split(';')[0]} with ${allowed.map((l) => `-${l}`).join(' or ')}, like "-${allowed[0]}1"`
-          : `${p.tag}: a ${c} is usually tagged ${allowed.join(' or ')}, like "${allowed[0]}-101"`,
+          ? `${p.tag}: IEC 81346 tags a ${what} with ${allowed.map((l) => `-${l}`).join(' or ')}, like "-${allowed[0]}1"`
+          : drawing === 'fluid-power'
+            ? `${p.tag}: ISO 1219-2 codes a ${what} ${allowed.join(' or ')}, after its circuit number, like "${SUPPLY_LETTERS.has(allowed[0]!) ? 0 : 1}${allowed[0]}1"`
+            : `${p.tag}: a ${c} is usually tagged ${allowed.join(' or ')}, like "${allowed[0]}-101"`,
       )
   }
 
@@ -349,5 +442,106 @@ export function drawingFindings(scene: Scene): DrawingFinding[] {
     })
   }
 
+  if (drawing === 'fluid-power') fluidPower(scene, find)
+
   return out
+}
+
+/**
+ * What a fluid-power engineer checks on a circuit: the oil comes back to the
+ * tank, a pump can't be dead-headed without a relief valve to take its flow,
+ * and air leaves through a silencer.
+ */
+function fluidPower(
+  scene: Scene,
+  find: (rule: string, path: string, message: string) => void,
+) {
+  const shown = shownParts(scene)
+  const byId = new Map(scene.parts.map((p) => [p.id, p]))
+  const cls = (id: string) => {
+    const p = byId.get(id)
+    return (p && classOf(p, scene)) ?? ''
+  }
+  const name = (id: string) => byId.get(id)!.tag ?? byId.get(id)!.label
+  const drawn = (l: LinkSpec) =>
+    !l.loss && shows(l, scene) && shown.has(l.from) && shown.has(l.to)
+  const oil = scene.links.filter((l) => l.domain === 'oil' && drawn(l))
+
+  // each circuit of oil lines, joined any way round, comes back to a tank
+  const up = new Map<string, string>()
+  const root = (id: string): string => {
+    const u = up.get(id)
+    if (!u || u === id) return id
+    const r = root(u)
+    up.set(id, r)
+    return r
+  }
+  for (const l of oil) {
+    const a = root(l.from)
+    const b = root(l.to)
+    if (a !== b) up.set(a, b)
+  }
+  const circuits = new Map<string, string[]>()
+  for (const l of oil)
+    for (const id of [l.from, l.to]) {
+      const c = circuits.get(root(id)) ?? []
+      if (!c.includes(id)) c.push(id)
+      circuits.set(root(id), c)
+    }
+  for (const ids of circuits.values()) {
+    if (oil.some((l) => ids.includes(l.to) && cls(l.to) === 'Reservoir'))
+      continue
+    const from = ids.find((id) => PUMPS.has(cls(id))) ?? ids[0]!
+    find(
+      'return-to-tank',
+      `parts (${from})`,
+      `the oil from ${name(from)} never comes back to a reservoir; run the return line (from the directional valve's T port, or the relief valve) to a Reservoir`,
+    )
+  }
+
+  // a pump's pressure line has a relief valve on it before any directional valve
+  const relieves = (id: string) => {
+    const b = byId.get(id)!.behaviour
+    return cls(id) === 'ReliefValve' || (b.role === 'gate' && !!b.relief)
+  }
+  for (const p of scene.parts) {
+    if (!shown.has(p.id) || !PUMPS.has(cls(p.id))) continue
+    const seen = new Set([p.id])
+    const todo = [p.id]
+    let safe = false
+    while (todo.length && !safe) {
+      const at = todo.pop()!
+      for (const l of oil) {
+        if (l.from !== at || seen.has(l.to)) continue
+        seen.add(l.to)
+        if (relieves(l.to)) safe = true
+        // the pressure line ends at a valve that sends it on, or at the work
+        const c = cls(l.to)
+        if (DIRECTIONAL.has(c) || ACTUATORS.has(c) || c === 'Reservoir')
+          continue
+        todo.push(l.to)
+      }
+    }
+    if (!safe)
+      find(
+        'relief-protection',
+        `parts (${p.id})`,
+        `${name(p.id)} has no relief valve on its pressure line; tee a ReliefValve off it to a Reservoir, ahead of the directional valve, so a stalled actuator can't take the pump's full pressure`,
+      )
+  }
+
+  // air a valve or an actuator lets go of leaves through a silencer
+  scene.links.forEach((l, i) => {
+    if (l.domain !== 'air' || !drawn(l)) return
+    const c = cls(l.from)
+    if (!DIRECTIONAL.has(c) && !ACTUATORS.has(c)) return
+    const role = byId.get(l.to)!.behaviour.role
+    if (role !== 'sink' && role !== 'vent') return
+    if (cls(l.to) === 'Silencer' || cls(l.to) === 'Exhaust') return
+    find(
+      'exhaust',
+      `links[${i}] (${l.from} → ${l.to})`,
+      `${name(l.to)} takes the exhaust air from ${name(l.from)}; vent it to atmosphere through a Silencer, or an Exhaust, by giving it that class`,
+    )
+  })
 }

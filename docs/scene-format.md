@@ -127,6 +127,7 @@ valves and breakers show their state, tank levels move.
 | `pid`         | a P&ID: ISO 10628-2 symbols, ISA-5.1 tags and lines          | water, heat, fuel, data |
 | `single-line` | IEC 60617 symbols, or ANSI/IEEE 315 with `"symbols": "ansi"` | electric                |
 | `pfd`         | a process flow diagram: major equipment and streams          | water, heat, fuel       |
+| `fluid-power` | a hydraulic or pneumatic circuit: ISO 1219-1 and 1219-2      | oil, air, mechanical    |
 
 A part none of whose links the practice shows is left off the sheet, so a
 P&ID of a pumping station has no power cables and a single-line has no
@@ -166,6 +167,14 @@ pipes.
   `subtitle` in the middle (with `project` above them), and drawn, checked,
   approved, issued, revision and `sheet` along the bottom. Fields left out
   stay as empty boxes. `issued` is a date like `2026-10-11`.
+- On a fluid-power circuit, a cylinder is a `storage` whose fill is its
+  stroke (the piston follows it), and a directional valve is a `gate` whose
+  `open` picks the envelope: shut is the centre, `1` the straight-through
+  envelope, anything between the crossed one. Lines from above or below
+  land on the valve's own A, B, P and T ports. Tags run circuit, letter,
+  number after ISO 1219-2 (`0P1`, `1V1`, `1A1`), and a shaft draws as a
+  double line. [`examples/hydraulic-press.json`](../examples/hydraulic-press.json)
+  is a whole press circuit.
 - On a single-line, a busbar stretches to reach every feeder, and a feeder
   on another row drops straight from the bar above it rather than from its
   centre.
@@ -173,15 +182,18 @@ pipes.
   practice, already tagged and titled, to edit rather than start blank.
 - The MCP server's `check_drawing` marks the sheet up the way a reviewing
   engineer would: equipment tagged in the practice's scheme (ISA letters on a
-  P&ID, IEC 81346 on a single-line), lines and streams numbered, control
-  valves driven by a controller and loops sharing a number, loads and
-  generators behind a breaker, the title block filled. It advises; with
+  P&ID, IEC 81346 on a single-line, ISO 1219-2 on a fluid-power circuit),
+  lines and streams numbered, control valves driven by a controller and
+  loops sharing a number, loads and generators behind a breaker, oil coming
+  back to a reservoir behind a relief valve, exhaust air through a silencer,
+  the title block filled. It advises; with
   `strict` any finding fails it, for CI and print-ready sheets.
 - `lint_layout` checks the sheet reads cleanly (no crossing or doubled
   lines, no line through a part, no slanted runs, no label on top of
   another or off the edge of the sheet), and `auto_layout` lays a sheet out by its flow: a single-line
-  top to bottom with feeders dropping off the busbars, anything else left to
-  right with P&ID instruments a row above what they serve.
+  top to bottom with feeders dropping off the busbars, a fluid-power circuit
+  bottom to top (tank and pump under the valves, actuators on top), anything
+  else left to right with P&ID instruments a row above what they serve.
 - `export_dexpi` writes a P&ID as DEXPI 1.3 (Proteus 4.1.1) XML for plant
   design software. It carries the plant rather than the picture: equipment
   with tags and nozzles, each numbered line as a piping system with its

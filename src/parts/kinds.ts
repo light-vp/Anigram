@@ -101,6 +101,22 @@ export const PART_KINDS = {
     role: 'converter',
     draws: 'a heat pump; fan spins',
   },
+  motor: {
+    group: 'conversion',
+    role: 'converter',
+    draws: 'an electric motor; its shaft turns with the load',
+  },
+  powerpack: {
+    group: 'conversion',
+    role: 'converter',
+    draws:
+      'a hydraulic power unit: motor and pump on an oil tank; the coupling turns',
+  },
+  compressor: {
+    group: 'conversion',
+    role: 'converter',
+    draws: 'an air compressor on its receiver; the flywheel turns',
+  },
   servers: {
     group: 'conversion',
     role: 'converter',
@@ -127,6 +143,11 @@ export const PART_KINDS = {
     draws: 'a valve; fills when open',
   },
   pylon: { group: 'switchgear', role: 'gate', draws: 'a transmission pylon' },
+  dcv: {
+    group: 'switchgear',
+    role: 'gate',
+    draws: 'a solenoid directional valve; the spool shifts as it opens',
+  },
   battery: {
     group: 'storage',
     role: 'storage',
@@ -151,6 +172,16 @@ export const PART_KINDS = {
     group: 'storage',
     role: 'storage',
     draws: 'a fuel tank; level shows fill',
+  },
+  oiltank: {
+    group: 'storage',
+    role: 'storage',
+    draws: 'a hydraulic oil tank; level shows fill',
+  },
+  accumulator: {
+    group: 'storage',
+    role: 'storage',
+    draws: 'a hydraulic accumulator; oil rises against the gas',
   },
   well: { group: 'water', role: 'source', draws: 'a borehole' },
   treatment: {
@@ -199,6 +230,11 @@ export const PART_KINDS = {
     group: 'demand',
     role: 'sink',
     draws: 'an electric car; charge bar fills',
+  },
+  cylinder: {
+    group: 'demand',
+    role: 'storage',
+    draws: 'a hydraulic or pneumatic cylinder; the rod extends with fill',
   },
   globe: {
     group: 'demand',

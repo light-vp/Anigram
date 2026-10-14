@@ -4,6 +4,7 @@
 import type { ReactNode } from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 
+import { reachOf } from '../packs/catalogue.ts'
 import { PackSymbol } from '../packs/symbols.tsx'
 import { SYMBOL_CSS } from '../packs/symbolCss.ts'
 import { glyphFor } from '../parts/index.ts'
@@ -86,7 +87,9 @@ export function classSvg(cls: string, symbols: SymbolSet): string {
     behaviour: { role: 'bus' },
     class: cls,
   }
-  return svg(
+  // a wide symbol (a directional valve, a cylinder's rod) is shrunk to fit
+  const k = Math.min(1, 32 / reachOf(cls))
+  const sym = (
     <PackSymbol
       cls={cls}
       name={cls}
@@ -95,7 +98,10 @@ export function classSvg(cls: string, symbols: SymbolSet): string {
       part={part}
       symbols={symbols}
       span={[-26, 26]}
-    />,
+    />
+  )
+  return svg(
+    k < 1 ? <g transform={`scale(${+k.toFixed(3)})`}>{sym}</g> : sym,
     true,
   )
 }

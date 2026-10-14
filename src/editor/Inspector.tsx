@@ -340,7 +340,7 @@ export function PartPanel({
           <Text
             label="tag"
             value={part.tag}
-            placeholder={drawing === 'single-line' ? '-Q1' : 'P-101'}
+            placeholder={TAG_EXAMPLE[drawing ?? 'pid'] ?? 'P-101'}
             onCommit={(tag) =>
               edit(patchPart(doc, part.id, { tag: tag.trim() || undefined }))
             }
@@ -562,6 +562,12 @@ function BehaviourFields({
   )
 }
 
+/** a tag in each practice's scheme, as a placeholder */
+const TAG_EXAMPLE: Partial<Record<DrawingType, string>> = {
+  'single-line': '-Q1',
+  'fluid-power': '1V1',
+}
+
 // ---------------------------------------------------------------- a link
 
 export function LinkPanel({
@@ -778,6 +784,7 @@ const DRAWINGS: Array<readonly [DrawingType, string]> = [
   ['pid', 'P&ID'],
   ['single-line', 'single-line'],
   ['pfd', 'PFD'],
+  ['fluid-power', 'fluid power'],
 ]
 
 const TB_FIELDS: Array<[keyof TitleBlock, string]> = [

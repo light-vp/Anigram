@@ -197,6 +197,88 @@ const SLD_GROUPS: PaletteGroup[] = [
   },
 ]
 
+/** a part that takes whatever reaches it: a return to the tank, air let go */
+const takesAll = (): Partial<Behaviour> =>
+  ({
+    role: 'sink',
+    demand: 1e4,
+    absorbsSurplus: true,
+  }) as Partial<Behaviour>
+
+const FP_GROUPS: PaletteGroup[] = [
+  {
+    id: 'supply',
+    label: 'Supply',
+    items: [
+      item('Reservoir', 'well', {
+        key: 'tank-supply',
+        name: 'Tank',
+        note: 'The oil the pump draws on.',
+        behaviour: { role: 'source', output: 1000 } as Partial<Behaviour>,
+      }),
+      item('HydraulicPump', 'powerpack', { name: 'Pump' }),
+      item('VariablePump', 'powerpack'),
+      item('AirCompressor', 'compressor'),
+      item('ElectricMotor', 'motor'),
+    ],
+  },
+  {
+    id: 'valves',
+    label: 'Valves',
+    items: [
+      item('DirectionalValve43', 'dcv', { name: '4/3 valve' }),
+      item('DirectionalValve42', 'dcv', { name: '4/2 valve' }),
+      item('DirectionalValve52', 'dcv', { name: '5/2 valve' }),
+      item('DirectionalValve32', 'dcv', { name: '3/2 valve' }),
+      item('ReliefValve', 'valve', { behaviour: passes(1e4) }),
+      item('ReducingValve', 'valve', { behaviour: passes(1e4) }),
+      item('NonReturnValve', 'valve', { behaviour: passes(1e4) }),
+      item('ThrottleValve', 'valve'),
+      item('FlowControlValve', 'valve', { behaviour: passes(1e4) }),
+      item('ShuttleValve', 'valve', { behaviour: passes(1e4) }),
+      item('ShutOffValve', 'valve'),
+    ],
+  },
+  {
+    id: 'actuators',
+    label: 'Actuators',
+    items: [
+      item('DoubleActingCylinder', 'cylinder'),
+      item('SingleActingCylinder', 'cylinder'),
+      item('HydraulicMotor', 'tap', {
+        behaviour: { role: 'sink', demand: 40 } as Partial<Behaviour>,
+      }),
+      item('PneumaticMotor', 'tap', {
+        behaviour: { role: 'sink', demand: 500 } as Partial<Behaviour>,
+      }),
+    ],
+  },
+  {
+    id: 'conditioning',
+    label: 'Conditioning and returns',
+    items: [
+      item('Filter', 'valve', { behaviour: passes(1e4) }),
+      item('AirServiceUnit', 'valve', {
+        name: 'Air service unit',
+        behaviour: passes(1e4),
+      }),
+      item('Accumulator', 'accumulator'),
+      item('PressureGauge', 'tap', {
+        behaviour: { role: 'sink', demand: 0 } as Partial<Behaviour>,
+      }),
+      item('Reservoir', 'tap', {
+        key: 'tank-return',
+        name: 'Tank return',
+        note: 'Where a return line ends: drawn as the tank, as often as it is needed.',
+        behaviour: takesAll(),
+      }),
+      item('Silencer', 'tap', { behaviour: takesAll() }),
+      item('Exhaust', 'tap', { behaviour: takesAll() }),
+      item('Junction', 'manifold'),
+    ],
+  },
+]
+
 /** the kind a class is drawn as on the pictorial sheet, where it differs from its template's */
 const KIND_FOR: Record<string, string> = {
   Fan: 'fan',
@@ -211,6 +293,13 @@ const KIND_FOR: Record<string, string> = {
   Disconnector: 'breaker',
   Generator: 'generator',
   Load: 'city',
+  Reservoir: 'oiltank',
+  ElectricMotor: 'motor',
+  HydraulicMotor: 'turbine',
+  PneumaticMotor: 'turbine',
+  AirServiceUnit: 'treatment',
+  Silencer: 'sky',
+  Exhaust: 'sky',
 }
 
 export function paletteFor(drawing: DrawingType | undefined): PaletteGroup[] {
@@ -218,6 +307,7 @@ export function paletteFor(drawing: DrawingType | undefined): PaletteGroup[] {
   if (drawing === 'pfd')
     return PID_GROUPS.filter((g) => g.id !== 'valves' && g.id !== 'instruments')
   if (drawing === 'single-line') return SLD_GROUPS
+  if (drawing === 'fluid-power') return FP_GROUPS
   return TEMPLATES_BY_GROUP.map((g) => ({
     id: g.id,
     label: g.label,

@@ -34,6 +34,20 @@ Real plants in, and the editor as the home page.
   import and export, the URL API, and development notes.
 - **P&ID symbols:** `ButterflyValve` (its disc turns as it shuts) and
   `SafetyValve`, both also exported to DEXPI.
+- **Fluid-power circuits** (`"drawing": "fluid-power"`): hydraulic and
+  pneumatic circuit diagrams with ISO 1219-1 symbols, laid out and tagged
+  after ISO 1219-2 (`0P1`, `1V1`, `1A1`). Pumps, motors and compressors;
+  double- and single-acting cylinders whose piston follows their stroke;
+  4/3, 4/2, 5/2 and 3/2 directional valves that shift envelope as they
+  switch; relief, reducing, non-return, throttle, flow-control and shuttle
+  valves; filters, reservoirs, accumulators, service units, silencers and
+  gauges. Working lines solid, pilot and drain lines dashed, shafts double.
+  Pictorial parts to match (`cylinder`, `powerpack`, `dcv`, `accumulator`,
+  `compressor`, `motor`, `oiltank`), a `draw-fluid-power` prompt, a
+  hydraulic press starter (also `examples/hydraulic-press.json`), and
+  checks that oil returns to a reservoir, a pump has a relief valve before
+  its directional valve, and exhaust air leaves through a silencer.
+  `auto_layout` lays a circuit out bottom to top (`direction: "up"`).
 - `npm run bench` times the solver on a 288-part town.
 
 ### Changed

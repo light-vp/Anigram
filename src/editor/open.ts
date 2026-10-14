@@ -53,13 +53,18 @@ export const STARTERS: Starter[] = [
     label: d.title,
     doc: () => copy(d),
   })),
-  ...(['pid', 'single-line', 'pfd'] as DrawingType[]).map((k) => ({
-    id: `${k}-starter`,
-    label: { pid: 'A P&ID', 'single-line': 'A single-line', pfd: 'A PFD' }[
-      k as 'pid'
-    ],
-    doc: () => copy(PRACTICE_STARTERS[k] as unknown as Doc),
-  })),
+  ...(['pid', 'single-line', 'pfd', 'fluid-power'] as DrawingType[]).map(
+    (k) => ({
+      id: `${k}-starter`,
+      label: {
+        pid: 'A P&ID',
+        'single-line': 'A single-line',
+        pfd: 'A PFD',
+        'fluid-power': 'A hydraulic circuit',
+      }[k as 'pid'],
+      doc: () => copy(PRACTICE_STARTERS[k] as unknown as Doc),
+    }),
+  ),
   ...SCENES.map((s) => ({
     id: s.id,
     label: s.title,

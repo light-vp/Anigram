@@ -37,7 +37,13 @@ test('every sheet it lays out still loads with no new warnings', () => {
 })
 
 test('the engineering sheets come out reading cleanly', () => {
-  for (const s of [STARTERS.pid, STARTERS['single-line'], STARTERS.pfd, feed])
+  for (const s of [
+    STARTERS.pid,
+    STARTERS['single-line'],
+    STARTERS.pfd,
+    STARTERS['fluid-power'],
+    feed,
+  ])
     assert.deepEqual(lintLayout(autoLayout(load(s)).scene), [])
   assert.deepEqual(lintLayout(autoLayout(sld('grid')).scene), [])
 })
@@ -75,4 +81,13 @@ test('a single-line runs top to bottom, feeders below their busbar', () => {
   assert.ok(at('process')[1] > at('q2')[1])
   assert.notEqual(at('q2')[0], at('q3')[0])
   assert.equal(autoLayout(load(STARTERS.pid), 'down').direction, 'down')
+})
+
+test('a fluid-power circuit runs bottom to top, the tank under the cylinder', () => {
+  const { scene, direction } = autoLayout(load(STARTERS['fluid-power']))
+  assert.equal(direction, 'up')
+  const at = (id: string) => scene.parts.find((p) => p.id === id)!.at
+  assert.ok(at('tank')[1] > at('pump')[1])
+  assert.ok(at('pump')[1] > at('valve')[1])
+  assert.ok(at('valve')[1] > at('cylinder')[1])
 })

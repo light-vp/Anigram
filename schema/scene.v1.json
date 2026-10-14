@@ -32,9 +32,10 @@
         "pictorial",
         "pid",
         "single-line",
-        "pfd"
+        "pfd",
+        "fluid-power"
       ],
-      "description": "the drawing practice the sheet follows: pictorial (the default), pid, single-line or pfd"
+      "description": "the drawing practice the sheet follows: pictorial (the default), pid, single-line, pfd or fluid-power"
     },
     "symbols": {
       "enum": [
@@ -181,17 +182,23 @@
               "gasplant",
               "pump",
               "heatpump",
+              "motor",
+              "powerpack",
+              "compressor",
               "servers",
               "busbar",
               "manifold",
               "breaker",
               "valve",
               "pylon",
+              "dcv",
               "battery",
               "reservoir",
               "watertower",
               "hottank",
               "fueltank",
+              "oiltank",
+              "accumulator",
               "well",
               "treatment",
               "tap",
@@ -204,6 +211,7 @@
               "factory",
               "radiator",
               "car",
+              "cylinder",
               "globe",
               "coolingtower",
               "sky",

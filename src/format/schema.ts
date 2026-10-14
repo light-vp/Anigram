@@ -154,7 +154,7 @@ export function sceneSchema(): Schema {
         drawing: {
           enum: [...DRAWINGS],
           description:
-            'the drawing practice the sheet follows: pictorial (the default), pid, single-line or pfd',
+            'the drawing practice the sheet follows: pictorial (the default), pid, single-line, pfd or fluid-power',
         },
         symbols: {
           enum: ['iec', 'ansi'],

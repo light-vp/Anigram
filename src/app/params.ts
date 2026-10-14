@@ -17,7 +17,7 @@ import type { ThemeId } from '../view/palette.ts'
  *   ?embed=presentation&scene=…      the portfolio's existing embed — same as embed=1
  *   ?embed=app                       the full app without its header
  *   ?build=1                         the editor: build a sheet, or edit one (with ?scene= or #scene=)
- *   ?build=1&drawing=pid             the editor, starting from a P&ID (or single-line, pfd)
+ *   ?build=1&drawing=pid             the editor, starting from a P&ID (or single-line, pfd, fluid-power)
  *   ?embed=build                     the editor without its header
  *   ?screen=1                        a wall screen: dark, full bleed, tours every sheet
  *   ?theme=light|dark                the sheet's palette (old names: paper, blueprint)

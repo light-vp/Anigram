@@ -67,3 +67,38 @@ Follows ISO 10628-1 major equipment and streams. Draws water, heat, fuel lines.
 | <img src="symbols/Turbine.svg" width="48" height="48" alt=""> | same | `Turbine` | a steam, gas or hydraulic turbine | `turbine` |
 | <img src="symbols/Junction.svg" width="48" height="48" alt=""> | same | `Junction` | where lines meet; a tee or header | — |
 | <img src="symbols/OffPageConnector.svg" width="48" height="48" alt=""> | same | `OffPageConnector` | where a line leaves or joins the sheet; sources and consumers off the drawing | — |
+
+## fluid-power circuit (`drawing: "fluid-power"`)
+
+Follows ISO 1219-1 symbols, laid out and tagged after ISO 1219-2. Draws oil, air, mechanical lines.
+
+| IEC | ANSI | class | is | drawn for kinds |
+| - | - | - | - | - |
+| <img src="symbols/HydraulicPump.svg" width="48" height="48" alt=""> | same | `HydraulicPump` | a fixed-displacement hydraulic pump | `pump`, `powerpack` |
+| <img src="symbols/VariablePump.svg" width="48" height="48" alt=""> | same | `VariablePump` | a variable-displacement hydraulic pump | — |
+| <img src="symbols/HydraulicMotor.svg" width="48" height="48" alt=""> | same | `HydraulicMotor` | a hydraulic motor | — |
+| <img src="symbols/AirCompressor.svg" width="48" height="48" alt=""> | same | `AirCompressor` | an air compressor | `compressor` |
+| <img src="symbols/PneumaticMotor.svg" width="48" height="48" alt=""> | same | `PneumaticMotor` | a pneumatic motor | — |
+| <img src="symbols/ElectricMotor.svg" width="48" height="48" alt=""> | same | `ElectricMotor` | an electric motor driving a pump or compressor | `motor` |
+| <img src="symbols/DoubleActingCylinder.svg" width="48" height="48" alt=""> | same | `DoubleActingCylinder` | a double-acting cylinder; its piston and rod follow its fill | `cylinder` |
+| <img src="symbols/SingleActingCylinder.svg" width="48" height="48" alt=""> | same | `SingleActingCylinder` | a single-acting cylinder with spring return; its piston and rod follow its fill | — |
+| <img src="symbols/DirectionalValve43.svg" width="48" height="48" alt=""> | same | `DirectionalValve43` | a 4/3 directional valve, closed centre, solenoids and centring springs; its open picks the envelope: 0 the centre, 0.5 crossed (P to B), 1 straight through (P to A) | `dcv` |
+| <img src="symbols/DirectionalValve42.svg" width="48" height="48" alt=""> | same | `DirectionalValve42` | a 4/2 directional valve, solenoid and spring return; open shifts it from crossed to straight through | — |
+| <img src="symbols/DirectionalValve52.svg" width="48" height="48" alt=""> | same | `DirectionalValve52` | a 5/2 directional valve, solenoid and spring return; open shifts it | — |
+| <img src="symbols/DirectionalValve32.svg" width="48" height="48" alt=""> | same | `DirectionalValve32` | a 3/2 directional valve, normally closed, solenoid and spring return; open lets it through | — |
+| <img src="symbols/ReliefValve.svg" width="48" height="48" alt=""> | same | `ReliefValve` | a pressure relief valve; shut, and lifting as it opens | — |
+| <img src="symbols/ReducingValve.svg" width="48" height="48" alt=""> | same | `ReducingValve` | a pressure reducing valve; open, and closing in as it throttles | — |
+| <img src="symbols/NonReturnValve.svg" width="48" height="48" alt=""> | same | `NonReturnValve` | a non-return (check) valve; the ball lifts while it passes flow | — |
+| <img src="symbols/ThrottleValve.svg" width="48" height="48" alt=""> | same | `ThrottleValve` | an adjustable throttle; its gap closes as it shuts | — |
+| <img src="symbols/FlowControlValve.svg" width="48" height="48" alt=""> | same | `FlowControlValve` | a one-way flow control valve: a throttle with a non-return bypass | — |
+| <img src="symbols/ShuttleValve.svg" width="48" height="48" alt=""> | same | `ShuttleValve` | a shuttle valve: either inlet to the outlet | — |
+| <img src="symbols/ShutOffValve.svg" width="48" height="48" alt=""> | same | `ShutOffValve` | a shut-off valve; filled when shut | `valve` |
+| <img src="symbols/Filter.svg" width="48" height="48" alt=""> | same | `Filter` | a filter | `treatment` |
+| <img src="symbols/AirServiceUnit.svg" width="48" height="48" alt=""> | same | `AirServiceUnit` | an air service unit: filter, regulator and lubricator | — |
+| <img src="symbols/Accumulator.svg" width="48" height="48" alt=""> | same | `Accumulator` | a gas-loaded accumulator; shows its oil | `accumulator` |
+| <img src="symbols/Reservoir.svg" width="48" height="48" alt=""> | same | `Reservoir` | the reservoir, open to atmosphere; drawn at every line that returns to it | `oiltank`, `reservoir` |
+| <img src="symbols/Silencer.svg" width="48" height="48" alt=""> | same | `Silencer` | an exhaust silencer | — |
+| <img src="symbols/Exhaust.svg" width="48" height="48" alt=""> | same | `Exhaust` | an exhaust to atmosphere | `sky` |
+| <img src="symbols/PressureGauge.svg" width="48" height="48" alt=""> | same | `PressureGauge` | a pressure gauge | — |
+| <img src="symbols/PressureSource.svg" width="48" height="48" alt=""> | same | `PressureSource` | a pressure source off the drawing: filled for oil, hollow for air | — |
+| <img src="symbols/Junction.svg" width="48" height="48" alt=""> | same | `Junction` | where lines meet | `manifold` |

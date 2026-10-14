@@ -82,7 +82,7 @@ defaults to empty, `sheet` to `LD-100`, `clock` to `{ start: 6, rate: 1 }`.
 A file without it is read as version 1, and a file from an older version is
 upgraded when it loads, so scene files and share links keep working as the
 format grows. A file from a newer version than the reader knows is refused
-... (469 more lines)
+... (523 more lines)
 ```
 
 ## list_scenes
@@ -209,11 +209,11 @@ A built-in sheet as scene-file JSON — the best example of the format to copy f
 
 **Start a new sheet**
 
-A small, working starter for a drawing practice: pictorial (the default), pid, single-line or pfd. It validates with no warnings and its `expect` list holds, and it shows the practice's conventions (tags, classes, instruments, title block). Edit it into the system you were asked for. With `file`, it is also saved there.
+A small, working starter for a drawing practice: pictorial (the default), pid, single-line, pfd or fluid-power. It validates with no warnings and its `expect` list holds, and it shows the practice's conventions (tags, classes, instruments, title block). Edit it into the system you were asked for. With `file`, it is also saved there.
 
 | parameter | type | required | what it is |
 | - | - | - | - |
-| `drawing` | string |  | the drawing practice; default pictorial One of `pictorial`, `pid`, `single-line`, `pfd`. |
+| `drawing` | string |  | the drawing practice; default pictorial One of `pictorial`, `pid`, `single-line`, `pfd`, `fluid-power`. |
 | `id` | string |  | the new scene id, lowercase-and-dashes |
 | `title` | string |  |  |
 | `file` | string |  | save the starter to this .json path as well |
@@ -554,7 +554,7 @@ One call for 'is it done?': validate the scene, run its day, and check every lin
 
 **Check a sheet against its practice's rules** · read-only
 
-For an engineering drawing (pid, single-line, pfd): what an engineer reviewing the sheet would mark up. Every equipment item tagged in the practice's scheme (ISA letters on a P&ID, IEC 81346 on a single-line), lines and streams numbered, control valves driven by a controller and loops sharing a number, feeders and generators behind a breaker, the title block filled. Each finding names its rule and says how to fix it. Advisory by default: ok stays true. With `strict` (for CI and print-ready sheets), ok is false while any finding is left. A pictorial sheet has no practice rules and passes.
+For an engineering drawing (pid, single-line, pfd, fluid-power): what an engineer reviewing the sheet would mark up. Every equipment item tagged in the practice's scheme (ISA letters on a P&ID, IEC 81346 on a single-line, ISO 1219-2 codes on a fluid-power circuit), lines and streams numbered, control valves driven by a controller and loops sharing a number, feeders and generators behind a breaker, oil returning to a tank, pumps behind a relief valve, air exhausting through a silencer, the title block filled. Each finding names its rule and says how to fix it. Advisory by default: ok stays true. With `strict` (for CI and print-ready sheets), ok is false while any finding is left. A pictorial sheet has no practice rules and passes.
 
 | parameter | type | required | what it is |
 | - | - | - | - |
@@ -613,14 +613,14 @@ Check the drawing's geometry without rendering it: lines that cross or run on to
 
 **Lay the sheet out by its flow**
 
-Place every part on the grid by how things flow, as a drafter would: sources first, each step one column on, lines straight where they can be and turning square where they cannot, long links routed through empty cells, and P&ID instruments a row above what they serve. Single-line diagrams run top to bottom (supply at the top, feeders dropping off the busbars, loads at the bottom); everything else runs left to right, or set `direction`. It rewrites `at`, `via`, `bend`, `labelSide`, instrument cells and `size`, and nothing else. With `file`, the file is updated in place. Returns the scene and a lint_layout of the result; nudge anything it leaves with edit_scene.
+Place every part on the grid by how things flow, as a drafter would: sources first, each step one column on, lines straight where they can be and turning square where they cannot, long links routed through empty cells, and P&ID instruments a row above what they serve. Single-line diagrams run top to bottom (supply at the top, feeders dropping off the busbars, loads at the bottom); fluid-power circuits bottom to top (pump and tank at the bottom, actuators at the top); everything else runs left to right, or set `direction`. It rewrites `at`, `via`, `bend`, `labelSide`, instrument cells and `size`, and nothing else. With `file`, the file is updated in place. Returns the scene and a lint_layout of the result; nudge anything it leaves with edit_scene.
 
 | parameter | type | required | what it is |
 | - | - | - | - |
 | `scene` | object or string |  | a scene object (or its JSON text) |
 | `file` | string |  | path to a .json scene file, relative to the working directory |
 | `id` | string |  | a built-in sheet id, e.g. "grid" — see list_scenes |
-| `direction` | string |  | which way the flow runs; default down for a single-line, right otherwise One of `right`, `down`. |
+| `direction` | string |  | which way the flow runs; default down for a single-line, up for a fluid-power circuit, right otherwise One of `right`, `down`, `up`. |
 
 **Example**
 
@@ -855,7 +855,7 @@ Draw the sheet at an hour of the day, the same drawing the app shows in paper mo
 {
   "hour": 7,
   "format": "svg",
-  "bytes": 14291,
+  "bytes": 14319,
   "aspect": 1.513
 }
 ```
@@ -901,3 +901,4 @@ Ready-made instructions an assistant can start from, one per drawing practice.
 | `draw-pid` | Draw a P&ID of a system with Anigram, following ISO 10628-2 symbols, ISA-5.1 tags and lines. |
 | `draw-single-line` | Draw a single-line diagram of a system with Anigram, following IEC 60617 (or ANSI/IEEE 315) symbols, IEC 81346 tags. |
 | `draw-pfd` | Draw a process flow diagram of a system with Anigram, following ISO 10628-1 major equipment and streams. |
+| `draw-fluid-power` | Draw a fluid-power circuit diagram of a system with Anigram, following ISO 1219-1 symbols, laid out and tagged after ISO 1219-2. |
