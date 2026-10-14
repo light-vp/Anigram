@@ -99,5 +99,13 @@
     "id": "sfiles-import",
     "drawing": "pfd",
     "prompt": "Here is a flowsheet in SFILES 2.0 notation: (raw)(mix)<1(pp)(hex)(r)(dist)[{bout}(prod)]{tout}(splt)1(prod). Make it a living process flow diagram saved as scene.json, with an expect list saying product leaves from both the column's bottom and its overhead, and the feed pump carries everything that enters."
+  },
+  {
+    "id": "street-voltage",
+    "prompt": "A rural street fed from one 230 V transformer at the end of a long overhead line: six houses along it, each span of cable losing a few volts at full load. Draw it as scene.json so the evening peak pushes the last house below 216 V while the first stays fine, with the voltages showing on the sheet and an expect list that says so."
+  },
+  {
+    "id": "rube-goldberg",
+    "prompt": "Make a small Rube Goldberg machine as scene.json, built from real flows: a chain of at least four events where each one is set off by the one before (a tank filling trips a float, the float starts a pump, a timer follows, and so on), with an expect list that checks the chain really runs in order over the day."
   }
 ]

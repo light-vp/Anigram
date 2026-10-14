@@ -51,7 +51,7 @@ solver runs the network every tick and the sheet draws what it finds: line
 width is flow, dot speed is flow, a turbine spins as fast as it generates.
 So a scene can't show something its system isn't doing.
 
-The five built-in sheets are scene files too (`list_scenes` / `get_scene` in
+The built-in sheets are scene files too (`list_scenes` / `get_scene` in
 the MCP server, or `src/scenes/*.ts`). Read one before writing your own.
 
 ## Shape
@@ -82,7 +82,7 @@ defaults to empty, `sheet` to `LD-100`, `clock` to `{ start: 6, rate: 1 }`.
 A file without it is read as version 1, and a file from an older version is
 upgraded when it loads, so scene files and share links keep working as the
 format grows. A file from a newer version than the reader knows is refused
-... (469 more lines)
+... (569 more lines)
 ```
 
 ## list_scenes
@@ -140,7 +140,7 @@ No parameters.
       "title": "A data centre",
       "subtitle": "Electricity in, web requests and heat out — and what keeps it up when the grid goes down",
       "parts": 10,
-... (4 more lines)
+... (12 more lines)
 ```
 
 ## get_scene
@@ -175,7 +175,8 @@ A built-in sheet as scene-file JSON — the best example of the format to copy f
   "units": {
     "water": {
       "rate": "m³/h",
-      "amount": "m³"
+      "amount": "m³",
+      "effort": "bar"
     },
     "electric": {
       "rate": "kW",
@@ -201,8 +202,7 @@ A built-in sheet as scene-file JSON — the best example of the format to copy f
       "format": "{pct}%"
     }
   ],
-  "switches": [
-... (283 more lines)
+... (293 more lines)
 ```
 
 ## new_scene
@@ -387,7 +387,8 @@ Apply small edits — add, move, update or remove parts and links, or set a top-
     "units": {
       "water": {
         "rate": "m³/h",
-        "amount": "m³"
+        "amount": "m³",
+        "effort": "bar"
       },
       "electric": {
         "rate": "kW",
@@ -408,15 +409,14 @@ Apply small edits — add, move, update or remove parts and links, or set a top-
           0
         ],
         "behaviour": {
-          "role": "source",
-... (289 more lines)
+... (299 more lines)
 ```
 
 ## simulate_scene
 
 **Simulate a day** · read-only
 
-Run the scene headless through 24 hours from its opening hour and report what every part did, hour by hour, every alert (a demand going short, a store running empty, a link at its limit) and the day’s totals. Use it to check the drawing tells the story its captions claim, and to tune signals.
+Run the scene headless through 24 hours from its opening hour and report what every part did, hour by hour, every alert (a demand going short, a store running empty, a link at its limit, a pressure or voltage outside its rating), the hours each event in its chain fired, and the day’s totals. Use it to check the drawing tells the story its captions claim, and to tune signals.
 
 | parameter | type | required | what it is |
 | - | - | - | - |
@@ -657,7 +657,8 @@ Place every part on the grid by how things flow, as a drafter would: sources fir
     "units": {
       "water": {
         "rate": "m³/h",
-        "amount": "m³"
+        "amount": "m³",
+        "effort": "bar"
       },
       "electric": {
         "rate": "kW",
@@ -671,8 +672,7 @@ Place every part on the grid by how things flow, as a drafter would: sources fir
     "clock": {
       "start": 4,
       "rate": 0.6
-    },
-... (308 more lines)
+... (318 more lines)
 ```
 
 ## export_dexpi
@@ -855,7 +855,7 @@ Draw the sheet at an hour of the day, the same drawing the app shows in paper mo
 {
   "hour": 7,
   "format": "svg",
-  "bytes": 14291,
+  "bytes": 14745,
   "aspect": 1.513
 }
 ```

@@ -43,7 +43,7 @@ import { z } from 'zod'
 import guideText from '../docs/scene-format.md?raw'
 import { stamp } from '../src/format/migrate.ts'
 import { checkExpectations, expectLines } from '../src/format/expect.ts'
-import { reportTable, simulateDay } from '../src/format/report.ts'
+import { effortTable, reportTable, simulateDay } from '../src/format/report.ts'
 import { SCHEMA_URL, sceneSchema } from '../src/format/schema.ts'
 import { encodeScene, HASH_KEY } from '../src/format/share.ts'
 import { toDexpi } from '../src/format/dexpi.ts'
@@ -661,6 +661,8 @@ const editOp = z.discriminatedUnion('op', [
       'knobs',
       'switches',
       'captions',
+      'events',
+      'expect',
       'clock',
     ]),
     value: z.unknown(),
@@ -774,7 +776,7 @@ server.registerTool(
   {
     title: 'Simulate a day',
     description:
-      'Run the scene headless through 24 hours from its opening hour and report what every part did, hour by hour, every alert (a demand going short, a store running empty, a link at its limit) and the day’s totals. ' +
+      'Run the scene headless through 24 hours from its opening hour and report what every part did, hour by hour, every alert (a demand going short, a store running empty, a link at its limit, a pressure or voltage outside its rating), the hours each event in its chain fired, and the day’s totals. ' +
       'Use it to check the drawing tells the story its captions claim, and to tune signals.',
     inputSchema: {
       ...sceneInput,
@@ -810,6 +812,16 @@ server.registerTool(
       unmet: z
         .record(z.string(), z.number())
         .describe('demands that went short over the day, by part id'),
+      events: z
+        .array(
+          z.object({
+            id: z.string(),
+            says: z.string(),
+            hours: z.array(z.number()),
+          }),
+        )
+        .optional()
+        .describe("the scene's event chain: the hours each event fired in"),
       expect: z
         .array(expectOutput)
         .describe("the scene's `expect` checks against this day"),
@@ -847,6 +859,7 @@ server.registerTool(
         alerts: report.alerts,
         totals: report.totals,
         unmet: unmetBy,
+        ...(report.events ? { events: report.events } : {}),
         expect: stories,
         warnings,
         ...(args.format === 'json'
@@ -863,12 +876,21 @@ server.registerTool(
             .join('\n')
         : 'none'
       const unmet = Object.entries(unmetBy).map(([id, u]) => `${id} ${u}`)
+      const efforts = effortTable(scene, report)
+      const chain = report.events
+        ? scene.events!.map((e) => {
+            const hours = report.events!.find((x) => x.id === e.id)?.hours ?? []
+            return `- ${e.id}: ${e.says} — ${hours.length ? `fired at ${hours.map((h) => `${String(h).padStart(2, '0')}:00`).join(', ')}` : 'never fired'}`
+          })
+        : []
       return data(
         result,
         [
           `${scene.sheet} ${scene.title} — one day from ${String(scene.clock.start).padStart(2, '0')}:00`,
           '',
           reportTable(scene, report, args.parts),
+          efforts ? `\neffort:\n${efforts}` : '',
+          chain.length ? `\nevents:\n${chain.join('\n')}` : '',
           '',
           `alerts:\n${alerts}`,
           unmet.length

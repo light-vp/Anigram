@@ -240,7 +240,53 @@ export const SECTIONS: Section[] = [
         },
       },
       {
-        p: 'The sheet re-renders from that state on one animation clock. The solver is React-free and runs the same in node, which is how the MCP server and the tests run a whole day headless. A 300-part sheet solves in about 0.2 ms a tick.',
+        p: 'The sheet re-renders from that state on one animation clock. The solver is React-free and runs the same in node, which is how the MCP server and the tests run a whole day headless. A 300-part sheet solves in about 0.3 ms a tick.',
+      },
+    ],
+  },
+  {
+    id: 'effort',
+    title: 'Pressure, voltage and temperature',
+    blocks: [
+      {
+        p: 'Flow says how much moves; **effort** says how hard it is pushed: pressure behind water, oil, air and fuel, voltage behind current, temperature behind heat. Once a tick’s flows are solved, effort is read along them. A supply or a tank sets it, a pump adds its head, a transformer multiplies by its ratio, and every link and part with a `drop` loses some on the way, more the harder it works.',
+      },
+      {
+        code: `{ "id": "grid",  "effort": { "set": 240 } }
+{ "id": "pump",  "effort": { "boost": "4 - 1.5 * pow(part('pump').out / 12, 2)" } }
+{ "id": "house", "effort": { "min": 216 } }
+{ "from": "pole1", "to": "pole2", "domain": "electric", "capacity": 30, "drop": 8 }`,
+      },
+      {
+        list: [
+          'A link’s `drop` is what it loses at its capacity: as the square of the flow in a pipe, in proportion in a cable.',
+          'A part’s `min` and `max` are its rating. Outside them the reading turns red and `simulate_scene` lists an alert.',
+          'A relief valve is a gate with `relief: { at, full }`: it lifts on the pressure behind it, settling where the flow it lets off holds it.',
+          'A P&ID’s pressure, temperature and voltage instruments read it with no extra setup.',
+        ],
+      },
+      {
+        p: 'The water tower sheet carries pressure: open the hydrant at breakfast and watch the taps.',
+      },
+    ],
+  },
+  {
+    id: 'events',
+    title: 'Event chains',
+    blocks: [
+      {
+        p: "An event watches a condition on the running sheet. When it turns true, the event waits its `after`, then flips a switch or sets a knob, and the next event can wait on that one with `fired('id')`. Chain them and you have a Rube Goldberg machine where every step is something the simulation really did.",
+      },
+      {
+        code: `"events": [
+  { "id": "full", "says": "The tank fills, and its float stops the pump.",
+    "when": "part('tank').fill > 0.95", "then": [{ "switch": "pump", "on": false }], "at": "tank" },
+  { "id": "timer", "says": "Half an hour later, the timer opens the sprinkler.",
+    "when": "fired('full')", "after": 0.5, "then": [{ "switch": "sprinkler", "on": true }], "at": "valve" }
+]`,
+      },
+      {
+        p: "As an event fires, its part rings, its words become the caption, and an arrow reaches out to whatever it switched. A dashed arrow joins each event to the next one in the chain. `since('id')` reads the hours since an event fired, in any expression. See it in [the garden that waters itself](./?scene=garden-machine).",
       },
     ],
   },
@@ -453,10 +499,8 @@ npm run eval       # a real assistant builds sheets (costs tokens)`,
       },
       {
         list: [
-          'Effort as well as flow: pressure, voltage and temperature, so a pipe can be undersized and a feeder can sag.',
-          'Hydraulic and pneumatic parts after ISO 1219.',
-          'Event chains: trip the breaker at 18:00, and watch what follows.',
-          'Storyboards exported as GIF or MP4, and a hosted MCP endpoint.',
+          'Storyboards exported as GIF or MP4.',
+          'A hosted MCP endpoint, so an assistant can draw without installing anything.',
         ],
       },
       { p: `The full plan: [ROADMAP.md](${BLOB}/ROADMAP.md).` },

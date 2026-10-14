@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import { frameCaption } from '../sim/captions.ts'
+import { effortUnit, formatEffort } from '../sim/effort.ts'
 import { NEVER } from '../sim/expr.ts'
 import { Simulation } from '../sim/runtime.ts'
 import type { Frame } from '../sim/runtime.ts'
@@ -244,5 +245,30 @@ export function reportTable(
   lines.push(
     'columns: sources/converters show output; sinks in/demand; stores net charge and fill; vents what they took',
   )
+  return lines.join('\n')
+}
+
+/**
+ * the pressures, voltages and temperatures through the day, for the parts
+ * that set, add, lose or are rated for one; empty when there are none
+ */
+export function effortTable(scene: Scene, report: DayReport): string {
+  const show = scene.parts.filter((p) => p.effort)
+  if (!show.length) return ''
+  const unit = (id: string) => effortUnit(scene, id)
+  const lines = [
+    'hour  ' +
+      show
+        .map((p) => `${p.id.slice(0, 9)} ${unit(p.id)}`.trim().padStart(15))
+        .join(''),
+  ]
+  for (const r of report.rows.slice(1)) {
+    const cells = show.map((p) => {
+      const e = r.parts[p.id]!.effort
+      return (e === undefined ? '–' : formatEffort(e, '')).padStart(15)
+    })
+    const h = Math.floor(r.hour + 1e-6) % 24
+    lines.push(`${String(h).padStart(2, '0')}:00 ${cells.join('')}`)
+  }
   return lines.join('\n')
 }
