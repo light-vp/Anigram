@@ -64,6 +64,7 @@ export function checkExpectations(
         out: s?.out ?? 0,
         fill: s?.fill ?? 0,
         demand: s?.demand ?? 0,
+        effort: s?.effort ?? NaN,
       }
     }
     return { hour: hourOf(row), day: 0, knob, on, prev: read, part: read }

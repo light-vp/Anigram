@@ -81,7 +81,8 @@ export class Simulation {
       day: this.day,
       knob: (id) => this.knobs[id] ?? 0,
       on: (id) => this.switches[id] ?? false,
-      prev: (id) => this.frame.parts[id] ?? { in: 0, out: 0, fill: 0 },
+      prev: (id) =>
+        this.frame.parts[id] ?? { in: 0, out: 0, fill: 0, effort: NaN },
     }
   }
 
@@ -143,7 +144,8 @@ export class Simulation {
     if (!this.readers.length) return {}
     const env: Env = {
       ...this.env(),
-      part: (id) => parts[id] ?? { in: 0, out: 0, fill: 0, demand: 0 },
+      part: (id) =>
+        parts[id] ?? { in: 0, out: 0, fill: 0, demand: 0, effort: NaN },
     }
     return Object.fromEntries(this.readers.map((r) => [r.tag, r.read(env)]))
   }

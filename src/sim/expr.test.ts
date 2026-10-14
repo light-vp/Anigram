@@ -13,7 +13,7 @@ const env = (over: Partial<Env> = {}): Env => ({
   day: 0,
   knob: (id) => (id === 'cloud' ? 0.5 : 0),
   on: (id) => id === 'mains',
-  prev: () => ({ in: 40, out: 10, fill: 0.25 }),
+  prev: () => ({ in: 40, out: 10, fill: 0.25, effort: 3 }),
   ...over,
 })
 
@@ -88,7 +88,7 @@ test('part() reads a part as it is now, with .demand, for expect checks', () => 
   )
   assert.deepEqual([...r.reads], ['house'])
   assert.deepEqual([...r.parts], ['pv'])
-  const now = { in: 2, out: 0, fill: 0, demand: 3 }
+  const now = { in: 2, out: 0, fill: 0, demand: 3, effort: 1 }
   const fn = compileExpr("part('house').demand - part('house').in")
   assert.equal(
     fn({

@@ -77,7 +77,7 @@ test('every template behaves exactly as its old preset did', () => {
             day,
             knob: () => 0,
             on: () => sw?.on ?? false,
-            prev: () => ({ in: 0, out: 0, fill: 0 }),
+            prev: () => ({ in: 0, out: 0, fill: 0, effort: NaN }),
           }
           const got = read(b[field]!, env)
           const exp = (values as number[])[i++]!

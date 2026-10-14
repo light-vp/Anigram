@@ -18,7 +18,7 @@ const env = (hour: number): Env => ({
   day: 0,
   knob: () => 0.5,
   on: () => true,
-  prev: () => ({ in: 0, out: 0, fill: 0 }),
+  prev: () => ({ in: 0, out: 0, fill: 0, effort: NaN }),
 })
 const STEP = 1 / 30
 for (let i = 0; i < 24 * 30; i++) solve(model, env(i * STEP), STEP, memory)

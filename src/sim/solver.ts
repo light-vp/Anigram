@@ -60,6 +60,10 @@ export interface PartState {
   starting: boolean
   /** 0..1 — how hard the part is working; drives rotation, glow, smoke */
   activity: number
+  /** pressure, voltage or temperature at its outlet; NaN where nothing sets one */
+  effort: number
+  /** and at its inlet, before it adds, multiplies or loses any */
+  effortIn: number
 }
 
 export interface LinkState {
@@ -75,6 +79,8 @@ const DOMAINS: Domain[] = [
   'fuel',
   'mechanical',
   'data',
+  'oil',
+  'air',
 ]
 const D = DOMAINS.length
 const domainIndex = new Map(DOMAINS.map((d, i) => [d, i]))
@@ -640,6 +646,8 @@ export function solve(model: Compiled, env: Env, dt: number, memory: Memory) {
       open: 1,
       starting: false,
       activity: 0,
+      effort: NaN,
+      effortIn: NaN,
     }
     switch (b.role) {
       case 'source':

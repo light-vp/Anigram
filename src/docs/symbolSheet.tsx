@@ -29,6 +29,8 @@ const SHOWN: PartState = {
   open: 1,
   starting: false,
   activity: 0.6,
+  effort: NaN,
+  effortIn: NaN,
 }
 
 const SIZE = 72

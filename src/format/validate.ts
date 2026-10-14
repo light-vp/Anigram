@@ -43,6 +43,8 @@ export const DOMAINS: readonly Domain[] = [
   'fuel',
   'mechanical',
   'data',
+  'oil',
+  'air',
 ]
 
 export const DRAWINGS: readonly DrawingType[] = [

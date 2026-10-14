@@ -132,7 +132,7 @@ const env: Env = {
   day: 0,
   knob: () => 0,
   on: () => false,
-  prev: () => ({ in: 0, out: 0, fill: 0 }),
+  prev: () => ({ in: 0, out: 0, fill: 0, effort: NaN }),
 }
 const EPS = 1e-6
 const DT = 1 / 30

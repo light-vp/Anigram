@@ -80,6 +80,8 @@ const SPACING: Record<Domain, number> = {
   fuel: 14,
   mechanical: 10,
   data: 9,
+  oil: 12,
+  air: 10,
 }
 
 export function Sheet({

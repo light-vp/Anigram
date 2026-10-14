@@ -34,6 +34,8 @@ export interface PartSample {
   demand?: number
   /** stores: 0..1 */
   fill?: number
+  /** pressure, voltage or temperature at its outlet, where it has one */
+  effort?: number
 }
 
 export interface DayReport {

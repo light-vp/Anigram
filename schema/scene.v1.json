@@ -106,7 +106,9 @@
           "heat",
           "fuel",
           "mechanical",
-          "data"
+          "data",
+          "oil",
+          "air"
         ]
       },
       "additionalProperties": {
@@ -138,7 +140,9 @@
           "heat",
           "fuel",
           "mechanical",
-          "data"
+          "data",
+          "oil",
+          "air"
         ]
       },
       "additionalProperties": {
@@ -341,7 +345,9 @@
                       "heat",
                       "fuel",
                       "mechanical",
-                      "data"
+                      "data",
+                      "oil",
+                      "air"
                     ]
                   },
                   "recipe": {
@@ -354,7 +360,9 @@
                         "heat",
                         "fuel",
                         "mechanical",
-                        "data"
+                        "data",
+                        "oil",
+                        "air"
                       ]
                     },
                     "additionalProperties": {
@@ -529,7 +537,9 @@
               "heat",
               "fuel",
               "mechanical",
-              "data"
+              "data",
+              "oil",
+              "air"
             ]
           },
           "capacity": {

@@ -128,6 +128,8 @@ export const UNITS: Record<Domain, Units> = {
   mechanical: { rate: 'kW', amount: 'kWh' },
   water: { rate: 'm³/h', amount: 'm³' },
   data: { rate: 'req/s', amount: 'req' },
+  oil: { rate: 'L/min', amount: 'L' },
+  air: { rate: 'L/min', amount: 'L' },
 }
 
 const TEMPLATE_LIST: Template[] = [

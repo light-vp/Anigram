@@ -72,7 +72,7 @@ export function checkSignal(text: string, doc: Doc): SignalCheck {
     day: 0,
     knob: (id) => doc.knobs?.find((k) => k.id === id)?.value ?? 0,
     on: (id) => doc.switches?.find((w) => w.id === id)?.on ?? false,
-    prev: () => ({ in: 0, out: 0, fill: 0 }),
+    prev: () => ({ in: 0, out: 0, fill: 0, effort: NaN }),
   })
   return {
     ok: true,
