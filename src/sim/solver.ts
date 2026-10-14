@@ -287,6 +287,8 @@ export function initialMemory(model: Compiled): Memory {
 }
 
 const EPS = 1e-9
+/** a store below this fraction of full has run dry, as the sheet's alert says */
+const EMPTY = 0.02
 const NOTHING = { in: 0, out: 0, fill: 0, demand: 0, effort: NaN }
 /** how close a shared shortfall's fraction is pinned before it settles */
 const SHARE_TOLERANCE = 1e-6
@@ -770,9 +772,12 @@ function solveTick(
   // 7. Effort along the flows. Its signals can read the parts as they are
   //    now — a pump's head falling as it delivers more.
   const cold = new Uint8Array(n)
+  const empty = new Uint8Array(n)
   const delivered = new Float64Array(n)
   for (let k = 0; k < n; k++) {
     const b = list[k]!.behaviour
+    if (b.role === 'storage' && partStates[list[k]!.id]!.fill < EMPTY)
+      empty[k] = 1
     delivered[k] =
       b.role === 'converter' || b.role === 'source' ? produced[k]! : outflow[k]!
     if (b.role === 'converter' && b.startup && warm[k]! < b.startup) cold[k] = 1
@@ -784,7 +789,7 @@ function solveTick(
   const effort = solveEffort(
     { ...model, domains: DOMAINS },
     model.effort,
-    { flow, out: delivered, avail: output, open, cold },
+    { flow, out: delivered, avail: output, open, cold, empty },
     (signal) => read(signal, now),
   )
   for (let k = 0; k < n; k++) {

@@ -240,7 +240,9 @@ export class Simulation {
       const e = p.effort
       if (e && (e.min !== undefined || e.max !== undefined)) {
         const at = s.effort
-        const low = e.min !== undefined && at < e.min
+        // a sink asking for nothing doesn't mind what pressure is behind it
+        const idle = p.behaviour.role === 'sink' && s.demand <= 0
+        const low = e.min !== undefined && at < e.min && !idle
         const high = e.max !== undefined && at > e.max
         if (low || high) {
           const unit = effortUnit(this.scene, p.id)

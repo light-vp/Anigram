@@ -12,7 +12,7 @@ import { Sheet } from '../view/Sheet.tsx'
 import { capture } from './analytics'
 import { downloadJson, downloadSvg } from './exportSvg'
 import { useFrame, usePrefersReducedMotion, useSimulation } from './hooks'
-import { captionAt } from '../sim/captions.ts'
+import { frameCaption } from '../sim/captions.ts'
 import { Alerts, Controls, Inspector } from './panels'
 import { embedSnippet, sceneLink } from './params'
 import type { Params } from './params'
@@ -122,7 +122,7 @@ export function Workbench({
     return () => window.removeEventListener('keydown', onKey)
   }, [sim])
 
-  const caption = captionAt(scene, frame.hour)
+  const caption = frameCaption(scene, frame)
   const { w, h } = sheetSize(scene)
   const filename = `${scene.id}-${String(Math.floor(frame.hour)).padStart(2, '0')}${String(
     Math.floor((frame.hour % 1) * 60),

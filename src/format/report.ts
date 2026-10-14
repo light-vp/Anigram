@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { captionAt } from '../sim/captions.ts'
+import { frameCaption } from '../sim/captions.ts'
 import { NEVER } from '../sim/expr.ts'
 import { Simulation } from '../sim/runtime.ts'
 import type { Frame } from '../sim/runtime.ts'
@@ -136,7 +136,7 @@ export function simulateDay(scene: Scene, controls: Controls = {}): DayReport {
     const row: HourRow = {
       hour,
       parts,
-      caption: captionAt(scene, f.hour),
+      caption: frameCaption(scene, f),
       alerts: f.alerts.map((a) => a.text),
     }
     if (scene.events?.length) {

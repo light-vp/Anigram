@@ -13,7 +13,7 @@ import type {
   PartSpec,
   Scene,
 } from '../sim/types.ts'
-import { num, partDomain, rate, readout } from './format.ts'
+import { effortReadout, num, partDomain, rate, readout } from './format.ts'
 import {
   ENG_FOOT_H,
   PAD,
@@ -219,6 +219,8 @@ export function EngLabel({
       }
     : LABEL_OFFSET[part.labelSide ?? 'below']
   const r = sheetReadout(scene, part, frame)
+  // a busbar's voltage is the one thing it reads
+  const e = effortReadout(scene, part, s)
   let line = 0
   return (
     <g
@@ -238,9 +240,18 @@ export function EngLabel({
         <text
           className={r.bad ? 'value bad' : 'value'}
           textAnchor={o.anchor}
-          y={14 * line}
+          y={14 * line++}
         >
           {r.value}
+        </text>
+      )}
+      {e && (
+        <text
+          className={e.bad ? 'value effort bad' : 'value effort'}
+          textAnchor={o.anchor}
+          y={14 * line}
+        >
+          {e.value}
         </text>
       )}
     </g>

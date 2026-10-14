@@ -17,7 +17,8 @@ import type {
   PartSpec,
   Scene,
 } from '../sim/types.ts'
-import { rate, readout } from './format.ts'
+import { ChainArrows, ChainRings, chainEdges } from './chain.tsx'
+import { effortReadout, rate, readout } from './format.ts'
 import {
   BORDER,
   FOOT_H,
@@ -130,6 +131,8 @@ export function Sheet({
   // an instrument dims with the part at the end of its signal
   const quiet = (i: InstrumentSpec) =>
     !!lit && !lit.parts.has(measuredPart(i, scene)?.id ?? '')
+  // an event chain's arrows annotate a picture; a drawing keeps to its standard
+  const chain = useMemo(() => (eng ? [] : chainEdges(scene)), [scene, eng])
 
   return (
     <svg
@@ -178,6 +181,7 @@ export function Sheet({
             />
           ),
         )}
+        <ChainArrows scene={scene} frame={frame} edges={chain} />
         {instruments.map((inst) => (
           <InstrumentLines
             key={inst.tag}
@@ -225,6 +229,8 @@ export function Sheet({
           ),
         )}
       </g>
+
+      <ChainRings scene={scene} frame={frame} />
 
       <g>
         {scene.parts.map((part) =>
@@ -519,6 +525,7 @@ function PartLabel({
   const [x, y] = cellToPx(part.at)
   const o = LABEL_OFFSET[part.labelSide ?? 'below']
   const r = readout(scene, part, s)
+  const e = effortReadout(scene, part, s)
   return (
     <g
       className={dim ? 'labelGroup dim' : 'labelGroup'}
@@ -535,6 +542,15 @@ function PartLabel({
       >
         {r.value}
       </text>
+      {e && (
+        <text
+          className={e.bad ? 'value effort bad' : 'value effort'}
+          textAnchor={o.anchor}
+          y={27}
+        >
+          {e.value}
+        </text>
+      )}
     </g>
   )
 }

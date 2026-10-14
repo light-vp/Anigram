@@ -4,7 +4,7 @@
 import { useEffect, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 
-import { captionAt } from '../sim/captions.ts'
+import { frameCaption } from '../sim/captions.ts'
 import type { Scene } from '../sim/types.ts'
 import { readout } from '../view/format.ts'
 import { sheetSize } from '../view/geometry.ts'
@@ -63,7 +63,7 @@ export function EmbedView({
   }, [sim, initial, reduced])
 
   const part = selected ? scene.parts.find((p) => p.id === selected) : undefined
-  const caption = captionAt(scene, frame.hour)
+  const caption = frameCaption(scene, frame)
   const { w, h } = sheetSize(scene)
 
   return (
@@ -128,7 +128,7 @@ export function ScreenView({
     if (frame.day > 0) onDone()
   }, [frame.day, onDone])
 
-  const caption = captionAt(scene, frame.hour)
+  const caption = frameCaption(scene, frame)
   return (
     <div className={styles.screen}>
       <Sheet

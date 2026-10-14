@@ -129,6 +129,8 @@ export interface Settled {
   open: Float64Array
   /** a converter with a startup time that hasn't delivered yet */
   cold: Uint8Array
+  /** a store that has run dry */
+  empty: Uint8Array
 }
 
 const EPS = 1e-9
@@ -206,7 +208,9 @@ export function solveEffort(
                 : 0
           break
         case 'storage':
-          if (!Number.isNaN(set[k]!)) out = set[k]!
+          // like a supply, a store holds its effort only while it has something to give
+          if (!Number.isNaN(set[k]!))
+            out = s.empty[k] ? (m.thermal[k] ? NaN : 0) : set[k]!
           break
         case 'converter': {
           if (s.cold[k]) {

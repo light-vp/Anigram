@@ -11,7 +11,7 @@ export const waterTower: Scene = {
   sheet: 'LD-003',
   size: [7, 4],
   units: {
-    water: { rate: 'm³/h', amount: 'm³' },
+    water: { rate: 'm³/h', amount: 'm³', effort: 'bar' },
     electric: { rate: 'kW', amount: 'kWh' },
   },
   scale: { water: 160, electric: 50 },
@@ -88,6 +88,8 @@ export const waterTower: Scene = {
         maxOut: 600,
         refill: { below: 0.4, until: 0.95 },
       },
+      // 25 m to the bottom of the tank, 6 m of water in it when full
+      effort: { set: "2.5 + 0.6 * part('tower').fill" },
       note: 'A float switch starts the pump below 40% and stops it at 95%. Gravity does the rest — the height is the water pressure.',
     },
     {
@@ -108,7 +110,8 @@ export const waterTower: Scene = {
         demand: "150 * water(hour) * knob('demand')",
         priority: 1,
       },
-      note: 'Four thousand people. Everyone showers at the same time.',
+      effort: { min: 2 },
+      note: 'Four thousand people. Everyone showers at the same time. A shower wants 2 bar.',
     },
     {
       id: 'leaks',
@@ -156,8 +159,15 @@ export const waterTower: Scene = {
     { from: 'well', to: 'pump', domain: 'water' },
     { from: 'pump', to: 'works', domain: 'water' },
     { from: 'works', to: 'tower', domain: 'water' },
-    { from: 'tower', to: 'main', domain: 'water', capacity: 600 },
-    { from: 'main', to: 'taps', domain: 'water' },
+    {
+      from: 'tower',
+      to: 'main',
+      domain: 'water',
+      capacity: 600,
+      // the trunk main from the tower: a fire crew's flow costs real pressure
+      drop: 1.6,
+    },
+    { from: 'main', to: 'taps', domain: 'water', capacity: 400, drop: 0.5 },
     {
       from: 'main',
       to: 'leaks',
@@ -211,7 +221,7 @@ export const waterTower: Scene = {
     {
       from: 22,
       to: 24,
-      text: 'Quiet again. Open the hydrant valve to see how long the tower lasts a fire crew.',
+      text: 'Quiet again. Open the hydrant valve to see how long the tower lasts a fire crew, and what it does to the pressure at the taps.',
     },
   ],
 }

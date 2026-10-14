@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import { dataCentre } from './dataCentre.ts'
+import { gardenMachine } from './gardenMachine.ts'
 import { grid } from './grid.ts'
 import { hydroDam } from './hydroDam.ts'
 import { solarHome } from './solarHome.ts'
@@ -15,6 +16,7 @@ export const SCENES: readonly Scene[] = [
   waterTower,
   hydroDam,
   dataCentre,
+  gardenMachine,
 ]
 
 /**
