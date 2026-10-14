@@ -1,0 +1,56 @@
+/* SPDX-License-Identifier: MIT */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+/*
+ * The <living-diagram> element's own rules, inside its shadow root. The page
+ * still passes inherited properties (font, colour, line height) across the
+ * shadow boundary, so the root sets every one the sheet's chrome reads.
+ */
+
+:host {
+  display: block;
+  position: relative;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.ld-mount,
+.ld-root {
+  height: 100%;
+}
+
+.ld-root {
+  font-family: var(--font-ui);
+  font-size: var(--fs-md);
+  font-weight: 400;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  text-align: start;
+  text-transform: none;
+  white-space: normal;
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.ld-error {
+  padding: 14px 16px;
+  background: var(--card);
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--ink-soft);
+}
+
+.ld-error strong {
+  color: var(--alarm);
+  font-weight: 600;
+}
+
+.ld-error ul {
+  margin-top: 6px;
+  padding-left: 18px;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}

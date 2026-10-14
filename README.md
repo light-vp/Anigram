@@ -176,13 +176,44 @@ The URL is the API:
 | `speed=4`           | clock multiplier                                                                                                               |
 | `credit=0`          | leave off the "Made with Anigram · Vaibhav Patel" line (the downloaded SVG too)                                                |
 | `#scene=…`          | a whole scene file, deflated and base64url'd — what **⧉ link** and the MCP server's `share_link` write                         |
+| `paused=1`          | open with the clock stopped                                                                                                    |
+| `controls=0`        | leave off the play bar                                                                                                         |
+
+### Without an iframe
+
+`living-diagram.js` defines a `<living-diagram>` element: the same sheet and
+play bar, running in your page inside its own shadow root, so neither page's
+CSS reaches the other. It sizes to its container's width and the sheet's
+proportions, and carries no analytics.
+
+```html
+<script
+  type="module"
+  src="https://anigram.vaibhav.co.uk/living-diagram.js"
+></script>
+
+<living-diagram scene="water-tower"></living-diagram>
+<living-diagram src="./my-plant.json" theme="auto" hour="18"></living-diagram>
+<living-diagram>
+  <script type="application/json">
+    { "anigram": 1, ... }
+  </script>
+</living-diagram>
+```
+
+The scene comes from `src` (a URL), `share` (a `#scene=…` link), an inline
+JSON script, or `scene` (a built-in id), first match wins. It also takes
+`theme` (`light`, `dark`, `auto`), `hour`, `speed`, `paused`,
+`controls="false"`, `credit="false"` and `mode="paper"`, and follows them
+when they change. A good scene fires `load` (`detail: { id, title }`); a bad
+one shows its problems in place and fires `error` (`detail: { message, errors }`).
 
 ## Commands
 
 ```sh
 npm install
 npm run dev        # vite dev server
-npm run build      # tsc -b && vite build → dist/
+npm run build      # tsc -b && vite build → dist/ (the app and living-diagram.js)
 npm test           # the simulation's rules, in node's own test runner
 npm run golden:update  # accept a deliberate change to a built-in sheet's day
 npm run build:mcp  # the MCP server → mcp/dist/anigram-mcp.mjs
@@ -207,6 +238,7 @@ src/
   parts/    the glyph library: one SVG function per kind of part
   view/     the drawing sheet: geometry, palette, labels and flow tags, the title block
   app/      the workbench, embed and screen views, URL params, export
+  element/  the <living-diagram> web component (built to dist/living-diagram.js)
   editor/   the editor: pure edits on a scene file, part templates, practice palettes, and its views
   packs/    the engineering drawing practices: classes, symbols, starters, house-rule checks
   docs/     small renderers for the reference docs

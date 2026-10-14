@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 
 import { captionAt } from '../sim/captions.ts'
 import type { Scene } from '../sim/types.ts'
 import { readout } from '../view/format.ts'
+import { sheetSize } from '../view/geometry.ts'
 import type { ThemeId } from '../view/palette.ts'
 import { Sheet } from '../view/Sheet.tsx'
 import { useFrame, usePrefersReducedMotion, useSimulation } from './hooks'
@@ -15,24 +17,28 @@ import { Transport } from './Transport'
 import styles from './views.module.css'
 
 /**
- * For an iframe on someone's page (?embed=1): the sheet, a slim play bar and
- * the caption. Parts are still clickable — switches flip, and the part's
- * note shows in a corner.
+ * For an iframe on someone's page (?embed=1), and inside the
+ * <living-diagram> element: the sheet, a slim play bar and the caption.
+ * Parts are still clickable — switches flip, and the part's note shows in a
+ * corner. In an iframe it fills the frame; with `fit` (the element) it is as
+ * tall as the sheet's proportions make it.
  */
 export function EmbedView({
   scene,
   theme,
   initial,
+  fit = false,
 }: {
   scene: Scene
   theme: ThemeId
   initial: Params
+  fit?: boolean
 }) {
   const reduced = usePrefersReducedMotion()
   const sim = useSimulation(scene, (s) => {
     if (initial.hour !== null) s.seek(initial.hour)
     if (initial.speed !== null) s.setSpeed(initial.speed)
-    if (initial.paper || reduced) s.setPlaying(false)
+    if (initial.paper || initial.paused || reduced) s.setPlaying(false)
   })
   const frame = useFrame(sim)
   const [selected, setSelected] = useState<string | null>(null)
@@ -42,11 +48,29 @@ export function EmbedView({
     sim.animate = !still
   }, [sim, still])
 
+  // the element's attributes can change under a running sheet: apply what
+  // changed and keep the clock going (the app's params never change)
+  const applied = useRef(initial)
+  useEffect(() => {
+    const was = applied.current
+    applied.current = initial
+    if (was === initial) return
+    if (initial.speed !== was.speed) sim.setSpeed(initial.speed ?? 1)
+    if (initial.hour !== was.hour && initial.hour !== null)
+      sim.seek(initial.hour)
+    if (initial.paused !== was.paused || initial.paper !== was.paper)
+      sim.setPlaying(!(initial.paused || initial.paper || reduced))
+  }, [sim, initial, reduced])
+
   const part = selected ? scene.parts.find((p) => p.id === selected) : undefined
   const caption = captionAt(scene, frame.hour)
+  const { w, h } = sheetSize(scene)
 
   return (
-    <div className={styles.embed}>
+    <div
+      className={fit ? styles.fit : styles.embed}
+      style={{ '--sheet-aspect': `${w} / ${h}` } as CSSProperties}
+    >
       <Sheet
         scene={scene}
         frame={frame}
@@ -67,7 +91,7 @@ export function EmbedView({
         </div>
       )}
       <div className={styles.bar}>
-        <Transport sim={sim} frame={frame} compact />
+        {initial.controls && <Transport sim={sim} frame={frame} compact />}
         <div className={styles.foot}>
           <p className={styles.caption}>{caption ?? ''}</p>
           <SourceLink inline />

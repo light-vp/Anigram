@@ -19,6 +19,22 @@
   user-select: none;
 }
 
+/* the <living-diagram> element: as tall as the sheet, unless the page gives
+   it a height, when the sheet shrinks to fit inside */
+.fit {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  overflow: hidden;
+}
+
+.fit .sheet {
+  flex: 0 1 auto;
+  aspect-ratio: var(--sheet-aspect);
+}
+
 .bar {
   flex: none;
   display: flex;
