@@ -15,7 +15,7 @@ a minor release, a fix is a patch. Until 1.0, a minor release may also
 change something an assistant or an embed relies on; when it does, the
 entry says so under **Changed**.
 
-## Unreleased
+## 0.3.0
 
 Real plants in, pressure and voltage, event chains, fluid-power circuits, an embeddable element, and the editor as the home page.
 
