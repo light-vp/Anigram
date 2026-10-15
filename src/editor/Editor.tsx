@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import { capture } from '../app/analytics'
 import { Alerts } from '../app/panels'
+import { StoryboardDialog } from '../app/StoryboardDialog'
 import { SiteHeader } from '../site/SiteHeader.tsx'
 import { validateScene } from '../format/validate.ts'
 import type { Scene } from '../sim/types.ts'
@@ -125,6 +126,7 @@ function Editing({
   const [version, setVersion] = useState(0)
   const clock = useRef<Clock>({ hour: 6, day: 0, speed: 1, playing: true })
   const fileInput = useRef<HTMLInputElement>(null)
+  const [story, setStory] = useState(false)
 
   const validation = useMemo(() => validateScene(doc), [doc])
   // the last scene that ran: what the sheet shows while the file has a problem
@@ -437,6 +439,18 @@ function Editing({
         <button
           type="button"
           className={styles.tool}
+          disabled={!validation.scene || !doc.parts.length}
+          onClick={() => {
+            setStory(true)
+            capture('storyboard_opened', { scene: doc.id, from: 'editor' })
+          }}
+          title="The moments that tell the day, and the day as a GIF or MP4"
+        >
+          storyboard
+        </button>
+        <button
+          type="button"
+          className={styles.tool}
           onClick={save}
           title="The scene file: the same JSON an assistant writes with the MCP server"
         >
@@ -554,9 +568,20 @@ function Editing({
           )}
         </Canvas>
       </div>
+      {story && validation.scene && (
+        <StoryboardDialog
+          scene={validation.scene}
+          controls={NO_CONTROLS}
+          theme={theme}
+          onClose={() => setStory(false)}
+        />
+      )}
     </div>
   )
 }
+
+/** the editor's storyboard runs the sheet's own settings */
+const NO_CONTROLS = {}
 
 function TitleInput({
   value,

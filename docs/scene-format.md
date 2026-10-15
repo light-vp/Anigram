@@ -209,6 +209,10 @@ run late.
   it flips.
 - `simulate_scene` lists the hours each event fired, and `expect` checks can
   read `fired()` (fired within the hour before) and `since()`.
+- `render_storyboard` tells the chain as a page of panels, one for the first
+  time each event fires, with `says` as each panel's words; write `says` so
+  they read in order as a story. With `out: "day.gif"` (or `.mp4`) it
+  records the day, slowing at each event.
 
 ## Engineering drawings
 

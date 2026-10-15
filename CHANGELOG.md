@@ -15,6 +15,22 @@ a minor release, a fix is a patch. Until 1.0, a minor release may also
 change something an assistant or an embed relies on; when it does, the
 entry says so under **Changed**.
 
+## Unreleased
+
+### Added
+
+- **Storyboards.** The moments that tell a sheet's day, picked from what the
+  simulation really did: the first time each event fires (a chain that
+  loops is told once) and the captions between. Each panel is the drawing
+  at that moment with its time and what happened.
+- **GIF and MP4.** The day recorded, playing quickly between the moments
+  and slowing as each arrives, with what is happening written under the
+  sheet. In the app: **▤ storyboard** on any sheet, or **storyboard** in the
+  editor; made in the browser (MP4 through WebCodecs), nothing uploaded.
+- `render_storyboard`, the same from an assistant: the board as a PNG to look
+  at, an SVG or a PDF, or `out: "day.gif"` / `"day.mp4"` (MP4 needs ffmpeg).
+  `at` picks the hours; `from`, `to`, `seconds`, `fps` and `linger` shape it.
+
 ## 0.3.0
 
 Real plants in, pressure and voltage, event chains, fluid-power circuits, an embeddable element, and the editor as the home page.

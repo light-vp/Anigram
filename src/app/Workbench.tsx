@@ -17,7 +17,9 @@ import { Alerts, Controls, Inspector } from './panels'
 import { embedSnippet, sceneLink } from './params'
 import type { Params } from './params'
 import { SiteHeader } from '../site/SiteHeader.tsx'
+import { StoryboardDialog } from './StoryboardDialog'
 import { Transport } from './Transport'
+import type { Controls as SceneControls } from '../format/report.ts'
 import styles from './Workbench.module.css'
 
 export interface WorkbenchProps {
@@ -57,6 +59,8 @@ export function Workbench({
   const [paper, setPaper] = useState(initial.paper)
   const [selected, setSelected] = useState<string | null>(null)
   const [embedOpen, setEmbedOpen] = useState(false)
+  // the controls as they were when the storyboard opened
+  const [story, setStory] = useState<SceneControls | null>(null)
   const [shared, setShared] = useState(false)
   const [full, setFull] = useState(false)
   const svgRef = useRef<SVGSVGElement>(null)
@@ -271,6 +275,20 @@ export function Workbench({
             <button
               type="button"
               className={styles.tool}
+              onClick={() => {
+                setStory({
+                  knobs: { ...sim.knobs },
+                  switches: { ...sim.switches },
+                })
+                capture('storyboard_opened', { scene: scene.id })
+              }}
+              title="The moments that tell the day, and the day as a GIF or MP4"
+            >
+              ▤ storyboard
+            </button>
+            <button
+              type="button"
+              className={styles.tool}
               onClick={() => void share()}
             >
               {shared ? 'link copied' : '⧉ link'}
@@ -351,6 +369,14 @@ export function Workbench({
         </aside>
       </main>
 
+      {story && (
+        <StoryboardDialog
+          scene={scene}
+          controls={story}
+          theme={theme}
+          onClose={() => setStory(null)}
+        />
+      )}
       {embedOpen && (
         <EmbedDialog
           snippet={embedSnippet(scene.id, scene.title, w / h)}

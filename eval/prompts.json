@@ -107,5 +107,9 @@
   {
     "id": "rube-goldberg",
     "prompt": "Make a small Rube Goldberg machine as scene.json, built from real flows: a chain of at least four events where each one is set off by the one before (a tank filling trips a float, the float starts a pump, a timer follows, and so on), with an expect list that checks the chain really runs in order over the day."
+  },
+  {
+    "id": "storyboard",
+    "prompt": "Make scene.json: a greenhouse where a soil sensor, a pump and a vent run as a chain of events over a sunny day. Then save its storyboard as storyboard.png and the day as day.gif, and tell me what each panel shows."
   }
 ]

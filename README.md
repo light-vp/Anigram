@@ -75,6 +75,7 @@ errors, a headless day of simulation, SVG rendering and share links:
 | `import_sfiles` / `export_sfiles` | a flowsheet in SFILES 2.0 notation in, or out                                  |
 | `simulate_scene`                  | 24 hours, hour by hour, with every alert and shortfall                         |
 | `render_scene`                    | the sheet at any hour: a PNG to look at, an SVG, or a PDF to print             |
+| `render_storyboard`               | the moments that tell the day as a page of panels, or the day as a GIF or MP4  |
 | `share_link`                      | a URL that opens it live; the scene rides in the link                          |
 
 Each practice also has a prompt (`draw-pid`, `draw-single-line`, `draw-pfd`, `draw-fluid-power`,

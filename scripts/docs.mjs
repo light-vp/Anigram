@@ -137,6 +137,7 @@ const EXAMPLES = {
   },
   export_sfiles: { file: 'reactor.json' },
   render_scene: { id: 'water-tower', hour: 7, format: 'svg' },
+  render_storyboard: { id: 'garden-machine', format: 'svg', out: 'garden.svg' },
   share_link: { id: 'water-tower', hour: 7 },
 }
 

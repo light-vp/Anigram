@@ -10,13 +10,14 @@
  * Runs over stdio. Paths are resolved against the directory the client
  * started it in and must stay inside it (or a folder ANIGRAM_ALLOW_PATHS
  * names), and it only ever reads .json and .xml files and writes .json, .xml,
- * .svg, .png and .pdf.
+ * .svg, .png, .pdf, .gif and .mp4.
  *
  * Every tool that returns data also returns it as `structuredContent`,
  * checked against the tool's `outputSchema`; the text beside it is the same
  * data as JSON, or a readable summary, for clients that only show text.
  */
 
+import { spawn, spawnSync } from 'node:child_process'
 import {
   existsSync,
   mkdirSync,
@@ -58,11 +59,26 @@ import { DRAWING_RULES, drawingFindings } from '../src/packs/checks.ts'
 import { FUNCTION_LETTERS, MEASURED } from '../src/sim/instruments.ts'
 import { FUNCTIONS, VARIABLES } from '../src/sim/expr.ts'
 import type { DrawingType, Scene } from '../src/sim/types.ts'
+import { clockTime } from '../src/sim/profiles.ts'
 import { sheetSize } from '../src/view/geometry.ts'
 import { renderSheetSvg } from '../src/view/renderSvg.tsx'
 import { svgToPdf } from './pdf.ts'
 import type { Paper } from './pdf.ts'
-import { svgToPng } from './png.ts'
+import { svgToPixels, svgToPng } from './png.ts'
+import { encodeGif } from '../src/format/gif.ts'
+import {
+  frameRuns,
+  MAX_FRAMES,
+  MAX_PANELS,
+  record,
+  storyboard,
+} from '../src/format/storyboard.ts'
+import type { Storyboard } from '../src/format/storyboard.ts'
+import {
+  frameSize,
+  renderFrameSvg,
+  renderStoryboardSvg,
+} from '../src/view/storyboardSvg.tsx'
 import { autoLayout, withLayout } from '../src/view/autoLayout.ts'
 import type { Direction } from '../src/view/autoLayout.ts'
 import { lintLayout } from '../src/view/lint.ts'
@@ -202,7 +218,7 @@ function within(p: string, root: string): boolean {
 
 function pathFor(
   file: string,
-  ext: '.json' | '.svg' | '.png' | '.pdf' | '.xml',
+  ext: '.json' | '.svg' | '.png' | '.pdf' | '.xml' | '.gif' | '.mp4',
 ): string {
   const p = resolve(process.cwd(), file)
   if (extname(p).toLowerCase() !== ext)
@@ -1540,6 +1556,352 @@ server.registerTool(
         return data({ ...info, saved: path })
       }
       return image(png, info)
+    },
+  ),
+)
+
+const RECORDING_WIDTH = 800
+const MAX_RECORDING_WIDTH = 1920
+
+/** width ÷ height of an SVG page, from its root attributes */
+function sizeOf(svg: string): number {
+  const w = Number(/<svg[^>]*?\swidth="([\d.]+)"/.exec(svg)?.[1])
+  const h = Number(/<svg[^>]*?\sheight="([\d.]+)"/.exec(svg)?.[1])
+  return w > 0 && h > 0 ? w / h : Math.SQRT2
+}
+
+/** the board as text: one line a panel */
+const boardLines = (board: Storyboard) =>
+  board.panels.map((p) => `${p.n}. ${clockTime(p.hour)}  ${p.says}`).join('\n')
+
+/** whether ffmpeg can be run, for MP4 */
+function hasFfmpeg(): boolean {
+  const r = spawnSync('ffmpeg', ['-version'], { stdio: 'ignore' })
+  return r.status === 0
+}
+
+/** raw RGBA frames into ffmpeg, an H.264 MP4 out */
+function ffmpegMp4(
+  path: string,
+  width: number,
+  height: number,
+  fps: number,
+): { write: (rgba: Uint8Array) => Promise<void>; done: () => Promise<void> } {
+  const ff = spawn(
+    'ffmpeg',
+    [
+      '-v',
+      'error',
+      '-y',
+      '-f',
+      'rawvideo',
+      '-pix_fmt',
+      'rgba',
+      '-s',
+      `${width}x${height}`,
+      '-r',
+      String(fps),
+      '-i',
+      '-',
+      // yuv420p wants even sides; the pad is paper-coloured by the frame itself
+      '-vf',
+      'pad=ceil(iw/2)*2:ceil(ih/2)*2',
+      '-c:v',
+      'libx264',
+      '-pix_fmt',
+      'yuv420p',
+      '-crf',
+      '20',
+      '-movflags',
+      '+faststart',
+      path,
+    ],
+    { stdio: ['pipe', 'ignore', 'pipe'] },
+  )
+  let err = ''
+  ff.stderr.on('data', (d: Buffer) => (err += d.toString()))
+  const closed = new Promise<void>((ok, no) => {
+    ff.on('error', no)
+    ff.on('close', (code) =>
+      code === 0 ? ok() : no(new Error(`ffmpeg failed: ${err.trim()}`)),
+    )
+  })
+  return {
+    write: (rgba) =>
+      new Promise((ok, no) => ff.stdin.write(rgba, (e) => (e ? no(e) : ok()))),
+    done: async () => {
+      ff.stdin.end()
+      await closed
+    },
+  }
+}
+
+server.registerTool(
+  'render_storyboard',
+  {
+    title: 'Tell the day as a storyboard or a video',
+    description:
+      "The moments that tell a scene's day, picked from what the simulation really did: the first time each event fires (so a chain that loops is told once), with the scene's captions filling the gaps. " +
+      'By default it comes back as one PNG page of panels, each the drawing at its moment with its time and what happened: look at it to check the chain reads in order. ' +
+      'format svg returns the page as markup; pdf saves it for printing. ' +
+      'format gif or mp4 records the day instead: it plays quickly between the moments and slows as each arrives, with what is happening written under the sheet. A recording needs `out`; mp4 also needs ffmpeg on the PATH (gif needs nothing). ' +
+      '`at` picks the clock hours yourself; `from` and `to` narrow the stretch of the day.',
+    inputSchema: {
+      ...sceneInput,
+      ...controlsInput,
+      panels: z
+        .number()
+        .int()
+        .min(1)
+        .max(MAX_PANELS)
+        .optional()
+        .describe('most panels (default 8)'),
+      at: z
+        .array(z.number().min(0).max(24))
+        .max(MAX_PANELS)
+        .optional()
+        .describe('clock hours to show, instead of choosing the moments'),
+      from: z
+        .number()
+        .min(0)
+        .max(24)
+        .optional()
+        .describe('clock hour the stretch starts (default the opening hour)'),
+      to: z
+        .number()
+        .min(0)
+        .max(24)
+        .optional()
+        .describe('clock hour it ends (default a full day later)'),
+      theme: z.enum(['light', 'dark']).optional(),
+      labels: z
+        .boolean()
+        .optional()
+        .describe('label every flow with its value (default false)'),
+      credit: z
+        .boolean()
+        .optional()
+        .describe('sign it "Made with Anigram · Vaibhav Patel" (default true)'),
+      format: z
+        .enum(['png', 'svg', 'pdf', 'gif', 'mp4'])
+        .optional()
+        .describe(
+          'png (default), svg or pdf for the page of panels; gif or mp4 for a recording. With `out`, taken from its extension',
+        ),
+      seconds: z
+        .number()
+        .min(1)
+        .max(60)
+        .optional()
+        .describe('length of a recording (default 12)'),
+      fps: z
+        .number()
+        .int()
+        .min(4)
+        .max(30)
+        .optional()
+        .describe('frames a second of a recording (default 12)'),
+      linger: z
+        .number()
+        .min(0)
+        .max(20)
+        .optional()
+        .describe(
+          'how much a recording slows at each moment; 0 plays the day evenly (default 5)',
+        ),
+      width: z
+        .number()
+        .int()
+        .min(MIN_PNG_WIDTH)
+        .max(MAX_PNG_WIDTH)
+        .optional()
+        .describe(
+          `width in pixels: the PNG page (default ${PNG_WIDTH}) or the recording (default ${RECORDING_WIDTH}, at most ${MAX_RECORDING_WIDTH})`,
+        ),
+      out: z
+        .string()
+        .optional()
+        .describe('save to this .png, .svg, .pdf, .gif or .mp4 path'),
+    },
+    outputSchema: {
+      panels: z.array(
+        z.object({
+          n: z.number(),
+          hour: z.number().describe('the clock, 0–24'),
+          says: z.string(),
+          kind: z.enum(['start', 'event', 'caption']),
+          event: z.string().optional(),
+        }),
+      ),
+      format: z.enum(['png', 'svg', 'pdf', 'gif', 'mp4']),
+      bytes: z.number(),
+      width: z.number().optional(),
+      height: z.number().optional(),
+      frames: z.number().optional().describe('frames in a recording'),
+      seconds: z.number().optional().describe('length of a recording'),
+      saved: z.string().optional(),
+    },
+    annotations: { readOnlyHint: false, idempotentHint: true },
+  },
+  guarded(
+    async (args: {
+      scene?: Json | string
+      file?: string
+      id?: string
+      knobs?: Record<string, number>
+      switches?: Record<string, boolean>
+      panels?: number
+      at?: number[]
+      from?: number
+      to?: number
+      theme?: 'light' | 'dark'
+      labels?: boolean
+      credit?: boolean
+      format?: 'png' | 'svg' | 'pdf' | 'gif' | 'mp4'
+      seconds?: number
+      fps?: number
+      linger?: number
+      width?: number
+      out?: string
+    }) => {
+      type Format = 'png' | 'svg' | 'pdf' | 'gif' | 'mp4'
+      const formats: Format[] = ['png', 'svg', 'pdf', 'gif', 'mp4']
+      const fromOut = args.out
+        ? (extname(args.out).toLowerCase().slice(1) as Format)
+        : undefined
+      if (fromOut && !formats.includes(fromOut))
+        throw new Error(
+          `${args.out}: expected a .png, .svg, .pdf, .gif or .mp4 path`,
+        )
+      if (fromOut && args.format && fromOut !== args.format)
+        throw new Error(
+          `format is ${args.format} but ${args.out} is a .${fromOut} path`,
+        )
+      const format = fromOut ?? args.format ?? 'png'
+      const recording = format === 'gif' || format === 'mp4'
+      if ((recording || format === 'pdf') && !args.out)
+        throw new Error(
+          `a ${format} is saved to a file: give \`out\`, such as "day.${format}"`,
+        )
+      if (!recording && (args.seconds ?? args.fps ?? args.linger) !== undefined)
+        throw new Error('seconds, fps and linger shape a gif or mp4 recording')
+      if (format === 'mp4' && !hasFfmpeg())
+        throw new Error(
+          'an mp4 needs ffmpeg on the PATH, and it was not found; a gif needs nothing extra',
+        )
+      const path = args.out ? pathFor(args.out, `.${format}`) : undefined
+      const { scene } = loadScene(args)
+      checkControls(scene, args)
+      const controls = { knobs: args.knobs, switches: args.switches }
+      const board = storyboard(scene, {
+        ...controls,
+        panels: args.panels,
+        at: args.at,
+        from: args.from,
+        to: args.to,
+      })
+      const panels = board.panels.map(({ n, hour, says, kind, event }) => ({
+        n,
+        hour,
+        says,
+        kind,
+        ...(event ? { event } : {}),
+      }))
+
+      if (!recording) {
+        const svg = renderStoryboardSvg(scene, board, {
+          ...controls,
+          theme: args.theme,
+          labels: args.labels,
+          credit: args.credit,
+        })
+        if (format === 'svg') {
+          const info = { panels, format, bytes: svg.length }
+          if (!path) return data(info, svg)
+          writeFile(path, svg)
+          return data({ ...info, saved: path }, boardLines(board))
+        }
+        if (format === 'pdf') {
+          const ratio = sizeOf(svg)
+          const { pdf } = await svgToPdf(svg, ratio, 'A3', {
+            title: `${scene.sheet} ${scene.title}: storyboard`,
+            author: scene.titleBlock?.drawnBy ?? scene.titleBlock?.owner,
+            subject: scene.subtitle || undefined,
+          })
+          writeFile(path!, pdf)
+          return data(
+            { panels, format, bytes: pdf.length, saved: path! },
+            boardLines(board),
+          )
+        }
+        const png = await svgToPng(svg, args.width ?? PNG_WIDTH)
+        const info = { panels, format, bytes: png.length, ...pngSize(png) }
+        if (path) {
+          writeFile(path, png)
+          return data({ ...info, saved: path }, boardLines(board))
+        }
+        return image(png, info)
+      }
+
+      const fps = args.fps ?? 12
+      const runs = frameRuns(board, {
+        seconds: args.seconds,
+        fps,
+        linger: args.linger,
+      })
+      if (runs.length > MAX_FRAMES)
+        throw new Error(`at most ${MAX_FRAMES} frames: shorten it or lower fps`)
+      const width = Math.min(MAX_RECORDING_WIDTH, args.width ?? RECORDING_WIDTH)
+      const size = frameSize(scene)
+      let height = Math.round((width * size.h) / size.w)
+      const svgs: string[] = []
+      record(scene, runs, { ...controls, fps }, (frame, _sim, i) =>
+        svgs.push(
+          renderFrameSvg(scene, frame, {
+            theme: args.theme,
+            labels: args.labels,
+            credit: args.credit,
+            progress: runs.length > 1 ? i / (runs.length - 1) : 1,
+          }),
+        ),
+      )
+      const delay = 1000 / fps
+      let bytes: number
+      if (format === 'gif') {
+        const frames = []
+        for (const svg of svgs) {
+          const px = await svgToPixels(svg, width)
+          height = px.height
+          frames.push({ rgba: px.rgba, delay })
+        }
+        // hold the last frame a moment before it loops
+        frames.at(-1)!.delay += 1500
+        const gif = encodeGif(width, height, frames)
+        writeFile(path!, gif)
+        bytes = gif.length
+      } else {
+        const first = await svgToPixels(svgs[0]!, width)
+        height = first.height
+        const ff = ffmpegMp4(path!, width, height, fps)
+        await ff.write(first.rgba)
+        for (const svg of svgs.slice(1))
+          await ff.write((await svgToPixels(svg, width)).rgba)
+        await ff.done()
+        bytes = readFileSync(path!).length
+      }
+      return data(
+        {
+          panels,
+          format,
+          bytes,
+          width,
+          height,
+          frames: runs.length,
+          seconds: Math.round((runs.length / fps) * 10) / 10,
+          saved: path!,
+        },
+        `${boardLines(board)}\n\nsaved ${path} (${runs.length} frames, ${width}×${height})`,
+      )
     },
   ),
 )
