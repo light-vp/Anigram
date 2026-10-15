@@ -17,7 +17,7 @@ import type { ThemeId } from '../view/palette.ts'
  *   ?embed=presentation&scene=…      the portfolio's existing embed — same as embed=1
  *   ?embed=app                       the full app without its header
  *   ?build=1                         the editor: build a sheet, or edit one (with ?scene= or #scene=)
- *   ?build=1&drawing=pid             the editor, starting from a P&ID (or single-line, pfd)
+ *   ?build=1&drawing=pid             the editor, starting from a P&ID (or single-line, pfd, fluid-power)
  *   ?embed=build                     the editor without its header
  *   ?screen=1                        a wall screen: dark, full bleed, tours every sheet
  *   ?theme=light|dark                the sheet's palette (old names: paper, blueprint)
@@ -25,6 +25,8 @@ import type { ThemeId } from '../view/palette.ts'
  *   ?t=18.5                          start the clock at 18:30
  *   ?speed=2                         clock multiplier
  *   ?credit=0                        leave off the "Made with Anigram" line (svg export too)
+ *   ?paused=1                        open with the clock stopped (embed)
+ *   ?controls=0                      leave off the play bar (embed)
  *   #scene=…                         a whole scene file, deflated (see format/share.ts); running,
  *                                    or in the editor with ?build=1
  */
@@ -49,6 +51,10 @@ export interface Params {
   speed: number | null
   /** sign the sheet; on unless ?credit=0 */
   credit: boolean
+  /** open with the clock stopped (?paused=1) */
+  paused: boolean
+  /** the embed's play bar; on unless ?controls=0 */
+  controls: boolean
 }
 
 export function readParams(
@@ -83,6 +89,8 @@ export function readParams(
     hour: num('t'),
     speed: num('speed'),
     credit: q.get('credit') !== '0',
+    paused: q.has('paused') && q.get('paused') !== '0',
+    controls: q.get('controls') !== '0',
   }
 }
 

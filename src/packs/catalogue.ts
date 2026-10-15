@@ -18,7 +18,8 @@ import type {
  *
  * P&ID classes are named after DEXPI's, so a P&ID can leave Anigram as DEXPI
  * later without renaming anything. Single-line classes are named for what
- * IEC 60617 and ANSI/IEEE 315 both draw.
+ * IEC 60617 and ANSI/IEEE 315 both draw, and fluid-power classes for what
+ * ISO 1219-1 calls them.
  */
 
 export interface ClassInfo {
@@ -28,6 +29,30 @@ export interface ClassInfo {
   inline?: boolean
   /** ends a line, so it points the way the flow goes */
   terminal?: boolean
+  /**
+   * sits in a line and has a way round (a non-return valve, a relief
+   * valve), so it turns to point the way the flow goes
+   */
+  directed?: boolean
+  /**
+   * where its lines join it: a directional valve's A and B on top and P
+   * and T underneath, a cylinder's two ends. A line arriving from above or
+   * below is moved onto a free port, the inlet onto `supply`, the rest in
+   * order across.
+   */
+  ports?: Ports
+  /** how far it reaches either side of its centre, at most, when that is past its tile */
+  reach?: number
+}
+
+export interface Ports {
+  /** how far above and below the centre the ports are */
+  edge: number
+  /** the ports along the top and the bottom, left to right */
+  top?: number[]
+  bottom?: number[]
+  /** which bottom port the line coming in takes: a valve's P */
+  supply?: number
 }
 
 export interface PackInfo {
@@ -167,10 +192,130 @@ const PFD: PackInfo = {
   shows: ['water', 'heat', 'fuel'],
 }
 
+/** a 4-way valve's ports, a quarter of its 16-wide envelope in from each side */
+const VALVE_PORTS: Ports = {
+  edge: 8,
+  top: [-4, 4],
+  bottom: [-4, 4],
+  supply: 0,
+}
+
+const FLUID_POWER: PackInfo = {
+  drawing: 'fluid-power',
+  name: 'fluid-power circuit',
+  follows: 'ISO 1219-1 symbols, laid out and tagged after ISO 1219-2',
+  classes: {
+    HydraulicPump: { is: 'a fixed-displacement hydraulic pump' },
+    VariablePump: { is: 'a variable-displacement hydraulic pump' },
+    HydraulicMotor: { is: 'a hydraulic motor' },
+    AirCompressor: { is: 'an air compressor' },
+    PneumaticMotor: { is: 'a pneumatic motor' },
+    ElectricMotor: { is: 'an electric motor driving a pump or compressor' },
+    DoubleActingCylinder: {
+      is: 'a double-acting cylinder; its piston and rod follow its fill',
+      ports: { edge: 8, bottom: [-14, 10] },
+      reach: 44,
+    },
+    SingleActingCylinder: {
+      is: 'a single-acting cylinder with spring return; its piston and rod follow its fill',
+      ports: { edge: 8, bottom: [-14] },
+      reach: 44,
+    },
+    DirectionalValve43: {
+      is: 'a 4/3 directional valve, closed centre, solenoids and centring springs; its open picks the envelope: 0 the centre, 0.5 crossed (P to B), 1 straight through (P to A)',
+      ports: VALVE_PORTS,
+      reach: 54,
+    },
+    DirectionalValve42: {
+      is: 'a 4/2 directional valve, solenoid and spring return; open shifts it from crossed to straight through',
+      ports: VALVE_PORTS,
+      reach: 38,
+    },
+    DirectionalValve52: {
+      is: 'a 5/2 directional valve, solenoid and spring return; open shifts it',
+      ports: { edge: 8, top: [-6, 6], bottom: [-7, 0, 7], supply: 1 },
+      reach: 47,
+    },
+    DirectionalValve32: {
+      is: 'a 3/2 directional valve, normally closed, solenoid and spring return; open lets it through',
+      ports: { edge: 8, top: [-4], bottom: [-4, 4], supply: 0 },
+      reach: 38,
+    },
+    ReliefValve: {
+      is: 'a pressure relief valve; shut, and lifting as it opens',
+      inline: true,
+      directed: true,
+    },
+    ReducingValve: {
+      is: 'a pressure reducing valve; open, and closing in as it throttles',
+      inline: true,
+      directed: true,
+    },
+    NonReturnValve: {
+      is: 'a non-return (check) valve; the ball lifts while it passes flow',
+      inline: true,
+      directed: true,
+    },
+    ThrottleValve: {
+      is: 'an adjustable throttle; its gap closes as it shuts',
+      inline: true,
+    },
+    FlowControlValve: {
+      is: 'a one-way flow control valve: a throttle with a non-return bypass',
+      inline: true,
+      directed: true,
+    },
+    ShuttleValve: { is: 'a shuttle valve: either inlet to the outlet' },
+    ShutOffValve: { is: 'a shut-off valve; filled when shut', inline: true },
+    Filter: { is: 'a filter', inline: true },
+    AirServiceUnit: {
+      is: 'an air service unit: filter, regulator and lubricator',
+      inline: true,
+    },
+    Accumulator: { is: 'a gas-loaded accumulator; shows its oil' },
+    Reservoir: {
+      is: 'the reservoir, open to atmosphere; drawn at every line that returns to it',
+    },
+    Silencer: { is: 'an exhaust silencer', terminal: true },
+    Exhaust: { is: 'an exhaust to atmosphere', terminal: true },
+    PressureGauge: { is: 'a pressure gauge' },
+    PressureSource: {
+      is: 'a pressure source off the drawing: filled for oil, hollow for air',
+      terminal: true,
+    },
+    Junction: { is: 'where lines meet' },
+  },
+  fromKind: {
+    pump: 'HydraulicPump',
+    powerpack: 'HydraulicPump',
+    compressor: 'AirCompressor',
+    motor: 'ElectricMotor',
+    cylinder: 'DoubleActingCylinder',
+    dcv: 'DirectionalValve43',
+    valve: 'ShutOffValve',
+    accumulator: 'Accumulator',
+    oiltank: 'Reservoir',
+    reservoir: 'Reservoir',
+    treatment: 'Filter',
+    manifold: 'Junction',
+    sky: 'Exhaust',
+  },
+  // the power cables are left off, as on a P&ID; a shaft joins a motor to its pump
+  shows: ['oil', 'air', 'mechanical'],
+}
+
 export const PACKS: Partial<Record<DrawingType, PackInfo>> = {
   pid: PID,
   'single-line': SINGLE_LINE,
   pfd: PFD,
+  'fluid-power': FLUID_POWER,
+}
+
+/** how far a class reaches either side of its centre, from whichever pack has it */
+export function reachOf(cls: string): number {
+  for (const pack of Object.values(PACKS))
+    if (pack && cls in pack.classes) return pack.classes[cls]!.reach ?? 22
+  return 22
 }
 
 /** the class a part is drawn as on this sheet, or undefined for a labelled block */
@@ -192,6 +337,15 @@ export function classOf(
       gate: 'CircuitBreaker',
       // something that makes power on the drawing is a generator; the grid says so
       source: 'Generator',
+    }[r as string]
+  if (pack.drawing === 'fluid-power')
+    return {
+      // oil or air from off the drawing; a return to the tank; air let go
+      source: 'PressureSource',
+      sink: 'Reservoir',
+      vent: 'Exhaust',
+      bus: 'Junction',
+      gate: 'ShutOffValve',
     }[r as string]
   // whatever comes in from off the drawing, or goes out to it
   if (r === 'source' || r === 'sink' || r === 'vent') return 'OffPageConnector'

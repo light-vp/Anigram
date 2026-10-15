@@ -24,15 +24,16 @@ embed it, build on it.
 
 <p align="center"><img src="docs/sheet-grid.png" alt="The power grid sheet in paper mode at 18:00: every flow labelled in megawatts, from gas field and reactor core through the transmission line to the city, hospital and steelworks." width="900"></p>
 
-## Five sheets to start
+## Six sheets to start
 
-| Sheet                          | What it shows                                                                                                                                                        | Poke it                                               |
-| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
-| **LD-001 The power grid**      | gas, nuclear and wind feeding a city; pumped hydro storing night-time surplus for the evening peak; two thirds of a reactor's heat leaving through the cooling tower | trip the transmission breaker; change wind and demand |
-| **LD-002 A solar house**       | panels → inverter → consumer unit; a battery that only fills from spare sun; a heat pump pulling free heat out of cold air; import and export                        | plug the car in; add cloud; make it colder            |
-| **LD-003 A town's water**      | borehole pump, treatment, a water tower on a float switch, gravity doing the rest; leaks                                                                             | open the fire hydrant; grow the town                  |
-| **LD-004 A hydroelectric dam** | rain into a reservoir, a turbine into a town, and the spillway in a storm                                                                                            | shut the intake gate; make it rain                    |
-| **LD-005 A data centre**       | electricity in, requests and heat out; UPS batteries bridging the minutes a diesel needs to start                                                                    | trip the mains; push traffic past capacity            |
+| Sheet                                  | What it shows                                                                                                                                                        | Poke it                                               |
+| -------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| **LD-001 The power grid**              | gas, nuclear and wind feeding a city; pumped hydro storing night-time surplus for the evening peak; two thirds of a reactor's heat leaving through the cooling tower | trip the transmission breaker; change wind and demand |
+| **LD-002 A solar house**               | panels → inverter → consumer unit; a battery that only fills from spare sun; a heat pump pulling free heat out of cold air; import and export                        | plug the car in; add cloud; make it colder            |
+| **LD-003 A town's water**              | borehole pump, treatment, a water tower on a float switch, gravity doing the rest; leaks                                                                             | open the fire hydrant; grow the town                  |
+| **LD-004 A hydroelectric dam**         | rain into a reservoir, a turbine into a town, and the spillway in a storm                                                                                            | shut the intake gate; make it rain                    |
+| **LD-005 A data centre**               | electricity in, requests and heat out; UPS batteries bridging the minutes a diesel needs to start                                                                    | trip the mains; push traffic past capacity            |
+| **LD-006 A garden that waters itself** | an event chain: sun starts the pump, a float stops it, a timer opens the sprinkler on tank pressure                                                                  | cloud the sky; watch every link wait for it           |
 
 ## One drawing, three media
 
@@ -59,24 +60,24 @@ battery, and the engine as backup — check the battery runs flat overnight."_
 The server gives the assistant the scene format, validation with readable
 errors, a headless day of simulation, SVG rendering and share links:
 
-| Tool                              |                                                                     |
-| --------------------------------- | ------------------------------------------------------------------- |
-| `anigram_guide`                   | the format, every drawable part, the signal functions               |
-| `list_scenes` / `get_scene`       | the built-in sheets, as JSON to copy from                           |
-| `new_scene`                       | a working starter for a P&ID, single-line, PFD or pictorial sheet   |
-| `validate_scene`                  | errors and warnings, each pinned to the part it's about             |
-| `write_scene` / `edit_scene`      | save a scene file, or patch parts and links in place                |
-| `check_scene`                     | valid, and every claim in its `expect` list holds                   |
-| `check_drawing`                   | what an engineer would mark up: tags, line numbers, loops, breakers |
-| `lint_layout` / `auto_layout`     | lines crossing, labels clashing; or lay the sheet out by its flow   |
-| `export_dexpi`                    | a P&ID as DEXPI Proteus XML, for plant design software              |
-| `import_dexpi`                    | open a DEXPI P&ID from plant design software as a living sheet      |
-| `import_sfiles` / `export_sfiles` | a flowsheet in SFILES 2.0 notation in, or out                       |
-| `simulate_scene`                  | 24 hours, hour by hour, with every alert and shortfall              |
-| `render_scene`                    | the sheet at any hour: a PNG to look at, an SVG, or a PDF to print  |
-| `share_link`                      | a URL that opens it live; the scene rides in the link               |
+| Tool                              |                                                                                |
+| --------------------------------- | ------------------------------------------------------------------------------ |
+| `anigram_guide`                   | the format, every drawable part, the signal functions                          |
+| `list_scenes` / `get_scene`       | the built-in sheets, as JSON to copy from                                      |
+| `new_scene`                       | a working starter for a P&ID, single-line, PFD, fluid-power or pictorial sheet |
+| `validate_scene`                  | errors and warnings, each pinned to the part it's about                        |
+| `write_scene` / `edit_scene`      | save a scene file, or patch parts and links in place                           |
+| `check_scene`                     | valid, and every claim in its `expect` list holds                              |
+| `check_drawing`                   | what an engineer would mark up: tags, line numbers, loops, breakers            |
+| `lint_layout` / `auto_layout`     | lines crossing, labels clashing; or lay the sheet out by its flow              |
+| `export_dexpi`                    | a P&ID as DEXPI Proteus XML, for plant design software                         |
+| `import_dexpi`                    | open a DEXPI P&ID from plant design software as a living sheet                 |
+| `import_sfiles` / `export_sfiles` | a flowsheet in SFILES 2.0 notation in, or out                                  |
+| `simulate_scene`                  | 24 hours, hour by hour, with every alert and shortfall                         |
+| `render_scene`                    | the sheet at any hour: a PNG to look at, an SVG, or a PDF to print             |
+| `share_link`                      | a URL that opens it live; the scene rides in the link                          |
 
-Each practice also has a prompt (`draw-pid`, `draw-single-line`, `draw-pfd`,
+Each practice also has a prompt (`draw-pid`, `draw-single-line`, `draw-pfd`, `draw-fluid-power`,
 `draw-sheet`) that carries its conventions. Setup for other clients is in [mcp/README.md](mcp/README.md). An example the
 server made: [examples/narrowboat.json](examples/narrowboat.json).
 
@@ -100,7 +101,7 @@ opens whatever sheet is on screen in it, and `?build=1` opens it from any
 link. It edits the scene file itself: open a file an assistant wrote (or a
 `share_link` with `view: "editor"`), move parts, tag them, write their
 signals, and **save file** hands back the same JSON with only your changes in
-it. On a P&ID, single-line or PFD the palette offers that practice's symbols,
+it. On a P&ID, single-line, PFD or fluid-power circuit the palette offers that practice's symbols,
 tagged as they land (a pump arrives as `P-102`), and the checks beside the
 sheet are the ones the MCP server runs: whether it runs, whether its story
 holds, what a reviewing engineer would mark up, and whether the layout reads
@@ -159,30 +160,61 @@ npm run simulate examples/narrowboat.json   # a scene file
 
 The URL is the API:
 
-| Param               |                                                                                                                                |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| (nothing)           | the editor, on the sheet you left                                                                                              |
-| `examples`          | the built-in sheets, running, with their dials                                                                                 |
-| `docs`              | how it works, the MCP server and this table; `?docs#mcp` opens at the MCP server                                               |
-| `scene=<id>`        | `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre` (the old `cdn` / `microservices` / `oauth2` ids still resolve) |
-| `embed=1`           | just the sheet and a play bar; `embed=presentation` is the same                                                                |
-| `embed=app`         | the full app without its header                                                                                                |
-| `screen=1`          | wall-screen tour                                                                                                               |
-| `build=1`           | the editor, on `scene=<id>`, a `#scene=` link, or the sheet you left; `drawing=pid` (or `single-line`, `pfd`) starts one       |
-| `embed=build`       | the editor without its header                                                                                                  |
-| `theme=light\|dark` | the sheet's palette (`paper` and `blueprint` still work)                                                                       |
-| `mode=paper`        | frozen and labelled                                                                                                            |
-| `t=18.5`            | open at 18:30                                                                                                                  |
-| `speed=4`           | clock multiplier                                                                                                               |
-| `credit=0`          | leave off the "Made with Anigram · Vaibhav Patel" line (the downloaded SVG too)                                                |
-| `#scene=…`          | a whole scene file, deflated and base64url'd — what **⧉ link** and the MCP server's `share_link` write                         |
+| Param               |                                                                                                                                                  |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| (nothing)           | the editor, on the sheet you left                                                                                                                |
+| `examples`          | the built-in sheets, running, with their dials                                                                                                   |
+| `docs`              | how it works, the MCP server and this table; `?docs#mcp` opens at the MCP server                                                                 |
+| `scene=<id>`        | `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`, `garden-machine` (the old `cdn` / `microservices` / `oauth2` ids still resolve) |
+| `embed=1`           | just the sheet and a play bar; `embed=presentation` is the same                                                                                  |
+| `embed=app`         | the full app without its header                                                                                                                  |
+| `screen=1`          | wall-screen tour                                                                                                                                 |
+| `build=1`           | the editor, on `scene=<id>`, a `#scene=` link, or the sheet you left; `drawing=pid` (or `single-line`, `pfd`, `fluid-power`) starts one          |
+| `embed=build`       | the editor without its header                                                                                                                    |
+| `theme=light\|dark` | the sheet's palette (`paper` and `blueprint` still work)                                                                                         |
+| `mode=paper`        | frozen and labelled                                                                                                                              |
+| `t=18.5`            | open at 18:30                                                                                                                                    |
+| `speed=4`           | clock multiplier                                                                                                                                 |
+| `credit=0`          | leave off the "Made with Anigram · Vaibhav Patel" line (the downloaded SVG too)                                                                  |
+| `#scene=…`          | a whole scene file, deflated and base64url'd — what **⧉ link** and the MCP server's `share_link` write                                           |
+| `paused=1`          | open with the clock stopped                                                                                                                      |
+| `controls=0`        | leave off the play bar                                                                                                                           |
+
+### Without an iframe
+
+`living-diagram.js` defines a `<living-diagram>` element: the same sheet and
+play bar, running in your page inside its own shadow root, so neither page's
+CSS reaches the other. It sizes to its container's width and the sheet's
+proportions, and carries no analytics.
+
+```html
+<script
+  type="module"
+  src="https://anigram.vaibhav.co.uk/living-diagram.js"
+></script>
+
+<living-diagram scene="water-tower"></living-diagram>
+<living-diagram src="./my-plant.json" theme="auto" hour="18"></living-diagram>
+<living-diagram>
+  <script type="application/json">
+    { "anigram": 1, ... }
+  </script>
+</living-diagram>
+```
+
+The scene comes from `src` (a URL), `share` (a `#scene=…` link), an inline
+JSON script, or `scene` (a built-in id), first match wins. It also takes
+`theme` (`light`, `dark`, `auto`), `hour`, `speed`, `paused`,
+`controls="false"`, `credit="false"` and `mode="paper"`, and follows them
+when they change. A good scene fires `load` (`detail: { id, title }`); a bad
+one shows its problems in place and fires `error` (`detail: { message, errors }`).
 
 ## Commands
 
 ```sh
 npm install
 npm run dev        # vite dev server
-npm run build      # tsc -b && vite build → dist/
+npm run build      # tsc -b && vite build → dist/ (the app and living-diagram.js)
 npm test           # the simulation's rules, in node's own test runner
 npm run golden:update  # accept a deliberate change to a built-in sheet's day
 npm run build:mcp  # the MCP server → mcp/dist/anigram-mcp.mjs
@@ -203,10 +235,11 @@ npm run format     # prettier --write .
 src/
   sim/      the rulebook — React-free, runs in node: types, solver, signal expressions, clock, day curves
   format/   scene files: validation, a headless day report, share links
-  scenes/   the five sheets, as data
+  scenes/   the six sheets, as data
   parts/    the glyph library: one SVG function per kind of part
   view/     the drawing sheet: geometry, palette, labels and flow tags, the title block
   app/      the workbench, embed and screen views, URL params, export
+  element/  the <living-diagram> web component (built to dist/living-diagram.js)
   editor/   the editor: pure edits on a scene file, part templates, practice palettes, and its views
   packs/    the engineering drawing practices: classes, symbols, starters, house-rule checks
   docs/     small renderers for the reference docs

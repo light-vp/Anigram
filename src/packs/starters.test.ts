@@ -23,3 +23,11 @@ for (const [drawing, starter] of Object.entries(STARTERS))
     for (const r of results) assert.ok(r.ok, `${r.says}: failed at ${r.failed}`)
     assert.ok(PRACTICE[drawing as keyof typeof PRACTICE].length > 100)
   })
+
+test('the press cylinder strokes out and back through the day', () => {
+  const v = validateScene(structuredClone(STARTERS['fluid-power']))
+  const fills = simulateDay(v.scene!).rows.map((r) => r.parts.cylinder!.fill!)
+  // fully out, then fully home, more than once
+  assert.ok(fills.filter((f) => f > 0.95).length >= 3, fills.join(' '))
+  assert.ok(fills.filter((f) => f < 0.05).length >= 3, fills.join(' '))
+})

@@ -17,7 +17,9 @@ import type {
   PartSpec,
   Scene,
 } from '../sim/types.ts'
-import { rate, readout } from './format.ts'
+import { ChainArrows, ChainRings, chainEdges } from './chain.tsx'
+import { effortReadout, rate, readout } from './format.ts'
+import { labelBoxOf } from './lint.ts'
 import {
   BORDER,
   FOOT_H,
@@ -46,7 +48,7 @@ import {
   EngPart,
   InstrumentLines,
 } from './engineering.tsx'
-import { busbarSpans, partWay, tapBusbars } from './lines.ts'
+import { busbarSpans, engPoints, partWay } from './lines.ts'
 import { Border, TitleBlock } from './TitleBlock.tsx'
 import { measuredPart } from '../sim/instruments.ts'
 
@@ -80,6 +82,8 @@ const SPACING: Record<Domain, number> = {
   fuel: 14,
   mechanical: 10,
   data: 9,
+  oil: 12,
+  air: 10,
 }
 
 export function Sheet({
@@ -101,9 +105,7 @@ export function Sheet({
   const geometry = useMemo(
     () =>
       scene.links.map((l) =>
-        eng
-          ? tapBusbars(scene, l, linkPoints(scene, l, false))
-          : linkPoints(scene, l),
+        eng ? engPoints(scene, l) : linkPoints(scene, l),
       ),
     [scene, eng],
   )
@@ -128,6 +130,8 @@ export function Sheet({
   // an instrument dims with the part at the end of its signal
   const quiet = (i: InstrumentSpec) =>
     !!lit && !lit.parts.has(measuredPart(i, scene)?.id ?? '')
+  // an event chain's arrows annotate a picture; a drawing keeps to its standard
+  const chain = useMemo(() => (eng ? [] : chainEdges(scene)), [scene, eng])
 
   return (
     <svg
@@ -176,6 +180,7 @@ export function Sheet({
             />
           ),
         )}
+        <ChainArrows scene={scene} frame={frame} edges={chain} />
         {instruments.map((inst) => (
           <InstrumentLines
             key={inst.tag}
@@ -223,6 +228,8 @@ export function Sheet({
           ),
         )}
       </g>
+
+      <ChainRings scene={scene} frame={frame} />
 
       <g>
         {scene.parts.map((part) =>
@@ -316,11 +323,19 @@ function flowTags(
   drawn: (i: number) => boolean,
 ): Tag[] {
   const parts = shown ? scene.parts.filter((p) => shown.has(p.id)) : scene.parts
+  const eng = isEngineering(scene)
   const obstacles = parts.flatMap((p) => {
     const s = frame.parts[p.id]
-    return s && !BAR_KINDS.has(p.kind)
-      ? [glyphBox(p), labelBox(p, readout(scene, p, s).value)]
-      : [glyphBox(p)]
+    if (!s) return [glyphBox(p)]
+    const effort = !!effortReadout(scene, p, s)
+    // an engineering label sits where its symbol's reach puts it, with a tag
+    if (eng) {
+      const box = labelBoxOf(scene, p, undefined, effort)
+      return box ? [glyphBox(p), box] : [glyphBox(p)]
+    }
+    return BAR_KINDS.has(p.kind)
+      ? [glyphBox(p)]
+      : [glyphBox(p), labelBox(p, readout(scene, p, s).value, +effort)]
   })
   const items = scene.links.flatMap((l, i) => {
     const flow = frame.links[i]?.flow ?? 0
@@ -517,6 +532,7 @@ function PartLabel({
   const [x, y] = cellToPx(part.at)
   const o = LABEL_OFFSET[part.labelSide ?? 'below']
   const r = readout(scene, part, s)
+  const e = effortReadout(scene, part, s)
   return (
     <g
       className={dim ? 'labelGroup dim' : 'labelGroup'}
@@ -533,6 +549,15 @@ function PartLabel({
       >
         {r.value}
       </text>
+      {e && (
+        <text
+          className={e.bad ? 'value effort bad' : 'value effort'}
+          textAnchor={o.anchor}
+          y={27}
+        >
+          {e.value}
+        </text>
+      )}
     </g>
   )
 }

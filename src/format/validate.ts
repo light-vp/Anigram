@@ -9,6 +9,9 @@ import type {
   Caption,
   Expectation,
   Domain,
+  EffortSpec,
+  EventAction,
+  EventSpec,
   InstrumentMounting,
   InstrumentSpec,
   DrawingType,
@@ -43,6 +46,8 @@ export const DOMAINS: readonly Domain[] = [
   'fuel',
   'mechanical',
   'data',
+  'oil',
+  'air',
 ]
 
 export const DRAWINGS: readonly DrawingType[] = [
@@ -50,6 +55,7 @@ export const DRAWINGS: readonly DrawingType[] = [
   'pid',
   'single-line',
   'pfd',
+  'fluid-power',
 ]
 
 export const LINE_TYPES: readonly LineType[] = [
@@ -91,6 +97,7 @@ export const FIELDS = {
     'knobs',
     'switches',
     'captions',
+    'events',
     'expect',
     'clock',
   ],
@@ -105,7 +112,7 @@ export const FIELDS = {
     'revision',
     'status',
   ],
-  units: ['rate', 'amount'],
+  units: ['rate', 'amount', 'effort'],
   knob: ['id', 'label', 'min', 'max', 'step', 'value', 'format'],
   switch: ['id', 'label', 'on'],
   part: [
@@ -119,6 +126,7 @@ export const FIELDS = {
     'toggles',
     'tag',
     'class',
+    'effort',
   ],
   link: [
     'from',
@@ -130,6 +138,7 @@ export const FIELDS = {
     'loss',
     'line',
     'tag',
+    'drop',
   ],
   instrument: [
     'tag',
@@ -144,12 +153,17 @@ export const FIELDS = {
     'high',
   ],
   caption: ['from', 'to', 'text'],
+  effort: ['set', 'boost', 'ratio', 'drop', 'min', 'max'],
+  relief: ['at', 'full'],
+  event: ['id', 'says', 'when', 'after', 'then', 'at', 'once'],
+  switchAction: ['switch', 'on'],
+  knobAction: ['knob', 'value'],
   expect: ['says', 'check', 'at', 'from', 'to', 'sometime'],
   refill: ['below', 'until'],
   source: ['role', 'output', 'dispatchable', 'merit'],
   sink: ['role', 'demand', 'priority', 'absorbsSurplus'],
   bus: ['role'],
-  gate: ['role', 'capacity', 'open'],
+  gate: ['role', 'capacity', 'open', 'relief'],
   converter: ['role', 'output', 'recipe', 'capacity', 'startup'],
   storage: [
     'role',
@@ -264,6 +278,8 @@ export function validateScene(input: unknown): Validation {
         else {
           unknownFields(`units.${d}`, u, FIELDS.units)
           units[d as Domain] = { rate: u.rate, amount: u.amount }
+          if (u.effort !== undefined)
+            units[d as Domain]!.effort = str(`units.${d}.effort`, u.effort)
         }
       }
   }
@@ -341,7 +357,31 @@ export function validateScene(input: unknown): Validation {
       .filter(isStr),
   )
 
-  const signal = (path: string, v: unknown, fallback?: number): Signal => {
+  const rawEvents = Array.isArray(s.events) ? s.events : []
+  const eventIds = new Set(
+    rawEvents
+      .filter(isObj)
+      .map((e) => e.id)
+      .filter(isStr),
+  )
+  /** fired() and since() name events that exist */
+  const checkEvents = (path: string, refs: { events: Set<string> }) => {
+    for (const e of refs.events)
+      if (!eventIds.has(e))
+        err(path, `no event has id "${e}"${didYouMean(e, eventIds)}`)
+  }
+
+  /**
+   * a signal, read as the tick is solved. With `now`, it is read once the
+   * flows are in, so it may read parts as they are with part(): a part's
+   * effort, an event's condition.
+   */
+  const signal = (
+    path: string,
+    v: unknown,
+    fallback?: number,
+    now = false,
+  ): Signal => {
     if (v === undefined && fallback !== undefined) return fallback
     if (isNum(v)) return v
     if (!isStr(v)) {
@@ -350,6 +390,7 @@ export function validateScene(input: unknown): Validation {
     }
     try {
       const refs = exprRefs(v)
+      checkEvents(path, refs)
       const knobIds = knobs.map((o) => o.id)
       const switchIds = switches.map((o) => o.id)
       for (const k of refs.knobs)
@@ -371,10 +412,16 @@ export function validateScene(input: unknown): Validation {
             `prev('${q}') — no part has that id${didYouMean(q, partIds)}`,
           )
       for (const q of refs.reads)
-        err(
-          path,
-          `part('${q}') only works in an expect check; a signal reads another part with prev('${q}')`,
-        )
+        if (!now)
+          err(
+            path,
+            `part('${q}') reads a part as it is now, which a flow can't; a signal reads another part with prev('${q}')`,
+          )
+        else if (!partIds.has(q))
+          err(
+            path,
+            `part('${q}') — no part has that id${didYouMean(q, partIds)}`,
+          )
     } catch (e) {
       if (e instanceof ExprError)
         err(path, `${e.message} at character ${e.at + 1} of "${v}"`)
@@ -387,6 +434,7 @@ export function validateScene(input: unknown): Validation {
   const checkExpect = (path: string, v: string) => {
     try {
       const refs = exprRefs(v)
+      checkEvents(path, refs)
       for (const k of refs.knobs)
         if (!knobs.some((o) => o.id === k))
           err(path, `knob('${k}') — no knob has that id`)
@@ -470,7 +518,63 @@ export function validateScene(input: unknown): Validation {
         err(`${p}.tag`, `${twin.id} already has the tag "${part.tag}"`)
     }
     if (raw.class !== undefined) part.class = str(`${p}.class`, raw.class)
+    if (raw.effort !== undefined)
+      part.effort = effortSpec(`${p}.effort`, raw.effort, part.behaviour)
     parts.push(part)
+  }
+
+  /** what a part sets, adds, loses and is rated for, where its role can */
+  function effortSpec(path: string, raw: unknown, b: Behaviour): EffortSpec {
+    const out: EffortSpec = {}
+    if (!isObj(raw)) {
+      err(path, 'must be an object like { "set": 230, "min": 216 }')
+      return out
+    }
+    unknownFields(path, raw, FIELDS.effort)
+    const can: Record<Behaviour['role'], readonly string[]> = {
+      source: ['set'],
+      storage: ['set'],
+      converter: ['set', 'boost', 'ratio', 'drop'],
+      gate: ['set', 'drop'],
+      bus: [],
+      sink: [],
+      vent: [],
+    }
+    const why: Record<string, string> = {
+      set: 'only a source, store, converter or gate (a regulator) sets an effort',
+      boost: 'only a converter adds to the effort it is given, like a pump',
+      ratio:
+        'only a converter multiplies the effort it is given, like a transformer',
+      drop: 'only a gate or a converter loses effort through itself; give its link a drop instead',
+    }
+    for (const f of ['set', 'boost', 'ratio', 'drop'] as const)
+      if (raw[f] !== undefined && !can[b.role].includes(f))
+        err(`${path}.${f}`, `${why[f]}, and this is a ${b.role}`)
+    if (raw.set !== undefined)
+      out.set = signal(`${path}.set`, raw.set, undefined, true)
+    if (raw.boost !== undefined)
+      out.boost = signal(`${path}.boost`, raw.boost, undefined, true)
+    if (raw.ratio !== undefined) {
+      out.ratio = num(`${path}.ratio`, raw.ratio, { min: 0 })
+      if (raw.set !== undefined)
+        err(
+          path,
+          'give set or ratio, not both: one fixes the outlet, the other follows the inlet',
+        )
+    }
+    if (raw.drop !== undefined) {
+      out.drop = num(`${path}.drop`, raw.drop, { min: 0 })
+      if (b.role === 'converter' && b.capacity === undefined)
+        err(
+          `${path}.drop`,
+          'a drop is what is lost at full capacity, so the converter needs a capacity',
+        )
+    }
+    if (raw.min !== undefined) out.min = num(`${path}.min`, raw.min)
+    if (raw.max !== undefined) out.max = num(`${path}.max`, raw.max)
+    if (out.min !== undefined && out.max !== undefined && out.min >= out.max)
+      err(path, 'min must be below max')
+    return out
   }
 
   function behaviour(path: string, b: unknown): Behaviour {
@@ -511,13 +615,32 @@ export function validateScene(input: unknown): Validation {
         return { role: 'bus' }
       case 'vent':
         return { role: 'vent' }
-      case 'gate':
+      case 'gate': {
+        let relief: { at: number; full?: number } | undefined
+        if (b.relief !== undefined) {
+          const r = b.relief
+          if (!isObj(r)) err(`${path}.relief`, 'must be { at, full }')
+          else {
+            unknownFields(`${path}.relief`, r, FIELDS.relief)
+            relief = { at: num(`${path}.relief.at`, r.at, { min: 0 }) }
+            if (r.full !== undefined) {
+              relief.full = num(`${path}.relief.full`, r.full)
+              if (relief.full <= relief.at)
+                err(
+                  `${path}.relief`,
+                  'full must be above at: it lifts at one, is wide open at the other',
+                )
+            }
+          }
+        }
         return keep({
           role: 'gate',
           capacity: num(`${path}.capacity`, b.capacity, { min: 0 }),
           open:
             b.open === undefined ? undefined : signal(`${path}.open`, b.open),
+          relief,
         })
+      }
       case 'converter': {
         const output = b.output as Domain
         if (!DOMAINS.includes(output))
@@ -658,6 +781,14 @@ export function validateScene(input: unknown): Validation {
       else link.line = raw.line as LineType
     }
     if (raw.tag !== undefined) link.tag = str(`${p}.tag`, raw.tag)
+    if (raw.drop !== undefined) {
+      link.drop = num(`${p}.drop`, raw.drop, { min: 0 })
+      if (link.capacity === undefined || link.loss)
+        err(
+          `${p}.drop`,
+          'a drop is what the link loses when it carries its capacity, so it needs a capacity',
+        )
+    }
     const twin = links.findIndex(
       (o) =>
         o.from === link.from &&
@@ -758,6 +889,7 @@ export function validateScene(input: unknown): Validation {
       // a reading is of the parts as they are now, like an expect check, but prev() works too
       try {
         const refs = exprRefs(inst.reads)
+        checkEvents(`${p}.reads`, refs)
         for (const k of refs.knobs)
           if (!knobs.some((o) => o.id === k))
             err(`${p}.reads`, `knob('${k}') — no knob has that id`)
@@ -848,6 +980,84 @@ export function validateScene(input: unknown): Validation {
       to: num(`${p}.to`, c.to, { min: 0, max: 24 }),
       text: str(`${p}.text`, c.text),
     })
+  }
+
+  const events: EventSpec[] = []
+  if (s.events !== undefined && !Array.isArray(s.events))
+    err('events', 'must be an array')
+  for (const [i, x] of rawEvents.entries()) {
+    let p = `events[${i}]`
+    if (!isObj(x)) {
+      err(p, 'must be an object')
+      continue
+    }
+    const eid = str(`${p}.id`, x.id)
+    if (eid) p = `events[${i}] (${eid})`
+    unknownFields(p, x, FIELDS.event)
+    if (events.some((o) => o.id === eid)) err(`${p}.id`, 'duplicate event id')
+    const ev: EventSpec = {
+      id: eid,
+      says: str(`${p}.says`, x.says),
+      when: str(`${p}.when`, x.when),
+      then: [],
+    }
+    // the condition reads the parts as they are now, like an expect check
+    if (ev.when) signal(`${p}.when`, ev.when, undefined, true)
+    if (x.after !== undefined) ev.after = num(`${p}.after`, x.after, { min: 0 })
+    if (x.at !== undefined) ev.at = partRef(`${p}.at`, x.at)
+    if (x.once !== undefined) {
+      if (typeof x.once !== 'boolean') err(`${p}.once`, 'must be true or false')
+      else if (x.once) ev.once = true
+    }
+    if (!Array.isArray(x.then) || !x.then.length)
+      err(
+        `${p}.then`,
+        'must list what it does, like [{ "switch": "pump", "on": true }]',
+      )
+    for (const [j, a] of (Array.isArray(x.then) ? x.then : []).entries()) {
+      const q = `${p}.then[${j}]`
+      if (!isObj(a)) {
+        err(q, 'must be an object')
+        continue
+      }
+      let act: EventAction | undefined
+      if (a.switch !== undefined && a.knob === undefined) {
+        unknownFields(q, a, FIELDS.switchAction)
+        const id = str(`${q}.switch`, a.switch)
+        if (!switches.some((w) => w.id === id))
+          err(
+            `${q}.switch`,
+            `no switch has id "${id}"${didYouMean(
+              id,
+              switches.map((w) => w.id),
+            )}`,
+          )
+        if (typeof a.on !== 'boolean') err(`${q}.on`, 'must be true or false')
+        act = { switch: id, on: a.on === true }
+      } else if (a.knob !== undefined && a.switch === undefined) {
+        unknownFields(q, a, FIELDS.knobAction)
+        const id = str(`${q}.knob`, a.knob)
+        const knob = knobs.find((k) => k.id === id)
+        const value = num(`${q}.value`, a.value)
+        if (!knob)
+          err(
+            `${q}.knob`,
+            `no knob has id "${id}"${didYouMean(
+              id,
+              knobs.map((k) => k.id),
+            )}`,
+          )
+        else if (value < (knob.min ?? 0) || value > (knob.max ?? 1))
+          err(`${q}.value`, `must be within ${knob.min ?? 0}..${knob.max ?? 1}`)
+        act = { knob: id, value }
+      } else
+        err(
+          q,
+          'must be { "switch": "id", "on": true } or { "knob": "id", "value": 0.5 }',
+        )
+      if (act) ev.then.push(act)
+    }
+    events.push(ev)
   }
 
   const expect: Expectation[] = []
@@ -946,6 +1156,7 @@ export function validateScene(input: unknown): Validation {
   if (knobs.length) scene.knobs = knobs
   if (switches.length) scene.switches = switches
   if (captions.length) scene.captions = captions
+  if (events.length) scene.events = events
   if (expect.length) scene.expect = expect
 
   if (errors.length) return { ok: false, errors, warnings }

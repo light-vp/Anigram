@@ -2,6 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
 
 import { SCENES } from '../scenes/index.ts'
@@ -146,4 +147,64 @@ test('drawing, symbols, tags, lines and the title block validate', () => {
       x.includes('only a single-line drawing chooses its symbol standard'),
     ),
   )
+})
+
+test('a fluid-power circuit has the ISO 1219 classes', () => {
+  const fp = PACKS['fluid-power']!
+  for (const cls of [
+    'HydraulicPump',
+    'VariablePump',
+    'HydraulicMotor',
+    'AirCompressor',
+    'PneumaticMotor',
+    'ElectricMotor',
+    'DoubleActingCylinder',
+    'SingleActingCylinder',
+    'DirectionalValve43',
+    'DirectionalValve52',
+    'DirectionalValve42',
+    'DirectionalValve32',
+    'ReliefValve',
+    'ReducingValve',
+    'NonReturnValve',
+    'ThrottleValve',
+    'FlowControlValve',
+    'ShuttleValve',
+    'Filter',
+    'Reservoir',
+    'Accumulator',
+    'AirServiceUnit',
+    'Silencer',
+    'PressureGauge',
+  ])
+    assert.ok(cls in fp.classes, cls)
+  // the working lines and the shafts, not the motor's cable
+  assert.deepEqual(fp.shows, ['oil', 'air', 'mechanical'])
+  const press = { drawing: 'fluid-power' as const }
+  const of = (kind: string, role: 'bus' | 'sink' | 'vent' = 'bus') =>
+    classOf(
+      {
+        id: 'x',
+        kind,
+        label: 'x',
+        at: [0, 0],
+        behaviour: { role } as Scene['parts'][number]['behaviour'],
+      },
+      press,
+    )
+  assert.equal(of('cylinder'), 'DoubleActingCylinder')
+  assert.equal(of('dcv'), 'DirectionalValve43')
+  assert.equal(of('oiltank'), 'Reservoir')
+  assert.equal(of('kettle', 'vent'), 'Exhaust')
+  assert.equal(of('kettle', 'sink'), 'Reservoir')
+})
+
+test('every class in every pack has a symbol of its own', () => {
+  // symbols.tsx is JSX, which the test runner can't load, so read its registry
+  const src = readFileSync(new URL('./symbols.tsx', import.meta.url), 'utf8')
+  const block = /const SYMBOLS[^=]*= \{([^}]*)\}/.exec(src)![1]!
+  const drawn = new Set(block.split(/[\s,]+/).filter(Boolean))
+  for (const pack of Object.values(PACKS))
+    for (const cls of Object.keys(pack!.classes))
+      assert.ok(drawn.has(cls), `${pack!.name}: ${cls} has no symbol`)
 })

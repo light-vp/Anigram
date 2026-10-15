@@ -1,9 +1,11 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { classOf } from '../packs/catalogue.ts'
-import { cellToPx } from './geometry.ts'
+import { PACKS, classOf, shows } from '../packs/catalogue.ts'
+import type { Ports } from '../packs/catalogue.ts'
+import { cellToPx, linkPoints } from './geometry.ts'
 import type { Pt } from './geometry.ts'
+import { LABEL_OFFSET } from './layout.ts'
 import type { LineType, LinkSpec, PartSpec, Scene } from '../sim/types.ts'
 
 /** what a link is drawn as: given, or a signal for data and a process line otherwise */
@@ -101,4 +103,137 @@ export function busbarSpans(
     spans.set(p.id, [lo, hi])
   }
   return spans
+}
+
+// ---- fluid power: lines onto ports -------------------------------------------
+
+/** a part's ports, on a sheet that draws them */
+function portsOf(scene: Scene, id: string): Ports | undefined {
+  const pack = scene.drawing ? PACKS[scene.drawing] : undefined
+  const p = scene.parts.find((q) => q.id === id)
+  const c = p && classOf(p, scene)
+  return c ? pack?.classes[c]?.ports : undefined
+}
+
+type Side = 'top' | 'bottom'
+
+/** the side of a part a line arrives on, from the point before its end; none from the side */
+function sideOf(end: Pt, before: Pt): Side | undefined {
+  const dx = before[0] - end[0]
+  const dy = before[1] - end[1]
+  if (Math.abs(dy) <= Math.abs(dx)) return undefined
+  return dy > 0 ? 'bottom' : 'top'
+}
+
+/**
+ * The port the line to `other` takes on one side of a part, as an offset
+ * from its centre. Every line arriving on that side shares the ports out: the
+ * one coming in takes the supply port (a valve's P), the rest go in order
+ * across, left to right as they arrive. A two-way pair is one line.
+ */
+function portOffset(
+  scene: Scene,
+  id: string,
+  side: Side,
+  ports: Ports,
+  other: string,
+): number | undefined {
+  const xs = ports[side]
+  if (!xs?.length) return undefined
+  const arrivals = new Map<string, { x: number; into: boolean; out: boolean }>()
+  for (const l of scene.links) {
+    if (l.from !== id && l.to !== id) continue
+    if (!shows(l, scene)) continue
+    const pts = tapBusbars(scene, l, linkPoints(scene, l, false))
+    const into = l.to === id
+    const end = into ? pts.at(-1)! : pts[0]!
+    const before = into ? pts.at(-2)! : pts[1]!
+    if (sideOf(end, before) !== side) continue
+    const key = into ? l.from : l.to
+    const a = arrivals.get(key) ?? { x: before[0], into: false, out: false }
+    if (into) a.into = true
+    else a.out = true
+    arrivals.set(key, a)
+  }
+  const order = [...arrivals.entries()].sort((a, b) => a[1].x - b[1].x)
+  const free = xs.map((_, i) => i)
+  const port = new Map<string, number>()
+  if (side === 'bottom' && ports.supply !== undefined) {
+    const inlet = order.find(([, a]) => a.into && !a.out)
+    if (inlet) {
+      port.set(inlet[0], ports.supply)
+      free.splice(free.indexOf(ports.supply), 1)
+    }
+  }
+  for (const [key] of order)
+    if (!port.has(key) && free.length) port.set(key, free.shift()!)
+  const i = port.get(other)
+  return i === undefined ? undefined : xs[i]
+}
+
+/**
+ * A link's points with each end that arrives at a ported part (a valve, a
+ * cylinder) from above or below moved onto its port, so P and T run into a
+ * directional valve side by side as ISO 1219 draws them. A corner before the
+ * port moves with it; a straight line steps across close to the port that
+ * needs it most.
+ */
+export function tapPorts(scene: Scene, link: LinkSpec, pts: Pt[]): Pt[] {
+  if (scene.drawing !== 'fluid-power' || pts.length < 2) return pts
+  const n = pts.length
+  const at = (end: 0 | 1) => {
+    const id = end ? link.to : link.from
+    const ports = portsOf(scene, id)
+    if (!ports) return undefined
+    const p = pts[end ? n - 1 : 0]!
+    const side = sideOf(p, pts[end ? n - 2 : 1]!)
+    if (!side) return undefined
+    const dx = portOffset(scene, id, side, ports, end ? link.from : link.to)
+    if (dx === undefined) return undefined
+    const y = p[1] + (side === 'bottom' ? ports.edge : -ports.edge)
+    return { dx, pt: [p[0] + dx, y] as Pt }
+  }
+  const a = at(0)
+  const b = at(1)
+  if (!a && !b) return pts
+  if (n === 2) {
+    const from: Pt = a?.pt ?? pts[0]!
+    const to: Pt = b?.pt ?? pts[1]!
+    if (Math.abs(from[0] - to[0]) < 0.01) return [from, to]
+    // step across near whichever end is furthest off the straight line
+    const near = Math.abs(b?.dx ?? 0) >= Math.abs(a?.dx ?? 0) ? to : from
+    const far = near === to ? from : to
+    const y = near[1] + Math.sign(far[1] - near[1]) * 8
+    return [from, [from[0], y], [to[0], y], to]
+  }
+  const out = pts.map((p) => [...p] as Pt)
+  for (const [end, tap] of [
+    [0, a],
+    [n - 1, b],
+  ] as const) {
+    if (!tap) continue
+    const next = end === 0 ? 1 : n - 2
+    // the corner before the port, when the last run is straight up or down
+    if (Math.abs(out[next]![0] - out[end]![0]) < 0.5) out[next]![0] += tap.dx
+    out[end] = tap.pt
+  }
+  return out
+}
+
+/** a link's points as an engineering sheet draws them: onto busbar taps and ports */
+export function engPoints(scene: Scene, link: LinkSpec): Pt[] {
+  return tapPorts(
+    scene,
+    link,
+    tapBusbars(scene, link, linkPoints(scene, link, false)),
+  )
+}
+
+/** where a part's words sit on an engineering sheet: beside a wide symbol, clear of all of it */
+export function engLabelOffset(scene: Scene, part: PartSpec) {
+  const o = LABEL_OFFSET[part.labelSide ?? 'below']
+  if (part.labelSide !== 'left' && part.labelSide !== 'right') return o
+  const c = classOf(part, scene)
+  const reach = c && scene.drawing && PACKS[scene.drawing]?.classes[c]?.reach
+  return reach ? { ...o, dx: Math.sign(o.dx) * (reach + 10) } : o
 }

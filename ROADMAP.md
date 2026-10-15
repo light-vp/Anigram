@@ -64,5 +64,3 @@ so anyone can fork it, embed it or build a business on it.
   lifts a lever, a lever opens a valve) alongside continuous flows.
 - **More sheets and parts**, contributed: a hybrid car's drivetrain, district
   heating, a water treatment works, a factory line, a heart and lungs.
-- **A web component.** `<living-diagram src="grid.json">` for pages that
-  can't use an iframe.

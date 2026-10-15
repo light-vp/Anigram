@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
+import { effortUnit, formatEffort } from '../sim/effort.ts'
 import type { PartState } from '../sim/solver.ts'
 import type { Domain, Knob, PartSpec, Scene } from '../sim/types.ts'
 
@@ -182,4 +183,26 @@ export function details(
       break
   }
   return rows
+}
+
+/**
+ * the pressure, voltage or temperature to show under a part's reading, on a
+ * part that sets, adds, loses or is rated for one. Null where there is
+ * nothing to show.
+ */
+export function effortReadout(
+  scene: Scene,
+  part: PartSpec,
+  s: PartState,
+): Readout | null {
+  if (!Number.isFinite(s.effort)) return null
+  if (!part.effort) return null
+  // a stopped pump, a shut valve, a sink asking for nothing: no news
+  if (s.effort === 0 && s.in <= 1e-9 && s.out <= 1e-9) return null
+  const e = part.effort
+  const idle = part.behaviour.role === 'sink' && s.demand <= 0
+  const bad =
+    (e?.min !== undefined && s.effort < e.min && !idle) ||
+    (e?.max !== undefined && s.effort > e.max)
+  return { value: formatEffort(s.effort, effortUnit(scene, part.id)), bad }
 }

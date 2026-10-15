@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
+import { effortUnit } from './effort.ts'
 import { compileExpr } from './expr.ts'
 import type { Compiled } from './expr.ts'
 import type { InstrumentSpec, Scene } from './types.ts'
@@ -91,7 +92,10 @@ export function measuredPart(
   return undefined
 }
 
-/** what an instrument reads when its scene doesn't say: a level its part's fill, a flow its flow */
+/**
+ * what an instrument reads when its scene doesn't say: a level its part's
+ * fill, a flow its flow, a pressure, temperature or voltage its effort
+ */
 export function defaultReading(
   inst: InstrumentSpec,
   scene: Pick<Scene, 'parts' | 'links' | 'units' | 'instruments'>,
@@ -101,6 +105,15 @@ export function defaultReading(
   const first = splitTag(inst.tag).letters[0]
   if (first === 'L')
     return { reads: `part('${part.id}').fill * 100`, unit: '%' }
+  // pressure, temperature and voltage read the effort where it is measured
+  if (
+    (first === 'P' || first === 'T' || first === 'E') &&
+    scene.parts.some((p) => p.effort)
+  )
+    return {
+      reads: `part('${part.id}').effort`,
+      unit: effortUnit(scene, part.id),
+    }
   if (first !== 'F') return undefined
   // a flow meter reads what passes: out of a source, into anything else
   const out = part.behaviour.role === 'source'

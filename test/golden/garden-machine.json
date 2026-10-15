@@ -1,0 +1,1896 @@
+{
+ "scene": "garden-machine",
+ "start": 5,
+ "rows": [
+  {
+   "hour": 5,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0,
+     "out": 0
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.2
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Night. The house runs on the battery; the garden waits for the sun.",
+   "alerts": [],
+   "since": {
+    "dawn": 1000000000,
+    "full": 1000000000,
+    "timer": 1000000000,
+    "empty": 1000000000,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 6,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0,
+     "out": 0
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.2
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Night. The house runs on the battery; the garden waits for the sun.",
+   "alerts": [],
+   "since": {
+    "dawn": 1000000000,
+    "full": 1000000000,
+    "timer": 1000000000,
+    "empty": 1000000000,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 7,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0.976
+    },
+    "pv": {
+     "in": 0.976,
+     "out": 0.195
+    },
+    "board": {
+     "in": 0.195,
+     "out": 0.195
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0.195,
+     "out": 0,
+     "fill": 0.226
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Morning. Everything waits on the first link: enough sun on the panel.",
+   "alerts": [],
+   "since": {
+    "dawn": 1000000000,
+    "full": 1000000000,
+    "timer": 1000000000,
+    "empty": 1000000000,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 8,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 2.485
+    },
+    "pv": {
+     "in": 2.485,
+     "out": 0.497
+    },
+    "board": {
+     "in": 0.497,
+     "out": 0.497
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0.497,
+     "out": 0,
+     "fill": 0.332
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Morning. Everything waits on the first link: enough sun on the panel.",
+   "alerts": [],
+   "since": {
+    "dawn": 1000000000,
+    "full": 1000000000,
+    "timer": 1000000000,
+    "empty": 1000000000,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 9,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 4.129
+    },
+    "pv": {
+     "in": 4.129,
+     "out": 0.826
+    },
+    "board": {
+     "in": 0.826,
+     "out": 0.826
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 2.753
+    },
+    "pump": {
+     "in": 3.579,
+     "out": 2.753,
+     "effort": 1.49
+    },
+    "tank": {
+     "in": 2.753,
+     "out": 0,
+     "fill": 0.501,
+     "effort": 0.5
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.389
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Sunlight on the panel starts the pump.",
+   "alerts": [],
+   "since": {
+    "dawn": 0.667,
+    "full": 1000000000,
+    "timer": 1000000000,
+    "empty": 1000000000,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": true,
+     "sprinkler": false,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 10,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 5.668
+    },
+    "pv": {
+     "in": 5.668,
+     "out": 1.134
+    },
+    "board": {
+     "in": 1.134,
+     "out": 1.134
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.97,
+     "effort": 0.594
+    },
+    "battery": {
+     "in": 1.134,
+     "out": 0,
+     "fill": 0.52
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "The tank fills, and its float stops the pump.",
+   "alerts": [],
+   "since": {
+    "dawn": 1.667,
+    "full": 0.367,
+    "timer": 1000000000,
+    "empty": 1000000000,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 11,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 6.913
+    },
+    "pv": {
+     "in": 6.913,
+     "out": 1.383
+    },
+    "board": {
+     "in": 1.383,
+     "out": 1.383
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 3
+    },
+    "pump": {
+     "in": 3.9,
+     "out": 3,
+     "effort": 1.3
+    },
+    "tank": {
+     "in": 3,
+     "out": 3.5,
+     "fill": 0.441,
+     "effort": 0.488
+    },
+    "battery": {
+     "in": 0.483,
+     "out": 0,
+     "fill": 0.825
+    },
+    "valve": {
+     "in": 3.5,
+     "out": 3.5,
+     "effort": 0.412
+    },
+    "sprinkler": {
+     "in": 3.5,
+     "out": 0,
+     "demand": 3.5,
+     "effort": 0.35
+    }
+   },
+   "caption": "Sunlight on the panel starts the pump.",
+   "alerts": [],
+   "since": {
+    "dawn": 0.267,
+    "full": 1.367,
+    "timer": 0.833,
+    "empty": 1000000000,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": true,
+     "sprinkler": true,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 12,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 7.172
+    },
+    "pv": {
+     "in": 7.172,
+     "out": 1.434
+    },
+    "board": {
+     "in": 1.434,
+     "out": 1.434
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 3
+    },
+    "pump": {
+     "in": 3.9,
+     "out": 3,
+     "effort": 1.3
+    },
+    "tank": {
+     "in": 3,
+     "out": 3.5,
+     "fill": 0.316,
+     "effort": 0.463
+    },
+    "battery": {
+     "in": 0.534,
+     "out": 0,
+     "fill": 1
+    },
+    "valve": {
+     "in": 3.5,
+     "out": 3.5,
+     "effort": 0.387
+    },
+    "sprinkler": {
+     "in": 3.5,
+     "out": 0,
+     "demand": 3.5,
+     "effort": 0.325
+    }
+   },
+   "caption": "Pump, float, timer, sprinkler, and round again while the sun lasts.",
+   "alerts": [],
+   "since": {
+    "dawn": 1.267,
+    "full": 2.367,
+    "timer": 1.833,
+    "empty": 1000000000,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": true,
+     "sprinkler": true,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 13,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 4.5
+    },
+    "pv": {
+     "in": 4.5,
+     "out": 0.9
+    },
+    "board": {
+     "in": 0.9,
+     "out": 0.9
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 3
+    },
+    "pump": {
+     "in": 3.9,
+     "out": 3,
+     "effort": 1.3
+    },
+    "tank": {
+     "in": 3,
+     "out": 3.5,
+     "fill": 0.191,
+     "effort": 0.438
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "valve": {
+     "in": 3.5,
+     "out": 3.5,
+     "effort": 0.362
+    },
+    "sprinkler": {
+     "in": 3.5,
+     "out": 0,
+     "demand": 3.5,
+     "effort": 0.3
+    }
+   },
+   "caption": "Pump, float, timer, sprinkler, and round again while the sun lasts.",
+   "alerts": [],
+   "since": {
+    "dawn": 2.267,
+    "full": 3.367,
+    "timer": 2.833,
+    "empty": 1000000000,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": true,
+     "sprinkler": true,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 14,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 4.5
+    },
+    "pv": {
+     "in": 4.5,
+     "out": 0.9
+    },
+    "board": {
+     "in": 0.9,
+     "out": 0.9
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 3
+    },
+    "pump": {
+     "in": 3.9,
+     "out": 3,
+     "effort": 1.3
+    },
+    "tank": {
+     "in": 3,
+     "out": 0,
+     "fill": 0.299,
+     "effort": 0.46
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "The tank runs low: the valve shuts and the pump starts again.",
+   "alerts": [],
+   "since": {
+    "dawn": 3.267,
+    "full": 4.367,
+    "timer": 3.833,
+    "empty": 0.267,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": true,
+     "sprinkler": false,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 15,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0,
+     "out": 0
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.974,
+     "effort": 0.595
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "The tank fills, and its float stops the pump.",
+   "alerts": [],
+   "since": {
+    "dawn": 4.267,
+    "full": 0.1,
+    "timer": 4.833,
+    "empty": 1.267,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 16,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0,
+     "out": 0
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 3.5,
+     "fill": 0.478,
+     "effort": 0.496
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "valve": {
+     "in": 3.5,
+     "out": 3.5,
+     "effort": 0.419
+    },
+    "sprinkler": {
+     "in": 3.5,
+     "out": 0,
+     "demand": 3.5,
+     "effort": 0.358
+    }
+   },
+   "caption": "Half an hour later, the timer opens the sprinkler.",
+   "alerts": [],
+   "since": {
+    "dawn": 5.267,
+    "full": 1.1,
+    "timer": 0.567,
+    "empty": 2.267,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": true,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 17,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 4.129
+    },
+    "pv": {
+     "in": 4.129,
+     "out": 0.826
+    },
+    "board": {
+     "in": 0.826,
+     "out": 0.826
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 2.753
+    },
+    "pump": {
+     "in": 3.579,
+     "out": 2.753,
+     "effort": 1.49
+    },
+    "tank": {
+     "in": 2.753,
+     "out": 0,
+     "fill": 0.516,
+     "effort": 0.503
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Sunlight on the panel starts the pump.",
+   "alerts": [],
+   "since": {
+    "dawn": 0.533,
+    "full": 2.1,
+    "timer": 1.567,
+    "empty": 0.567,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": true,
+     "sprinkler": false,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 18,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0,
+     "out": 0
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.96,
+     "effort": 0.592
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "The tank fills, and its float stops the pump.",
+   "alerts": [],
+   "since": {
+    "dawn": 1.533,
+    "full": 0.233,
+    "timer": 2.567,
+    "empty": 1.567,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 19,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0,
+     "out": 0
+    },
+    "house": {
+     "in": 0,
+     "out": 0,
+     "demand": 0
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 3.5,
+     "fill": 0.347,
+     "effort": 0.469
+    },
+    "battery": {
+     "in": 0,
+     "out": 0,
+     "fill": 1
+    },
+    "valve": {
+     "in": 3.5,
+     "out": 3.5,
+     "effort": 0.393
+    },
+    "sprinkler": {
+     "in": 3.5,
+     "out": 0,
+     "demand": 3.5,
+     "effort": 0.332
+    }
+   },
+   "caption": "Half an hour later, the timer opens the sprinkler.",
+   "alerts": [],
+   "since": {
+    "dawn": 2.533,
+    "full": 1.233,
+    "timer": 0.7,
+    "empty": 2.567,
+    "dusk": 1000000000
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": true,
+     "lights": false
+    }
+   }
+  },
+  {
+   "hour": 20,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.3,
+     "out": 0.3
+    },
+    "house": {
+     "in": 0.3,
+     "out": 0,
+     "demand": 0.3
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0,
+     "out": 0.3,
+     "fill": 0.955
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Dusk: the battery lights the house.",
+   "alerts": [],
+   "since": {
+    "dawn": 3.533,
+    "full": 2.233,
+    "timer": 1.7,
+    "empty": 0.7,
+    "dusk": 0.5
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": true
+    }
+   }
+  },
+  {
+   "hour": 21,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.3,
+     "out": 0.3
+    },
+    "house": {
+     "in": 0.3,
+     "out": 0,
+     "demand": 0.3
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0,
+     "out": 0.3,
+     "fill": 0.855
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Evening. Cloud the sky and replay the day: every link waits for the sun.",
+   "alerts": [],
+   "since": {
+    "dawn": 4.533,
+    "full": 3.233,
+    "timer": 2.7,
+    "empty": 1.7,
+    "dusk": 1.5
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": true
+    }
+   }
+  },
+  {
+   "hour": 22,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.3,
+     "out": 0.3
+    },
+    "house": {
+     "in": 0.3,
+     "out": 0,
+     "demand": 0.3
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0,
+     "out": 0.3,
+     "fill": 0.755
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Evening. Cloud the sky and replay the day: every link waits for the sun.",
+   "alerts": [],
+   "since": {
+    "dawn": 5.533,
+    "full": 4.233,
+    "timer": 3.7,
+    "empty": 2.7,
+    "dusk": 2.5
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": true
+    }
+   }
+  },
+  {
+   "hour": 23,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.3,
+     "out": 0.3
+    },
+    "house": {
+     "in": 0.3,
+     "out": 0,
+     "demand": 0.3
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0,
+     "out": 0.3,
+     "fill": 0.655
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Evening. Cloud the sky and replay the day: every link waits for the sun.",
+   "alerts": [],
+   "since": {
+    "dawn": 6.533,
+    "full": 5.233,
+    "timer": 4.7,
+    "empty": 3.7,
+    "dusk": 3.5
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": true
+    }
+   }
+  },
+  {
+   "hour": 0,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.3,
+     "out": 0.3
+    },
+    "house": {
+     "in": 0.3,
+     "out": 0,
+     "demand": 0.3
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0,
+     "out": 0.3,
+     "fill": 0.555
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Night. The house runs on the battery; the garden waits for the sun.",
+   "alerts": [],
+   "since": {
+    "dawn": 7.533,
+    "full": 6.233,
+    "timer": 5.7,
+    "empty": 4.7,
+    "dusk": 4.5
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": true
+    }
+   }
+  },
+  {
+   "hour": 1,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.3,
+     "out": 0.3
+    },
+    "house": {
+     "in": 0.3,
+     "out": 0,
+     "demand": 0.3
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0,
+     "out": 0.3,
+     "fill": 0.455
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Night. The house runs on the battery; the garden waits for the sun.",
+   "alerts": [],
+   "since": {
+    "dawn": 8.533,
+    "full": 7.233,
+    "timer": 6.7,
+    "empty": 5.7,
+    "dusk": 5.5
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": true
+    }
+   }
+  },
+  {
+   "hour": 2,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.3,
+     "out": 0.3
+    },
+    "house": {
+     "in": 0.3,
+     "out": 0,
+     "demand": 0.3
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0,
+     "out": 0.3,
+     "fill": 0.355
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Night. The house runs on the battery; the garden waits for the sun.",
+   "alerts": [],
+   "since": {
+    "dawn": 9.533,
+    "full": 8.233,
+    "timer": 7.7,
+    "empty": 6.7,
+    "dusk": 6.5
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": true
+    }
+   }
+  },
+  {
+   "hour": 3,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.3,
+     "out": 0.3
+    },
+    "house": {
+     "in": 0.3,
+     "out": 0,
+     "demand": 0.3
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0,
+     "out": 0.3,
+     "fill": 0.255
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Night. The house runs on the battery; the garden waits for the sun.",
+   "alerts": [],
+   "since": {
+    "dawn": 10.533,
+    "full": 9.233,
+    "timer": 8.7,
+    "empty": 7.7,
+    "dusk": 7.5
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": true
+    }
+   }
+  },
+  {
+   "hour": 4,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.3,
+     "out": 0.3
+    },
+    "house": {
+     "in": 0.3,
+     "out": 0,
+     "demand": 0.3
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0,
+     "out": 0.3,
+     "fill": 0.155
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Night. The house runs on the battery; the garden waits for the sun.",
+   "alerts": [],
+   "since": {
+    "dawn": 11.533,
+    "full": 10.233,
+    "timer": 9.7,
+    "empty": 8.7,
+    "dusk": 8.5
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": true
+    }
+   }
+  },
+  {
+   "hour": 5,
+   "parts": {
+    "sun": {
+     "in": 0,
+     "out": 0
+    },
+    "pv": {
+     "in": 0,
+     "out": 0
+    },
+    "board": {
+     "in": 0.3,
+     "out": 0.3
+    },
+    "house": {
+     "in": 0.3,
+     "out": 0,
+     "demand": 0.3
+    },
+    "well": {
+     "in": 0,
+     "out": 0
+    },
+    "pump": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "tank": {
+     "in": 0,
+     "out": 0,
+     "fill": 0.1,
+     "effort": 0.42
+    },
+    "battery": {
+     "in": 0,
+     "out": 0.3,
+     "fill": 0.055
+    },
+    "valve": {
+     "in": 0,
+     "out": 0,
+     "effort": 0
+    },
+    "sprinkler": {
+     "in": 0,
+     "out": 0,
+     "demand": 0,
+     "effort": 0
+    }
+   },
+   "caption": "Night. The house runs on the battery; the garden waits for the sun.",
+   "alerts": [],
+   "since": {
+    "dawn": 12.533,
+    "full": 11.233,
+    "timer": 10.7,
+    "empty": 9.7,
+    "dusk": 9.5
+   },
+   "controls": {
+    "knobs": {
+     "cloud": 0
+    },
+    "switches": {
+     "pump": false,
+     "sprinkler": false,
+     "lights": true
+    }
+   }
+  }
+ ],
+ "alerts": [],
+ "totals": {
+  "sun": {
+   "in": 0,
+   "out": 42.34
+  },
+  "pv": {
+   "in": 42.34,
+   "out": 8.468
+  },
+  "board": {
+   "in": 11.304,
+   "out": 11.304
+  },
+  "house": {
+   "in": 2.85,
+   "out": 0,
+   "unmet": 0
+  },
+  "well": {
+   "in": 0,
+   "out": 19.483
+  },
+  "pump": {
+   "in": 25.328,
+   "out": 19.483
+  },
+  "tank": {
+   "in": 19.483,
+   "out": 19.483
+  },
+  "battery": {
+   "in": 2.609,
+   "out": 2.836
+  },
+  "valve": {
+   "in": 19.483,
+   "out": 19.483
+  },
+  "sprinkler": {
+   "in": 19.483,
+   "out": 0,
+   "unmet": 0
+  }
+ },
+ "events": [
+  {
+   "id": "dawn",
+   "says": "Sunlight on the panel starts the pump.",
+   "hours": [
+    8,
+    10,
+    16
+   ]
+  },
+  {
+   "id": "full",
+   "says": "The tank fills, and its float stops the pump.",
+   "hours": [
+    9,
+    14,
+    17
+   ]
+  },
+  {
+   "id": "timer",
+   "says": "Half an hour later, the timer opens the sprinkler.",
+   "hours": [
+    10,
+    15,
+    18
+   ]
+  },
+  {
+   "id": "empty",
+   "says": "The tank runs low: the valve shuts and the pump starts again.",
+   "hours": [
+    13,
+    16,
+    19
+   ]
+  },
+  {
+   "id": "dusk",
+   "says": "Dusk: the battery lights the house.",
+   "hours": [
+    19
+   ]
+  }
+ ]
+}

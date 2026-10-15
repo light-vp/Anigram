@@ -1,10 +1,19 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
+import {
+  cloneEvents,
+  compileEvents,
+  eventReaders,
+  initialEvents,
+  stepEvents,
+} from './events.ts'
+import type { CompiledEvent, EventMemory } from './events.ts'
 import { compileReader } from './instruments.ts'
 import type { Reader } from './instruments.ts'
-import { compile, initialMemory, solve } from './solver.ts'
+import { cloneMemory, compile, initialMemory, solve } from './solver.ts'
 import type { Compiled, LinkState, Memory, PartState } from './solver.ts'
+import { effortUnit, formatEffort } from './effort.ts'
 import type { Env, Scene } from './types.ts'
 
 /** Everything the view needs to draw one instant. */
@@ -19,11 +28,22 @@ export interface Frame {
   alerts: Alert[]
   /** each instrument's reading, by tag */
   instruments: Record<string, number>
+  /** each event in the scene's chain, by id */
+  events: Record<string, EventStatus>
+}
+
+export interface EventStatus {
+  /** times it has fired this run */
+  count: number
+  /** hours since it last fired; Infinity before it has */
+  since: number
+  /** its condition came true and it is waiting out its `after` */
+  waiting: boolean
 }
 
 export interface Alert {
   partId: string
-  kind: 'short' | 'empty' | 'limit'
+  kind: 'short' | 'empty' | 'limit' | 'effort'
   text: string
 }
 
@@ -44,10 +64,15 @@ export class Simulation {
   speed = 1
   /** while false, flows still update but nothing on the sheet travels or spins */
   animate = true
+  /** the controls as the person using the sheet set them; events can override them, see `knob()` and `switchOn()` */
   knobs: Record<string, number> = {}
   switches: Record<string, boolean> = {}
   frame: Frame
+  /** simulated hours since the opening hour, which `since()` counts in */
+  private elapsed = 0
   private memory: Memory
+  private events: CompiledEvent[]
+  private chain: EventMemory
   private readers: Reader[]
   private listeners = new Set<() => void>()
   /**
@@ -67,6 +92,8 @@ export class Simulation {
     for (const k of scene.knobs ?? []) this.knobs[k.id] = k.value
     for (const s of scene.switches ?? []) this.switches[s.id] = s.on
     this.memory = initialMemory(this.model)
+    this.events = compileEvents(scene)
+    this.chain = initialEvents(this.events)
     this.readers = (scene.instruments ?? []).flatMap(
       (i) => compileReader(i, scene) ?? [],
     )
@@ -75,13 +102,25 @@ export class Simulation {
     this.compute(1e-3)
   }
 
+  /** a knob's value, after any event that set it */
+  knob(id: string): number {
+    return this.chain.knobs[id] ?? this.knobs[id] ?? 0
+  }
+
+  /** whether a switch is on, after any event that flipped it */
+  switchOn(id: string): boolean {
+    return this.chain.switches[id] ?? this.switches[id] ?? false
+  }
+
   private env(): Env {
     return {
       hour: this.hour,
       day: this.day,
-      knob: (id) => this.knobs[id] ?? 0,
-      on: (id) => this.switches[id] ?? false,
-      prev: (id) => this.frame.parts[id] ?? { in: 0, out: 0, fill: 0 },
+      knob: (id) => this.knob(id),
+      on: (id) => this.switchOn(id),
+      ...eventReaders(this.events, this.chain, this.elapsed),
+      prev: (id) =>
+        this.frame.parts[id] ?? { in: 0, out: 0, fill: 0, effort: NaN },
     }
   }
 
@@ -95,7 +134,21 @@ export class Simulation {
       partPhase: Object.fromEntries(this.scene.parts.map((p) => [p.id, 0])),
       alerts: [],
       instruments: {},
+      events: this.eventStatus(),
     }
+  }
+
+  private eventStatus(): Record<string, EventStatus> {
+    const out: Record<string, EventStatus> = {}
+    this.events.forEach((e, i) => {
+      const last = this.chain.last[i]!
+      out[e.spec.id] = {
+        count: this.chain.count[i]!,
+        since: Number.isFinite(last) ? this.elapsed - last : Infinity,
+        waiting: !Number.isNaN(this.chain.due[i]!),
+      }
+    })
+    return out
   }
 
   /** advance by `seconds` of real time */
@@ -116,6 +169,7 @@ export class Simulation {
   }
 
   private advanceClock(dt: number) {
+    this.elapsed += dt
     this.hour += dt
     if (this.hour >= 24) {
       this.hour -= 24
@@ -127,6 +181,15 @@ export class Simulation {
   private compute(dt: number, advance = true) {
     const memory: Memory = advance ? this.memory : cloneMemory(this.memory)
     const sol = solve(this.model, this.env(), dt, memory)
+    // the chain watches the parts as they are now; what it sets takes hold
+    // from the next tick
+    if (advance && this.events.length)
+      stepEvents(
+        this.events,
+        this.chain,
+        { ...this.env(), part: (id) => sol.parts[id] ?? NOTHING },
+        this.elapsed,
+      )
     this.frame = {
       ...this.frame,
       hour: this.hour,
@@ -135,6 +198,7 @@ export class Simulation {
       links: sol.links,
       alerts: this.alerts(sol.parts, sol.links),
       instruments: this.read(sol.parts),
+      events: this.eventStatus(),
     }
   }
 
@@ -143,7 +207,7 @@ export class Simulation {
     if (!this.readers.length) return {}
     const env: Env = {
       ...this.env(),
-      part: (id) => parts[id] ?? { in: 0, out: 0, fill: 0, demand: 0 },
+      part: (id) => parts[id] ?? NOTHING,
     }
     return Object.fromEntries(this.readers.map((r) => [r.tag, r.read(env)]))
   }
@@ -172,6 +236,22 @@ export class Simulation {
       if (b.role === 'storage') {
         if (s.fill < 0.02 && b.capacity < 1e5)
           out.push({ partId: p.id, kind: 'empty', text: `${p.label}: empty` })
+      }
+      const e = p.effort
+      if (e && (e.min !== undefined || e.max !== undefined)) {
+        const at = s.effort
+        // a sink asking for nothing doesn't mind what pressure is behind it
+        const idle = p.behaviour.role === 'sink' && s.demand <= 0
+        const low = e.min !== undefined && at < e.min && !idle
+        const high = e.max !== undefined && at > e.max
+        if (low || high) {
+          const unit = effortUnit(this.scene, p.id)
+          out.push({
+            partId: p.id,
+            kind: 'effort',
+            text: `${p.label}: ${formatEffort(at, unit)}, ${low ? `below its ${formatEffort(e.min!, unit)}` : `above its ${formatEffort(e.max!, unit)}`}`,
+          })
+        }
       }
     }
     this.scene.links.forEach((l, i) => {
@@ -212,12 +292,15 @@ export class Simulation {
   }
 
   setKnob(id: string, value: number) {
+    // the person takes the control back from the chain
+    delete this.chain.knobs[id]
     this.knobs[id] = value
     this.refresh()
   }
 
   toggle(id: string) {
-    this.switches[id] = !this.switches[id]
+    this.switches[id] = !this.switchOn(id)
+    delete this.chain.switches[id]
     this.refresh()
   }
 
@@ -242,26 +325,32 @@ export class Simulation {
     this.day = 0
     if (mark) {
       this.memory = cloneMemory(mark.memory)
+      this.chain = cloneEvents(mark.chain)
       this.frame = { ...this.emptyFrame(), parts: mark.parts }
     } else {
       this.memory = initialMemory(this.model)
+      this.chain = initialEvents(this.events)
       this.frame = this.emptyFrame()
     }
     this.hour = start
+    this.elapsed = from * perHour * MAX_STEP
     if (!mark) this.compute(1e-3)
     for (let i = from * perHour; i < steps; i++) {
       // the clock is set from the step count, so a replay never drifts
       this.hour = wrap24(start + (i + 1) * MAX_STEP)
+      this.elapsed = (i + 1) * MAX_STEP
       this.compute(MAX_STEP)
       if ((i + 1) % perHour === 0 && !this.marks.at.has((i + 1) / perHour))
         this.marks.at.set((i + 1) / perHour, {
           memory: cloneMemory(this.memory),
+          chain: cloneEvents(this.chain),
           parts: this.frame.parts,
         })
     }
     // the last part of a step, so the clock lands exactly on the hour asked for
     const rest = ahead - steps * MAX_STEP
     this.hour = target
+    this.elapsed = ahead
     if (rest > 1e-9) this.compute(rest)
     this.emit()
   }
@@ -283,6 +372,8 @@ export class Simulation {
     for (const k of this.scene.knobs ?? []) this.knobs[k.id] = k.value
     for (const s of this.scene.switches ?? []) this.switches[s.id] = s.on
     this.memory = initialMemory(this.model)
+    this.chain = initialEvents(this.events)
+    this.elapsed = 0
     this.frame = this.emptyFrame()
     this.compute(1e-3)
     this.emit()
@@ -311,16 +402,11 @@ export class Simulation {
 
 interface Mark {
   memory: Memory
+  chain: EventMemory
   parts: Frame['parts']
 }
 
-function cloneMemory(m: Memory): Memory {
-  return {
-    level: new Map(m.level),
-    refilling: new Map(m.refilling),
-    warm: new Map(m.warm),
-  }
-}
+const NOTHING = { in: 0, out: 0, fill: 0, demand: 0, effort: NaN }
 
 function wrap24(hour: number): number {
   return ((hour % 24) + 24) % 24

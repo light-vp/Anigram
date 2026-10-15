@@ -396,6 +396,202 @@ const PFD = {
   ],
 }
 
+/**
+ * the press's cycle, an hour each out, holding, back and resting, starting
+ * on the half hour
+ */
+const EXTEND = "on('cycle') && (hour + 0.5) % 4 < 1"
+const RETRACT = "on('cycle') && between((hour + 0.5) % 4, 2, 3)"
+
+const FLUID_POWER = {
+  anigram: 1,
+  id: 'fluid-power-starter',
+  title: 'Hydraulic press',
+  subtitle:
+    'A fixed pump feeds a closed-centre 4/3 valve that drives the press cylinder out and back; the relief valve takes the pump’s flow whenever the cylinder stands still',
+  sheet: 'FP-100',
+  drawing: 'fluid-power',
+  titleBlock: {
+    owner: 'Your organisation',
+    project: 'Your project',
+    drawnBy: 'Initials',
+    issued: '2026-01-01',
+    revision: 'A',
+    status: 'draft',
+  },
+  size: [6, 5],
+  units: {
+    oil: { rate: 'L/min', amount: 'L' },
+    mechanical: { rate: 'kW', amount: 'kWh' },
+    electric: { rate: 'kW', amount: 'kWh' },
+  },
+  scale: { oil: 80, mechanical: 12, electric: 12 },
+  clock: { start: 7, rate: 0.5 },
+  switches: [{ id: 'cycle', label: 'Press cycle', on: true }],
+  parts: [
+    {
+      id: 'cylinder',
+      kind: 'cylinder',
+      label: 'Press cylinder',
+      tag: '1A1',
+      class: 'DoubleActingCylinder',
+      at: [4, 0],
+      labelSide: 'right',
+      note: 'Oil into the cap end drives the ram out; oil out of it brings the ram back. Its fill is how far out the ram is.',
+      behaviour: {
+        role: 'storage',
+        capacity: 30,
+        start: 0,
+        maxIn: `${EXTEND} ? 40 : 0`,
+        maxOut: 40,
+      },
+    },
+    {
+      id: 'valve',
+      kind: 'dcv',
+      label: 'Directional valve',
+      tag: '1V1',
+      class: 'DirectionalValve43',
+      at: [4, 1],
+      labelSide: 'right',
+      toggles: 'cycle',
+      note: 'Solenoid a sends the pump to the cap end, solenoid b lets the cap end back to tank, and in the centre everything is shut. Click it to stop or start the cycle.',
+      behaviour: {
+        role: 'gate',
+        capacity: 160,
+        open: `${EXTEND} ? 1 : ${RETRACT} ? 0.5 : 0`,
+      },
+    },
+    {
+      id: 'return',
+      kind: 'oiltank',
+      label: 'Tank',
+      at: [5, 2],
+      behaviour: {
+        role: 'sink',
+        demand: `${RETRACT} && prev('cylinder').fill > 0.01 ? 80 : 0`,
+      },
+    },
+    {
+      id: 'tee',
+      kind: 'manifold',
+      label: 'Pressure line',
+      at: [3, 2],
+      behaviour: { role: 'bus' },
+    },
+    {
+      id: 'relief',
+      kind: 'valve',
+      label: 'Relief valve',
+      tag: '0V1',
+      class: 'ReliefValve',
+      at: [0, 3],
+      labelSide: 'right',
+      note: 'Set to 150 bar. Shut while the cylinder takes the flow; lifts to pass it back to tank at the end of a stroke and while the valve is centred.',
+      behaviour: {
+        role: 'gate',
+        capacity: 40,
+        relief: { at: 150, full: 160 },
+      },
+    },
+    {
+      id: 'dump',
+      kind: 'oiltank',
+      label: 'Tank',
+      at: [0, 4],
+      behaviour: { role: 'sink', demand: 40, absorbsSurplus: true },
+    },
+    {
+      id: 'pump',
+      kind: 'pump',
+      label: 'Hydraulic pump',
+      tag: '0P1',
+      class: 'HydraulicPump',
+      at: [3, 3],
+      labelSide: 'right',
+      behaviour: {
+        role: 'converter',
+        output: 'oil',
+        recipe: { mechanical: 0.25, oil: 1 },
+        capacity: 40,
+      },
+      // 200 bar against a shut line, 140 at full flow
+      effort: { boost: "200 - 60 * pow(part('pump').out / 40, 2)", max: 190 },
+    },
+    {
+      id: 'motor',
+      kind: 'motor',
+      label: 'Motor',
+      tag: '0M1',
+      at: [2, 3],
+      behaviour: {
+        role: 'converter',
+        output: 'mechanical',
+        recipe: { electric: 1.1 },
+        capacity: 11,
+      },
+    },
+    {
+      id: 'tank',
+      kind: 'oiltank',
+      label: 'Tank',
+      at: [3, 4],
+      behaviour: { role: 'source', output: 200 },
+    },
+    {
+      id: 'power',
+      kind: 'grid',
+      label: 'Power',
+      at: [2, 4],
+      behaviour: { role: 'source', output: 15 },
+    },
+  ],
+  links: [
+    { from: 'power', to: 'motor', domain: 'electric' },
+    { from: 'motor', to: 'pump', domain: 'mechanical' },
+    { from: 'tank', to: 'pump', domain: 'oil' },
+    { from: 'pump', to: 'tee', domain: 'oil' },
+    { from: 'tee', to: 'valve', domain: 'oil', bend: 'hv' },
+    { from: 'tee', to: 'relief', domain: 'oil', bend: 'hv' },
+    { from: 'relief', to: 'dump', domain: 'oil' },
+    { from: 'valve', to: 'cylinder', domain: 'oil' },
+    { from: 'cylinder', to: 'valve', domain: 'oil' },
+    {
+      from: 'valve',
+      to: 'return',
+      domain: 'oil',
+      via: [
+        [4, 1.5],
+        [5, 1.5],
+      ],
+    },
+  ],
+  expect: [
+    {
+      says: 'On its way out the ram takes the whole of the pump’s flow, and the relief valve stays shut below 150 bar',
+      check:
+        "part('cylinder').in > 39 && part('relief').out < 0.01 && part('tee').effort < 150",
+      at: 8,
+    },
+    {
+      says: 'The ram goes all the way out and holds there, with the pump’s flow going over the relief valve at just above its 150 bar',
+      check:
+        "part('cylinder').fill > 0.95 && part('relief').out > 30 && between(part('tee').effort, 150, 165)",
+      at: 9,
+    },
+    {
+      says: 'On its way back the valve sends the cap end to tank',
+      check: "part('cylinder').out > 39 && part('return').in > 39",
+      at: 10,
+    },
+    {
+      says: 'and between strokes the ram is home',
+      check: "part('cylinder').fill < 0.05",
+      at: 11,
+    },
+  ],
+}
+
 const PICTORIAL = {
   anigram: 1,
   id: 'sheet-starter',
@@ -492,6 +688,7 @@ export const STARTERS: Record<DrawingType, Record<string, unknown>> = {
   pid: PID,
   'single-line': SINGLE_LINE,
   pfd: PFD,
+  'fluid-power': FLUID_POWER,
 }
 
 /** each practice's house rules, for its MCP prompt and for `new_scene` */
@@ -522,6 +719,16 @@ export const PRACTICE: Record<DrawingType, string> = {
     'A process flow diagram (ISO 10628-1) shows the major equipment and the main streams between them, without valves or instruments: the process at a glance.',
     '- Tag the major equipment (`B-101` boiler, `TK-101` tank, `E-101` exchanger) and give each a `class` from the PFD classes in the guide.',
     '- Keep to the main streams left to right; losses leave along `loss` links to a vent.',
+    '- Fill in `titleBlock`.',
+  ].join('\n'),
+  'fluid-power': [
+    'A fluid-power circuit diagram (ISO 1219-1 symbols, laid out after ISO 1219-2) shows a hydraulic or pneumatic circuit: pumps and compressors, the valves that direct and limit the flow, and the cylinders and motors that do the work. Oil and air lines are drawn, and the shaft from a motor to its pump; power cables are left off.',
+    '- Lay it out the ISO way: the supply (tank, pump, relief valve) at the bottom, directional valves above it, the actuators at the top, so the energy flows up the sheet.',
+    '- Tag parts with ISO 1219-2 codes, circuit number then letter then number: `0P1` pump, `0M1` motor, `0V1` relief valve, `1V1` directional valve, `1A1` cylinder. Tanks, silencers and exhausts carry no tag.',
+    '- A cylinder is a `storage` whose fill is how far out its rod is: `maxIn` follows the signal that extends it, and it empties back through the valve to a tank.',
+    "- A directional valve is a `gate`; its `open` picks the envelope drawn. On a 4/3 valve 0 is the centre, 0.5 the crossed envelope and 1 the straight one, so `open` and the cylinder's limits follow the same switch or knob. On a two-position valve, open is the solenoid's envelope.",
+    '- Draw every return to its own Reservoir symbol, and tee a ReliefValve off each fixed pump to tank, ahead of the directional valves. Pneumatic exhausts go to a Silencer.',
+    '- Mark pilot and drain lines with `"line": "signal"`, which draws them dashed.',
     '- Fill in `titleBlock`.',
   ].join('\n'),
 }

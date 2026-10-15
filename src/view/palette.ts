@@ -46,6 +46,8 @@ export const THEMES: Record<ThemeId, SheetPalette> = {
       fuel: '#12a594',
       mechanical: '#71717a',
       data: '#7c5cf0',
+      oil: '#b4651e',
+      air: '#0f9fbf',
     },
   },
   /** near-black — for a screen on a wall, where a dark sheet glows */
@@ -65,6 +67,8 @@ export const THEMES: Record<ThemeId, SheetPalette> = {
       fuel: '#3dd6c2',
       mechanical: '#a1a1aa',
       data: '#a48bff',
+      oil: '#e0974f',
+      air: '#4cc9e6',
     },
   },
 }
@@ -92,4 +96,6 @@ export const DOMAIN_NAMES: Record<Domain, string> = {
   fuel: 'fuel',
   mechanical: 'shaft power',
   data: 'requests',
+  oil: 'hydraulic oil',
+  air: 'compressed air',
 }

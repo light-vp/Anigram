@@ -14,3 +14,23 @@ export function captionAt(scene: Scene, hour: number): string | null {
   }
   return null
 }
+
+/** how long an event's words stay up after it fires, in simulated hours */
+export const EVENT_CAPTION_HOURS = 0.75
+
+/**
+ * what the sheet says right now: the last event that fired, while it is
+ * fresh, else the caption for the hour
+ */
+export function frameCaption(
+  scene: Scene,
+  frame: { hour: number; events?: Record<string, { since: number }> },
+): string | null {
+  let best: { says: string; since: number } | null = null
+  for (const e of scene.events ?? []) {
+    const since = frame.events?.[e.id]?.since ?? Infinity
+    if (since <= EVENT_CAPTION_HOURS && !(best && best.since <= since))
+      best = { says: e.says, since }
+  }
+  return best?.says ?? captionAt(scene, frame.hour)
+}

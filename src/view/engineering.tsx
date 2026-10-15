@@ -13,7 +13,7 @@ import type {
   PartSpec,
   Scene,
 } from '../sim/types.ts'
-import { num, partDomain, rate, readout } from './format.ts'
+import { effortReadout, num, partDomain, rate, readout } from './format.ts'
 import {
   ENG_FOOT_H,
   PAD,
@@ -24,8 +24,7 @@ import {
 } from './geometry.ts'
 import type { Pt } from './geometry.ts'
 import { DOMAIN_NAMES } from './palette.ts'
-import { LABEL_OFFSET } from './layout.ts'
-import { LINE_NAMES, lineOf } from './lines.ts'
+import { LINE_NAMES, engLabelOffset, lineOf } from './lines.ts'
 import type { Way } from './lines.ts'
 
 /*
@@ -70,6 +69,13 @@ export function EngLink({
     .map((p) => p.tag ?? p.label)
   // the line number sits beside the arrow, reading along the line
   const upright = Math.abs(ahead.angle) > 90 ? ahead.angle - 180 : ahead.angle
+  if (isShaft(scene, link))
+    return (
+      <g className={dim ? 'link dim' : 'link'}>
+        <title>{`${from} → ${to}: ${rate(scene, link.domain, flow)} through the shaft`}</title>
+        <Shaft d={d} />
+      </g>
+    )
   return (
     <g className={dim ? 'link dim' : 'link'}>
       <title>{`${reversed ? to : from} → ${reversed ? from : to}: ${rate(scene, link.domain, flow)} of ${DOMAIN_NAMES[link.domain]}`}</title>
@@ -101,6 +107,20 @@ export function EngLink({
           {link.tag}
         </text>
       )}
+    </g>
+  )
+}
+
+/** a fluid-power circuit draws a motor's drive to its pump as a shaft */
+const isShaft = (scene: Pick<Scene, 'drawing'>, link: LinkSpec) =>
+  scene.drawing === 'fluid-power' && link.domain === 'mechanical'
+
+/** a shaft: two fine parallel lines, ISO 1219's mechanical connection */
+function Shaft({ d }: { d: string }) {
+  return (
+    <g>
+      <path d={d} className="shaft" />
+      <path d={d} className="shaftCore" />
     </g>
   )
 }
@@ -156,14 +176,14 @@ export function EngPart({
   const cls = classOf(part, scene)
   const info =
     cls && scene.drawing ? PACKS[scene.drawing]?.classes[cls] : undefined
-  // inline symbols turn with their line; the ends of lines point the way it flows
-  const turn = info?.inline
-    ? way.vertical
-      ? 'rotate(90)'
-      : undefined
-    : info?.terminal
+  // inline symbols turn with their line, and point along it if they have a
+  // way round; the ends of lines point the way it flows
+  const turn =
+    info?.terminal || (info?.inline && info.directed)
       ? `rotate(${way.angle})`
-      : undefined
+      : info?.inline && way.vertical
+        ? 'rotate(90)'
+        : undefined
   const half = TILE / 2
   return (
     <g
@@ -185,6 +205,7 @@ export function EngPart({
           part={part}
           symbols={scene.symbols ?? 'iec'}
           span={span}
+          domain={partDomain(scene, part)}
         />
       </g>
       <rect className="hit" x={-half} y={-half} width={TILE} height={TILE} />
@@ -217,8 +238,10 @@ export function EngLabel({
         dy: part.tag ? -22 : -9,
         anchor: 'start' as const,
       }
-    : LABEL_OFFSET[part.labelSide ?? 'below']
+    : engLabelOffset(scene, part)
   const r = sheetReadout(scene, part, frame)
+  // a busbar's voltage is the one thing it reads
+  const e = effortReadout(scene, part, s)
   let line = 0
   return (
     <g
@@ -238,9 +261,18 @@ export function EngLabel({
         <text
           className={r.bad ? 'value bad' : 'value'}
           textAnchor={o.anchor}
-          y={14 * line}
+          y={14 * line++}
         >
           {r.value}
+        </text>
+      )}
+      {e && (
+        <text
+          className={e.bad ? 'value effort bad' : 'value effort'}
+          textAnchor={o.anchor}
+          y={14 * line}
+        >
+          {e.value}
         </text>
       )}
     </g>
@@ -282,18 +314,28 @@ export function EngLegend({
   /** line types drawn by something other than a link: an instrument's signals */
   also?: LineType[]
 }) {
-  // on a single-line every line is a circuit
+  // on a single-line every line is a circuit; in a fluid-power circuit a
+  // line works or pilots
   const names: Record<LineType, string> =
     scene.drawing === 'single-line'
       ? { ...LINE_NAMES, process: 'circuit' }
-      : LINE_NAMES
-  // a loss is drawn dotted whatever its line, so it gets its own entry
+      : scene.drawing === 'fluid-power'
+        ? {
+            ...LINE_NAMES,
+            process: 'working line',
+            signal: 'pilot or drain line',
+          }
+        : LINE_NAMES
+  // a loss is drawn dotted whatever its line, and a shaft as a shaft, so
+  // each gets its own entry
+  const lines = links.filter((l) => !l.loss && !isShaft(scene, l))
   const types = [
-    ...new Set([...links.filter((l) => !l.loss).map(lineOf), ...also]),
+    ...new Set([...lines.map(lineOf), ...also]),
     ...(links.some((l) => l.loss) ? (['loss'] as const) : []),
+    ...(links.some((l) => isShaft(scene, l)) ? (['shaft'] as const) : []),
   ]
   const label = (t: (typeof types)[number]) =>
-    t === 'loss' ? 'loss to surroundings' : names[t]
+    t === 'loss' ? 'loss to surroundings' : t === 'shaft' ? 'shaft' : names[t]
   // a column down the left of the foot, beside the title block
   const top = h - ENG_FOOT_H + 18
   return (
@@ -303,10 +345,14 @@ export function EngLegend({
         const y = top + i * 16
         return (
           <g key={t}>
-            <path
-              className={t === 'loss' ? 'route process loss' : `route ${t}`}
-              d={`M${at} ${y} H${at + 26}`}
-            />
+            {t === 'shaft' ? (
+              <Shaft d={`M${at} ${y} H${at + 26}`} />
+            ) : (
+              <path
+                className={t === 'loss' ? 'route process loss' : `route ${t}`}
+                d={`M${at} ${y} H${at + 26}`}
+              />
+            )}
             <text className="legend" x={at + 34} y={y}>
               {label(t)}
             </text>

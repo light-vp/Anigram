@@ -13,7 +13,7 @@ const env = (over: Partial<Env> = {}): Env => ({
   day: 0,
   knob: (id) => (id === 'cloud' ? 0.5 : 0),
   on: (id) => id === 'mains',
-  prev: () => ({ in: 40, out: 10, fill: 0.25 }),
+  prev: () => ({ in: 40, out: 10, fill: 0.25, effort: 3 }),
   ...over,
 })
 
@@ -88,7 +88,7 @@ test('part() reads a part as it is now, with .demand, for expect checks', () => 
   )
   assert.deepEqual([...r.reads], ['house'])
   assert.deepEqual([...r.parts], ['pv'])
-  const now = { in: 2, out: 0, fill: 0, demand: 3 }
+  const now = { in: 2, out: 0, fill: 0, demand: 3, effort: 1 }
   const fn = compileExpr("part('house').demand - part('house').in")
   assert.equal(
     fn({
@@ -108,15 +108,15 @@ test('part() reads a part as it is now, with .demand, for expect checks', () => 
   )
   assert.throws(
     () => compileExpr("prev('x').demand"),
-    /only \.in, \.out or \.fill can follow prev\(\)/,
+    /only \.in, \.out, \.fill or \.effort can follow prev\(\)/,
   )
   assert.throws(
     () => compileExpr("part('x')"),
-    /needs a field: \.in, \.out, \.fill or \.demand/,
+    /needs a field: \.in, \.out, \.fill, \.demand or \.effort/,
   )
   assert.throws(
     () => compileExpr("part('x').level"),
-    /\.demand can follow part\(\)/,
+    /\.effort can follow part\(\)/,
   )
 })
 
@@ -132,4 +132,28 @@ test('runaway expressions are refused, not crashed on', () => {
   )
   assert.throws(() => compileExpr('-'.repeat(200) + '1'), ExprError)
   assert.throws(() => compileExpr('1+'.repeat(1500) + '1'), /characters long/)
+})
+
+test('fired() and since() read events, and effort is a field', () => {
+  const r = exprRefs("fired('ball') || since('lever') < 0.5")
+  assert.deepEqual([...r.events].sort(), ['ball', 'lever'])
+  const fn = compileExpr("fired('ball') + since('lever') + prev('p').effort")
+  const env = {
+    hour: 0,
+    day: 0,
+    knob: () => 0,
+    on: () => false,
+    prev: () => ({ in: 0, out: 0, fill: 0, effort: 3 }),
+  }
+  assert.equal(
+    fn({
+      ...env,
+      fired: () => 1,
+      since: (id: string) => (id === 'lever' ? 2 : 0),
+    }),
+    6,
+  )
+  // with no events running, nothing has fired, long ago
+  assert.equal(compileExpr("since('x') > 1000")(env), 1)
+  assert.throws(() => compileExpr('fired(1)'), /quoted id/)
 })

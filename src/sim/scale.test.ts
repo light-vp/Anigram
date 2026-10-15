@@ -19,7 +19,7 @@ const env = (hour: number): Env => ({
   day: 0,
   knob: () => 0.5,
   on: () => true,
-  prev: () => ({ in: 0, out: 0, fill: 0 }),
+  prev: () => ({ in: 0, out: 0, fill: 0, effort: NaN }),
 })
 
 function day(feeders: number, houses: number) {

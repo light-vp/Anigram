@@ -15,16 +15,18 @@ const rules = (scene: Scene) => drawingFindings(scene).map((f) => f.rule)
 const starter = (d: keyof typeof STARTERS) =>
   structuredClone(STARTERS[d]) as unknown as Scene & Record<string, unknown>
 
-test('every starter and the reference P&ID follow their practice', () => {
+test('every starter and the reference sheets follow their practice', () => {
   for (const s of Object.values(STARTERS))
     assert.deepEqual(drawingFindings(load(s)), [])
-  const feed = JSON.parse(
-    readFileSync(
-      new URL('../../examples/feed-tank-pid.json', import.meta.url),
-      'utf8',
-    ),
-  )
-  assert.deepEqual(drawingFindings(load(feed)), [])
+  for (const name of ['feed-tank-pid', 'hydraulic-press']) {
+    const file = JSON.parse(
+      readFileSync(
+        new URL(`../../examples/${name}.json`, import.meta.url),
+        'utf8',
+      ),
+    )
+    assert.deepEqual(drawingFindings(load(file)), [], name)
+  }
 })
 
 test('every finding names a known rule', () => {
@@ -125,4 +127,61 @@ test('a generator or load on a busbar needs a breaker', () => {
 
 test('a pictorial sheet has no practice rules', () => {
   assert.deepEqual(drawingFindings(load(STARTERS.pictorial)), [])
+})
+
+test('a hydraulic circuit returns to tank, behind a relief valve', () => {
+  const s = starter('fluid-power')
+  // the relief valve and its tank gone, the return run into a manifold
+  s.parts = s.parts.filter((p) => p.id !== 'relief' && p.id !== 'dump')
+  s.links = s.links.filter((l) => l.from !== 'relief' && l.to !== 'relief')
+  s.parts.find((p) => p.id === 'return')!.class = 'Junction'
+  delete s.expect
+  const f = drawingFindings(load(s))
+  assert.deepEqual(f.map((x) => x.rule).sort(), [
+    'relief-protection',
+    'return-to-tank',
+  ])
+  assert.match(f.find((x) => x.rule === 'relief-protection')!.message, /0P1/)
+})
+
+test('pneumatic exhaust leaves through a silencer', () => {
+  const s = starter('fluid-power')
+  s.parts.push(
+    {
+      id: 'shop',
+      kind: 'air',
+      label: 'Shop air',
+      at: [0, 0],
+      behaviour: { role: 'source', output: 100 },
+    },
+    {
+      id: 'v2',
+      kind: 'dcv',
+      label: 'Clamp valve',
+      tag: '2V1',
+      class: 'DirectionalValve32',
+      at: [1, 0],
+      behaviour: { role: 'gate', capacity: 100, open: 1 },
+    },
+    {
+      id: 'out',
+      kind: 'sky',
+      label: 'Exhaust port',
+      class: 'Reservoir',
+      at: [1, 1],
+      behaviour: { role: 'vent' },
+    },
+  )
+  s.links.push(
+    { from: 'shop', to: 'v2', domain: 'air' },
+    { from: 'v2', to: 'out', domain: 'air' },
+  )
+  const f = drawingFindings(load(s))
+  assert.deepEqual(
+    f.map((x) => x.rule),
+    ['exhaust'],
+  )
+  assert.match(f[0]!.message, /Exhaust port takes the exhaust air from 2V1/)
+  s.parts.find((p) => p.id === 'out')!.class = 'Silencer'
+  assert.deepEqual(drawingFindings(load(s)), [])
 })

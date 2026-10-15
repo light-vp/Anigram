@@ -32,18 +32,20 @@ export const LABEL_OFFSET: Record<
 export function labelRect(
   part: PartSpec,
   value: string,
+  /** lines under the value, such as a pressure */
+  extra = 0,
 ): { x: number; y: number; w: number; h: number } {
   const o = LABEL_OFFSET[part.labelSide ?? 'below']
   const w = Math.max(part.label.length * 6.4, value.length * 6) + 6
   const x = o.anchor === 'middle' ? -w / 2 : o.anchor === 'start' ? -3 : -w + 3
-  return { x, y: -10, w, h: 26 }
+  return { x, y: -10, w, h: 26 + 14 * extra }
 }
 
 /** the same block, on the sheet */
-export function labelBox(part: PartSpec, value: string): Box {
+export function labelBox(part: PartSpec, value: string, extra = 0): Box {
   const [cx, cy] = cellToPx(part.at)
   const o = LABEL_OFFSET[part.labelSide ?? 'below']
-  const r = labelRect(part, value)
+  const r = labelRect(part, value, extra)
   const x0 = cx + o.dx + r.x
   const y0 = cy + o.dy + r.y
   return { x0, y0, x1: x0 + r.w, y1: y0 + r.h }

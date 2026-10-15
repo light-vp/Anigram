@@ -128,6 +128,8 @@ export const UNITS: Record<Domain, Units> = {
   mechanical: { rate: 'kW', amount: 'kWh' },
   water: { rate: 'm³/h', amount: 'm³' },
   data: { rate: 'req/s', amount: 'req' },
+  oil: { rate: 'L/min', amount: 'L' },
+  air: { rate: 'L/min', amount: 'L' },
 }
 
 const TEMPLATE_LIST: Template[] = [
@@ -272,6 +274,57 @@ const TEMPLATE_LIST: Template[] = [
     }),
   },
 
+  {
+    kind: 'motor',
+    name: 'Electric motor',
+    group: 'convert',
+    takes: ['electric'],
+    gives: ['mechanical'],
+    size: { label: 'rated output', value: 11, unit: 'kW', max: 500 },
+    note: 'Turns electricity into a turning shaft, for a pump or a compressor to take.',
+    behaviour: ({ size }) => ({
+      role: 'converter',
+      output: 'mechanical',
+      recipe: { electric: 1.1 },
+      capacity: size,
+    }),
+  },
+  {
+    kind: 'powerpack',
+    name: 'Hydraulic pump',
+    group: 'convert',
+    takes: ['oil', 'electric'],
+    gives: ['oil'],
+    size: { label: 'flow', value: 40, unit: 'L/min', max: 500 },
+    note: 'Draws oil from its tank and delivers it under pressure. Give it a tank and electricity.',
+    behaviour: ({ size }) => ({
+      role: 'converter',
+      output: 'oil',
+      recipe: { oil: 1, electric: 0.3 },
+      capacity: size,
+    }),
+  },
+  {
+    kind: 'compressor',
+    name: 'Air compressor',
+    group: 'convert',
+    takes: ['electric'],
+    gives: ['air'],
+    size: {
+      label: 'free air delivered',
+      value: 500,
+      unit: 'L/min',
+      max: 10000,
+    },
+    note: 'Squeezes outside air into its receiver; about 7 kW for every thousand litres a minute.',
+    behaviour: ({ size }) => ({
+      role: 'converter',
+      output: 'air',
+      recipe: { electric: 0.007 },
+      capacity: size,
+    }),
+  },
+
   // carry
   {
     kind: 'busbar',
@@ -311,6 +364,16 @@ const TEMPLATE_LIST: Template[] = [
     note: 'Shut it and the water stops here.',
     behaviour: ({ on }) => ({ role: 'gate', capacity: 1e4, open: on }),
   },
+  {
+    kind: 'dcv',
+    name: 'Directional valve',
+    group: 'carry',
+    takes: ['oil', 'air'],
+    gives: ['oil', 'air'],
+    switch: { on: 'shifted', off: 'centred', start: false },
+    note: 'Sends oil or air to a cylinder while its solenoid pulls; centred, it holds everything where it is.',
+    behaviour: ({ on }) => ({ role: 'gate', capacity: 1e4, open: on }),
+  },
 
   // store
   {
@@ -348,7 +411,40 @@ const TEMPLATE_LIST: Template[] = [
     }),
   },
 
+  {
+    kind: 'accumulator',
+    name: 'Accumulator',
+    group: 'store',
+    takes: ['oil'],
+    gives: ['oil'],
+    size: { label: 'holds', value: 4, unit: 'L', max: 200 },
+    note: 'Stores oil against a charge of gas: fills from flow nobody needs and gives it back in a rush.',
+    behaviour: ({ size }) => ({
+      role: 'storage',
+      capacity: size,
+      start: 0.5,
+      maxIn: Number(fmt(size * 10)),
+      maxOut: Number(fmt(size * 20)),
+    }),
+  },
+
   // use
+  {
+    kind: 'cylinder',
+    name: 'Cylinder',
+    group: 'use',
+    takes: ['oil', 'air'],
+    gives: ['oil', 'air'],
+    size: { label: 'swept volume', value: 2, unit: 'L', max: 200 },
+    note: 'Its rod goes out as oil fills it and back as it empties: its fill is the stroke. Feed it through a directional valve.',
+    behaviour: ({ size }) => ({
+      role: 'storage',
+      capacity: size,
+      start: 0,
+      maxIn: Number(fmt(size * 10)),
+      maxOut: Number(fmt(size * 10)),
+    }),
+  },
   {
     kind: 'house',
     name: 'House',

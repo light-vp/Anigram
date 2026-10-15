@@ -12,7 +12,7 @@ const env = (hour = 12): Env => ({
   day: 0,
   knob: () => 0,
   on: () => true,
-  prev: () => ({ in: 0, out: 0, fill: 0 }),
+  prev: () => ({ in: 0, out: 0, fill: 0, effort: NaN }),
 })
 
 function scene(parts: Scene['parts'], links: Scene['links']): Scene {

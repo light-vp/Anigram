@@ -9,7 +9,7 @@ solver runs the network every tick and the sheet draws what it finds: line
 width is flow, dot speed is flow, a turbine spins as fast as it generates.
 So a scene can't show something its system isn't doing.
 
-The five built-in sheets are scene files too (`list_scenes` / `get_scene` in
+The built-in sheets are scene files too (`list_scenes` / `get_scene` in
 the MCP server, or `src/scenes/*.ts`). Read one before writing your own.
 
 ## Shape
@@ -104,14 +104,111 @@ Every part has one role. Numbers that can change over the day are
 ```
 
 - `domain` is one of `light`, `electric`, `water`, `heat`, `fuel`,
-  `mechanical`, `data`. Each is drawn differently, and each needs an entry in
-  `units` and `scale`.
+  `mechanical`, `data`, `oil` (hydraulic oil) and `air` (compressed air).
+  Each is drawn differently, and each needs an entry in `units` and `scale`.
 - `via` are waypoints in grid cells; a link runs through them with rounded
   corners. A straight two-point link that isn't aligned bends `hv`
   (horizontal first, the default) or `vh`.
 - `capacity` clips the flow; the sheet flags a link at its limit.
 - `loss: true` carries a converter's losses rather than its product.
 - Storage that should both charge and discharge needs a link each way.
+- `drop` is the effort the link loses when it carries its `capacity` (see
+  the next section).
+
+## Effort: pressure, voltage, temperature
+
+Flow says how much moves. Effort says how hard it is pushed: pressure behind
+water, oil, air and fuel (bar), voltage behind current (V), temperature
+behind heat (°C). Once a tick's flows are solved, effort is read along them,
+so a sheet can show a long cable leaving the last house on a low voltage, a
+throttled valve's pressure drop, or a pump building the pressure that lifts
+a relief valve.
+
+A part's `effort` says what it does to the effort it is given:
+
+```json
+{ "id": "grid", "behaviour": { "role": "source", "output": 100 }, "effort": { "set": 240 } }
+{ "id": "pump", "behaviour": { "role": "converter", "output": "water", "recipe": { "electric": 0.4, "water": 1 }, "capacity": 12 },
+  "effort": { "boost": "4 - 1.5 * pow(part('pump').out / 12, 2)" } }
+{ "id": "tx", "behaviour": { "role": "converter", "output": "electric", "recipe": { "electric": 1.02 } }, "effort": { "ratio": 0.0364 } }
+{ "id": "tower", "behaviour": { "role": "storage", … }, "effort": { "set": "2.5 + 0.6 * part('tower').fill" } }
+{ "id": "house", "behaviour": { "role": "sink", "demand": 4 }, "effort": { "min": 216, "max": 253 } }
+```
+
+| field        | who has it                       | what it does                                                                                                                                 |
+| ------------ | -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `set`        | source, storage, converter, gate | holds its outlet at this: a supply's voltage, a tank's head, a boiler's flow temperature. On a gate it caps, like a pressure-reducing valve. |
+| `boost`      | converter                        | adds this to what arrives: a pump's head, a compressor's rise                                                                                |
+| `ratio`      | converter                        | multiplies what arrives: a transformer's turns ratio                                                                                         |
+| `drop`       | gate, converter (with capacity)  | lost through the part at its full capacity: a filter, a valve wide open. A throttled gate loses more.                                        |
+| `min`, `max` | any                              | the range it is rated for; outside it the sheet raises an alarm and `simulate_scene` lists it                                                |
+
+- `set` and `boost` are signals read after the flows are in, so they can
+  read parts as they are now with `part('id')`: a pump's head falling as it
+  delivers more is `boost: "4 - 1.5 * pow(part('pump').out / 12, 2)"`.
+- A supply or store holds its effort only while it has something to give: a
+  panel at night or an empty tank reads 0.
+- A link's `drop` grows with its flow: as the square of it in a pipe, in
+  proportion in a cable or a heat main. Where lines meet, efforts mix by how
+  much each line brings; where nothing flows, the highest effort stands.
+- `units[domain].effort` names the unit; it defaults to bar, V or °C.
+- `prev('id').effort` and `part('id').effort` read a part's effort at its
+  outlet. A P&ID's pressure (P), temperature (T) and voltage (E) instruments
+  read it when they're given no `reads`.
+
+A **relief valve** is a gate that opens on the pressure behind it rather
+than a signal: it starts to lift at `at` and is wide open at `full` (10%
+over `at` when left out). Each tick it settles where the pressure it lets
+off holds it, so put a sink downstream (a drain back to the tank) that asks
+for at least its capacity:
+
+```json
+{
+  "id": "relief",
+  "kind": "valve",
+  "behaviour": {
+    "role": "gate",
+    "capacity": 40,
+    "relief": { "at": 150, "full": 180 }
+  }
+}
+```
+
+## Events: cause and effect
+
+`events` make a chain: each one watches a condition, and when it turns true
+it waits its `after` hours, then flips a switch or sets a knob. The next
+event can wait on that one with `fired('id')`. Every link is a real
+condition on the simulated flows, so a cloudy day makes the whole machine
+run late.
+
+```json
+"events": [
+  { "id": "dawn", "says": "Sunlight on the panel starts the pump.",
+    "when": "part('pv').out > 0.6", "then": [{ "switch": "pump", "on": true }], "at": "pv" },
+  { "id": "full", "says": "The tank fills, and its float stops the pump.",
+    "when": "part('tank').fill > 0.95", "then": [{ "switch": "pump", "on": false }], "at": "tank" },
+  { "id": "timer", "says": "Half an hour later, the timer opens the sprinkler.",
+    "when": "fired('full')", "after": 0.5, "then": [{ "switch": "sprinkler", "on": true }], "at": "valve" }
+]
+```
+
+- `when` reads parts as they are now with `part('id')`, plus everything a
+  signal can. It fires each time it turns true, then re-arms once it is
+  false again; `once: true` fires it at most once a run. It counts as true
+  at the opening hour if it already is.
+- `then` is a list of `{ "switch": "id", "on": true }` and
+  `{ "knob": "id", "value": 0.5 }`. What an event sets takes over that
+  control until someone moves it by hand.
+- `fired('id')` is 1 in the tick after an event fires; `since('id')` is the
+  hours since it last fired (very large before it has). Both work in any
+  expression: a sink's demand can be `since('bell') < 1 ? 5 : 0`.
+- `at` is the part it happens at. The sheet rings that part as the event
+  fires, shows its `says` as the caption, and draws the chain: a dashed arrow
+  to each event that waits on it, and a brief one to every part whose switch
+  it flips.
+- `simulate_scene` lists the hours each event fired, and `expect` checks can
+  read `fired()` (fired within the hour before) and `since()`.
 
 ## Engineering drawings
 
@@ -127,6 +224,7 @@ valves and breakers show their state, tank levels move.
 | `pid`         | a P&ID: ISO 10628-2 symbols, ISA-5.1 tags and lines          | water, heat, fuel, data |
 | `single-line` | IEC 60617 symbols, or ANSI/IEEE 315 with `"symbols": "ansi"` | electric                |
 | `pfd`         | a process flow diagram: major equipment and streams          | water, heat, fuel       |
+| `fluid-power` | a hydraulic or pneumatic circuit: ISO 1219-1 and 1219-2      | oil, air, mechanical    |
 
 A part none of whose links the practice shows is left off the sheet, so a
 P&ID of a pumping station has no power cables and a single-line has no
@@ -166,6 +264,14 @@ pipes.
   `subtitle` in the middle (with `project` above them), and drawn, checked,
   approved, issued, revision and `sheet` along the bottom. Fields left out
   stay as empty boxes. `issued` is a date like `2026-10-11`.
+- On a fluid-power circuit, a cylinder is a `storage` whose fill is its
+  stroke (the piston follows it), and a directional valve is a `gate` whose
+  `open` picks the envelope: shut is the centre, `1` the straight-through
+  envelope, anything between the crossed one. Lines from above or below
+  land on the valve's own A, B, P and T ports. Tags run circuit, letter,
+  number after ISO 1219-2 (`0P1`, `1V1`, `1A1`), and a shaft draws as a
+  double line. [`examples/hydraulic-press.json`](../examples/hydraulic-press.json)
+  is a whole press circuit.
 - On a single-line, a busbar stretches to reach every feeder, and a feeder
   on another row drops straight from the bar above it rather than from its
   centre.
@@ -173,15 +279,18 @@ pipes.
   practice, already tagged and titled, to edit rather than start blank.
 - The MCP server's `check_drawing` marks the sheet up the way a reviewing
   engineer would: equipment tagged in the practice's scheme (ISA letters on a
-  P&ID, IEC 81346 on a single-line), lines and streams numbered, control
-  valves driven by a controller and loops sharing a number, loads and
-  generators behind a breaker, the title block filled. It advises; with
+  P&ID, IEC 81346 on a single-line, ISO 1219-2 on a fluid-power circuit),
+  lines and streams numbered, control valves driven by a controller and
+  loops sharing a number, loads and generators behind a breaker, oil coming
+  back to a reservoir behind a relief valve, exhaust air through a silencer,
+  the title block filled. It advises; with
   `strict` any finding fails it, for CI and print-ready sheets.
 - `lint_layout` checks the sheet reads cleanly (no crossing or doubled
   lines, no line through a part, no slanted runs, no label on top of
   another or off the edge of the sheet), and `auto_layout` lays a sheet out by its flow: a single-line
-  top to bottom with feeders dropping off the busbars, anything else left to
-  right with P&ID instruments a row above what they serve.
+  top to bottom with feeders dropping off the busbars, a fluid-power circuit
+  bottom to top (tank and pump under the valves, actuators on top), anything
+  else left to right with P&ID instruments a row above what they serve.
 - `export_dexpi` writes a P&ID as DEXPI 1.3 (Proteus 4.1.1) XML for plant
   design software. It carries the plant rather than the picture: equipment
   with tags and nozzles, each numbered line as a piping system with its
@@ -257,8 +366,9 @@ A signal is a number or an expression string:
 
 Arithmetic, comparisons, `&&` `||` `!`, `? :`, numbers, `hour` (0–24),
 `day`, `pi`, and the functions listed below. `knob('id')` reads a slider,
-`on('id')` a switch (1 or 0), `prev('id').in|out|fill` another part as it was
-last tick. Nothing else — expressions are parsed, never run as code.
+`on('id')` a switch (1 or 0), `prev('id').in|out|fill|effort` another part as
+it was last tick, `fired('id')` and `since('id')` an event. Nothing else —
+expressions are parsed, never run as code.
 
 ## Stories: `expect`
 
@@ -286,7 +396,7 @@ tells you whether the scene really does what it says:
 ```
 
 - `says` is the claim in words; `check` is a signal expression that is true
-  when it holds. `part('id').in|out|fill|demand` reads a part as it is at
+  when it holds. `part('id').in|out|fill|demand|effort` reads a part as it is at
   that hour (`demand` is what a sink asked for). `knob()` and `on()` read the
   controls the day was run with.
 - Checks run on the whole hours of the day. `at` picks one hour; `from` and

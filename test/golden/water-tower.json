@@ -24,30 +24,36 @@
     "tower": {
      "in": 0,
      "out": 27,
-     "fill": 0.85
+     "fill": 0.85,
+     "effort": 3.01
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 3.007
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 3.006
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 3.007
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Night. Almost nobody is running a tap, and the tower sits nearly full.",
@@ -75,30 +81,36 @@
     "tower": {
      "in": 0,
      "out": 27,
-     "fill": 0.79
+     "fill": 0.79,
+     "effort": 2.974
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 2.971
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 2.97
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.971
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Night. Almost nobody is running a tap, and the tower sits nearly full.",
@@ -126,30 +138,36 @@
     "tower": {
      "in": 0,
      "out": 85.878,
-     "fill": 0.69
+     "fill": 0.69,
+     "effort": 2.914
     },
     "main": {
      "in": 85.878,
-     "out": 85.878
+     "out": 85.878,
+     "effort": 2.881
     },
     "taps": {
      "in": 76.878,
      "out": 0,
-     "demand": 76.878
+     "demand": 76.878,
+     "effort": 2.863
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.881
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Morning showers. The tower drains faster than the pump can refill it — that is exactly what it is for.",
@@ -177,30 +195,36 @@
     "tower": {
      "in": 92.233,
      "out": 169.5,
-     "fill": 0.386
+     "fill": 0.386,
+     "effort": 2.732
     },
     "main": {
      "in": 169.5,
-     "out": 169.5
+     "out": 169.5,
+     "effort": 2.604
     },
     "taps": {
      "in": 160.5,
      "out": 0,
-     "demand": 160.5
+     "demand": 160.5,
+     "effort": 2.524
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.604
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Morning showers. The tower drains faster than the pump can refill it — that is exactly what it is for.",
@@ -228,30 +252,36 @@
     "tower": {
      "in": 92.233,
      "out": 85.878,
-     "fill": 0.287
+     "fill": 0.287,
+     "effort": 2.672
     },
     "main": {
      "in": 85.878,
-     "out": 85.878
+     "out": 85.878,
+     "effort": 2.639
     },
     "taps": {
      "in": 76.878,
      "out": 0,
-     "demand": 76.878
+     "demand": 76.878,
+     "effort": 2.621
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.639
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Morning showers. The tower drains faster than the pump can refill it — that is exactly what it is for.",
@@ -279,30 +309,36 @@
     "tower": {
      "in": 92.233,
      "out": 27,
-     "fill": 0.397
+     "fill": 0.397,
+     "effort": 2.738
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 2.735
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 2.734
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.735
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Morning showers. The tower drains faster than the pump can refill it — that is exactly what it is for.",
@@ -330,30 +366,36 @@
     "tower": {
      "in": 92.233,
      "out": 27,
-     "fill": 0.542
+     "fill": 0.542,
+     "effort": 2.825
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 2.822
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 2.821
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.822
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "The float switch at work: the pump starts below 40% and stops at 95%.",
@@ -381,30 +423,36 @@
     "tower": {
      "in": 92.233,
      "out": 39.956,
-     "fill": 0.676
+     "fill": 0.676,
+     "effort": 2.906
     },
     "main": {
      "in": 39.956,
-     "out": 39.956
+     "out": 39.956,
+     "effort": 2.899
     },
     "taps": {
      "in": 30.956,
      "out": 0,
-     "demand": 30.956
+     "demand": 30.956,
+     "effort": 2.896
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.899
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "The float switch at work: the pump starts below 40% and stops at 95%.",
@@ -432,30 +480,36 @@
     "tower": {
      "in": 92.233,
      "out": 60.919,
-     "fill": 0.766
+     "fill": 0.766,
+     "effort": 2.96
     },
     "main": {
      "in": 60.919,
-     "out": 60.919
+     "out": 60.919,
+     "effort": 2.943
     },
     "taps": {
      "in": 51.919,
      "out": 0,
-     "demand": 51.919
+     "demand": 51.919,
+     "effort": 2.935
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.943
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "The float switch at work: the pump starts below 40% and stops at 95%.",
@@ -483,30 +537,36 @@
     "tower": {
      "in": 92.233,
      "out": 60.919,
-     "fill": 0.831
+     "fill": 0.831,
+     "effort": 2.998
     },
     "main": {
      "in": 60.919,
-     "out": 60.919
+     "out": 60.919,
+     "effort": 2.982
     },
     "taps": {
      "in": 51.919,
      "out": 0,
-     "demand": 51.919
+     "demand": 51.919,
+     "effort": 2.974
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.982
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "The float switch at work: the pump starts below 40% and stops at 95%.",
@@ -534,30 +594,36 @@
     "tower": {
      "in": 92.233,
      "out": 39.956,
-     "fill": 0.923
+     "fill": 0.923,
+     "effort": 3.054
     },
     "main": {
      "in": 39.956,
-     "out": 39.956
+     "out": 39.956,
+     "effort": 3.047
     },
     "taps": {
      "in": 30.956,
      "out": 0,
-     "demand": 30.956
+     "demand": 30.956,
+     "effort": 3.044
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 3.047
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "The float switch at work: the pump starts below 40% and stops at 95%.",
@@ -585,30 +651,36 @@
     "tower": {
      "in": 0,
      "out": 27,
-     "fill": 0.901
+     "fill": 0.901,
+     "effort": 3.041
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 3.037
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 3.036
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 3.037
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "The float switch at work: the pump starts below 40% and stops at 95%.",
@@ -636,30 +708,36 @@
     "tower": {
      "in": 0,
      "out": 27,
-     "fill": 0.841
+     "fill": 0.841,
+     "effort": 3.005
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 3.001
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 3
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 3.001
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "The float switch at work: the pump starts below 40% and stops at 95%.",
@@ -687,30 +765,36 @@
     "tower": {
      "in": 0,
      "out": 27,
-     "fill": 0.781
+     "fill": 0.781,
+     "effort": 2.969
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 2.965
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 2.964
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.965
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Cooking and baths: a second, gentler peak.",
@@ -738,30 +822,36 @@
     "tower": {
      "in": 0,
      "out": 58.094,
-     "fill": 0.696
+     "fill": 0.696,
+     "effort": 2.917
     },
     "main": {
      "in": 58.094,
-     "out": 58.094
+     "out": 58.094,
+     "effort": 2.902
     },
     "taps": {
      "in": 49.094,
      "out": 0,
-     "demand": 49.094
+     "demand": 49.094,
+     "effort": 2.895
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.902
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Cooking and baths: a second, gentler peak.",
@@ -789,30 +879,36 @@
     "tower": {
      "in": 0,
      "out": 108.406,
-     "fill": 0.505
+     "fill": 0.505,
+     "effort": 2.803
     },
     "main": {
      "in": 108.406,
-     "out": 108.406
+     "out": 108.406,
+     "effort": 2.751
     },
     "taps": {
      "in": 99.406,
      "out": 0,
-     "demand": 99.406
+     "demand": 99.406,
+     "effort": 2.72
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.751
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Cooking and baths: a second, gentler peak.",
@@ -840,30 +936,36 @@
     "tower": {
      "in": 92.233,
      "out": 108.406,
-     "fill": 0.367
+     "fill": 0.367,
+     "effort": 2.72
     },
     "main": {
      "in": 108.406,
-     "out": 108.406
+     "out": 108.406,
+     "effort": 2.668
     },
     "taps": {
      "in": 99.406,
      "out": 0,
-     "demand": 99.406
+     "demand": 99.406,
+     "effort": 2.637
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.668
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Cooking and baths: a second, gentler peak.",
@@ -891,30 +993,36 @@
     "tower": {
      "in": 92.233,
      "out": 58.094,
-     "fill": 0.385
+     "fill": 0.385,
+     "effort": 2.731
     },
     "main": {
      "in": 58.094,
-     "out": 58.094
+     "out": 58.094,
+     "effort": 2.716
     },
     "taps": {
      "in": 49.094,
      "out": 0,
-     "demand": 49.094
+     "demand": 49.094,
+     "effort": 2.709
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.716
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Cooking and baths: a second, gentler peak.",
@@ -942,33 +1050,39 @@
     "tower": {
      "in": 92.233,
      "out": 27,
-     "fill": 0.507
+     "fill": 0.507,
+     "effort": 2.804
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 2.801
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 2.8
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.801
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
-   "caption": "Quiet again. Open the hydrant valve to see how long the tower lasts a fire crew.",
+   "caption": "Quiet again. Open the hydrant valve to see how long the tower lasts a fire crew, and what it does to the pressure at the taps.",
    "alerts": []
   },
   {
@@ -993,33 +1107,39 @@
     "tower": {
      "in": 92.233,
      "out": 27,
-     "fill": 0.652
+     "fill": 0.652,
+     "effort": 2.891
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 2.888
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 2.887
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.888
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
-   "caption": "Quiet again. Open the hydrant valve to see how long the tower lasts a fire crew.",
+   "caption": "Quiet again. Open the hydrant valve to see how long the tower lasts a fire crew, and what it does to the pressure at the taps.",
    "alerts": []
   },
   {
@@ -1044,30 +1164,36 @@
     "tower": {
      "in": 92.233,
      "out": 27,
-     "fill": 0.797
+     "fill": 0.797,
+     "effort": 2.978
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 2.975
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 2.974
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.975
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Night. Almost nobody is running a tap, and the tower sits nearly full.",
@@ -1095,30 +1221,36 @@
     "tower": {
      "in": 92.233,
      "out": 27,
-     "fill": 0.942
+     "fill": 0.942,
+     "effort": 3.065
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 3.062
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 3.061
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 3.062
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Night. Almost nobody is running a tap, and the tower sits nearly full.",
@@ -1146,30 +1278,36 @@
     "tower": {
      "in": 0,
      "out": 27,
-     "fill": 0.896
+     "fill": 0.896,
+     "effort": 3.037
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 3.034
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 3.033
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 3.034
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Night. Almost nobody is running a tap, and the tower sits nearly full.",
@@ -1197,30 +1335,36 @@
     "tower": {
      "in": 0,
      "out": 27,
-     "fill": 0.836
+     "fill": 0.836,
+     "effort": 3.001
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 2.998
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 2.997
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.998
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Night. Almost nobody is running a tap, and the tower sits nearly full.",
@@ -1248,30 +1392,36 @@
     "tower": {
      "in": 0,
      "out": 27,
-     "fill": 0.776
+     "fill": 0.776,
+     "effort": 2.965
     },
     "main": {
      "in": 27,
-     "out": 27
+     "out": 27,
+     "effort": 2.962
     },
     "taps": {
      "in": 18,
      "out": 0,
-     "demand": 18
+     "demand": 18,
+     "effort": 2.961
     },
     "leaks": {
      "in": 9,
      "out": 0,
-     "demand": 9
+     "demand": 9,
+     "effort": 2.962
     },
     "valve": {
      "in": 0,
-     "out": 0
+     "out": 0,
+     "effort": 0
     },
     "hydrant": {
      "in": 0,
      "out": 0,
-     "demand": 0
+     "demand": 0,
+     "effort": 0
     }
    },
    "caption": "Night. Almost nobody is running a tap, and the tower sits nearly full.",

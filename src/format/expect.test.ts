@@ -179,6 +179,6 @@ test('part() is for checks only; a signal still reads parts with prev()', () => 
   )
   assert.match(
     v.errors.join('\n'),
-    /part\('kettle'\) only works in an expect check/,
+    /part\('kettle'\) reads a part as it is now, which a flow can't/,
   )
 })

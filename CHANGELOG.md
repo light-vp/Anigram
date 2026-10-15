@@ -17,7 +17,7 @@ entry says so under **Changed**.
 
 ## Unreleased
 
-Real plants in, and the editor as the home page.
+Real plants in, pressure and voltage, event chains, fluid-power circuits, an embeddable element, and the editor as the home page.
 
 ### Added
 
@@ -34,7 +34,47 @@ Real plants in, and the editor as the home page.
   import and export, the URL API, and development notes.
 - **P&ID symbols:** `ButterflyValve` (its disc turns as it shuts) and
   `SafetyValve`, both also exported to DEXPI.
+- **Fluid-power circuits** (`"drawing": "fluid-power"`): hydraulic and
+  pneumatic circuit diagrams with ISO 1219-1 symbols, laid out and tagged
+  after ISO 1219-2 (`0P1`, `1V1`, `1A1`). Pumps, motors and compressors;
+  double- and single-acting cylinders whose piston follows their stroke;
+  4/3, 4/2, 5/2 and 3/2 directional valves that shift envelope as they
+  switch; relief, reducing, non-return, throttle, flow-control and shuttle
+  valves; filters, reservoirs, accumulators, service units, silencers and
+  gauges. Working lines solid, pilot and drain lines dashed, shafts double.
+  Pictorial parts to match (`cylinder`, `powerpack`, `dcv`, `accumulator`,
+  `compressor`, `motor`, `oiltank`), a `draw-fluid-power` prompt, a
+  hydraulic press starter (also `examples/hydraulic-press.json`) whose
+  relief valve holds the line at 150 bar, and
+  checks that oil returns to a reservoir, a pump has a relief valve before
+  its directional valve, and exhaust air leaves through a silencer.
+  `auto_layout` lays a circuit out bottom to top (`direction: "up"`).
 - `npm run bench` times the solver on a 288-part town.
+- **`<living-diagram>`**, a web component for pages that can't use an
+  iframe: one script, then `<living-diagram src="plant.json">` (or
+  `scene=`, `share=`, or the scene inline). It runs in its own shadow root,
+  sizes to the sheet, follows `theme="auto"`, and shows what's wrong with a
+  bad scene instead of a blank box. No analytics.
+- Embeds take `?paused=1` and `?controls=0`.
+- **Effort: pressure, voltage and temperature.** Alongside how much flows, a
+  part can now carry how hard it pushes: give it `effort` (`set` for a
+  source or tank, `boost` for a pump, `ratio` for a transformer, `drop` for
+  a valve) and a link a `drop` at capacity (square law for fluids, linear
+  for cables and heat). Readouts appear under the part, `min`/`max` raise
+  alarms, and expressions read `part('id').effort`. Units default to bar,
+  V and °C (`units.<domain>.effort`).
+- **Relief valves.** A gate with `relief: { at, full }` opens as the
+  pressure upstream passes `at`, solved to equilibrium each tick so it
+  holds steady instead of chattering.
+- **Event chains.** `events` on a scene: each watches a condition, waits
+  its `after`, then flips a switch or sets a knob, and the next event
+  watches for it with `fired('id')` or `since('id')`. The sheet draws the
+  chain as arrows between parts and a ring where each fires; the caption
+  says what just happened. `simulate_scene` reports when each fired.
+- **A garden that waters itself** (LD-006), a built-in sheet for event
+  chains and pressure: sun starts the pump, a float stops it, a timer opens
+  the sprinkler.
+- `oil` and `air` domains, for hydraulic and pneumatic circuits.
 
 ### Changed
 
@@ -49,6 +89,8 @@ Real plants in, and the editor as the home page.
   first in the file taking all it wants.
 - An embed's "source ↗" link sits in its play bar instead of over the
   sheet's corner, where it covered the clock.
+- The water tower sheet shows the pressure at the taps, which falls when
+  the hydrant is open.
 - Instrument tags may carry a dotted loop number, `PV-4712.02`, as DEXPI
   files write them.
 

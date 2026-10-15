@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="920" height="728" class="sheet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 728" style="--paper:#ffffff;--line:#e3e3e1;--tile:#fafaf9;--ink:#18181b;--muted:#8a8a87;--lit:#f5b301;--alarm:#e5484d;--light:#f5b301;--electric:#f08c00;--water:#2f7cf6;--heat:#e5484d;--fuel:#12a594;--mechanical:#71717a;--data:#7c5cf0" role="img" aria-label="A solar house: Panels, a home battery, a heat pump and the grid — who powers what, hour by hour"><style>
+<svg width="920" height="728" class="sheet" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 728" style="--paper:#ffffff;--line:#e3e3e1;--tile:#fafaf9;--ink:#18181b;--muted:#8a8a87;--lit:#f5b301;--alarm:#e5484d;--light:#f5b301;--electric:#f08c00;--water:#2f7cf6;--heat:#e5484d;--fuel:#12a594;--mechanical:#71717a;--data:#7c5cf0;--oil:#b4651e;--air:#0f9fbf" role="img" aria-label="A solar house: Panels, a home battery, a heat pump and the grid — who powers what, hour by hour"><style>
 .sheet { font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
 .ln { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
 .ln.thin, .thin { stroke-width: 1; }
@@ -27,6 +27,9 @@
 .label { font-size: 11.5px; font-weight: 550; fill: var(--ink); }
 .value { font-size: 10.5px; fill: var(--muted); font-variant-numeric: tabular-nums; }
 .value.bad { fill: var(--alarm); }
+.chainArrow { fill: none; stroke: var(--muted); stroke-width: 1.25; stroke-dasharray: 3 4; opacity: 0.55; }
+.chainArrow.live { stroke: var(--lit); opacity: 1; stroke-dasharray: none; stroke-width: 1.75; }
+.chainRing { fill: none; stroke: var(--lit); stroke-width: 2; }
 
 .route { fill: none; stroke: var(--line); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .route.loss { stroke-dasharray: 1 5; stroke-width: 1.5; stroke: var(--muted); opacity: 0.6; }

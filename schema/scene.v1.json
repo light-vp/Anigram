@@ -32,9 +32,10 @@
         "pictorial",
         "pid",
         "single-line",
-        "pfd"
+        "pfd",
+        "fluid-power"
       ],
-      "description": "the drawing practice the sheet follows: pictorial (the default), pid, single-line or pfd"
+      "description": "the drawing practice the sheet follows: pictorial (the default), pid, single-line, pfd or fluid-power"
     },
     "symbols": {
       "enum": [
@@ -106,7 +107,9 @@
           "heat",
           "fuel",
           "mechanical",
-          "data"
+          "data",
+          "oil",
+          "air"
         ]
       },
       "additionalProperties": {
@@ -119,6 +122,11 @@
           "amount": {
             "type": "string",
             "minLength": 1
+          },
+          "effort": {
+            "type": "string",
+            "minLength": 1,
+            "description": "the effort's unit, like bar, V or °C; the domain's usual one when left out"
           }
         },
         "required": [
@@ -138,7 +146,9 @@
           "heat",
           "fuel",
           "mechanical",
-          "data"
+          "data",
+          "oil",
+          "air"
         ]
       },
       "additionalProperties": {
@@ -177,17 +187,23 @@
               "gasplant",
               "pump",
               "heatpump",
+              "motor",
+              "powerpack",
+              "compressor",
               "servers",
               "busbar",
               "manifold",
               "breaker",
               "valve",
               "pylon",
+              "dcv",
               "battery",
               "reservoir",
               "watertower",
               "hottank",
               "fueltank",
+              "oiltank",
+              "accumulator",
               "well",
               "treatment",
               "tap",
@@ -200,6 +216,7 @@
               "factory",
               "radiator",
               "car",
+              "cylinder",
               "globe",
               "coolingtower",
               "sky",
@@ -319,6 +336,24 @@
                         "maxLength": 2000
                       }
                     ]
+                  },
+                  "relief": {
+                    "type": "object",
+                    "properties": {
+                      "at": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "the effort it lifts at"
+                      },
+                      "full": {
+                        "type": "number",
+                        "description": "where it is wide open; 10% over `at` if left out"
+                      }
+                    },
+                    "required": [
+                      "at"
+                    ],
+                    "additionalProperties": false
                   }
                 },
                 "required": [
@@ -341,7 +376,9 @@
                       "heat",
                       "fuel",
                       "mechanical",
-                      "data"
+                      "data",
+                      "oil",
+                      "air"
                     ]
                   },
                   "recipe": {
@@ -354,7 +391,9 @@
                         "heat",
                         "fuel",
                         "mechanical",
-                        "data"
+                        "data",
+                        "oil",
+                        "air"
                       ]
                     },
                     "additionalProperties": {
@@ -496,6 +535,57 @@
             "type": "string",
             "minLength": 1,
             "description": "what exactly it is in the drawing practice's vocabulary, like CentrifugalPump; picks the symbol"
+          },
+          "effort": {
+            "type": "object",
+            "properties": {
+              "set": {
+                "description": "holds its outlet at this pressure, voltage or temperature",
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  }
+                ]
+              },
+              "boost": {
+                "description": "adds this to what arrives, like a pump's head",
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  }
+                ]
+              },
+              "ratio": {
+                "type": "number",
+                "minimum": 0,
+                "description": "multiplies what arrives, like a transformer's turns ratio"
+              },
+              "drop": {
+                "type": "number",
+                "minimum": 0,
+                "description": "lost through the part at its full capacity"
+              },
+              "min": {
+                "type": "number",
+                "description": "alarm below this"
+              },
+              "max": {
+                "type": "number",
+                "description": "alarm above this"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
           }
         },
         "required": [
@@ -529,7 +619,9 @@
               "heat",
               "fuel",
               "mechanical",
-              "data"
+              "data",
+              "oil",
+              "air"
             ]
           },
           "capacity": {
@@ -571,6 +663,11 @@
             "type": "string",
             "minLength": 1,
             "description": "its line number, like 50-W-101"
+          },
+          "drop": {
+            "type": "number",
+            "minimum": 0,
+            "description": "effort lost along it when it carries its capacity: volts down a cable, bar along a pipe"
           }
         },
         "required": [
@@ -741,6 +838,93 @@
           "from",
           "to",
           "text"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "events": {
+      "type": "array",
+      "description": "cause and effect: each event flips a switch or sets a knob when its condition turns true; the next can follow it with fired('id')",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "says": {
+            "type": "string",
+            "minLength": 1,
+            "description": "what happens, in words"
+          },
+          "when": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "description": "fires each time this turns true, like \"part('tank').fill > 0.9\" or \"fired('ball')\""
+          },
+          "after": {
+            "type": "number",
+            "minimum": 0,
+            "description": "hours it waits before acting"
+          },
+          "then": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "oneOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "switch": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "on": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "switch",
+                    "on"
+                  ],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "knob": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "value": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "knob",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          },
+          "at": {
+            "type": "string",
+            "minLength": 1,
+            "description": "the part it happens at"
+          },
+          "once": {
+            "type": "boolean",
+            "description": "fire at most once; otherwise it re-arms when its condition turns false"
+          }
+        },
+        "required": [
+          "id",
+          "says",
+          "when",
+          "then"
         ],
         "additionalProperties": false
       }

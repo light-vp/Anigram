@@ -10,6 +10,8 @@ import type {
   Scene,
   Signal,
 } from './types.ts'
+import { compileEffort, solveEffort } from './effort.ts'
+import type { EffortModel } from './effort.ts'
 import { compileExpr } from './expr.ts'
 import { ENERGY_DOMAINS } from './types.ts'
 
@@ -60,11 +62,18 @@ export interface PartState {
   starting: boolean
   /** 0..1 — how hard the part is working; drives rotation, glow, smoke */
   activity: number
+  /** pressure, voltage or temperature at its outlet; NaN where nothing sets one */
+  effort: number
+  /** and at its inlet, before it adds, multiplies or loses any */
+  effortIn: number
 }
 
 export interface LinkState {
   flow: number
   capacity: number
+  /** effort where the link leaves its part and where it arrives; NaN where nothing sets one */
+  effortFrom: number
+  effortTo: number
 }
 
 const DOMAINS: Domain[] = [
@@ -75,6 +84,8 @@ const DOMAINS: Domain[] = [
   'fuel',
   'mechanical',
   'data',
+  'oil',
+  'air',
 ]
 const D = DOMAINS.length
 const domainIndex = new Map(DOMAINS.map((d, i) => [d, i]))
@@ -107,6 +118,10 @@ export interface Compiled {
    * shortfall settles; empty when the sheet is too tangled to be worth it
    */
   upstream: Int32Array[]
+  /** how effort is read along the network once the flows are solved */
+  effort: EffortModel
+  /** the gates that are relief valves */
+  reliefs: Int32Array
 }
 
 export function read(signal: Signal, env: Env): number {
@@ -203,6 +218,7 @@ export function compile(scene: Scene): Compiled {
     upstream[k] = Int32Array.from(seen)
   }
 
+  const inputArrays = inputs.map((x) => Int32Array.from(x))
   return {
     scene,
     parts,
@@ -213,7 +229,7 @@ export function compile(scene: Scene): Compiled {
     to,
     dom,
     cap,
-    inputs: inputs.map((x) => Int32Array.from(x)),
+    inputs: inputArrays,
     lossLinks: lossLinks.map((x) => Int32Array.from(x)),
     recipe: list.map((p) =>
       p.behaviour.role === 'converter'
@@ -229,6 +245,21 @@ export function compile(scene: Scene): Compiled {
     stores: Int32Array.from(stores),
     converters: Int32Array.from(converters),
     upstream: reach < 1e6 ? upstream : list.map(() => new Int32Array(0)),
+    effort: compileEffort({
+      scene,
+      list,
+      from,
+      to,
+      dom,
+      cap,
+      inputs: inputArrays,
+      domains: DOMAINS,
+    }),
+    reliefs: Int32Array.from(
+      list.flatMap((p, k) =>
+        p.behaviour.role === 'gate' && p.behaviour.relief ? [k] : [],
+      ),
+    ),
   }
 }
 
@@ -239,6 +270,8 @@ export interface Memory {
   refilling: Map<string, boolean>
   /** hours each slow-starting converter has been asked for, without a break */
   warm: Map<string, number>
+  /** how far each relief valve has lifted, 0..1 */
+  relief: Map<string, number>
 }
 
 export function initialMemory(model: Compiled): Memory {
@@ -250,10 +283,13 @@ export function initialMemory(model: Compiled): Memory {
     level.set(p.id, b.capacity * (b.start ?? 0.5))
     refilling.set(p.id, false)
   }
-  return { level, refilling, warm: new Map() }
+  return { level, refilling, warm: new Map(), relief: new Map() }
 }
 
 const EPS = 1e-9
+/** a store below this fraction of full has run dry, as the sheet's alert says */
+const EMPTY = 0.02
+const NOTHING = { in: 0, out: 0, fill: 0, demand: 0, effort: NaN }
 /** how close a shared shortfall's fraction is pinned before it settles */
 const SHARE_TOLERANCE = 1e-6
 
@@ -262,6 +298,57 @@ const SHARE_TOLERANCE = 1e-6
  * stores. Pure apart from `memory`, which it updates in place.
  */
 export function solve(model: Compiled, env: Env, dt: number, memory: Memory) {
+  const valves = model.reliefs
+  if (!valves.length) return solveTick(model, env, dt, memory, null)
+  // A relief valve opens until the pressure behind it falls to what holds
+  // it there. More open, lower pressure, so for each valve there is one
+  // opening that agrees with itself; find it by halving, each try a full
+  // tick on a copy of the memory, then solve the tick for real.
+  const lo = new Float64Array(valves.length)
+  const hi = new Float64Array(valves.length).fill(1)
+  const lift = new Float64Array(model.list.length)
+  for (let round = 0; round < RELIEF_ROUNDS; round++) {
+    valves.forEach((k, v) => (lift[k] = (lo[v]! + hi[v]!) / 2))
+    const tried = solveTick(model, env, dt, cloneMemory(memory), lift)
+    valves.forEach((k, v) => {
+      const p = model.list[k]!
+      const b = p.behaviour as Extract<Behaviour, { role: 'gate' }>
+      const { at, full = at * 1.1 } = b.relief!
+      const behind = tried.parts[p.id]!.effortIn
+      const wants = Number.isNaN(behind)
+        ? 0
+        : clamp01((behind - at) / Math.max(EPS, full - at))
+      if (wants > lift[k]!) lo[v] = lift[k]!
+      else hi[v] = lift[k]!
+    })
+  }
+  // shut stays shut, and fully lifted fully open, rather than a hair off
+  valves.forEach((k, v) => {
+    lift[k] = hi[v]! < 1e-3 ? 0 : lo[v]! > 1 - 1e-3 ? 1 : (lo[v]! + hi[v]!) / 2
+    memory.relief.set(model.list[k]!.id, lift[k]!)
+  })
+  return solveTick(model, env, dt, memory, lift)
+}
+
+/** halvings that place a relief valve's opening, to within 1/2^n */
+const RELIEF_ROUNDS = 14
+
+export function cloneMemory(m: Memory): Memory {
+  return {
+    level: new Map(m.level),
+    refilling: new Map(m.refilling),
+    warm: new Map(m.warm),
+    relief: new Map(m.relief),
+  }
+}
+
+function solveTick(
+  model: Compiled,
+  env: Env,
+  dt: number,
+  memory: Memory,
+  lift: Float64Array | null,
+) {
   const { list, links, from, dom, cap, inputs } = model
   const n = list.length
   const L = links.length
@@ -287,6 +374,8 @@ export function solve(model: Compiled, env: Env, dt: number, memory: Memory) {
         break
       case 'gate':
         open[k] = clamp01(read(b.open ?? 1, env))
+        // a relief valve opens as far as the pressure behind it lifted it last tick
+        if (b.relief) open[k]! *= lift?.[k] ?? 0
         gateCap[k] = b.capacity * open[k]!
         break
       case 'sink':
@@ -640,6 +729,8 @@ export function solve(model: Compiled, env: Env, dt: number, memory: Memory) {
       open: 1,
       starting: false,
       activity: 0,
+      effort: NaN,
+      effortIn: NaN,
     }
     switch (b.role) {
       case 'source':
@@ -678,9 +769,40 @@ export function solve(model: Compiled, env: Env, dt: number, memory: Memory) {
     partStates[p.id] = s
   }
 
+  // 7. Effort along the flows. Its signals can read the parts as they are
+  //    now — a pump's head falling as it delivers more.
+  const cold = new Uint8Array(n)
+  const empty = new Uint8Array(n)
+  const delivered = new Float64Array(n)
+  for (let k = 0; k < n; k++) {
+    const b = list[k]!.behaviour
+    if (b.role === 'storage' && partStates[list[k]!.id]!.fill < EMPTY)
+      empty[k] = 1
+    delivered[k] =
+      b.role === 'converter' || b.role === 'source' ? produced[k]! : outflow[k]!
+    if (b.role === 'converter' && b.startup && warm[k]! < b.startup) cold[k] = 1
+  }
+  const now: Env = {
+    ...env,
+    part: (id) => partStates[id] ?? { ...NOTHING },
+  }
+  const effort = solveEffort(
+    { ...model, domains: DOMAINS },
+    model.effort,
+    { flow, out: delivered, avail: output, open, cold, empty },
+    (signal) => read(signal, now),
+  )
+  for (let k = 0; k < n; k++) {
+    const s = partStates[list[k]!.id]!
+    s.effort = effort.eOut[k]!
+    s.effortIn = effort.eIn[k]!
+  }
+
   const linkStates: LinkState[] = links.map((l, i) => ({
     flow: flow[i]!,
     capacity: l.capacity ?? Infinity,
+    effortFrom: effort.linkFrom[i]!,
+    effortTo: effort.linkTo[i]!,
   }))
 
   return { parts: partStates, links: linkStates }

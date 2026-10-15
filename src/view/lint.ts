@@ -12,9 +12,8 @@ import {
   sheetSize,
 } from './geometry.ts'
 import type { Pt } from './geometry.ts'
-import { LABEL_OFFSET } from './layout.ts'
 import type { Box } from './layout.ts'
-import { busbarSpans, tapBusbars } from './lines.ts'
+import { busbarSpans, engLabelOffset, engPoints } from './lines.ts'
 
 /*
  * Whether a sheet reads cleanly, from its geometry alone: the same lines the
@@ -58,9 +57,7 @@ export function drawnLinks(scene: Scene): Drawn[] {
   return scene.links.flatMap((link, index) => {
     if (eng && (!shows(link, scene) || !shown.has(link.from))) return []
     if (eng && !shown.has(link.to)) return []
-    const pts = eng
-      ? tapBusbars(scene, link, linkPoints(scene, link, false))
-      : linkPoints(scene, link)
+    const pts = eng ? engPoints(scene, link) : linkPoints(scene, link)
     return [{ index, link, pts }]
   })
 }
@@ -68,11 +65,15 @@ export function drawnLinks(scene: Scene): Drawn[] {
 const hits = (a: Box, b: Box) =>
   a.x0 < b.x1 && b.x0 < a.x1 && a.y0 < b.y1 && b.y0 < a.y1
 
-/** where a part's words sit on the sheet, as the sheet sets them */
-function labelBoxOf(
+/**
+ * where a part's words sit on the sheet, as the sheet sets them; `effort`
+ * adds the pressure or voltage line some parts read under their value
+ */
+export function labelBoxOf(
   scene: Scene,
   part: PartSpec,
   span?: [number, number],
+  effort = false,
 ): Box | undefined {
   const [x, y] = cellToPx(part.at)
   const eng = isEngineering(scene)
@@ -81,11 +82,12 @@ function labelBoxOf(
   const busbar = c === 'Busbar'
   const o = busbar
     ? { dx: (span?.[0] ?? -50) + 4, dy: part.tag ? -22 : -9, anchor: 'start' }
-    : LABEL_OFFSET[part.labelSide ?? 'below']
+    : engLabelOffset(scene, part)
   const lines = [
     ...(eng && part.tag ? [part.tag] : []),
     part.label,
     ...(busbar ? [] : [VALUE]),
+    ...(effort ? [VALUE] : []),
   ]
   const w = Math.max(...lines.map((l) => l.length)) * 6.4 + 4
   const left =

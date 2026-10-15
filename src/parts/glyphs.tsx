@@ -960,4 +960,176 @@ export const Fan: Glyph = ({ phase }) => (
   </g>
 )
 
+// ---- fluid power --------------------------------------------------------
+
+/** a key on a turning shaft or wheel, so the eye can see it go round */
+function Key({
+  cx,
+  cy,
+  r,
+  phase,
+}: {
+  cx: number
+  cy: number
+  r: number
+  phase: number
+}) {
+  const a = rad(phase * 2)
+  return (
+    <line
+      className="ln thin"
+      x1={cx}
+      y1={cy}
+      x2={cx + Math.sin(a) * r}
+      y2={cy - Math.cos(a) * r}
+    />
+  )
+}
+
+export const Motor: Glyph = ({ phase }) => (
+  <g>
+    <rect x={-13} y={-8} width={18} height={16} rx={3} className="ln" />
+    <path className="ln thin" d="M-9 -8 V8 M-5 -8 V8 M-1 -8 V8" />
+    <path className="ln" d="M-10 8 L-12 12 H2 L0 8 M5 0 H11" />
+    <circle cx={14} r={3} className="ln" />
+    <Key cx={14} cy={0} r={3} phase={phase} />
+  </g>
+)
+
+/** how full an oil tank is drawn: a store's own fill, else working full */
+const oilLevel = (s: PartState) =>
+  s.avail > 0 || s.demand > 0 ? 0.65 : clamp01(s.fill)
+
+export const PowerPack: Glyph = ({ s, phase }) => {
+  const h = 10 * oilLevel(s)
+  return (
+    <g>
+      <rect
+        x={-15}
+        y={14 - h}
+        width={30}
+        height={h}
+        fill="var(--oil)"
+        opacity={0.35}
+      />
+      <rect x={-16} y={2} width={32} height={13} rx={2} className="ln" />
+      {/* the motor, its coupling and the pump, standing on the tank lid */}
+      <rect x={-14} y={-9} width={13} height={11} rx={2.5} className="ln" />
+      <path className="ln thin" d="M-10.5 -9 V2 M-7 -9 V2" />
+      <circle cx={3} cy={-3.5} r={2.6} className="ln" />
+      <Key cx={3} cy={-3.5} r={2.6} phase={phase} />
+      <rect x={7} y={-7} width={7} height={9} rx={1.5} className="ln" />
+      <path className="ln" d="M10.5 -7 V-14 H16" />
+    </g>
+  )
+}
+
+export const Compressor: Glyph = ({ phase }) => (
+  <g>
+    {/* the receiver, the cylinder on top of it, and the flywheel */}
+    <rect x={-16} y={3} width={32} height={11} rx={5.5} className="ln" />
+    <path className="ln" d="M-10 14 V17 M10 14 V17" />
+    <path className="ln" d="M-10 3 V-8 H0 V3" />
+    <path className="ln thin" d="M-10 -4.5 H0 M-10 -1 H0" />
+    <circle cx={8} cy={-3} r={5.5} className="ln" />
+    <Key cx={8} cy={-3} r={5.5} phase={phase} />
+  </g>
+)
+
+export const DirectionalValve: Glyph = ({ s }) => {
+  // the spool sits centred when shut and shifts one way or the other
+  const o = s.open < 0.05 ? 0 : s.open > 0.75 ? 3.5 : -3.5
+  const on = s.open >= 0.05
+  return (
+    <g>
+      <path className="ln" d="M-4 -7 V-12 M4 -7 V-12 M-4 7 V12 M4 7 V12" />
+      <rect x={-11} y={-7} width={22} height={14} rx={2} className="ln" />
+      <path
+        className="ln"
+        d={`M${-10 + o} 0 H${10 + o} M${-6 + o} -3 V3 M${o} -3 V3 M${6 + o} -3 V3`}
+      />
+      {/* the solenoid, lit while it pulls */}
+      <rect
+        x={-18}
+        y={-5}
+        width={7}
+        height={10}
+        rx={1.5}
+        className="ln"
+        style={on ? { fill: 'var(--electric)', fillOpacity: 0.4 } : undefined}
+      />
+      <path className="ln" d="M11 -3 L13 3 L15 -3 L17 3" />
+    </g>
+  )
+}
+
+export const OilTank: Glyph = ({ s }) => {
+  const h = 17 * oilLevel(s)
+  return (
+    <g>
+      <rect
+        x={-14}
+        y={11 - h}
+        width={28}
+        height={h}
+        fill={levelColor(s, 'var(--oil)')}
+        opacity={0.35}
+      />
+      <rect x={-15} y={-7} width={30} height={19} rx={2} className="ln" />
+      {/* the filler cap and the breather */}
+      <path className="ln" d="M-9 -7 V-10 H-3 V-7 M7 -7 V-12 M4.5 -12 H9.5" />
+    </g>
+  )
+}
+
+export const Accumulator: Glyph = ({ s }) => {
+  // oil comes up from the port, squeezing the gas above it
+  const y = 9 - 20 * clamp01(s.fill)
+  return (
+    <g>
+      <rect
+        x={-6.25}
+        y={y}
+        width={12.5}
+        height={13.5 - y}
+        fill="var(--oil)"
+        opacity={0.35}
+      />
+      <rect x={-7} y={-15} width={14} height={30} rx={7} className="ln" />
+      <path className="ln thin" d={`M-6.5 ${y} H6.5`} />
+      <path className="ln" d="M0 15 V18 M-2 -15 V-17 H2 V-15" />
+    </g>
+  )
+}
+
+export const Cylinder: Glyph = ({ s }) => {
+  // the piston and rod travel out as the cylinder fills
+  const x = -13 + 14 * clamp01(s.fill)
+  return (
+    <g>
+      <rect
+        x={-15.25}
+        y={-5.25}
+        width={x + 15.25}
+        height={10.5}
+        fill="var(--oil)"
+        opacity={0.35}
+      />
+      <rect x={-16} y={-6} width={20} height={12} rx={2} className="ln" />
+      <rect
+        x={x}
+        y={-1.75}
+        width={19}
+        height={3.5}
+        rx={1}
+        className="ln solid"
+      />
+      <rect x={x - 1.25} y={-5} width={2.5} height={10} className="inkf" />
+      <circle cx={x + 21} r={2} className="ln" />
+      <path className="ln" d="M-16 0 H-18" />
+      <circle cx={-20} r={2} className="ln" />
+    </g>
+  )
+}
+
 export const Generic: Glyph = () => <circle r={10} className="ln" />

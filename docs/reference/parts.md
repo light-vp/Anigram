@@ -29,6 +29,9 @@ Every part a scene can use, as the pictorial sheet draws it. A part names its `k
 | <img src="symbols/kind-gasplant.svg" width="48" height="48" alt=""> | `gasplant` | converter | a gas power station; smoke with activity |
 | <img src="symbols/kind-pump.svg" width="48" height="48" alt=""> | `pump` | converter | a centrifugal pump; impeller spins |
 | <img src="symbols/kind-heatpump.svg" width="48" height="48" alt=""> | `heatpump` | converter | a heat pump; fan spins |
+| <img src="symbols/kind-motor.svg" width="48" height="48" alt=""> | `motor` | converter | an electric motor; its shaft turns with the load |
+| <img src="symbols/kind-powerpack.svg" width="48" height="48" alt=""> | `powerpack` | converter | a hydraulic power unit: motor and pump on an oil tank; the coupling turns |
+| <img src="symbols/kind-compressor.svg" width="48" height="48" alt=""> | `compressor` | converter | an air compressor on its receiver; the flywheel turns |
 | <img src="symbols/kind-servers.svg" width="48" height="48" alt=""> | `servers` | converter | a server rack; LEDs blink with load |
 
 ## Switchgear and carriers
@@ -40,6 +43,7 @@ Every part a scene can use, as the pictorial sheet draws it. A part names its `k
 | <img src="symbols/kind-breaker.svg" width="48" height="48" alt=""> | `breaker` | gate | a circuit breaker; contacts open and close |
 | <img src="symbols/kind-valve.svg" width="48" height="48" alt=""> | `valve` | gate | a valve; fills when open |
 | <img src="symbols/kind-pylon.svg" width="48" height="48" alt=""> | `pylon` | gate | a transmission pylon |
+| <img src="symbols/kind-dcv.svg" width="48" height="48" alt=""> | `dcv` | gate | a solenoid directional valve; the spool shifts as it opens |
 
 ## Storage
 
@@ -50,6 +54,8 @@ Every part a scene can use, as the pictorial sheet draws it. A part names its `k
 | <img src="symbols/kind-watertower.svg" width="48" height="48" alt=""> | `watertower` | storage | a water tower; tank level rises with fill |
 | <img src="symbols/kind-hottank.svg" width="48" height="48" alt=""> | `hottank` | storage | a hot water cylinder; fills with heat |
 | <img src="symbols/kind-fueltank.svg" width="48" height="48" alt=""> | `fueltank` | storage | a fuel tank; level shows fill |
+| <img src="symbols/kind-oiltank.svg" width="48" height="48" alt=""> | `oiltank` | storage | a hydraulic oil tank; level shows fill |
+| <img src="symbols/kind-accumulator.svg" width="48" height="48" alt=""> | `accumulator` | storage | a hydraulic accumulator; oil rises against the gas |
 
 ## Water
 
@@ -72,6 +78,7 @@ Every part a scene can use, as the pictorial sheet draws it. A part names its `k
 | <img src="symbols/kind-factory.svg" width="48" height="48" alt=""> | `factory` | sink | a factory; chimney smokes with activity |
 | <img src="symbols/kind-radiator.svg" width="48" height="48" alt=""> | `radiator` | sink | a radiator; warms with flow |
 | <img src="symbols/kind-car.svg" width="48" height="48" alt=""> | `car` | sink | an electric car; charge bar fills |
+| <img src="symbols/kind-cylinder.svg" width="48" height="48" alt=""> | `cylinder` | storage | a hydraulic or pneumatic cylinder; the rod extends with fill |
 | <img src="symbols/kind-globe.svg" width="48" height="48" alt=""> | `globe` | sink | the internet / users; a spinning globe |
 
 ## Waste and losses

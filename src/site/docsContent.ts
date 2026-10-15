@@ -39,7 +39,7 @@ export const MCP_TOOLS: Array<[string, string]> = [
   ['get_scene', 'a built-in sheet as JSON, the best example to copy'],
   [
     'new_scene',
-    'a working starter for a P&ID, single-line, PFD or pictorial sheet, with that practice’s rules',
+    'a working starter for a P&ID, single-line, PFD, fluid-power or pictorial sheet, with that practice’s rules',
   ],
   [
     'validate_scene',
@@ -106,7 +106,7 @@ export const SECTIONS: Section[] = [
         ],
       },
       {
-        p: '**start from** begins a new sheet from a starter: a pictorial sheet, a P&ID, a single-line diagram or a process flow diagram. On an engineering drawing the palette offers that practice’s symbols, tagged as they land (a pump arrives as `P-102`).',
+        p: '**start from** begins a new sheet from a starter: a pictorial sheet, a P&ID, a single-line diagram, a process flow diagram or a hydraulic circuit. On an engineering drawing the palette offers that practice’s symbols, tagged as they land (a pump arrives as `P-102`).',
       },
       {
         p: 'The checks beside the sheet are the ones the MCP server runs: whether it runs, whether its story holds, what a reviewing engineer would mark up, and whether the layout reads cleanly. Your sheet is kept in this browser between visits. Drop a scene file anywhere on the page to open it.',
@@ -138,7 +138,7 @@ export const SECTIONS: Section[] = [
         p: '“Draw a narrowboat with solar panels on the roof, a leisure battery and the engine’s alternator as backup. Check the battery runs flat overnight and the engine takes over, then give me a link.” The assistant reads the guide, writes the file, simulates a day, fixes the numbers until the story holds, and shares the link, which opens here.',
       },
       {
-        p: 'For an engineering drawing, the prompts `draw-pid`, `draw-single-line`, `draw-pfd` and `draw-sheet` hand the assistant that practice’s conventions and the way to work.',
+        p: 'For an engineering drawing, the prompts `draw-pid`, `draw-single-line`, `draw-pfd`, `draw-fluid-power` and `draw-sheet` hand the assistant that practice’s conventions and the way to work.',
       },
       { h: 'Tools' },
       {
@@ -240,7 +240,53 @@ export const SECTIONS: Section[] = [
         },
       },
       {
-        p: 'The sheet re-renders from that state on one animation clock. The solver is React-free and runs the same in node, which is how the MCP server and the tests run a whole day headless. A 300-part sheet solves in about 0.2 ms a tick.',
+        p: 'The sheet re-renders from that state on one animation clock. The solver is React-free and runs the same in node, which is how the MCP server and the tests run a whole day headless. A 300-part sheet solves in about 0.3 ms a tick.',
+      },
+    ],
+  },
+  {
+    id: 'effort',
+    title: 'Pressure, voltage and temperature',
+    blocks: [
+      {
+        p: 'Flow says how much moves; **effort** says how hard it is pushed: pressure behind water, oil, air and fuel, voltage behind current, temperature behind heat. Once a tick’s flows are solved, effort is read along them. A supply or a tank sets it, a pump adds its head, a transformer multiplies by its ratio, and every link and part with a `drop` loses some on the way, more the harder it works.',
+      },
+      {
+        code: `{ "id": "grid",  "effort": { "set": 240 } }
+{ "id": "pump",  "effort": { "boost": "4 - 1.5 * pow(part('pump').out / 12, 2)" } }
+{ "id": "house", "effort": { "min": 216 } }
+{ "from": "pole1", "to": "pole2", "domain": "electric", "capacity": 30, "drop": 8 }`,
+      },
+      {
+        list: [
+          'A link’s `drop` is what it loses at its capacity: as the square of the flow in a pipe, in proportion in a cable.',
+          'A part’s `min` and `max` are its rating. Outside them the reading turns red and `simulate_scene` lists an alert.',
+          'A relief valve is a gate with `relief: { at, full }`: it lifts on the pressure behind it, settling where the flow it lets off holds it.',
+          'A P&ID’s pressure, temperature and voltage instruments read it with no extra setup.',
+        ],
+      },
+      {
+        p: 'The water tower sheet carries pressure: open the hydrant at breakfast and watch the taps.',
+      },
+    ],
+  },
+  {
+    id: 'events',
+    title: 'Event chains',
+    blocks: [
+      {
+        p: "An event watches a condition on the running sheet. When it turns true, the event waits its `after`, then flips a switch or sets a knob, and the next event can wait on that one with `fired('id')`. Chain them and you have a Rube Goldberg machine where every step is something the simulation really did.",
+      },
+      {
+        code: `"events": [
+  { "id": "full", "says": "The tank fills, and its float stops the pump.",
+    "when": "part('tank').fill > 0.95", "then": [{ "switch": "pump", "on": false }], "at": "tank" },
+  { "id": "timer", "says": "Half an hour later, the timer opens the sprinkler.",
+    "when": "fired('full')", "after": 0.5, "then": [{ "switch": "sprinkler", "on": true }], "at": "valve" }
+]`,
+      },
+      {
+        p: "As an event fires, its part rings, its words become the caption, and an arrow reaches out to whatever it switched. A dashed arrow joins each event to the next one in the chain. `since('id')` reads the hours since an event fired, in any expression. See it in [the garden that waters itself](./?scene=garden-machine).",
       },
     ],
   },
@@ -268,11 +314,15 @@ export const SECTIONS: Section[] = [
               'IEC 60617 or ANSI/IEEE 315 symbols, IEC 81346 tags',
             ],
             ['process flow (`pfd`)', 'ISO 10628-1 major equipment and streams'],
+            [
+              'fluid power (`fluid-power`)',
+              'ISO 1219-1 hydraulic and pneumatic symbols, ISO 1219-2 layout and tags; cylinders stroke and valves shift as it runs',
+            ],
           ],
         },
       },
       {
-        p: `Engineering sheets carry an ISO 7200 title block and print on one page of ISO A paper. The drawing checks mark up what an engineer would: untagged equipment, unnumbered lines, a control valve no controller drives, a load with no breaker. Every symbol: [the symbol reference](${BLOB}/docs/reference/symbols.md).`,
+        p: `Engineering sheets carry an ISO 7200 title block and print on one page of ISO A paper. The drawing checks mark up what an engineer would: untagged equipment, unnumbered lines, a control valve no controller drives, a load with no breaker, a pump with no relief valve. Every symbol: [the symbol reference](${BLOB}/docs/reference/symbols.md).`,
       },
     ],
   },
@@ -317,7 +367,7 @@ export const SECTIONS: Section[] = [
             ['`?examples`', 'the built-in sheets, running'],
             [
               '`?scene=grid`',
-              'one sheet running: `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`',
+              'one sheet running: `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`, `garden-machine`',
             ],
             ['`#scene=…`', 'a whole scene file carried in the link'],
             [
@@ -340,6 +390,8 @@ export const SECTIONS: Section[] = [
             ['`mode=paper`', 'frozen, every flow labelled, ready to print'],
             ['`t=18.5`, `speed=4`', 'open at 18:30; run four times as fast'],
             ['`credit=0`', 'leave off the “Made with Anigram” line'],
+            ['`paused=1`', 'open with the clock stopped'],
+            ['`controls=0`', 'leave off the play bar'],
           ],
         },
       },
@@ -347,6 +399,54 @@ export const SECTIONS: Section[] = [
         code: `<iframe src="https://anigram.vaibhav.co.uk/?embed=1&scene=grid"
   title="The power grid" loading="lazy"
   style="width:100%;aspect-ratio:16/10;border:0"></iframe>`,
+      },
+      { h: 'Without an iframe: <living-diagram>' },
+      {
+        p: 'One script defines a `<living-diagram>` element that runs a sheet right in your page. It sits in its own shadow root, so your CSS can’t break the drawing and its CSS can’t leak into your page. It is as wide as its container and as tall as the sheet’s proportions make it, and it loads no analytics.',
+      },
+      {
+        code: `<script type="module" src="https://anigram.vaibhav.co.uk/living-diagram.js"></script>
+
+<living-diagram scene="water-tower"></living-diagram>`,
+      },
+      {
+        code: `<living-diagram src="./my-plant.json" theme="auto" hour="18"></living-diagram>
+
+<living-diagram>
+  <script type="application/json">{ "anigram": 1, ...your scene... }</script>
+</living-diagram>`,
+      },
+      {
+        table: {
+          head: ['attribute', 'does'],
+          rows: [
+            [
+              '`src`',
+              'the URL of a scene file (your server must allow the fetch)',
+            ],
+            [
+              '`scene`',
+              'a built-in sheet: `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`, `garden-machine`',
+            ],
+            ['`share`', 'a `#scene=…` share link, or just the text after it'],
+            [
+              '`<script type="application/json">`',
+              'a whole scene file inside the element',
+            ],
+            [
+              '`theme`',
+              '`light` (default), `dark`, or `auto` to follow the reader’s system',
+            ],
+            ['`hour`, `speed`', 'open at that hour; clock multiplier'],
+            ['`paused`', 'open with the clock stopped'],
+            ['`controls="false"`', 'leave off the play bar'],
+            ['`credit="false"`', 'leave off the “Made with Anigram” line'],
+            ['`mode="paper"`', 'frozen, every flow labelled'],
+          ],
+        },
+      },
+      {
+        p: 'The first of `src`, `share`, an inline script and `scene` wins. Every scene is validated first: a bad one shows what is wrong in place of the sheet and fires an `error` event (`event.detail.errors`). A good one fires `load` with its `id` and `title`. Changing an attribute changes the running sheet.',
       },
     ],
   },
@@ -366,6 +466,7 @@ export const SECTIONS: Section[] = [
   view/     the drawing sheet: geometry, labels, title block, auto layout, layout lint
   packs/    the drawing practices: classes, symbols, starters, house-rule checks
   app/      the examples, embed and screen views, URL params
+  element/  the <living-diagram> web component
   editor/   the editor: pure edits on a scene file, palettes, history
   site/     the header and these docs
 mcp/        the MCP server (one bundled file, plus PNG and PDF renderers)
@@ -402,10 +503,8 @@ npm run eval       # a real assistant builds sheets (costs tokens)`,
       },
       {
         list: [
-          'Effort as well as flow: pressure, voltage and temperature, so a pipe can be undersized and a feeder can sag.',
-          'Hydraulic and pneumatic parts after ISO 1219.',
-          'Event chains: trip the breaker at 18:00, and watch what follows.',
-          'Storyboards exported as GIF or MP4, a hosted MCP endpoint, and a `<living-diagram>` web component.',
+          'Storyboards exported as GIF or MP4.',
+          'A hosted MCP endpoint, so an assistant can draw without installing anything.',
         ],
       },
       { p: `The full plan: [ROADMAP.md](${BLOB}/ROADMAP.md).` },

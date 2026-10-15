@@ -10,7 +10,17 @@
 
 /** What flows along a link. Each domain is drawn differently on the sheet. */
 export type Domain =
-  'light' | 'electric' | 'water' | 'heat' | 'fuel' | 'mechanical' | 'data'
+  | 'light'
+  | 'electric'
+  | 'water'
+  | 'heat'
+  | 'fuel'
+  | 'mechanical'
+  | 'data'
+  /** hydraulic oil, in a fluid-power circuit (ISO 1219) */
+  | 'oil'
+  /** compressed air, in a pneumatic circuit (ISO 1219) */
+  | 'air'
 
 /** Domains whose flow is a rate of energy — used to account for losses. */
 export const ENERGY_DOMAINS: ReadonlySet<Domain> = new Set([
@@ -26,6 +36,67 @@ export interface Units {
   rate: string
   /** a stored amount, e.g. `kWh`, `L` */
   amount: string
+  /**
+   * what pushes the flow along, e.g. `bar`, `V`, `°C`. Left out, it is the
+   * domain's usual one (see `EFFORT_UNITS`).
+   */
+  effort?: string
+}
+
+/**
+ * Effort is what drives a flow: pressure behind water, oil, air or fuel,
+ * voltage behind current, temperature behind heat. A flow solved, effort is
+ * read along it: set where it is made, lost along each line and through each
+ * part in proportion to how hard it is working.
+ */
+export const EFFORT_UNITS: Partial<Record<Domain, string>> = {
+  water: 'bar',
+  fuel: 'bar',
+  oil: 'bar',
+  air: 'bar',
+  electric: 'V',
+  heat: '°C',
+}
+
+/**
+ * How the effort a link or part loses grows with its flow: as the square of
+ * it in a pipe (turbulent flow), in proportion to it in a cable or a heat
+ * main.
+ */
+export const DROP_EXPONENT: Partial<Record<Domain, number>> = {
+  water: 2,
+  fuel: 2,
+  oil: 2,
+  air: 2,
+  electric: 1,
+  heat: 1,
+}
+
+/** A part's effort: what it holds its outlet at, adds, loses, and is rated for. */
+export interface EffortSpec {
+  /**
+   * holds its outlet at this: a supply's voltage, a boiler's flow
+   * temperature, a pressure regulator's set point. A source only holds it
+   * while it has something to give.
+   */
+  set?: Signal
+  /** adds this to what arrives: a pump's head, a compressor's rise */
+  boost?: Signal
+  /** multiplies what arrives: a transformer's turns ratio, `0.4 / 11` */
+  ratio?: number
+  /** effort lost through the part when it carries its full capacity: a filter, a valve wide open */
+  drop?: number
+  /** the range it is rated for; outside it, the sheet raises an alarm */
+  min?: number
+  max?: number
+}
+
+/** A relief valve: a gate that opens on the effort behind it, not on a signal. */
+export interface Relief {
+  /** the effort it starts to lift at */
+  at: number
+  /** where it is fully open; 10% over `at` when left out */
+  full?: number
 }
 
 /** What a time-varying input can read. `hour` runs 0–24 and wraps. */
@@ -40,7 +111,12 @@ export interface Env {
    * another part as it was last tick — for demand that follows something else,
    * like chillers that work as hard as the servers they cool
    */
-  prev: (id: string) => { in: number; out: number; fill: number }
+  prev: (id: string) => {
+    in: number
+    out: number
+    fill: number
+    effort: number
+  }
   /**
    * a part as it is now, with what it asked for — only when checking a
    * scene's `expect` list against a simulated day
@@ -50,7 +126,12 @@ export interface Env {
     out: number
     fill: number
     demand: number
+    effort: number
   }
+  /** 1 in the tick after an event fires, else 0 — so the next link of a chain can follow it */
+  fired?: (id: string) => number
+  /** hours since an event last fired; very large if it hasn't */
+  since?: (id: string) => number
 }
 
 /**
@@ -77,8 +158,11 @@ export type Behaviour =
     }
   /** a junction: a busbar, a manifold. Pulls from its inputs cheapest first. */
   | { role: 'bus' }
-  /** passes flow through, limited to `capacity × open` — a valve, a breaker */
-  | { role: 'gate'; capacity: number; open?: Signal }
+  /**
+   * passes flow through, limited to `capacity × open` — a valve, a breaker.
+   * With `relief`, it opens on the effort behind it: a relief valve lifting.
+   */
+  | { role: 'gate'; capacity: number; open?: Signal; relief?: Relief }
   /**
    * turns inputs into an output. `recipe` is how much of each input domain one
    * unit of output takes, so a 40%-efficient gas plant is `{ fuel: 2.5 }`.
@@ -117,7 +201,13 @@ export type LabelSide = 'below' | 'above' | 'left' | 'right'
  * style; the others follow an engineering drawing practice, each drawn by
  * its own pack of symbols and rules (see src/packs).
  */
-export type DrawingType = 'pictorial' | 'pid' | 'single-line' | 'pfd'
+export type DrawingType =
+  | 'pictorial'
+  | 'pid'
+  | 'single-line'
+  | 'pfd'
+  /** a hydraulic or pneumatic circuit diagram (ISO 1219) */
+  | 'fluid-power'
 
 /** which symbol standard a single-line draws in */
 export type SymbolSet = 'iec' | 'ansi'
@@ -168,6 +258,8 @@ export interface PartSpec {
    * `kind` still picks the pictorial glyph.
    */
   class?: string
+  /** pressure, voltage or temperature: what it sets, adds, loses and is rated for */
+  effort?: EffortSpec
 }
 
 export interface LinkSpec {
@@ -186,6 +278,11 @@ export interface LinkSpec {
   line?: LineType
   /** the line number on an engineering drawing, e.g. `50-W-101` */
   tag?: string
+  /**
+   * effort lost along the link when it carries its `capacity`: a long
+   * cable's volts, a thin pipe's bar. Grows with flow (see `DROP_EXPONENT`).
+   */
+  drop?: number
 }
 
 export interface Knob {
@@ -228,6 +325,36 @@ export interface Expectation {
   /** true: holding at any one checked hour is enough, not every hour */
   sometime?: boolean
 }
+
+/**
+ * One link of a cause-and-effect chain: when something becomes true, wait,
+ * then flip a switch or move a knob. The next event can wait on this one
+ * with `fired('id')`, which is how a Rube Goldberg machine is written.
+ */
+export interface EventSpec {
+  id: string
+  /** what happens, in words; shown on the sheet as it fires */
+  says: string
+  /**
+   * fires each time this turns true, an expression over parts as they are
+   * now: `part('tank').fill > 0.9`, `fired('ball')`
+   */
+  when: string
+  /** hours between `when` turning true and the event acting */
+  after?: number
+  /** what it does, in order */
+  then: EventAction[]
+  /** the part it happens at, lit as it fires; the chain is drawn between these */
+  at?: string
+  /** fire at most once a run; otherwise it re-arms when `when` turns false */
+  once?: boolean
+}
+
+export type EventAction =
+  /** turn a switch on or off */
+  | { switch: string; on: boolean }
+  /** set a knob */
+  | { knob: string; value: number }
 
 export interface Caption {
   /** hours, inclusive start, exclusive end; wraps past midnight if from > to */
@@ -300,6 +427,8 @@ export interface Scene {
   knobs?: Knob[]
   switches?: Switch[]
   captions?: Caption[]
+  /** cause and effect: each event flips a control when its condition turns true */
+  events?: EventSpec[]
   expect?: Expectation[]
   clock: {
     /** hour of day the scene opens at */
