@@ -35,7 +35,7 @@ embed it, build on it.
 | **LD-005 A data centre**               | electricity in, requests and heat out; UPS batteries bridging the minutes a diesel needs to start                                                                    | trip the mains; push traffic past capacity            |
 | **LD-006 A garden that waters itself** | an event chain: sun starts the pump, a float stops it, a timer opens the sprinkler on tank pressure                                                                  | cloud the sky; watch every link wait for it           |
 
-## One drawing, three media
+## One drawing, four media
 
 - **On a website** — `?embed=1&scene=grid` is the sheet and a slim play bar,
   made for an iframe. The app's **embed** button writes the snippet.
@@ -45,6 +45,9 @@ embed it, build on it.
   opens the same in a browser, Figma or Illustrator.
 - **On a screen** — `?screen=1` is a full-bleed dark sheet with a big caption
   that tours every sheet, one simulated day each. Made for a wall.
+- **In a post or a slide** — **▤ storyboard** picks the moments that tell the
+  day (each event the first time it fires, the captions between) and records
+  the day as a GIF or MP4 that slows down for each one.
 
 <p align="center"><img src="docs/sheet-dark.png" alt="The solar house sheet in the dark theme at midday: the panels exporting a little to the grid while the battery charges." width="620"></p>
 

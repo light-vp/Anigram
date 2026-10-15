@@ -65,7 +65,7 @@ import { renderSheetSvg } from '../src/view/renderSvg.tsx'
 import { svgToPdf } from './pdf.ts'
 import type { Paper } from './pdf.ts'
 import { svgToPixels, svgToPng } from './png.ts'
-import { encodeGif } from '../src/format/gif.ts'
+import { GifWriter } from '../src/format/gif.ts'
 import {
   frameRuns,
   MAX_FRAMES,
@@ -1868,15 +1868,26 @@ server.registerTool(
       const delay = 1000 / fps
       let bytes: number
       if (format === 'gif') {
-        const frames = []
-        for (const svg of svgs) {
-          const px = await svgToPixels(svg, width)
-          height = px.height
-          frames.push({ rgba: px.rgba, delay })
-        }
+        // the palette from a few frames across the day, then one frame at a time
+        const first = await svgToPixels(svgs[0]!, width)
+        height = first.height
+        const writer = new GifWriter(width, height)
+        for (const k of [1, 2, 3])
+          writer.sample(
+            (
+              await svgToPixels(
+                svgs[Math.floor((k * (svgs.length - 1)) / 3)]!,
+                width,
+              )
+            ).rgba,
+          )
+        writer.sample(first.rgba)
+        writer.add({ rgba: first.rgba, delay })
+        for (const svg of svgs.slice(1))
+          writer.add({ rgba: (await svgToPixels(svg, width)).rgba, delay })
         // hold the last frame a moment before it loops
-        frames.at(-1)!.delay += 1500
-        const gif = encodeGif(width, height, frames)
+        writer.hold(1500)
+        const gif = writer.finish()
         writeFile(path!, gif)
         bytes = gif.length
       } else {

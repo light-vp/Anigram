@@ -49,3 +49,35 @@ test('the editor opens the storyboard of the sheet being drawn', async ({
       .getByRole('img', { name: /A town’s water: a storyboard/ }),
   ).toBeVisible()
 })
+
+test('an MP4, where the browser can encode H.264', async ({ page }) => {
+  test.setTimeout(120_000)
+  await page.goto('./?scene=water-tower')
+  await page.getByRole('button', { name: '▤ storyboard' }).click()
+  const dialog = page.getByRole('dialog', { name: 'Storyboard' })
+  await expect(dialog.getByRole('img')).toBeVisible()
+  const mp4 = dialog.getByRole('button', { name: '↓ mp4' })
+  const encodes = await page.evaluate(async () =>
+    typeof VideoEncoder === 'undefined'
+      ? false
+      : (
+          await VideoEncoder.isConfigSupported({
+            codec: 'avc1.42E01F',
+            width: 800,
+            height: 600,
+          })
+        ).supported === true,
+  )
+  if (!encodes) {
+    // the button says why rather than failing on click
+    await expect(mp4).toBeDisabled()
+    return
+  }
+  const [file] = await Promise.all([
+    page.waitForEvent('download', { timeout: 110_000 }),
+    mp4.click(),
+  ])
+  expect(file.suggestedFilename()).toBe('water-tower.mp4')
+  const bytes = readFileSync((await file.path())!)
+  expect(bytes.subarray(4, 8).toString()).toBe('ftyp')
+})

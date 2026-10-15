@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { encodeGif } from '../format/gif.ts'
-import type { GifFrame } from '../format/gif.ts'
+import { GifWriter } from '../format/gif.ts'
 import { Mp4Muxer } from '../format/mp4.ts'
 import type { Controls } from '../format/report.ts'
 import { frameRuns, record, storyboard } from '../format/storyboard.ts'
@@ -102,19 +101,23 @@ export async function recordGif(
 ): Promise<Blob> {
   const { svgs, fps, width, height } = frames(scene, opts)
   const { ctx } = canvas(width, height)
-  const out: GifFrame[] = []
+  const pixels = async (svg: string) => {
+    await draw(svg, ctx, width, height)
+    return ctx.getImageData(0, 0, width, height).data
+  }
+  // the palette from a few frames across the day, then one frame at a time,
+  // so a long recording never holds more than a frame or two
+  const writer = new GifWriter(width, height)
+  for (const k of [0, 1, 2, 3])
+    writer.sample(await pixels(svgs[Math.floor((k * (svgs.length - 1)) / 3)]!))
   for (let i = 0; i < svgs.length; i++) {
     opts.signal?.throwIfAborted()
-    await draw(svgs[i]!, ctx, width, height)
-    out.push({
-      rgba: ctx.getImageData(0, 0, width, height).data,
-      delay: 1000 / fps,
-    })
+    writer.add({ rgba: await pixels(svgs[i]!), delay: 1000 / fps })
     opts.onProgress?.(i + 1, svgs.length + 1)
     if (i % 4 === 3) await tick()
   }
-  out.at(-1)!.delay += 1500
-  const gif = encodeGif(width, height, out)
+  writer.hold(1500)
+  const gif = writer.finish()
   opts.onProgress?.(svgs.length + 1, svgs.length + 1)
   return new Blob([gif as BlobPart], { type: 'image/gif' })
 }
