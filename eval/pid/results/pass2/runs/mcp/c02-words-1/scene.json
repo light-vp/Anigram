@@ -1,0 +1,340 @@
+{
+  "anigram": 1,
+  "id": "k-2750",
+  "title": "Packed column K-2750",
+  "subtitle": "Packed section KX-2750, 14 m tall, 500 mm ID: bottoms, N3 outlet and pressure safety PISZA-275003",
+  "sheet": "PID-2750",
+  "size": [10, 5],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³",
+      "effort": "bar"
+    }
+  },
+  "scale": {
+    "water": 40
+  },
+  "parts": [
+    {
+      "id": "k",
+      "kind": "reservoir",
+      "label": "KX-2750, 14 m x 500 mm ID",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 35
+      },
+      "note": "Packed column K-2750, packed section KX-2750, 14 m tall, 500 mm inside. Nozzles N2 (bottoms), N3 (outlet), P3 and P4 (pressure tappings).",
+      "labelSide": "below",
+      "tag": "K-2750",
+      "class": "Vessel",
+      "effort": {
+        "set": 2.4
+      }
+    },
+    {
+      "id": "red",
+      "kind": "valve",
+      "label": "N2 reducer, line insulated",
+      "at": [6, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 40
+      },
+      "labelSide": "below",
+      "tag": "RD-2750",
+      "class": "Reducer"
+    },
+    {
+      "id": "w2765",
+      "kind": "river",
+      "label": "To W 2765",
+      "at": [9, 4],
+      "behaviour": {
+        "role": "sink",
+        "demand": 25
+      },
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "tee",
+      "kind": "manifold",
+      "label": "N3 tee",
+      "at": [6, 1],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "above",
+      "class": "Junction"
+    },
+    {
+      "id": "n3off",
+      "kind": "river",
+      "label": "N3 outlet, off sheet",
+      "at": [9, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 10
+      },
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "v3",
+      "kind": "valve",
+      "label": "N3 isolating valve",
+      "at": [6, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 10,
+        "open": 1
+      },
+      "labelSide": "left",
+      "tag": "V-2751",
+      "class": "GateValve"
+    },
+    {
+      "id": "v3end",
+      "kind": "river",
+      "label": "Blind flange",
+      "at": [8, 0],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "labelSide": "above",
+      "tag": "BF-2751",
+      "class": "BlindFlange"
+    },
+    {
+      "id": "p3f",
+      "kind": "valve",
+      "label": "Blind flange",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 1
+      },
+      "labelSide": "below",
+      "tag": "BF-2752",
+      "class": "BlindFlange"
+    },
+    {
+      "id": "p3v",
+      "kind": "valve",
+      "label": "P3 root valve",
+      "at": [1, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 1,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "V-2752",
+      "class": "GateValve"
+    },
+    {
+      "id": "p3e",
+      "kind": "river",
+      "label": "Blind flange",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "labelSide": "below",
+      "tag": "BF-2753",
+      "class": "BlindFlange"
+    },
+    {
+      "id": "p4f",
+      "kind": "valve",
+      "label": "Blind flange",
+      "at": [6, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 1
+      },
+      "labelSide": "above",
+      "tag": "BF-2754",
+      "class": "BlindFlange"
+    },
+    {
+      "id": "p4v",
+      "kind": "valve",
+      "label": "P4 root valve",
+      "at": [7, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 1,
+        "open": 1
+      },
+      "labelSide": "above",
+      "tag": "V-2753",
+      "class": "GateValve"
+    },
+    {
+      "id": "p4e",
+      "kind": "river",
+      "label": "Blind flange",
+      "at": [8, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "labelSide": "above",
+      "tag": "BF-2755",
+      "class": "BlindFlange"
+    }
+  ],
+  "links": [
+    {
+      "from": "k",
+      "to": "red",
+      "domain": "water",
+      "via": [[4, 4]],
+      "line": "process",
+      "tag": "2750.001.6"
+    },
+    {
+      "from": "red",
+      "to": "w2765",
+      "domain": "water",
+      "line": "process",
+      "tag": "2750.001.6"
+    },
+    {
+      "from": "k",
+      "to": "tee",
+      "domain": "water",
+      "via": [[4, 1]],
+      "line": "process",
+      "tag": "2750.002.6"
+    },
+    {
+      "from": "tee",
+      "to": "n3off",
+      "domain": "water",
+      "line": "process",
+      "tag": "2750.003.6"
+    },
+    {
+      "from": "tee",
+      "to": "v3",
+      "domain": "water",
+      "line": "process",
+      "tag": "2750.004.6"
+    },
+    {
+      "from": "v3",
+      "to": "v3end",
+      "domain": "water",
+      "line": "process",
+      "tag": "2750.004.6"
+    },
+    {
+      "from": "k",
+      "to": "p3f",
+      "domain": "water",
+      "line": "process",
+      "tag": "2750.005.1"
+    },
+    {
+      "from": "p3f",
+      "to": "p3v",
+      "domain": "water",
+      "line": "process",
+      "tag": "2750.005.1"
+    },
+    {
+      "from": "p3v",
+      "to": "p3e",
+      "domain": "water",
+      "line": "process",
+      "tag": "2750.005.1"
+    },
+    {
+      "from": "k",
+      "to": "p4f",
+      "domain": "water",
+      "via": [],
+      "line": "process",
+      "tag": "2750.006.1"
+    },
+    {
+      "from": "p4f",
+      "to": "p4v",
+      "domain": "water",
+      "line": "process",
+      "tag": "2750.006.1"
+    },
+    {
+      "from": "p4v",
+      "to": "p4e",
+      "domain": "water",
+      "line": "process",
+      "tag": "2750.006.1"
+    }
+  ],
+  "clock": {
+    "start": 0,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Vaibhav Patel",
+    "project": "Packed column K-2750",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "PIZ-275003A",
+      "at": [1, 1],
+      "measures": "p3v",
+      "reads": "part('k').effort",
+      "unit": "bar",
+      "mounting": "dcs",
+      "high": 4
+    },
+    {
+      "tag": "PIZ-275003B",
+      "at": [7, 3],
+      "measures": "p4v",
+      "reads": "part('k').effort",
+      "unit": "bar",
+      "mounting": "dcs",
+      "high": 4
+    },
+    {
+      "tag": "PISZA-275003",
+      "at": [3, 1],
+      "measures": "PIZ-275003A",
+      "reads": "part('k').effort",
+      "unit": "bar",
+      "signal": "data",
+      "mounting": "dcs",
+      "high": 4
+    }
+  ],
+  "expect": [
+    {
+      "says": "the column holds a steady operating pressure below the high-pressure trip",
+      "check": "part('k').effort > 1 && part('k').effort < 4"
+    },
+    {
+      "says": "the bottoms leave through N2 to W 2765",
+      "check": "part('w2765').in >= 0.999 * part('w2765').demand"
+    },
+    {
+      "says": "the N3 tee carries flow on off the sheet",
+      "check": "part('n3off').in >= 0.999 * part('n3off').demand"
+    },
+    {
+      "says": "the dead-end tappings and blinded leg carry no flow",
+      "check": "part('v3end').in < 0.001 && part('p3e').in < 0.001 && part('p4e').in < 0.001"
+    }
+  ]
+}

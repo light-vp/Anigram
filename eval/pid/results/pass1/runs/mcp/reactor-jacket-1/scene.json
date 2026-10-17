@@ -1,0 +1,295 @@
+{
+  "anigram": 1,
+  "id": "reactor-r-1001",
+  "title": "Jacketed Stirred Reactor R-1001",
+  "subtitle": "Flow-controlled feed, jacket cooling on reactor temperature, relief to a catch tank",
+  "sheet": "PID-1001",
+  "size": [9, 5],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 12
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "river",
+      "label": "Feed from off sheet",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 10
+      }
+    },
+    {
+      "id": "fv",
+      "kind": "valve",
+      "label": "Feed control valve",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 10,
+        "open": 0.8
+      },
+      "tag": "FV-1001",
+      "class": "ControlValve"
+    },
+    {
+      "id": "r",
+      "kind": "reservoir",
+      "label": "Jacketed reactor",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 40,
+        "start": 0.5,
+        "maxIn": 12,
+        "maxOut": 12
+      },
+      "labelSide": "below",
+      "tag": "R-1001",
+      "class": "Vessel",
+      "effort": {
+        "set": 4
+      }
+    },
+    {
+      "id": "product",
+      "kind": "pump",
+      "label": "Product to pump P-1001",
+      "at": [7, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 8
+      },
+      "labelSide": "below",
+      "tag": "P-1001",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "rd",
+      "kind": "valve",
+      "label": "Rupture disc",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 20,
+        "open": 1
+      },
+      "labelSide": "right",
+      "tag": "RD-1001",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "psv",
+      "kind": "valve",
+      "label": "Relief valve",
+      "at": [5, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 20,
+        "relief": {
+          "at": 10,
+          "full": 11
+        }
+      },
+      "labelSide": "above",
+      "tag": "PSV-1001",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "catch",
+      "kind": "river",
+      "label": "To catch tank",
+      "at": [7, 0],
+      "behaviour": {
+        "role": "sink",
+        "demand": 20,
+        "absorbsSurplus": true
+      }
+    },
+    {
+      "id": "cw",
+      "kind": "river",
+      "label": "CW supply from off sheet",
+      "at": [0, 4],
+      "behaviour": {
+        "role": "source",
+        "output": 12
+      }
+    },
+    {
+      "id": "tv",
+      "kind": "valve",
+      "label": "CW control valve",
+      "at": [2, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 12,
+        "open": "0.35 + 0.5 * bump(hour, 13, 3)"
+      },
+      "tag": "TV-1001",
+      "class": "ControlValve"
+    },
+    {
+      "id": "cwr",
+      "kind": "river",
+      "label": "CW return to off sheet",
+      "at": [7, 4],
+      "behaviour": {
+        "role": "sink",
+        "demand": 12,
+        "absorbsSurplus": true
+      }
+    },
+    {
+      "id": "jacket",
+      "kind": "manifold",
+      "label": "R-1001 jacket",
+      "at": [5, 4],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "below"
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "fv",
+      "domain": "water",
+      "tag": "50-P-001"
+    },
+    {
+      "from": "fv",
+      "to": "r",
+      "domain": "water",
+      "tag": "50-P-002"
+    },
+    {
+      "from": "r",
+      "to": "product",
+      "domain": "water",
+      "tag": "50-P-003"
+    },
+    {
+      "from": "r",
+      "to": "rd",
+      "domain": "water",
+      "tag": "40-P-004"
+    },
+    {
+      "from": "rd",
+      "to": "psv",
+      "domain": "water",
+      "via": [[4, 0]],
+      "tag": "40-P-005"
+    },
+    {
+      "from": "psv",
+      "to": "catch",
+      "domain": "water",
+      "tag": "40-P-006"
+    },
+    {
+      "from": "cw",
+      "to": "tv",
+      "domain": "water",
+      "tag": "50-CW-001"
+    },
+    {
+      "from": "tv",
+      "to": "jacket",
+      "domain": "water",
+      "via": [],
+      "tag": "50-CW-002"
+    },
+    {
+      "from": "jacket",
+      "to": "cwr",
+      "domain": "water",
+      "via": [],
+      "tag": "50-CW-003"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Process Engineering",
+    "project": "Reactor R-1001 jacket cooling",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "FT-1001",
+      "at": [1, 1],
+      "measures": "fv"
+    },
+    {
+      "tag": "FIC-1001",
+      "at": [2, 1],
+      "measures": "FT-1001",
+      "drives": "fv",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "LT-1001",
+      "at": [3, 1],
+      "measures": "r",
+      "low": 20,
+      "high": 85
+    },
+    {
+      "tag": "TT-1001",
+      "at": [5, 3],
+      "measures": "r",
+      "reads": "92 - 14 * part('tv').out / 12",
+      "unit": "°C"
+    },
+    {
+      "tag": "TIC-1001",
+      "at": [3, 3],
+      "measures": "TT-1001",
+      "drives": "tv",
+      "mounting": "dcs"
+    }
+  ],
+  "expect": [
+    {
+      "says": "feed is held near 8 m³/h by FV-1001",
+      "check": "part('fv').out > 7.9 && part('fv').out < 8.1"
+    },
+    {
+      "says": "reactor level stays within its working band",
+      "check": "part('r').fill > 0.2 && part('r').fill < 0.85"
+    },
+    {
+      "says": "TIC-1001 opens TV-1001 wider in the afternoon exotherm than at night",
+      "check": "part('tv').out > 8 && part('tv').out > 0",
+      "at": 13
+    },
+    {
+      "says": "cooling water is throttled back at night",
+      "check": "part('tv').out < 6",
+      "at": 3
+    },
+    {
+      "says": "jacket return carries all the cooling water",
+      "check": "part('cwr').in >= 0.999 * part('tv').out"
+    },
+    {
+      "says": "the relief valve stays shut in normal operation",
+      "check": "part('psv').out < 0.001 && part('catch').in < 0.001"
+    }
+  ]
+}

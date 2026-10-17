@@ -1,0 +1,137 @@
+{
+  "items": [
+    {
+      "tag": "T-301",
+      "type": "day tank",
+      "label": "Sodium hypochlorite day tank"
+    },
+    {
+      "tag": "P-301A",
+      "type": "diaphragm metering pump",
+      "label": "Metering pump A (duty)"
+    },
+    {
+      "tag": "P-301B",
+      "type": "diaphragm metering pump",
+      "label": "Metering pump B (standby)"
+    },
+    {
+      "tag": "HV-301",
+      "type": "isolation valve",
+      "label": "Day tank outlet isolation valve"
+    },
+    {
+      "tag": "HV-302",
+      "type": "isolation valve",
+      "label": "Calibration column isolation valve"
+    },
+    {
+      "tag": "CC-301",
+      "type": "calibration column",
+      "label": "Calibration column on common suction"
+    },
+    {
+      "tag": "HV-311A",
+      "type": "isolation valve",
+      "label": "P-301A suction isolating valve"
+    },
+    {
+      "tag": "HV-311B",
+      "type": "isolation valve",
+      "label": "P-301B suction isolating valve"
+    },
+    {
+      "tag": "HV-312A",
+      "type": "isolation valve",
+      "label": "P-301A discharge isolating valve"
+    },
+    {
+      "tag": "HV-312B",
+      "type": "isolation valve",
+      "label": "P-301B discharge isolating valve"
+    },
+    {
+      "tag": "CV-301A",
+      "type": "check valve",
+      "label": "P-301A discharge check valve"
+    },
+    {
+      "tag": "CV-301B",
+      "type": "check valve",
+      "label": "P-301B discharge check valve"
+    },
+    {
+      "tag": "PSV-301A",
+      "type": "pressure relief valve",
+      "label": "P-301A relief valve, returns to T-301"
+    },
+    {
+      "tag": "PSV-301B",
+      "type": "pressure relief valve",
+      "label": "P-301B relief valve, returns to T-301"
+    },
+    {
+      "tag": "PD-301",
+      "type": "pulsation dampener",
+      "label": "Pulsation dampener on common discharge"
+    },
+    {
+      "tag": "IP-301",
+      "type": "injection point",
+      "label": "Injection point on treated water main"
+    },
+    {
+      "tag": "MAIN-301",
+      "type": "treated water main",
+      "label": "Treated water main"
+    },
+    {
+      "tag": "FT-301",
+      "type": "flow transmitter",
+      "label": "Treated water main flow transmitter"
+    },
+    {
+      "tag": "FIC-301",
+      "type": "flow indicating controller",
+      "label": "Flow controller, sets duty pump stroke speed"
+    },
+    {
+      "tag": "LIT-301",
+      "type": "level transmitter",
+      "label": "Day tank level transmitter"
+    },
+    {
+      "tag": "LSLL-301",
+      "type": "low-low level switch",
+      "label": "Day tank low-low level trip, stops pumps"
+    }
+  ],
+  "lines": [
+    { "from": "T-301", "to": "HV-301", "kind": "process" },
+    { "from": "HV-301", "to": "HV-311A", "kind": "process" },
+    { "from": "HV-301", "to": "HV-311B", "kind": "process" },
+    { "from": "HV-301", "to": "HV-302", "kind": "process" },
+    { "from": "HV-302", "to": "CC-301", "kind": "process" },
+    { "from": "HV-311A", "to": "P-301A", "kind": "process" },
+    { "from": "HV-311B", "to": "P-301B", "kind": "process" },
+    { "from": "P-301A", "to": "CV-301A", "kind": "process" },
+    { "from": "P-301B", "to": "CV-301B", "kind": "process" },
+    { "from": "P-301A", "to": "PSV-301A", "kind": "process" },
+    { "from": "P-301B", "to": "PSV-301B", "kind": "process" },
+    { "from": "PSV-301A", "to": "T-301", "kind": "process" },
+    { "from": "PSV-301B", "to": "T-301", "kind": "process" },
+    { "from": "CV-301A", "to": "HV-312A", "kind": "process" },
+    { "from": "CV-301B", "to": "HV-312B", "kind": "process" },
+    { "from": "HV-312A", "to": "PD-301", "kind": "process" },
+    { "from": "HV-312B", "to": "PD-301", "kind": "process" },
+    { "from": "PD-301", "to": "IP-301", "kind": "process" },
+    { "from": "MAIN-301", "to": "IP-301", "kind": "process" },
+    { "from": "MAIN-301", "to": "FT-301", "kind": "process" },
+    { "from": "T-301", "to": "LIT-301", "kind": "process" },
+    { "from": "FT-301", "to": "FIC-301", "kind": "signal" },
+    { "from": "FIC-301", "to": "P-301A", "kind": "signal" },
+    { "from": "LIT-301", "to": "LSLL-301", "kind": "signal" },
+    { "from": "LSLL-301", "to": "P-301A", "kind": "signal" },
+    { "from": "LSLL-301", "to": "P-301B", "kind": "signal" }
+  ]
+}

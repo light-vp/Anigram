@@ -1,0 +1,576 @@
+{
+  "anigram": 1,
+  "id": "hypochlorite-dosing-skid",
+  "title": "Sodium Hypochlorite Dosing Skid",
+  "subtitle": "Duty/standby metering pumps dosing the treated water main, paced by flow",
+  "sheet": "PID-301",
+  "size": [14, 7],
+  "units": {
+    "water": {
+      "rate": "L/h",
+      "amount": "L"
+    }
+  },
+  "scale": {
+    "water": 50000
+  },
+  "parts": [
+    {
+      "id": "t301",
+      "kind": "fueltank",
+      "label": "Day tank",
+      "at": [0, 3],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 1000,
+        "start": 0.9,
+        "maxIn": 200,
+        "maxOut": 200
+      },
+      "labelSide": "above",
+      "tag": "T-301",
+      "class": "Tank",
+      "effort": {
+        "set": 0.2
+      }
+    },
+    {
+      "id": "jsuc",
+      "kind": "manifold",
+      "label": "Common suction",
+      "at": [2, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "vcal",
+      "kind": "valve",
+      "label": "Calibration isolation",
+      "at": [2, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 50,
+        "open": 1
+      },
+      "labelSide": "right",
+      "tag": "V-309",
+      "class": "GateValve"
+    },
+    {
+      "id": "t302",
+      "kind": "fueltank",
+      "label": "Calibration column",
+      "at": [2, 5],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 5,
+        "start": 1,
+        "maxIn": 0,
+        "maxOut": 0
+      },
+      "tag": "T-302",
+      "class": "Tank"
+    },
+    {
+      "id": "vsa",
+      "kind": "valve",
+      "label": "Suction isolation A",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 200,
+        "open": "on('padutyA') ? 1 : 0"
+      },
+      "labelSide": "above",
+      "toggles": "padutyA",
+      "tag": "V-301A",
+      "class": "GateValve"
+    },
+    {
+      "id": "p301a",
+      "kind": "pump",
+      "label": "Metering pump A (duty)",
+      "at": [5, 1],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "water": 1
+        },
+        "capacity": 100
+      },
+      "labelSide": "below",
+      "tag": "P-301A",
+      "class": "PositiveDisplacementPump",
+      "effort": {
+        "boost": 6
+      }
+    },
+    {
+      "id": "jra",
+      "kind": "manifold",
+      "label": "Discharge A",
+      "at": [6, 1],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "psva",
+      "kind": "valve",
+      "label": "Relief valve A",
+      "at": [6, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "relief": {
+          "at": 10,
+          "full": 11
+        }
+      },
+      "labelSide": "right",
+      "tag": "PSV-301A",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "cva",
+      "kind": "valve",
+      "label": "Check valve A",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 200,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "V-303A",
+      "class": "CheckValve"
+    },
+    {
+      "id": "vda",
+      "kind": "valve",
+      "label": "Discharge isolation A",
+      "at": [8, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 200,
+        "open": "on('padutyA') ? 1 : 0"
+      },
+      "labelSide": "below",
+      "toggles": "padutyA",
+      "tag": "V-302A",
+      "class": "GateValve"
+    },
+    {
+      "id": "vsb",
+      "kind": "valve",
+      "label": "Suction isolation B",
+      "at": [4, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 200,
+        "open": "on('padutyB') ? 1 : 0"
+      },
+      "labelSide": "above",
+      "toggles": "padutyB",
+      "tag": "V-301B",
+      "class": "GateValve"
+    },
+    {
+      "id": "p301b",
+      "kind": "pump",
+      "label": "Metering pump B (standby)",
+      "at": [5, 5],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "water": 1
+        },
+        "capacity": 100
+      },
+      "labelSide": "below",
+      "tag": "P-301B",
+      "class": "PositiveDisplacementPump",
+      "effort": {
+        "boost": 6
+      }
+    },
+    {
+      "id": "jrb",
+      "kind": "manifold",
+      "label": "Discharge B",
+      "at": [6, 5],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "psvb",
+      "kind": "valve",
+      "label": "Relief valve B",
+      "at": [6, 6],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "relief": {
+          "at": 10,
+          "full": 11
+        }
+      },
+      "tag": "PSV-301B",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "cvb",
+      "kind": "valve",
+      "label": "Check valve B",
+      "at": [7, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 200,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "V-303B",
+      "class": "CheckValve"
+    },
+    {
+      "id": "vdb",
+      "kind": "valve",
+      "label": "Discharge isolation B",
+      "at": [8, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 200,
+        "open": "on('padutyB') ? 1 : 0"
+      },
+      "labelSide": "below",
+      "toggles": "padutyB",
+      "tag": "V-302B",
+      "class": "GateValve"
+    },
+    {
+      "id": "jdis",
+      "kind": "manifold",
+      "label": "Common discharge",
+      "at": [9, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "d301",
+      "kind": "manifold",
+      "label": "Pulsation dampener",
+      "at": [10, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "tag": "D-301",
+      "class": "Vessel"
+    },
+    {
+      "id": "inj",
+      "kind": "manifold",
+      "label": "Injection point",
+      "at": [12, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "main",
+      "kind": "river",
+      "label": "Treated water main",
+      "at": [12, 0],
+      "behaviour": {
+        "role": "source",
+        "output": "8000 + 32000 * bump(hour, 7.5, 1.5) + 28000 * bump(hour, 18.5, 1.8)"
+      },
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "v310",
+      "kind": "valve",
+      "label": "Main isolation",
+      "at": [12, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100000,
+        "open": 1
+      },
+      "tag": "V-310",
+      "class": "GateValve"
+    },
+    {
+      "id": "dist",
+      "kind": "city",
+      "label": "To distribution",
+      "at": [13, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": "1.001 * (8000 + 32000 * bump(hour, 7.5, 1.5) + 28000 * bump(hour, 18.5, 1.8))"
+      },
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "t301",
+      "to": "jsuc",
+      "domain": "water",
+      "via": [],
+      "tag": "25-HYP-301"
+    },
+    {
+      "from": "jsuc",
+      "to": "vcal",
+      "domain": "water",
+      "via": [],
+      "tag": "15-HYP-302"
+    },
+    {
+      "from": "vcal",
+      "to": "t302",
+      "domain": "water",
+      "tag": "15-HYP-303"
+    },
+    {
+      "from": "jsuc",
+      "to": "vsa",
+      "domain": "water",
+      "tag": "25-HYP-304"
+    },
+    {
+      "from": "vsa",
+      "to": "p301a",
+      "domain": "water",
+      "tag": "25-HYP-305"
+    },
+    {
+      "from": "p301a",
+      "to": "jra",
+      "domain": "water",
+      "tag": "15-HYP-306"
+    },
+    {
+      "from": "jra",
+      "to": "psva",
+      "domain": "water",
+      "via": [],
+      "tag": "15-HYP-307"
+    },
+    {
+      "from": "psva",
+      "to": "t301",
+      "domain": "water",
+      "tag": "15-HYP-308"
+    },
+    {
+      "from": "jra",
+      "to": "cva",
+      "domain": "water",
+      "tag": "15-HYP-309"
+    },
+    {
+      "from": "cva",
+      "to": "vda",
+      "domain": "water",
+      "tag": "15-HYP-310"
+    },
+    {
+      "from": "vda",
+      "to": "jdis",
+      "domain": "water",
+      "tag": "15-HYP-311"
+    },
+    {
+      "from": "jsuc",
+      "to": "vsb",
+      "domain": "water",
+      "via": [[4, 3]],
+      "tag": "25-HYP-312"
+    },
+    {
+      "from": "vsb",
+      "to": "p301b",
+      "domain": "water",
+      "tag": "25-HYP-313"
+    },
+    {
+      "from": "p301b",
+      "to": "jrb",
+      "domain": "water",
+      "tag": "15-HYP-314"
+    },
+    {
+      "from": "jrb",
+      "to": "psvb",
+      "domain": "water",
+      "via": [],
+      "tag": "15-HYP-315"
+    },
+    {
+      "from": "psvb",
+      "to": "t301",
+      "domain": "water",
+      "via": [[0, 6]],
+      "tag": "15-HYP-316"
+    },
+    {
+      "from": "jrb",
+      "to": "cvb",
+      "domain": "water",
+      "tag": "15-HYP-317"
+    },
+    {
+      "from": "cvb",
+      "to": "vdb",
+      "domain": "water",
+      "tag": "15-HYP-318"
+    },
+    {
+      "from": "vdb",
+      "to": "jdis",
+      "domain": "water",
+      "via": [[9, 5]],
+      "tag": "15-HYP-319"
+    },
+    {
+      "from": "jdis",
+      "to": "d301",
+      "domain": "water",
+      "tag": "15-HYP-320"
+    },
+    {
+      "from": "d301",
+      "to": "inj",
+      "domain": "water",
+      "tag": "15-HYP-321"
+    },
+    {
+      "from": "main",
+      "to": "v310",
+      "domain": "water",
+      "tag": "300-W-301"
+    },
+    {
+      "from": "v310",
+      "to": "inj",
+      "domain": "water",
+      "via": [],
+      "tag": "300-W-302"
+    },
+    {
+      "from": "inj",
+      "to": "dist",
+      "domain": "water",
+      "tag": "300-W-303"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Water Treatment Works",
+    "project": "Disinfection upgrade",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "LT-301",
+      "at": [0, 2],
+      "measures": "t301",
+      "low": 15
+    },
+    {
+      "tag": "FT-301",
+      "at": [13, 2],
+      "measures": "v310",
+      "unit": "L/h"
+    },
+    {
+      "tag": "FIC-301",
+      "at": [5, 2],
+      "measures": "FT-301",
+      "drives": "p301a",
+      "mounting": "dcs"
+    }
+  ],
+  "switches": [
+    {
+      "id": "padutyA",
+      "label": "P-301A in duty",
+      "on": true
+    },
+    {
+      "id": "padutyB",
+      "label": "P-301B in duty",
+      "on": false
+    }
+  ],
+  "captions": [
+    {
+      "from": 6,
+      "to": 10,
+      "text": "Morning peak: main flow rises and FIC-301 speeds up duty pump P-301A."
+    },
+    {
+      "from": 10,
+      "to": 16,
+      "text": "Midday lull: dose falls with the main flow."
+    },
+    {
+      "from": 16,
+      "to": 21,
+      "text": "Evening peak: the dose follows the main again as T-301 runs down."
+    },
+    {
+      "from": 21,
+      "to": 24,
+      "text": "Overnight: low dose; the day tank still holds stock."
+    }
+  ],
+  "expect": [
+    {
+      "says": "the dose follows the morning peak",
+      "check": "part('p301a').out > 25",
+      "at": 8
+    },
+    {
+      "says": "the dose follows the evening peak",
+      "check": "part('p301a').out > 25",
+      "at": 18
+    },
+    {
+      "says": "the dose is low overnight",
+      "check": "part('p301a').out < 12",
+      "at": 3
+    },
+    {
+      "says": "standby pump P-301B stays idle",
+      "check": "part('p301b').out < 0.001"
+    },
+    {
+      "says": "the day tank runs down over the day",
+      "check": "part('t301').fill < 0.8",
+      "at": 23
+    },
+    {
+      "says": "the day tank never runs dry",
+      "check": "part('t301').fill > 0.15"
+    }
+  ]
+}

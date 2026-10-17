@@ -1,0 +1,105 @@
+{
+  "items": [
+    {
+      "tag": "K-2750",
+      "type": "packed column",
+      "label": "Packed column, 500 mm ID"
+    },
+    {
+      "tag": "KX-2750",
+      "type": "packed section",
+      "label": "Packed section, 14 m tall"
+    },
+    { "tag": "N2", "type": "nozzle", "label": "Bottoms outlet nozzle" },
+    { "tag": "N3", "type": "nozzle", "label": "Top outlet nozzle" },
+    { "tag": "P3", "type": "nozzle", "label": "Pressure tapping" },
+    { "tag": "P4", "type": "nozzle", "label": "Pressure tapping" },
+    {
+      "tag": "RD-275001",
+      "type": "reducer",
+      "label": "Reducer on bottoms line 2750.001.6"
+    },
+    {
+      "tag": "W 2765",
+      "type": "off-sheet connector",
+      "label": "Bottoms to W 2765"
+    },
+    { "tag": "TE-275001", "type": "pipe tee", "label": "Tee on N3 line" },
+    {
+      "tag": "OSC-N3",
+      "type": "off-sheet connector",
+      "label": "N3 line continues off sheet"
+    },
+    {
+      "tag": "HV-275001",
+      "type": "manual isolating valve",
+      "label": "N3 branch isolating valve"
+    },
+    {
+      "tag": "BF-275001",
+      "type": "blind flange",
+      "label": "P3 blind flange (nozzle side)"
+    },
+    {
+      "tag": "HV-275002",
+      "type": "manual root valve",
+      "label": "P3 root valve"
+    },
+    {
+      "tag": "BF-275002",
+      "type": "blind flange",
+      "label": "P3 blind flange (instrument side)"
+    },
+    {
+      "tag": "BF-275003",
+      "type": "blind flange",
+      "label": "P4 blind flange (nozzle side)"
+    },
+    {
+      "tag": "HV-275003",
+      "type": "manual root valve",
+      "label": "P4 root valve"
+    },
+    {
+      "tag": "BF-275004",
+      "type": "blind flange",
+      "label": "P4 blind flange (instrument side)"
+    },
+    {
+      "tag": "PIZ-275003A",
+      "type": "pressure transmitter (DCS)",
+      "label": "Column pressure A"
+    },
+    {
+      "tag": "PIZ-275003B",
+      "type": "pressure transmitter (DCS)",
+      "label": "Column pressure B"
+    },
+    {
+      "tag": "PISZA-275003",
+      "type": "high-pressure safety function (indicate, switch, trip/interlock, alarm)",
+      "label": "High column pressure trip and alarm"
+    }
+  ],
+  "lines": [
+    { "from": "K-2750", "to": "N2", "kind": "process" },
+    { "from": "N2", "to": "RD-275001", "kind": "process" },
+    { "from": "RD-275001", "to": "W 2765", "kind": "process" },
+    { "from": "K-2750", "to": "N3", "kind": "process" },
+    { "from": "N3", "to": "TE-275001", "kind": "process" },
+    { "from": "TE-275001", "to": "OSC-N3", "kind": "process" },
+    { "from": "TE-275001", "to": "HV-275001", "kind": "process" },
+    { "from": "K-2750", "to": "P3", "kind": "process" },
+    { "from": "P3", "to": "BF-275001", "kind": "process" },
+    { "from": "BF-275001", "to": "HV-275002", "kind": "process" },
+    { "from": "HV-275002", "to": "BF-275002", "kind": "process" },
+    { "from": "BF-275002", "to": "PIZ-275003A", "kind": "process" },
+    { "from": "K-2750", "to": "P4", "kind": "process" },
+    { "from": "P4", "to": "BF-275003", "kind": "process" },
+    { "from": "BF-275003", "to": "HV-275003", "kind": "process" },
+    { "from": "HV-275003", "to": "BF-275004", "kind": "process" },
+    { "from": "BF-275004", "to": "PIZ-275003B", "kind": "process" },
+    { "from": "PIZ-275003A", "to": "PISZA-275003", "kind": "signal" },
+    { "from": "PIZ-275003B", "to": "PISZA-275003", "kind": "signal" }
+  ]
+}

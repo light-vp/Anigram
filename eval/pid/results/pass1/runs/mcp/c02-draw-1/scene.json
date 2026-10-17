@@ -1,0 +1,202 @@
+{
+  "anigram": 1,
+  "id": "packed-column-c02",
+  "title": "DEXPI Example C02",
+  "subtitle": "Packed column K 2750 with pressure instrumentation",
+  "sheet": "DEXPI Example C02",
+  "size": [6, 5],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³",
+      "effort": "bar"
+    }
+  },
+  "scale": {
+    "water": 60
+  },
+  "parts": [
+    {
+      "id": "k2750",
+      "kind": "hottank",
+      "label": "Column (Kolonne)",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 240,
+        "start": 0.9,
+        "maxIn": 60,
+        "maxOut": 60
+      },
+      "note": "Ø 500 x 14000 mm, 1.4571, pe = 6/-1 bar, 150 °C; packed section KX 2750 (Ø 600 mm).",
+      "labelSide": "left",
+      "tag": "K 2750",
+      "class": "Vessel",
+      "effort": {
+        "set": 2.5,
+        "min": -1,
+        "max": 6
+      }
+    },
+    {
+      "id": "out2765",
+      "kind": "tap",
+      "label": "2765 (W 2765)",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": "2 * knob('throughput')"
+      },
+      "tag": "2765",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "tee",
+      "kind": "manifold",
+      "label": "Tee DN 150/80",
+      "at": [2, 0],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "v-h672b1v",
+      "kind": "valve",
+      "label": "DN 80 AS9",
+      "at": [3, 0],
+      "behaviour": {
+        "role": "sink",
+        "demand": "on('h672b1v') ? 5 : 0"
+      },
+      "toggles": "h672b1v",
+      "tag": "H672B1V",
+      "class": "GlobeValve"
+    },
+    {
+      "id": "v-h658b1uv-p3",
+      "kind": "valve",
+      "label": "DN 25 AS9 (SP 2750-5)",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "toggles": "p3",
+      "tag": "H658B1UV",
+      "class": "GlobeValve"
+    },
+    {
+      "id": "v-h658b1uv-p4",
+      "kind": "valve",
+      "label": "H658B1UV DN 25 AS9 (SP 2750-6)",
+      "at": [2, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "toggles": "p4",
+      "class": "GlobeValve"
+    }
+  ],
+  "links": [
+    {
+      "from": "k2750",
+      "to": "out2765",
+      "domain": "water",
+      "capacity": 60,
+      "line": "process",
+      "tag": "2750.001.6-0N-2170.8503-150/10HB25T10B1-B40-"
+    },
+    {
+      "from": "k2750",
+      "to": "tee",
+      "domain": "water",
+      "bend": "vh",
+      "line": "process",
+      "tag": "*at N3*"
+    },
+    {
+      "from": "tee",
+      "to": "v-h672b1v",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "k2750",
+      "to": "v-h658b1uv-p3",
+      "domain": "water",
+      "bend": "vh",
+      "line": "process",
+      "tag": "*at P3*"
+    },
+    {
+      "from": "k2750",
+      "to": "v-h658b1uv-p4",
+      "domain": "water",
+      "bend": "vh",
+      "line": "process",
+      "tag": "*at P4*"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "BASF SE",
+    "project": "Ludwigshafen V04 / plant section 2000",
+    "status": "DEXPI test case"
+  },
+  "instruments": [
+    {
+      "tag": "PIZ-275003A",
+      "at": [3, 2],
+      "measures": "v-h658b1uv-p3",
+      "unit": "bar",
+      "mounting": "panel"
+    },
+    {
+      "tag": "PIZ-275003B",
+      "at": [3, 3],
+      "measures": "v-h658b1uv-p4",
+      "unit": "bar",
+      "mounting": "panel"
+    },
+    {
+      "tag": "PISZA-275003",
+      "at": [4, 2],
+      "measures": "PIZ-275003A",
+      "mounting": "panel"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "throughput",
+      "label": "throughput",
+      "value": 1,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05,
+      "format": "{pct}%"
+    }
+  ],
+  "switches": [
+    {
+      "id": "h672b1v",
+      "label": "H672B1V open",
+      "on": false
+    },
+    {
+      "id": "p3",
+      "label": "H658B1UV (P3) open",
+      "on": true
+    },
+    {
+      "id": "p4",
+      "label": "H658B1UV (P4) open",
+      "on": true
+    }
+  ]
+}

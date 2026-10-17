@@ -1,0 +1,470 @@
+{
+  "anigram": 1,
+  "id": "cooling-water-circuit",
+  "title": "Cooling water circuit",
+  "subtitle": "Duty/standby circulating pumps, plate exchanger E-601 and a tower bypass under temperature control",
+  "sheet": "PID-601",
+  "size": [11, 7],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    },
+    "heat": {
+      "rate": "MW",
+      "amount": "MWh"
+    }
+  },
+  "scale": {
+    "water": 400,
+    "electric": 50,
+    "heat": 5
+  },
+  "parts": [
+    {
+      "id": "power",
+      "kind": "grid",
+      "label": "Electricity",
+      "at": [3, 0],
+      "behaviour": {
+        "role": "source",
+        "output": 100,
+        "dispatchable": true
+      }
+    },
+    {
+      "id": "ct",
+      "kind": "reservoir",
+      "label": "Tower basin",
+      "at": [1, 3],
+      "behaviour": {
+        "role": "source",
+        "output": 500
+      },
+      "labelSide": "left",
+      "tag": "CT-601",
+      "class": "Vessel"
+    },
+    {
+      "id": "sva",
+      "kind": "valve",
+      "label": "Suction",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 400,
+        "open": "on('pa') ? 1 : 0"
+      },
+      "labelSide": "below",
+      "tag": "HV-601A",
+      "class": "GateValve"
+    },
+    {
+      "id": "svb",
+      "kind": "valve",
+      "label": "Suction",
+      "at": [2, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 400,
+        "open": "on('pb') ? 1 : 0"
+      },
+      "labelSide": "below",
+      "tag": "HV-601B",
+      "class": "GateValve"
+    },
+    {
+      "id": "pa",
+      "kind": "pump",
+      "label": "Duty pump",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.1,
+          "water": 1
+        },
+        "capacity": 400
+      },
+      "labelSide": "above",
+      "tag": "P-601A",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "pb",
+      "kind": "pump",
+      "label": "Standby pump",
+      "at": [3, 4],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.1,
+          "water": 1
+        },
+        "capacity": 400
+      },
+      "labelSide": "above",
+      "tag": "P-601B",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "ca",
+      "kind": "valve",
+      "label": "Check",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 400,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "NRV-601A",
+      "class": "CheckValve"
+    },
+    {
+      "id": "cb",
+      "kind": "valve",
+      "label": "Check",
+      "at": [4, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 400,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "NRV-601B",
+      "class": "CheckValve"
+    },
+    {
+      "id": "da",
+      "kind": "valve",
+      "label": "Discharge",
+      "at": [5, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 400,
+        "open": "on('pa') ? 1 : 0"
+      },
+      "labelSide": "above",
+      "tag": "HV-602A",
+      "class": "GateValve"
+    },
+    {
+      "id": "db",
+      "kind": "valve",
+      "label": "Discharge",
+      "at": [5, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 400,
+        "open": "on('pb') ? 1 : 0"
+      },
+      "labelSide": "above",
+      "tag": "HV-602B",
+      "class": "GateValve"
+    },
+    {
+      "id": "hd",
+      "kind": "manifold",
+      "label": "Supply header",
+      "at": [6, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "tag": "J-601",
+      "class": "Junction"
+    },
+    {
+      "id": "e601",
+      "kind": "valve",
+      "label": "Plate exchanger",
+      "at": [7, 3],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "water": 1,
+          "heat": 0.004
+        },
+        "capacity": 400
+      },
+      "labelSide": "below",
+      "tag": "E-601",
+      "class": "HeatExchanger"
+    },
+    {
+      "id": "rj",
+      "kind": "manifold",
+      "label": "Return header",
+      "at": [9, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "tag": "J-602",
+      "class": "Junction"
+    },
+    {
+      "id": "tv",
+      "kind": "valve",
+      "label": "Tower bypass valve",
+      "at": [9, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 300,
+        "open": "clamp((36 - (22 + 12 * bump(hour, 15, 6))) / 14, 0, 1)"
+      },
+      "tag": "TV-601",
+      "class": "ControlValve"
+    },
+    {
+      "id": "pin",
+      "kind": "river",
+      "label": "Process in",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "source",
+        "output": 1.3
+      },
+      "labelSide": "left",
+      "tag": "OPC-601",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "pout",
+      "kind": "river",
+      "label": "Process out",
+      "at": [8, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 1.3
+      },
+      "labelSide": "right",
+      "tag": "OPC-602",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "ctt",
+      "kind": "coolingtower",
+      "label": "Tower top",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": "300 * (1 - clamp((36 - (22 + 12 * bump(hour, 15, 6))) / 14, 0, 1))"
+      },
+      "labelSide": "left",
+      "tag": "CT-601T",
+      "class": "Vessel"
+    },
+    {
+      "id": "bs",
+      "kind": "reservoir",
+      "label": "Bypass to basin",
+      "at": [1, 6],
+      "behaviour": {
+        "role": "sink",
+        "demand": "300 * clamp((36 - (22 + 12 * bump(hour, 15, 6))) / 14, 0, 1)"
+      },
+      "labelSide": "above",
+      "tag": "J-603",
+      "class": "Junction"
+    }
+  ],
+  "links": [
+    {
+      "from": "power",
+      "to": "pa",
+      "domain": "electric"
+    },
+    {
+      "from": "power",
+      "to": "pb",
+      "domain": "electric"
+    },
+    {
+      "from": "ct",
+      "to": "sva",
+      "domain": "water",
+      "via": [[1, 2]],
+      "tag": "300-CW-001"
+    },
+    {
+      "from": "ct",
+      "to": "svb",
+      "domain": "water",
+      "via": [[1, 4]],
+      "tag": "300-CW-002"
+    },
+    {
+      "from": "sva",
+      "to": "pa",
+      "domain": "water",
+      "tag": "300-CW-003"
+    },
+    {
+      "from": "svb",
+      "to": "pb",
+      "domain": "water",
+      "tag": "300-CW-004"
+    },
+    {
+      "from": "pa",
+      "to": "ca",
+      "domain": "water",
+      "tag": "300-CW-005"
+    },
+    {
+      "from": "pb",
+      "to": "cb",
+      "domain": "water",
+      "tag": "300-CW-006"
+    },
+    {
+      "from": "ca",
+      "to": "da",
+      "domain": "water",
+      "tag": "300-CW-007"
+    },
+    {
+      "from": "cb",
+      "to": "db",
+      "domain": "water",
+      "tag": "300-CW-008"
+    },
+    {
+      "from": "da",
+      "to": "hd",
+      "domain": "water",
+      "via": [[6, 2]],
+      "tag": "300-CW-009"
+    },
+    {
+      "from": "db",
+      "to": "hd",
+      "domain": "water",
+      "via": [[6, 4]],
+      "tag": "300-CW-010"
+    },
+    {
+      "from": "hd",
+      "to": "e601",
+      "domain": "water",
+      "via": [],
+      "tag": "300-CW-011"
+    },
+    {
+      "from": "e601",
+      "to": "rj",
+      "domain": "water",
+      "via": [],
+      "tag": "300-CW-012"
+    },
+    {
+      "from": "rj",
+      "to": "tv",
+      "domain": "water",
+      "via": [],
+      "tag": "300-CW-014"
+    },
+    {
+      "from": "pin",
+      "to": "e601",
+      "domain": "heat",
+      "tag": "150-PR-001"
+    },
+    {
+      "from": "e601",
+      "to": "pout",
+      "domain": "heat",
+      "via": [[8, 3]],
+      "loss": true,
+      "tag": "150-PR-002"
+    },
+    {
+      "from": "rj",
+      "to": "ctt",
+      "domain": "water",
+      "via": [
+        [9, 0],
+        [1, 0]
+      ],
+      "tag": "300-CW-013"
+    },
+    {
+      "from": "tv",
+      "to": "bs",
+      "domain": "water",
+      "via": [[9, 6]],
+      "tag": "300-CW-015"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Plant Utilities",
+    "project": "Cooling water system",
+    "drawnBy": "VP",
+    "checkedBy": "-",
+    "approvedBy": "-",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "TT-601",
+      "at": [6, 5],
+      "measures": "hd",
+      "reads": "22 + 12 * bump(hour, 15, 6)",
+      "unit": "°C",
+      "high": 32
+    },
+    {
+      "tag": "TIC-601",
+      "at": [8, 5],
+      "measures": "TT-601",
+      "drives": "tv",
+      "mounting": "dcs"
+    }
+  ],
+  "switches": [
+    {
+      "id": "pa",
+      "label": "P-601A running (duty)",
+      "on": true
+    },
+    {
+      "id": "pb",
+      "label": "P-601B running (standby)",
+      "on": false
+    }
+  ],
+  "expect": [
+    {
+      "says": "the duty pump P-601A runs all day",
+      "check": "part('pa').out > 100"
+    },
+    {
+      "says": "the standby pump P-601B stays off",
+      "check": "part('pb').out < 1"
+    },
+    {
+      "says": "at 6 am TV-601 passes plenty of water to the basin",
+      "check": "part('tv').out > 200",
+      "at": 6
+    },
+    {
+      "says": "at 3 pm, when it is hotter, TV-601 passes much less",
+      "check": "part('tv').out < 100",
+      "at": 15
+    }
+  ]
+}

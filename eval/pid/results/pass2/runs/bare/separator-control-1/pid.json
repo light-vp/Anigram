@@ -1,0 +1,68 @@
+{
+  "items": [
+    {
+      "tag": "V-701",
+      "type": "production separator vessel",
+      "label": "Production separator"
+    },
+    {
+      "tag": "SDV-701",
+      "type": "shutdown valve",
+      "label": "Inlet shutdown valve"
+    },
+    {
+      "tag": "PV-701",
+      "type": "control valve",
+      "label": "Gas pressure control valve"
+    },
+    {
+      "tag": "LV-701",
+      "type": "control valve",
+      "label": "Oil level control valve"
+    },
+    {
+      "tag": "PSV-701",
+      "type": "pressure safety valve",
+      "label": "Separator relief valve to flare"
+    },
+    {
+      "tag": "PT-701",
+      "type": "pressure transmitter",
+      "label": "Separator gas pressure transmitter"
+    },
+    {
+      "tag": "PIC-701",
+      "type": "pressure indicating controller",
+      "label": "Separator pressure controller"
+    },
+    {
+      "tag": "LT-701",
+      "type": "level transmitter",
+      "label": "Separator liquid level transmitter"
+    },
+    {
+      "tag": "LIC-701",
+      "type": "level indicating controller",
+      "label": "Separator level controller"
+    },
+    {
+      "tag": "LSHH-702",
+      "type": "level switch high-high",
+      "label": "Independent high-high level switch"
+    }
+  ],
+  "lines": [
+    { "from": "SDV-701", "to": "V-701", "kind": "process" },
+    { "from": "V-701", "to": "PV-701", "kind": "process" },
+    { "from": "V-701", "to": "LV-701", "kind": "process" },
+    { "from": "V-701", "to": "PSV-701", "kind": "process" },
+    { "from": "V-701", "to": "PT-701", "kind": "signal" },
+    { "from": "PT-701", "to": "PIC-701", "kind": "signal" },
+    { "from": "PIC-701", "to": "PV-701", "kind": "signal" },
+    { "from": "V-701", "to": "LT-701", "kind": "signal" },
+    { "from": "LT-701", "to": "LIC-701", "kind": "signal" },
+    { "from": "LIC-701", "to": "LV-701", "kind": "signal" },
+    { "from": "V-701", "to": "LSHH-702", "kind": "signal" },
+    { "from": "LSHH-702", "to": "SDV-701", "kind": "signal" }
+  ]
+}

@@ -1,0 +1,461 @@
+{
+  "anigram": 1,
+  "id": "boiler-feedwater",
+  "title": "Boiler Feedwater",
+  "subtitle": "Deaerator, duty/standby boiler feed pumps and steam drum level control",
+  "sheet": "PID-501",
+  "size": [15, 4],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 100,
+    "electric": 30
+  },
+  "parts": [
+    {
+      "id": "makeup",
+      "kind": "river",
+      "label": "Make-up water",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 100
+      }
+    },
+    {
+      "id": "lv501",
+      "kind": "valve",
+      "label": "Make-up level control",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "clamp((0.85 - prev('d501').fill) / 0.1, 0, 1)"
+      },
+      "tag": "LV-501",
+      "class": "ControlValve"
+    },
+    {
+      "id": "d501",
+      "kind": "reservoir",
+      "label": "Deaerator",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 120,
+        "start": 0.7,
+        "maxIn": 100,
+        "maxOut": 100,
+        "refill": {
+          "below": 0.7,
+          "until": 0.8
+        }
+      },
+      "tag": "D-501",
+      "class": "Vessel"
+    },
+    {
+      "id": "hv501a",
+      "kind": "valve",
+      "label": "Suction isol.",
+      "at": [6, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "HV-501A",
+      "class": "GateValve"
+    },
+    {
+      "id": "p501a",
+      "kind": "pump",
+      "label": "Feed pump A (duty)",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.25,
+          "water": 1
+        },
+        "capacity": 90
+      },
+      "labelSide": "above",
+      "tag": "P-501A",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "nrv501a",
+      "kind": "valve",
+      "label": "Check valve",
+      "at": [8, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "CV-501A",
+      "class": "CheckValve"
+    },
+    {
+      "id": "hv502a",
+      "kind": "valve",
+      "label": "Discharge isol.",
+      "at": [9, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "HV-502A",
+      "class": "GateValve"
+    },
+    {
+      "id": "hv501b",
+      "kind": "valve",
+      "label": "Suction isol.",
+      "at": [6, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": 1
+      },
+      "labelSide": "above",
+      "tag": "HV-501B",
+      "class": "GateValve"
+    },
+    {
+      "id": "p501b",
+      "kind": "pump",
+      "label": "Feed pump B (standby)",
+      "at": [7, 3],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.25,
+          "water": 1
+        },
+        "capacity": 90
+      },
+      "labelSide": "below",
+      "tag": "P-501B",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "nrv501b",
+      "kind": "valve",
+      "label": "Check valve",
+      "at": [8, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": 1
+      },
+      "labelSide": "above",
+      "tag": "CV-501B",
+      "class": "CheckValve"
+    },
+    {
+      "id": "hv502b",
+      "kind": "valve",
+      "label": "Discharge isol.",
+      "at": [9, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": 1
+      },
+      "labelSide": "above",
+      "tag": "HV-502B",
+      "class": "GateValve"
+    },
+    {
+      "id": "lv502",
+      "kind": "valve",
+      "label": "Feed control valve",
+      "at": [11, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "clamp(0.9 + (0.6 - prev('v502').fill) * 4, 0, 1)"
+      },
+      "tag": "LV-502",
+      "class": "ControlValve"
+    },
+    {
+      "id": "v502",
+      "kind": "reservoir",
+      "label": "Steam drum",
+      "at": [13, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 40,
+        "start": 0.6,
+        "maxIn": 100,
+        "maxOut": 100,
+        "refill": {
+          "below": 0.6,
+          "until": 0.7
+        }
+      },
+      "tag": "V-502",
+      "class": "Vessel"
+    },
+    {
+      "id": "steam",
+      "kind": "factory",
+      "label": "Steam to users",
+      "at": [14, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": "50 + 30 * shift(hour)"
+      }
+    },
+    {
+      "id": "mccA",
+      "kind": "grid",
+      "label": "Supply to P-501A",
+      "at": [7, 0],
+      "behaviour": {
+        "role": "source",
+        "output": "on('p501a') ? 50 : 0"
+      }
+    },
+    {
+      "id": "mccB",
+      "kind": "grid",
+      "label": "Supply to P-501B",
+      "at": [7, 2],
+      "behaviour": {
+        "role": "source",
+        "output": "on('p501a') ? 0 : 50"
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "makeup",
+      "to": "lv501",
+      "domain": "water",
+      "tag": "100-W-001"
+    },
+    {
+      "from": "lv501",
+      "to": "d501",
+      "domain": "water",
+      "tag": "100-W-002"
+    },
+    {
+      "from": "hv501a",
+      "to": "p501a",
+      "domain": "water",
+      "tag": "100-BFW-005"
+    },
+    {
+      "from": "p501a",
+      "to": "nrv501a",
+      "domain": "water",
+      "tag": "80-BFW-006"
+    },
+    {
+      "from": "nrv501a",
+      "to": "hv502a",
+      "domain": "water",
+      "tag": "80-BFW-007"
+    },
+    {
+      "from": "hv501b",
+      "to": "p501b",
+      "domain": "water",
+      "tag": "100-BFW-010"
+    },
+    {
+      "from": "p501b",
+      "to": "nrv501b",
+      "domain": "water",
+      "tag": "80-BFW-011"
+    },
+    {
+      "from": "nrv501b",
+      "to": "hv502b",
+      "domain": "water",
+      "tag": "80-BFW-012"
+    },
+    {
+      "from": "lv502",
+      "to": "v502",
+      "domain": "water",
+      "tag": "100-BFW-015"
+    },
+    {
+      "from": "v502",
+      "to": "steam",
+      "domain": "water",
+      "tag": "150-S-016"
+    },
+    {
+      "from": "mccA",
+      "to": "p501a",
+      "domain": "electric"
+    },
+    {
+      "from": "mccB",
+      "to": "p501b",
+      "domain": "electric"
+    },
+    {
+      "from": "d501",
+      "to": "hv501a",
+      "domain": "water",
+      "via": [
+        [5, 2],
+        [5, 1]
+      ],
+      "tag": "100-BFW-004"
+    },
+    {
+      "from": "d501",
+      "to": "hv501b",
+      "domain": "water",
+      "via": [
+        [5, 2],
+        [5, 3]
+      ],
+      "tag": "100-BFW-009"
+    },
+    {
+      "from": "hv502a",
+      "to": "lv502",
+      "domain": "water",
+      "via": [
+        [10, 1],
+        [10, 2]
+      ],
+      "tag": "80-BFW-008"
+    },
+    {
+      "from": "hv502b",
+      "to": "lv502",
+      "domain": "water",
+      "via": [
+        [10, 3],
+        [10, 2]
+      ],
+      "tag": "80-BFW-013"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Site Utilities",
+    "project": "Boiler house",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "for review"
+  },
+  "instruments": [
+    {
+      "tag": "LT-501",
+      "at": [4, 1],
+      "measures": "d501",
+      "low": 20,
+      "high": 90
+    },
+    {
+      "tag": "LIC-501",
+      "at": [2, 1],
+      "measures": "LT-501",
+      "drives": "lv501",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "LT-502",
+      "at": [13, 1],
+      "measures": "v502",
+      "low": 15,
+      "high": 85
+    },
+    {
+      "tag": "LIC-502",
+      "at": [11, 1],
+      "measures": "LT-502",
+      "drives": "lv502",
+      "mounting": "dcs"
+    }
+  ],
+  "switches": [
+    {
+      "id": "p501a",
+      "label": "P-501A running",
+      "on": true
+    }
+  ],
+  "captions": [
+    {
+      "from": 6,
+      "to": 11,
+      "text": "P-501A feeds the drum; LV-502 holds drum level, LV-501 holds deaerator level."
+    },
+    {
+      "from": 11,
+      "to": 24,
+      "text": "P-501A has tripped; P-501B carries the feed and the drum level holds."
+    }
+  ],
+  "events": [
+    {
+      "id": "trip",
+      "says": "P-501A trips on the day shift; P-501B, the standby, takes over the feed.",
+      "when": "hour >= 11",
+      "then": [
+        {
+          "switch": "p501a",
+          "on": false
+        }
+      ],
+      "at": "p501a",
+      "once": true
+    }
+  ],
+  "expect": [
+    {
+      "says": "before the trip P-501A is the duty pump and P-501B stands by",
+      "check": "part('p501a').out > 0 && part('p501b').out == 0",
+      "at": 8
+    },
+    {
+      "says": "after the trip P-501A is stopped and P-501B delivers the feed",
+      "check": "part('p501a').out == 0 && part('p501b').out > 0",
+      "at": 14
+    },
+    {
+      "says": "the steam drum never runs dry",
+      "check": "part('v502').fill > 0.15"
+    },
+    {
+      "says": "the deaerator never overflows",
+      "check": "part('d501').fill < 0.95"
+    },
+    {
+      "says": "the boiler gets the steam it asks for",
+      "check": "part('steam').in >= 0.999 * part('steam').demand"
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "id": "chemical-injection",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["tank", "vessel", "container"],
+      "tag": "^T1401$",
+      "says": "tank T-1401"
+    },
+    {
+      "family": "pump",
+      "tag": "^P1401$",
+      "says": "pump P-1401"
+    },
+    {
+      "family": ["strainer", "filter"],
+      "says": "the inlet strainer"
+    },
+    {
+      "family": "offpage",
+      "min": 1,
+      "says": "the export pipeline"
+    }
+  ],
+  "valves": [
+    {
+      "family": "relief",
+      "min": 1
+    },
+    {
+      "family": "check",
+      "min": 2
+    },
+    {
+      "family": "isolation",
+      "min": 2
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["PI", "PG"],
+      "number": "1401",
+      "says": "PI-1401"
+    },
+    {
+      "letters": ["FI", "FG"],
+      "number": "1401",
+      "says": "FI-1401"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T1401$",
+        "says": "tank T-1401"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P1401$",
+        "says": "pump P-1401"
+      },
+      "via": [
+        {
+          "family": ["strainer", "filter"],
+          "says": "the inlet strainer"
+        },
+        {
+          "family": "isolation"
+        }
+      ],
+      "says": "T-1401 → P-1401 through a strainer and an isolating valve"
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P1401$",
+        "says": "pump P-1401"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "check",
+          "count": 2
+        },
+        {
+          "family": "isolation"
+        }
+      ],
+      "says": "P-1401 → pipeline through two check valves and an isolating valve"
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P1401$",
+        "says": "pump P-1401"
+      },
+      "to": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T1401$",
+        "says": "tank T-1401"
+      },
+      "via": [
+        {
+          "family": "relief"
+        }
+      ],
+      "says": "P-1401 relief back to the tote"
+    }
+  ]
+}

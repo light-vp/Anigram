@@ -1,0 +1,227 @@
+{
+  "items": [
+    {
+      "tag": "P4711",
+      "type": "centrifugal pump",
+      "label": "Centrifugal pump, line 47121 in, 47122 out"
+    },
+    {
+      "tag": "P4712",
+      "type": "reciprocating pump",
+      "label": "Duty pump P-4712, T4750 outlet to 47126 header"
+    },
+    {
+      "tag": "P-4712B",
+      "type": "reciprocating pump",
+      "label": "Standby pump for P4712 (new), auto-starts on P4712 trip"
+    },
+    {
+      "tag": "T4750",
+      "type": "tank with dished heads",
+      "label": "Tank T-4750"
+    },
+    {
+      "tag": "H1007",
+      "type": "plate heat exchanger",
+      "label": "Plate heat exchanger"
+    },
+    {
+      "tag": "H1008",
+      "type": "tubular heat exchanger",
+      "label": "Floating head tubular heat exchanger"
+    },
+
+    {
+      "tag": "HV4750.01",
+      "type": "globe control valve, fail closed",
+      "label": "Hand switch operated valve on 47123 to T4750"
+    },
+    {
+      "tag": "PV4712.02",
+      "type": "globe control valve, fail closed",
+      "label": "Pressure control valve on 47127 recirculation to T4750"
+    },
+    {
+      "tag": "TV4750.03",
+      "type": "globe control valve, fail open",
+      "label": "Temperature control valve on 47141"
+    },
+    {
+      "tag": "BFV-1",
+      "type": "butterfly valve",
+      "label": "Tank outlet valve on 47124 (66KL21-80), shared by both pumps"
+    },
+    {
+      "tag": "CV-1",
+      "type": "swing check valve",
+      "label": "P4712 suction check valve (75SA21-80)"
+    },
+    {
+      "tag": "BV-1",
+      "type": "ball valve",
+      "label": "P4712 suction isolating valve (73KH12-50)"
+    },
+    {
+      "tag": "BV-2",
+      "type": "ball valve",
+      "label": "Vent or drain valve on 47126 header (73KH12-25)"
+    },
+    {
+      "tag": "BV-3",
+      "type": "ball valve",
+      "label": "PT4712.01 / PI4712.01 tap isolating valve (73KH12-25)"
+    },
+    {
+      "tag": "BV-4",
+      "type": "ball valve",
+      "label": "47126 header isolating valve (73KH12-50)"
+    },
+    {
+      "tag": "BV-5",
+      "type": "ball valve",
+      "label": "PT4712.02 tap isolating valve (73KH12-25)"
+    },
+    {
+      "tag": "SV 104.01",
+      "type": "spring-loaded angle safety valve",
+      "label": "Relief valve, 6 barg, 47125 to T4750"
+    },
+    {
+      "tag": "BV-6",
+      "type": "ball valve",
+      "label": "P-4712B suction isolating valve (new), locked open"
+    },
+    {
+      "tag": "CV-2",
+      "type": "swing check valve",
+      "label": "P-4712B discharge check valve (new)"
+    },
+    {
+      "tag": "BV-7",
+      "type": "ball valve",
+      "label": "P-4712B discharge isolating valve (new), locked open"
+    },
+
+    {
+      "tag": "PT4712.01",
+      "type": "pressure transmitter",
+      "label": "Header pressure, field"
+    },
+    {
+      "tag": "PI4712.01",
+      "type": "pressure indicator",
+      "label": "Header pressure indication, field"
+    },
+    {
+      "tag": "PT4712.02",
+      "type": "pressure transmitter",
+      "label": "Header pressure for control loop 4712.02"
+    },
+    {
+      "tag": "PICSA4712.02",
+      "type": "pressure indicating controller with switch and alarm",
+      "label": "Central pressure controller, drives PV4712.02"
+    },
+    {
+      "tag": "TT4750.03",
+      "type": "temperature transmitter",
+      "label": "T4750 temperature"
+    },
+    {
+      "tag": "TICSA4750.03",
+      "type": "temperature indicating controller with switch and alarm",
+      "label": "Central temperature controller, drives TV4750.03"
+    },
+    {
+      "tag": "HS4750.01",
+      "type": "hand switch",
+      "label": "Central hand switch for HV4750.01"
+    },
+    {
+      "tag": "XS4712.03",
+      "type": "motor trip status switch",
+      "label": "P4712 trip signal (new)"
+    },
+    {
+      "tag": "XC4712.04",
+      "type": "standby auto-start logic controller",
+      "label": "Starts P-4712B when P4712 trips (new)"
+    },
+
+    {
+      "tag": "OPC-47121",
+      "type": "off-page connector, flow in",
+      "label": "Line 47121 enters the sheet"
+    },
+    {
+      "tag": "OPC-47126",
+      "type": "off-page connector, flow out",
+      "label": "Line 47126 leaves the sheet"
+    },
+    {
+      "tag": "OPC-47130",
+      "type": "line terminal, utility in",
+      "label": "Utility line 47130 (WKa) to H1007"
+    },
+    {
+      "tag": "OPC-47131",
+      "type": "line terminal, utility out",
+      "label": "Utility line 47131 (WKb) from H1007"
+    },
+    {
+      "tag": "OPC-47140",
+      "type": "line terminal, utility in",
+      "label": "Utility line 47140 (QSa) to H1008"
+    },
+    {
+      "tag": "OPC-47141",
+      "type": "line terminal, utility out",
+      "label": "Utility line 47141 (QSb) from H1008"
+    }
+  ],
+  "lines": [
+    { "from": "OPC-47121", "to": "P4711", "kind": "process" },
+    { "from": "P4711", "to": "H1007", "kind": "process" },
+    { "from": "H1007", "to": "HV4750.01", "kind": "process" },
+    { "from": "HV4750.01", "to": "T4750", "kind": "process" },
+    { "from": "OPC-47130", "to": "H1007", "kind": "process" },
+    { "from": "H1007", "to": "OPC-47131", "kind": "process" },
+    { "from": "OPC-47140", "to": "H1008", "kind": "process" },
+    { "from": "H1008", "to": "TV4750.03", "kind": "process" },
+    { "from": "TV4750.03", "to": "OPC-47141", "kind": "process" },
+
+    { "from": "T4750", "to": "BFV-1", "kind": "process" },
+    { "from": "BFV-1", "to": "CV-1", "kind": "process" },
+    { "from": "CV-1", "to": "BV-1", "kind": "process" },
+    { "from": "BV-1", "to": "P4712", "kind": "process" },
+    { "from": "BFV-1", "to": "BV-6", "kind": "process" },
+    { "from": "BV-6", "to": "P-4712B", "kind": "process" },
+
+    { "from": "P4712", "to": "BV-4", "kind": "process" },
+    { "from": "P4712", "to": "BV-2", "kind": "process" },
+    { "from": "P4712", "to": "SV 104.01", "kind": "process" },
+    { "from": "P4712", "to": "BV-3", "kind": "process" },
+    { "from": "P-4712B", "to": "CV-2", "kind": "process" },
+    { "from": "CV-2", "to": "BV-7", "kind": "process" },
+    { "from": "BV-7", "to": "BV-4", "kind": "process" },
+    { "from": "BV-4", "to": "OPC-47126", "kind": "process" },
+    { "from": "BV-4", "to": "H1008", "kind": "process" },
+    { "from": "BV-4", "to": "BV-5", "kind": "process" },
+    { "from": "H1008", "to": "PV4712.02", "kind": "process" },
+    { "from": "PV4712.02", "to": "T4750", "kind": "process" },
+    { "from": "SV 104.01", "to": "T4750", "kind": "process" },
+    { "from": "BV-3", "to": "PT4712.01", "kind": "process" },
+    { "from": "BV-5", "to": "PT4712.02", "kind": "process" },
+    { "from": "T4750", "to": "TT4750.03", "kind": "process" },
+
+    { "from": "PT4712.01", "to": "PI4712.01", "kind": "signal" },
+    { "from": "PT4712.02", "to": "PICSA4712.02", "kind": "signal" },
+    { "from": "PICSA4712.02", "to": "PV4712.02", "kind": "signal" },
+    { "from": "TT4750.03", "to": "TICSA4750.03", "kind": "signal" },
+    { "from": "TICSA4750.03", "to": "TV4750.03", "kind": "signal" },
+    { "from": "HS4750.01", "to": "HV4750.01", "kind": "signal" },
+    { "from": "P4712", "to": "XS4712.03", "kind": "signal" },
+    { "from": "XS4712.03", "to": "XC4712.04", "kind": "signal" },
+    { "from": "XC4712.04", "to": "P-4712B", "kind": "signal" }
+  ]
+}

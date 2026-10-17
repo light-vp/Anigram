@@ -1,0 +1,158 @@
+{
+  "id": "c02-trip",
+  "source": "DEXPI e.V. TrainingTestCases, dexpi-c02-column.xml (CC BY 4.0)",
+  "derived": "derive-dexpi.mjs",
+  "equipment": [
+    {
+      "family": ["column", "vessel"],
+      "tag": "^K2750$",
+      "says": "K 2750 (ProcessColumn)"
+    },
+    {
+      "family": "offpage",
+      "min": 2,
+      "says": "the new feed comes in from off the sheet"
+    }
+  ],
+  "valves": [
+    {
+      "family": "isolation",
+      "min": 3
+    },
+    {
+      "family": ["onoff", "control"],
+      "tag": "^XV2750$",
+      "says": "shutdown valve XV-2750 on the feed"
+    }
+  ],
+  "instruments": [
+    {
+      "letters": "PISZA",
+      "number": "275003",
+      "says": "PISZA 275003"
+    },
+    {
+      "letters": "PIZ",
+      "number": "275003A",
+      "says": "PIZ 275003A"
+    },
+    {
+      "letters": "PIZ",
+      "number": "275003B",
+      "says": "PIZ 275003B"
+    },
+    {
+      "letters": ["LT", "LIT", "LI"],
+      "on": {
+        "family": ["column", "vessel"]
+      },
+      "hops": 2,
+      "says": "a level transmitter on the column sump"
+    },
+    {
+      "letters": ["LAH", "LIAH", "LICAH"],
+      "says": "a high level alarm"
+    },
+    {
+      "letters": ["LSHH", "LZHH", "LAHH", "LZAHH", "LSAHH"],
+      "says": "a high-high level trip"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": ["column", "vessel"],
+        "tag": "^K2750$"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "says": "K 2750 (ProcessColumn) → an off-page connector"
+    },
+    {
+      "says": "feed from off the sheet → K-2750 through XV-2750",
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["column", "vessel"],
+        "tag": "^K2750$"
+      },
+      "via": [
+        {
+          "family": ["onoff", "control"],
+          "tag": "^XV2750$"
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "from": {
+        "letters": "PIZ",
+        "number": "275003A"
+      },
+      "to": {
+        "letters": "PISZA",
+        "number": "275003"
+      },
+      "says": "PIZ 275003A → PISZA 275003"
+    },
+    {
+      "from": {
+        "letters": "PIZ",
+        "number": "275003B"
+      },
+      "to": {
+        "letters": "PISZA",
+        "number": "275003"
+      },
+      "says": "PIZ 275003B → PISZA 275003"
+    }
+  ],
+  "loops": [
+    {
+      "says": "high-high sump level closes XV-2750",
+      "controller": [
+        {
+          "letters": "LS"
+        },
+        {
+          "letters": "LZ"
+        },
+        {
+          "letters": "LAHH"
+        },
+        {
+          "letters": "US"
+        },
+        {
+          "letters": "UZ"
+        },
+        {
+          "letters": "LY"
+        },
+        {
+          "letters": "UY"
+        },
+        {
+          "letters": "XS"
+        }
+      ],
+      "final": {
+        "family": ["onoff", "control"],
+        "tag": "^XV2750$"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["column", "vessel"]
+          },
+          "hops": 2
+        }
+      ]
+    }
+  ],
+  "modification": true
+}

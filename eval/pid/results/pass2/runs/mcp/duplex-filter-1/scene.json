@@ -1,0 +1,427 @@
+{
+  "anigram": 1,
+  "id": "duplex-filter",
+  "title": "Duplex lube oil filter set",
+  "subtitle": "F-901A in service, F-901B on standby; differential pressure monitored by the DCS",
+  "sheet": "PID-901",
+  "size": [7, 7],
+  "units": {
+    "fuel": {
+      "rate": "L/min",
+      "amount": "L",
+      "effort": "bar"
+    }
+  },
+  "scale": {
+    "fuel": 100
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "river",
+      "label": "Lube oil from header",
+      "at": [0, 3],
+      "behaviour": {
+        "role": "source",
+        "output": 100
+      },
+      "labelSide": "below",
+      "tag": "OPC-901",
+      "class": "OffPageConnector",
+      "effort": {
+        "set": 6
+      }
+    },
+    {
+      "id": "j1",
+      "kind": "manifold",
+      "label": "Inlet header",
+      "at": [1, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "left",
+      "tag": "J-901",
+      "class": "Junction"
+    },
+    {
+      "id": "vai",
+      "kind": "valve",
+      "label": "A inlet",
+      "at": [2, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 120,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "V-901A1",
+      "class": "GateValve"
+    },
+    {
+      "id": "fa",
+      "kind": "valve",
+      "label": "Filter A",
+      "at": [3, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": 1
+      },
+      "labelSide": "above",
+      "tag": "F-901A",
+      "class": "Filter",
+      "effort": {
+        "drop": 0.8
+      }
+    },
+    {
+      "id": "vao",
+      "kind": "valve",
+      "label": "A outlet",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 120,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "V-901A2",
+      "class": "GateValve"
+    },
+    {
+      "id": "dva",
+      "kind": "valve",
+      "label": "A drain",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 10,
+        "open": "on('drainA') ? 1 : 0"
+      },
+      "labelSide": "left",
+      "tag": "V-901A3",
+      "class": "GateValve"
+    },
+    {
+      "id": "dra",
+      "kind": "river",
+      "label": "To drain",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": "on('drainA') ? 10 : 0"
+      },
+      "tag": "OPC-903",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "vbi",
+      "kind": "valve",
+      "label": "B inlet",
+      "at": [2, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 120,
+        "open": "on('standbyIn') ? 1 : 0"
+      },
+      "labelSide": "above",
+      "tag": "V-901B1",
+      "class": "GateValve"
+    },
+    {
+      "id": "fb",
+      "kind": "valve",
+      "label": "Filter B",
+      "at": [3, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": 1
+      },
+      "labelSide": "above",
+      "tag": "F-901B",
+      "class": "Filter",
+      "effort": {
+        "drop": 0.8
+      }
+    },
+    {
+      "id": "vbo",
+      "kind": "valve",
+      "label": "B outlet",
+      "at": [4, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 120,
+        "open": "on('standbyIn') ? 1 : 0"
+      },
+      "labelSide": "above",
+      "tag": "V-901B2",
+      "class": "GateValve"
+    },
+    {
+      "id": "dvb",
+      "kind": "valve",
+      "label": "B drain",
+      "at": [3, 6],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 10,
+        "open": "on('drainB') ? 1 : 0"
+      },
+      "labelSide": "left",
+      "tag": "V-901B3",
+      "class": "GateValve"
+    },
+    {
+      "id": "drb",
+      "kind": "river",
+      "label": "To drain",
+      "at": [4, 6],
+      "behaviour": {
+        "role": "sink",
+        "demand": "on('drainB') ? 10 : 0"
+      },
+      "tag": "OPC-904",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "j2",
+      "kind": "manifold",
+      "label": "Outlet header",
+      "at": [5, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "right",
+      "tag": "J-902",
+      "class": "Junction"
+    },
+    {
+      "id": "out",
+      "kind": "river",
+      "label": "Lube oil to bearings",
+      "at": [6, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": 80
+      },
+      "labelSide": "below",
+      "tag": "OPC-902",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "j1",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "50-LO-001"
+    },
+    {
+      "from": "j1",
+      "to": "vai",
+      "domain": "fuel",
+      "via": [[1, 1]],
+      "line": "process",
+      "tag": "50-LO-002"
+    },
+    {
+      "from": "vai",
+      "to": "fa",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "50-LO-003"
+    },
+    {
+      "from": "fa",
+      "to": "vao",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "50-LO-004"
+    },
+    {
+      "from": "vao",
+      "to": "j2",
+      "domain": "fuel",
+      "via": [[5, 1]],
+      "line": "process",
+      "tag": "50-LO-005"
+    },
+    {
+      "from": "fa",
+      "to": "dva",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "15-LO-006"
+    },
+    {
+      "from": "dva",
+      "to": "dra",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "15-LO-007"
+    },
+    {
+      "from": "j1",
+      "to": "vbi",
+      "domain": "fuel",
+      "via": [[1, 5]],
+      "line": "process",
+      "tag": "50-LO-008"
+    },
+    {
+      "from": "vbi",
+      "to": "fb",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "50-LO-009"
+    },
+    {
+      "from": "fb",
+      "to": "vbo",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "50-LO-010"
+    },
+    {
+      "from": "vbo",
+      "to": "j2",
+      "domain": "fuel",
+      "via": [[5, 5]],
+      "line": "process",
+      "tag": "50-LO-011"
+    },
+    {
+      "from": "fb",
+      "to": "dvb",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "15-LO-012"
+    },
+    {
+      "from": "dvb",
+      "to": "drb",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "15-LO-013"
+    },
+    {
+      "from": "j2",
+      "to": "out",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "50-LO-014"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Lube Oil Systems",
+    "project": "Lube oil console",
+    "drawnBy": "VP",
+    "checkedBy": "-",
+    "approvedBy": "-",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "PDT-901A",
+      "at": [3, 0],
+      "measures": "fa",
+      "reads": "part('vai').effort - part('vao').effort",
+      "unit": "bar",
+      "mounting": "field"
+    },
+    {
+      "tag": "PDAH-901A",
+      "at": [4, 0],
+      "measures": "PDT-901A",
+      "reads": "part('vai').effort - part('vao').effort",
+      "unit": "bar",
+      "signal": "data",
+      "mounting": "dcs",
+      "high": 1
+    },
+    {
+      "tag": "PDT-901B",
+      "at": [3, 4],
+      "measures": "fb",
+      "reads": "part('vbi').effort - part('vbo').effort",
+      "unit": "bar",
+      "mounting": "field"
+    },
+    {
+      "tag": "PDAH-901B",
+      "at": [4, 4],
+      "measures": "PDT-901B",
+      "reads": "part('vbi').effort - part('vbo').effort",
+      "unit": "bar",
+      "signal": "data",
+      "mounting": "dcs",
+      "high": 1
+    },
+    {
+      "tag": "PG-901",
+      "at": [2, 3],
+      "measures": "j1",
+      "reads": "part('j1').effort",
+      "unit": "bar",
+      "mounting": "field"
+    },
+    {
+      "tag": "PG-902",
+      "at": [4, 3],
+      "measures": "j2",
+      "reads": "part('j2').effort",
+      "unit": "bar",
+      "mounting": "field"
+    }
+  ],
+  "switches": [
+    {
+      "id": "standbyIn",
+      "label": "F-901B isolating valves open",
+      "on": false
+    },
+    {
+      "id": "drainA",
+      "label": "F-901A drain open",
+      "on": false
+    },
+    {
+      "id": "drainB",
+      "label": "F-901B drain open",
+      "on": false
+    }
+  ],
+  "expect": [
+    {
+      "says": "oil reaches the bearings through the in-service filter F-901A",
+      "check": "part('out').in >= 0.999 * part('out').demand"
+    },
+    {
+      "says": "F-901A carries the whole flow",
+      "check": "part('fa').out > 70"
+    },
+    {
+      "says": "standby filter F-901B passes no oil while isolated",
+      "check": "part('fb').out < 0.001"
+    },
+    {
+      "says": "no oil is lost to the drains with the drain valves shut",
+      "check": "part('dra').in < 0.001 && part('drb').in < 0.001"
+    },
+    {
+      "says": "differential pressure across F-901A stays under the high alarm setting",
+      "check": "part('vai').effort - part('vao').effort < 1"
+    }
+  ]
+}

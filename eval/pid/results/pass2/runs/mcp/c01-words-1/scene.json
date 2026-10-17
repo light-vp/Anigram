@@ -1,0 +1,716 @@
+{
+  "anigram": 1,
+  "id": "utilities-123-a93",
+  "title": "Utilities section",
+  "subtitle": "Feed, transfer and product pumping with heat exchange and pressure control around T-4750",
+  "sheet": "123/A93",
+  "size": [19, 7],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "heat": {
+      "rate": "kW",
+      "amount": "kWh"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 40,
+    "heat": 10,
+    "electric": 20
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "river",
+      "label": "Feed from off sheet",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 20
+      }
+    },
+    {
+      "id": "power",
+      "kind": "grid",
+      "label": "Electricity",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": 50,
+        "dispatchable": true
+      }
+    },
+    {
+      "id": "p4711",
+      "kind": "pump",
+      "label": "Feed pump",
+      "at": [1, 2],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.1,
+          "water": 1
+        },
+        "capacity": 40
+      },
+      "tag": "P-4711",
+      "class": "CentrifugalPump",
+      "effort": {
+        "boost": 3
+      }
+    },
+    {
+      "id": "h1007",
+      "kind": "pump",
+      "label": "Plate heat exchanger",
+      "at": [2, 1],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "water": 1,
+          "heat": 0.05
+        },
+        "capacity": 40
+      },
+      "labelSide": "above",
+      "tag": "H-1007",
+      "class": "HeatExchanger"
+    },
+    {
+      "id": "u1in",
+      "kind": "sun",
+      "label": "Utility in",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "source",
+        "output": 5
+      }
+    },
+    {
+      "id": "u1out",
+      "kind": "sky",
+      "label": "Utility out",
+      "at": [3, 1],
+      "behaviour": {
+        "role": "vent"
+      }
+    },
+    {
+      "id": "hv",
+      "kind": "valve",
+      "label": "Actuated on/off globe valve",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 40,
+        "open": "on('hs475001') ? 1 : 0"
+      },
+      "tag": "HV-4750.01",
+      "class": "GlobeValve"
+    },
+    {
+      "id": "t4750",
+      "kind": "reservoir",
+      "label": "Tank",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 60,
+        "start": 0.5,
+        "maxIn": 80,
+        "maxOut": 80,
+        "refill": {
+          "below": 0.98,
+          "until": 1
+        }
+      },
+      "tag": "T-4750",
+      "class": "Tank",
+      "effort": {
+        "set": 0.2
+      }
+    },
+    {
+      "id": "bfv",
+      "kind": "valve",
+      "label": "Butterfly valve",
+      "at": [5, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": 1
+      },
+      "tag": "V-4724.01",
+      "class": "ButterflyValve"
+    },
+    {
+      "id": "chk",
+      "kind": "valve",
+      "label": "Swing check valve",
+      "at": [6, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": 1
+      },
+      "tag": "V-4724.02",
+      "class": "CheckValve"
+    },
+    {
+      "id": "red",
+      "kind": "valve",
+      "label": "Reducer",
+      "at": [7, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": 1
+      },
+      "tag": "RD-4724.01",
+      "class": "Reducer"
+    },
+    {
+      "id": "bv1",
+      "kind": "valve",
+      "label": "Ball valve",
+      "at": [8, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": 1
+      },
+      "tag": "V-4724.03",
+      "class": "BallValve"
+    },
+    {
+      "id": "p4712",
+      "kind": "pump",
+      "label": "Reciprocating pump",
+      "at": [9, 4],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.1,
+          "water": 1
+        },
+        "capacity": 60
+      },
+      "tag": "P-4712",
+      "class": "PositiveDisplacementPump",
+      "effort": {
+        "boost": 5
+      }
+    },
+    {
+      "id": "jd",
+      "kind": "manifold",
+      "label": "Tee",
+      "at": [10, 4],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "bvd",
+      "kind": "valve",
+      "label": "Drain ball valve",
+      "at": [11, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 10,
+        "open": 0
+      },
+      "tag": "V-4726.01",
+      "class": "BallValve"
+    },
+    {
+      "id": "drain",
+      "kind": "river",
+      "label": "Drain",
+      "at": [12, 5],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "labelSide": "right"
+    },
+    {
+      "id": "jsv",
+      "kind": "manifold",
+      "label": "Tee",
+      "at": [11, 4],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "sv",
+      "kind": "valve",
+      "label": "Safety valve",
+      "at": [12, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 30,
+        "relief": {
+          "at": 6,
+          "full": 6.6
+        }
+      },
+      "tag": "SV-104.01",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "jpi",
+      "kind": "manifold",
+      "label": "Tee",
+      "at": [12, 4],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "bvpi",
+      "kind": "valve",
+      "label": "Ball valve",
+      "at": [13, 5],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "tag": "V-4726.02",
+      "class": "BallValve"
+    },
+    {
+      "id": "bvh",
+      "kind": "valve",
+      "label": "Header ball valve",
+      "at": [13, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": 1
+      },
+      "tag": "V-4726.03",
+      "class": "BallValve"
+    },
+    {
+      "id": "jh",
+      "kind": "manifold",
+      "label": "Tee",
+      "at": [14, 4],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "h1008",
+      "kind": "pump",
+      "label": "Floating-head exchanger",
+      "at": [15, 1],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "water": 1,
+          "heat": 0.05
+        },
+        "capacity": 40
+      },
+      "labelSide": "above",
+      "tag": "H-1008",
+      "class": "HeatExchanger"
+    },
+    {
+      "id": "jpic",
+      "kind": "manifold",
+      "label": "Tee",
+      "at": [15, 4],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "bvpic",
+      "kind": "valve",
+      "label": "Ball valve",
+      "at": [16, 4],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "tag": "V-4726.04",
+      "class": "BallValve"
+    },
+    {
+      "id": "prod",
+      "kind": "factory",
+      "label": "Product off sheet",
+      "at": [16, 5],
+      "behaviour": {
+        "role": "sink",
+        "demand": 20
+      }
+    },
+    {
+      "id": "pv",
+      "kind": "valve",
+      "label": "Pressure control valve",
+      "at": [16, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 60,
+        "open": "clamp(0.5 + 0.5 * (prev('p4712').effort - 5), 0.1, 1)"
+      },
+      "tag": "PV-4712.02",
+      "class": "ControlValve"
+    },
+    {
+      "id": "u2in",
+      "kind": "sun",
+      "label": "Utility in",
+      "at": [14, 1],
+      "behaviour": {
+        "role": "source",
+        "output": 5
+      }
+    },
+    {
+      "id": "tv",
+      "kind": "valve",
+      "label": "Temperature control valve",
+      "at": [16, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 10,
+        "open": 0.6
+      },
+      "labelSide": "below",
+      "tag": "TV-4750.03",
+      "class": "ControlValve"
+    },
+    {
+      "id": "u2out",
+      "kind": "sky",
+      "label": "Utility out",
+      "at": [17, 1],
+      "behaviour": {
+        "role": "vent"
+      },
+      "labelSide": "above"
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "p4711",
+      "domain": "water",
+      "tag": "47121"
+    },
+    {
+      "from": "power",
+      "to": "p4711",
+      "domain": "electric"
+    },
+    {
+      "from": "power",
+      "to": "p4712",
+      "domain": "electric"
+    },
+    {
+      "from": "p4711",
+      "to": "h1007",
+      "domain": "water",
+      "via": [
+        [1.5, 2],
+        [1.5, 1]
+      ],
+      "tag": "47122"
+    },
+    {
+      "from": "u1in",
+      "to": "h1007",
+      "domain": "heat",
+      "line": "utility",
+      "tag": "47130"
+    },
+    {
+      "from": "h1007",
+      "to": "u1out",
+      "domain": "heat",
+      "loss": true,
+      "line": "utility",
+      "tag": "47131"
+    },
+    {
+      "from": "h1007",
+      "to": "hv",
+      "domain": "water",
+      "via": [
+        [2.5, 1],
+        [2.5, 2]
+      ],
+      "tag": "47123"
+    },
+    {
+      "from": "t4750",
+      "to": "bfv",
+      "domain": "water",
+      "via": [
+        [4.5, 2],
+        [4.5, 4]
+      ],
+      "tag": "47124"
+    },
+    {
+      "from": "p4712",
+      "to": "jd",
+      "domain": "water",
+      "tag": "47126"
+    },
+    {
+      "from": "sv",
+      "to": "t4750",
+      "domain": "water",
+      "via": [
+        [4.5, 3],
+        [4.5, 2]
+      ],
+      "tag": "47125"
+    },
+    {
+      "from": "h1008",
+      "to": "pv",
+      "domain": "water",
+      "via": [
+        [15.5, 1],
+        [15.5, 2]
+      ],
+      "tag": "47127"
+    },
+    {
+      "from": "u2in",
+      "to": "h1008",
+      "domain": "heat",
+      "line": "utility",
+      "tag": "47140"
+    },
+    {
+      "from": "h1008",
+      "to": "tv",
+      "domain": "heat",
+      "loss": true,
+      "line": "utility",
+      "tag": "47141"
+    },
+    {
+      "from": "hv",
+      "to": "t4750",
+      "domain": "water"
+    },
+    {
+      "from": "bfv",
+      "to": "chk",
+      "domain": "water"
+    },
+    {
+      "from": "chk",
+      "to": "red",
+      "domain": "water"
+    },
+    {
+      "from": "red",
+      "to": "bv1",
+      "domain": "water"
+    },
+    {
+      "from": "bv1",
+      "to": "p4712",
+      "domain": "water"
+    },
+    {
+      "from": "jd",
+      "to": "bvd",
+      "domain": "water",
+      "via": [
+        [10.5, 4],
+        [10.5, 5]
+      ]
+    },
+    {
+      "from": "bvd",
+      "to": "drain",
+      "domain": "water"
+    },
+    {
+      "from": "jd",
+      "to": "jsv",
+      "domain": "water"
+    },
+    {
+      "from": "jsv",
+      "to": "sv",
+      "domain": "water",
+      "via": [
+        [11.5, 4],
+        [11.5, 3]
+      ]
+    },
+    {
+      "from": "jsv",
+      "to": "jpi",
+      "domain": "water"
+    },
+    {
+      "from": "jpi",
+      "to": "bvpi",
+      "domain": "water",
+      "via": [
+        [12.5, 4],
+        [12.5, 5]
+      ]
+    },
+    {
+      "from": "jpi",
+      "to": "bvh",
+      "domain": "water"
+    },
+    {
+      "from": "bvh",
+      "to": "jh",
+      "domain": "water"
+    },
+    {
+      "from": "jh",
+      "to": "h1008",
+      "domain": "water",
+      "via": [
+        [14.5, 4],
+        [14.5, 1]
+      ]
+    },
+    {
+      "from": "jh",
+      "to": "jpic",
+      "domain": "water"
+    },
+    {
+      "from": "jpic",
+      "to": "bvpic",
+      "domain": "water"
+    },
+    {
+      "from": "jpic",
+      "to": "prod",
+      "domain": "water",
+      "via": [
+        [15.5, 4],
+        [15.5, 5]
+      ]
+    },
+    {
+      "from": "pv",
+      "to": "t4750",
+      "domain": "water"
+    },
+    {
+      "from": "tv",
+      "to": "u2out",
+      "domain": "heat",
+      "line": "utility"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "TBC",
+    "project": "Utilities section",
+    "drawnBy": "TBC",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "HS-4750.01",
+      "at": [4, 1],
+      "measures": "hv",
+      "drives": "hv",
+      "mounting": "panel"
+    },
+    {
+      "tag": "PI-4712.01",
+      "at": [12, 6],
+      "measures": "bvpi"
+    },
+    {
+      "tag": "PT-4712.02",
+      "at": [16, 3],
+      "measures": "bvpic"
+    },
+    {
+      "tag": "PICSA-4712.02",
+      "at": [18, 1],
+      "measures": "PT-4712.02",
+      "drives": "pv",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "TT-4750.03",
+      "at": [5, 1],
+      "measures": "t4750"
+    },
+    {
+      "tag": "TICSA-4750.03",
+      "at": [16, 0],
+      "measures": "TT-4750.03",
+      "drives": "tv",
+      "mounting": "dcs"
+    }
+  ],
+  "switches": [
+    {
+      "id": "hs475001",
+      "label": "HS-4750.01 open HV-4750.01",
+      "on": true
+    }
+  ],
+  "expect": [
+    {
+      "says": "HV-4750.01 is open under HS-4750.01 and the feed reaches T-4750",
+      "check": "part('hv').in > 0.5"
+    },
+    {
+      "says": "SV-104.01 stays shut: discharge pressure is below its 6 barg set point",
+      "check": "part('sv').out < 0.01"
+    },
+    {
+      "says": "The drain valve is shut and nothing goes to drain",
+      "check": "part('drain').in < 0.01"
+    },
+    {
+      "says": "Product leaves the sheet at its demand",
+      "check": "part('prod').in >= 0.99 * part('prod').demand"
+    },
+    {
+      "says": "P-4712 discharge pressure stays under the 6 barg relief set point",
+      "check": "part('p4712').effort < 6"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "items": [
+    {
+      "tag": "TM-1301",
+      "type": "trunk main connection",
+      "label": "Trunk main, 10 bar"
+    },
+    { "tag": "STR-1301", "type": "strainer", "label": "Inlet strainer" },
+    {
+      "tag": "PI-1301",
+      "type": "pressure gauge",
+      "label": "Upstream pressure gauge"
+    },
+    {
+      "tag": "HV-1301A1",
+      "type": "isolating valve",
+      "label": "Stream A inlet isolating valve"
+    },
+    {
+      "tag": "PCV-1301A",
+      "type": "pressure-reducing valve",
+      "label": "Stream A PRV (duty)"
+    },
+    {
+      "tag": "HV-1301A2",
+      "type": "isolating valve",
+      "label": "Stream A outlet isolating valve"
+    },
+    {
+      "tag": "HV-1301B1",
+      "type": "isolating valve",
+      "label": "Stream B inlet isolating valve"
+    },
+    {
+      "tag": "PCV-1301B",
+      "type": "pressure-reducing valve",
+      "label": "Stream B PRV (standby)"
+    },
+    {
+      "tag": "HV-1301B2",
+      "type": "isolating valve",
+      "label": "Stream B outlet isolating valve"
+    },
+    {
+      "tag": "PI-1302",
+      "type": "pressure gauge",
+      "label": "Downstream pressure gauge"
+    },
+    {
+      "tag": "PSV-1301",
+      "type": "pressure relief valve",
+      "label": "Relief valve, set 6 bar, normally shut"
+    },
+    { "tag": "D-1301", "type": "drain", "label": "Relief discharge drain" },
+    {
+      "tag": "DM-1301",
+      "type": "district main connection",
+      "label": "District main, 4 bar"
+    }
+  ],
+  "lines": [
+    { "from": "TM-1301", "to": "STR-1301", "kind": "process" },
+    { "from": "STR-1301", "to": "PI-1301", "kind": "process" },
+    { "from": "STR-1301", "to": "HV-1301A1", "kind": "process" },
+    { "from": "HV-1301A1", "to": "PCV-1301A", "kind": "process" },
+    { "from": "PCV-1301A", "to": "HV-1301A2", "kind": "process" },
+    { "from": "HV-1301A2", "to": "DM-1301", "kind": "process" },
+    { "from": "STR-1301", "to": "HV-1301B1", "kind": "process" },
+    { "from": "HV-1301B1", "to": "PCV-1301B", "kind": "process" },
+    { "from": "PCV-1301B", "to": "HV-1301B2", "kind": "process" },
+    { "from": "HV-1301B2", "to": "DM-1301", "kind": "process" },
+    { "from": "DM-1301", "to": "PI-1302", "kind": "process" },
+    { "from": "DM-1301", "to": "PSV-1301", "kind": "process" },
+    { "from": "PSV-1301", "to": "D-1301", "kind": "process" }
+  ]
+}

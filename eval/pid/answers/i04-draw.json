@@ -1,0 +1,45 @@
+{
+  "id": "i04-draw",
+  "source": "DEXPI e.V. TrainingTestCases, dexpi-i04-measurement-control.xml (CC BY 4.0)",
+  "derived": "derive-dexpi.mjs",
+  "valves": [
+    {
+      "family": ["control"],
+      "tag": "^FV04$",
+      "says": "FV 04 (actuated GlobeValve)"
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["FE", "FT", "FIT"],
+      "number": "04",
+      "says": "FE 04 (FlowMeasuringElement)"
+    },
+    {
+      "letters": "FIC",
+      "number": "04",
+      "says": "FIC 04"
+    }
+  ],
+  "loops": [
+    {
+      "says": "FIC 04 → FV 04",
+      "controller": [
+        {
+          "letters": "FIC",
+          "number": "04"
+        }
+      ],
+      "final": {
+        "family": ["control"],
+        "tag": "^FV04$"
+      },
+      "sensor": [
+        {
+          "variable": "F",
+          "min": 1
+        }
+      ]
+    }
+  ]
+}

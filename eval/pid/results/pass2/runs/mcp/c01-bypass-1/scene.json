@@ -1,0 +1,844 @@
+{
+  "anigram": 1,
+  "id": "dexpi-example-pid",
+  "title": "DEXPI example PID",
+  "subtitle": "DEXPI Beispiel-R&I",
+  "sheet": "123/A93",
+  "size": [20, 7],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "heat": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 120,
+    "heat": 60
+  },
+  "parts": [
+    {
+      "id": "h-1007",
+      "kind": "radiator",
+      "label": "Plate heat exchanger",
+      "at": [2, 1],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "water": 1,
+          "heat": 0.1
+        }
+      },
+      "note": "Plate heat exchanger in the DEXPI file (PlateHeatExchanger-1).",
+      "tag": "H-1007",
+      "class": "HeatExchanger"
+    },
+    {
+      "id": "h-1008",
+      "kind": "radiator",
+      "label": "Tubular heat exchanger",
+      "at": [14, 3],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "water": 1,
+          "heat": 0.1
+        }
+      },
+      "note": "Tubular heat exchanger in the DEXPI file (TubularHeatExchanger-1).",
+      "tag": "H-1008",
+      "class": "HeatExchanger"
+    },
+    {
+      "id": "p-4711",
+      "kind": "pump",
+      "label": "Centrifugal pump",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 90,
+        "open": "on('p-4711') ? 1 : 0"
+      },
+      "note": "Centrifugal pump in the DEXPI file (CentrifugalPump-1).",
+      "toggles": "p-4711",
+      "tag": "P-4711",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "p-4712",
+      "kind": "pump",
+      "label": "Reciprocating pump",
+      "at": [8, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 90,
+        "open": "on('p-4712') ? 1 : 0"
+      },
+      "note": "Reciprocating pump in the DEXPI file (ReciprocatingPump-1).",
+      "toggles": "p-4712",
+      "tag": "P-4712",
+      "class": "PositiveDisplacementPump"
+    },
+    {
+      "id": "t-4750",
+      "kind": "reservoir",
+      "label": "Tank",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 240,
+        "start": 0.5,
+        "maxIn": 120,
+        "maxOut": 120
+      },
+      "note": "Tank in the DEXPI file (Tank-1).",
+      "tag": "T-4750",
+      "class": "Tank"
+    },
+    {
+      "id": "off-page-connector",
+      "kind": "well",
+      "label": "From elsewhere",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": 90
+      },
+      "note": "Flow in pipe off page connector in the DEXPI file (FlowInPipeOffPageConnector-1).",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "globe-valve",
+      "kind": "valve",
+      "label": "Globe valve",
+      "at": [3, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "knob('globe-valve-opening')"
+      },
+      "note": "Globe valve in the DEXPI file (GlobeValve-2).",
+      "tag": "HV-4750.01",
+      "class": "ControlValve"
+    },
+    {
+      "id": "butterfly-valve",
+      "kind": "valve",
+      "label": "Butterfly valve",
+      "at": [5, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "on('butterfly-valve') ? 1 : 0"
+      },
+      "note": "Butterfly valve in the DEXPI file (ButterflyValve-1).",
+      "toggles": "butterfly-valve",
+      "class": "ButterflyValve"
+    },
+    {
+      "id": "check-valve",
+      "kind": "valve",
+      "label": "Swing check valve",
+      "at": [6, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180
+      },
+      "note": "Swing check valve in the DEXPI file (SwingCheckValve-1).",
+      "class": "CheckValve"
+    },
+    {
+      "id": "ball-valve",
+      "kind": "valve",
+      "label": "Ball valve",
+      "at": [7, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "on('ball-valve') ? 1 : 0"
+      },
+      "note": "Ball valve in the DEXPI file (BallValve-1).",
+      "toggles": "ball-valve",
+      "class": "BallValve"
+    },
+    {
+      "id": "safety-valve",
+      "kind": "valve",
+      "label": "Spring loaded globe safety valve",
+      "at": [11, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 0
+      },
+      "note": "Spring loaded globe safety valve in the DEXPI file (SpringLoadedGlobeSafetyValve-1).",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "junction",
+      "kind": "manifold",
+      "label": "Pipe tee",
+      "at": [9, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "note": "Pipe tee in the DEXPI file (PipeTee-2).",
+      "class": "Junction"
+    },
+    {
+      "id": "ball-valve-2",
+      "kind": "valve",
+      "label": "Ball valve",
+      "at": [10, 4],
+      "behaviour": {
+        "role": "sink",
+        "demand": "on('ball-valve-2') ? 15 : 0"
+      },
+      "note": "Ball valve in the DEXPI file (BallValve-2).",
+      "toggles": "ball-valve-2",
+      "class": "BallValve"
+    },
+    {
+      "id": "junction-2",
+      "kind": "manifold",
+      "label": "Pipe tee",
+      "at": [10, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "note": "Pipe tee in the DEXPI file (PipeTee-1).",
+      "class": "Junction"
+    },
+    {
+      "id": "junction-3",
+      "kind": "manifold",
+      "label": "Pipe tee",
+      "at": [11, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "note": "Pipe tee in the DEXPI file (PipeTee-3).",
+      "class": "Junction"
+    },
+    {
+      "id": "ball-valve-3",
+      "kind": "valve",
+      "label": "Ball valve",
+      "at": [12, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "note": "Ball valve in the DEXPI file (BallValve-3).",
+      "class": "BallValve"
+    },
+    {
+      "id": "ball-valve-4",
+      "kind": "valve",
+      "label": "Ball valve",
+      "at": [12, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "on('ball-valve-4') ? 1 : 0"
+      },
+      "note": "Ball valve in the DEXPI file (BallValve-4).",
+      "toggles": "ball-valve-4",
+      "class": "BallValve"
+    },
+    {
+      "id": "junction-4",
+      "kind": "manifold",
+      "label": "Pipe tee",
+      "at": [13, 4],
+      "behaviour": {
+        "role": "bus"
+      },
+      "note": "Pipe tee in the DEXPI file (PipeTee-4).",
+      "class": "Junction"
+    },
+    {
+      "id": "junction-5",
+      "kind": "manifold",
+      "label": "Pipe tee",
+      "at": [14, 4],
+      "behaviour": {
+        "role": "bus"
+      },
+      "note": "Pipe tee in the DEXPI file (PipeTee-5).",
+      "class": "Junction"
+    },
+    {
+      "id": "ball-valve-5",
+      "kind": "valve",
+      "label": "Ball valve",
+      "at": [15, 5],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "note": "Ball valve in the DEXPI file (BallValve-5).",
+      "class": "BallValve"
+    },
+    {
+      "id": "off-page-connector-2",
+      "kind": "tap",
+      "label": "To elsewhere",
+      "at": [15, 6],
+      "behaviour": {
+        "role": "sink",
+        "demand": "60 * knob('throughput')"
+      },
+      "note": "Flow out pipe off page connector in the DEXPI file (FlowOutPipeOffPageConnector-1).",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "globe-valve-2",
+      "kind": "valve",
+      "label": "Globe valve",
+      "at": [17, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "knob('globe-valve-2-opening')"
+      },
+      "note": "Globe valve in the DEXPI file (GlobeValve-1).",
+      "labelSide": "below",
+      "tag": "PV-4712.02",
+      "class": "ControlValve"
+    },
+    {
+      "id": "off-page-connector-3",
+      "kind": "well",
+      "label": "In",
+      "at": [1, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 90
+      },
+      "note": "Flow in pipe off page connector in the DEXPI file (open-1).",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "off-page-connector-4",
+      "kind": "sky",
+      "label": "Out",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "vent"
+      },
+      "note": "Flow out pipe off page connector in the DEXPI file (open-2).",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "off-page-connector-5",
+      "kind": "well",
+      "label": "In",
+      "at": [13, 3],
+      "behaviour": {
+        "role": "source",
+        "output": 90
+      },
+      "note": "Flow in pipe off page connector in the DEXPI file (open-3).",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "globe-valve-3",
+      "kind": "valve",
+      "label": "Globe valve",
+      "at": [15, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "knob('globe-valve-3-opening')"
+      },
+      "note": "Globe valve in the DEXPI file (GlobeValve-3).",
+      "labelSide": "below",
+      "tag": "TV-4750.03",
+      "class": "ControlValve"
+    },
+    {
+      "id": "off-page-connector-6",
+      "kind": "sky",
+      "label": "Out",
+      "at": [16, 5],
+      "behaviour": {
+        "role": "vent"
+      },
+      "note": "Flow out pipe off page connector in the DEXPI file (open-4).",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "junction-6",
+      "kind": "manifold",
+      "label": "Bypass tee upstream",
+      "at": [15, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "bv-up",
+      "kind": "valve",
+      "label": "Block valve (upstream)",
+      "at": [16, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "on('bv-up') ? 1 : 0"
+      },
+      "labelSide": "above",
+      "toggles": "bv-up",
+      "class": "GateValve"
+    },
+    {
+      "id": "bv-down",
+      "kind": "valve",
+      "label": "Block valve (downstream)",
+      "at": [18, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "on('bv-down') ? 1 : 0"
+      },
+      "labelSide": "above",
+      "toggles": "bv-down",
+      "class": "GateValve"
+    },
+    {
+      "id": "junction-7",
+      "kind": "manifold",
+      "label": "Bypass tee downstream",
+      "at": [19, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "bypass-valve",
+      "kind": "valve",
+      "label": "Bypass globe valve (hand)",
+      "at": [16, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "on('bypass-valve') ? 1 : 0"
+      },
+      "toggles": "bypass-valve",
+      "class": "GlobeValve"
+    }
+  ],
+  "links": [
+    {
+      "from": "h-1007",
+      "to": "globe-valve",
+      "domain": "water",
+      "tag": "80-MNb-47123"
+    },
+    {
+      "from": "h-1007",
+      "to": "off-page-connector-4",
+      "domain": "heat",
+      "via": [
+        [2.5, 1],
+        [2.5, 2]
+      ],
+      "loss": true,
+      "tag": "50-WKb-47131"
+    },
+    {
+      "from": "h-1008",
+      "to": "globe-valve-3",
+      "domain": "heat",
+      "via": [
+        [14.5, 3],
+        [14.5, 4]
+      ],
+      "loss": true,
+      "tag": "50-QSb-47141"
+    },
+    {
+      "from": "p-4711",
+      "to": "h-1007",
+      "domain": "water",
+      "tag": "80-MNb-47122"
+    },
+    {
+      "from": "p-4712",
+      "to": "junction",
+      "domain": "water",
+      "tag": "50-MNc-47126"
+    },
+    {
+      "from": "t-4750",
+      "to": "butterfly-valve",
+      "domain": "water",
+      "via": [
+        [4.5, 1],
+        [4.5, 3]
+      ],
+      "tag": "80-MNc-47124"
+    },
+    {
+      "from": "off-page-connector",
+      "to": "p-4711",
+      "domain": "water",
+      "tag": "80-MNb-47121"
+    },
+    {
+      "from": "globe-valve",
+      "to": "t-4750",
+      "domain": "water",
+      "tag": "80-MNb-47123"
+    },
+    {
+      "from": "butterfly-valve",
+      "to": "check-valve",
+      "domain": "water",
+      "tag": "80-MNc-47124"
+    },
+    {
+      "from": "check-valve",
+      "to": "ball-valve",
+      "domain": "water",
+      "tag": "80-MNc-47124"
+    },
+    {
+      "from": "ball-valve",
+      "to": "p-4712",
+      "domain": "water",
+      "tag": "80-MNc-47124"
+    },
+    {
+      "from": "safety-valve",
+      "to": "t-4750",
+      "domain": "water",
+      "tag": "25-MNc-47125"
+    },
+    {
+      "from": "junction",
+      "to": "ball-valve-2",
+      "domain": "water",
+      "via": [
+        [9.5, 3],
+        [9.5, 4]
+      ],
+      "tag": "50-MNc-47126"
+    },
+    {
+      "from": "junction",
+      "to": "junction-2",
+      "domain": "water",
+      "tag": "50-MNc-47126"
+    },
+    {
+      "from": "junction-2",
+      "to": "safety-valve",
+      "domain": "water",
+      "via": [
+        [10.5, 3],
+        [10.5, 1]
+      ],
+      "tag": "25-MNc-47125"
+    },
+    {
+      "from": "junction-2",
+      "to": "junction-3",
+      "domain": "water",
+      "tag": "50-MNc-47126"
+    },
+    {
+      "from": "junction-3",
+      "to": "ball-valve-3",
+      "domain": "water",
+      "tag": "50-MNc-47126"
+    },
+    {
+      "from": "junction-3",
+      "to": "ball-valve-4",
+      "domain": "water",
+      "via": [
+        [11.5, 3],
+        [11.5, 4]
+      ],
+      "tag": "50-MNc-47126"
+    },
+    {
+      "from": "ball-valve-4",
+      "to": "junction-4",
+      "domain": "water",
+      "tag": "50-MNc-47126"
+    },
+    {
+      "from": "junction-4",
+      "to": "h-1008",
+      "domain": "water",
+      "via": [
+        [13.5, 4],
+        [13.5, 3]
+      ],
+      "tag": "50-MNc-47126"
+    },
+    {
+      "from": "junction-4",
+      "to": "junction-5",
+      "domain": "water",
+      "tag": "50-MNc-47126"
+    },
+    {
+      "from": "junction-5",
+      "to": "ball-valve-5",
+      "domain": "water",
+      "via": [
+        [14.5, 4],
+        [14.5, 5]
+      ],
+      "tag": "50-MNc-47126"
+    },
+    {
+      "from": "junction-5",
+      "to": "off-page-connector-2",
+      "domain": "water",
+      "via": [
+        [14.5, 4],
+        [14.5, 6]
+      ],
+      "tag": "50-MNc-47126"
+    },
+    {
+      "from": "off-page-connector-3",
+      "to": "h-1007",
+      "domain": "heat",
+      "via": [
+        [1.5, 2],
+        [1.5, 1]
+      ],
+      "tag": "50-WKa-47130"
+    },
+    {
+      "from": "off-page-connector-5",
+      "to": "h-1008",
+      "domain": "heat",
+      "tag": "50-QSa-47140"
+    },
+    {
+      "from": "globe-valve-3",
+      "to": "off-page-connector-6",
+      "domain": "heat",
+      "via": [
+        [15.5, 4],
+        [15.5, 5]
+      ],
+      "tag": "50-QSb-47141"
+    },
+    {
+      "from": "h-1008",
+      "to": "junction-6",
+      "domain": "water",
+      "tag": "50-MNc-47127"
+    },
+    {
+      "from": "junction-6",
+      "to": "bv-up",
+      "domain": "water",
+      "via": [
+        [15.5, 3],
+        [15.5, 4]
+      ],
+      "tag": "50-MNc-47127"
+    },
+    {
+      "from": "bv-up",
+      "to": "globe-valve-2",
+      "domain": "water",
+      "tag": "50-MNc-47127"
+    },
+    {
+      "from": "globe-valve-2",
+      "to": "bv-down",
+      "domain": "water",
+      "tag": "50-MNc-47127"
+    },
+    {
+      "from": "bv-down",
+      "to": "junction-7",
+      "domain": "water",
+      "via": [
+        [18.5, 4],
+        [18.5, 3]
+      ],
+      "tag": "50-MNc-47127"
+    },
+    {
+      "from": "junction-6",
+      "to": "bypass-valve",
+      "domain": "water",
+      "tag": "50-MNc-47127"
+    },
+    {
+      "from": "bypass-valve",
+      "to": "junction-7",
+      "domain": "water",
+      "tag": "50-MNc-47127"
+    },
+    {
+      "from": "junction-7",
+      "to": "t-4750",
+      "domain": "water",
+      "via": [
+        [19, 0],
+        [4, 0]
+      ],
+      "tag": "50-MNc-47127"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Oil & Gas, Inc.",
+    "project": "a project",
+    "drawnBy": "D. Rafter",
+    "checkedBy": "C. Hecker",
+    "approvedBy": "A. P. Prover",
+    "issued": "2016-04-01",
+    "revision": "R2.2",
+    "status": "genehmigt"
+  },
+  "instruments": [
+    {
+      "tag": "PI-4712.01",
+      "at": [11, 4],
+      "measures": "ball-valve-3"
+    },
+    {
+      "tag": "PICSA-4712.02",
+      "at": [17, 5],
+      "measures": "ball-valve-5",
+      "drives": "globe-valve-2",
+      "mounting": "panel"
+    },
+    {
+      "tag": "HS-4750.01",
+      "at": [3, 0],
+      "measures": "globe-valve",
+      "drives": "globe-valve",
+      "mounting": "panel"
+    },
+    {
+      "tag": "TICSA-4750.03",
+      "at": [14, 5],
+      "measures": "t-4750",
+      "drives": "globe-valve-3",
+      "mounting": "panel"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "throughput",
+      "label": "throughput",
+      "value": 1,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05,
+      "format": "{pct}%"
+    },
+    {
+      "id": "globe-valve-opening",
+      "label": "HV-4750.01 opening",
+      "value": 0.8,
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "format": "{pct}%"
+    },
+    {
+      "id": "globe-valve-2-opening",
+      "label": "PV-4712.02 opening",
+      "value": 0.8,
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "format": "{pct}%"
+    },
+    {
+      "id": "globe-valve-3-opening",
+      "label": "TV-4750.03 opening",
+      "value": 0.8,
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "format": "{pct}%"
+    }
+  ],
+  "switches": [
+    {
+      "id": "p-4711",
+      "label": "P-4711 running",
+      "on": true
+    },
+    {
+      "id": "p-4712",
+      "label": "P-4712 running",
+      "on": true
+    },
+    {
+      "id": "butterfly-valve",
+      "label": "Butterfly valve open",
+      "on": true
+    },
+    {
+      "id": "ball-valve",
+      "label": "Ball valve open",
+      "on": true
+    },
+    {
+      "id": "ball-valve-2",
+      "label": "Ball valve open",
+      "on": false
+    },
+    {
+      "id": "ball-valve-4",
+      "label": "Ball valve open",
+      "on": true
+    },
+    {
+      "id": "bv-up",
+      "label": "PV-4712.02 upstream block valve open",
+      "on": true
+    },
+    {
+      "id": "bv-down",
+      "label": "PV-4712.02 downstream block valve open",
+      "on": true
+    },
+    {
+      "id": "bypass-valve",
+      "label": "PV-4712.02 bypass globe valve open",
+      "on": false
+    }
+  ],
+  "expect": [
+    {
+      "says": "PV-4712.02 is in service: both block valves open and the bypass globe valve shut",
+      "check": "on('bv-up') == 1 && on('bv-down') == 1 && on('bypass-valve') == 0"
+    },
+    {
+      "says": "no flow goes round the bypass while PV-4712.02 is in service",
+      "check": "part('bypass-valve').in == 0"
+    },
+    {
+      "says": "the process line to P-4712 and the feed to T-4750 are unaffected",
+      "check": "part('p-4712').in > 0 && part('globe-valve').out > 0"
+    }
+  ]
+}

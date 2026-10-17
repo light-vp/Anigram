@@ -1,0 +1,338 @@
+{
+  "anigram": 1,
+  "id": "reactor-jacket",
+  "title": "Jacketed Stirred Reactor R-1001",
+  "subtitle": "Level-fed reactor with temperature-controlled jacket cooling and relief to a catch tank",
+  "sheet": "PID-1001",
+  "size": [9, 5],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 12,
+    "electric": 5
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "river",
+      "label": "Feed from off sheet",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 10
+      }
+    },
+    {
+      "id": "fv",
+      "kind": "valve",
+      "label": "Feed control valve",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 12,
+        "open": "clamp((0.7 - prev('r').fill) / 0.1, 0, 1)"
+      },
+      "tag": "FV-1001",
+      "class": "ControlValve"
+    },
+    {
+      "id": "r",
+      "kind": "reservoir",
+      "label": "Jacketed reactor, agitated",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 20,
+        "start": 0.5,
+        "maxIn": 12,
+        "maxOut": 20
+      },
+      "tag": "R-1001",
+      "class": "Vessel",
+      "effort": {
+        "set": 5
+      }
+    },
+    {
+      "id": "power",
+      "kind": "grid",
+      "label": "Electricity",
+      "at": [7, 3],
+      "behaviour": {
+        "role": "source",
+        "output": 10
+      }
+    },
+    {
+      "id": "pump",
+      "kind": "pump",
+      "label": "Product pump",
+      "at": [6, 2],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.1,
+          "water": 1
+        },
+        "capacity": 8
+      },
+      "tag": "P-1001",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "prod",
+      "kind": "factory",
+      "label": "Product to off sheet",
+      "at": [8, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 8
+      }
+    },
+    {
+      "id": "cwin",
+      "kind": "river",
+      "label": "CW supply",
+      "at": [0, 4],
+      "behaviour": {
+        "role": "source",
+        "output": 20
+      }
+    },
+    {
+      "id": "tv",
+      "kind": "valve",
+      "label": "Cooling water valve",
+      "at": [2, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 20,
+        "open": "clamp(0.2 + 0.6 * knob('exotherm'), 0, 1)"
+      },
+      "tag": "TV-1001",
+      "class": "ControlValve"
+    },
+    {
+      "id": "jacket",
+      "kind": "valve",
+      "label": "Reactor jacket",
+      "at": [4, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 20
+      },
+      "tag": "E-1001",
+      "class": "HeatExchanger"
+    },
+    {
+      "id": "cwret",
+      "kind": "river",
+      "label": "CW return",
+      "at": [6, 4],
+      "behaviour": {
+        "role": "sink",
+        "demand": 20,
+        "absorbsSurplus": true
+      }
+    },
+    {
+      "id": "disc",
+      "kind": "valve",
+      "label": "Rupture disc",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 30,
+        "relief": {
+          "at": 11,
+          "full": 12
+        }
+      },
+      "labelSide": "left",
+      "tag": "PSE-1001",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "psv",
+      "kind": "valve",
+      "label": "Relief valve",
+      "at": [4, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 30,
+        "relief": {
+          "at": 10,
+          "full": 11
+        }
+      },
+      "labelSide": "left",
+      "tag": "PSV-1001",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "catch",
+      "kind": "river",
+      "label": "Catch tank off sheet",
+      "at": [6, 0],
+      "behaviour": {
+        "role": "sink",
+        "demand": 30,
+        "absorbsSurplus": true
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "fv",
+      "domain": "water",
+      "tag": "50-P-001"
+    },
+    {
+      "from": "fv",
+      "to": "r",
+      "domain": "water",
+      "tag": "50-P-002"
+    },
+    {
+      "from": "r",
+      "to": "pump",
+      "domain": "water",
+      "tag": "50-P-003"
+    },
+    {
+      "from": "power",
+      "to": "pump",
+      "domain": "electric"
+    },
+    {
+      "from": "pump",
+      "to": "prod",
+      "domain": "water",
+      "tag": "50-P-004"
+    },
+    {
+      "from": "cwin",
+      "to": "tv",
+      "domain": "water",
+      "tag": "40-CW-001"
+    },
+    {
+      "from": "tv",
+      "to": "jacket",
+      "domain": "water",
+      "tag": "40-CW-002"
+    },
+    {
+      "from": "jacket",
+      "to": "cwret",
+      "domain": "water",
+      "tag": "40-CW-003"
+    },
+    {
+      "from": "r",
+      "to": "disc",
+      "domain": "water",
+      "tag": "25-P-005"
+    },
+    {
+      "from": "disc",
+      "to": "psv",
+      "domain": "water",
+      "tag": "25-P-006"
+    },
+    {
+      "from": "psv",
+      "to": "catch",
+      "domain": "water",
+      "tag": "25-P-007"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Your organisation",
+    "project": "Reactor R-1001",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "FT-1001",
+      "at": [1, 1],
+      "measures": "fv"
+    },
+    {
+      "tag": "FIC-1001",
+      "at": [2, 1],
+      "measures": "FT-1001",
+      "drives": "fv",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "LT-1001",
+      "at": [5, 1],
+      "measures": "r",
+      "low": 20,
+      "high": 90
+    },
+    {
+      "tag": "TT-1001",
+      "at": [4, 3],
+      "measures": "r",
+      "reads": "80 + 10 * knob('exotherm') - 12 * part('tv').out / 20",
+      "unit": "°C"
+    },
+    {
+      "tag": "TIC-1001",
+      "at": [3, 3],
+      "measures": "TT-1001",
+      "drives": "tv",
+      "mounting": "dcs"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "exotherm",
+      "label": "reaction heat",
+      "value": 0.5,
+      "format": "{pct}%"
+    }
+  ],
+  "expect": [
+    {
+      "says": "feed control holds the reactor level in band",
+      "check": "part('r').fill > 0.3 && part('r').fill < 0.9",
+      "from": 3,
+      "to": 23
+    },
+    {
+      "says": "product pump takes its duty off the bottom",
+      "check": "part('prod').in >= 0.99 * part('prod').demand",
+      "from": 6,
+      "to": 23
+    },
+    {
+      "says": "cooling water reaches the jacket and returns",
+      "check": "part('cwret').in > 1 && part('jacket').out > 1"
+    },
+    {
+      "says": "relief stays shut in normal operation",
+      "check": "part('psv').out < 0.001 && part('catch').in < 0.001"
+    }
+  ]
+}

@@ -1,0 +1,244 @@
+{
+  "id": "separator-control",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["separator", "vessel", "container"],
+      "tag": "^V701$",
+      "says": "separator V-701"
+    },
+    {
+      "family": "offpage",
+      "min": 4,
+      "says": "well fluid in, gas, oil and flare"
+    }
+  ],
+  "valves": [
+    {
+      "family": ["onoff", "control"],
+      "tag": "^SDV701$",
+      "says": "shutdown valve SDV-701"
+    },
+    {
+      "family": "control",
+      "tag": "^PV701$",
+      "says": "control valve PV-701"
+    },
+    {
+      "family": "control",
+      "tag": "^LV701$",
+      "says": "control valve LV-701"
+    },
+    {
+      "family": "relief",
+      "tag": "^PSV701$",
+      "says": "relief valve PSV-701"
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["PT", "PIT"],
+      "number": "701",
+      "on": {
+        "family": ["separator", "vessel", "container"],
+        "tag": "^V701$",
+        "says": "separator V-701"
+      },
+      "hops": 2,
+      "says": "PT-701"
+    },
+    {
+      "letters": "PIC",
+      "number": "701",
+      "says": "PIC-701"
+    },
+    {
+      "letters": ["LT", "LIT"],
+      "number": "701",
+      "on": {
+        "family": ["separator", "vessel", "container"],
+        "tag": "^V701$",
+        "says": "separator V-701"
+      },
+      "hops": 2,
+      "says": "LT-701"
+    },
+    {
+      "letters": "LIC",
+      "number": "701",
+      "says": "LIC-701"
+    },
+    {
+      "letters": ["LSHH", "LZHH", "LAHH"],
+      "number": "702",
+      "on": {
+        "family": ["separator", "vessel", "container"],
+        "tag": "^V701$",
+        "says": "separator V-701"
+      },
+      "hops": 2,
+      "says": "LSHH-702"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["separator", "vessel", "container"],
+        "tag": "^V701$",
+        "says": "separator V-701"
+      },
+      "via": [
+        {
+          "family": ["onoff", "control"],
+          "tag": "^SDV701$",
+          "says": "shutdown valve SDV-701"
+        }
+      ],
+      "says": "well fluid → V-701 through SDV-701"
+    },
+    {
+      "from": {
+        "family": ["separator", "vessel", "container"],
+        "tag": "^V701$",
+        "says": "separator V-701"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^PV701$",
+          "says": "control valve PV-701"
+        }
+      ],
+      "says": "gas → header through PV-701"
+    },
+    {
+      "from": {
+        "family": ["separator", "vessel", "container"],
+        "tag": "^V701$",
+        "says": "separator V-701"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^LV701$",
+          "says": "control valve LV-701"
+        }
+      ],
+      "says": "liquid → oil line through LV-701"
+    },
+    {
+      "from": {
+        "family": ["separator", "vessel", "container"],
+        "tag": "^V701$",
+        "says": "separator V-701"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "relief",
+          "tag": "^PSV701$",
+          "says": "relief valve PSV-701"
+        }
+      ],
+      "says": "V-701 → flare through PSV-701"
+    }
+  ],
+  "loops": [
+    {
+      "says": "PT-701 → PIC-701 → PV-701",
+      "controller": {
+        "letters": "PIC",
+        "number": "701"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^PV701$",
+        "says": "control valve PV-701"
+      },
+      "sensor": [
+        {
+          "variable": "P",
+          "on": {
+            "family": ["separator", "vessel", "container"],
+            "tag": "^V701$",
+            "says": "separator V-701"
+          }
+        }
+      ]
+    },
+    {
+      "says": "LT-701 → LIC-701 → LV-701",
+      "controller": {
+        "letters": "LIC",
+        "number": "701"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^LV701$",
+        "says": "control valve LV-701"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["separator", "vessel", "container"],
+            "tag": "^V701$",
+            "says": "separator V-701"
+          }
+        }
+      ]
+    },
+    {
+      "says": "LSHH-702 closes SDV-701",
+      "controller": [
+        {
+          "letters": "LSHH"
+        },
+        {
+          "letters": "LZHH"
+        },
+        {
+          "letters": "LSH"
+        },
+        {
+          "letters": "LZH"
+        },
+        {
+          "letters": "LAHH"
+        },
+        {
+          "letters": "US"
+        },
+        {
+          "letters": "UZ"
+        }
+      ],
+      "final": {
+        "family": ["onoff", "control"],
+        "tag": "^SDV701$",
+        "says": "shutdown valve SDV-701"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["separator", "vessel", "container"],
+            "tag": "^V701$",
+            "says": "separator V-701"
+          }
+        }
+      ]
+    }
+  ]
+}

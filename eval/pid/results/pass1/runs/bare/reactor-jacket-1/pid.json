@@ -1,0 +1,96 @@
+{
+  "items": [
+    { "tag": "R-1001", "type": "jacketed stirred reactor", "label": "Reactor" },
+    { "tag": "AG-1001", "type": "agitator", "label": "Reactor agitator" },
+    { "tag": "P-1001", "type": "centrifugal pump", "label": "Product pump" },
+    {
+      "tag": "FV-1001",
+      "type": "control valve",
+      "label": "Feed flow control valve"
+    },
+    {
+      "tag": "FT-1001",
+      "type": "flow transmitter",
+      "label": "Feed flow transmitter"
+    },
+    {
+      "tag": "FIC-1001",
+      "type": "flow indicating controller",
+      "label": "Feed flow controller"
+    },
+    {
+      "tag": "LT-1001",
+      "type": "level transmitter",
+      "label": "Reactor level transmitter"
+    },
+    {
+      "tag": "TT-1001",
+      "type": "temperature transmitter",
+      "label": "Reactor temperature transmitter"
+    },
+    {
+      "tag": "TIC-1001",
+      "type": "temperature indicating controller",
+      "label": "Reactor temperature controller"
+    },
+    {
+      "tag": "TV-1001",
+      "type": "control valve",
+      "label": "Cooling water control valve"
+    },
+    {
+      "tag": "RD-1001",
+      "type": "rupture disc",
+      "label": "Reactor rupture disc"
+    },
+    {
+      "tag": "PSV-1001",
+      "type": "pressure safety valve",
+      "label": "Reactor relief valve"
+    },
+    {
+      "tag": "OSC-1001",
+      "type": "off-sheet connector",
+      "label": "Feed from off sheet"
+    },
+    {
+      "tag": "OSC-1002",
+      "type": "off-sheet connector",
+      "label": "Cooling water supply from off sheet"
+    },
+    {
+      "tag": "OSC-1003",
+      "type": "off-sheet connector",
+      "label": "Cooling water return to off sheet"
+    },
+    {
+      "tag": "OSC-1004",
+      "type": "off-sheet connector",
+      "label": "Relief vent to catch tank off sheet"
+    },
+    {
+      "tag": "OSC-1005",
+      "type": "off-sheet connector",
+      "label": "Product to off sheet"
+    }
+  ],
+  "lines": [
+    { "from": "OSC-1001", "to": "FT-1001", "kind": "process" },
+    { "from": "FT-1001", "to": "FV-1001", "kind": "process" },
+    { "from": "FV-1001", "to": "R-1001", "kind": "process" },
+    { "from": "FT-1001", "to": "FIC-1001", "kind": "signal" },
+    { "from": "FIC-1001", "to": "FV-1001", "kind": "signal" },
+    { "from": "OSC-1002", "to": "TV-1001", "kind": "process" },
+    { "from": "TV-1001", "to": "R-1001", "kind": "process" },
+    { "from": "R-1001", "to": "OSC-1003", "kind": "process" },
+    { "from": "R-1001", "to": "TT-1001", "kind": "signal" },
+    { "from": "TT-1001", "to": "TIC-1001", "kind": "signal" },
+    { "from": "TIC-1001", "to": "TV-1001", "kind": "signal" },
+    { "from": "R-1001", "to": "LT-1001", "kind": "signal" },
+    { "from": "R-1001", "to": "RD-1001", "kind": "process" },
+    { "from": "RD-1001", "to": "PSV-1001", "kind": "process" },
+    { "from": "PSV-1001", "to": "OSC-1004", "kind": "process" },
+    { "from": "R-1001", "to": "P-1001", "kind": "process" },
+    { "from": "P-1001", "to": "OSC-1005", "kind": "process" }
+  ]
+}

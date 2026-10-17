@@ -1,0 +1,212 @@
+{
+  "items": [
+    {
+      "tag": "H1007",
+      "type": "plate heat exchanger",
+      "label": "Plate heat exchanger"
+    },
+    {
+      "tag": "H1008",
+      "type": "floating-head tubular heat exchanger",
+      "label": "Tubular heat exchanger"
+    },
+    { "tag": "P4711", "type": "centrifugal pump", "label": "Centrifugal pump" },
+    {
+      "tag": "P4712",
+      "type": "reciprocating pump",
+      "label": "Reciprocating pump"
+    },
+    { "tag": "T4750", "type": "tank with dished heads", "label": "Tank" },
+    {
+      "tag": "PV4712.02",
+      "type": "control valve (globe, fail closed, pneumatic actuator)",
+      "label": "Pressure control valve on recycle 47127 to T4750"
+    },
+    {
+      "tag": "HV4750.01",
+      "type": "actuated globe valve (fail closed)",
+      "label": "Valve on 47123 to T4750, operated by HS4750.01"
+    },
+    {
+      "tag": "TV4750.03",
+      "type": "control valve (globe, fail open, pneumatic actuator)",
+      "label": "Temperature control valve on QSb 47141"
+    },
+    {
+      "tag": "HV4712.03",
+      "type": "hand-operated ball valve, normally open",
+      "label": "NEW upstream block valve for PV4712.02"
+    },
+    {
+      "tag": "HV4712.05",
+      "type": "hand-operated ball valve, normally open",
+      "label": "NEW downstream block valve for PV4712.02"
+    },
+    {
+      "tag": "HV4712.04",
+      "type": "hand-operated globe valve, normally closed",
+      "label": "NEW bypass valve round PV4712.02 and its block valves"
+    },
+    {
+      "tag": "ButterflyValve-1",
+      "type": "butterfly valve",
+      "label": "Valve 66KL21-80 on T4750 outlet"
+    },
+    {
+      "tag": "SwingCheckValve-1",
+      "type": "swing check valve",
+      "label": "Check valve 75SA21-80 on P4712 suction"
+    },
+    {
+      "tag": "PipeReducer-1",
+      "type": "pipe reducer",
+      "label": "Reducer DN80/DN50 on P4712 suction"
+    },
+    {
+      "tag": "BallValve-1",
+      "type": "ball valve",
+      "label": "Valve 73KH12-50 on P4712 suction"
+    },
+    {
+      "tag": "BallValve-2",
+      "type": "ball valve",
+      "label": "Valve 73KH12-25 on open-ended branch off P4712 discharge"
+    },
+    {
+      "tag": "BallValve-3",
+      "type": "ball valve",
+      "label": "Valve 73KH12-25 ahead of PT4712.01"
+    },
+    {
+      "tag": "BallValve-4",
+      "type": "ball valve",
+      "label": "Valve 73KH12-50 on P4712 discharge"
+    },
+    {
+      "tag": "BallValve-5",
+      "type": "ball valve",
+      "label": "Valve 73KH12-25 ahead of PT4712.02"
+    },
+    {
+      "tag": "SV 104.01",
+      "type": "spring-loaded angle safety valve",
+      "label": "Safety valve, set 6 barg, DN 25/50, relieves to T4750"
+    },
+    {
+      "tag": "PT4712.01",
+      "type": "pressure transmitter",
+      "label": "Pressure transmitter on blind flange, P4712 discharge"
+    },
+    {
+      "tag": "PI4712.01",
+      "type": "pressure indicator (field mounted)",
+      "label": "Pressure indicator 4712.01"
+    },
+    {
+      "tag": "PT4712.02",
+      "type": "pressure transmitter",
+      "label": "Pressure transmitter on blind flange, discharge line downstream of H1008 branch"
+    },
+    {
+      "tag": "PICSA4712.02",
+      "type": "pressure indicating controller with switch and alarm (central)",
+      "label": "Pressure controller 4712.02, drives PV4712.02"
+    },
+    {
+      "tag": "HS4750.01",
+      "type": "hand switch (central)",
+      "label": "Hand switch for HV4750.01"
+    },
+    {
+      "tag": "TT4750.03",
+      "type": "temperature transmitter",
+      "label": "Temperature transmitter in T4750 nozzle N7"
+    },
+    {
+      "tag": "TICSA4750.03",
+      "type": "temperature indicating controller with switch and alarm (central)",
+      "label": "Temperature controller 4750.03, drives TV4750.03"
+    },
+    {
+      "tag": "FlowInPipeOffPageConnector-1",
+      "type": "off-page connector (inlet)",
+      "label": "Inlet to P4711, line MNb 47121"
+    },
+    {
+      "tag": "FlowOutPipeOffPageConnector-1",
+      "type": "off-page connector (outlet)",
+      "label": "Outlet of P4712 discharge, line MNc 47126"
+    },
+    {
+      "tag": "47130-END",
+      "type": "open pipe end, continues off the sheet",
+      "label": "WKa 47130 supply to H1007"
+    },
+    {
+      "tag": "47131-END",
+      "type": "open pipe end, continues off the sheet",
+      "label": "WKb 47131 return from H1007"
+    },
+    {
+      "tag": "47140-END",
+      "type": "open pipe end, continues off the sheet",
+      "label": "QSa 47140 supply to H1008"
+    },
+    {
+      "tag": "47141-END",
+      "type": "open pipe end, continues off the sheet",
+      "label": "QSb 47141 return from H1008"
+    }
+  ],
+  "lines": [
+    {
+      "from": "FlowInPipeOffPageConnector-1",
+      "to": "P4711",
+      "kind": "process"
+    },
+    { "from": "P4711", "to": "H1007", "kind": "process" },
+    { "from": "H1007", "to": "HV4750.01", "kind": "process" },
+    { "from": "HV4750.01", "to": "T4750", "kind": "process" },
+    { "from": "T4750", "to": "ButterflyValve-1", "kind": "process" },
+    {
+      "from": "ButterflyValve-1",
+      "to": "SwingCheckValve-1",
+      "kind": "process"
+    },
+    { "from": "SwingCheckValve-1", "to": "PipeReducer-1", "kind": "process" },
+    { "from": "PipeReducer-1", "to": "BallValve-1", "kind": "process" },
+    { "from": "BallValve-1", "to": "P4712", "kind": "process" },
+    { "from": "P4712", "to": "BallValve-2", "kind": "process" },
+    { "from": "P4712", "to": "SV 104.01", "kind": "process" },
+    { "from": "SV 104.01", "to": "T4750", "kind": "process" },
+    { "from": "P4712", "to": "BallValve-3", "kind": "process" },
+    { "from": "BallValve-3", "to": "PT4712.01", "kind": "process" },
+    { "from": "P4712", "to": "BallValve-4", "kind": "process" },
+    { "from": "BallValve-4", "to": "H1008", "kind": "process" },
+    { "from": "BallValve-4", "to": "BallValve-5", "kind": "process" },
+    { "from": "BallValve-5", "to": "PT4712.02", "kind": "process" },
+    {
+      "from": "BallValve-4",
+      "to": "FlowOutPipeOffPageConnector-1",
+      "kind": "process"
+    },
+    { "from": "47130-END", "to": "H1007", "kind": "process" },
+    { "from": "H1007", "to": "47131-END", "kind": "process" },
+    { "from": "47140-END", "to": "H1008", "kind": "process" },
+    { "from": "H1008", "to": "TV4750.03", "kind": "process" },
+    { "from": "TV4750.03", "to": "47141-END", "kind": "process" },
+    { "from": "H1008", "to": "HV4712.03", "kind": "process" },
+    { "from": "HV4712.03", "to": "PV4712.02", "kind": "process" },
+    { "from": "PV4712.02", "to": "HV4712.05", "kind": "process" },
+    { "from": "HV4712.05", "to": "T4750", "kind": "process" },
+    { "from": "H1008", "to": "HV4712.04", "kind": "process" },
+    { "from": "HV4712.04", "to": "T4750", "kind": "process" },
+    { "from": "T4750", "to": "TT4750.03", "kind": "process" },
+    { "from": "PT4712.01", "to": "PI4712.01", "kind": "signal" },
+    { "from": "PT4712.02", "to": "PICSA4712.02", "kind": "signal" },
+    { "from": "PICSA4712.02", "to": "PV4712.02", "kind": "signal" },
+    { "from": "HS4750.01", "to": "HV4750.01", "kind": "signal" },
+    { "from": "TT4750.03", "to": "TICSA4750.03", "kind": "signal" },
+    { "from": "TICSA4750.03", "to": "TV4750.03", "kind": "signal" }
+  ]
+}

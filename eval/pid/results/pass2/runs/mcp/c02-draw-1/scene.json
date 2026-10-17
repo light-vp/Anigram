@@ -1,0 +1,280 @@
+{
+  "anigram": 1,
+  "id": "packed-column-k2750",
+  "title": "Packed column K 2750",
+  "subtitle": "Column, outlets and pressure instrumentation PIS+Z+A 275003",
+  "sheet": "DEXPI Example C02",
+  "size": [8, 7],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 60
+  },
+  "parts": [
+    {
+      "id": "k2750",
+      "kind": "hottank",
+      "label": "Column (Kolonne) Ø500 x 14000 mm",
+      "at": [3, 3],
+      "behaviour": {
+        "role": "source",
+        "output": 40
+      },
+      "note": "Process column, pe=6/-1 bar, 150 °C, 1.4571. Feed is not in the file; it is drawn as a source.",
+      "labelSide": "below",
+      "tag": "K 2750",
+      "class": "Vessel",
+      "effort": {
+        "set": 1.5,
+        "min": -1,
+        "max": 6
+      }
+    },
+    {
+      "id": "reducer",
+      "kind": "manifold",
+      "label": "Reducer 200/150",
+      "at": [3, 1],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "w2765",
+      "kind": "tap",
+      "label": "2765 (W 2765)",
+      "at": [5, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 40
+      },
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "tee",
+      "kind": "manifold",
+      "label": "Tee DN150 / DN80",
+      "at": [3, 5],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "end-run",
+      "kind": "tap",
+      "label": "Open end",
+      "at": [3, 6],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "labelSide": "right",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "v-h672b1v",
+      "kind": "valve",
+      "label": "H672B1V DN80 AS9",
+      "at": [5, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 40,
+        "open": "on('h672') ? 1 : 0"
+      },
+      "labelSide": "below",
+      "toggles": "h672",
+      "tag": "H672B1V",
+      "class": "GlobeValve"
+    },
+    {
+      "id": "end-valve",
+      "kind": "tap",
+      "label": "Open end",
+      "at": [7, 5],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "labelSide": "below",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "v-h658a",
+      "kind": "valve",
+      "label": "H658B1UV DN25 AS9 (2750-5)",
+      "at": [1, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 5,
+        "open": 1
+      },
+      "labelSide": "right",
+      "tag": "H658B1UV",
+      "class": "GlobeValve"
+    },
+    {
+      "id": "v-h658b",
+      "kind": "valve",
+      "label": "H658B1UV DN25 AS9 (2750-6)",
+      "at": [5, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 5,
+        "open": 1
+      },
+      "labelSide": "below",
+      "class": "GlobeValve"
+    },
+    {
+      "id": "bf-a",
+      "kind": "tap",
+      "label": "Blind flange (tap 2750-5)",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "labelSide": "right",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "bf-b",
+      "kind": "tap",
+      "label": "Blind flange (tap 2750-6)",
+      "at": [7, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "labelSide": "below",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "k2750",
+      "to": "reducer",
+      "domain": "water",
+      "line": "process",
+      "tag": "2750.001.6-0N-2170.8503-150/10HB25T10B1-B40-"
+    },
+    {
+      "from": "reducer",
+      "to": "w2765",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "k2750",
+      "to": "tee",
+      "domain": "water",
+      "via": [],
+      "line": "process",
+      "tag": "*at N3*"
+    },
+    {
+      "from": "tee",
+      "to": "end-run",
+      "domain": "water",
+      "via": [],
+      "line": "process"
+    },
+    {
+      "from": "tee",
+      "to": "v-h672b1v",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "v-h672b1v",
+      "to": "end-valve",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "k2750",
+      "to": "v-h658a",
+      "domain": "water",
+      "via": [[1, 3]],
+      "line": "process",
+      "tag": "*at P3*"
+    },
+    {
+      "from": "k2750",
+      "to": "v-h658b",
+      "domain": "water",
+      "via": [],
+      "line": "process",
+      "tag": "*at P4*"
+    },
+    {
+      "from": "v-h658a",
+      "to": "bf-a",
+      "domain": "water",
+      "via": [],
+      "line": "process"
+    },
+    {
+      "from": "v-h658b",
+      "to": "bf-b",
+      "domain": "water",
+      "via": [],
+      "line": "process"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "BASF SE",
+    "project": "Ludwigshafen V888 / V04 / 2000",
+    "status": "as imported from column.xml"
+  },
+  "instruments": [
+    {
+      "tag": "PIZ-275003A",
+      "at": [0, 2],
+      "measures": "v-h658a",
+      "unit": "bar",
+      "mounting": "field"
+    },
+    {
+      "tag": "PIZ-275003B",
+      "at": [5, 2],
+      "measures": "v-h658b",
+      "unit": "bar",
+      "mounting": "field"
+    },
+    {
+      "tag": "PISZA-275003",
+      "at": [0, 1],
+      "measures": "PIZ-275003A",
+      "mounting": "panel"
+    }
+  ],
+  "switches": [
+    {
+      "id": "h672",
+      "label": "H672B1V open",
+      "on": false
+    }
+  ],
+  "expect": [
+    {
+      "says": "the column holds its operating pressure inside its design range",
+      "check": "part('k2750').effort > 0 && part('k2750').effort < 6"
+    },
+    {
+      "says": "the top outlet 2765 is served",
+      "check": "part('w2765').in >= 0.999 * part('w2765').demand"
+    }
+  ]
+}

@@ -1,0 +1,306 @@
+{
+  "anigram": 1,
+  "id": "pump-exchanger",
+  "title": "Pump P-4713 and product cooler H-1009",
+  "subtitle": "Pumped product cooled in a plate exchanger; TIC-1009 throttles the cooling water",
+  "sheet": "PID-4713",
+  "size": [9, 5],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "heat": {
+      "rate": "m³/h",
+      "amount": "m³",
+      "effort": "°C"
+    }
+  },
+  "scale": {
+    "water": 90,
+    "heat": 20
+  },
+  "parts": [
+    {
+      "id": "suction",
+      "kind": "river",
+      "label": "Product in",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 90
+      },
+      "labelSide": "above",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "v-4711",
+      "kind": "valve",
+      "label": "Suction isolation",
+      "at": [1, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 90,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "V-4711",
+      "class": "GateValve"
+    },
+    {
+      "id": "p-4713",
+      "kind": "pump",
+      "label": "Pump",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 90,
+        "open": "on('p-4713') ? 1 : 0"
+      },
+      "note": "Centrifugal pump in the DEXPI file (CentrifugalPump-1).",
+      "labelSide": "above",
+      "toggles": "p-4713",
+      "tag": "P-4713",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "v-4712",
+      "kind": "valve",
+      "label": "Check valve",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 90,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "V-4712",
+      "class": "CheckValve"
+    },
+    {
+      "id": "v-4713",
+      "kind": "valve",
+      "label": "Discharge isolation",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 90,
+        "open": 1
+      },
+      "labelSide": "above",
+      "tag": "V-4713",
+      "class": "GateValve"
+    },
+    {
+      "id": "h-1009",
+      "kind": "radiator",
+      "label": "Plate exchanger",
+      "at": [6, 2],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "water": 1,
+          "heat": 0.1
+        },
+        "capacity": 90
+      },
+      "note": "Plate heat exchanger in the DEXPI file (PlateHeatExchanger-1). Product on one side, cooling water on the other.",
+      "labelSide": "above",
+      "tag": "H-1009",
+      "class": "HeatExchanger"
+    },
+    {
+      "id": "product",
+      "kind": "factory",
+      "label": "Product out",
+      "at": [8, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": "60 * knob('throughput')"
+      },
+      "labelSide": "above",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "cw-in",
+      "kind": "river",
+      "label": "Cooling water in",
+      "at": [3, 4],
+      "behaviour": {
+        "role": "source",
+        "output": 20
+      },
+      "labelSide": "above",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "tv-1009",
+      "kind": "valve",
+      "label": "CW control valve",
+      "at": [5.5, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 20,
+        "open": "clamp((0.5 + 0.02 * (knob('feedT') - 45)) / 1.7, 0, 1)"
+      },
+      "labelSide": "below",
+      "tag": "TV-1009",
+      "class": "ControlValve"
+    },
+    {
+      "id": "cw-out",
+      "kind": "river",
+      "label": "Cooling water out",
+      "at": [8, 4],
+      "behaviour": {
+        "role": "sink",
+        "demand": 20,
+        "absorbsSurplus": true
+      },
+      "labelSide": "above",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "suction",
+      "to": "v-4711",
+      "domain": "water",
+      "tag": "80-MN-47131"
+    },
+    {
+      "from": "v-4711",
+      "to": "p-4713",
+      "domain": "water",
+      "tag": "80-MN-47131A"
+    },
+    {
+      "from": "p-4713",
+      "to": "v-4712",
+      "domain": "water",
+      "tag": "80-MN-47132"
+    },
+    {
+      "from": "v-4712",
+      "to": "v-4713",
+      "domain": "water",
+      "tag": "80-MN-47132A"
+    },
+    {
+      "from": "v-4713",
+      "to": "h-1009",
+      "domain": "water",
+      "tag": "80-MN-47132B"
+    },
+    {
+      "from": "h-1009",
+      "to": "product",
+      "domain": "water",
+      "tag": "80-MN-47133"
+    },
+    {
+      "from": "cw-in",
+      "to": "tv-1009",
+      "domain": "heat",
+      "line": "utility",
+      "tag": "50-CW-47101"
+    },
+    {
+      "from": "tv-1009",
+      "to": "h-1009",
+      "domain": "heat",
+      "via": [[6, 4]],
+      "line": "utility",
+      "tag": "50-CW-47101A"
+    },
+    {
+      "from": "h-1009",
+      "to": "cw-out",
+      "domain": "heat",
+      "via": [
+        [7, 2],
+        [7, 4]
+      ],
+      "loss": true,
+      "line": "utility",
+      "tag": "50-CW-47102"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Your organisation",
+    "project": "Product cooling",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "TT-1009",
+      "at": [7, 1],
+      "measures": "h-1009",
+      "reads": "knob('feedT') - 35 * clamp((0.5 + 0.02 * (knob('feedT') - 45)) / 1.7, 0, 1)",
+      "unit": "°C",
+      "low": 30,
+      "high": 70
+    },
+    {
+      "tag": "TIC-1009",
+      "at": [5.5, 3],
+      "measures": "TT-1009",
+      "drives": "tv-1009",
+      "mounting": "dcs"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "throughput",
+      "label": "product throughput",
+      "value": 1,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05,
+      "format": "{pct}%"
+    },
+    {
+      "id": "feedT",
+      "label": "product temperature into H-1009 (°C)",
+      "value": 80,
+      "min": 60,
+      "max": 95,
+      "step": 1,
+      "format": "{v}"
+    }
+  ],
+  "switches": [
+    {
+      "id": "p-4713",
+      "label": "P-4713 running",
+      "on": true
+    }
+  ],
+  "expect": [
+    {
+      "says": "the product is delivered in full",
+      "check": "part('product').in >= 0.999 * part('product').demand"
+    },
+    {
+      "says": "cooling water flows through H-1009",
+      "check": "part('tv-1009').out > 0"
+    },
+    {
+      "says": "TV-1009 is throttled, neither shut nor fully open",
+      "check": "part('tv-1009').out > 0 && part('tv-1009').out < 20"
+    },
+    {
+      "says": "with P-4713 running, product passes the pump",
+      "check": "on('p-4713') == 0 || part('p-4713').out > 0"
+    }
+  ]
+}

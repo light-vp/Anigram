@@ -1,0 +1,306 @@
+{
+  "id": "boiler-feedwater",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["vessel", "drum", "container", "tank"],
+      "tag": "^D501$",
+      "says": "deaerator D-501"
+    },
+    {
+      "family": "pump",
+      "tag": "^P501A$",
+      "says": "pump P-501A"
+    },
+    {
+      "family": "pump",
+      "tag": "^P501B$",
+      "says": "pump P-501B"
+    },
+    {
+      "family": ["vessel", "drum", "container", "boiler"],
+      "tag": "^V502$",
+      "says": "steam drum V-502"
+    },
+    {
+      "family": "offpage",
+      "min": 2,
+      "says": "make-up in and steam out"
+    }
+  ],
+  "valves": [
+    {
+      "family": "control",
+      "tag": "^LV501$",
+      "says": "control valve LV-501"
+    },
+    {
+      "family": "control",
+      "tag": "^LV502$",
+      "says": "control valve LV-502"
+    },
+    {
+      "family": "check",
+      "min": 2
+    },
+    {
+      "family": "isolation",
+      "min": 4
+    }
+  ],
+  "instruments": [
+    {
+      "letters": "LT",
+      "number": "501",
+      "on": {
+        "family": ["vessel", "drum", "container", "tank"],
+        "tag": "^D501$",
+        "says": "deaerator D-501"
+      },
+      "hops": 2,
+      "says": "LT-501"
+    },
+    {
+      "letters": "LIC",
+      "number": "501",
+      "says": "LIC-501"
+    },
+    {
+      "letters": "LT",
+      "number": "502",
+      "on": {
+        "family": ["vessel", "drum", "container", "boiler"],
+        "tag": "^V502$",
+        "says": "steam drum V-502"
+      },
+      "hops": 2,
+      "says": "LT-502"
+    },
+    {
+      "letters": "LIC",
+      "number": "502",
+      "says": "LIC-502"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["vessel", "drum", "container", "tank"],
+        "tag": "^D501$",
+        "says": "deaerator D-501"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^LV501$",
+          "says": "control valve LV-501"
+        }
+      ],
+      "says": "make-up → D-501 through LV-501"
+    },
+    {
+      "from": {
+        "family": ["vessel", "drum", "container", "tank"],
+        "tag": "^D501$",
+        "says": "deaerator D-501"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P501A$",
+        "says": "pump P-501A"
+      }
+    },
+    {
+      "from": {
+        "family": ["vessel", "drum", "container", "tank"],
+        "tag": "^D501$",
+        "says": "deaerator D-501"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P501B$",
+        "says": "pump P-501B"
+      }
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P501A$",
+        "says": "pump P-501A"
+      },
+      "to": {
+        "family": ["vessel", "drum", "container", "boiler"],
+        "tag": "^V502$",
+        "says": "steam drum V-502"
+      },
+      "via": [
+        {
+          "family": "check"
+        },
+        {
+          "family": "control",
+          "tag": "^LV502$",
+          "says": "control valve LV-502"
+        }
+      ],
+      "says": "P-501A → V-502 through its check valve and LV-502"
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P501B$",
+        "says": "pump P-501B"
+      },
+      "to": {
+        "family": ["vessel", "drum", "container", "boiler"],
+        "tag": "^V502$",
+        "says": "steam drum V-502"
+      },
+      "via": [
+        {
+          "family": "check"
+        },
+        {
+          "family": "control",
+          "tag": "^LV502$",
+          "says": "control valve LV-502"
+        }
+      ],
+      "says": "P-501B → V-502 through its check valve and LV-502"
+    },
+    {
+      "from": {
+        "family": ["vessel", "drum", "container", "boiler"],
+        "tag": "^V502$",
+        "says": "steam drum V-502"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "says": "steam leaves V-502 off the sheet"
+    }
+  ],
+  "loops": [
+    {
+      "says": "LT-501 → LIC-501 → LV-501",
+      "controller": {
+        "letters": "LIC",
+        "number": "501"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^LV501$",
+        "says": "control valve LV-501"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["vessel", "drum", "container", "tank"],
+            "tag": "^D501$",
+            "says": "deaerator D-501"
+          }
+        }
+      ]
+    },
+    {
+      "says": "LT-502 → LIC-502 → LV-502",
+      "controller": {
+        "letters": "LIC",
+        "number": "502"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^LV502$",
+        "says": "control valve LV-502"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["vessel", "drum", "container", "boiler"],
+            "tag": "^V502$",
+            "says": "steam drum V-502"
+          }
+        }
+      ]
+    }
+  ],
+  "behaviour": [
+    {
+      "says": "P-501A runs as duty for part of the day",
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": "pump",
+            "tag": "^P501A$",
+            "says": "pump P-501A"
+          },
+          "field": "out",
+          "op": ">",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "says": "after P-501A trips, P-501B feeds the drum",
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": "pump",
+            "tag": "^P501A$",
+            "says": "pump P-501A"
+          },
+          "field": "out",
+          "op": "==",
+          "value": 0
+        },
+        {
+          "of": {
+            "family": "pump",
+            "tag": "^P501B$",
+            "says": "pump P-501B"
+          },
+          "field": "out",
+          "op": ">",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "says": "the steam drum never runs dry",
+      "all": [
+        {
+          "of": {
+            "family": ["vessel", "drum", "container", "boiler"],
+            "tag": "^V502$",
+            "says": "steam drum V-502"
+          },
+          "field": "fill",
+          "op": ">",
+          "value": 0.02
+        }
+      ]
+    },
+    {
+      "says": "the deaerator never overflows",
+      "all": [
+        {
+          "of": {
+            "family": ["vessel", "drum", "container", "tank"],
+            "tag": "^D501$",
+            "says": "deaerator D-501"
+          },
+          "field": "fill",
+          "op": "<",
+          "value": 0.98
+        }
+      ]
+    }
+  ]
+}

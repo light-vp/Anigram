@@ -1,0 +1,21 @@
+{
+  "items": [
+    {
+      "tag": "FIC-1",
+      "type": "flow controller",
+      "label": ""
+    },
+    {
+      "tag": "CV-1",
+      "type": "valve",
+      "label": ""
+    }
+  ],
+  "lines": [
+    {
+      "from": "FIC-1",
+      "to": "CV-1",
+      "kind": "signal"
+    }
+  ]
+}

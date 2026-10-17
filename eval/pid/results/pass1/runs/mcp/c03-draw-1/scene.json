@@ -1,0 +1,257 @@
+{
+  "anigram": 1,
+  "id": "dexpi-example-c03",
+  "title": "DEXPI Example C03",
+  "subtitle": "Offshore module piping with electrically actuated valve ESV-3712 (panel D-13, signal from ESD)",
+  "sheet": "C03",
+  "size": [14, 3],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 120
+  },
+  "parts": [
+    {
+      "id": "plug",
+      "kind": "tap",
+      "label": "Plug",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": "60 * knob('throughput')"
+      },
+      "note": "PipeFitting-1, PLUG_SHAPE: the file's start of flow (FlowOut). Fluid PB, DN200.",
+      "tag": "PLUG-1",
+      "class": "Plug"
+    },
+    {
+      "id": "bf",
+      "kind": "valve",
+      "label": "Blind flange",
+      "at": [2.3, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "BlindFlange-1, DN200.",
+      "tag": "BF-1",
+      "class": "BlindFlange"
+    },
+    {
+      "id": "f1",
+      "kind": "valve",
+      "label": "Flange",
+      "at": [3.3, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "Flange-1, DN200.",
+      "tag": "FL-1",
+      "class": "Flange"
+    },
+    {
+      "id": "f2",
+      "kind": "valve",
+      "label": "Flange",
+      "at": [4.3, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "Flange-2, DN200.",
+      "tag": "FL-2",
+      "class": "Flange"
+    },
+    {
+      "id": "ov",
+      "kind": "valve",
+      "label": "Operated valve",
+      "at": [5.3, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "on('esv') ? 1 : 0"
+      },
+      "note": "OperatedValve-1 with ControlledActuator-1 (electric, fail action FB), DN200. Actuated from ESV-3712 in panel D-13, on a signal from ESD (D).",
+      "toggles": "esv",
+      "tag": "XV-3712",
+      "class": "ControlValve"
+    },
+    {
+      "id": "f3",
+      "kind": "valve",
+      "label": "Flange",
+      "at": [7.6, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "Flange-3, DN200.",
+      "tag": "FL-3",
+      "class": "Flange"
+    },
+    {
+      "id": "ro",
+      "kind": "valve",
+      "label": "Restriction orifice",
+      "at": [8.6, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "RestrictionOrifice-1, DN200.",
+      "tag": "RO-1",
+      "class": "RestrictionOrifice"
+    },
+    {
+      "id": "bv",
+      "kind": "valve",
+      "label": "Ball valve",
+      "at": [9.6, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "BallValve-1, DN200.",
+      "tag": "HV-1",
+      "class": "BallValve"
+    },
+    {
+      "id": "red",
+      "kind": "valve",
+      "label": "Reducer 0200x0800",
+      "at": [10.6, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "PipeReducer-1, 0200x0800. A slope symbol and flow arrow follow on segment S2 down to the connector.",
+      "tag": "RED-1",
+      "class": "PipeReducer"
+    },
+    {
+      "id": "opc",
+      "kind": "tap",
+      "label": "Flow out, off page",
+      "at": [12.9, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": "60 * knob('throughput')"
+      },
+      "note": "FlowOutPipeOffPageConnector-1, line 43L37007A, DN800.",
+      "tag": "OPC-1",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "plug",
+      "to": "bf",
+      "domain": "water",
+      "tag": "D-13L37014A-0200PB-FD120-0F000N"
+    },
+    {
+      "from": "bf",
+      "to": "f1",
+      "domain": "water"
+    },
+    {
+      "from": "f1",
+      "to": "f2",
+      "domain": "water"
+    },
+    {
+      "from": "f2",
+      "to": "ov",
+      "domain": "water"
+    },
+    {
+      "from": "ov",
+      "to": "f3",
+      "domain": "water",
+      "tag": "D-13L37007A-0200PB-FS720-0F000N"
+    },
+    {
+      "from": "f3",
+      "to": "ro",
+      "domain": "water"
+    },
+    {
+      "from": "ro",
+      "to": "bv",
+      "domain": "water"
+    },
+    {
+      "from": "bv",
+      "to": "red",
+      "domain": "water"
+    },
+    {
+      "from": "red",
+      "to": "opc",
+      "domain": "water",
+      "tag": "D-43L37007A-0800VF-AS7F0-0F000N"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Equinor",
+    "project": "DEXPI test case C03",
+    "issued": "2021-11-29",
+    "revision": "0",
+    "status": "imported"
+  },
+  "instruments": [
+    {
+      "tag": "ESV-3712",
+      "at": [5.3, 0],
+      "measures": "ov",
+      "drives": "ov",
+      "mounting": "panel"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "throughput",
+      "label": "throughput",
+      "value": 1,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05,
+      "format": "{pct}%"
+    }
+  ],
+  "switches": [
+    {
+      "id": "esv",
+      "label": "ESV-3712 open (energised)",
+      "on": true
+    }
+  ],
+  "expect": [
+    {
+      "says": "with ESV-3712 open the flow reaches the off-page connector",
+      "check": "part('opc').in >= 0.999 * part('opc').demand"
+    },
+    {
+      "says": "the orifice and ball valve pass the same flow as the operated valve",
+      "check": "part('ro').out >= 0.999 * part('ov').out && part('bv').out >= 0.999 * part('ov').out"
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "items": [
+    {
+      "tag": "CT-601",
+      "type": "cooling tower with basin",
+      "label": "Cooling tower"
+    },
+    {
+      "tag": "P-601A",
+      "type": "centrifugal pump",
+      "label": "Circulating pump A (duty, running)"
+    },
+    {
+      "tag": "P-601B",
+      "type": "centrifugal pump",
+      "label": "Circulating pump B (standby)"
+    },
+    {
+      "tag": "V-601A",
+      "type": "isolation valve",
+      "label": "P-601A suction isolation valve"
+    },
+    {
+      "tag": "V-601B",
+      "type": "isolation valve",
+      "label": "P-601B suction isolation valve"
+    },
+    {
+      "tag": "CV-601A",
+      "type": "check valve",
+      "label": "P-601A discharge check valve"
+    },
+    {
+      "tag": "CV-601B",
+      "type": "check valve",
+      "label": "P-601B discharge check valve"
+    },
+    {
+      "tag": "V-611A",
+      "type": "isolation valve",
+      "label": "P-601A discharge isolation valve"
+    },
+    {
+      "tag": "V-611B",
+      "type": "isolation valve",
+      "label": "P-601B discharge isolation valve"
+    },
+    {
+      "tag": "E-601",
+      "type": "plate heat exchanger",
+      "label": "Process cooler"
+    },
+    {
+      "tag": "TV-601",
+      "type": "control valve",
+      "label": "Tower bypass temperature control valve"
+    },
+    {
+      "tag": "TT-601",
+      "type": "temperature transmitter",
+      "label": "E-601 cooling water supply temperature"
+    },
+    {
+      "tag": "TIC-601",
+      "type": "temperature indicating controller",
+      "label": "Supply temperature controller"
+    },
+    {
+      "tag": "PS-IN",
+      "type": "boundary connection",
+      "label": "Process stream inlet to E-601"
+    },
+    {
+      "tag": "PS-OUT",
+      "type": "boundary connection",
+      "label": "Process stream outlet from E-601"
+    }
+  ],
+  "lines": [
+    { "from": "CT-601", "to": "V-601A", "kind": "process" },
+    { "from": "CT-601", "to": "V-601B", "kind": "process" },
+    { "from": "V-601A", "to": "P-601A", "kind": "process" },
+    { "from": "V-601B", "to": "P-601B", "kind": "process" },
+    { "from": "P-601A", "to": "CV-601A", "kind": "process" },
+    { "from": "P-601B", "to": "CV-601B", "kind": "process" },
+    { "from": "CV-601A", "to": "V-611A", "kind": "process" },
+    { "from": "CV-601B", "to": "V-611B", "kind": "process" },
+    { "from": "V-611A", "to": "E-601", "kind": "process" },
+    { "from": "V-611B", "to": "E-601", "kind": "process" },
+    { "from": "E-601", "to": "CT-601", "kind": "process" },
+    { "from": "E-601", "to": "TV-601", "kind": "process" },
+    { "from": "TV-601", "to": "CT-601", "kind": "process" },
+    { "from": "PS-IN", "to": "E-601", "kind": "process" },
+    { "from": "E-601", "to": "PS-OUT", "kind": "process" },
+    { "from": "TT-601", "to": "TIC-601", "kind": "signal" },
+    { "from": "TIC-601", "to": "TV-601", "kind": "signal" }
+  ]
+}

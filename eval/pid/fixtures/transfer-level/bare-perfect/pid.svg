@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300">
+  <rect x="20" y="120" width="80" height="120" fill="none" stroke="black"/><text x="30" y="260">T-101</text>
+  <text x="130" y="170">HV-101</text>
+  <circle cx="220" cy="180" r="25" fill="none" stroke="black"/><text x="200" y="230">P-101</text>
+  <text x="280" y="170">NRV-101</text><text x="360" y="170">HV-102</text><text x="450" y="170">LV-102</text>
+  <rect x="560" y="120" width="80" height="120" fill="none" stroke="black"/><text x="570" y="260">T-102</text>
+  <circle cx="60" cy="60" r="20" fill="none" stroke="black"/><text x="48" y="56">LT</text><text x="45" y="72">101</text>
+  <circle cx="150" cy="60" r="20" fill="none" stroke="black"/><text x="133" y="56">LALL</text><text x="135" y="72">101</text>
+  <circle cx="600" cy="60" r="20" fill="none" stroke="black"/><text x="588" y="56">LT</text><text x="585" y="72">102</text>
+  <circle cx="470" cy="60" r="20" fill="none" stroke="black"/><text x="458" y="56">LIC</text><text x="455" y="72">102</text>
+</svg>

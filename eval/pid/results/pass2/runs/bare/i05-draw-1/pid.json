@@ -1,0 +1,53 @@
+{
+  "items": [
+    {
+      "tag": "PipingNetworkSegment-1",
+      "type": "pipe",
+      "label": "Process line containing the globe valve"
+    },
+    {
+      "tag": "PipingNetworkSegment-2",
+      "type": "pipe",
+      "label": "Second process line"
+    },
+    { "tag": "GlobeValve-1", "type": "globe valve", "label": "Globe valve" },
+    {
+      "tag": "ControlledActuator-1",
+      "type": "controlled actuator",
+      "label": "Valve actuator"
+    },
+    {
+      "tag": "FI-031.1",
+      "type": "flow indicator",
+      "label": "Flow indication on second line"
+    },
+    {
+      "tag": "FI-031.2",
+      "type": "flow indicator",
+      "label": "Flow indication on valve line"
+    },
+    {
+      "tag": "FFIC-031",
+      "type": "flow ratio indicating controller",
+      "label": "Ratio controller"
+    },
+    {
+      "tag": "YC-031.4",
+      "type": "controller (event/state/presence, category Y)",
+      "label": "Signal to valve actuator"
+    }
+  ],
+  "lines": [
+    {
+      "from": "PipingNetworkSegment-1",
+      "to": "GlobeValve-1",
+      "kind": "process"
+    },
+    { "from": "PipingNetworkSegment-2", "to": "FI-031.1", "kind": "signal" },
+    { "from": "PipingNetworkSegment-1", "to": "FI-031.2", "kind": "signal" },
+    { "from": "FI-031.1", "to": "FFIC-031", "kind": "signal" },
+    { "from": "FI-031.2", "to": "FFIC-031", "kind": "signal" },
+    { "from": "FFIC-031", "to": "YC-031.4", "kind": "signal" },
+    { "from": "YC-031.4", "to": "ControlledActuator-1", "kind": "signal" }
+  ]
+}

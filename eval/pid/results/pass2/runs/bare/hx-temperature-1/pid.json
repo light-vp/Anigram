@@ -1,0 +1,77 @@
+{
+  "items": [
+    {
+      "tag": "E-201",
+      "type": "shell-and-tube heat exchanger",
+      "label": "Product cooler"
+    },
+    {
+      "tag": "HV-201",
+      "type": "isolation valve",
+      "label": "CW supply isolation valve"
+    },
+    {
+      "tag": "HV-202",
+      "type": "isolation valve",
+      "label": "CW return isolation valve"
+    },
+    {
+      "tag": "TV-201",
+      "type": "control valve (fail open)",
+      "label": "CW return temperature control valve"
+    },
+    {
+      "tag": "PSV-201",
+      "type": "pressure relief valve",
+      "label": "Shell-side thermal expansion relief"
+    },
+    {
+      "tag": "TT-201",
+      "type": "temperature transmitter",
+      "label": "Product outlet temperature"
+    },
+    {
+      "tag": "TIC-201",
+      "type": "temperature indicating controller",
+      "label": "Product outlet temperature controller"
+    },
+    {
+      "tag": "OSC-201",
+      "type": "off-sheet connector",
+      "label": "Hot product in from off sheet"
+    },
+    {
+      "tag": "OSC-202",
+      "type": "off-sheet connector",
+      "label": "Product out to storage off sheet"
+    },
+    {
+      "tag": "OSC-203",
+      "type": "off-sheet connector",
+      "label": "CW supply header"
+    },
+    {
+      "tag": "OSC-204",
+      "type": "off-sheet connector",
+      "label": "CW return header"
+    },
+    {
+      "tag": "OSC-205",
+      "type": "off-sheet connector",
+      "label": "PSV-201 discharge to safe location"
+    }
+  ],
+  "lines": [
+    { "from": "OSC-201", "to": "E-201", "kind": "process" },
+    { "from": "E-201", "to": "OSC-202", "kind": "process" },
+    { "from": "OSC-203", "to": "HV-201", "kind": "process" },
+    { "from": "HV-201", "to": "E-201", "kind": "process" },
+    { "from": "E-201", "to": "HV-202", "kind": "process" },
+    { "from": "HV-202", "to": "TV-201", "kind": "process" },
+    { "from": "TV-201", "to": "OSC-204", "kind": "process" },
+    { "from": "E-201", "to": "PSV-201", "kind": "process" },
+    { "from": "PSV-201", "to": "OSC-205", "kind": "process" },
+    { "from": "TT-201", "to": "TIC-201", "kind": "signal" },
+    { "from": "TIC-201", "to": "TV-201", "kind": "signal" }
+  ]
+}

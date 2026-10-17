@@ -1,0 +1,155 @@
+{
+  "items": [
+    {
+      "tag": "T-301",
+      "type": "vertical day storage tank",
+      "label": "Sodium hypochlorite day tank"
+    },
+    {
+      "tag": "FC-301",
+      "type": "bulk delivery fill connection",
+      "label": "Bulk delivery fill connection"
+    },
+    {
+      "tag": "HV-300",
+      "type": "manual isolation valve",
+      "label": "Tank fill valve"
+    },
+    {
+      "tag": "HV-310",
+      "type": "manual isolation valve",
+      "label": "Tank outlet valve"
+    },
+    {
+      "tag": "HV-311A",
+      "type": "manual isolation valve",
+      "label": "P-301A suction isolating valve"
+    },
+    {
+      "tag": "HV-311B",
+      "type": "manual isolation valve",
+      "label": "P-301B suction isolating valve"
+    },
+    {
+      "tag": "HV-312A",
+      "type": "manual isolation valve",
+      "label": "P-301A discharge isolating valve"
+    },
+    {
+      "tag": "HV-312B",
+      "type": "manual isolation valve",
+      "label": "P-301B discharge isolating valve"
+    },
+    {
+      "tag": "HV-315",
+      "type": "manual isolation valve",
+      "label": "Calibration column isolation valve"
+    },
+    {
+      "tag": "CC-301",
+      "type": "calibration column",
+      "label": "Calibration column on common suction"
+    },
+    {
+      "tag": "P-301A",
+      "type": "diaphragm metering pump",
+      "label": "Metering pump A (duty)"
+    },
+    {
+      "tag": "P-301B",
+      "type": "diaphragm metering pump",
+      "label": "Metering pump B (standby)"
+    },
+    {
+      "tag": "CV-301A",
+      "type": "check valve",
+      "label": "P-301A discharge check valve"
+    },
+    {
+      "tag": "CV-301B",
+      "type": "check valve",
+      "label": "P-301B discharge check valve"
+    },
+    {
+      "tag": "PSV-301A",
+      "type": "pressure relief valve",
+      "label": "P-301A relief valve, returns to T-301"
+    },
+    {
+      "tag": "PSV-301B",
+      "type": "pressure relief valve",
+      "label": "P-301B relief valve, returns to T-301"
+    },
+    {
+      "tag": "PD-301",
+      "type": "pulsation dampener",
+      "label": "Common discharge pulsation dampener"
+    },
+    {
+      "tag": "IP-301",
+      "type": "injection quill",
+      "label": "Injection point on treated water main"
+    },
+    {
+      "tag": "TWM-301",
+      "type": "treated water main pipe",
+      "label": "Treated water main"
+    },
+    {
+      "tag": "FT-301",
+      "type": "flow transmitter",
+      "label": "Treated water main flow transmitter"
+    },
+    {
+      "tag": "FIC-301",
+      "type": "flow indicating controller",
+      "label": "Sets duty pump stroke speed"
+    },
+    {
+      "tag": "LT-301",
+      "type": "level transmitter",
+      "label": "Day tank level transmitter"
+    },
+    {
+      "tag": "LAL-301",
+      "type": "low level alarm",
+      "label": "Day tank low level alarm"
+    },
+    {
+      "tag": "LSLL-301",
+      "type": "low-low level switch",
+      "label": "Day tank low-low level pump trip"
+    }
+  ],
+  "lines": [
+    { "from": "FC-301", "to": "HV-300", "kind": "process" },
+    { "from": "HV-300", "to": "T-301", "kind": "process" },
+    { "from": "T-301", "to": "HV-310", "kind": "process" },
+    { "from": "HV-310", "to": "HV-311A", "kind": "process" },
+    { "from": "HV-310", "to": "HV-311B", "kind": "process" },
+    { "from": "HV-310", "to": "HV-315", "kind": "process" },
+    { "from": "HV-315", "to": "CC-301", "kind": "process" },
+    { "from": "HV-311A", "to": "P-301A", "kind": "process" },
+    { "from": "HV-311B", "to": "P-301B", "kind": "process" },
+    { "from": "P-301A", "to": "HV-312A", "kind": "process" },
+    { "from": "P-301B", "to": "HV-312B", "kind": "process" },
+    { "from": "HV-312A", "to": "CV-301A", "kind": "process" },
+    { "from": "HV-312B", "to": "CV-301B", "kind": "process" },
+    { "from": "CV-301A", "to": "PD-301", "kind": "process" },
+    { "from": "CV-301B", "to": "PD-301", "kind": "process" },
+    { "from": "P-301A", "to": "PSV-301A", "kind": "process" },
+    { "from": "PSV-301A", "to": "T-301", "kind": "process" },
+    { "from": "P-301B", "to": "PSV-301B", "kind": "process" },
+    { "from": "PSV-301B", "to": "T-301", "kind": "process" },
+    { "from": "PD-301", "to": "IP-301", "kind": "process" },
+    { "from": "TWM-301", "to": "FT-301", "kind": "process" },
+    { "from": "TWM-301", "to": "IP-301", "kind": "process" },
+    { "from": "FT-301", "to": "FIC-301", "kind": "signal" },
+    { "from": "FIC-301", "to": "P-301A", "kind": "signal" },
+    { "from": "T-301", "to": "LT-301", "kind": "signal" },
+    { "from": "LT-301", "to": "LAL-301", "kind": "signal" },
+    { "from": "T-301", "to": "LSLL-301", "kind": "signal" },
+    { "from": "LSLL-301", "to": "P-301A", "kind": "signal" },
+    { "from": "LSLL-301", "to": "P-301B", "kind": "signal" }
+  ]
+}

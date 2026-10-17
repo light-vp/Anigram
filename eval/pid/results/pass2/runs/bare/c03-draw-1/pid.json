@@ -1,0 +1,82 @@
+{
+  "items": [
+    {
+      "tag": "PipeFitting-1",
+      "type": "plug",
+      "label": "Plug closing the end of the vertical stub"
+    },
+    {
+      "tag": "BlindFlange-1",
+      "type": "blind flange",
+      "label": "Blind flange on the stub end"
+    },
+    {
+      "tag": "Flange-1",
+      "type": "flange",
+      "label": "Flange at the top of the vertical leg"
+    },
+    {
+      "tag": "Flange-2",
+      "type": "flange",
+      "label": "Flange upstream of the electric valve"
+    },
+    {
+      "tag": "OperatedValve-1",
+      "type": "electrically actuated valve",
+      "label": "Operated valve, 0200, electric actuator"
+    },
+    {
+      "tag": "ControlledActuator-1",
+      "type": "electric actuator",
+      "label": "Electric actuator of OperatedValve-1, fail action FB"
+    },
+    {
+      "tag": "Flange-3",
+      "type": "flange",
+      "label": "Flange downstream of the electric valve"
+    },
+    {
+      "tag": "RestrictionOrifice-1",
+      "type": "restriction orifice",
+      "label": "Restriction orifice, 0200"
+    },
+    { "tag": "BallValve-1", "type": "ball valve", "label": "Ball valve, 0200" },
+    {
+      "tag": "PipeReducer-1",
+      "type": "pipe reducer",
+      "label": "Reducer 0200x0800"
+    },
+    {
+      "tag": "FlowOutPipeOffPageConnector-1",
+      "type": "off-page connector (flow out)",
+      "label": "Outlet to next sheet, line 43L37007A"
+    },
+    {
+      "tag": "ESV-3712",
+      "type": "instrument function (central location, panel D-13)",
+      "label": "ESV 3712, valve control function"
+    },
+    {
+      "tag": "ESD",
+      "type": "emergency shutdown system signal source",
+      "label": "ESD, area D"
+    }
+  ],
+  "lines": [
+    { "from": "PipeFitting-1", "to": "BlindFlange-1", "kind": "process" },
+    { "from": "BlindFlange-1", "to": "Flange-1", "kind": "process" },
+    { "from": "Flange-1", "to": "Flange-2", "kind": "process" },
+    { "from": "Flange-2", "to": "OperatedValve-1", "kind": "process" },
+    { "from": "OperatedValve-1", "to": "Flange-3", "kind": "process" },
+    { "from": "Flange-3", "to": "RestrictionOrifice-1", "kind": "process" },
+    { "from": "RestrictionOrifice-1", "to": "BallValve-1", "kind": "process" },
+    { "from": "BallValve-1", "to": "PipeReducer-1", "kind": "process" },
+    {
+      "from": "PipeReducer-1",
+      "to": "FlowOutPipeOffPageConnector-1",
+      "kind": "process"
+    },
+    { "from": "ESV-3712", "to": "ControlledActuator-1", "kind": "signal" },
+    { "from": "ESD", "to": "ControlledActuator-1", "kind": "signal" }
+  ]
+}

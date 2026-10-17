@@ -1,0 +1,144 @@
+{
+  "anigram": 1,
+  "id": "pressure-measurement",
+  "title": "Line pressure measurement",
+  "subtitle": "Local gauge PI-045, control-room indicator PI-044 and switches US-046 / US-047",
+  "sheet": "PID-100",
+  "size": [7, 3],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 100
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "river",
+      "label": "From upstream",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 50
+      },
+      "effort": {
+        "set": 5
+      }
+    },
+    {
+      "id": "j1",
+      "kind": "manifold",
+      "label": "Tap 1",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "j2",
+      "kind": "manifold",
+      "label": "Tap 2",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "out",
+      "kind": "factory",
+      "label": "To downstream",
+      "at": [6, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 50
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "j1",
+      "domain": "water",
+      "tag": "50-W-001"
+    },
+    {
+      "from": "j1",
+      "to": "j2",
+      "domain": "water",
+      "tag": "50-W-002"
+    },
+    {
+      "from": "j2",
+      "to": "out",
+      "domain": "water",
+      "tag": "50-W-003"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Your organisation",
+    "project": "Pressure measurement",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "PI-045",
+      "at": [2, 1],
+      "measures": "j1",
+      "unit": "bar",
+      "mounting": "field"
+    },
+    {
+      "tag": "PI-044",
+      "at": [4, 0],
+      "measures": "j2",
+      "unit": "bar",
+      "mounting": "panel"
+    },
+    {
+      "tag": "US-046",
+      "at": [3, 0],
+      "measures": "PI-044",
+      "mounting": "panel",
+      "low": 3,
+      "high": 7
+    },
+    {
+      "tag": "US-047",
+      "at": [5, 0],
+      "measures": "PI-044",
+      "mounting": "panel",
+      "low": 2,
+      "high": 8
+    }
+  ],
+  "captions": [
+    {
+      "from": 0,
+      "to": 24,
+      "text": "PI-045 reads the line locally; PI-044 repeats it in the control room and drives switches US-046 (H/L) and US-047 (HH/LL)."
+    }
+  ],
+  "expect": [
+    {
+      "says": "the line carries its flow past both taps",
+      "check": "part('out').in >= 0.999 * part('out').demand"
+    },
+    {
+      "says": "the line holds its pressure at the taps",
+      "check": "part('j2').effort > 3"
+    }
+  ]
+}

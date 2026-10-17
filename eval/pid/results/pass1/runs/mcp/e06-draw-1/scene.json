@@ -1,0 +1,82 @@
+{
+  "anigram": 1,
+  "id": "pump-exchanger",
+  "title": "Pump P-4713 and plate heat exchanger H-1009",
+  "subtitle": "From DEXPI fragment pump-exchanger.xml: one line, 80-MNb-47132",
+  "sheet": "DEXPI",
+  "size": [2, 1],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "heat": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 120,
+    "heat": 60
+  },
+  "parts": [
+    {
+      "id": "p-4713",
+      "kind": "pump",
+      "label": "Centrifugal pump",
+      "at": [0, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 90,
+        "open": "on('p-4713') ? 1 : 0"
+      },
+      "note": "Centrifugal pump in the DEXPI file (CentrifugalPump-1).",
+      "toggles": "p-4713",
+      "tag": "P-4713",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "h-1009",
+      "kind": "radiator",
+      "label": "Plate heat exchanger",
+      "at": [1, 0],
+      "behaviour": {
+        "role": "bus"
+      },
+      "note": "Plate heat exchanger in the DEXPI file (PlateHeatExchanger-1).",
+      "tag": "H-1009",
+      "class": "HeatExchanger"
+    }
+  ],
+  "links": [
+    {
+      "from": "p-4713",
+      "to": "h-1009",
+      "domain": "water",
+      "tag": "80-MNb-47132"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "knobs": [
+    {
+      "id": "throughput",
+      "label": "throughput",
+      "value": 1,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05,
+      "format": "{pct}%"
+    }
+  ],
+  "switches": [
+    {
+      "id": "p-4713",
+      "label": "P-4713 running",
+      "on": true
+    }
+  ]
+}

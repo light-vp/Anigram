@@ -1,0 +1,96 @@
+{
+  "items": [
+    {
+      "tag": "OPC-1",
+      "type": "off-page connector",
+      "label": "wild stream in"
+    },
+    {
+      "tag": "OPC-2",
+      "type": "off-page connector",
+      "label": "wild stream out"
+    },
+    {
+      "tag": "OPC-3",
+      "type": "off-page connector",
+      "label": "controlled stream in"
+    },
+    {
+      "tag": "FV-031",
+      "type": "globe control valve",
+      "label": ""
+    },
+    {
+      "tag": "OPC-4",
+      "type": "off-page connector",
+      "label": "controlled stream out"
+    },
+    {
+      "tag": "FI-031.1",
+      "type": "flow indicator (DCS)",
+      "label": ""
+    },
+    {
+      "tag": "FI-031.2",
+      "type": "flow indicator (DCS)",
+      "label": ""
+    },
+    {
+      "tag": "FFIC-031",
+      "type": "flow ratio controller",
+      "label": ""
+    },
+    {
+      "tag": "YC-031.4",
+      "type": "signal converter",
+      "label": ""
+    }
+  ],
+  "lines": [
+    {
+      "from": "OPC-1",
+      "to": "OPC-2",
+      "kind": "process"
+    },
+    {
+      "from": "OPC-3",
+      "to": "FV-031",
+      "kind": "process"
+    },
+    {
+      "from": "FV-031",
+      "to": "OPC-4",
+      "kind": "process"
+    },
+    {
+      "from": "FI-031.1",
+      "to": "OPC-1",
+      "kind": "signal"
+    },
+    {
+      "from": "FI-031.2",
+      "to": "OPC-3",
+      "kind": "signal"
+    },
+    {
+      "from": "FI-031.1",
+      "to": "FFIC-031",
+      "kind": "signal"
+    },
+    {
+      "from": "FI-031.2",
+      "to": "FFIC-031",
+      "kind": "signal"
+    },
+    {
+      "from": "FFIC-031",
+      "to": "YC-031.4",
+      "kind": "signal"
+    },
+    {
+      "from": "YC-031.4",
+      "to": "FV-031",
+      "kind": "signal"
+    }
+  ]
+}

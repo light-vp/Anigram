@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 880" width="1400" height="880" font-family="Arial, Helvetica, sans-serif">
+<rect width="1400" height="880" fill="#fff"/>
+<text x="700" y="30" font-size="18" text-anchor="middle" font-weight="bold">P&amp;ID - Water Pressure-Reducing Station: 10 bar trunk main to 4 bar district main</text>
+
+<!-- process piping -->
+<g stroke="#1f5fa8" stroke-width="3" fill="none">
+<line x1="70" y1="310" x2="300" y2="310"/>
+<line x1="300" y1="220" x2="300" y2="400"/>
+<line x1="300" y1="220" x2="546" y2="220"/>
+<line x1="300" y1="400" x2="546" y2="400"/>
+<line x1="574" y1="220" x2="820" y2="220"/>
+<line x1="574" y1="400" x2="820" y2="400"/>
+<line x1="820" y1="220" x2="820" y2="400"/>
+<line x1="820" y1="310" x2="1290" y2="310"/>
+<line x1="1000" y1="310" x2="1000" y2="430"/>
+<line x1="1000" y1="470" x2="1000" y2="610"/>
+<line x1="230" y1="310" x2="230" y2="235" stroke-width="1.5"/>
+<line x1="900" y1="310" x2="900" y2="235" stroke-width="1.5"/>
+</g>
+
+<!-- upset flow overlay: duty PRV failed open, relief valve lifted -->
+<g stroke="#d00" stroke-width="4" stroke-dasharray="9 6" fill="none">
+<polyline points="578,220 820,220 820,310 1000,310 1000,430"/>
+<line x1="1000" y1="470" x2="1000" y2="605"/>
+</g>
+
+<!-- terminals -->
+<rect x="10" y="288" width="60" height="44" fill="#eef4fb" stroke="#111" stroke-width="2"/>
+<text x="40" y="307" font-size="11" text-anchor="middle" font-weight="bold">TM-1301</text>
+<text x="40" y="322" font-size="11" text-anchor="middle">10 bar</text>
+<text x="40" y="350" font-size="10" text-anchor="middle">Trunk main</text>
+<rect x="1290" y="288" width="60" height="44" fill="#eef4fb" stroke="#111" stroke-width="2"/>
+<text x="1320" y="307" font-size="11" text-anchor="middle" font-weight="bold">DM-1301</text>
+<text x="1320" y="322" font-size="11" text-anchor="middle">4 bar</text>
+<text x="1320" y="350" font-size="10" text-anchor="middle">District main</text>
+
+<!-- strainer -->
+<rect x="150" y="292" width="44" height="36" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="150" y1="328" x2="194" y2="292" stroke="#111" stroke-width="2"/>
+<text x="172" y="346" font-size="12" text-anchor="middle" font-weight="bold">STR-1301</text>
+<text x="172" y="360" font-size="10" text-anchor="middle">Inlet strainer</text>
+
+<!-- stream A -->
+<g stroke="#111" stroke-width="2" fill="#fff">
+<polygon points="406,210 406,230 434,210 434,230"/>
+<polygon points="686,210 686,230 714,210 714,230"/>
+<polygon points="544,208 544,232 576,208 576,232"/>
+<line x1="560" y1="220" x2="560" y2="190"/>
+<path d="M542,190 A18,18 0 0 1 578,190 Z"/>
+</g>
+<text x="420" y="248" font-size="12" text-anchor="middle" font-weight="bold">HV-1301A1</text>
+<text x="420" y="262" font-size="10" text-anchor="middle">Isolating valve</text>
+<text x="560" y="250" font-size="13" text-anchor="middle" font-weight="bold">PCV-1301A</text>
+<text x="560" y="264" font-size="10" text-anchor="middle">PRV (duty)</text>
+<text x="700" y="248" font-size="12" text-anchor="middle" font-weight="bold">HV-1301A2</text>
+<text x="700" y="262" font-size="10" text-anchor="middle">Isolating valve</text>
+<text x="360" y="170" font-size="12" text-anchor="middle" fill="#555" font-weight="bold">STREAM A</text>
+
+<!-- stream B -->
+<g stroke="#111" stroke-width="2" fill="#fff">
+<polygon points="406,390 406,410 434,390 434,410"/>
+<polygon points="686,390 686,410 714,390 714,410"/>
+<polygon points="544,388 544,412 576,388 576,412"/>
+<line x1="560" y1="400" x2="560" y2="370"/>
+<path d="M542,370 A18,18 0 0 1 578,370 Z"/>
+</g>
+<text x="420" y="428" font-size="12" text-anchor="middle" font-weight="bold">HV-1301B1</text>
+<text x="420" y="442" font-size="10" text-anchor="middle">Isolating valve</text>
+<text x="560" y="430" font-size="13" text-anchor="middle" font-weight="bold">PCV-1301B</text>
+<text x="560" y="444" font-size="10" text-anchor="middle">PRV (standby)</text>
+<text x="700" y="428" font-size="12" text-anchor="middle" font-weight="bold">HV-1301B2</text>
+<text x="700" y="442" font-size="10" text-anchor="middle">Isolating valve</text>
+<text x="360" y="350" font-size="12" text-anchor="middle" fill="#555" font-weight="bold">STREAM B</text>
+
+<!-- gauges -->
+<circle cx="230" cy="220" r="15" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="230" y="224" font-size="11" text-anchor="middle">PI</text>
+<text x="230" y="196" font-size="12" text-anchor="middle" font-weight="bold">PI-1301</text>
+<text x="250" y="212" font-size="10">Upstream</text>
+<circle cx="900" cy="220" r="15" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="900" y="224" font-size="11" text-anchor="middle">PI</text>
+<text x="900" y="196" font-size="12" text-anchor="middle" font-weight="bold">PI-1302</text>
+<text x="920" y="212" font-size="10">Downstream</text>
+
+<!-- relief valve PSV-1301 (shown in normal, shut position) -->
+<rect x="984" y="430" width="32" height="40" fill="#fff" stroke="#111" stroke-width="2"/>
+<polygon points="990,436 1010,436 1000,456" fill="#fff" stroke="#111" stroke-width="2"/>
+<line x1="990" y1="460" x2="1010" y2="460" stroke="#111" stroke-width="3"/>
+<polyline points="1016,450 1034,450 1026,444 1042,438 1026,432 1042,426 1026,420 1034,414" fill="none" stroke="#111" stroke-width="2"/>
+<text x="1060" y="452" font-size="13" font-weight="bold">PSV-1301</text>
+<text x="1060" y="467" font-size="10">Relief valve, set 6 bar</text>
+<text x="1060" y="482" font-size="10" font-weight="bold" fill="#1a7f37">NORMALLY SHUT</text>
+<text x="1060" y="540" font-size="11" font-weight="bold" fill="#d00">Upset: PSV-1301 lifts, flow to drain</text>
+
+<!-- drain -->
+<polygon points="985,610 1015,610 1000,630" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="1000" y="648" font-size="12" text-anchor="middle" font-weight="bold">D-1301</text>
+<text x="1000" y="662" font-size="10" text-anchor="middle">Drain</text>
+
+<!-- pressures -->
+<text x="130" y="296" font-size="12" text-anchor="middle" fill="#1f5fa8" font-weight="bold">10 bar</text>
+<text x="1170" y="296" font-size="12" text-anchor="middle" fill="#1f5fa8" font-weight="bold">4 bar</text>
+<text x="800" y="210" font-size="12" text-anchor="end" fill="#d00" font-weight="bold">10 bar (upset)</text>
+
+<!-- behaviour panels -->
+<rect x="40" y="700" width="640" height="130" fill="#f6fbf6" stroke="#1a7f37" stroke-width="2"/>
+<text x="55" y="722" font-size="13" fill="#1a7f37" font-weight="bold">NORMAL OPERATION</text>
+<text x="55" y="744" font-size="12">PCV-1301A (duty) reduces the 10 bar trunk pressure to 4 bar.</text>
+<text x="55" y="764" font-size="12">Downstream pressure (PI-1302) of 4 bar is below the 6 bar set pressure of PSV-1301.</text>
+<text x="55" y="784" font-size="12">PSV-1301 stays SHUT: no flow to drain D-1301.</text>
+<text x="55" y="804" font-size="12">PCV-1301B is the standby stream.</text>
+<rect x="700" y="700" width="660" height="130" fill="#fff6f6" stroke="#d00" stroke-width="2"/>
+<text x="715" y="722" font-size="13" fill="#d00" font-weight="bold">UPSET: DUTY PRV FAILS OPEN (AFTERNOON)</text>
+<text x="715" y="744" font-size="12">PCV-1301A fails open and passes full 10 bar trunk pressure downstream (red dashed path).</text>
+<text x="715" y="764" font-size="12">Downstream pressure (PI-1302) rises above the 6 bar set pressure.</text>
+<text x="715" y="784" font-size="12">PSV-1301 LIFTS and discharges the excess flow to drain D-1301,</text>
+<text x="715" y="804" font-size="12">protecting the 4 bar district main until stream A is isolated (HV-1301A1/A2).</text>
+
+<!-- legend -->
+<line x1="40" y1="858" x2="80" y2="858" stroke="#1f5fa8" stroke-width="3"/>
+<text x="90" y="862" font-size="10">Process line</text>
+<line x1="170" y1="858" x2="210" y2="858" stroke="#d00" stroke-width="4" stroke-dasharray="9 6"/>
+<text x="220" y="862" font-size="10">Flow path in upset case</text>
+</svg>

@@ -1,0 +1,117 @@
+{
+  "anigram": 1,
+  "id": "pump-exchanger",
+  "title": "Pump and plate heat exchanger",
+  "subtitle": "P-4713 feeds H-1009 through line 80-MNb-47132",
+  "sheet": "PID-001",
+  "size": [7, 1],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 120
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "well",
+      "label": "Feed in",
+      "at": [0, 0],
+      "behaviour": {
+        "role": "source",
+        "output": 90
+      },
+      "tag": "OPC-101",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "p-4713",
+      "kind": "pump",
+      "label": "Centrifugal pump",
+      "at": [2, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 90,
+        "open": "on('p-4713') ? 1 : 0"
+      },
+      "toggles": "p-4713",
+      "tag": "P-4713",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "h-1009",
+      "kind": "radiator",
+      "label": "Plate heat exchanger",
+      "at": [4, 0],
+      "behaviour": {
+        "role": "bus"
+      },
+      "tag": "H-1009",
+      "class": "HeatExchanger"
+    },
+    {
+      "id": "out",
+      "kind": "tap",
+      "label": "To process",
+      "at": [6, 0],
+      "behaviour": {
+        "role": "sink",
+        "demand": 60
+      },
+      "tag": "OPC-102",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "p-4713",
+      "domain": "water",
+      "tag": "80-MNb-47131"
+    },
+    {
+      "from": "p-4713",
+      "to": "h-1009",
+      "domain": "water",
+      "tag": "80-MNb-47132"
+    },
+    {
+      "from": "h-1009",
+      "to": "out",
+      "domain": "water",
+      "tag": "80-MNb-47133"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "project": "Pump and exchanger",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "switches": [
+    {
+      "id": "p-4713",
+      "label": "P-4713 running",
+      "on": true
+    }
+  ],
+  "expect": [
+    {
+      "says": "P-4713 passes the feed on to H-1009",
+      "check": "part('p-4713').out > 0 && part('h-1009').in > 0"
+    },
+    {
+      "says": "the exchanger delivers its full demand",
+      "check": "part('out').in >= 0.999 * part('out').demand"
+    }
+  ]
+}

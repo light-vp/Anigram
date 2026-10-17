@@ -1,0 +1,206 @@
+{
+  "anigram": 1,
+  "id": "ratio-loop-031",
+  "title": "Flow ratio control loop 031",
+  "subtitle": "Controlled stream follows the wild stream at a set ratio",
+  "sheet": "PID-031",
+  "size": [8, 4],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 100
+  },
+  "parts": [
+    {
+      "id": "feed1",
+      "kind": "river",
+      "label": "Wild stream in",
+      "at": [0, 3],
+      "behaviour": {
+        "role": "source",
+        "output": "100 * knob('wild')"
+      },
+      "labelSide": "above",
+      "tag": "OPC-031.1",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "j1",
+      "kind": "manifold",
+      "label": "Wild flow element",
+      "at": [2, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "below",
+      "tag": "FE-031.1",
+      "class": "Junction"
+    },
+    {
+      "id": "dest1",
+      "kind": "factory",
+      "label": "Wild stream out",
+      "at": [7, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": "100 * knob('wild')"
+      },
+      "labelSide": "above",
+      "tag": "OPC-031.2",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "feed2",
+      "kind": "river",
+      "label": "Controlled stream in",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": 100
+      },
+      "labelSide": "below",
+      "tag": "OPC-031.3",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "j2",
+      "kind": "manifold",
+      "label": "Controlled flow element",
+      "at": [2, 1],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "below",
+      "tag": "FE-031.2",
+      "class": "Junction"
+    },
+    {
+      "id": "cv",
+      "kind": "valve",
+      "label": "Ratio control valve",
+      "at": [5, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "clamp(knob('ratio') * prev('j1').in / 100, 0, 1)"
+      },
+      "labelSide": "above",
+      "tag": "FV-031.4",
+      "class": "ControlValve"
+    },
+    {
+      "id": "dest2",
+      "kind": "factory",
+      "label": "Controlled stream out",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": "100 * knob('wild') * knob('ratio')"
+      },
+      "labelSide": "below",
+      "tag": "OPC-031.4",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "feed1",
+      "to": "j1",
+      "domain": "water",
+      "tag": "50-W-031"
+    },
+    {
+      "from": "j1",
+      "to": "dest1",
+      "domain": "water",
+      "tag": "50-W-032"
+    },
+    {
+      "from": "feed2",
+      "to": "j2",
+      "domain": "water",
+      "tag": "50-W-033"
+    },
+    {
+      "from": "j2",
+      "to": "cv",
+      "domain": "water",
+      "tag": "50-W-034"
+    },
+    {
+      "from": "cv",
+      "to": "dest2",
+      "domain": "water",
+      "tag": "50-W-035"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Your organisation",
+    "project": "Ratio control loop 031",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "FI-031.1",
+      "at": [2, 2],
+      "measures": "j1",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "FI-031.2",
+      "at": [2, 0],
+      "measures": "j2",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "FFIC-031",
+      "at": [4, 2],
+      "measures": "FI-031.1",
+      "reads": "part('dest2').in / max(part('dest1').in, 0.001)",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "YC-031.4",
+      "at": [5, 0],
+      "measures": "FFIC-031",
+      "drives": "cv",
+      "mounting": "field"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "wild",
+      "label": "wild stream flow",
+      "value": 0.8,
+      "format": "{pct}%"
+    },
+    {
+      "id": "ratio",
+      "label": "FFIC-031 ratio setpoint",
+      "value": 0.5,
+      "format": "{pct}%"
+    }
+  ],
+  "expect": [
+    {
+      "says": "the controlled stream is held at the ratio setpoint times the wild stream",
+      "check": "abs(part('dest2').in - knob('ratio') * part('dest1').in) < 0.02 * 100"
+    },
+    {
+      "says": "the wild stream flows freely",
+      "check": "part('dest1').in > 0.99 * 100 * knob('wild')"
+    }
+  ]
+}

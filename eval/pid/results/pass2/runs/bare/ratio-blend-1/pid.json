@@ -1,0 +1,49 @@
+{
+  "items": [
+    {
+      "tag": "OSC-1",
+      "type": "off-sheet connector",
+      "label": "Base stock from off sheet"
+    },
+    {
+      "tag": "FT-1201",
+      "type": "flow transmitter",
+      "label": "Base stock flow (wild)"
+    },
+    {
+      "tag": "T-1202",
+      "type": "vertical storage tank",
+      "label": "Additive tank"
+    },
+    { "tag": "P-1202", "type": "centrifugal pump", "label": "Additive pump" },
+    { "tag": "FT-1202", "type": "flow transmitter", "label": "Additive flow" },
+    {
+      "tag": "FV-1202",
+      "type": "control valve",
+      "label": "Additive flow control valve"
+    },
+    {
+      "tag": "FFIC-1202",
+      "type": "flow ratio indicating controller",
+      "label": "Additive to base stock ratio controller, 5%"
+    },
+    {
+      "tag": "M-1201",
+      "type": "static mixer",
+      "label": "In-line static mixer"
+    },
+    { "tag": "T-1203", "type": "vertical storage tank", "label": "Blend tank" }
+  ],
+  "lines": [
+    { "from": "OSC-1", "to": "FT-1201", "kind": "process" },
+    { "from": "FT-1201", "to": "M-1201", "kind": "process" },
+    { "from": "T-1202", "to": "P-1202", "kind": "process" },
+    { "from": "P-1202", "to": "FT-1202", "kind": "process" },
+    { "from": "FT-1202", "to": "FV-1202", "kind": "process" },
+    { "from": "FV-1202", "to": "M-1201", "kind": "process" },
+    { "from": "M-1201", "to": "T-1203", "kind": "process" },
+    { "from": "FT-1201", "to": "FFIC-1202", "kind": "signal" },
+    { "from": "FT-1202", "to": "FFIC-1202", "kind": "signal" },
+    { "from": "FFIC-1202", "to": "FV-1202", "kind": "signal" }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "items": [
+    { "tag": "T-4750", "type": "tank", "label": "Tank T-4750" },
+    { "tag": "P-4711", "type": "centrifugal pump", "label": "Feed pump" },
+    {
+      "tag": "P-4712",
+      "type": "reciprocating pump",
+      "label": "Tank discharge pump"
+    },
+    {
+      "tag": "H-1007",
+      "type": "plate heat exchanger",
+      "label": "Plate heat exchanger"
+    },
+    {
+      "tag": "H-1008",
+      "type": "floating-head shell and tube heat exchanger",
+      "label": "Floating-head exchanger, process on tube side"
+    },
+    {
+      "tag": "HV-4750.01",
+      "type": "actuated on/off globe valve",
+      "label": "Tank inlet on/off valve"
+    },
+    {
+      "tag": "V-4712.01",
+      "type": "butterfly valve",
+      "label": "Pump suction butterfly valve"
+    },
+    {
+      "tag": "NRV-4712.02",
+      "type": "swing check valve",
+      "label": "Pump suction check valve"
+    },
+    {
+      "tag": "RED-4712.03",
+      "type": "reducer",
+      "label": "Pump suction reducer"
+    },
+    {
+      "tag": "V-4712.04",
+      "type": "ball valve",
+      "label": "Pump suction ball valve"
+    },
+    { "tag": "V-4712.05", "type": "ball valve", "label": "Header drain valve" },
+    {
+      "tag": "SV-104.01",
+      "type": "safety valve",
+      "label": "Safety valve, set 6 barg, relieves to T-4750"
+    },
+    {
+      "tag": "V-4712.06",
+      "type": "ball valve",
+      "label": "Pressure gauge tapping valve"
+    },
+    {
+      "tag": "V-4712.07",
+      "type": "ball valve",
+      "label": "Header isolation valve"
+    },
+    {
+      "tag": "V-4712.08",
+      "type": "ball valve",
+      "label": "Pressure controller tapping valve"
+    },
+    {
+      "tag": "PV-4712.02",
+      "type": "control valve",
+      "label": "Pressure control valve on H-1008 return"
+    },
+    {
+      "tag": "TV-4750.03",
+      "type": "control valve",
+      "label": "Utility temperature control valve on H-1008"
+    },
+    {
+      "tag": "PI-4712.01",
+      "type": "local pressure gauge",
+      "label": "Pump discharge pressure indicator"
+    },
+    {
+      "tag": "PICSA-4712.02",
+      "type": "pressure controller (DCS)",
+      "label": "Discharge pressure controller"
+    },
+    {
+      "tag": "TICSA-4750.03",
+      "type": "temperature controller (DCS)",
+      "label": "T-4750 temperature controller"
+    },
+    {
+      "tag": "HS-4750.01",
+      "type": "hand switch (control room)",
+      "label": "Open/close switch for HV-4750.01"
+    },
+    { "tag": "DRN-47126", "type": "drain point", "label": "Header drain" },
+    {
+      "tag": "OSC-47121",
+      "type": "off-sheet connector",
+      "label": "Feed from off sheet, line 47121"
+    },
+    {
+      "tag": "OSC-47126",
+      "type": "off-sheet connector",
+      "label": "Product to off sheet, header 47126"
+    },
+    {
+      "tag": "OSC-47130",
+      "type": "off-sheet connector",
+      "label": "H-1007 utility in, line 47130"
+    },
+    {
+      "tag": "OSC-47131",
+      "type": "off-sheet connector",
+      "label": "H-1007 utility out, line 47131"
+    },
+    {
+      "tag": "OSC-47140",
+      "type": "off-sheet connector",
+      "label": "H-1008 utility in, line 47140"
+    },
+    {
+      "tag": "OSC-47141",
+      "type": "off-sheet connector",
+      "label": "H-1008 utility out, line 47141"
+    }
+  ],
+  "lines": [
+    { "from": "OSC-47121", "to": "P-4711", "kind": "process" },
+    { "from": "P-4711", "to": "H-1007", "kind": "process" },
+    { "from": "H-1007", "to": "HV-4750.01", "kind": "process" },
+    { "from": "HV-4750.01", "to": "T-4750", "kind": "process" },
+    { "from": "OSC-47130", "to": "H-1007", "kind": "process" },
+    { "from": "H-1007", "to": "OSC-47131", "kind": "process" },
+    { "from": "T-4750", "to": "V-4712.01", "kind": "process" },
+    { "from": "V-4712.01", "to": "NRV-4712.02", "kind": "process" },
+    { "from": "NRV-4712.02", "to": "RED-4712.03", "kind": "process" },
+    { "from": "RED-4712.03", "to": "V-4712.04", "kind": "process" },
+    { "from": "V-4712.04", "to": "P-4712", "kind": "process" },
+    { "from": "P-4712", "to": "V-4712.05", "kind": "process" },
+    { "from": "V-4712.05", "to": "DRN-47126", "kind": "process" },
+    { "from": "P-4712", "to": "SV-104.01", "kind": "process" },
+    { "from": "SV-104.01", "to": "T-4750", "kind": "process" },
+    { "from": "P-4712", "to": "V-4712.06", "kind": "process" },
+    { "from": "V-4712.06", "to": "PI-4712.01", "kind": "process" },
+    { "from": "P-4712", "to": "V-4712.07", "kind": "process" },
+    { "from": "V-4712.07", "to": "H-1008", "kind": "process" },
+    { "from": "V-4712.07", "to": "V-4712.08", "kind": "process" },
+    { "from": "V-4712.08", "to": "PICSA-4712.02", "kind": "process" },
+    { "from": "V-4712.07", "to": "OSC-47126", "kind": "process" },
+    { "from": "H-1008", "to": "PV-4712.02", "kind": "process" },
+    { "from": "PV-4712.02", "to": "T-4750", "kind": "process" },
+    { "from": "OSC-47140", "to": "H-1008", "kind": "process" },
+    { "from": "H-1008", "to": "TV-4750.03", "kind": "process" },
+    { "from": "TV-4750.03", "to": "OSC-47141", "kind": "process" },
+    { "from": "HS-4750.01", "to": "HV-4750.01", "kind": "signal" },
+    { "from": "PICSA-4712.02", "to": "PV-4712.02", "kind": "signal" },
+    { "from": "T-4750", "to": "TICSA-4750.03", "kind": "signal" },
+    { "from": "TICSA-4750.03", "to": "TV-4750.03", "kind": "signal" }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "items": [
+    {
+      "tag": "T-1601",
+      "type": "tank",
+      "label": ""
+    },
+    {
+      "tag": "P-1601A",
+      "type": "pump",
+      "label": ""
+    },
+    {
+      "tag": "P-1601B",
+      "type": "pump",
+      "label": ""
+    }
+  ],
+  "lines": [
+    {
+      "from": "T-1601",
+      "to": "P-1601A",
+      "kind": "process"
+    },
+    {
+      "from": "T-1601",
+      "to": "P-1601B",
+      "kind": "process"
+    }
+  ]
+}

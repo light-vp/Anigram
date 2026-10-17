@@ -1,0 +1,76 @@
+{
+  "items": [
+    { "tag": "WW-1501", "type": "wet well", "label": "Wastewater wet well" },
+    {
+      "tag": "P-1501A",
+      "type": "submersible pump",
+      "label": "Lift pump A (lead)"
+    },
+    {
+      "tag": "P-1501B",
+      "type": "submersible pump",
+      "label": "Lift pump B (lag)"
+    },
+    {
+      "tag": "CV-1501A",
+      "type": "check valve",
+      "label": "P-1501A discharge check valve"
+    },
+    {
+      "tag": "CV-1501B",
+      "type": "check valve",
+      "label": "P-1501B discharge check valve"
+    },
+    {
+      "tag": "HV-1501A",
+      "type": "isolating valve",
+      "label": "P-1501A discharge isolating valve"
+    },
+    {
+      "tag": "HV-1501B",
+      "type": "isolating valve",
+      "label": "P-1501B discharge isolating valve"
+    },
+    {
+      "tag": "LT-1501",
+      "type": "level transmitter",
+      "label": "Wet well level"
+    },
+    {
+      "tag": "LAHH-1501",
+      "type": "level alarm high-high",
+      "label": "Wet well high-high level alarm"
+    },
+    {
+      "tag": "PLC-1501",
+      "type": "programmable logic controller",
+      "label": "Station PLC"
+    },
+    {
+      "tag": "SEWER-IN",
+      "type": "off-sheet connector",
+      "label": "Gravity sewer inflow"
+    },
+    {
+      "tag": "RM-1501",
+      "type": "off-sheet connector",
+      "label": "Common rising main"
+    }
+  ],
+  "lines": [
+    { "from": "SEWER-IN", "to": "WW-1501", "kind": "process" },
+    { "from": "WW-1501", "to": "P-1501A", "kind": "process" },
+    { "from": "WW-1501", "to": "P-1501B", "kind": "process" },
+    { "from": "P-1501A", "to": "CV-1501A", "kind": "process" },
+    { "from": "CV-1501A", "to": "HV-1501A", "kind": "process" },
+    { "from": "HV-1501A", "to": "RM-1501", "kind": "process" },
+    { "from": "P-1501B", "to": "CV-1501B", "kind": "process" },
+    { "from": "CV-1501B", "to": "HV-1501B", "kind": "process" },
+    { "from": "HV-1501B", "to": "RM-1501", "kind": "process" },
+    { "from": "WW-1501", "to": "LT-1501", "kind": "process" },
+    { "from": "LT-1501", "to": "PLC-1501", "kind": "signal" },
+    { "from": "PLC-1501", "to": "P-1501A", "kind": "signal" },
+    { "from": "PLC-1501", "to": "P-1501B", "kind": "signal" },
+    { "from": "PLC-1501", "to": "LAHH-1501", "kind": "signal" }
+  ]
+}

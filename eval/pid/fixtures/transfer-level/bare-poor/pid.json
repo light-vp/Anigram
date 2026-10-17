@@ -1,0 +1,13 @@
+{
+  "items": [
+    { "tag": "TANK1", "type": "tank", "label": "Storage" },
+    { "tag": "PUMP", "type": "pump", "label": "Pump" },
+    { "tag": "TANK2", "type": "tank", "label": "Day tank" },
+    { "tag": "LC", "type": "level controller", "label": "Level control" }
+  ],
+  "lines": [
+    { "from": "TANK1", "to": "PUMP", "kind": "process" },
+    { "from": "PUMP", "to": "TANK2", "kind": "process" },
+    { "from": "LC", "to": "TANK2", "kind": "signal" }
+  ]
+}

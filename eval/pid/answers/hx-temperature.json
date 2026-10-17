@@ -1,0 +1,137 @@
+{
+  "id": "hx-temperature",
+  "source": "written",
+  "equipment": [
+    {
+      "family": "heat-exchanger",
+      "tag": "^E201$",
+      "says": "heat exchanger E-201"
+    },
+    {
+      "family": "offpage",
+      "min": 4,
+      "says": "product in and out, CW supply and return"
+    }
+  ],
+  "valves": [
+    {
+      "family": "control",
+      "tag": "^TV201$",
+      "says": "control valve TV-201"
+    },
+    {
+      "family": "isolation",
+      "min": 2
+    },
+    {
+      "family": "relief",
+      "on": {
+        "family": "heat-exchanger",
+        "tag": "^E201$",
+        "says": "heat exchanger E-201"
+      },
+      "hops": 2,
+      "says": "a thermal relief valve on E-201"
+    }
+  ],
+  "instruments": [
+    {
+      "letters": "TT",
+      "number": "201",
+      "on": [
+        {
+          "family": "heat-exchanger",
+          "tag": "^E201$",
+          "says": "heat exchanger E-201"
+        },
+        {
+          "family": "offpage"
+        }
+      ],
+      "hops": 2,
+      "says": "TT-201"
+    },
+    {
+      "letters": "TIC",
+      "number": "201",
+      "says": "TIC-201"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": "heat-exchanger",
+        "tag": "^E201$",
+        "says": "heat exchanger E-201"
+      },
+      "says": "product (or CW) in to E-201"
+    },
+    {
+      "from": {
+        "family": "heat-exchanger",
+        "tag": "^E201$",
+        "says": "heat exchanger E-201"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^TV201$",
+          "says": "control valve TV-201"
+        }
+      ],
+      "says": "E-201 → CW return through TV-201"
+    },
+    {
+      "from": {
+        "family": "heat-exchanger",
+        "tag": "^E201$",
+        "says": "heat exchanger E-201"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "isolation"
+        }
+      ],
+      "says": "a CW connection on E-201 through an isolating valve"
+    }
+  ],
+  "loops": [
+    {
+      "says": "TT-201 → TIC-201 → TV-201",
+      "controller": {
+        "letters": "TIC",
+        "number": "201"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^TV201$",
+        "says": "control valve TV-201"
+      },
+      "sensor": [
+        {
+          "variable": "T",
+          "on": [
+            {
+              "family": "heat-exchanger",
+              "tag": "^E201$",
+              "says": "heat exchanger E-201"
+            },
+            {
+              "family": "offpage"
+            }
+          ],
+          "hops": 3
+        }
+      ]
+    }
+  ]
+}

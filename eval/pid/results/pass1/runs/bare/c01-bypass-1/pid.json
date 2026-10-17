@@ -1,0 +1,139 @@
+{
+  "items": [
+    { "tag": "P4711", "type": "centrifugal pump", "label": "Centrifugal pump" },
+    {
+      "tag": "H1007",
+      "type": "plate heat exchanger",
+      "label": "Plate heat exchanger"
+    },
+    {
+      "tag": "P4712",
+      "type": "reciprocating pump",
+      "label": "Reciprocating pump"
+    },
+    {
+      "tag": "H1008",
+      "type": "floating-head shell and tube heat exchanger",
+      "label": "Tubular heat exchanger"
+    },
+    { "tag": "T-4750", "type": "tank", "label": "Tank (recycle receiver)" },
+    {
+      "tag": "PV-4712.02",
+      "type": "control valve, globe, fail closed",
+      "label": "Recycle control valve to T-4750"
+    },
+    {
+      "tag": "V-4712.02-U",
+      "type": "ball valve",
+      "label": "Block valve upstream of PV-4712.02 (new, normally open)"
+    },
+    {
+      "tag": "V-4712.02-D",
+      "type": "ball valve",
+      "label": "Block valve downstream of PV-4712.02 (new, normally open)"
+    },
+    {
+      "tag": "V-4712.02-B",
+      "type": "globe valve, hand-operated",
+      "label": "Bypass valve around PV-4712.02 (new, normally closed)"
+    },
+    {
+      "tag": "HV4750.01",
+      "type": "actuated globe valve, fail closed",
+      "label": "Hand-switch operated valve on line 47123"
+    },
+    {
+      "tag": "TV4750.03",
+      "type": "control valve, globe, fail open",
+      "label": "Temperature control valve on line 47141"
+    },
+    {
+      "tag": "ButterflyValve-1",
+      "type": "butterfly valve",
+      "label": "66KL21-80"
+    },
+    {
+      "tag": "SwingCheckValve-1",
+      "type": "swing check valve",
+      "label": "75SA21-80"
+    },
+    { "tag": "BallValve-1", "type": "ball valve", "label": "73KH12-50" },
+    { "tag": "BallValve-2", "type": "ball valve", "label": "73KH12-25" },
+    { "tag": "BallValve-3", "type": "ball valve", "label": "73KH12-25" },
+    { "tag": "BallValve-4", "type": "ball valve", "label": "73KH12-50" },
+    { "tag": "BallValve-5", "type": "ball valve", "label": "73KH12-25" },
+    {
+      "tag": "SV 104.01",
+      "type": "spring-loaded angle safety valve",
+      "label": "Safety valve, set 6 barg, DN 25/50"
+    },
+    {
+      "tag": "PT4712.01",
+      "type": "pressure transmitter",
+      "label": "Pressure transmitter, loop 4712.01"
+    },
+    {
+      "tag": "PI4712.01",
+      "type": "pressure indicator, field",
+      "label": "Pressure indicator"
+    },
+    {
+      "tag": "PT4712.02",
+      "type": "pressure transmitter",
+      "label": "Pressure transmitter, loop 4712.02"
+    },
+    {
+      "tag": "PICSA4712.02",
+      "type": "pressure indicating controller with switch and alarm, central",
+      "label": "Pressure controller for PV-4712.02"
+    },
+    {
+      "tag": "HS4750.01",
+      "type": "hand switch, central",
+      "label": "Hand switch for HV4750.01"
+    },
+    {
+      "tag": "TT4750.03",
+      "type": "temperature transmitter",
+      "label": "Temperature transmitter on T-4750"
+    },
+    {
+      "tag": "TICSA4750.03",
+      "type": "temperature indicating controller with switch and alarm, central",
+      "label": "Temperature controller for TV4750.03"
+    }
+  ],
+  "lines": [
+    { "from": "P4711", "to": "H1007", "kind": "process" },
+    { "from": "H1007", "to": "HV4750.01", "kind": "process" },
+    { "from": "HV4750.01", "to": "T-4750", "kind": "process" },
+    { "from": "T-4750", "to": "ButterflyValve-1", "kind": "process" },
+    {
+      "from": "ButterflyValve-1",
+      "to": "SwingCheckValve-1",
+      "kind": "process"
+    },
+    { "from": "SwingCheckValve-1", "to": "BallValve-1", "kind": "process" },
+    { "from": "BallValve-1", "to": "P4712", "kind": "process" },
+    { "from": "P4712", "to": "BallValve-2", "kind": "process" },
+    { "from": "P4712", "to": "SV 104.01", "kind": "process" },
+    { "from": "SV 104.01", "to": "T-4750", "kind": "process" },
+    { "from": "P4712", "to": "BallValve-3", "kind": "process" },
+    { "from": "P4712", "to": "BallValve-4", "kind": "process" },
+    { "from": "BallValve-4", "to": "H1008", "kind": "process" },
+    { "from": "BallValve-4", "to": "BallValve-5", "kind": "process" },
+    { "from": "H1008", "to": "V-4712.02-U", "kind": "process" },
+    { "from": "V-4712.02-U", "to": "PV-4712.02", "kind": "process" },
+    { "from": "PV-4712.02", "to": "V-4712.02-D", "kind": "process" },
+    { "from": "V-4712.02-D", "to": "T-4750", "kind": "process" },
+    { "from": "H1008", "to": "V-4712.02-B", "kind": "process" },
+    { "from": "V-4712.02-B", "to": "T-4750", "kind": "process" },
+    { "from": "H1008", "to": "TV4750.03", "kind": "process" },
+    { "from": "PT4712.01", "to": "PI4712.01", "kind": "signal" },
+    { "from": "PT4712.02", "to": "PICSA4712.02", "kind": "signal" },
+    { "from": "PICSA4712.02", "to": "PV-4712.02", "kind": "signal" },
+    { "from": "TT4750.03", "to": "TICSA4750.03", "kind": "signal" },
+    { "from": "TICSA4750.03", "to": "TV4750.03", "kind": "signal" },
+    { "from": "HS4750.01", "to": "HV4750.01", "kind": "signal" }
+  ]
+}

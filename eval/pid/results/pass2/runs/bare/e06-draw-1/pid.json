@@ -1,0 +1,7 @@
+{
+  "items": [
+    { "tag": "P-4713", "type": "centrifugal pump", "label": "P-4713" },
+    { "tag": "H-1009", "type": "plate heat exchanger", "label": "H-1009" }
+  ],
+  "lines": [{ "from": "P-4713", "to": "H-1009", "kind": "process" }]
+}

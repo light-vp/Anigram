@@ -1,0 +1,59 @@
+{
+  "items": [
+    { "tag": "T-101", "type": "storage tank", "label": "Storage tank" },
+    { "tag": "P-101", "type": "centrifugal pump", "label": "Transfer pump" },
+    { "tag": "T-102", "type": "day tank", "label": "Day tank" },
+    {
+      "tag": "HV-101",
+      "type": "manual isolating valve",
+      "label": "Suction isolating valve"
+    },
+    {
+      "tag": "CV-101",
+      "type": "check valve",
+      "label": "Discharge check valve"
+    },
+    {
+      "tag": "HV-102",
+      "type": "manual isolating valve",
+      "label": "Discharge isolating valve"
+    },
+    {
+      "tag": "LV-102",
+      "type": "control valve",
+      "label": "Level control valve"
+    },
+    {
+      "tag": "LT-101",
+      "type": "level transmitter",
+      "label": "T-101 level transmitter"
+    },
+    {
+      "tag": "LAL-101",
+      "type": "level alarm low",
+      "label": "T-101 low level alarm and pump protection"
+    },
+    {
+      "tag": "LT-102",
+      "type": "level transmitter",
+      "label": "T-102 level transmitter"
+    },
+    {
+      "tag": "LIC-102",
+      "type": "level indicating controller",
+      "label": "T-102 level controller"
+    }
+  ],
+  "lines": [
+    { "from": "T-101", "to": "HV-101", "kind": "process" },
+    { "from": "HV-101", "to": "P-101", "kind": "process" },
+    { "from": "P-101", "to": "CV-101", "kind": "process" },
+    { "from": "CV-101", "to": "HV-102", "kind": "process" },
+    { "from": "HV-102", "to": "LV-102", "kind": "process" },
+    { "from": "LV-102", "to": "T-102", "kind": "process" },
+    { "from": "LT-101", "to": "LAL-101", "kind": "signal" },
+    { "from": "LAL-101", "to": "P-101", "kind": "signal" },
+    { "from": "LT-102", "to": "LIC-102", "kind": "signal" },
+    { "from": "LIC-102", "to": "LV-102", "kind": "signal" }
+  ]
+}

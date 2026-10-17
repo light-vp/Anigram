@@ -1,0 +1,161 @@
+{
+  "items": [
+    {
+      "tag": "T-1601",
+      "type": "raw water storage tank",
+      "label": "Raw water tank"
+    },
+    {
+      "tag": "LV-1601",
+      "type": "level control valve",
+      "label": "Intake LCV"
+    },
+    {
+      "tag": "HV-1601A",
+      "type": "gate valve",
+      "label": "P-1601A suction"
+    },
+    {
+      "tag": "HV-1601B",
+      "type": "gate valve",
+      "label": "P-1601B suction"
+    },
+    {
+      "tag": "P-1601A",
+      "type": "centrifugal pump",
+      "label": "Transfer pump, duty"
+    },
+    {
+      "tag": "P-1601B",
+      "type": "centrifugal pump",
+      "label": "Transfer pump, standby"
+    },
+    {
+      "tag": "NRV-1601A",
+      "type": "swing check valve",
+      "label": ""
+    },
+    {
+      "tag": "NRV-1601B",
+      "type": "swing check valve",
+      "label": ""
+    },
+    {
+      "tag": "HV-1602A",
+      "type": "gate valve",
+      "label": "P-1601A discharge"
+    },
+    {
+      "tag": "HV-1602B",
+      "type": "gate valve",
+      "label": "P-1601B discharge"
+    },
+    {
+      "tag": "OPC-01",
+      "type": "off-page connector",
+      "label": "From river intake"
+    },
+    {
+      "tag": "OPC-02",
+      "type": "off-page connector",
+      "label": "To treatment plant"
+    },
+    {
+      "tag": "LT-1601",
+      "type": "level transmitter",
+      "label": ""
+    },
+    {
+      "tag": "LIC-1601",
+      "type": "level indicating controller",
+      "label": "DCS"
+    },
+    {
+      "tag": "LSHH-1602",
+      "type": "high-high level switch",
+      "label": "Independent trip"
+    }
+  ],
+  "lines": [
+    {
+      "from": "OPC-01",
+      "to": "LV-1601",
+      "kind": "process"
+    },
+    {
+      "from": "LV-1601",
+      "to": "T-1601",
+      "kind": "process"
+    },
+    {
+      "from": "T-1601",
+      "to": "HV-1601A",
+      "kind": "process"
+    },
+    {
+      "from": "T-1601",
+      "to": "HV-1601B",
+      "kind": "process"
+    },
+    {
+      "from": "HV-1601A",
+      "to": "P-1601A",
+      "kind": "process"
+    },
+    {
+      "from": "HV-1601B",
+      "to": "P-1601B",
+      "kind": "process"
+    },
+    {
+      "from": "P-1601A",
+      "to": "NRV-1601A",
+      "kind": "process"
+    },
+    {
+      "from": "P-1601B",
+      "to": "NRV-1601B",
+      "kind": "process"
+    },
+    {
+      "from": "NRV-1601A",
+      "to": "HV-1602A",
+      "kind": "process"
+    },
+    {
+      "from": "NRV-1601B",
+      "to": "HV-1602B",
+      "kind": "process"
+    },
+    {
+      "from": "HV-1602A",
+      "to": "OPC-02",
+      "kind": "process"
+    },
+    {
+      "from": "HV-1602B",
+      "to": "OPC-02",
+      "kind": "process"
+    },
+    {
+      "from": "LT-1601",
+      "to": "T-1601",
+      "kind": "signal"
+    },
+    {
+      "from": "LT-1601",
+      "to": "LIC-1601",
+      "kind": "signal"
+    },
+    {
+      "from": "LIC-1601",
+      "to": "LV-1601",
+      "kind": "signal"
+    },
+    {
+      "from": "LSHH-1602",
+      "to": "T-1601",
+      "kind": "signal"
+    }
+  ]
+}
