@@ -102,6 +102,7 @@ test('lists its tools', async () => {
     'list_scenes',
     'new_scene',
     'render_scene',
+    'render_storyboard',
     'share_link',
     'simulate_scene',
     'validate_scene',
@@ -578,4 +579,68 @@ test('every data tool declares an output schema', async () => {
   for (const t of tools)
     if (t.name !== 'anigram_guide')
       assert.equal(t.outputSchema?.type, 'object', t.name)
+})
+
+const hasFfmpeg = (() => {
+  try {
+    execFileSync('ffmpeg', ['-version'], { stdio: 'ignore' })
+    return true
+  } catch {
+    return false
+  }
+})()
+
+test('a storyboard tells the garden’s chain, as a page and as a GIF', async () => {
+  const page = await call('render_storyboard', { id: 'garden-machine' })
+  assert.equal(page.error, false, page.text)
+  assert.equal(page.image.mimeType, 'image/png')
+  const events = page.data.panels
+    .filter((p) => p.kind === 'event')
+    .map((p) => p.event)
+  assert.deepEqual(events, ['dawn', 'full', 'timer', 'empty', 'dusk'])
+
+  const svg = await call('render_storyboard', {
+    id: 'garden-machine',
+    panels: 4,
+    format: 'svg',
+  })
+  assert.equal(svg.data.panels.length, 4)
+  assert.match(svg.text, /^<\?xml/)
+
+  const gif = await call('render_storyboard', {
+    id: 'garden-machine',
+    out: 'out/garden.gif',
+    seconds: 2,
+    fps: 6,
+    width: 320,
+  })
+  assert.equal(gif.error, false, gif.text)
+  assert.equal(gif.data.frames, 12)
+  const bytes = readFileSync(gif.data.saved)
+  assert.equal(bytes.subarray(0, 6).toString(), 'GIF89a')
+  assert.equal(bytes.readUInt16LE(6), 320)
+
+  // a recording is a file, and its shape is for recordings only
+  assert.equal(
+    (await call('render_storyboard', { id: 'grid', format: 'gif' })).error,
+    true,
+  )
+  assert.equal(
+    (await call('render_storyboard', { id: 'grid', seconds: 4 })).error,
+    true,
+  )
+})
+
+test('an MP4 when ffmpeg is there', { skip: !hasFfmpeg }, async () => {
+  const mp4 = await call('render_storyboard', {
+    id: 'water-tower',
+    out: 'out/tower.mp4',
+    seconds: 2,
+    fps: 6,
+    width: 320,
+  })
+  assert.equal(mp4.error, false, mp4.text)
+  const bytes = readFileSync(mp4.data.saved)
+  assert.equal(bytes.subarray(4, 8).toString(), 'ftyp')
+  assert.equal(mp4.data.frames, 12)
 })

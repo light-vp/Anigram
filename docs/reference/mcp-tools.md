@@ -25,6 +25,7 @@ Most tools take a scene three ways: `id` for a built-in sheet, `file` for a scen
 - [`import_sfiles`](#import_sfiles): Open an SFILES 2.0 flowsheet
 - [`export_sfiles`](#export_sfiles): Write a flowsheet as SFILES 2.0
 - [`render_scene`](#render_scene): Draw the sheet
+- [`render_storyboard`](#render_storyboard): Tell the day as a storyboard or a video
 - [`share_link`](#share_link): Open it live
 
 ## anigram_guide
@@ -82,7 +83,7 @@ defaults to empty, `sheet` to `LD-100`, `clock` to `{ start: 6, rate: 1 }`.
 A file without it is read as version 1, and a file from an older version is
 upgraded when it loads, so scene files and share links keep working as the
 format grows. A file from a newer version than the reader knows is refused
-... (623 more lines)
+... (627 more lines)
 ```
 
 ## list_scenes
@@ -858,6 +859,87 @@ Draw the sheet at an hour of the day, the same drawing the app shows in paper mo
   "bytes": 14745,
   "aspect": 1.513
 }
+```
+
+## render_storyboard
+
+**Tell the day as a storyboard or a video**
+
+The moments that tell a scene's day, picked from what the simulation really did: the first time each event fires (so a chain that loops is told once), with the scene's captions filling the gaps. By default it comes back as one PNG page of panels, each the drawing at its moment with its time and what happened: look at it to check the chain reads in order. format svg returns the page as markup; pdf saves it for printing. format gif or mp4 records the day instead: it plays quickly between the moments and slows as each arrives, with what is happening written under the sheet. A recording needs `out`; mp4 also needs ffmpeg on the PATH (gif needs nothing). `at` picks the clock hours yourself; `from` and `to` narrow the stretch of the day.
+
+| parameter | type | required | what it is |
+| - | - | - | - |
+| `scene` | object or string |  | a scene object (or its JSON text) |
+| `file` | string |  | path to a .json scene file, relative to the working directory |
+| `id` | string |  | a built-in sheet id, e.g. "grid" — see list_scenes |
+| `knobs` | object |  | slider values by knob id, e.g. { "cloud": 0.8 } |
+| `switches` | object |  | switch states by id, e.g. { "mains": false } |
+| `panels` | integer |  | most panels (default 8) |
+| `at` | array |  | clock hours to show, instead of choosing the moments |
+| `from` | number |  | clock hour the stretch starts (default the opening hour) |
+| `to` | number |  | clock hour it ends (default a full day later) |
+| `theme` | string |  |  One of `light`, `dark`. |
+| `labels` | boolean |  | label every flow with its value (default false) |
+| `credit` | boolean |  | sign it "Made with Anigram · Vaibhav Patel" (default true) |
+| `format` | string |  | png (default), svg or pdf for the page of panels; gif or mp4 for a recording. With `out`, taken from its extension One of `png`, `svg`, `pdf`, `gif`, `mp4`. |
+| `seconds` | number |  | length of a recording (default 12) |
+| `fps` | integer |  | frames a second of a recording (default 12) |
+| `linger` | number |  | how much a recording slows at each moment; 0 plays the day evenly (default 5) |
+| `width` | integer |  | width in pixels: the PNG page (default 1600) or the recording (default 800, at most 1920) |
+| `out` | string |  | save to this .png, .svg, .pdf, .gif or .mp4 path |
+
+**Example**
+
+```json
+{
+  "id": "garden-machine",
+  "format": "svg",
+  "out": "garden.svg"
+}
+```
+
+```json
+{
+  "panels": [
+    {
+      "n": 1,
+      "hour": 5,
+      "says": "Night. The house runs on the battery; the garden waits for the sun.",
+      "kind": "start"
+    },
+    {
+      "n": 2,
+      "hour": 6,
+      "says": "Morning. Everything waits on the first link: enough sun on the panel.",
+      "kind": "caption"
+    },
+    {
+      "n": 3,
+      "hour": 8.43,
+      "says": "Sunlight on the panel starts the pump.",
+      "kind": "event",
+      "event": "dawn"
+    },
+    {
+      "n": 4,
+      "hour": 9,
+      "says": "Pump, float, timer, sprinkler, and round again while the sun lasts.",
+      "kind": "caption"
+    },
+    {
+      "n": 5,
+      "hour": 9.73,
+      "says": "The tank fills, and its float stops the pump.",
+      "kind": "event",
+      "event": "full"
+    },
+    {
+      "n": 6,
+      "hour": 10.27,
+      "says": "Half an hour later, the timer opens the sprinkler.",
+      "kind": "event",
+      "event": "timer"
+... (20 more lines)
 ```
 
 ## share_link

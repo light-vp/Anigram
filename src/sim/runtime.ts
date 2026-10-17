@@ -168,6 +168,23 @@ export class Simulation {
     this.emit()
   }
 
+  /**
+   * run `hours` of simulated time forward, then move what travels along the
+   * links as `seconds` of real time would: a recording's step, independent of
+   * `playing` and `speed`
+   */
+  advance(hours: number, seconds = 0): void {
+    let left = hours
+    while (left > 1e-9) {
+      const dt = Math.min(left, MAX_STEP)
+      this.advanceClock(dt)
+      this.compute(dt)
+      left -= dt
+    }
+    this.spin(seconds)
+    this.emit()
+  }
+
   private advanceClock(dt: number) {
     this.elapsed += dt
     this.hour += dt
@@ -363,6 +380,11 @@ export class Simulation {
   setSpeed(speed: number) {
     this.speed = speed
     this.emit()
+  }
+
+  /** let things travel and spin on the sheet, or hold them still */
+  setAnimate(animate: boolean) {
+    this.animate = animate
   }
 
   /** start the scene over: clock, controls and stores */

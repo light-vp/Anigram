@@ -35,7 +35,7 @@ embed it, build on it.
 | **LD-005 A data centre**               | electricity in, requests and heat out; UPS batteries bridging the minutes a diesel needs to start                                                                    | trip the mains; push traffic past capacity            |
 | **LD-006 A garden that waters itself** | an event chain: sun starts the pump, a float stops it, a timer opens the sprinkler on tank pressure                                                                  | cloud the sky; watch every link wait for it           |
 
-## One drawing, three media
+## One drawing, four media
 
 - **On a website** — `?embed=1&scene=grid` is the sheet and a slim play bar,
   made for an iframe. The app's **embed** button writes the snippet.
@@ -45,6 +45,9 @@ embed it, build on it.
   opens the same in a browser, Figma or Illustrator.
 - **On a screen** — `?screen=1` is a full-bleed dark sheet with a big caption
   that tours every sheet, one simulated day each. Made for a wall.
+- **In a post or a slide** — **▤ storyboard** picks the moments that tell the
+  day (each event the first time it fires, the captions between) and records
+  the day as a GIF or MP4 that slows down for each one.
 
 <p align="center"><img src="docs/sheet-dark.png" alt="The solar house sheet in the dark theme at midday: the panels exporting a little to the grid while the battery charges." width="620"></p>
 
@@ -75,6 +78,7 @@ errors, a headless day of simulation, SVG rendering and share links:
 | `import_sfiles` / `export_sfiles` | a flowsheet in SFILES 2.0 notation in, or out                                  |
 | `simulate_scene`                  | 24 hours, hour by hour, with every alert and shortfall                         |
 | `render_scene`                    | the sheet at any hour: a PNG to look at, an SVG, or a PDF to print             |
+| `render_storyboard`               | the moments that tell the day as a page of panels, or the day as a GIF or MP4  |
 | `share_link`                      | a URL that opens it live; the scene rides in the link                          |
 
 Each practice also has a prompt (`draw-pid`, `draw-single-line`, `draw-pfd`, `draw-fluid-power`,

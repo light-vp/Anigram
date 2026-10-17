@@ -228,7 +228,9 @@ for (const c of cases) {
       exit: code,
       ...s,
       first: firstWrite ? !firstWrite.error : false,
-      looked: order.some((x) => x.tool === 'render_scene'),
+      looked: order.some(
+        (x) => x.tool === 'render_scene' || x.tool === 'render_storyboard',
+      ),
       calls: order.length,
       errors: order.filter((x) => x.error).length,
       tools: order.map((x) => x.tool + (x.error ? '!' : '')),

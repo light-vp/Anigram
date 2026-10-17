@@ -45,7 +45,7 @@ export function EmbedView({
   const still = initial.paper || reduced
 
   useEffect(() => {
-    sim.animate = !still
+    sim.setAnimate(!still)
   }, [sim, still])
 
   // the element's attributes can change under a running sheet: apply what
@@ -121,7 +121,7 @@ export function ScreenView({
   const frame = useFrame(sim)
 
   useEffect(() => {
-    sim.animate = !reduced
+    sim.setAnimate(!reduced)
   }, [sim, reduced])
 
   useEffect(() => {
