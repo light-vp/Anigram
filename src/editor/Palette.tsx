@@ -5,7 +5,7 @@ import type { CSSProperties } from 'react'
 
 import { reachOf } from '../packs/catalogue.ts'
 import { PackSymbol } from '../packs/symbols.tsx'
-import { glyphFor } from '../parts/index.ts'
+import { drawGlyph } from '../parts/index.ts'
 import type { PartState } from '../sim/solver.ts'
 import type { DrawingType, PartSpec, SymbolSet } from '../sim/types.ts'
 import { THEMES, paletteVars } from '../view/palette.ts'
@@ -31,8 +31,7 @@ const SHOWN: PartState = {
 }
 
 export function GlyphIcon({ kind }: { kind: string }) {
-  const Glyph = glyphFor(kind)
-  return <Glyph s={SHOWN} phase={0} />
+  return drawGlyph(kind, { s: SHOWN, phase: 0 })
 }
 
 /** a palette item as the sheet would draw it */

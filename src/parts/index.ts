@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
+import { createElement } from 'react'
+
 import * as G from './glyphs.tsx'
-import type { Glyph } from './glyphs.tsx'
+import type { Glyph, GlyphProps } from './glyphs.tsx'
 import { isPartKind } from './kinds.ts'
 import type { PartKind } from './kinds.ts'
 
@@ -76,4 +78,9 @@ export const BAR_KINDS = new Set(['busbar', 'manifold'])
 
 export function glyphFor(kind: string): Glyph {
   return isPartKind(kind) ? GLYPHS[kind] : G.Generic
+}
+
+/** a part's glyph as an element, for drawing a kind known only at render */
+export function drawGlyph(kind: string, props: GlyphProps) {
+  return createElement(glyphFor(kind), props)
 }

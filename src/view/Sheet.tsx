@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 
 import { shownParts, shows } from '../packs/catalogue.ts'
 import { SYMBOL_CSS } from '../packs/symbolCss.ts'
-import { BAR_KINDS, glyphFor } from '../parts/index.ts'
+import { BAR_KINDS, drawGlyph } from '../parts/index.ts'
 import { clockTime } from '../sim/profiles.ts'
 import type { Frame } from '../sim/runtime.ts'
 import type { LinkState } from '../sim/solver.ts'
@@ -17,7 +17,8 @@ import type {
   PartSpec,
   Scene,
 } from '../sim/types.ts'
-import { ChainArrows, ChainRings, chainEdges } from './chain.tsx'
+import { ChainArrows, ChainRings } from './chain.tsx'
+import { chainEdges } from './chainEdges.ts'
 import { effortReadout, rate, readout } from './format.ts'
 import { labelBoxOf } from './lint.ts'
 import {
@@ -471,7 +472,6 @@ function PartView({
   const s = frame.parts[part.id]
   if (!s) return null
   const [x, y] = cellToPx(part.at)
-  const Glyph = glyphFor(part.kind)
   const bar = BAR_KINDS.has(part.kind)
   const cls = [
     'part',
@@ -503,7 +503,7 @@ function PartView({
           rx={TILE_R}
         />
       )}
-      <Glyph s={s} phase={frame.partPhase[part.id] ?? 0} />
+      {drawGlyph(part.kind, { s, phase: frame.partPhase[part.id] ?? 0 })}
       <rect
         className="hit"
         x={-half}

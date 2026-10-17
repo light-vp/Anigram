@@ -20,6 +20,7 @@ import type { ThemeId } from '../view/palette.ts'
 import { Sheet } from '../view/Sheet.tsx'
 import { instrumentAt, partAt } from './doc.ts'
 import type { Cell, Doc } from './doc.ts'
+import type { ClockKeeper } from './clock.ts'
 import { GlyphIcon } from './Palette.tsx'
 import styles from './Editor.module.css'
 
@@ -29,13 +30,6 @@ import styles from './Editor.module.css'
  * simulation never shows anything the solver didn't decide; the clock
  * survives, so an edit doesn't throw you back to dawn.
  */
-
-export interface Clock {
-  hour: number
-  day: number
-  speed: number
-  playing: boolean
-}
 
 /** what dropping something on a cell means */
 export type Drop =
@@ -47,7 +41,7 @@ export interface CanvasProps {
   doc: Doc
   scene: Scene
   theme: ThemeId
-  clock: { current: Clock }
+  clock: ClockKeeper
   /** the selected part's id, for the sheet's highlight */
   selected: string | null
   /** something is armed in the palette, or a link is being drawn */
@@ -72,24 +66,25 @@ export function Canvas({
 }: CanvasProps) {
   const reduced = usePrefersReducedMotion()
   const sim = useSimulation(scene, (s) => {
-    s.seek(clock.current.hour)
-    s.day = clock.current.day
-    s.setSpeed(clock.current.speed)
-    s.setPlaying(clock.current.playing && !reduced)
+    const was = clock.get()
+    s.seek(was.hour)
+    s.day = was.day
+    s.setSpeed(was.speed)
+    s.setPlaying(was.playing && !reduced)
   })
   const frame = useFrame(sim)
 
   useEffect(() => {
-    sim.animate = !reduced
+    sim.setAnimate(!reduced)
   }, [sim, reduced])
 
   useEffect(() => {
-    clock.current = {
+    clock.set({
       hour: frame.hour,
       day: frame.day,
       speed: sim.speed,
       playing: sim.playing,
-    }
+    })
   }, [frame, sim, clock])
 
   // space plays and pauses

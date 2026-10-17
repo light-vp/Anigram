@@ -382,6 +382,11 @@ export class Simulation {
     this.emit()
   }
 
+  /** let things travel and spin on the sheet, or hold them still */
+  setAnimate(animate: boolean) {
+    this.animate = animate
+  }
+
   /** start the scene over: clock, controls and stores */
   reset() {
     this.hour = this.scene.clock.start

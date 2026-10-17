@@ -107,7 +107,7 @@ export function Workbench({
 
   // paper is a still: the clock stops and every flow is labelled instead
   useEffect(() => {
-    sim.animate = !paper && !reduced
+    sim.setAnimate(!paper && !reduced)
     if (paper) sim.setPlaying(false)
   }, [sim, paper, reduced])
 

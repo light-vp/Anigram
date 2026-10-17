@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import type { ReactNode } from 'react'
 
 import { DOMAINS, LINE_TYPES, MOUNTINGS } from '../format/validate.ts'
@@ -74,7 +74,12 @@ function Text({
   big?: boolean
 }) {
   const [text, setText] = useState(value ?? '')
-  useEffect(() => setText(value ?? ''), [value])
+  // an edit from elsewhere (undo, the source pane) replaces what is typed
+  const [was, setWas] = useState(value)
+  if (value !== was) {
+    setWas(value)
+    setText(value ?? '')
+  }
   const commit = () => text !== (value ?? '') && onCommit(text)
   const input = (
     <input
@@ -112,7 +117,11 @@ function NumberField({
   optional?: boolean
 }) {
   const [text, setText] = useState(value === undefined ? '' : String(value))
-  useEffect(() => setText(value === undefined ? '' : String(value)), [value])
+  const [was, setWas] = useState(value)
+  if (value !== was) {
+    setWas(value)
+    setText(value === undefined ? '' : String(value))
+  }
   const n = Number(text)
   const ok =
     (optional && text.trim() === '') ||
@@ -239,7 +248,11 @@ export function PartPanel({
   const profile = dial ? profileOf(dial.shape) : undefined
   const max = t?.size?.max ?? Math.max(10, (dial?.size ?? 1) * 4)
   const [size, setSize] = useState(dial?.size ?? 0)
-  useEffect(() => setSize(dial?.size ?? 0), [dial?.size])
+  const [sizeWas, setSizeWas] = useState(dial?.size)
+  if (dial?.size !== sizeWas) {
+    setSizeWas(dial?.size)
+    setSize(dial?.size ?? 0)
+  }
   const sized = (n: number) => (dial?.shape ? `${fmt(n)} * ${dial.shape}` : n)
   const state = frame.parts[part.id]
   const scenePart = scene.parts.find((p) => p.id === part.id)
