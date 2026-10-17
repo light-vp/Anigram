@@ -1,0 +1,508 @@
+{
+  "anigram": 1,
+  "id": "tank-farm-801",
+  "title": "Tank farm TK-801/802/803",
+  "subtitle": "Pipeline receipt into three tanks, each protected by an independent high-high level switch",
+  "sheet": "PID-801",
+  "size": [11, 9],
+  "units": {
+    "fuel": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "fuel": 120,
+    "electric": 30
+  },
+  "parts": [
+    {
+      "id": "pipe",
+      "kind": "gaswell",
+      "label": "From pipeline",
+      "at": [0, 4],
+      "behaviour": {
+        "role": "source",
+        "output": "between(hour, 6, 18) ? 100 : 0"
+      },
+      "tag": "OPC-801",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "hdr",
+      "kind": "manifold",
+      "label": "Receipt header",
+      "at": [1, 4],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "below",
+      "tag": "HDR-801",
+      "class": "Junction"
+    },
+    {
+      "id": "xv801",
+      "kind": "valve",
+      "label": "Inlet valve",
+      "at": [2, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": "on('xv801')"
+      },
+      "tag": "XV-801",
+      "class": "BallValve"
+    },
+    {
+      "id": "xv802",
+      "kind": "valve",
+      "label": "Inlet valve",
+      "at": [2, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": "on('xv802')"
+      },
+      "tag": "XV-802",
+      "class": "BallValve"
+    },
+    {
+      "id": "xv803",
+      "kind": "valve",
+      "label": "Inlet valve",
+      "at": [2, 7],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": "on('xv803')"
+      },
+      "tag": "XV-803",
+      "class": "BallValve"
+    },
+    {
+      "id": "tk801",
+      "kind": "fueltank",
+      "label": "Tank 1",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 1000,
+        "start": 0.6,
+        "maxIn": 150,
+        "maxOut": 60
+      },
+      "tag": "TK-801",
+      "class": "Tank"
+    },
+    {
+      "id": "tk802",
+      "kind": "fueltank",
+      "label": "Tank 2",
+      "at": [4, 4],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 1000,
+        "start": 0.2,
+        "maxIn": 150,
+        "maxOut": 60
+      },
+      "tag": "TK-802",
+      "class": "Tank"
+    },
+    {
+      "id": "tk803",
+      "kind": "fueltank",
+      "label": "Tank 3",
+      "at": [4, 7],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 1000,
+        "start": 0.1,
+        "maxIn": 150,
+        "maxOut": 60
+      },
+      "tag": "TK-803",
+      "class": "Tank"
+    },
+    {
+      "id": "hv801",
+      "kind": "valve",
+      "label": "Isolating valve",
+      "at": [6, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": 1
+      },
+      "tag": "HV-801",
+      "class": "GateValve"
+    },
+    {
+      "id": "hv802",
+      "kind": "valve",
+      "label": "Isolating valve",
+      "at": [6, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": 1
+      },
+      "tag": "HV-802",
+      "class": "GateValve"
+    },
+    {
+      "id": "hv803",
+      "kind": "valve",
+      "label": "Isolating valve",
+      "at": [6, 7],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": 1
+      },
+      "tag": "HV-803",
+      "class": "GateValve"
+    },
+    {
+      "id": "dhdr",
+      "kind": "manifold",
+      "label": "Discharge header",
+      "at": [7, 4],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "below",
+      "tag": "HDR-802",
+      "class": "Junction"
+    },
+    {
+      "id": "p801",
+      "kind": "pump",
+      "label": "Loading pump",
+      "at": [8, 4],
+      "behaviour": {
+        "role": "converter",
+        "output": "fuel",
+        "recipe": {
+          "electric": 0.05,
+          "fuel": 1
+        },
+        "capacity": 80
+      },
+      "tag": "P-801",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "mains",
+      "kind": "grid",
+      "label": "Electricity",
+      "at": [8, 6],
+      "behaviour": {
+        "role": "source",
+        "output": 20,
+        "dispatchable": true
+      },
+      "tag": "UTL-801",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "rack",
+      "kind": "factory",
+      "label": "To loading rack",
+      "at": [10, 4],
+      "behaviour": {
+        "role": "sink",
+        "demand": "between(hour, 8, 20) ? 25 : 0"
+      },
+      "tag": "OPC-802",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "pipe",
+      "to": "hdr",
+      "domain": "fuel",
+      "tag": "300-HC-001"
+    },
+    {
+      "from": "hdr",
+      "to": "xv801",
+      "domain": "fuel",
+      "via": [[1, 1]],
+      "tag": "200-HC-002"
+    },
+    {
+      "from": "hdr",
+      "to": "xv802",
+      "domain": "fuel",
+      "tag": "200-HC-003"
+    },
+    {
+      "from": "hdr",
+      "to": "xv803",
+      "domain": "fuel",
+      "via": [[1, 7]],
+      "tag": "200-HC-004"
+    },
+    {
+      "from": "xv801",
+      "to": "tk801",
+      "domain": "fuel",
+      "tag": "200-HC-005"
+    },
+    {
+      "from": "xv802",
+      "to": "tk802",
+      "domain": "fuel",
+      "tag": "200-HC-006"
+    },
+    {
+      "from": "xv803",
+      "to": "tk803",
+      "domain": "fuel",
+      "tag": "200-HC-007"
+    },
+    {
+      "from": "tk801",
+      "to": "hv801",
+      "domain": "fuel",
+      "tag": "200-HC-008"
+    },
+    {
+      "from": "tk802",
+      "to": "hv802",
+      "domain": "fuel",
+      "tag": "200-HC-009"
+    },
+    {
+      "from": "tk803",
+      "to": "hv803",
+      "domain": "fuel",
+      "tag": "200-HC-010"
+    },
+    {
+      "from": "hv801",
+      "to": "dhdr",
+      "domain": "fuel",
+      "via": [[7, 1]],
+      "tag": "200-HC-011"
+    },
+    {
+      "from": "hv802",
+      "to": "dhdr",
+      "domain": "fuel",
+      "tag": "200-HC-012"
+    },
+    {
+      "from": "hv803",
+      "to": "dhdr",
+      "domain": "fuel",
+      "via": [[7, 7]],
+      "tag": "200-HC-013"
+    },
+    {
+      "from": "dhdr",
+      "to": "p801",
+      "domain": "fuel",
+      "tag": "200-HC-014"
+    },
+    {
+      "from": "p801",
+      "to": "rack",
+      "domain": "fuel",
+      "tag": "200-HC-015"
+    },
+    {
+      "from": "mains",
+      "to": "p801",
+      "domain": "electric"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 0.8
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Pipeline Terminals Ltd",
+    "project": "Tank farm 800 area",
+    "drawnBy": "VP",
+    "checkedBy": "-",
+    "approvedBy": "-",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "LT/LAH-801",
+      "at": [4, 0],
+      "measures": "tk801",
+      "high": 90
+    },
+    {
+      "tag": "LT/LAH-802",
+      "at": [4, 3],
+      "measures": "tk802",
+      "high": 90
+    },
+    {
+      "tag": "LT/LAH-803",
+      "at": [4, 6],
+      "measures": "tk803",
+      "high": 90
+    },
+    {
+      "tag": "LSHH-811",
+      "at": [2, 0],
+      "measures": "tk801",
+      "reads": "part('tk801').fill > 0.95 ? 1 : 0",
+      "drives": "xv801"
+    },
+    {
+      "tag": "LSHH-812",
+      "at": [2, 3],
+      "measures": "tk802",
+      "reads": "part('tk802').fill > 0.95 ? 1 : 0",
+      "drives": "xv802"
+    },
+    {
+      "tag": "LSHH-813",
+      "at": [2, 6],
+      "measures": "tk803",
+      "reads": "part('tk803').fill > 0.95 ? 1 : 0",
+      "drives": "xv803"
+    }
+  ],
+  "switches": [
+    {
+      "id": "xv801",
+      "label": "XV-801 open",
+      "on": true
+    },
+    {
+      "id": "xv802",
+      "label": "XV-802 open",
+      "on": false
+    },
+    {
+      "id": "xv803",
+      "label": "XV-803 open",
+      "on": false
+    }
+  ],
+  "captions": [
+    {
+      "from": 6,
+      "to": 10,
+      "text": "Receipt arrives from the pipeline and fills TK-801 through XV-801."
+    },
+    {
+      "from": 10,
+      "to": 18,
+      "text": "TK-801 is full and isolated; the receipt carries on into TK-802."
+    },
+    {
+      "from": 18,
+      "to": 24,
+      "text": "Receipt ends; the loading pump keeps drawing from the tanks. No tank overflows."
+    }
+  ],
+  "events": [
+    {
+      "id": "hh801",
+      "says": "LSHH-811 trips on high-high in TK-801 and closes XV-801.",
+      "when": "part('tk801').fill > 0.95",
+      "then": [
+        {
+          "switch": "xv801",
+          "on": false
+        }
+      ],
+      "at": "tk801"
+    },
+    {
+      "id": "next802",
+      "says": "The receipt is lined up to TK-802 through XV-802.",
+      "when": "fired('hh801')",
+      "then": [
+        {
+          "switch": "xv802",
+          "on": true
+        }
+      ],
+      "at": "xv802"
+    },
+    {
+      "id": "hh802",
+      "says": "LSHH-812 trips on high-high in TK-802 and closes XV-802.",
+      "when": "part('tk802').fill > 0.95",
+      "then": [
+        {
+          "switch": "xv802",
+          "on": false
+        }
+      ],
+      "at": "tk802"
+    },
+    {
+      "id": "next803",
+      "says": "The receipt carries on into TK-803 through XV-803.",
+      "when": "fired('hh802')",
+      "then": [
+        {
+          "switch": "xv803",
+          "on": true
+        }
+      ],
+      "at": "xv803"
+    },
+    {
+      "id": "hh803",
+      "says": "LSHH-813 trips on high-high in TK-803 and closes XV-803.",
+      "when": "part('tk803').fill > 0.95",
+      "then": [
+        {
+          "switch": "xv803",
+          "on": false
+        }
+      ],
+      "at": "tk803"
+    }
+  ],
+  "expect": [
+    {
+      "says": "TK-801 fills first: its high-high has tripped and XV-801 is shut",
+      "check": "since('hh801') < 24 && on('xv801') == 0 && part('xv801').out < 0.001 && part('tk801').fill > 0.8",
+      "at": 14
+    },
+    {
+      "says": "before that, XV-801 is open and the receipt goes only to TK-801",
+      "check": "part('xv801').out > 50 && part('xv802').out < 0.001",
+      "at": 7
+    },
+    {
+      "says": "after TK-801 is full the receipt carries on into TK-802",
+      "check": "part('xv802').out > 50 && part('tk802').fill > 0.3",
+      "at": 14
+    },
+    {
+      "says": "TK-802 is not the first to fill",
+      "check": "part('tk802').fill < part('tk801').fill",
+      "at": 14
+    },
+    {
+      "says": "no tank ever overflows",
+      "check": "part('tk801').fill < 0.99 && part('tk802').fill < 0.99 && part('tk803').fill < 0.99"
+    },
+    {
+      "says": "the loading rack is served through the day",
+      "check": "part('rack').in >= 0.999 * part('rack').demand"
+    }
+  ]
+}

@@ -1,0 +1,260 @@
+{
+  "id": "dosing-skid",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["tank", "vessel", "container"],
+      "tag": "^T301$",
+      "says": "tank T-301"
+    },
+    {
+      "family": "pump",
+      "tag": "^P301A$",
+      "says": "pump P-301A"
+    },
+    {
+      "family": "pump",
+      "tag": "^P301B$",
+      "says": "pump P-301B"
+    },
+    {
+      "family": ["dampener", "vessel"],
+      "says": "a pulsation dampener"
+    },
+    {
+      "family": "offpage",
+      "min": 1,
+      "says": "the treated water main"
+    }
+  ],
+  "valves": [
+    {
+      "family": "isolation",
+      "min": 4
+    },
+    {
+      "family": "check",
+      "min": 2
+    },
+    {
+      "family": "relief",
+      "min": 2
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["FT", "FIT", "FE"],
+      "number": "301",
+      "says": "FT-301"
+    },
+    {
+      "letters": "FIC",
+      "number": "301",
+      "says": "FIC-301"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T301$",
+        "says": "tank T-301"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P301A$",
+        "says": "pump P-301A"
+      }
+    },
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T301$",
+        "says": "tank T-301"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P301B$",
+        "says": "pump P-301B"
+      }
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P301A$",
+        "says": "pump P-301A"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "check"
+        }
+      ],
+      "says": "P-301A → injection point through a check valve"
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P301B$",
+        "says": "pump P-301B"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "check"
+        }
+      ],
+      "says": "P-301B → injection point through a check valve"
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P301A$",
+        "says": "pump P-301A"
+      },
+      "to": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T301$",
+        "says": "tank T-301"
+      },
+      "via": [
+        {
+          "family": "relief"
+        }
+      ],
+      "says": "P-301A relief back to T-301"
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P301B$",
+        "says": "pump P-301B"
+      },
+      "to": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T301$",
+        "says": "tank T-301"
+      },
+      "via": [
+        {
+          "family": "relief"
+        }
+      ],
+      "says": "P-301B relief back to T-301"
+    }
+  ],
+  "loops": [
+    {
+      "says": "FT-301 → FIC-301 → the duty pump speed",
+      "controller": {
+        "letters": "FIC",
+        "number": "301"
+      },
+      "final": {
+        "family": "pump",
+        "says": "a metering pump"
+      },
+      "sensor": [
+        {
+          "variable": "F"
+        }
+      ]
+    }
+  ],
+  "behaviour": [
+    {
+      "says": "the dose in the morning peak is higher than at 3 am",
+      "from": 6,
+      "to": 10,
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": "pump",
+            "tag": "^P301[AB]$",
+            "says": "P-301A/B"
+          },
+          "agg": "sum",
+          "field": "out",
+          "op": ">",
+          "ref": {
+            "of": {
+              "family": "pump",
+              "tag": "^P301[AB]$",
+              "says": "P-301A/B"
+            },
+            "agg": "sum",
+            "field": "out",
+            "at": 3
+          }
+        }
+      ]
+    },
+    {
+      "says": "the dose in the evening peak is higher than at 3 am",
+      "from": 17,
+      "to": 21,
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": "pump",
+            "tag": "^P301[AB]$",
+            "says": "P-301A/B"
+          },
+          "agg": "sum",
+          "field": "out",
+          "op": ">",
+          "ref": {
+            "of": {
+              "family": "pump",
+              "tag": "^P301[AB]$",
+              "says": "P-301A/B"
+            },
+            "agg": "sum",
+            "field": "out",
+            "at": 3
+          }
+        }
+      ]
+    },
+    {
+      "says": "the day tank is lower at 20:00 than at 08:00",
+      "at": 20,
+      "all": [
+        {
+          "of": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^T301$",
+            "says": "tank T-301"
+          },
+          "field": "fill",
+          "op": "<",
+          "ref": {
+            "field": "fill",
+            "at": 8
+          }
+        }
+      ]
+    },
+    {
+      "says": "the day tank never runs dry",
+      "all": [
+        {
+          "of": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^T301$",
+            "says": "tank T-301"
+          },
+          "field": "fill",
+          "op": ">",
+          "value": 0.02
+        }
+      ]
+    }
+  ]
+}

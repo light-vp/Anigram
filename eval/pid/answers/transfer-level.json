@@ -1,0 +1,181 @@
+{
+  "id": "transfer-level",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["tank", "vessel", "container"],
+      "tag": "^T101$",
+      "says": "tank T-101"
+    },
+    {
+      "family": "pump",
+      "tag": "^P101$",
+      "says": "pump P-101"
+    },
+    {
+      "family": ["tank", "vessel", "container"],
+      "tag": "^T102$",
+      "says": "tank T-102"
+    }
+  ],
+  "valves": [
+    {
+      "family": "isolation",
+      "min": 2
+    },
+    {
+      "family": "check",
+      "min": 1
+    },
+    {
+      "family": "control",
+      "tag": "^LV102$",
+      "says": "control valve LV-102"
+    }
+  ],
+  "instruments": [
+    {
+      "letters": "LT",
+      "number": "102",
+      "on": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T102$",
+        "says": "tank T-102"
+      },
+      "hops": 2,
+      "says": "LT-102"
+    },
+    {
+      "letters": "LIC",
+      "number": "102",
+      "says": "LIC-102"
+    },
+    {
+      "letters": "LT",
+      "number": "101",
+      "on": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T101$",
+        "says": "tank T-101"
+      },
+      "hops": 2,
+      "says": "LT-101"
+    },
+    {
+      "letters": ["LAL", "LSL", "LZL"],
+      "number": "101",
+      "says": "LAL-101"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T101$",
+        "says": "tank T-101"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P101$",
+        "says": "pump P-101"
+      },
+      "via": [
+        {
+          "family": "isolation"
+        }
+      ],
+      "says": "T-101 → P-101 suction through an isolating valve"
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P101$",
+        "says": "pump P-101"
+      },
+      "to": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T102$",
+        "says": "tank T-102"
+      },
+      "via": [
+        {
+          "family": "check"
+        },
+        {
+          "family": "control",
+          "tag": "^LV102$",
+          "says": "control valve LV-102"
+        },
+        {
+          "family": "isolation"
+        }
+      ],
+      "says": "P-101 → T-102 through a check valve, an isolating valve and LV-102"
+    }
+  ],
+  "loops": [
+    {
+      "says": "LT-102 → LIC-102 → LV-102",
+      "controller": {
+        "letters": "LIC",
+        "number": "102"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^LV102$",
+        "says": "control valve LV-102"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^T102$",
+            "says": "tank T-102"
+          }
+        }
+      ]
+    },
+    {
+      "says": "low level on T-101 protects P-101",
+      "controller": [
+        {
+          "letters": "LAL"
+        },
+        {
+          "letters": "LSL"
+        },
+        {
+          "letters": "LZL"
+        },
+        {
+          "letters": "LALL"
+        },
+        {
+          "letters": "LSLL"
+        },
+        {
+          "letters": "LY"
+        },
+        {
+          "letters": "US"
+        }
+      ],
+      "final": {
+        "family": "pump",
+        "tag": "^P101$",
+        "says": "pump P-101"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^T101$",
+            "says": "tank T-101"
+          }
+        }
+      ]
+    }
+  ]
+}

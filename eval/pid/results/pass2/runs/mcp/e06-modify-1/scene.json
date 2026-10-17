@@ -1,0 +1,301 @@
+{
+  "anigram": 1,
+  "id": "pump-exchanger",
+  "title": "Product cooler H-1009",
+  "subtitle": "P-4713 delivers product through H-1009; cooling water is throttled to hold the outlet temperature",
+  "sheet": "PID-4713",
+  "size": [10, 4],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "heat": {
+      "rate": "kW",
+      "amount": "kWh",
+      "effort": "°C"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 100,
+    "heat": 60,
+    "electric": 30
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "river",
+      "label": "Product from upstream",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 120
+      },
+      "effort": {
+        "set": 80
+      }
+    },
+    {
+      "id": "power",
+      "kind": "grid",
+      "label": "Electricity",
+      "at": [2, 3],
+      "behaviour": {
+        "role": "source",
+        "output": "on('p-4713') ? 50 : 0",
+        "dispatchable": true
+      }
+    },
+    {
+      "id": "v-4711",
+      "kind": "valve",
+      "label": "Suction isolation",
+      "at": [1, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": 1
+      },
+      "labelSide": "above",
+      "tag": "V-4711",
+      "class": "GateValve"
+    },
+    {
+      "id": "p-4713",
+      "kind": "pump",
+      "label": "Centrifugal pump",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.25,
+          "water": 1
+        },
+        "capacity": 90
+      },
+      "toggles": "p-4713",
+      "tag": "P-4713",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "v-4712",
+      "kind": "valve",
+      "label": "Check valve",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": 1
+      },
+      "labelSide": "above",
+      "tag": "V-4712",
+      "class": "CheckValve"
+    },
+    {
+      "id": "v-4713",
+      "kind": "valve",
+      "label": "Discharge isolation",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": 1
+      },
+      "labelSide": "above",
+      "tag": "V-4713",
+      "class": "GateValve"
+    },
+    {
+      "id": "h-1009",
+      "kind": "radiator",
+      "label": "Plate heat exchanger",
+      "at": [6, 2],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "water": 1,
+          "heat": 0.5
+        },
+        "capacity": 90
+      },
+      "tag": "H-1009",
+      "class": "HeatExchanger",
+      "effort": {
+        "set": "80 - 40 * clamp(prev('tv-1009').out / (0.5 * max(prev('product').in, 1)), 0, 1.5)"
+      }
+    },
+    {
+      "id": "product",
+      "kind": "factory",
+      "label": "Product to downstream",
+      "at": [9, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": "60 * knob('throughput')"
+      }
+    },
+    {
+      "id": "cws",
+      "kind": "river",
+      "label": "Cooling water supply",
+      "at": [3, 0],
+      "behaviour": {
+        "role": "source",
+        "output": 120
+      }
+    },
+    {
+      "id": "tv-1009",
+      "kind": "valve",
+      "label": "Cooling water control valve",
+      "at": [6, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 120,
+        "open": "clamp(0.5 + 0.005 * (prev('h-1009').effort - 40), 0, 1)"
+      },
+      "labelSide": "above",
+      "tag": "TV-1009",
+      "class": "ControlValve"
+    },
+    {
+      "id": "cwr",
+      "kind": "river",
+      "label": "Cooling water return",
+      "at": [9, 3],
+      "behaviour": {
+        "role": "vent"
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "v-4711",
+      "domain": "water",
+      "tag": "80-MN-47131"
+    },
+    {
+      "from": "v-4711",
+      "to": "p-4713",
+      "domain": "water",
+      "tag": "80-MN-47136"
+    },
+    {
+      "from": "power",
+      "to": "p-4713",
+      "domain": "electric"
+    },
+    {
+      "from": "p-4713",
+      "to": "v-4712",
+      "domain": "water",
+      "tag": "80-MN-47132"
+    },
+    {
+      "from": "v-4712",
+      "to": "v-4713",
+      "domain": "water",
+      "tag": "80-MN-47134"
+    },
+    {
+      "from": "v-4713",
+      "to": "h-1009",
+      "domain": "water",
+      "tag": "80-MN-47135"
+    },
+    {
+      "from": "h-1009",
+      "to": "product",
+      "domain": "water",
+      "tag": "80-MN-47133"
+    },
+    {
+      "from": "cws",
+      "to": "tv-1009",
+      "domain": "heat",
+      "tag": "50-CW-47141"
+    },
+    {
+      "from": "tv-1009",
+      "to": "h-1009",
+      "domain": "heat",
+      "tag": "50-CW-47142"
+    },
+    {
+      "from": "h-1009",
+      "to": "cwr",
+      "domain": "heat",
+      "via": [[6, 3]],
+      "loss": true,
+      "tag": "50-CW-47143"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Your organisation",
+    "project": "Product cooling",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "TT-1009",
+      "at": [7, 1],
+      "measures": "h-1009",
+      "unit": "°C",
+      "high": 50
+    },
+    {
+      "tag": "TIC-1009",
+      "at": [7, 0],
+      "measures": "TT-1009",
+      "drives": "tv-1009",
+      "mounting": "dcs"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "throughput",
+      "label": "throughput",
+      "value": 1,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05,
+      "format": "{pct}%"
+    }
+  ],
+  "switches": [
+    {
+      "id": "p-4713",
+      "label": "P-4713 running",
+      "on": true
+    }
+  ],
+  "expect": [
+    {
+      "says": "P-4713 delivers the product through H-1009 to downstream",
+      "check": "part('product').in >= 0.999 * part('product').demand"
+    },
+    {
+      "says": "the temperature loop holds the product outlet near 40 °C",
+      "check": "abs(part('h-1009').effort - 40) < 5"
+    },
+    {
+      "says": "cooling water is flowing through TV-1009",
+      "check": "part('tv-1009').out > 0"
+    }
+  ]
+}

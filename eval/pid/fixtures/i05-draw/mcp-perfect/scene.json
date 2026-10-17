@@ -1,0 +1,78 @@
+{
+  "anigram": 1,
+  "id": "i05-ratio",
+  "title": "Flow ratio control, loop 031",
+  "subtitle": "FFIC-031 holds the controlled stream in ratio to the wild stream",
+  "sheet": "PID-031",
+  "drawing": "pid",
+  "size": [10, 6],
+  "units": { "water": { "rate": "m³/h", "amount": "m³" } },
+  "scale": { "water": 40 },
+  "clock": { "start": 6, "rate": 1 },
+  "parts": [
+    {
+      "id": "wildIn",
+      "kind": "river",
+      "label": "Wild stream in",
+      "at": [0, 1],
+      "behaviour": { "role": "source", "output": 20 }
+    },
+    {
+      "id": "wildOut",
+      "kind": "factory",
+      "label": "Wild stream out",
+      "at": [9, 1],
+      "behaviour": { "role": "sink", "demand": 20 }
+    },
+    {
+      "id": "ctlIn",
+      "kind": "river",
+      "label": "Controlled stream in",
+      "at": [0, 4],
+      "behaviour": { "role": "source", "output": 20 }
+    },
+    {
+      "id": "fv",
+      "kind": "valve",
+      "class": "ControlValve",
+      "tag": "FV-031",
+      "label": "Ratio control valve",
+      "at": [5, 4],
+      "behaviour": { "role": "gate", "capacity": 20, "open": "0.5" }
+    },
+    {
+      "id": "ctlOut",
+      "kind": "factory",
+      "label": "Controlled stream out",
+      "at": [9, 4],
+      "behaviour": { "role": "sink", "demand": 20 }
+    }
+  ],
+  "links": [
+    { "from": "wildIn", "to": "wildOut", "domain": "water" },
+    { "from": "ctlIn", "to": "fv", "domain": "water" },
+    { "from": "fv", "to": "ctlOut", "domain": "water" }
+  ],
+  "instruments": [
+    {
+      "tag": "FI-031.1",
+      "at": [3, 0],
+      "measures": "wildIn",
+      "mounting": "dcs"
+    },
+    { "tag": "FI-031.2", "at": [3, 3], "measures": "ctlIn", "mounting": "dcs" },
+    {
+      "tag": "FFIC-031",
+      "at": [5, 0],
+      "measures": "FI-031.1",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "YC-031.4",
+      "at": [7, 2.5],
+      "measures": "FFIC-031",
+      "drives": "fv",
+      "mounting": "dcs"
+    }
+  ]
+}

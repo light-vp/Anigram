@@ -1,0 +1,36 @@
+{
+  "id": "c03-draw",
+  "source": "DEXPI e.V. TrainingTestCases, dexpi-c03-piping.xml (CC BY 4.0)",
+  "derived": "derive-dexpi.mjs",
+  "valves": [
+    {
+      "family": ["onoff", "control"],
+      "says": "OperatedValve-1 (actuated OperatedValve)"
+    },
+    {
+      "family": "isolation",
+      "min": 1
+    }
+  ],
+  "instruments": [
+    {
+      "letters": "ESV",
+      "number": "3712",
+      "says": "ESV 3712"
+    }
+  ],
+  "loops": [
+    {
+      "says": "ESV 3712 → OperatedValve-1",
+      "controller": [
+        {
+          "letters": "ESV",
+          "number": "3712"
+        }
+      ],
+      "final": {
+        "family": ["onoff", "control"]
+      }
+    }
+  ]
+}

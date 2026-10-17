@@ -1,0 +1,118 @@
+{
+  "anigram": 1,
+  "id": "flow-control",
+  "title": "Flow control loop",
+  "subtitle": "FIC-032 indicates flow and alarms; US-031 safety override acts through YCS-033 on the control valve",
+  "sheet": "PID-032",
+  "size": [7, 3],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 100
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "river",
+      "label": "From upstream",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 100
+      }
+    },
+    {
+      "id": "fv",
+      "kind": "valve",
+      "label": "Flow control valve",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "on('trip') ? 0 : 0.6"
+      },
+      "labelSide": "below",
+      "tag": "FV-032",
+      "class": "ControlValve"
+    },
+    {
+      "id": "user",
+      "kind": "factory",
+      "label": "To process",
+      "at": [6, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 60
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "fv",
+      "domain": "water",
+      "tag": "100-W-001"
+    },
+    {
+      "from": "fv",
+      "to": "user",
+      "domain": "water",
+      "tag": "100-W-002"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Your organisation",
+    "project": "Flow control loop",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "FIC-032",
+      "at": [2, 0],
+      "measures": "fv",
+      "unit": "m³/h",
+      "mounting": "dcs",
+      "low": 10,
+      "high": 90
+    },
+    {
+      "tag": "US-031",
+      "at": [5, 0],
+      "measures": "fv",
+      "drives": "fv",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "YCS-033",
+      "at": [3, 1],
+      "measures": "FIC-032",
+      "drives": "fv",
+      "mounting": "dcs"
+    }
+  ],
+  "switches": [
+    {
+      "id": "trip",
+      "label": "safety override US-031 tripped",
+      "on": false
+    }
+  ],
+  "expect": [
+    {
+      "says": "the valve passes 60 m³/h when the override is clear and nothing when it trips",
+      "check": "on('trip') ? part('user').in < 0.001 : part('user').in > 0.99 * 60"
+    }
+  ]
+}

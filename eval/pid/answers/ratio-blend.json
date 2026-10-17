@@ -1,0 +1,187 @@
+{
+  "id": "ratio-blend",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["tank", "vessel", "container"],
+      "tag": "^T1202$",
+      "says": "tank T-1202"
+    },
+    {
+      "family": "pump",
+      "tag": "^P1202$",
+      "says": "pump P-1202"
+    },
+    {
+      "family": "mixer",
+      "tag": "^M1201$",
+      "says": "static mixer M-1201"
+    },
+    {
+      "family": ["tank", "vessel", "container"],
+      "tag": "^T1203$",
+      "says": "tank T-1203"
+    },
+    {
+      "family": "offpage",
+      "min": 1,
+      "says": "base stock in"
+    }
+  ],
+  "valves": [
+    {
+      "family": "control",
+      "tag": "^FV1202$",
+      "says": "control valve FV-1202"
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["FT", "FIT", "FE"],
+      "number": "1201",
+      "says": "FT-1201"
+    },
+    {
+      "letters": ["FT", "FIT", "FE"],
+      "number": "1202",
+      "says": "FT-1202"
+    },
+    {
+      "letters": ["FFIC", "FFC", "FIC"],
+      "number": "1202",
+      "says": "FFIC-1202"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": "mixer",
+        "tag": "^M1201$",
+        "says": "static mixer M-1201"
+      },
+      "says": "base stock → M-1201"
+    },
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T1202$",
+        "says": "tank T-1202"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P1202$",
+        "says": "pump P-1202"
+      }
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P1202$",
+        "says": "pump P-1202"
+      },
+      "to": {
+        "family": "mixer",
+        "tag": "^M1201$",
+        "says": "static mixer M-1201"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^FV1202$",
+          "says": "control valve FV-1202"
+        }
+      ],
+      "says": "additive → M-1201 through FV-1202"
+    },
+    {
+      "from": {
+        "family": "mixer",
+        "tag": "^M1201$",
+        "says": "static mixer M-1201"
+      },
+      "to": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T1203$",
+        "says": "tank T-1203"
+      }
+    }
+  ],
+  "loops": [
+    {
+      "says": "FT-1201 and FT-1202 → FFIC-1202 → FV-1202",
+      "controller": [
+        {
+          "letters": "FFIC"
+        },
+        {
+          "letters": "FFC"
+        },
+        {
+          "letters": "FIC",
+          "number": "1202"
+        }
+      ],
+      "final": {
+        "family": "control",
+        "tag": "^FV1202$",
+        "says": "control valve FV-1202"
+      },
+      "sensor": [
+        {
+          "variable": "F",
+          "min": 2
+        }
+      ]
+    }
+  ],
+  "behaviour": [
+    {
+      "says": "the additive is 5% of the base stock every hour",
+      "all": [
+        {
+          "of": {
+            "family": "control",
+            "tag": "^FV1202$",
+            "says": "control valve FV-1202"
+          },
+          "field": "out",
+          "op": "~",
+          "tol": 0.1,
+          "ref": {
+            "of": {
+              "family": "offpage"
+            },
+            "agg": "sum",
+            "field": "out",
+            "times": 0.05
+          }
+        }
+      ]
+    },
+    {
+      "says": "the base stock flow changes through the day",
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": "offpage"
+          },
+          "agg": "sum",
+          "field": "out",
+          "op": "!=",
+          "ref": {
+            "of": {
+              "family": "offpage"
+            },
+            "agg": "sum",
+            "field": "out",
+            "at": 3
+          }
+        }
+      ]
+    }
+  ]
+}

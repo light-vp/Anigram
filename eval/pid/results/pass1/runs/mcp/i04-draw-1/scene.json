@@ -1,0 +1,133 @@
+{
+  "anigram": 1,
+  "id": "flow-loop-04",
+  "title": "Flow control loop 04",
+  "subtitle": "FE 04 measures the line; FIC 04 drives FV 04",
+  "sheet": "PID-04",
+  "size": [6, 3],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 100
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "well",
+      "label": "Feed",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 60
+      },
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "tee",
+      "kind": "manifold",
+      "label": "FE 04 tap",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "fv",
+      "kind": "valve",
+      "label": "Control valve",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 60,
+        "open": "knob('opening')"
+      },
+      "note": "Spring-diaphragm actuator, normally closed.",
+      "labelSide": "below",
+      "tag": "FV 04",
+      "class": "ControlValve"
+    },
+    {
+      "id": "product",
+      "kind": "tap",
+      "label": "Product",
+      "at": [5, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 60
+      },
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "tee",
+      "domain": "water",
+      "line": "process",
+      "tag": "100-W-001"
+    },
+    {
+      "from": "tee",
+      "to": "fv",
+      "domain": "water",
+      "line": "process",
+      "tag": "100-W-002"
+    },
+    {
+      "from": "fv",
+      "to": "product",
+      "domain": "water",
+      "line": "process",
+      "tag": "100-W-003"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "project": "Flow control loop",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "FE 04",
+      "at": [2, 1],
+      "measures": "tee",
+      "reads": "part('tee').out",
+      "unit": "m³/h"
+    },
+    {
+      "tag": "FIC 04",
+      "at": [4, 1],
+      "measures": "FE 04",
+      "drives": "fv",
+      "mounting": "dcs"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "opening",
+      "label": "FV 04 opening",
+      "value": 1,
+      "min": 0,
+      "max": 1,
+      "step": 0.05,
+      "format": "{pct}%"
+    }
+  ],
+  "expect": [
+    {
+      "says": "with FV 04 fully open the 60 m³/h feed passes FE 04 and FV 04 to the product",
+      "check": "part('fv').out > 59.9 && part('product').in > 59.9"
+    }
+  ]
+}

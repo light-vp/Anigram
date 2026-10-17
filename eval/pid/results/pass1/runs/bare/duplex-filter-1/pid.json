@@ -1,0 +1,100 @@
+{
+  "items": [
+    { "tag": "F-901A", "type": "filter", "label": "Lube oil filter A" },
+    { "tag": "F-901B", "type": "filter", "label": "Lube oil filter B" },
+    {
+      "tag": "V-901A",
+      "type": "isolating valve",
+      "label": "F-901A inlet isolation"
+    },
+    {
+      "tag": "V-902A",
+      "type": "isolating valve",
+      "label": "F-901A outlet isolation"
+    },
+    { "tag": "V-903A", "type": "drain valve", "label": "F-901A drain" },
+    {
+      "tag": "V-901B",
+      "type": "isolating valve",
+      "label": "F-901B inlet isolation"
+    },
+    {
+      "tag": "V-902B",
+      "type": "isolating valve",
+      "label": "F-901B outlet isolation"
+    },
+    { "tag": "V-903B", "type": "drain valve", "label": "F-901B drain" },
+    {
+      "tag": "PDT-901A",
+      "type": "differential pressure transmitter",
+      "label": "Differential pressure across F-901A"
+    },
+    {
+      "tag": "PDT-901B",
+      "type": "differential pressure transmitter",
+      "label": "Differential pressure across F-901B"
+    },
+    {
+      "tag": "PDAH-901A",
+      "type": "high differential pressure alarm (DCS function)",
+      "label": "F-901A high DP alarm"
+    },
+    {
+      "tag": "PDAH-901B",
+      "type": "high differential pressure alarm (DCS function)",
+      "label": "F-901B high DP alarm"
+    },
+    {
+      "tag": "PI-901",
+      "type": "pressure gauge",
+      "label": "Common inlet pressure"
+    },
+    {
+      "tag": "PI-902",
+      "type": "pressure gauge",
+      "label": "Common outlet pressure"
+    },
+    {
+      "tag": "OSC-901",
+      "type": "off-sheet connector",
+      "label": "Common inlet from off sheet"
+    },
+    {
+      "tag": "OSC-902",
+      "type": "off-sheet connector",
+      "label": "Common outlet to off sheet"
+    },
+    {
+      "tag": "OSC-903A",
+      "type": "off-sheet connector",
+      "label": "F-901A drain to closed drain"
+    },
+    {
+      "tag": "OSC-903B",
+      "type": "off-sheet connector",
+      "label": "F-901B drain to closed drain"
+    }
+  ],
+  "lines": [
+    { "from": "OSC-901", "to": "V-901A", "kind": "process" },
+    { "from": "V-901A", "to": "F-901A", "kind": "process" },
+    { "from": "F-901A", "to": "V-902A", "kind": "process" },
+    { "from": "V-902A", "to": "OSC-902", "kind": "process" },
+    { "from": "F-901A", "to": "V-903A", "kind": "process" },
+    { "from": "V-903A", "to": "OSC-903A", "kind": "process" },
+    { "from": "V-901A", "to": "PDT-901A", "kind": "process" },
+    { "from": "V-902A", "to": "PDT-901A", "kind": "process" },
+    { "from": "PDT-901A", "to": "PDAH-901A", "kind": "signal" },
+    { "from": "OSC-901", "to": "V-901B", "kind": "process" },
+    { "from": "V-901B", "to": "F-901B", "kind": "process" },
+    { "from": "F-901B", "to": "V-902B", "kind": "process" },
+    { "from": "V-902B", "to": "OSC-902", "kind": "process" },
+    { "from": "F-901B", "to": "V-903B", "kind": "process" },
+    { "from": "V-903B", "to": "OSC-903B", "kind": "process" },
+    { "from": "V-901B", "to": "PDT-901B", "kind": "process" },
+    { "from": "V-902B", "to": "PDT-901B", "kind": "process" },
+    { "from": "PDT-901B", "to": "PDAH-901B", "kind": "signal" },
+    { "from": "OSC-901", "to": "PI-901", "kind": "process" },
+    { "from": "V-902B", "to": "PI-902", "kind": "process" }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "tag": "FI-031.1",
+      "type": "flow indicator/transmitter",
+      "label": "Wild stream flow measurement"
+    },
+    {
+      "tag": "FI-031.2",
+      "type": "flow indicator/transmitter",
+      "label": "Controlled stream flow measurement"
+    },
+    {
+      "tag": "FV-031.3",
+      "type": "globe control valve with pneumatic actuator",
+      "label": "Controlled stream flow control valve"
+    },
+    {
+      "tag": "YC-031.4",
+      "type": "signal converter",
+      "label": "Controller output to valve actuator converter"
+    },
+    {
+      "tag": "FFIC-031",
+      "type": "flow ratio controller (DCS)",
+      "label": "Flow ratio controller"
+    }
+  ],
+  "lines": [
+    { "from": "FI-031.2", "to": "FV-031.3", "kind": "process" },
+    { "from": "FI-031.1", "to": "FFIC-031", "kind": "signal" },
+    { "from": "FI-031.2", "to": "FFIC-031", "kind": "signal" },
+    { "from": "FFIC-031", "to": "YC-031.4", "kind": "signal" },
+    { "from": "YC-031.4", "to": "FV-031.3", "kind": "signal" }
+  ]
+}

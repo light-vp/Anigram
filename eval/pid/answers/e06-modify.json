@@ -1,0 +1,131 @@
+{
+  "id": "e06-modify",
+  "source": "DEXPI e.V. TrainingTestCases, dexpi-e06-pump-exchanger.xml (CC BY 4.0)",
+  "derived": "derive-dexpi.mjs",
+  "equipment": [
+    {
+      "family": ["pump"],
+      "tag": "^P4713$",
+      "says": "P-4713 (CentrifugalPump)"
+    },
+    {
+      "family": ["heat-exchanger"],
+      "tag": "^H1009$",
+      "says": "H-1009 (PlateHeatExchanger)"
+    },
+    {
+      "family": "offpage",
+      "min": 3,
+      "says": "suction in, product out and the cooling water in and out, off the sheet"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": ["pump"],
+        "tag": "^P4713$"
+      },
+      "to": {
+        "family": ["heat-exchanger"],
+        "tag": "^H1009$"
+      },
+      "says": "P-4713 (CentrifugalPump) → H-1009 (PlateHeatExchanger)"
+    },
+    {
+      "says": "P-4713 → H-1009 through a check valve",
+      "from": {
+        "family": "pump",
+        "tag": "^P4713$"
+      },
+      "to": {
+        "family": "heat-exchanger",
+        "tag": "^H1009$"
+      },
+      "via": [
+        {
+          "family": "check"
+        }
+      ]
+    },
+    {
+      "says": "H-1009 product out off the sheet",
+      "from": {
+        "family": "heat-exchanger",
+        "tag": "^H1009$"
+      },
+      "to": {
+        "family": "offpage"
+      }
+    },
+    {
+      "says": "cooling water through H-1009 and TV-1009",
+      "from": {
+        "family": "heat-exchanger",
+        "tag": "^H1009$"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^TV1009$"
+        }
+      ]
+    }
+  ],
+  "valves": [
+    {
+      "family": "check",
+      "min": 1
+    },
+    {
+      "family": "isolation",
+      "min": 2
+    },
+    {
+      "family": "control",
+      "tag": "^TV1009$",
+      "says": "TV-1009 on the cooling water"
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["TIC"],
+      "number": "1009"
+    },
+    {
+      "letters": ["TT", "TIT", "TE"],
+      "number": "1009"
+    }
+  ],
+  "loops": [
+    {
+      "says": "TT-1009 → TIC-1009 → TV-1009",
+      "controller": {
+        "letters": "TIC",
+        "number": "1009"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^TV1009$"
+      },
+      "sensor": [
+        {
+          "variable": "T",
+          "on": [
+            {
+              "family": "heat-exchanger",
+              "tag": "^H1009$"
+            },
+            {
+              "family": "offpage"
+            }
+          ],
+          "hops": 2
+        }
+      ]
+    }
+  ],
+  "modification": true
+}

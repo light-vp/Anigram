@@ -1,0 +1,140 @@
+{
+  "anigram": 1,
+  "id": "pressure-measurement",
+  "title": "Line pressure measurement",
+  "subtitle": "Local gauge PI-045, control-room indication PI-044 and switching functions US-046 / US-047",
+  "sheet": "PID-100",
+  "size": [8, 3],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 100
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "river",
+      "label": "From upstream",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": 50
+      },
+      "tag": "OPC-001",
+      "class": "OffPageConnector",
+      "effort": {
+        "set": 6
+      }
+    },
+    {
+      "id": "tp1",
+      "kind": "manifold",
+      "label": "Gauge tapping",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "tp2",
+      "kind": "manifold",
+      "label": "Transmitter tapping",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "out",
+      "kind": "factory",
+      "label": "To downstream",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 50
+      },
+      "tag": "OPC-002",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "tp1",
+      "domain": "water",
+      "tag": "100-W-001"
+    },
+    {
+      "from": "tp1",
+      "to": "tp2",
+      "domain": "water",
+      "tag": "100-W-002"
+    },
+    {
+      "from": "tp2",
+      "to": "out",
+      "domain": "water",
+      "tag": "100-W-003"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Your organisation",
+    "project": "Pressure measurement",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "PI-045",
+      "at": [1, 0],
+      "measures": "tp1",
+      "unit": "bar",
+      "low": 2,
+      "high": 9
+    },
+    {
+      "tag": "PI-044",
+      "at": [4, 0],
+      "measures": "tp2",
+      "unit": "bar",
+      "mounting": "panel",
+      "low": 2,
+      "high": 9
+    },
+    {
+      "tag": "US-047",
+      "at": [3, 0],
+      "measures": "PI-044",
+      "mounting": "panel"
+    },
+    {
+      "tag": "US-046",
+      "at": [6, 0],
+      "measures": "PI-044",
+      "mounting": "panel"
+    }
+  ],
+  "expect": [
+    {
+      "says": "the line stays pressurised at about 6 bar",
+      "check": "part('tp2').effort > 5.5 && part('tp2').effort < 6.5"
+    },
+    {
+      "says": "flow passes through the line to downstream",
+      "check": "part('out').in >= 0.999 * part('out').demand"
+    }
+  ]
+}

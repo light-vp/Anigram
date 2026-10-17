@@ -1,0 +1,78 @@
+{
+  "items": [
+    {
+      "tag": "V-401",
+      "type": "suction scrubber (knockout vessel)",
+      "label": "Suction scrubber"
+    },
+    {
+      "tag": "K-401",
+      "type": "centrifugal compressor",
+      "label": "Gas compressor"
+    },
+    {
+      "tag": "E-401",
+      "type": "heat exchanger (discharge after-cooler)",
+      "label": "Discharge after-cooler"
+    },
+    {
+      "tag": "NRV-401",
+      "type": "check valve",
+      "label": "Discharge check valve"
+    },
+    {
+      "tag": "FV-401",
+      "type": "anti-surge control valve (recycle)",
+      "label": "Anti-surge recycle valve"
+    },
+    {
+      "tag": "PSV-401",
+      "type": "pressure safety (relief) valve",
+      "label": "Discharge relief valve"
+    },
+    {
+      "tag": "FT-401",
+      "type": "flow transmitter",
+      "label": "Suction flow transmitter"
+    },
+    {
+      "tag": "PT-402",
+      "type": "pressure transmitter",
+      "label": "Discharge pressure transmitter"
+    },
+    {
+      "tag": "UIC-401",
+      "type": "anti-surge controller (indicating controller)",
+      "label": "Anti-surge controller"
+    },
+    {
+      "tag": "OSC-1",
+      "type": "off-sheet connector",
+      "label": "Gas inlet from upstream"
+    },
+    {
+      "tag": "OSC-2",
+      "type": "off-sheet connector",
+      "label": "To export header"
+    },
+    {
+      "tag": "OSC-3",
+      "type": "off-sheet connector",
+      "label": "Relief to flare"
+    }
+  ],
+  "lines": [
+    { "from": "OSC-1", "to": "V-401", "kind": "process" },
+    { "from": "V-401", "to": "K-401", "kind": "process" },
+    { "from": "K-401", "to": "E-401", "kind": "process" },
+    { "from": "E-401", "to": "NRV-401", "kind": "process" },
+    { "from": "NRV-401", "to": "OSC-2", "kind": "process" },
+    { "from": "E-401", "to": "FV-401", "kind": "process" },
+    { "from": "FV-401", "to": "V-401", "kind": "process" },
+    { "from": "E-401", "to": "PSV-401", "kind": "process" },
+    { "from": "PSV-401", "to": "OSC-3", "kind": "process" },
+    { "from": "FT-401", "to": "UIC-401", "kind": "signal" },
+    { "from": "PT-402", "to": "UIC-401", "kind": "signal" },
+    { "from": "UIC-401", "to": "FV-401", "kind": "signal" }
+  ]
+}

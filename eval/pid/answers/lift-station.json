@@ -1,0 +1,224 @@
+{
+  "id": "lift-station",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["wet-well", "tank", "container"],
+      "tag": "^WW1501$",
+      "says": "wet well WW-1501"
+    },
+    {
+      "family": "pump",
+      "tag": "^P1501A$",
+      "says": "pump P-1501A"
+    },
+    {
+      "family": "pump",
+      "tag": "^P1501B$",
+      "says": "pump P-1501B"
+    },
+    {
+      "family": "offpage",
+      "min": 2,
+      "says": "the inflow and the rising main"
+    }
+  ],
+  "valves": [
+    {
+      "family": "check",
+      "min": 2
+    },
+    {
+      "family": "isolation",
+      "min": 2
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["LT", "LIT"],
+      "number": "1501",
+      "on": {
+        "family": ["wet-well", "tank", "container"],
+        "tag": "^WW1501$",
+        "says": "wet well WW-1501"
+      },
+      "hops": 2,
+      "says": "LT-1501"
+    },
+    {
+      "letters": ["LAHH", "LSHH", "LIAHH"],
+      "number": "1501",
+      "says": "LAHH-1501"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["wet-well", "tank", "container"],
+        "tag": "^WW1501$",
+        "says": "wet well WW-1501"
+      },
+      "says": "sewer → WW-1501"
+    },
+    {
+      "from": {
+        "family": ["wet-well", "tank", "container"],
+        "tag": "^WW1501$",
+        "says": "wet well WW-1501"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P1501A$",
+        "says": "pump P-1501A"
+      }
+    },
+    {
+      "from": {
+        "family": ["wet-well", "tank", "container"],
+        "tag": "^WW1501$",
+        "says": "wet well WW-1501"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P1501B$",
+        "says": "pump P-1501B"
+      }
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P1501A$",
+        "says": "pump P-1501A"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "check"
+        }
+      ],
+      "says": "P-1501A → rising main through a check valve"
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P1501B$",
+        "says": "pump P-1501B"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "check"
+        }
+      ],
+      "says": "P-1501B → rising main through a check valve"
+    }
+  ],
+  "loops": [
+    {
+      "says": "LT-1501 → PLC → the pumps",
+      "controller": [
+        {
+          "letters": "LIC"
+        },
+        {
+          "letters": "LC"
+        },
+        {
+          "letters": "LY"
+        },
+        {
+          "letters": "LS"
+        },
+        {
+          "letters": "UY"
+        },
+        {
+          "letters": "US"
+        },
+        {
+          "letters": "UC"
+        },
+        {
+          "letters": "LIS"
+        }
+      ],
+      "final": {
+        "family": "pump",
+        "tag": "^P1501[AB]$",
+        "says": "P-1501A/B"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["wet-well", "tank", "container"],
+            "tag": "^WW1501$",
+            "says": "wet well WW-1501"
+          }
+        }
+      ]
+    }
+  ],
+  "behaviour": [
+    {
+      "says": "in the afternoon storm both pumps run",
+      "from": 12,
+      "to": 20,
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": "pump",
+            "tag": "^P1501[AB]$",
+            "says": "P-1501A/B"
+          },
+          "agg": "all",
+          "field": "out",
+          "op": ">",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "says": "the wet well never overflows",
+      "all": [
+        {
+          "of": {
+            "family": ["wet-well", "tank", "container"],
+            "tag": "^WW1501$",
+            "says": "wet well WW-1501"
+          },
+          "field": "fill",
+          "op": "<",
+          "value": 0.98
+        }
+      ]
+    },
+    {
+      "says": "in the quiet hours the pumps stop at times",
+      "from": 0,
+      "to": 6,
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": "pump",
+            "tag": "^P1501[AB]$",
+            "says": "P-1501A/B"
+          },
+          "agg": "sum",
+          "field": "out",
+          "op": "==",
+          "value": 0
+        }
+      ]
+    }
+  ]
+}

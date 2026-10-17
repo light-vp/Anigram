@@ -1,0 +1,102 @@
+{
+  "items": [
+    {
+      "tag": "OSC-1",
+      "type": "off-sheet connector",
+      "label": "From pipeline (receipt header)"
+    },
+    {
+      "tag": "OSC-2",
+      "type": "off-sheet connector",
+      "label": "To loading rack"
+    },
+    { "tag": "TK-801", "type": "storage tank", "label": "Storage tank 801" },
+    {
+      "tag": "XV-801",
+      "type": "motor-operated on/off valve",
+      "label": "Tank 801 inlet valve"
+    },
+    {
+      "tag": "LT/LAH-801",
+      "type": "level transmitter with high alarm",
+      "label": "Tank 801 level / high alarm"
+    },
+    {
+      "tag": "LSHH-811",
+      "type": "level switch high-high",
+      "label": "Tank 801 independent high-high switch"
+    },
+    {
+      "tag": "HV-821",
+      "type": "manual isolating valve",
+      "label": "Tank 801 discharge isolating valve"
+    },
+    { "tag": "TK-802", "type": "storage tank", "label": "Storage tank 802" },
+    {
+      "tag": "XV-802",
+      "type": "motor-operated on/off valve",
+      "label": "Tank 802 inlet valve"
+    },
+    {
+      "tag": "LT/LAH-802",
+      "type": "level transmitter with high alarm",
+      "label": "Tank 802 level / high alarm"
+    },
+    {
+      "tag": "LSHH-812",
+      "type": "level switch high-high",
+      "label": "Tank 802 independent high-high switch"
+    },
+    {
+      "tag": "HV-822",
+      "type": "manual isolating valve",
+      "label": "Tank 802 discharge isolating valve"
+    },
+    { "tag": "TK-803", "type": "storage tank", "label": "Storage tank 803" },
+    {
+      "tag": "XV-803",
+      "type": "motor-operated on/off valve",
+      "label": "Tank 803 inlet valve"
+    },
+    {
+      "tag": "LT/LAH-803",
+      "type": "level transmitter with high alarm",
+      "label": "Tank 803 level / high alarm"
+    },
+    {
+      "tag": "LSHH-813",
+      "type": "level switch high-high",
+      "label": "Tank 803 independent high-high switch"
+    },
+    {
+      "tag": "HV-823",
+      "type": "manual isolating valve",
+      "label": "Tank 803 discharge isolating valve"
+    },
+    { "tag": "P-801", "type": "centrifugal pump", "label": "Loading pump" }
+  ],
+  "lines": [
+    { "from": "OSC-1", "to": "XV-801", "kind": "process" },
+    { "from": "XV-801", "to": "TK-801", "kind": "process" },
+    { "from": "TK-801", "to": "HV-821", "kind": "process" },
+    { "from": "HV-821", "to": "P-801", "kind": "process" },
+    { "from": "TK-801", "to": "LT/LAH-801", "kind": "signal" },
+    { "from": "TK-801", "to": "LSHH-811", "kind": "signal" },
+    { "from": "LSHH-811", "to": "XV-801", "kind": "signal" },
+    { "from": "OSC-1", "to": "XV-802", "kind": "process" },
+    { "from": "XV-802", "to": "TK-802", "kind": "process" },
+    { "from": "TK-802", "to": "HV-822", "kind": "process" },
+    { "from": "HV-822", "to": "P-801", "kind": "process" },
+    { "from": "TK-802", "to": "LT/LAH-802", "kind": "signal" },
+    { "from": "TK-802", "to": "LSHH-812", "kind": "signal" },
+    { "from": "LSHH-812", "to": "XV-802", "kind": "signal" },
+    { "from": "OSC-1", "to": "XV-803", "kind": "process" },
+    { "from": "XV-803", "to": "TK-803", "kind": "process" },
+    { "from": "TK-803", "to": "HV-823", "kind": "process" },
+    { "from": "HV-823", "to": "P-801", "kind": "process" },
+    { "from": "TK-803", "to": "LT/LAH-803", "kind": "signal" },
+    { "from": "TK-803", "to": "LSHH-813", "kind": "signal" },
+    { "from": "LSHH-813", "to": "XV-803", "kind": "signal" },
+    { "from": "P-801", "to": "OSC-2", "kind": "process" }
+  ]
+}

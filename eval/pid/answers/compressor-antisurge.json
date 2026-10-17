@@ -1,0 +1,251 @@
+{
+  "id": "compressor-antisurge",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["separator", "vessel", "container"],
+      "tag": "^V401$",
+      "says": "suction scrubber V-401"
+    },
+    {
+      "family": "compressor",
+      "tag": "^K401$",
+      "says": "compressor K-401"
+    },
+    {
+      "family": "heat-exchanger",
+      "tag": "^E401$",
+      "says": "heat exchanger E-401"
+    },
+    {
+      "family": "offpage",
+      "min": 2,
+      "says": "gas in and export out"
+    }
+  ],
+  "valves": [
+    {
+      "family": "control",
+      "tag": "^FV401$",
+      "says": "control valve FV-401"
+    },
+    {
+      "family": "check",
+      "min": 1
+    },
+    {
+      "family": "relief",
+      "tag": "^PSV401$",
+      "says": "relief valve PSV-401"
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["UIC", "UC", "FIC"],
+      "number": "401",
+      "says": "UIC-401"
+    },
+    {
+      "letters": ["FT", "FIT", "FE"],
+      "number": "401",
+      "says": "FT-401"
+    },
+    {
+      "letters": ["PT", "PIT"],
+      "number": "402",
+      "says": "PT-402"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["separator", "vessel", "container"],
+        "tag": "^V401$",
+        "says": "suction scrubber V-401"
+      },
+      "says": "gas in → V-401"
+    },
+    {
+      "from": {
+        "family": ["separator", "vessel", "container"],
+        "tag": "^V401$",
+        "says": "suction scrubber V-401"
+      },
+      "to": {
+        "family": "compressor",
+        "tag": "^K401$",
+        "says": "compressor K-401"
+      }
+    },
+    {
+      "from": {
+        "family": "compressor",
+        "tag": "^K401$",
+        "says": "compressor K-401"
+      },
+      "to": {
+        "family": "heat-exchanger",
+        "tag": "^E401$",
+        "says": "heat exchanger E-401"
+      }
+    },
+    {
+      "from": {
+        "family": "heat-exchanger",
+        "tag": "^E401$",
+        "says": "heat exchanger E-401"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "check"
+        }
+      ],
+      "says": "E-401 → export through a check valve"
+    },
+    {
+      "from": {
+        "family": "heat-exchanger",
+        "tag": "^E401$",
+        "says": "heat exchanger E-401"
+      },
+      "to": [
+        {
+          "family": ["separator", "vessel", "container"],
+          "tag": "^V401$",
+          "says": "suction scrubber V-401"
+        },
+        {
+          "family": "offpage"
+        }
+      ],
+      "via": [
+        {
+          "family": "control",
+          "tag": "^FV401$",
+          "says": "control valve FV-401"
+        }
+      ],
+      "says": "recycle from E-401 outlet back to the suction through FV-401"
+    },
+    {
+      "from": [
+        {
+          "family": "compressor",
+          "tag": "^K401$",
+          "says": "compressor K-401"
+        },
+        {
+          "family": "heat-exchanger",
+          "tag": "^E401$",
+          "says": "heat exchanger E-401"
+        }
+      ],
+      "to": [
+        {
+          "family": "offpage"
+        },
+        {
+          "family": "compressor",
+          "tag": "^K401$",
+          "says": "compressor K-401"
+        },
+        {
+          "family": "heat-exchanger",
+          "tag": "^E401$",
+          "says": "heat exchanger E-401"
+        },
+        {
+          "family": ["separator", "vessel", "container"],
+          "tag": "^V401$",
+          "says": "suction scrubber V-401"
+        }
+      ],
+      "via": [
+        {
+          "family": "relief",
+          "tag": "^PSV401$",
+          "says": "relief valve PSV-401"
+        }
+      ],
+      "says": "PSV-401 on the discharge"
+    }
+  ],
+  "loops": [
+    {
+      "says": "FT-401 and PT-402 → UIC-401 → FV-401",
+      "controller": [
+        {
+          "letters": "UIC"
+        },
+        {
+          "letters": "UC"
+        },
+        {
+          "letters": "FIC"
+        },
+        {
+          "letters": "FFIC"
+        },
+        {
+          "letters": "PDIC"
+        }
+      ],
+      "final": {
+        "family": "control",
+        "tag": "^FV401$",
+        "says": "control valve FV-401"
+      },
+      "sensor": [
+        {
+          "variable": "F"
+        },
+        {
+          "variable": "P"
+        }
+      ]
+    }
+  ],
+  "behaviour": [
+    {
+      "says": "overnight the anti-surge valve opens and gas recycles",
+      "from": 22,
+      "to": 5,
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": "control",
+            "tag": "^FV401$",
+            "says": "control valve FV-401"
+          },
+          "field": "out",
+          "op": ">",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "says": "during the day the anti-surge valve stays shut",
+      "from": 10,
+      "to": 16,
+      "all": [
+        {
+          "of": {
+            "family": "control",
+            "tag": "^FV401$",
+            "says": "control valve FV-401"
+          },
+          "field": "out",
+          "op": "==",
+          "value": 0
+        }
+      ]
+    }
+  ]
+}

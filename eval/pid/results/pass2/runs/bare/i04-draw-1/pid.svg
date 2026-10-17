@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" width="760" height="420" font-family="Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#000"/></marker>
+    <marker id="sarr" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#06c"/></marker>
+  </defs>
+  <rect width="760" height="420" fill="#fff"/>
+  <text x="20" y="28" font-size="16" font-weight="bold">Flow control loop 04</text>
+
+  <!-- process line -->
+  <line x1="40" y1="260" x2="720" y2="260" stroke="#000" stroke-width="3" marker-end="url(#arr)"/>
+  <text x="44" y="282" font-size="11">Process flow</text>
+
+  <!-- FE 04 : flow element (orifice plate symbol) -->
+  <g id="FE-04">
+    <line x1="200" y1="240" x2="200" y2="280" stroke="#000" stroke-width="3"/>
+    <line x1="214" y1="240" x2="214" y2="280" stroke="#000" stroke-width="3"/>
+    <line x1="207" y1="240" x2="207" y2="190" stroke="#06c" stroke-width="1.5"/>
+    <text x="207" y="305" text-anchor="middle" font-weight="bold">FE 04</text>
+    <text x="207" y="320" text-anchor="middle" font-size="11">Flow element</text>
+  </g>
+
+  <!-- FV 04 : globe valve + spring-diaphragm actuator -->
+  <g id="FV-04">
+    <polygon points="500,240 540,260 500,280" fill="#fff" stroke="#000" stroke-width="2"/>
+    <polygon points="580,240 540,260 580,280" fill="#fff" stroke="#000" stroke-width="2"/>
+    <circle cx="540" cy="260" r="4" fill="#000"/>
+    <line x1="540" y1="260" x2="540" y2="200" stroke="#000" stroke-width="2"/>
+    <path d="M510,200 A30,30 0 0 1 570,200 z" fill="#fff" stroke="#000" stroke-width="2"/>
+    <path d="M522,196 l4,-5 l4,10 l4,-10 l4,10 l4,-10 l4,10 l2,-5" fill="none" stroke="#000" stroke-width="1"/>
+    <text x="540" y="305" text-anchor="middle" font-weight="bold">FV 04</text>
+    <text x="540" y="320" text-anchor="middle" font-size="11">Globe control valve</text>
+    <text x="540" y="335" text-anchor="middle" font-size="11">Normal state: NC (normally closed)</text>
+    <text x="600" y="190" font-size="11" font-weight="bold">FV 04-ACT</text>
+    <text x="600" y="204" font-size="11">Spring-diaphragm actuator</text>
+  </g>
+
+  <!-- FIC 04 : controller, central location (full-line circle in square-less bubble with line) -->
+  <g id="FIC-04">
+    <circle cx="370" cy="110" r="30" fill="#fff" stroke="#000" stroke-width="2"/>
+    <line x1="340" y1="110" x2="400" y2="110" stroke="#000" stroke-width="1.5"/>
+    <text x="370" y="104" text-anchor="middle" font-weight="bold">FIC</text>
+    <text x="370" y="127" text-anchor="middle" font-weight="bold">04</text>
+    <text x="370" y="160" text-anchor="middle" font-size="11">Flow indicating controller</text>
+    <text x="370" y="174" text-anchor="middle" font-size="11">(central location)</text>
+  </g>
+
+  <!-- signals (dashed) -->
+  <polyline points="207,190 207,110 340,110" fill="none" stroke="#06c" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#sarr)"/>
+  <polyline points="400,110 540,110 540,170" fill="none" stroke="#06c" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#sarr)"/>
+  <text x="215" y="100" font-size="11" fill="#06c">measurement</text>
+  <text x="440" y="100" font-size="11" fill="#06c">control signal</text>
+
+  <text x="20" y="390" font-size="11">Legend: solid heavy = process pipe; dashed blue = instrument signal. Pipe order FE 04 then FV 04 is assumed; the file does not connect them.</text>
+</svg>

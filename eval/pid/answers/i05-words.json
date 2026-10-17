@@ -1,0 +1,98 @@
+{
+  "id": "i05-words",
+  "source": "DEXPI e.V. TrainingTestCases, dexpi-i05-ratio-control.xml (CC BY 4.0)",
+  "derived": "derive-dexpi.mjs",
+  "valves": [
+    {
+      "family": ["control"],
+      "says": "GlobeValve-1 (actuated GlobeValve)"
+    }
+  ],
+  "instruments": [
+    {
+      "letters": "YC",
+      "number": "031.4",
+      "says": "YC 031.4"
+    },
+    {
+      "letters": "FFIC",
+      "number": "031",
+      "says": "FFIC 031"
+    },
+    {
+      "letters": "FI",
+      "number": "031.2",
+      "says": "FI 031.2",
+      "on": [
+        {
+          "family": ["control"]
+        }
+      ],
+      "hops": 2
+    },
+    {
+      "letters": "FI",
+      "number": "031.1",
+      "says": "FI 031.1"
+    }
+  ],
+  "loops": [
+    {
+      "says": "YC 031.4 / FFIC 031 / FI 031.2 / FI 031.1 → GlobeValve-1",
+      "controller": [
+        {
+          "letters": "YC",
+          "number": "031.4"
+        },
+        {
+          "letters": "FFIC",
+          "number": "031"
+        }
+      ],
+      "final": {
+        "family": ["control"]
+      },
+      "sensor": [
+        {
+          "variable": "F",
+          "min": 2
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "from": {
+        "letters": "FFIC",
+        "number": "031"
+      },
+      "to": {
+        "letters": "YC",
+        "number": "031.4"
+      },
+      "says": "FFIC 031 → YC 031.4"
+    },
+    {
+      "from": {
+        "letters": "FI",
+        "number": "031.2"
+      },
+      "to": {
+        "letters": "FFIC",
+        "number": "031"
+      },
+      "says": "FI 031.2 → FFIC 031"
+    },
+    {
+      "from": {
+        "letters": "FI",
+        "number": "031.1"
+      },
+      "to": {
+        "letters": "FFIC",
+        "number": "031"
+      },
+      "says": "FI 031.1 → FFIC 031"
+    }
+  ]
+}

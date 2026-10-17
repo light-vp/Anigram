@@ -1,0 +1,167 @@
+{
+  "anigram": 1,
+  "id": "ratio-loop-031",
+  "title": "Flow ratio control loop 031",
+  "subtitle": "Controlled stream follows the wild stream at a set ratio",
+  "sheet": "PID-031",
+  "size": [8, 6],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 100
+  },
+  "parts": [
+    {
+      "id": "wild-in",
+      "kind": "river",
+      "label": "Wild stream in",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": "40 + 40 * shift(hour)"
+      },
+      "tag": "OPC-031.1",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "wild-out",
+      "kind": "factory",
+      "label": "Wild stream out",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": "40 + 40 * shift(hour)"
+      },
+      "tag": "OPC-031.2",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "ctl-in",
+      "kind": "river",
+      "label": "Controlled stream in",
+      "at": [0, 4],
+      "behaviour": {
+        "role": "source",
+        "output": 100
+      },
+      "tag": "OPC-031.3",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "cv",
+      "kind": "valve",
+      "label": "Ratio control valve",
+      "at": [5, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "clamp(knob('ratio') * prev('wild-in').out / 100, 0, 1)"
+      },
+      "tag": "FV-031.4",
+      "class": "ControlValve"
+    },
+    {
+      "id": "ctl-out",
+      "kind": "factory",
+      "label": "Controlled stream out",
+      "at": [7, 4],
+      "behaviour": {
+        "role": "sink",
+        "demand": "knob('ratio') * (40 + 40 * shift(hour))"
+      },
+      "tag": "OPC-031.4",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "wild-in",
+      "to": "wild-out",
+      "domain": "water",
+      "line": "process",
+      "tag": "100-W-031"
+    },
+    {
+      "from": "ctl-in",
+      "to": "cv",
+      "domain": "water",
+      "line": "process",
+      "tag": "100-W-032"
+    },
+    {
+      "from": "cv",
+      "to": "ctl-out",
+      "domain": "water",
+      "line": "process",
+      "tag": "100-W-033"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Vaibhav Patel",
+    "project": "Ratio control loop 031",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "FI-031.1",
+      "at": [2, 0],
+      "measures": "wild-in",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "FI-031.2",
+      "at": [2, 5],
+      "measures": "ctl-in",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "FFIC-031",
+      "at": [4, 2],
+      "measures": "FI-031.1",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "YC-031.4",
+      "at": [5, 3],
+      "measures": "FFIC-031",
+      "drives": "cv",
+      "mounting": "field"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "ratio",
+      "label": "flow ratio (controlled : wild)",
+      "value": 0.6,
+      "format": "{pct}%"
+    }
+  ],
+  "expect": [
+    {
+      "says": "the controlled stream runs at the set ratio of the wild stream",
+      "check": "abs(part('ctl-out').in - knob('ratio') * part('wild-out').in) < 0.02 * part('wild-out').in + 0.5"
+    },
+    {
+      "says": "at midday the wild stream is high, so the controlled stream follows it up",
+      "check": "part('ctl-out').in > 40",
+      "at": 12
+    },
+    {
+      "says": "overnight the wild stream drops and the controlled stream follows it down",
+      "check": "part('ctl-out').in < 30",
+      "at": 3
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "id": "duplex-filter",
+  "source": "written",
+  "equipment": [
+    {
+      "family": "filter",
+      "tag": "^F901A$",
+      "says": "filter F-901A"
+    },
+    {
+      "family": "filter",
+      "tag": "^F901B$",
+      "says": "filter F-901B"
+    },
+    {
+      "family": "offpage",
+      "min": 2,
+      "says": "inlet and outlet"
+    }
+  ],
+  "valves": [
+    {
+      "family": "isolation",
+      "min": 6
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["PDT", "PDIT", "PDI"],
+      "min": 2,
+      "says": "a differential pressure transmitter on each filter"
+    },
+    {
+      "letters": ["PDAH", "PDSH", "PDIAH"],
+      "min": 2,
+      "says": "a high differential pressure alarm on each filter"
+    },
+    {
+      "letters": ["PI", "PG"],
+      "min": 2,
+      "says": "pressure gauges on the inlet and outlet"
+    },
+    {
+      "letters": ["PDT", "PDIT", "PDI"],
+      "number": "901A",
+      "on": {
+        "family": "filter",
+        "tag": "^F901A$",
+        "says": "filter F-901A"
+      },
+      "hops": 1,
+      "says": "PDT-901A"
+    },
+    {
+      "letters": ["PDT", "PDIT", "PDI"],
+      "number": "901B",
+      "on": {
+        "family": "filter",
+        "tag": "^F901B$",
+        "says": "filter F-901B"
+      },
+      "hops": 1,
+      "says": "PDT-901B"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": "filter",
+        "tag": "^F901A$",
+        "says": "filter F-901A"
+      },
+      "via": [
+        {
+          "family": "isolation"
+        }
+      ]
+    },
+    {
+      "from": {
+        "family": "filter",
+        "tag": "^F901A$",
+        "says": "filter F-901A"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "isolation"
+        }
+      ]
+    },
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": "filter",
+        "tag": "^F901B$",
+        "says": "filter F-901B"
+      },
+      "via": [
+        {
+          "family": "isolation"
+        }
+      ]
+    },
+    {
+      "from": {
+        "family": "filter",
+        "tag": "^F901B$",
+        "says": "filter F-901B"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "isolation"
+        }
+      ]
+    }
+  ]
+}

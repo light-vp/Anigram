@@ -1,0 +1,298 @@
+{
+  "anigram": 1,
+  "id": "separator-v701",
+  "title": "Production Separator V-701",
+  "subtitle": "Gas and liquid control with high-high level shutdown",
+  "sheet": "PID-701",
+  "size": [10, 5],
+  "units": {
+    "fuel": {
+      "rate": "m³/h",
+      "amount": "m³",
+      "effort": "bar"
+    }
+  },
+  "scale": {
+    "fuel": 120
+  },
+  "parts": [
+    {
+      "id": "well",
+      "kind": "gaswell",
+      "label": "Well fluid (off sheet)",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 100
+      },
+      "labelSide": "above",
+      "tag": "OPC-701",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "sdv",
+      "kind": "valve",
+      "label": "Inlet shutdown valve",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": "prev('sep').fill < 0.9 ? 1 : 0"
+      },
+      "labelSide": "below",
+      "tag": "SDV-701",
+      "class": "ControlValve"
+    },
+    {
+      "id": "sep",
+      "kind": "reservoir",
+      "label": "Production separator",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 60,
+        "start": 0.5,
+        "maxIn": 150,
+        "maxOut": 150
+      },
+      "labelSide": "below",
+      "tag": "V-701",
+      "class": "Vessel",
+      "effort": {
+        "set": 30,
+        "max": 45
+      }
+    },
+    {
+      "id": "pv",
+      "kind": "valve",
+      "label": "Gas pressure control valve",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": 0.75
+      },
+      "labelSide": "below",
+      "tag": "PV-701",
+      "class": "ControlValve"
+    },
+    {
+      "id": "gas",
+      "kind": "gaswell",
+      "label": "Gas header",
+      "at": [9, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 60
+      },
+      "tag": "OPC-702",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "lv",
+      "kind": "valve",
+      "label": "Liquid level control valve",
+      "at": [7, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": "clamp((prev('sep').fill - 0.3) / 0.3, 0, 1)"
+      },
+      "labelSide": "below",
+      "tag": "LV-701",
+      "class": "ControlValve"
+    },
+    {
+      "id": "oil",
+      "kind": "fueltank",
+      "label": "Oil line",
+      "at": [9, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": "40 * knob('oilout')"
+      },
+      "tag": "OPC-703",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "psv",
+      "kind": "valve",
+      "label": "Relief valve",
+      "at": [7, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "relief": {
+          "at": 40,
+          "full": 44
+        }
+      },
+      "labelSide": "below",
+      "tag": "PSV-701",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "flare",
+      "kind": "sky",
+      "label": "To flare",
+      "at": [9, 0],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0,
+        "absorbsSurplus": true
+      },
+      "tag": "OPC-704",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "well",
+      "to": "sdv",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "150-WF-701"
+    },
+    {
+      "from": "sdv",
+      "to": "sep",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "150-WF-702"
+    },
+    {
+      "from": "sep",
+      "to": "pv",
+      "domain": "fuel",
+      "via": [
+        [5, 2],
+        [5, 1]
+      ],
+      "line": "process",
+      "tag": "100-G-703"
+    },
+    {
+      "from": "pv",
+      "to": "gas",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "100-G-704"
+    },
+    {
+      "from": "sep",
+      "to": "lv",
+      "domain": "fuel",
+      "via": [
+        [5, 2],
+        [5, 3]
+      ],
+      "line": "process",
+      "tag": "80-OIL-705"
+    },
+    {
+      "from": "lv",
+      "to": "oil",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "80-OIL-706"
+    },
+    {
+      "from": "sep",
+      "to": "psv",
+      "domain": "fuel",
+      "via": [
+        [5, 2],
+        [5, 0]
+      ],
+      "line": "process",
+      "tag": "100-G-707"
+    },
+    {
+      "from": "psv",
+      "to": "flare",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "100-FL-708"
+    }
+  ],
+  "clock": {
+    "start": 0,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Production Operations",
+    "project": "Separation Train 7",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "PT-701",
+      "at": [4, 1],
+      "measures": "sep",
+      "reads": "part('sep').effort",
+      "unit": "bar",
+      "high": 40
+    },
+    {
+      "tag": "PIC-701",
+      "at": [7, 2],
+      "measures": "PT-701",
+      "drives": "pv",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "LT-701",
+      "at": [4, 3],
+      "measures": "sep",
+      "low": 20,
+      "high": 80
+    },
+    {
+      "tag": "LIC-701",
+      "at": [7, 4],
+      "measures": "LT-701",
+      "drives": "lv",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "LSHH-702",
+      "at": [2, 1],
+      "measures": "sep",
+      "reads": "part('sep').fill * 100",
+      "unit": "%",
+      "drives": "sdv",
+      "mounting": "plc"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "oilout",
+      "label": "oil line take-off",
+      "value": 1,
+      "format": "{pct}%"
+    }
+  ],
+  "expect": [
+    {
+      "says": "at normal oil take-off the level settles below the high-high trip and the inlet stays open",
+      "check": "part('sdv').out > 0 && part('sep').fill < 0.9"
+    },
+    {
+      "says": "separator pressure is held below the PSV set point, so the relief valve stays shut",
+      "check": "part('psv').out < 0.001"
+    },
+    {
+      "says": "gas leaves through PV-701 to the gas header",
+      "check": "part('gas').in > 0"
+    },
+    {
+      "says": "liquid leaves through LV-701 to the oil line",
+      "check": "part('oil').in > 0"
+    }
+  ]
+}

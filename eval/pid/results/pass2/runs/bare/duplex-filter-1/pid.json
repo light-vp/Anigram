@@ -1,0 +1,106 @@
+{
+  "items": [
+    {
+      "tag": "F-901A",
+      "type": "duplex filter (cartridge filter)",
+      "label": "Lube oil filter A"
+    },
+    {
+      "tag": "F-901B",
+      "type": "duplex filter (cartridge filter)",
+      "label": "Lube oil filter B"
+    },
+    {
+      "tag": "V-911A",
+      "type": "isolating valve",
+      "label": "Filter A inlet isolation valve"
+    },
+    {
+      "tag": "V-911B",
+      "type": "isolating valve",
+      "label": "Filter B inlet isolation valve"
+    },
+    {
+      "tag": "V-912A",
+      "type": "isolating valve",
+      "label": "Filter A outlet isolation valve"
+    },
+    {
+      "tag": "V-912B",
+      "type": "isolating valve",
+      "label": "Filter B outlet isolation valve"
+    },
+    { "tag": "V-913A", "type": "drain valve", "label": "Filter A drain valve" },
+    { "tag": "V-913B", "type": "drain valve", "label": "Filter B drain valve" },
+    {
+      "tag": "PDT-901A",
+      "type": "differential pressure transmitter",
+      "label": "Filter A differential pressure"
+    },
+    {
+      "tag": "PDT-901B",
+      "type": "differential pressure transmitter",
+      "label": "Filter B differential pressure"
+    },
+    {
+      "tag": "PDAH-901A",
+      "type": "differential pressure alarm high (DCS)",
+      "label": "Filter A high differential pressure alarm"
+    },
+    {
+      "tag": "PDAH-901B",
+      "type": "differential pressure alarm high (DCS)",
+      "label": "Filter B high differential pressure alarm"
+    },
+    {
+      "tag": "PI-901",
+      "type": "pressure gauge",
+      "label": "Common inlet pressure"
+    },
+    {
+      "tag": "PI-902",
+      "type": "pressure gauge",
+      "label": "Common outlet pressure"
+    },
+    {
+      "tag": "OSC-901",
+      "type": "off-sheet connector",
+      "label": "Inlet from lube oil supply (off sheet)"
+    },
+    {
+      "tag": "OSC-902",
+      "type": "off-sheet connector",
+      "label": "Outlet to lube oil users (off sheet)"
+    },
+    {
+      "tag": "OSC-903",
+      "type": "off-sheet connector",
+      "label": "Filter A drain (off sheet)"
+    },
+    {
+      "tag": "OSC-904",
+      "type": "off-sheet connector",
+      "label": "Filter B drain (off sheet)"
+    }
+  ],
+  "lines": [
+    { "from": "OSC-901", "to": "PI-901", "kind": "process" },
+    { "from": "OSC-901", "to": "V-911A", "kind": "process" },
+    { "from": "V-911A", "to": "F-901A", "kind": "process" },
+    { "from": "F-901A", "to": "V-912A", "kind": "process" },
+    { "from": "V-912A", "to": "OSC-902", "kind": "process" },
+    { "from": "F-901A", "to": "V-913A", "kind": "process" },
+    { "from": "V-913A", "to": "OSC-903", "kind": "process" },
+    { "from": "F-901A", "to": "PDT-901A", "kind": "process" },
+    { "from": "PDT-901A", "to": "PDAH-901A", "kind": "signal" },
+    { "from": "OSC-901", "to": "V-911B", "kind": "process" },
+    { "from": "V-911B", "to": "F-901B", "kind": "process" },
+    { "from": "F-901B", "to": "V-912B", "kind": "process" },
+    { "from": "V-912B", "to": "OSC-902", "kind": "process" },
+    { "from": "F-901B", "to": "V-913B", "kind": "process" },
+    { "from": "V-913B", "to": "OSC-904", "kind": "process" },
+    { "from": "F-901B", "to": "PDT-901B", "kind": "process" },
+    { "from": "PDT-901B", "to": "PDAH-901B", "kind": "signal" },
+    { "from": "OSC-902", "to": "PI-902", "kind": "process" }
+  ]
+}

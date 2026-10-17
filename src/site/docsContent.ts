@@ -375,6 +375,56 @@ export const SECTIONS: Section[] = [
     ],
   },
   {
+    id: 'evaluation',
+    title: 'How well it draws P&IDs',
+    blocks: [
+      {
+        p: 'To measure whether an assistant draws better P&IDs with Anigram than without it, the repo has a P&ID evaluation: 31 requests an engineer might send, each given to Claude twice, once with the Anigram MCP server and once with no diagram tool at all (it writes the SVG itself, plus a list of what is on it). One script grades both against a hidden answer key. No model judges anything.',
+      },
+      {
+        list: [
+          `**Real P&IDs.** 15 scenarios use DEXPI e.V.’s public example P&IDs ([TrainingTestCases](https://gitlab.com/dexpi/TrainingTestCases), CC BY 4.0, used unchanged): drawing a file as it is, drawing the same plant from an email that describes it, or changing it (a bypass, a standby pump, a HAZOP trip). Their answer keys are read straight from the XML by a separate parser, not by Anigram’s importer. The other 16 are written briefs: a separator, a compressor with anti-surge, a duty and standby pump set, a lift station.`,
+          '**Blind.** One agent wrote the scenarios, keys and grader. The assistant being scored runs in an empty folder with only the prompt and its files, and cannot read outside it, so it never sees the key.',
+          '**Graded by script.** Equipment, valves, instruments, process connections, control loops, tag format, and whether every tag is on the drawing. Where the brief describes behaviour (“when the duty pump trips the standby takes over and the tank never overflows”), the Anigram sheet is simulated and the claims are checked hour by hour.',
+        ],
+      },
+      { h: 'Results (2026-10-17, Claude Sonnet 5.5, two passes)' },
+      {
+        table: {
+          head: ['', 'with Anigram', 'without'],
+          rows: [
+            ['drawing score', '96%', '94%'],
+            ['· on real DEXPI files', '96%', '93%'],
+            ['· changes to a DEXPI file', '98%', '96%'],
+            ['· written briefs', '95%', '94%'],
+            ['behaviour verified by simulation', '97%', 'not possible'],
+            ['time a run (mean / median)', '110 s / 84 s', '168 s / 94 s'],
+            ['· changes to a DEXPI file', '141 s', '463 s'],
+            ['· written briefs', '110 s', '113 s'],
+            ['tokens a run (mean)', '909k', '320k'],
+            ['· of which output', '14k', '23k'],
+            ['cost a run (mean)', '$0.48', '$0.46'],
+            ['· changes to a DEXPI file', '$0.68', '$1.54'],
+            ['· written briefs', '$0.42', '$0.23'],
+          ],
+        },
+      },
+      {
+        p: 'What that says, plainly. On drawing alone, Claude is already good at P&IDs and Anigram adds a little, mostly on real plant files: it imports DEXPI instead of reading XML by hand, so changing a DEXPI file took about a third of the time and under half the cost. On short written briefs the drawings score the same, and without Anigram the run is cheaper, because the tool guide and the checks it runs add tokens (mostly cheap cache reads; Anigram runs write fewer tokens of their own). Where they differ completely is behaviour: an Anigram P&ID runs, so a claim like “the standby pump starts and the tank never overflows” is tested, and 97% of those claims held. A drawing made without it can only assert it.',
+      },
+      {
+        p: 'The comparison flatters the runs without Anigram a little: their list of pipes is written by the assistant and taken on trust, while an Anigram scene is the drawing. The evaluation also found an importer bug (a DEXPI loop number written `031.` lost its number), fixed alongside it.',
+      },
+      {
+        code: `node eval/pid/run.mjs --mode both --keep   # both sides, every scenario (costs tokens)
+node eval/pid/report.mjs eval/pid/results/pass1 eval/pid/results/pass2`,
+      },
+      {
+        p: `Scenarios, scoring, known limits and every run’s output: [eval/pid](${BLOB}/eval/pid/README.md), with the full tables in [RESULTS.md](${BLOB}/eval/pid/RESULTS.md).`,
+      },
+    ],
+  },
+  {
     id: 'embed',
     title: 'Embedding and links',
     blocks: [
@@ -493,7 +543,8 @@ export const SECTIONS: Section[] = [
   site/     the header and these docs
 mcp/        the MCP server (one bundled file, plus PNG and PDF renderers)
 e2e/        browser tests and the screenshots they compare against
-eval/       a real assistant building sheets with the server, scored`,
+eval/       a real assistant building sheets with the server, scored;
+            eval/pid/ the P&ID evaluation, with and without Anigram`,
       },
       {
         code: `npm install
@@ -509,7 +560,7 @@ npm run eval       # a real assistant builds sheets (costs tokens)`,
         list: [
           '**Golden days**: each built-in sheet’s hour-by-hour run is committed, so a change to the solver that alters a sheet shows up in review.',
           '**Screenshots**: CI compares every sheet in each drawing type with a picture taken in Playwright’s Docker image.',
-          '**Evals**: prompts in `eval/prompts.json` are given to a real assistant with only the MCP server; each run records whether the sheet is valid, tells its story, and passes the drawing checks.',
+          '**Evals**: prompts in `eval/prompts.json` are given to a real assistant with only the MCP server; each run records whether the sheet is valid, tells its story, and passes the drawing checks. The P&ID evaluation in `eval/pid/` compares runs with and without Anigram (see above).',
           `**Releases**: one version covers the app, the npm package and the repo. A merged version bump and a tag publish \`anigram-mcp\` through npm’s trusted publishing; see [RELEASING.md](${BLOB}/RELEASING.md) and the [changelog](${BLOB}/CHANGELOG.md).`,
           `**Contributing**: issues and pull requests welcome, MIT, no CLA. See [CONTRIBUTING.md](${BLOB}/CONTRIBUTING.md).`,
         ],

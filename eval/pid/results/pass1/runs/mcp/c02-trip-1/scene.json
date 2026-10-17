@@ -1,0 +1,360 @@
+{
+  "anigram": 1,
+  "id": "k-2750-feed-trip",
+  "title": "Packed column K-2750",
+  "subtitle": "HAZOP action: feed shutdown valve XV-2750, high level alarm and independent high-high trip",
+  "sheet": "DEXPI Example C02",
+  "size": [5, 5],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "heat": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 120,
+    "heat": 60
+  },
+  "parts": [
+    {
+      "id": "k-2750",
+      "kind": "hottank",
+      "label": "Column",
+      "at": [2, 1],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 240,
+        "start": 0.5,
+        "maxIn": 120,
+        "maxOut": 120
+      },
+      "note": "Process column ProcessColumn-1, 500 x 14000 mm, 1.4571, pe = 6/-1 bar, 150 °C. Carries packed bed KX 2750 (fixed bed, 600 mm). Sump level is the column fill.",
+      "tag": "K-2750",
+      "class": "Vessel"
+    },
+    {
+      "id": "feed-in",
+      "kind": "well",
+      "label": "Feed from off sheet",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": 90
+      },
+      "note": "HAZOP action: new feed line into the column from off the sheet.",
+      "labelSide": "below",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "xv-2750",
+      "kind": "valve",
+      "label": "Feed shutdown valve",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 120,
+        "open": "on('xv-2750') ? 1 : 0"
+      },
+      "note": "Closed by the independent high-high level trip LSHH-2750.",
+      "labelSide": "above",
+      "toggles": "xv-2750",
+      "tag": "XV-2750",
+      "class": "BallValve"
+    },
+    {
+      "id": "off-page-connector",
+      "kind": "tap",
+      "label": "To elsewhere",
+      "at": [3, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": "(prev('k-2750').fill > 0.15 ? 20 : 0) * knob('throughput')"
+      },
+      "note": "Flow out pipe off page connector in the DEXPI file (FlowOutPipeOffPageConnector-1).",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "junction",
+      "kind": "manifold",
+      "label": "Pipe tee",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "note": "Pipe tee in the DEXPI file (PipeTee-1).",
+      "class": "Junction"
+    },
+    {
+      "id": "off-page-connector-2",
+      "kind": "tap",
+      "label": "Out",
+      "at": [4, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": "(prev('k-2750').fill > 0.15 ? 40 : 0) * knob('throughput')"
+      },
+      "note": "Flow out pipe off page connector in the DEXPI file (open-1).",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "globe-valve",
+      "kind": "valve",
+      "label": "Operated valve",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": "on('globe-valve') ? 15 : 0"
+      },
+      "note": "Operated valve in the DEXPI file (OperatedValve-1, H672B1V).",
+      "toggles": "globe-valve",
+      "class": "GlobeValve"
+    },
+    {
+      "id": "globe-valve-2",
+      "kind": "valve",
+      "label": "Operated valve",
+      "at": [3, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "note": "Operated valve in the DEXPI file (OperatedValve-2).",
+      "class": "GlobeValve"
+    },
+    {
+      "id": "globe-valve-3",
+      "kind": "valve",
+      "label": "Operated valve",
+      "at": [3, 4],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "note": "Operated valve in the DEXPI file (OperatedValve-3).",
+      "class": "GlobeValve"
+    }
+  ],
+  "links": [
+    {
+      "from": "feed-in",
+      "to": "xv-2750",
+      "domain": "water",
+      "tag": "150-W-002"
+    },
+    {
+      "from": "xv-2750",
+      "to": "k-2750",
+      "domain": "water",
+      "tag": "150-W-003"
+    },
+    {
+      "from": "k-2750",
+      "to": "off-page-connector",
+      "domain": "water",
+      "via": [
+        [2.5, 1],
+        [2.5, 3]
+      ],
+      "tag": "150-8503-2750.001.6"
+    },
+    {
+      "from": "k-2750",
+      "to": "junction",
+      "domain": "water",
+      "via": [
+        [2.5, 1],
+        [2.5, 2]
+      ],
+      "tag": "*at N3*"
+    },
+    {
+      "from": "k-2750",
+      "to": "globe-valve-2",
+      "domain": "water",
+      "tag": "*at P3*"
+    },
+    {
+      "from": "k-2750",
+      "to": "globe-valve-3",
+      "domain": "water",
+      "via": [
+        [2.5, 1],
+        [2.5, 4]
+      ],
+      "tag": "*at P4*"
+    },
+    {
+      "from": "junction",
+      "to": "off-page-connector-2",
+      "domain": "water",
+      "via": [
+        [3.5, 2],
+        [3.5, 3]
+      ],
+      "tag": "*at N3*"
+    },
+    {
+      "from": "junction",
+      "to": "globe-valve",
+      "domain": "water",
+      "tag": "*at N3*"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "BASF SE",
+    "project": "DEXPI Example C02",
+    "drawnBy": "Claude",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "for review"
+  },
+  "instruments": [
+    {
+      "tag": "PISZA-275003",
+      "at": [3, 0],
+      "measures": "PIZ-275003A",
+      "mounting": "panel"
+    },
+    {
+      "tag": "PIZ-275003A",
+      "at": [4, 0],
+      "measures": "globe-valve-2",
+      "mounting": "panel"
+    },
+    {
+      "tag": "PIZ-275003B",
+      "at": [2, 3],
+      "measures": "globe-valve-3",
+      "mounting": "panel"
+    },
+    {
+      "tag": "LT-2752",
+      "at": [2, 0],
+      "measures": "k-2750",
+      "mounting": "field"
+    },
+    {
+      "tag": "LAH-2752",
+      "at": [1, 0],
+      "measures": "LT-2752",
+      "mounting": "dcs",
+      "high": 80
+    },
+    {
+      "tag": "LT-2750",
+      "at": [2, 2],
+      "measures": "k-2750",
+      "mounting": "field"
+    },
+    {
+      "tag": "LSHH-2750",
+      "at": [1, 2],
+      "measures": "LT-2750",
+      "drives": "xv-2750",
+      "mounting": "plc",
+      "high": 90
+    }
+  ],
+  "knobs": [
+    {
+      "id": "throughput",
+      "label": "throughput",
+      "value": 1,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05,
+      "format": "{pct}%"
+    }
+  ],
+  "switches": [
+    {
+      "id": "xv-2750",
+      "label": "XV-2750 open",
+      "on": true
+    },
+    {
+      "id": "globe-valve",
+      "label": "Operated valve open",
+      "on": false
+    },
+    {
+      "id": "lah-2752",
+      "label": "LAH-2752 high level alarm (DCS)",
+      "on": false
+    }
+  ],
+  "captions": [
+    {
+      "from": 6,
+      "to": 8,
+      "text": "Feed enters through XV-2750 faster than the column drains, so the sump level climbs."
+    },
+    {
+      "from": 8,
+      "to": 10,
+      "text": "High level alarm in the DCS, then the independent high-high trip closes XV-2750."
+    },
+    {
+      "from": 10,
+      "to": 24,
+      "text": "Feed is isolated; the sump level stays below the trip and falls as the column drains."
+    }
+  ],
+  "events": [
+    {
+      "id": "high-level-alarm",
+      "says": "Sump level passes 80%: LT-2752 and LAH-2752 raise the high level alarm in the DCS.",
+      "when": "part('k-2750').fill > 0.8",
+      "then": [
+        {
+          "switch": "lah-2752",
+          "on": true
+        }
+      ],
+      "at": "k-2750"
+    },
+    {
+      "id": "high-high-trip",
+      "says": "Level passes 90% on the independent transmitter LT-2750: LSHH-2750 trips and closes XV-2750.",
+      "when": "part('k-2750').fill > 0.9",
+      "then": [
+        {
+          "switch": "xv-2750",
+          "on": false
+        }
+      ],
+      "at": "xv-2750"
+    }
+  ],
+  "expect": [
+    {
+      "says": "the sump starts below the alarm and the feed is open",
+      "check": "part('k-2750').fill < 0.8 && part('xv-2750').out > 0",
+      "at": 7
+    },
+    {
+      "says": "at 9:00 the level is past 80%: the DCS high level alarm is up and XV-2750 is still open",
+      "check": "on('lah-2752') == 1 && part('xv-2750').out > 0 && part('k-2750').fill > 0.8",
+      "at": 9
+    },
+    {
+      "says": "after the high-high trip XV-2750 is shut and no feed reaches the column",
+      "check": "part('xv-2750').out == 0 && part('k-2750').in == 0",
+      "from": 11,
+      "to": 20
+    },
+    {
+      "says": "the trip holds the sump below overflow all day",
+      "check": "part('k-2750').fill < 0.95"
+    }
+  ]
+}

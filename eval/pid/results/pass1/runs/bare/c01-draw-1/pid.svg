@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 420 297" width="1680" height="1188" font-family="Calibri, Carlito, Arial, Helvetica, sans-serif">
+<title>P&amp;ID - Isophorone chain, Utilities (plant section 10, area F4) - DEXPI example PID 123/A93</title>
+<style>
+.pipe{fill:none;stroke:#808000;stroke-width:.5}
+.sec{fill:none;stroke:#808000;stroke-width:.25}
+.eq{fill:none;stroke:#800000;stroke-width:.3}
+.nz{fill:none;stroke:#800000;stroke-width:.4}
+.vs{fill:none;stroke:#808000;stroke-width:.25}
+.ms{fill:none;stroke:#008000;stroke-width:.2}
+.sg{fill:none;stroke:#0000ff;stroke-width:.2;stroke-dasharray:1.5 1}
+.bub{fill:#fff;stroke:#008000;stroke-width:.2}
+.blk{fill:none;stroke:#000;stroke-width:.2}
+.fr{fill:none;stroke:#000;stroke-width:.3}
+text{font-size:3px;fill:#000;text-anchor:middle;dominant-baseline:central}
+.s{text-anchor:start;dominant-baseline:auto}
+.e{text-anchor:end;dominant-baseline:auto}
+.sm{font-size:2.6px}
+.tag{font-size:4.5px;font-weight:bold}
+.dl,.dv{font-size:2.2px;dominant-baseline:auto}
+.dl{text-anchor:start}
+</style>
+<defs>
+  <g id="globe" class="vs"><path d="M-2 1L2 -1V1L-2 -1Z"/><circle r=".5" fill="#808000"/></g>
+  <g id="ball" class="vs"><path d="M-2 1L2 -1V1L-2 -1Z"/><circle r="1" fill="#fff"/></g>
+  <g id="bfly" class="vs"><path d="M-2 1L2 -1L-2 -1V1H2V-1"/><circle r=".5" fill="#808000"/></g>
+  <g id="chk" class="vs"><path d="M-2 1V-1H2V1H-2L2 -1"/><circle cx="-2" cy="1" r=".5" fill="#808000"/></g>
+  <g id="red" class="vs"><path d="M-2 1L2 0L-2 -1Z"/></g>
+  <g id="act" class="vs"><path d="M0 0H4.05"/><circle cx="6.075" r="2.025" fill="#fff"/></g>
+  <g id="bubf" class="bub"><path d="M-3 3.75H3A3.75 3.75 0 0 0 3 -3.75H-3A3.75 3.75 0 0 0 -3 3.75Z"/></g>
+  <g id="bubc" class="bub"><path d="M-3 3.75H3A3.75 3.75 0 0 0 3 -3.75H-3A3.75 3.75 0 0 0 -3 3.75Z"/><path d="M-6.75 0H6.75" fill="none"/></g>
+  <path id="arrp" class="pipe" d="M-1.75 1.75L0 0L-1.75 -1.75"/>
+  <path id="arrs" class="sec" d="M-1.75 1.75L0 0L-1.75 -1.75"/>
+  <path id="opcin" class="blk" d="M-7 -1.75V1.75H-3.5V3.5L0 0L-3.5 -3.5V-1.75Z"/>
+  <path id="opcout" class="blk" d="M0 -1.75V1.75H3.5V3.5L7 0L3.5 -3.5V-1.75Z"/>
+</defs>
+
+<rect width="420" height="297" fill="#fff"/>
+
+<!-- ===================== process drawing (DEXPI coordinates, Y up) ===================== -->
+<g transform="translate(0 297) scale(1 -1)">
+
+<!-- piping, primary segments -->
+<g class="pipe">
+  <path d="M38 143H74.75"/>
+  <path d="M93.25 143H132"/>
+  <path d="M148 164H160V176"/>
+  <path d="M160 180V236H181V224.36"/>
+  <path d="M194 168.5V162"/>
+  <path d="M194 158V143H201"/>
+  <path d="M205 143H215"/>
+  <path d="M219 143H229"/>
+  <path d="M233 143H241.75"/>
+  <path d="M260.25 143H287M291 143H378"/>
+</g>
+<!-- piping, secondary segments -->
+<g class="sec">
+  <path d="M269 143V201"/>
+  <path d="M267 203H213"/>
+  <path d="M265 143V139"/>
+  <path d="M281 143V147"/>
+  <path d="M365 143V147"/>
+  <path d="M323.5 143V159.5"/>
+  <path d="M323.5 174.5V197M323.5 201V214H213"/>
+  <path d="M120 95V164H132"/>
+  <path d="M148 143H153V95"/>
+  <path d="M344.5 95V159.5"/>
+  <path d="M328 174.5V184H338.5M342.5 184H353V95"/>
+</g>
+
+<!-- flow direction arrows -->
+<use xlink:href="#arrp" transform="translate(181 231.36) rotate(-90)"/>
+<use xlink:href="#arrp" transform="translate(375 143)"/>
+<use xlink:href="#arrs" transform="translate(217 203) rotate(180)"/>
+<use xlink:href="#arrs" transform="translate(217 214) rotate(180)"/>
+<use xlink:href="#arrs" transform="translate(120 136) rotate(90)"/>
+<use xlink:href="#arrs" transform="translate(153 134.25) rotate(-90)"/>
+<use xlink:href="#arrs" transform="translate(344.5 136) rotate(90)"/>
+<use xlink:href="#arrs" transform="translate(353 134.25) rotate(-90)"/>
+<!-- off-page connectors -->
+<use xlink:href="#opcin" transform="translate(38 143)"/>
+<use xlink:href="#opcout" transform="translate(378 143)"/>
+
+<!-- pipe slope and insulation symbols -->
+<path class="blk" d="M255.25 203.76V204.64L258.75 203.76Z"/>
+<g class="blk" transform="translate(311.8 214)"><path d="M-4.2 .7H4.2M-4.2 -.7H4.2M-4.2 0L-3.5 .7M-3.5 -.7L-2.1 .7M-2.1 -.7L-.7 .7M-.7 -.7L.7 .7M.7 -.7L2.1 .7M2.1 -.7L3.5 .7M3.5 -.7L4.2 0"/></g>
+
+<!-- ===================== equipment ===================== -->
+<!-- nozzle stubs -->
+<path class="nz" d="M74.75 143H78.75M78.75 144V142 M93.25 143H89.25M89.25 144V142 M132 143H136M136 144V142 M148 164H144M144 165V163 M132 164H136M136 165V163 M148 143H144M144 144V142 M241.75 143H245.75M245.75 144V142 M260.25 143H256.25M256.25 144V142 M175 186H179M179 187V185 M213 203H209M209 204V202 M213 214H209M209 215V213 M323.5 159.5V163.5M322.5 163.5H324.5 M323.5 174.5V170.5M322.5 170.5H324.5 M328 174.5V170.5M327 170.5H329 M344.5 159.5V163.5M343.5 163.5H345.5 M181 224.36V220.36M180 220.36H182 M194 168.5V172.5M193 172.5H195 M204 225.68V221.68M203 221.68H205"/>
+
+<g data-tag="P4711"><title>P4711 centrifugal pump</title>
+  <g class="eq" transform="translate(84 143)"><circle r="5.25"/><path d="M-5.25 0H5.25M0 -5.25L5.25 0L0 5.25"/></g>
+  <text class="tag" transform="translate(84 152.77) scale(1 -1)">P4711</text>
+</g>
+
+<g data-tag="H1007"><title>H1007 plate heat exchanger</title>
+  <g class="eq" transform="translate(140 153.5) rotate(90) scale(.85 .8)" style="stroke-width:.37"><path d="M-15 5H15V-5H-15Z M-12.5 5L12.5 -5 M-12.5 -5L12.5 5 M-7.5 5V-5 M0 5V-5 M7.5 5V-5"/></g>
+  <text class="tag" transform="translate(140 135.27) scale(1 -1)">H1007</text>
+</g>
+
+<g data-tag="H1008"><title>H1008 tubular heat exchanger</title>
+  <g class="eq" transform="translate(334 167) scale(.7)" style="stroke-width:.43"><path d="M-17.5 5H17.5V-5H-17.5Z M-12.5 5V-5 M-17.5 0H-12.5 M-12.5 2.5H10 M-12.5 .8333H10 M-12.5 -.8333H10 M-12.5 -2.5H10 M10 3.75H12.5V-3.75H10Z"/></g>
+  <text class="tag" transform="translate(312 167.77) scale(1 -1)">H1008</text>
+</g>
+
+<g data-tag="P4712"><title>P4712 reciprocating pump</title>
+  <g class="eq" transform="translate(251 143)"><circle r="5.25"/><path d="M0 5.25L5.25 0M0 -5.25L5.25 0M-1.75 0H1.75M1.75 1.75V-1.75"/></g>
+  <text class="tag" transform="translate(251 152.77) scale(1 -1)">P4712</text>
+</g>
+
+<g data-tag="T4750"><title>T4750 tank</title>
+  <path class="eq" d="M179 219.25A31.875 36.125 0 0 0 209 219.25V176.75A31.875 36.125 0 0 0 179 176.75Z"/>
+  <path class="nz" d="M179 206.5H176V208.25 M179 199.5H176V197.75 M174.95 208.25V197.75"/>
+  <text class="tag" transform="translate(194 198.77) scale(1 -1)">T4750</text>
+</g>
+
+<!-- nozzle labels -->
+<g>
+  <text transform="translate(75.95 146.36) scale(1 -1)">N1</text><text transform="translate(75.95 140.66) scale(1 -1)">80</text>
+  <text transform="translate(92.05 146.36) scale(1 -1)">N2</text><text transform="translate(92.05 140.66) scale(1 -1)">80</text>
+  <text transform="translate(133.2 146.36) scale(1 -1)">N1</text><text transform="translate(133.2 140.66) scale(1 -1)">80</text>
+  <text transform="translate(146.8 167.36) scale(1 -1)">N2</text><text transform="translate(146.8 161.66) scale(1 -1)">80</text>
+  <text transform="translate(133.2 167.36) scale(1 -1)">N3</text><text transform="translate(133.2 161.66) scale(1 -1)">50</text>
+  <text transform="translate(146.8 146.36) scale(1 -1)">N4</text><text transform="translate(146.8 140.66) scale(1 -1)">50</text>
+  <text transform="translate(242.95 146.36) scale(1 -1)">N1</text><text transform="translate(242.95 140.66) scale(1 -1)">50</text>
+  <text transform="translate(259.05 146.36) scale(1 -1)">N2</text><text transform="translate(259.05 140.66) scale(1 -1)">50</text>
+  <text transform="translate(327.5 161.51) scale(1 -1)">N1</text><text transform="translate(327.5 158.51) scale(1 -1)">50</text>
+  <text transform="translate(319.5 176.51) scale(1 -1)">N2</text><text transform="translate(319.5 173.51) scale(1 -1)">50</text>
+  <text transform="translate(332 176.51) scale(1 -1)">N3</text><text transform="translate(332 173.51) scale(1 -1)">50</text>
+  <text transform="translate(340.5 161.51) scale(1 -1)">N4</text><text transform="translate(340.5 158.51) scale(1 -1)">50</text>
+  <text transform="translate(177 226.37) scale(1 -1)">N1</text><text transform="translate(177 223.37) scale(1 -1)">80</text>
+  <text transform="translate(190 170.51) scale(1 -1)">N2</text><text transform="translate(190 167.51) scale(1 -1)">80</text>
+  <text transform="translate(176.2 189.36) scale(1 -1)">N3</text><text transform="translate(176.2 183.66) scale(1 -1)">80</text>
+  <text transform="translate(211.8 206.36) scale(1 -1)">N5</text><text transform="translate(211.8 200.66) scale(1 -1)">50</text>
+  <text transform="translate(211.8 217.36) scale(1 -1)">N6</text><text transform="translate(211.8 211.66) scale(1 -1)">50</text>
+  <text transform="translate(208 227.69) scale(1 -1)">N7</text><text transform="translate(208 224.69) scale(1 -1)">25</text>
+  <text transform="translate(171 205.01) scale(1 -1)">N8</text><text transform="translate(171 202.01) scale(1 -1)">800</text>
+</g>
+
+<!-- ===================== valves ===================== -->
+<g data-tag="HV4750.01"><title>HV4750.01 globe control valve, fail closed (F.C.)</title>
+  <use xlink:href="#globe" transform="translate(160 178) rotate(90)"/>
+  <use xlink:href="#act" transform="translate(160 178) rotate(180)"/>
+  <text transform="translate(153.9 173.8) scale(1 -1)">F.C.</text>
+  <text class="s" transform="translate(162.5 178) scale(1 -1)">HV4750.01</text>
+</g>
+<g data-tag="PV4712.02"><title>PV4712.02 globe control valve, fail closed (F.C.)</title>
+  <use xlink:href="#globe" transform="translate(323.5 199) rotate(90)"/>
+  <use xlink:href="#act" transform="translate(323.5 199)"/>
+  <text transform="translate(329.6 203) scale(1 -1)">F.C.</text>
+  <text transform="translate(319.5 199) rotate(90) scale(1 -1)">PV4712.02</text>
+</g>
+<g data-tag="TV4750.03"><title>TV4750.03 globe control valve, fail open (F.O.)</title>
+  <use xlink:href="#globe" transform="translate(340.5 184)"/>
+  <use xlink:href="#act" transform="translate(340.5 184) rotate(90)"/>
+  <text class="s" transform="translate(343.2 189.3) scale(1 -1)">F.O.</text>
+  <text transform="translate(340.5 181.5) scale(1 -1)">TV4750.03</text>
+</g>
+
+<g data-tag="SV 104.01"><title>SV 104.01 spring-loaded safety valve, 6 barg</title>
+  <g class="vs" transform="translate(269 203)">
+    <path d="M0 0L-2 1V-1ZM0 0L1 -2H-1ZM-1.41 1V-1H-1.51V1Z"/>
+    <path d="M0 0V1L1 1.5L-1 2.333L1 3.167L-1 4L0 4.5V5"/>
+    <circle r=".5" fill="#808000"/>
+  </g>
+  <rect class="fr" x="273" y="196" width="16" height="10.1"/>
+  <text class="s sm" transform="translate(274 203) scale(1 -1)">SV 104.01</text>
+  <text class="s sm" transform="translate(274 200) scale(1 -1)">P = 6 barg</text>
+  <text class="s sm" transform="translate(274 197) scale(1 -1)">DN = 25/50</text>
+</g>
+
+<g data-tag="ButterflyValve-1"><title>ButterflyValve-1 butterfly valve 66KL21-80</title>
+  <use xlink:href="#bfly" transform="translate(194 160) rotate(90)"/>
+  <text transform="translate(198 161) rotate(90) scale(1 -1)">66KL21-80</text>
+</g>
+<g data-tag="SwingCheckValve-1"><title>SwingCheckValve-1 swing check valve 75SA21-80</title>
+  <use xlink:href="#chk" transform="translate(203 143)"/>
+  <text transform="translate(203 147) scale(1 -1)">75SA21-80</text>
+</g>
+<g><title>pipe reducer DN 80 / DN 50 (fitting)</title>
+  <use xlink:href="#red" transform="translate(217 143)"/>
+  <text transform="translate(217 147) scale(1 -1)">80/50</text>
+</g>
+<g data-tag="BallValve-1"><title>BallValve-1 ball valve 73KH12-50</title>
+  <use xlink:href="#ball" transform="translate(231 143)"/>
+  <text transform="translate(231 147) scale(1 -1)">73KH12-50</text>
+</g>
+<g data-tag="BallValve-2"><title>BallValve-2 ball valve 73KH12-25</title>
+  <use xlink:href="#ball" transform="translate(265 137) rotate(90)"/>
+  <text transform="translate(268 133) scale(1 -1)">73KH12-25</text>
+</g>
+<g data-tag="BallValve-3"><title>BallValve-3 ball valve 73KH12-25</title>
+  <use xlink:href="#ball" transform="translate(281 149) rotate(90)"/>
+  <text transform="translate(285 153) rotate(90) scale(1 -1)">73KH12-25</text>
+</g>
+<g data-tag="BallValve-4"><title>BallValve-4 ball valve 73KH12-50</title>
+  <use xlink:href="#ball" transform="translate(289 143)"/>
+  <text transform="translate(289 139.5) scale(1 -1)">73KH12-50</text>
+</g>
+<g data-tag="BallValve-5"><title>BallValve-5 ball valve 73KH12-25</title>
+  <use xlink:href="#ball" transform="translate(365 149) rotate(90)"/>
+  <text transform="translate(369 152) rotate(90) scale(1 -1)">73KH12-25</text>
+</g>
+
+<!-- blind flanges carrying the pressure transmitters -->
+<path class="vs" d="M280 151.8H282M364 151.8H366"/>
+
+<!-- ===================== instrumentation ===================== -->
+<!-- measuring lines (sensor to instrument) -->
+<path class="ms" d="M281 151.8V161.25M365 151.8V161.25M204 225.68V232.25"/>
+<!-- control signals (instrument to actuator) -->
+<path class="sg" d="M365 168.75V199H333.4"/>
+<path class="sg" d="M143.75 178H150.1"/>
+<path class="sg" d="M210.75 236H340.5V193.9"/>
+<path d="M331.6 199L333.4 199.7V198.3Z M151.9 178L150.1 178.7V177.3Z M340.5 192.1L339.8 193.9H341.2Z" fill="#0000ff"/>
+
+<g data-tag="PI4712.01"><title>PI4712.01 local pressure indicator, loop 4712.01</title>
+  <use xlink:href="#bubf" transform="translate(281 165)"/>
+  <text transform="translate(281 167.25) scale(1 -1)">PI</text>
+  <text transform="translate(281 163.8) scale(1 -1)">4712.01</text>
+</g>
+<g data-tag="PT4712.01"><title>PT4712.01 pressure transmitter, loop 4712.01</title>
+  <text class="e" transform="translate(279.2 156.5) scale(1 -1)">PT4712.01</text>
+</g>
+<g data-tag="PICSA4712.02"><title>PICSA4712.02 pressure indicating controller, loop 4712.02</title>
+  <use xlink:href="#bubc" transform="translate(365 165)"/>
+  <text transform="translate(365 167.25) scale(1 -1)">PICSA</text>
+  <text transform="translate(365 163.8) scale(1 -1)">4712.02</text>
+</g>
+<g data-tag="PT4712.02"><title>PT4712.02 pressure transmitter, loop 4712.02</title>
+  <text class="e" transform="translate(363.2 156.5) scale(1 -1)">PT4712.02</text>
+</g>
+<g data-tag="HS4750.01"><title>HS4750.01 hand switch, loop 4750.01</title>
+  <use xlink:href="#bubc" transform="translate(137 178)"/>
+  <text transform="translate(137 180.25) scale(1 -1)">HS</text>
+  <text transform="translate(137 176.8) scale(1 -1)">4750.01</text>
+</g>
+<g data-tag="TICSA4750.03"><title>TICSA4750.03 temperature indicating controller, loop 4750.03</title>
+  <use xlink:href="#bubc" transform="translate(204 236)"/>
+  <text transform="translate(204 238.25) scale(1 -1)">TICSA</text>
+  <text transform="translate(204 234.8) scale(1 -1)">4750.03</text>
+</g>
+<g data-tag="TT4750.03"><title>TT4750.03 temperature transmitter in tank nozzle N7, loop 4750.03</title>
+  <text class="e" transform="translate(201.2 229) scale(1 -1)">TT4750.03</text>
+</g>
+
+<!-- ===================== line numbers and insulation ===================== -->
+<g>
+  <text transform="translate(56.375 146) scale(1 -1)">MNb 47121 75HB13 80</text>
+  <text transform="translate(112.625 146) scale(1 -1)">MNb 47122 75HB13 80</text>
+  <text transform="translate(157 206.18) rotate(90) scale(1 -1)">MNb 47123 75HB13 80</text>
+  <text transform="translate(190 148.75) rotate(90) scale(1 -1)">MNc 47124 75HB13 80</text>
+  <text transform="translate(272.3 180) rotate(90) scale(1 -1)">MNc 47125 73HG12 25</text>
+  <text transform="translate(236 205.5) scale(1 -1)">MNc 47125 75HB13 50</text>
+  <text transform="translate(308.25 146) scale(1 -1)">MNc 47126 75HB13 50</text>
+  <text transform="translate(239.25 216.25) scale(1 -1)">MNc 47127 75HB13 50 Q 80</text>
+  <text transform="translate(311.8 211.5) scale(1 -1)">Q80</text>
+  <text transform="translate(117.5 114) rotate(90) scale(1 -1)">WKa 47130 75HB13 50</text>
+  <text transform="translate(150.5 114) rotate(90) scale(1 -1)">WKb 47131 75HB13 50</text>
+  <text transform="translate(342.1 113.5) rotate(90) scale(1 -1)">QSa 47140 75HB13 50 Q 80</text>
+  <text transform="translate(350.7 113.6) rotate(90) scale(1 -1)">QSb 47141 75HB13 50 Q 80</text>
+</g>
+
+</g>
+
+<!-- ===================== sheet furniture (plain SVG coordinates) ===================== -->
+<rect class="fr" x="1" y="1" width="418" height="295"/>
+<rect x="4" y="4" width="412" height="289" fill="none" stroke="#000" stroke-width=".6"/>
+<text class="s" x="9" y="12" style="font-size:4px;font-weight:bold">Isophorone chain - Utilities (plant section 10, area F4, system X123, train T456)</text>
+
+<!-- legend -->
+<g>
+  <rect class="fr" x="298" y="228" width="116" height="32"/>
+  <text class="s sm" x="300" y="232" style="font-weight:bold">Legend</text>
+  <path class="pipe" d="M300 236H312"/><text class="s sm" x="314" y="237">Process piping, primary segment</text>
+  <path class="sec" d="M300 240H312"/><text class="s sm" x="314" y="241">Process piping, secondary segment (branch, bypass, utility)</text>
+  <path class="ms" d="M300 244H312"/><text class="s sm" x="314" y="245">Measuring line (sensor to instrument)</text>
+  <path class="sg" d="M300 248H312"/><text class="s sm" x="314" y="249">Control signal (instrument to valve actuator)</text>
+  <text class="s sm" x="300" y="253">F.C. / F.O. = actuator fail action: valve fails closed / open</text>
+  <text class="s sm" x="300" y="257">Instrument bubble: plain = field mounted, with bar = central location</text>
+</g>
+
+<!-- equipment data tables -->
+<g class="fr">
+  <rect x="6" y="265" width="90" height="26" stroke-width=".6"/>
+  <path d="M6 268.25H96M6 271.5H96M6 274.75H96M6 278H96M6 281.25H96M6 284.5H96M6 287.75H96M66 265V291M81 281.25V291"/>
+  <rect x="98" y="265" width="90" height="26" stroke-width=".6"/>
+  <path d="M98 268.25H188M98 271.5H188M98 274.75H188M98 278H188M98 281.25H188M98 284.5H188M98 287.75H188M158 265V291M173 281.25V291"/>
+  <rect x="190" y="265" width="90" height="26" stroke-width=".6"/>
+  <path d="M190 268.25H280M190 271.5H280M190 274.75H280M190 278H280M190 281.25H280M190 284.5H280M190 287.75H280M250 265V291M265 268.25V281.25M265 287.75V291"/>
+  <rect x="6" y="236.5" width="90" height="26" stroke-width=".6"/>
+  <path d="M6 239.75H96M6 243H96M6 246.25H96M6 249.5H96M6 252.75H96M6 256H96M6 259.25H96M66 236.5V262.5M81 239.75V259.25"/>
+  <rect x="98" y="236.5" width="90" height="26" stroke-width=".6"/>
+  <path d="M98 239.75H188M98 243H188M98 246.25H188M98 249.5H188M98 252.75H188M98 256H188M98 259.25H188M158 236.5V262.5M173 239.75V262.5"/>
+</g>
+<!-- P4711 -->
+<g>
+  <text class="dl" x="6.8" y="267.45">Ident</text><text class="dv" text-anchor="middle" x="81" y="267.45">P4711</text>
+  <text class="dl" x="6.8" y="270.7">Design Press. Casing min.</text><text class="dv" text-anchor="middle" x="81" y="270.7">-0.5 barg</text>
+  <text class="dl" x="6.8" y="273.95">Design Press. Casing max.</text><text class="dv" text-anchor="middle" x="81" y="273.95">60 barg</text>
+  <text class="dl" x="6.8" y="277.2">Design Temp. Casing min.</text><text class="dv" text-anchor="middle" x="81" y="277.2">-45 °C</text>
+  <text class="dl" x="6.8" y="280.45">Design Temp. Casing max.</text><text class="dv" text-anchor="middle" x="81" y="280.45">80 °C</text>
+  <text class="dl" x="6.8" y="283.7">Design Capacity / Design Press. Head</text><text class="dv" text-anchor="middle" x="73.5" y="283.7">200 m³/h</text><text class="dv" text-anchor="middle" x="88.5" y="283.7">10 m</text>
+  <text class="dl" x="6.8" y="286.95">Design Speed / Design Power max. Diam. Wheel</text><text class="dv" text-anchor="middle" x="73.5" y="286.95">600 1/min</text><text class="dv" text-anchor="middle" x="88.5" y="286.95">60 kW</text>
+  <text class="dl" x="6.8" y="290.2">Material Case Press. Side / Material Impeller</text><text class="dv" text-anchor="middle" x="73.5" y="290.2">1.4306</text><text class="dv" text-anchor="middle" x="88.5" y="290.2">1.4308</text>
+</g>
+<!-- P4712 -->
+<g>
+  <text class="dl" x="98.8" y="267.45">Ident</text><text class="dv" text-anchor="middle" x="173" y="267.45">P4712</text>
+  <text class="dl" x="98.8" y="270.7">Design Press. Casing min.</text><text class="dv" text-anchor="middle" x="173" y="270.7">-1 barg</text>
+  <text class="dl" x="98.8" y="273.95">Design Press. Casing max.</text><text class="dv" text-anchor="middle" x="173" y="273.95">60 barg</text>
+  <text class="dl" x="98.8" y="277.2">Design Temp. Casing min.</text><text class="dv" text-anchor="middle" x="173" y="277.2">-45 °C</text>
+  <text class="dl" x="98.8" y="280.45">Design Temp. Casing max.</text><text class="dv" text-anchor="middle" x="173" y="280.45">100 °C</text>
+  <text class="dl" x="98.8" y="283.7">Design Capacity / Design Press. Head</text><text class="dv" text-anchor="middle" x="165.5" y="283.7">420 m³/h</text><text class="dv" text-anchor="middle" x="180.5" y="283.7">40 m</text>
+  <text class="dl" x="98.8" y="286.95">Design Speed / Design Power max. Diam. Wheel</text><text class="dv" text-anchor="middle" x="165.5" y="286.95">1400 1/min</text><text class="dv" text-anchor="middle" x="180.5" y="286.95">84 kW</text>
+  <text class="dl" x="98.8" y="290.2">Material Case Press. Side / Material Impeller</text><text class="dv" text-anchor="middle" x="165.5" y="290.2">1.4306</text><text class="dv" text-anchor="middle" x="180.5" y="290.2">1.4305</text>
+</g>
+<!-- T4750 -->
+<g>
+  <text class="dl" x="190.8" y="267.45">Ident</text><text class="dv" text-anchor="middle" x="265" y="267.45">T4750</text>
+  <text class="dl" x="190.8" y="270.7">Design Press. min. Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="257.5" y="270.7">-0.1 barg</text><text class="dv" text-anchor="middle" x="272.5" y="270.7">-0.1 barg</text>
+  <text class="dl" x="190.8" y="273.95">Design Press. max. Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="257.5" y="273.95">0.1 barg</text><text class="dv" text-anchor="middle" x="272.5" y="273.95">0.05 barg</text>
+  <text class="dl" x="190.8" y="277.2">Design Temp. min. Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="257.5" y="277.2">-45 °C</text><text class="dv" text-anchor="middle" x="272.5" y="277.2">-45 °C</text>
+  <text class="dl" x="190.8" y="280.45">Design Temp. max. Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="257.5" y="280.45">100 °C</text><text class="dv" text-anchor="middle" x="272.5" y="280.45">100 °C</text>
+  <text class="dl" x="190.8" y="283.7">Nominal Diameter / Overall Height/Length</text><text class="dv" text-anchor="middle" x="257.5" y="283.7">DN 20000</text><text class="dv" text-anchor="middle" x="272.5" y="283.7">4 m</text>
+  <text class="dl" x="190.8" y="286.95">Nominal Capacity</text><text class="dv" text-anchor="middle" x="265" y="286.95">26 m³</text>
+  <text class="dl" x="190.8" y="290.2">Material Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="257.5" y="290.2">1.4306</text><text class="dv" text-anchor="middle" x="272.5" y="290.2">1.4305</text>
+</g>
+<!-- H1007 -->
+<g>
+  <text class="dl" x="6.8" y="238.95">Ident</text><text class="dv" text-anchor="middle" x="81" y="238.95">H1007</text>
+  <text class="dl" x="6.8" y="242.2">Design Press. min. Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="73.5" y="242.2">-1 barg</text><text class="dv" text-anchor="middle" x="88.5" y="242.2">-1 barg</text>
+  <text class="dl" x="6.8" y="245.45">Design Press. max. Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="73.5" y="245.45">60 barg</text><text class="dv" text-anchor="middle" x="88.5" y="245.45">30 barg</text>
+  <text class="dl" x="6.8" y="248.7">Design Temp. min. Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="73.5" y="248.7">-45 °C</text><text class="dv" text-anchor="middle" x="88.5" y="248.7">-45 °C</text>
+  <text class="dl" x="6.8" y="251.95">Design Temp. max. Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="73.5" y="251.95">100 °C</text><text class="dv" text-anchor="middle" x="88.5" y="251.95">100 °C</text>
+  <text class="dl" x="6.8" y="255.2">Design Duty / Design Heat Transfer Area</text><text class="dv" text-anchor="middle" x="73.5" y="255.2">313 kW</text><text class="dv" text-anchor="middle" x="88.5" y="255.2">46.8 m²</text>
+  <text class="dl" x="6.8" y="258.45">DesignPlate Height / Plate Width</text><text class="dv" text-anchor="middle" x="73.5" y="258.45">850 mm</text><text class="dv" text-anchor="middle" x="88.5" y="258.45">1100 mm</text>
+  <text class="dl" x="6.8" y="261.7">MaterialPlates</text><text class="dv" text-anchor="middle" x="81" y="261.7">1.4306</text>
+</g>
+<!-- H1008 -->
+<g>
+  <text class="dl" x="98.8" y="238.95">Ident</text><text class="dv" text-anchor="middle" x="173" y="238.95">H1008</text>
+  <text class="dl" x="98.8" y="242.2">Design Press. min. Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="165.5" y="242.2">-1 barg</text><text class="dv" text-anchor="middle" x="180.5" y="242.2">-1 barg</text>
+  <text class="dl" x="98.8" y="245.45">Design Press. max. Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="165.5" y="245.45">60 barg</text><text class="dv" text-anchor="middle" x="180.5" y="245.45">30 barg</text>
+  <text class="dl" x="98.8" y="248.7">Design Temp. min. Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="165.5" y="248.7">-45 °C</text><text class="dv" text-anchor="middle" x="180.5" y="248.7">-45 °C</text>
+  <text class="dl" x="98.8" y="251.95">Design Temp. max. Chamber 1 / 2</text><text class="dv" text-anchor="middle" x="165.5" y="251.95">100 °C</text><text class="dv" text-anchor="middle" x="180.5" y="251.95">100 °C</text>
+  <text class="dl" x="98.8" y="255.2">Design Duty / Design Heat Transfer Area</text><text class="dv" text-anchor="middle" x="165.5" y="255.2">313 kW</text><text class="dv" text-anchor="middle" x="180.5" y="255.2">46.8 m²</text>
+  <text class="dl" x="98.8" y="258.45">Nominal Diameter / Tube Length</text><text class="dv" text-anchor="middle" x="165.5" y="258.45">DN 800</text><text class="dv" text-anchor="middle" x="180.5" y="258.45">2200 mm</text>
+  <text class="dl" x="98.8" y="261.7">MaterialTubes / Material Shell</text><text class="dv" text-anchor="middle" x="165.5" y="261.7">1.4306</text><text class="dv" text-anchor="middle" x="180.5" y="261.7">1.4308</text>
+</g>
+
+<!-- title block -->
+<g class="fr" stroke-width=".28">
+  <rect x="296" y="263" width="120" height="30" stroke-width=".58"/>
+  <path d="M296 288H358.4M296 283H358.4M296 278H358.4M314 273H358.4M296 273V288M314 273V293M344 273V293M358.4 263V293M380 263V293M358.4 288H416M358.4 283H416M358.4 273H416M358.4 268H416M296 268H358.4M296 273H314"/>
+</g>
+<g>
+  <text class="dl" x="297.2" y="291.25">APPROVED BY</text><text class="dl" x="315.2" y="291.25">A. P. Prover</text><text class="dl" x="345.2" y="291.25">2016-04-01</text>
+  <text class="dl" x="359.6" y="291.25">DRAWING NO</text><text class="dl" x="381.2" y="291.25">123/A93</text>
+  <text class="dl" x="297.2" y="286.25">CHECKED BY</text><text class="dl" x="315.2" y="286.25">C. Hecker</text>
+  <text class="dl" x="359.6" y="286.25">PROJECT</text><text class="dl" x="381.2" y="286.25">P3.1415</text>
+  <text class="dl" x="297.2" y="281.25">CREATED BY</text><text class="dl" x="315.2" y="281.25">A. Creator</text><text class="dl" x="345.2" y="281.25">2016-04-01</text>
+  <text class="dl" x="315.2" y="276.25">NAME</text><text class="dl" x="345.2" y="276.25">DATE</text>
+  <text class="dl" x="359.6" y="279.2" style="font-size:4px">DEXPI example PID</text>
+  <text class="dl" x="359.6" y="271.25">PLANT SECTION</text><text class="dl" x="381.2" y="271.25">Utilities</text>
+  <text class="dl" x="297.2" y="269.2" style="font-size:4px">Oil &amp; Gas, Inc.</text>
+  <text class="dl" x="359.6" y="266.25">SITE</text><text class="dl" x="381.2" y="266.25">Dexpi City</text>
+</g>
+</svg>

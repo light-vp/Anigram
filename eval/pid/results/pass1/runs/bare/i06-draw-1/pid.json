@@ -1,0 +1,36 @@
+{
+  "items": [
+    {
+      "tag": "FE-032",
+      "type": "flow element (primary measuring element)",
+      "label": "Flow element"
+    },
+    {
+      "tag": "FIC-032",
+      "type": "flow indicating controller, control room",
+      "label": "Flow indicating controller"
+    },
+    {
+      "tag": "FV-033",
+      "type": "globe control valve with actuator",
+      "label": "Flow control valve"
+    },
+    {
+      "tag": "YCS-033",
+      "type": "control/switching function, control room",
+      "label": "Alarm and override logic to valve"
+    },
+    {
+      "tag": "US-031",
+      "type": "switch, control room",
+      "label": "Safety override switch"
+    }
+  ],
+  "lines": [
+    { "from": "FE-032", "to": "FV-033", "kind": "process" },
+    { "from": "FE-032", "to": "FIC-032", "kind": "signal" },
+    { "from": "FIC-032", "to": "YCS-033", "kind": "signal" },
+    { "from": "US-031", "to": "YCS-033", "kind": "signal" },
+    { "from": "YCS-033", "to": "FV-033", "kind": "signal" }
+  ]
+}

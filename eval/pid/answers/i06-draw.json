@@ -1,0 +1,82 @@
+{
+  "id": "i06-draw",
+  "source": "DEXPI e.V. TrainingTestCases, dexpi-i06-flow-control.xml (CC BY 4.0)",
+  "derived": "derive-dexpi.mjs",
+  "valves": [
+    {
+      "family": ["control"],
+      "says": "GlobeValve-1 (actuated GlobeValve)"
+    }
+  ],
+  "instruments": [
+    {
+      "letters": "YCS",
+      "number": "033",
+      "says": "YCS 033"
+    },
+    {
+      "letters": "FIC",
+      "number": "032",
+      "says": "FIC 032",
+      "on": [
+        {
+          "family": ["control"]
+        }
+      ],
+      "hops": 2
+    },
+    {
+      "letters": "US",
+      "number": "031",
+      "says": "US 031"
+    }
+  ],
+  "loops": [
+    {
+      "says": "YCS 033 / FIC 032 / US 031 → GlobeValve-1",
+      "controller": [
+        {
+          "letters": "YCS",
+          "number": "033"
+        },
+        {
+          "letters": "FIC",
+          "number": "032"
+        }
+      ],
+      "final": {
+        "family": ["control"]
+      },
+      "sensor": [
+        {
+          "variable": "F",
+          "min": 1
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "from": {
+        "letters": "FIC",
+        "number": "032"
+      },
+      "to": {
+        "letters": "YCS",
+        "number": "033"
+      },
+      "says": "FIC 032 → YCS 033"
+    },
+    {
+      "from": {
+        "letters": "US",
+        "number": "031"
+      },
+      "to": {
+        "letters": "YCS",
+        "number": "033"
+      },
+      "says": "US 031 → YCS 033"
+    }
+  ]
+}

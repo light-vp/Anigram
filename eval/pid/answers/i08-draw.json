@@ -1,0 +1,51 @@
+{
+  "id": "i08-draw",
+  "source": "DEXPI e.V. TrainingTestCases, dexpi-i08-pressure-alarms.xml (CC BY 4.0)",
+  "derived": "derive-dexpi.mjs",
+  "instruments": [
+    {
+      "letters": "US",
+      "number": "046",
+      "says": "US 046"
+    },
+    {
+      "letters": "US",
+      "number": "047",
+      "says": "US 047"
+    },
+    {
+      "letters": "PI",
+      "number": "044",
+      "says": "PI 044"
+    },
+    {
+      "letters": "PI",
+      "number": "045",
+      "says": "PI 045"
+    }
+  ],
+  "signals": [
+    {
+      "from": {
+        "letters": "PI",
+        "number": "044"
+      },
+      "to": {
+        "letters": "US",
+        "number": "047"
+      },
+      "says": "PI 044 → US 047"
+    },
+    {
+      "from": {
+        "letters": "PI",
+        "number": "044"
+      },
+      "to": {
+        "letters": "US",
+        "number": "046"
+      },
+      "says": "PI 044 → US 046"
+    }
+  ]
+}

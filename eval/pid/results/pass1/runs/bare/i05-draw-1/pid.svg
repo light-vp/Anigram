@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="580" viewBox="0 0 900 580" font-family="Arial, sans-serif" font-size="13">
+<defs><marker id="ar" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#000"/></marker><marker id="ars" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#06c"/></marker></defs>
+<rect width="900" height="580" fill="#fff"/>
+<text x="450" y="28" text-anchor="middle" font-size="18" font-weight="bold">Flow ratio control loop 031</text>
+<line x1="60" y1="90" x2="840" y2="90" stroke="#000" stroke-width="3"/>
+<text x="60" y="78" font-weight="bold">Line 2 (PipingNetworkSegment-2)</text>
+<line x1="60" y1="480" x2="840" y2="480" stroke="#000" stroke-width="3"/>
+<text x="60" y="508" font-weight="bold">Line 1 (PipingNetworkSegment-1)</text>
+<line x1="780" y1="480" x2="840" y2="480" stroke="#000" stroke-width="3" marker-end="url(#ar)"/>
+<path d="M598,466 L642,494 L642,466 L598,494 z" fill="#fff" stroke="#000" stroke-width="2"/>
+<circle cx="620" cy="480" r="5" fill="#000"/>
+<line x1="620" y1="480" x2="620" y2="440" stroke="#000" stroke-width="2"/>
+<path d="M604,440 A16,14 0 0 1 636,440 z" fill="#fff" stroke="#000" stroke-width="2"/>
+<text x="650" y="514">GlobeValve-1</text>
+<text x="650" y="528" font-size="11">globe control valve</text>
+
+<circle cx="200" cy="170" r="27" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<line x1="173" y1="170" x2="227" y2="170" stroke="#000"/>
+<text x="200" y="166" text-anchor="middle" font-weight="bold">FI</text>
+<text x="200" y="184" text-anchor="middle">031.1</text>
+<text x="233" y="150" font-size="11">FI-031.1</text>
+
+<circle cx="200" cy="390" r="27" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<line x1="173" y1="390" x2="227" y2="390" stroke="#000"/>
+<text x="200" y="386" text-anchor="middle" font-weight="bold">FI</text>
+<text x="200" y="404" text-anchor="middle">031.2</text>
+<text x="233" y="370" font-size="11">FI-031.2</text>
+
+<circle cx="450" cy="280" r="27" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<line x1="423" y1="280" x2="477" y2="280" stroke="#000"/>
+<text x="450" y="276" text-anchor="middle" font-weight="bold">FFIC</text>
+<text x="450" y="294" text-anchor="middle">031</text>
+<text x="483" y="260" font-size="11">FFIC-031</text>
+
+<circle cx="620" cy="360" r="27" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<line x1="593" y1="360" x2="647" y2="360" stroke="#000"/>
+<text x="620" y="356" text-anchor="middle" font-weight="bold">YC</text>
+<text x="620" y="374" text-anchor="middle">031.4</text>
+<text x="653" y="340" font-size="11">YC-031.4</text>
+
+<line x1="200" y1="90" x2="200" y2="143" stroke="#000" stroke-width="1"/>
+<circle cx="200" cy="90" r="3" fill="#000"/>
+<line x1="200" y1="480" x2="200" y2="417" stroke="#000" stroke-width="1"/>
+<circle cx="200" cy="480" r="3" fill="#000"/>
+
+<line x1="227" y1="170" x2="428" y2="262" stroke="#06c" stroke-width="1.8" stroke-dasharray="8,4" marker-end="url(#ars)"/>
+<line x1="227" y1="390" x2="428" y2="298" stroke="#06c" stroke-width="1.8" stroke-dasharray="8,4" marker-end="url(#ars)"/>
+<line x1="475" y1="296" x2="597" y2="346" stroke="#06c" stroke-width="1.8" stroke-dasharray="8,4" marker-end="url(#ars)"/>
+<line x1="620" y1="387" x2="620" y2="423" stroke="#06c" stroke-width="1.8" stroke-dasharray="8,4" marker-end="url(#ars)"/>
+
+<g font-size="11"><line x1="640" y1="150" x2="690" y2="150" stroke="#000" stroke-width="3"/><text x="698" y="154">process line</text><line x1="640" y1="172" x2="690" y2="172" stroke="#000" stroke-width="1"/><text x="698" y="176">measuring line</text><line x1="640" y1="194" x2="690" y2="194" stroke="#06c" stroke-width="1.8" stroke-dasharray="8,4"/><text x="698" y="198">signal line</text><text x="640" y="220">Bubbles: central location (DCS)</text></g>
+<text x="450" y="330" text-anchor="middle" font-size="11" fill="#06c">ratio FI-031.1 : FI-031.2</text>
+<text x="450" y="344" text-anchor="middle" font-size="11" fill="#06c">sets valve position</text>
+</svg>

@@ -1,0 +1,427 @@
+{
+  "id": "distillation-reflux",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["column", "vessel"],
+      "tag": "^C1101$",
+      "says": "column C-1101"
+    },
+    {
+      "family": "heat-exchanger",
+      "tag": "^E1101$",
+      "says": "heat exchanger E-1101"
+    },
+    {
+      "family": ["drum", "vessel", "container"],
+      "tag": "^V1101$",
+      "says": "reflux drum V-1101"
+    },
+    {
+      "family": "pump",
+      "tag": "^P1101$",
+      "says": "pump P-1101"
+    },
+    {
+      "family": "heat-exchanger",
+      "tag": "^E1102$",
+      "says": "heat exchanger E-1102"
+    },
+    {
+      "family": "pump",
+      "tag": "^P1102$",
+      "says": "pump P-1102"
+    },
+    {
+      "family": "offpage",
+      "min": 3,
+      "says": "feed, distillate and bottoms"
+    }
+  ],
+  "valves": [
+    {
+      "family": "control",
+      "tag": "^FV1101$",
+      "says": "control valve FV-1101"
+    },
+    {
+      "family": "control",
+      "tag": "^LV1101$",
+      "says": "control valve LV-1101"
+    },
+    {
+      "family": "control",
+      "tag": "^TV1102$",
+      "says": "control valve TV-1102"
+    },
+    {
+      "family": "control",
+      "tag": "^LV1103$",
+      "says": "control valve LV-1103"
+    },
+    {
+      "family": "control",
+      "tag": "^PV1104$",
+      "says": "control valve PV-1104"
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["FT", "FIT", "FE"],
+      "number": "1101",
+      "says": "FT-1101"
+    },
+    {
+      "letters": "FIC",
+      "number": "1101",
+      "says": "FIC-1101"
+    },
+    {
+      "letters": ["LT", "LIT"],
+      "number": "1101",
+      "on": {
+        "family": ["drum", "vessel", "container"],
+        "tag": "^V1101$",
+        "says": "reflux drum V-1101"
+      },
+      "hops": 2,
+      "says": "LT-1101"
+    },
+    {
+      "letters": "LIC",
+      "number": "1101",
+      "says": "LIC-1101"
+    },
+    {
+      "letters": ["TT", "TIT", "TE"],
+      "number": "1102",
+      "on": {
+        "family": ["column", "vessel"],
+        "tag": "^C1101$",
+        "says": "column C-1101"
+      },
+      "hops": 2,
+      "says": "TT-1102"
+    },
+    {
+      "letters": "TIC",
+      "number": "1102",
+      "says": "TIC-1102"
+    },
+    {
+      "letters": ["LT", "LIT"],
+      "number": "1103",
+      "on": {
+        "family": ["column", "vessel"],
+        "tag": "^C1101$",
+        "says": "column C-1101"
+      },
+      "hops": 2,
+      "says": "LT-1103"
+    },
+    {
+      "letters": "LIC",
+      "number": "1103",
+      "says": "LIC-1103"
+    },
+    {
+      "letters": "PIC",
+      "number": "1104",
+      "says": "PIC-1104"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["column", "vessel"],
+        "tag": "^C1101$",
+        "says": "column C-1101"
+      },
+      "says": "feed → C-1101"
+    },
+    {
+      "from": {
+        "family": ["column", "vessel"],
+        "tag": "^C1101$",
+        "says": "column C-1101"
+      },
+      "to": {
+        "family": "heat-exchanger",
+        "tag": "^E1101$",
+        "says": "heat exchanger E-1101"
+      },
+      "says": "overhead → E-1101"
+    },
+    {
+      "from": {
+        "family": "heat-exchanger",
+        "tag": "^E1101$",
+        "says": "heat exchanger E-1101"
+      },
+      "to": {
+        "family": ["drum", "vessel", "container"],
+        "tag": "^V1101$",
+        "says": "reflux drum V-1101"
+      }
+    },
+    {
+      "from": {
+        "family": ["drum", "vessel", "container"],
+        "tag": "^V1101$",
+        "says": "reflux drum V-1101"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P1101$",
+        "says": "pump P-1101"
+      }
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P1101$",
+        "says": "pump P-1101"
+      },
+      "to": {
+        "family": ["column", "vessel"],
+        "tag": "^C1101$",
+        "says": "column C-1101"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^FV1101$",
+          "says": "control valve FV-1101"
+        }
+      ],
+      "says": "reflux → C-1101 through FV-1101"
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P1101$",
+        "says": "pump P-1101"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^LV1101$",
+          "says": "control valve LV-1101"
+        }
+      ],
+      "says": "distillate off the sheet through LV-1101"
+    },
+    {
+      "from": {
+        "family": ["column", "vessel"],
+        "tag": "^C1101$",
+        "says": "column C-1101"
+      },
+      "to": {
+        "family": "heat-exchanger",
+        "tag": "^E1102$",
+        "says": "heat exchanger E-1102"
+      },
+      "says": "C-1101 ↔ reboiler E-1102"
+    },
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": "heat-exchanger",
+        "tag": "^E1102$",
+        "says": "heat exchanger E-1102"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^TV1102$",
+          "says": "control valve TV-1102"
+        }
+      ],
+      "says": "steam → E-1102 through TV-1102"
+    },
+    {
+      "from": {
+        "family": ["column", "vessel"],
+        "tag": "^C1101$",
+        "says": "column C-1101"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P1102$",
+        "says": "pump P-1102"
+      }
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P1102$",
+        "says": "pump P-1102"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^LV1103$",
+          "says": "control valve LV-1103"
+        }
+      ],
+      "says": "bottoms off the sheet through LV-1103"
+    },
+    {
+      "from": [
+        {
+          "family": "offpage"
+        },
+        {
+          "family": "heat-exchanger",
+          "tag": "^E1101$",
+          "says": "heat exchanger E-1101"
+        }
+      ],
+      "to": {
+        "family": "heat-exchanger",
+        "tag": "^E1101$",
+        "says": "heat exchanger E-1101"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^PV1104$",
+          "says": "control valve PV-1104"
+        }
+      ],
+      "says": "condenser cooling water through PV-1104"
+    }
+  ],
+  "loops": [
+    {
+      "says": "FIC-1101 → FV-1101",
+      "controller": {
+        "letters": "FIC",
+        "number": "1101"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^FV1101$",
+        "says": "control valve FV-1101"
+      },
+      "sensor": [
+        {
+          "variable": "F"
+        }
+      ]
+    },
+    {
+      "says": "LIC-1101 → LV-1101",
+      "controller": {
+        "letters": "LIC",
+        "number": "1101"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^LV1101$",
+        "says": "control valve LV-1101"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["drum", "vessel", "container"],
+            "tag": "^V1101$",
+            "says": "reflux drum V-1101"
+          }
+        }
+      ]
+    },
+    {
+      "says": "TIC-1102 → TV-1102",
+      "controller": {
+        "letters": "TIC",
+        "number": "1102"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^TV1102$",
+        "says": "control valve TV-1102"
+      },
+      "sensor": [
+        {
+          "variable": "T",
+          "on": {
+            "family": ["column", "vessel"],
+            "tag": "^C1101$",
+            "says": "column C-1101"
+          }
+        }
+      ]
+    },
+    {
+      "says": "LIC-1103 → LV-1103",
+      "controller": {
+        "letters": "LIC",
+        "number": "1103"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^LV1103$",
+        "says": "control valve LV-1103"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["column", "vessel"],
+            "tag": "^C1101$",
+            "says": "column C-1101"
+          }
+        }
+      ]
+    },
+    {
+      "says": "PIC-1104 → PV-1104",
+      "controller": {
+        "letters": "PIC",
+        "number": "1104"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^PV1104$",
+        "says": "control valve PV-1104"
+      },
+      "sensor": [
+        {
+          "variable": "P",
+          "on": [
+            {
+              "family": ["column", "vessel"],
+              "tag": "^C1101$",
+              "says": "column C-1101"
+            },
+            {
+              "family": "heat-exchanger",
+              "tag": "^E1101$",
+              "says": "heat exchanger E-1101"
+            },
+            {
+              "family": ["drum", "vessel", "container"],
+              "tag": "^V1101$",
+              "says": "reflux drum V-1101"
+            }
+          ],
+          "hops": 3
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,187 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 800" width="1260" height="800" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#000"/></marker>
+    <marker id="sarr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#c0392b"/></marker>
+  </defs>
+  <rect width="1260" height="800" fill="#fff"/>
+  <rect x="8" y="8" width="1244" height="784" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="630" y="30" text-anchor="middle" font-size="18" font-weight="bold">P&amp;ID - RAW WATER TRANSFER (T-1601 / P-1601A/B)</text>
+
+  <!-- ===== PROCESS PIPING ===== -->
+  <g fill="none" stroke="#000" stroke-width="2.5">
+    <!-- intake to tank -->
+    <path d="M90,100 H490 V138" marker-end="url(#arr)"/>
+    <!-- tank outlet / suction header -->
+    <path d="M490,400 V680"/>
+    <!-- suction branches -->
+    <path d="M490,520 H688" marker-end="url(#arr)"/>
+    <path d="M490,680 H688" marker-end="url(#arr)"/>
+    <!-- discharge lines -->
+    <path d="M750,520 H980"/>
+    <path d="M750,680 H980"/>
+    <path d="M980,520 V680"/>
+    <path d="M980,600 H1160" marker-end="url(#arr)"/>
+  </g>
+  <circle cx="490" cy="520" r="4" fill="#000"/>
+  <circle cx="980" cy="600" r="4" fill="#000"/>
+
+  <!-- ===== TANK T-1601 ===== -->
+  <rect x="420" y="290" width="140" height="110" fill="#cfe6f7"/>
+  <rect x="420" y="140" width="140" height="260" fill="none" stroke="#000" stroke-width="3"/>
+  <line x1="420" y1="290" x2="560" y2="290" stroke="#1f6fb2" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="426" y="285" font-size="9" fill="#1f6fb2">NWL (LIC-1601 setpoint)</text>
+  <line x1="420" y1="210" x2="560" y2="210" stroke="#c0392b" stroke-width="1.5" stroke-dasharray="6,3"/>
+  <text x="426" y="205" font-size="9" fill="#c0392b">HH trip level</text>
+  <text x="490" y="252" text-anchor="middle" font-size="9" fill="#555">buffer volume for</text>
+  <text x="490" y="264" text-anchor="middle" font-size="9" fill="#555">pump changeover</text>
+  <text x="490" y="170" text-anchor="middle" font-size="9" fill="#555">top / overflow limit</text>
+  <text x="490" y="350" text-anchor="middle" font-size="14" font-weight="bold">T-1601</text>
+  <text x="490" y="366" text-anchor="middle" font-size="10">Raw water tank</text>
+
+  <!-- ===== OFF-SHEET CONNECTORS ===== -->
+  <polygon points="20,86 80,86 92,100 80,114 20,114" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="48" y="104" text-anchor="middle" font-size="10" font-weight="bold">OSC-1601-IN</text>
+  <text x="20" y="130" font-size="10">Raw water from</text>
+  <text x="20" y="142" font-size="10">river intake (off sheet)</text>
+  <polygon points="1160,586 1208,586 1220,600 1208,614 1160,614" fill="#fff" stroke="#000" stroke-width="1.5" transform="translate(0,0)"/>
+  <text x="1188" y="604" text-anchor="middle" font-size="9" font-weight="bold">OSC-1601-OUT</text>
+  <text x="1160" y="630" font-size="10">To treatment plant</text>
+  <text x="1160" y="642" font-size="10">(off sheet)</text>
+
+  <!-- ===== INTAKE VALVES ===== -->
+  <!-- XV-1601 HH trip shutoff valve (actuator below) -->
+  <g stroke="#000" stroke-width="2" fill="#fff">
+    <polygon points="140,92 160,108 160,92 140,108"/>
+    <line x1="150" y1="100" x2="150" y2="122"/>
+    <rect x="138" y="122" width="24" height="14"/>
+  </g>
+  <text x="150" y="76" text-anchor="middle" font-size="11" font-weight="bold">XV-1601</text>
+  <text x="150" y="64" text-anchor="middle" font-size="9">HH trip shutoff (FC)</text>
+  <!-- LV-1601 level control valve (actuator above) -->
+  <g stroke="#000" stroke-width="2" fill="#fff">
+    <polygon points="280,92 300,108 300,92 280,108"/>
+    <line x1="290" y1="92" x2="290" y2="80"/>
+    <path d="M278,80 A12,12 0 0 1 302,80 Z"/>
+  </g>
+  <text x="290" y="126" text-anchor="middle" font-size="11" font-weight="bold">LV-1601</text>
+  <text x="290" y="138" text-anchor="middle" font-size="9">Level control valve</text>
+
+  <!-- ===== PUMP TRAIN A (DUTY) ===== -->
+  <g stroke="#000" stroke-width="2" fill="#fff">
+    <polygon points="580,512 600,528 600,512 580,528"/>
+    <circle cx="720" cy="520" r="30"/>
+    <polygon points="810,512 830,528 830,512 810,528"/>
+    <polygon points="890,512 910,528 910,512 890,528"/>
+  </g>
+  <path d="M703,538 L720,520 L737,538" fill="none" stroke="#000" stroke-width="1.5" transform="rotate(0)"/>
+  <line x1="720" y1="490" x2="750" y2="490" stroke="#000" stroke-width="2"/>
+  <!-- check valve mark -->
+  <path d="M815,520 h10 M822,516 l4,4 l-4,4" fill="none" stroke="#000" stroke-width="1.5"/>
+  <text x="590" y="506" text-anchor="middle" font-size="10" font-weight="bold">HV-1601A</text>
+  <text x="590" y="545" text-anchor="middle" font-size="9">Suction isolation</text>
+  <text x="820" y="506" text-anchor="middle" font-size="10" font-weight="bold">CV-1601A</text>
+  <text x="820" y="545" text-anchor="middle" font-size="9">Discharge check</text>
+  <text x="900" y="506" text-anchor="middle" font-size="10" font-weight="bold">HV-1602A</text>
+  <text x="900" y="545" text-anchor="middle" font-size="9">Discharge isolation</text>
+  <text x="720" y="468" text-anchor="middle" font-size="13" font-weight="bold">P-1601A</text>
+  <text x="720" y="481" text-anchor="middle" font-size="10">Transfer pump - DUTY</text>
+
+  <!-- ===== PUMP TRAIN B (STANDBY) ===== -->
+  <g stroke="#000" stroke-width="2" fill="#fff">
+    <polygon points="580,672 600,688 600,672 580,688"/>
+    <circle cx="720" cy="680" r="30"/>
+    <polygon points="810,672 830,688 830,672 810,688"/>
+    <polygon points="890,672 910,688 910,672 890,688"/>
+  </g>
+  <path d="M703,698 L720,680 L737,698" fill="none" stroke="#000" stroke-width="1.5"/>
+  <line x1="720" y1="650" x2="750" y2="650" stroke="#000" stroke-width="2"/>
+  <path d="M815,680 h10 M822,676 l4,4 l-4,4" fill="none" stroke="#000" stroke-width="1.5"/>
+  <text x="590" y="666" text-anchor="middle" font-size="10" font-weight="bold">HV-1601B</text>
+  <text x="590" y="705" text-anchor="middle" font-size="9">Suction isolation</text>
+  <text x="820" y="666" text-anchor="middle" font-size="10" font-weight="bold">CV-1601B</text>
+  <text x="820" y="705" text-anchor="middle" font-size="9">Discharge check</text>
+  <text x="900" y="666" text-anchor="middle" font-size="10" font-weight="bold">HV-1602B</text>
+  <text x="900" y="705" text-anchor="middle" font-size="9">Discharge isolation</text>
+  <text x="720" y="732" text-anchor="middle" font-size="13" font-weight="bold">P-1601B</text>
+  <text x="720" y="745" text-anchor="middle" font-size="10">Transfer pump - STANDBY</text>
+
+  <!-- ===== INSTRUMENTS ===== -->
+  <g fill="#fff" stroke="#000" stroke-width="1.5">
+    <ellipse cx="660" cy="330" rx="38" ry="22"/>
+    <ellipse cx="660" cy="40" rx="38" ry="22"/>
+    <ellipse cx="320" cy="210" rx="40" ry="22"/>
+    <rect x="680" y="582" width="80" height="36"/>
+  </g>
+  <line x1="622" y1="40" x2="698" y2="40" stroke="#000" stroke-width="1.5" display="none"/>
+  <line x1="640" y1="40" x2="680" y2="40" stroke="none"/>
+  <g font-size="10" font-weight="bold" text-anchor="middle">
+    <text x="660" y="334">LT-1601</text>
+    <text x="660" y="44">LIC-1601</text>
+    <text x="320" y="214" font-size="9.5">LSHH-1602</text>
+    <text x="720" y="604" font-size="11">XY-1601</text>
+  </g>
+  <g font-size="9">
+    <text x="706" y="364">Level transmitter</text>
+    <text x="706" y="74" text-anchor="start" display="none">x</text>
+    <text x="704" y="28">Level indicating controller (DCS)</text>
+    <text x="270" y="244">Independent HH level switch</text>
+    <text x="770" y="598">Standby auto-start</text>
+    <text x="770" y="610">logic (duty trip)</text>
+  </g>
+
+  <!-- ===== SIGNALS (dashed red) ===== -->
+  <g fill="none" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="6,4">
+    <!-- tank to LT (sensing) -->
+    <path d="M560,330 H622"/>
+    <!-- LT to LIC -->
+    <path d="M660,308 V62" marker-end="url(#sarr)"/>
+    <!-- LIC to LV -->
+    <path d="M622,40 H290 V67" marker-end="url(#sarr)"/>
+    <!-- tank to LSHH (sensing) -->
+    <path d="M420,210 H360"/>
+    <!-- LSHH to XV -->
+    <path d="M280,210 H150 V138" marker-end="url(#sarr)"/>
+    <!-- duty pump stopped to XY -->
+    <path d="M720,550 V581" marker-end="url(#sarr)"/>
+    <!-- XY to standby start -->
+    <path d="M720,618 V649" marker-end="url(#sarr)"/>
+  </g>
+  <g font-size="9" fill="#c0392b">
+    <text x="728" y="568">A tripped / stopped</text>
+    <text x="728" y="637">start B</text>
+    <text x="460" y="34" text-anchor="end">LV-1601 output</text>
+    <text x="156" y="190">HH trip: close XV-1601</text>
+  </g>
+
+  <!-- ===== NOTES ===== -->
+  <rect x="20" y="420" width="370" height="350" fill="#fafafa" stroke="#000"/>
+  <g font-size="11">
+    <text x="30" y="440" font-weight="bold">SEQUENCE: DUTY PUMP TRIP (e.g. mid-morning)</text>
+    <text x="30" y="462">1. Normal: P-1601A runs (duty); P-1601B stopped, in</text>
+    <text x="30" y="476">    auto-standby. LT-1601 / LIC-1601 modulate LV-1601</text>
+    <text x="30" y="490">    to hold the tank at NWL.</text>
+    <text x="30" y="512">2. P-1601A trips. XY-1601 sees duty pump stopped</text>
+    <text x="30" y="526">    and starts P-1601B automatically.</text>
+    <text x="30" y="548">3. CV-1601A prevents backflow through the stopped</text>
+    <text x="30" y="562">    pump; HV-1601B / HV-1602B are open (line-up).</text>
+    <text x="30" y="584">4. While the transfer is interrupted, tank level rises</text>
+    <text x="30" y="598">    into the buffer volume above NWL. LIC-1601 closes</text>
+    <text x="30" y="612">    LV-1601 as level rises, cutting the inflow.</text>
+    <text x="30" y="634">5. P-1601B delivers to the plant; level falls back</text>
+    <text x="30" y="648">    to NWL. Tank does not reach the top.</text>
+    <text x="30" y="670" font-weight="bold">INDEPENDENT PROTECTION</text>
+    <text x="30" y="686">If level still reaches HH, LSHH-1602 closes XV-1601</text>
+    <text x="30" y="700">directly (not via LIC-1601 or LV-1601), so the intake</text>
+    <text x="30" y="714">is isolated even if the controller or LV-1601 fails.</text>
+    <text x="30" y="736" font-size="9" fill="#555">Isolating valves HV-xxxx normally locked open.</text>
+    <text x="30" y="750" font-size="9" fill="#555">Buffer volume and setpoints to be confirmed by sizing.</text>
+  </g>
+
+  <!-- ===== LEGEND ===== -->
+  <g font-size="10">
+    <line x1="1000" y1="720" x2="1040" y2="720" stroke="#000" stroke-width="2.5"/>
+    <text x="1048" y="724">Process line</text>
+    <line x1="1000" y1="740" x2="1040" y2="740" stroke="#c0392b" stroke-width="1.6" stroke-dasharray="6,4"/>
+    <text x="1048" y="744">Instrument / control signal</text>
+  </g>
+</svg>

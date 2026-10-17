@@ -1,0 +1,96 @@
+{
+  "items": [
+    {
+      "tag": "K 2750",
+      "type": "packed column",
+      "label": "Column (Kolonne), 500 x 14000 mm, 1.4571, 6/-1 bar, 150 °C"
+    },
+    {
+      "tag": "KX 2750",
+      "type": "column section with valve trays",
+      "label": "Ventilböden section inside K 2750, 600 mm"
+    },
+    {
+      "tag": "H672B1V",
+      "type": "operated valve",
+      "label": "Valve DN 80 on branch from bottom outlet N3"
+    },
+    {
+      "tag": "SP 2750-5",
+      "type": "operated valve",
+      "label": "Valve DN 25 on pressure tap P3 (H658B1UV)"
+    },
+    {
+      "tag": "SP 2750-6",
+      "type": "operated valve",
+      "label": "Valve DN 25 on pressure tap P4 (H658B1UV)"
+    },
+    {
+      "tag": "PI(Z) 275003A",
+      "type": "pressure indicator (DCS function)",
+      "label": "Pressure indication, tap P3"
+    },
+    {
+      "tag": "PI(Z) 275003B",
+      "type": "pressure indicator (DCS function)",
+      "label": "Pressure indication, tap P4"
+    },
+    {
+      "tag": "PIS+Z+A 275003",
+      "type": "pressure indicating switch with trip and alarm (DCS function)",
+      "label": "Pressure switch/alarm fed by 275003A and 275003B"
+    },
+    {
+      "tag": "OPC-2765",
+      "type": "off-page connector (outlet)",
+      "label": "Top outlet line 2750.001 to sheet W 2765"
+    },
+    {
+      "tag": "OPC-FEED",
+      "type": "off-page connector (inlet)",
+      "label": "Feed from off sheet (source sheet to be assigned)"
+    },
+    {
+      "tag": "XV-2750",
+      "type": "shutdown valve",
+      "label": "Feed shutdown valve, fail-closed, closed by LSHH-2751"
+    },
+    {
+      "tag": "LT-2750",
+      "type": "level transmitter",
+      "label": "Sump level transmitter on nozzle N6, for DCS high level alarm"
+    },
+    {
+      "tag": "LAH-2750",
+      "type": "level alarm high (DCS function)",
+      "label": "High level alarm in the DCS"
+    },
+    {
+      "tag": "LT-2751",
+      "type": "level transmitter",
+      "label": "Independent sump level transmitter on nozzle N7, for HH trip"
+    },
+    {
+      "tag": "LSHH-2751",
+      "type": "level switch high-high (safety trip function)",
+      "label": "Independent high-high level trip, closes XV-2750"
+    }
+  ],
+  "lines": [
+    { "from": "OPC-FEED", "to": "XV-2750", "kind": "process" },
+    { "from": "XV-2750", "to": "K 2750", "kind": "process" },
+    { "from": "K 2750", "to": "OPC-2765", "kind": "process" },
+    { "from": "K 2750", "to": "H672B1V", "kind": "process" },
+    { "from": "K 2750", "to": "SP 2750-5", "kind": "process" },
+    { "from": "K 2750", "to": "SP 2750-6", "kind": "process" },
+    { "from": "SP 2750-5", "to": "PI(Z) 275003A", "kind": "signal" },
+    { "from": "SP 2750-6", "to": "PI(Z) 275003B", "kind": "signal" },
+    { "from": "PI(Z) 275003A", "to": "PIS+Z+A 275003", "kind": "signal" },
+    { "from": "PI(Z) 275003B", "to": "PIS+Z+A 275003", "kind": "signal" },
+    { "from": "K 2750", "to": "LT-2750", "kind": "signal" },
+    { "from": "LT-2750", "to": "LAH-2750", "kind": "signal" },
+    { "from": "K 2750", "to": "LT-2751", "kind": "signal" },
+    { "from": "LT-2751", "to": "LSHH-2751", "kind": "signal" },
+    { "from": "LSHH-2751", "to": "XV-2750", "kind": "signal" }
+  ]
+}

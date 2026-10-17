@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 420 297">
+  <title>P&amp;ID - Column K 2750 with HAZOP additions (feed XV-2750, level alarm, independent HH trip)</title>
+  <defs>
+    <marker id="ab" viewBox="0 0 6 6" refX="6" refY="3" markerWidth="2.4" markerHeight="2.4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L6,3 L0,6 Z" fill="#0000ff"/></marker>
+    <marker id="ar" viewBox="0 0 6 6" refX="6" refY="3" markerWidth="2.4" markerHeight="2.4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L6,3 L0,6 Z" fill="#cc0000"/></marker>
+    <style>
+      text { font-family: Calibri, Arial, Helvetica, sans-serif; font-size: 2px; fill: #000; }
+      .c { text-anchor: middle; dominant-baseline: central; }
+      .pipe { stroke: #000; stroke-width: 0.6; fill: none; }
+      .eq { stroke: #000; stroke-width: 0.4; fill: none; }
+      .int { stroke: #808080; stroke-width: 0.3; fill: none; }
+      .thin { stroke: #000; stroke-width: 0.25; fill: none; }
+      .sig { stroke: #0000ff; stroke-width: 0.25; fill: none; }
+      .dsig { stroke: #0000ff; stroke-width: 0.3; stroke-dasharray: 2 1; fill: none; marker-end: url(#ab); }
+      .trip { stroke: #cc0000; stroke-width: 0.35; stroke-dasharray: 2 1; fill: none; marker-end: url(#ar); }
+      .valve { stroke: #000; stroke-width: 0.3; fill: #fff; }
+      .bub { stroke: #000; stroke-width: 0.25; fill: #fff; }
+      .bubr { stroke: #cc0000; stroke-width: 0.35; fill: #fff; }
+      .bubb { stroke: #0000ff; stroke-width: 0.35; fill: #fff; }
+      .red { fill: #cc0000; }
+      .blue { fill: #0000ff; }
+    </style>
+  </defs>
+
+  <rect x="5" y="5" width="410" height="287" fill="#fff" stroke="#000" stroke-width="0.5"/>
+  <text x="10" y="13" style="font-size:5px;font-weight:bold">P&amp;ID - Column K 2750</text>
+  <text x="10" y="18" style="font-size:2.5px">DEXPI Example C02 (BASF SE Ludwigshafen, plant V04, section 2000) + HAZOP action: feed XV-2750, sump level alarm, independent HH level trip</text>
+
+  <!-- ===================== K 2750 column ===================== -->
+  <g data-tag="K 2750">
+    <path class="eq" style="stroke-width:0.5" d="M186.25,222.7 L186.25,61.7 A20.76,20.76 0 0 1 207.75,61.7 L207.75,222.7 A20.76,20.76 0 0 1 186.25,222.7 Z"/>
+    <text x="162.6" y="90.7" style="font-size:4.2px">K 2750</text>
+  </g>
+  <!-- KX 2750 section (valve trays, fixed-bed symbol) -->
+  <g data-tag="KX 2750" class="int" style="stroke:#808080">
+    <path d="M194.31,80.225 H199.69 M202.375,80.225 H207.75 L186.25,144.975 H191.625 M202.375,144.975 H207.75 L186.25,80.225 H191.625 M194.31,144.975 H199.69"/>
+    <text x="162.6" y="94.9" style="font-size:4.2px">KX 2750</text>
+  </g>
+  <!-- packing section (untagged in file) -->
+  <g class="int">
+    <path d="M194.31,163.91 H199.69 M202.375,163.91 H207.75 L186.25,196.29 H191.625 M202.375,196.29 H207.75 L186.25,163.91 H191.625 M194.31,196.29 H199.69"/>
+  </g>
+  <!-- internals -->
+  <g class="int">
+    <path d="M184.75,72 H209.25"/>
+    <path d="M207.75,75 H197 V77.5 M196.2,76.1 H197.8 M196.2,76.8 H197.8"/>
+    <rect x="188.2" y="78.2" width="17.6" height="1.4"/>
+    <path d="M184.75,154.4 H209.25"/>
+    <path d="M188.2,155.8 V157.3 H205.8 V155.8 M197,157.3 V158.4"/>
+    <rect x="188.2" y="158.4" width="17.6" height="2.6"/>
+    <path d="M184.75,202.9 H209.25"/>
+    <path d="M186.25,212.5 H207.75" style="stroke-width:0.15"/>
+    <polygon points="196.2,210.8 197.8,210.8 197,212.5" style="fill:none"/>
+    <path d="M189,225.7 H197 M192,212.5 V225.7" style="stroke-width:0.15"/>
+    <polygon points="192,212.5 192.4,213.9 191.6,213.9" style="fill:#808080"/>
+    <polygon points="192,225.7 192.4,224.3 191.6,224.3" style="fill:#808080"/>
+    <path d="M205,212.4 V206.5"/>
+    <path d="M195,224.4 H199 M195.6,225.65 V224.4 M198.4,225.65 V224.4"/>
+  </g>
+  <text x="191.2" y="219.3" style="text-anchor:end">1000</text>
+  <text x="198.2" y="206.5" class="c">Mit Prallblech</text>
+  <text x="197" y="222.9" class="c">16)</text>
+  <text x="212" y="211.4" style="font-size:1.8px">normal sump level</text>
+
+  <!-- ===================== nozzles on the column ===================== -->
+  <!-- N1 top DN200 -> reducer -> outlet 2765 -->
+  <path class="eq" d="M197,58.7 V55.95 M195.5,55.95 H198.5"/>
+  <text x="197" y="59.8" class="c">N1</text><text x="197" y="61.8" class="c">200</text>
+  <!-- N2 DN150 feed nozzle (left) -->
+  <path class="eq" d="M186.25,153 H183.5 M183.5,151.5 V154.5"/>
+  <text x="184" y="148.7" class="c">N2</text><text x="184" y="150.7" class="c">150</text>
+  <!-- N3 bottom DN150 (down) -->
+  <path class="eq" d="M197,225.7 V228.45 M195.5,228.45 H198.5"/>
+  <text x="199.8" y="227.1" class="c">N3</text><text x="199.8" y="229.1" class="c">150</text>
+  <!-- N4 DN200 (right, no connection in file) -->
+  <path class="eq" d="M207.75,207.8 H210.5 M210.5,206.3 V209.3"/>
+  <text x="210.5" y="205.6" class="c">N4</text><text x="210.5" y="209.4" class="c">200</text>
+  <!-- N5 DN50 (right, top, no connection in file) -->
+  <path class="eq" d="M207.75,75 H210.5 M210.5,73.5 V76.5"/>
+  <text x="210.5" y="72.8" class="c">N5</text><text x="210.5" y="77" class="c">50</text>
+  <!-- N6 DN50 (right, sump) - NEW, level transmitter LT-2750 -->
+  <path class="eq" d="M207.75,219.5 H210.5 M210.5,218 V221"/>
+  <text x="210.5" y="217.2" class="c">N6</text><text x="210.5" y="221.8" class="c">50</text>
+  <!-- N7 DN50 (left, sump) - level transmitter LT-2751 -->
+  <path class="eq" d="M186.25,214.5 H183.5 M183.5,213 V216"/>
+  <text x="181.2" y="212.4" class="c">N7</text><text x="181.2" y="216.8" class="c">50</text>
+  <!-- H1 manhole DN250 (left) -->
+  <path class="eq" d="M186.25,204.6 H183.85 M186.25,209.4 H183.85 M183.85,203.4 V210.6 M183,203.4 V210.6"/>
+  <text x="188.25" y="205.6" class="c">H1</text><text x="188.25" y="207.6" class="c">250</text>
+
+  <!-- ===================== top outlet line 2750.001 ===================== -->
+  <path class="pipe" d="M197,55.95 V51.85"/>
+  <polygon class="valve" points="195,51.85 199,51.85 197,49.35"/>
+  <text transform="rotate(-90 194.4 50.6)" x="194.4" y="50.6" class="c">200/150</text>
+  <path class="pipe" d="M197,49.35 V42.5 H283.5"/>
+  <polyline class="thin" points="195.6,45 197,42.5 198.4,45" style="stroke-width:0.35"/>
+  <!-- insulation -->
+  <g class="thin"><path d="M232.5,41 H242.5 M232.5,44 H242.5 M232.5,44 L234,41 M235,44 L237.5,41 M237.5,44 L240,41 M240,44 L242.5,41"/></g>
+  <!-- slope 1% -->
+  <polygon points="214.1,42.1 214.1,40.7 219.6,42.1" style="fill:none;stroke:#000;stroke-width:0.15"/>
+  <text x="216.25" y="39.4" class="c">1%</text>
+  <text x="261.65" y="40.2" class="c">2750.001.6-0N-2170.8503-150/10HB25T10B1-B40-</text>
+  <!-- off-page connector (outlet) 2765 -->
+  <g data-tag="OPC-2765">
+    <polygon points="283.5,43.875 283.5,41.125 286.25,41.125 286.25,39.75 289,42.5 286.25,45.25 286.25,43.875" style="fill:#fff;stroke:#000;stroke-width:0.2"/>
+    <text x="285.9" y="42.1" class="c" style="font-size:1.5px">2765</text>
+    <text x="287.2" y="46.4" class="c">2750.001</text>
+    <text x="294.5" y="42.1" class="c">W 2765</text>
+  </g>
+
+  <!-- ===================== bottom outlet N3 / tee / H672B1V ===================== -->
+  <path class="pipe" d="M197,228.45 V240.4 M197,234 H188.75"/>
+  <g data-tag="H672B1V">
+    <path class="valve" d="M185,232.2 L190,235.8 V232.2 L185,235.8 Z"/>
+    <text x="187.5" y="230.7" class="c">H672B1V</text>
+    <text x="187.5" y="238.2" class="c">80</text>
+    <text x="187.5" y="240.2" class="c">AS9</text>
+  </g>
+
+  <!-- ===================== pressure taps P3 / P4 ===================== -->
+  <path class="eq" style="stroke-width:0.5" d="M186.25,69.5 H154"/>
+  <!-- P3 -->
+  <path class="pipe" d="M156.6,69.5 V63.05 M156.6,60.55 V60.15"/>
+  <path class="eq" d="M155.1,66.75 H158.1 M155.1,60.15 H158.1"/>
+  <g data-tag="SP 2750-5">
+    <path class="valve" d="M155.5,60.55 H157.7 L155.5,63.05 H157.7 Z"/>
+    <rect x="145.75" y="58" width="5.4" height="7.6" fill="none" stroke="#000" stroke-width="0.2"/>
+    <text transform="rotate(-90 147.95 61.8)" x="147.95" y="61.8" class="c">SP</text>
+    <text transform="rotate(-90 149.95 61.8)" x="149.95" y="61.8" class="c">2750-5</text>
+    <text transform="rotate(-90 148.95 66.1)" x="148.95" y="66.1" class="c">1)</text>
+    <text transform="rotate(-90 154.4 61.3)" x="154.4" y="61.3" class="c">H658B1UV</text>
+    <text transform="rotate(-90 152.4 61.3)" x="152.4" y="61.3" class="c">2170.8503</text>
+    <text transform="rotate(-90 159.6 61.3)" x="159.6" y="61.3" class="c">25</text>
+    <text transform="rotate(-90 161.6 61.3)" x="161.6" y="61.3" class="c">AS9</text>
+  </g>
+  <text x="160.4" y="66.5" class="c">80/25</text>
+  <text x="156.6" y="71.1" class="c">P3</text><text x="156.6" y="73.1" class="c">80</text>
+  <path class="thin" d="M156.6,60.15 V56.1"/>
+  <!-- P4 -->
+  <path class="pipe" d="M175.5,69.5 V63.05 M175.5,60.55 V60.15"/>
+  <path class="eq" d="M174,66.75 H177 M174,60.15 H177"/>
+  <g data-tag="SP 2750-6">
+    <path class="valve" d="M174.4,60.55 H176.6 L174.4,63.05 H176.6 Z"/>
+    <rect x="164.65" y="58" width="5.4" height="7.6" fill="none" stroke="#000" stroke-width="0.2"/>
+    <text transform="rotate(-90 166.85 61.8)" x="166.85" y="61.8" class="c">SP</text>
+    <text transform="rotate(-90 168.85 61.8)" x="168.85" y="61.8" class="c">2750-6</text>
+    <text transform="rotate(-90 167.85 66.1)" x="167.85" y="66.1" class="c">1)</text>
+    <text transform="rotate(-90 173.3 61.3)" x="173.3" y="61.3" class="c">H658B1UV</text>
+    <text transform="rotate(-90 171.3 61.3)" x="171.3" y="61.3" class="c">2170.8503</text>
+    <text transform="rotate(-90 178.4 61.3)" x="178.4" y="61.3" class="c">25</text>
+    <text transform="rotate(-90 180.4 61.3)" x="180.4" y="61.3" class="c">AS9</text>
+  </g>
+  <text x="179.3" y="66.5" class="c">80/25</text>
+  <text x="175.5" y="71.1" class="c">P4</text><text x="175.5" y="73.1" class="c">80</text>
+  <path class="thin" d="M175.5,60.15 V56.1"/>
+
+  <!-- DCS pressure functions (existing) -->
+  <g data-tag="PI(Z) 275003A">
+    <path class="bub" d="M153.9,50.7 H159.3 A2.7,2.7 0 0 1 159.3,56.1 H153.9 A2.7,2.7 0 0 1 153.9,50.7 Z"/>
+    <path class="bub" d="M151.2,53.4 H162"/>
+    <text x="156.6" y="52.2" class="c" style="font-size:1.9px">PI(Z)</text>
+    <text x="156.6" y="54.6" class="c" style="font-size:1.9px">275003A</text>
+  </g>
+  <g data-tag="PI(Z) 275003B">
+    <path class="bub" d="M172.8,50.7 H178.2 A2.7,2.7 0 0 1 178.2,56.1 H172.8 A2.7,2.7 0 0 1 172.8,50.7 Z"/>
+    <path class="bub" d="M170.1,53.4 H180.9"/>
+    <text x="175.5" y="52.2" class="c" style="font-size:1.9px">PI(Z)</text>
+    <text x="175.5" y="54.6" class="c" style="font-size:1.9px">275003B</text>
+  </g>
+  <g data-tag="PIS+Z+A 275003">
+    <path class="bub" d="M111.3,50.7 H116.7 A2.7,2.7 0 0 1 116.7,56.1 H111.3 A2.7,2.7 0 0 1 111.3,50.7 Z"/>
+    <path class="bub" d="M108.6,53.4 H119.4"/>
+    <text x="114" y="52.2" class="c" style="font-size:1.9px">PIS+Z+A</text>
+    <text x="114" y="54.6" class="c" style="font-size:1.9px">275003</text>
+  </g>
+  <path class="sig" d="M151.2,53.4 H119.4"/>
+  <polygon class="blue" points="119.4,53.4 121.8,54 121.8,52.8"/>
+  <path class="sig" d="M175.5,50.7 V46 H114 V50.7"/>
+  <polygon class="blue" points="175.5,46 174.9,48.4 176.1,48.4"/>
+  <polygon class="blue" points="114,46 116.4,45.4 116.4,46.6"/>
+  <polygon class="blue" points="114,50.7 113.4,48.3 114.6,48.3"/>
+
+  <!-- ===================== NEW: feed line with XV-2750 ===================== -->
+  <g data-tag="OPC-FEED">
+    <polygon points="30,154.375 30,151.625 32.75,151.625 32.75,150.25 35.5,153 32.75,155.75 32.75,154.375" style="fill:#fff;stroke:#000;stroke-width:0.2"/>
+    <text x="30" y="146.6">Feed from off sheet</text>
+    <text x="30" y="160">(source sheet / connector no. to be assigned)</text>
+  </g>
+  <path class="pipe" d="M35.5,153 H183.5"/>
+  <polyline class="thin" points="98,151.5 100,153 98,154.5" style="stroke-width:0.35"/>
+  <polyline class="thin" points="176,151.5 178,153 176,154.5" style="stroke-width:0.35"/>
+  <text x="130" y="150.6" class="c">Feed, DN 150 (line no. to be assigned)</text>
+  <g data-tag="XV-2750">
+    <path class="valve" d="M160.5,151.2 L166.5,154.8 V151.2 L160.5,154.8 Z"/>
+    <path class="thin" d="M163.5,154.8 V157.5"/>
+    <path class="valve" d="M160.2,157.5 H166.8 A3.3,3.3 0 0 1 160.2,157.5 Z"/>
+    <text x="163.5" y="146.8" class="c" style="font-size:3px;font-weight:bold">XV-2750</text>
+    <text x="163.5" y="149.4" class="c" style="font-size:1.8px">Feed shutdown valve</text>
+    <text x="168.2" y="158.8" style="font-size:2.2px;font-weight:bold">FC</text>
+  </g>
+
+  <!-- ===================== NEW: independent HH level trip (left) ===================== -->
+  <path class="thin" d="M167.7,214.5 H183.5"/>
+  <g data-tag="LT-2751">
+    <circle class="bubr" cx="163.5" cy="214.5" r="4.2"/>
+    <text x="163.5" y="213.2" class="c" style="font-size:2.1px">LT</text>
+    <text x="163.5" y="215.8" class="c" style="font-size:2.1px">2751</text>
+    <text x="158.3" y="211.4" style="text-anchor:end;font-size:2.5px" class="red">LT-2751</text>
+    <text x="158.3" y="214" style="text-anchor:end" class="red">Level transmitter, sump</text>
+    <text x="158.3" y="216.2" style="text-anchor:end" class="red">(independent of LT-2750)</text>
+  </g>
+  <path class="trip" d="M163.5,210.3 V187.9"/>
+  <g data-tag="LSHH-2751">
+    <path class="bubr" d="M160.8,182.3 H166.2 A2.7,2.7 0 0 1 166.2,187.7 H160.8 A2.7,2.7 0 0 1 160.8,182.3 Z"/>
+    <path class="bubr" d="M158.1,185 H168.9"/>
+    <text x="163.5" y="183.7" class="c" style="font-size:1.9px">LSHH</text>
+    <text x="163.5" y="186.3" class="c" style="font-size:1.9px">2751</text>
+    <text x="156.4" y="182.4" style="text-anchor:end;font-size:2.5px" class="red">LSHH-2751</text>
+    <text x="156.4" y="185" style="text-anchor:end" class="red">Independent high-high level trip</text>
+    <text x="156.4" y="187.2" style="text-anchor:end" class="red">(safety system, not via DCS)</text>
+    <text x="156.4" y="189.4" style="text-anchor:end" class="red">closes XV-2750</text>
+  </g>
+  <path class="trip" d="M163.5,182.3 V161"/>
+
+  <!-- ===================== NEW: level transmitter + DCS high level alarm (right) ===================== -->
+  <path class="thin" d="M210.5,219.5 H226.3"/>
+  <g data-tag="LT-2750">
+    <circle class="bubb" cx="230.5" cy="219.5" r="4.2"/>
+    <text x="230.5" y="218.2" class="c" style="font-size:2.1px">LT</text>
+    <text x="230.5" y="220.8" class="c" style="font-size:2.1px">2750</text>
+    <text x="235.6" y="216.8" style="font-size:2.5px" class="blue">LT-2750</text>
+    <text x="235.6" y="219.4" class="blue">Level transmitter, sump</text>
+    <text x="235.6" y="221.6" class="blue">(for high level alarm)</text>
+  </g>
+  <path class="dsig" d="M230.5,215.3 V184.9"/>
+  <g data-tag="LAH-2750">
+    <path class="bubb" d="M227.8,179.3 H233.2 A2.7,2.7 0 0 1 233.2,184.7 H227.8 A2.7,2.7 0 0 1 227.8,179.3 Z"/>
+    <path class="bubb" d="M225.1,182 H235.9"/>
+    <text x="230.5" y="180.6" class="c" style="font-size:1.9px">LAH</text>
+    <text x="230.5" y="183.4" class="c" style="font-size:1.9px">2750</text>
+    <text x="237.5" y="180.6" style="font-size:2.5px" class="blue">LAH-2750</text>
+    <text x="237.5" y="183.2" class="blue">High level alarm in DCS</text>
+  </g>
+
+  <!-- ===================== notes / legend ===================== -->
+  <rect x="250" y="232" width="160" height="54" fill="#fff" stroke="#000" stroke-width="0.3"/>
+  <text x="253" y="236.5" style="font-size:2.6px;font-weight:bold">HAZOP action - additions to K 2750 (new: XV-2750, LT-2750, LAH-2750, LT-2751, LSHH-2751, nozzle N6, feed line)</text>
+  <text x="253" y="241" style="font-size:2.1px">1. Feed from off sheet through XV-2750 (shutdown valve, fail-closed, FC) into nozzle N2 (DN 150).</text>
+  <text x="253" y="244.4" style="font-size:2.1px">2. LT-2750 on new sump nozzle N6 (DN 50) -> LAH-2750: high level alarm in the DCS.</text>
+  <text x="253" y="247.8" style="font-size:2.1px">3. LT-2751 on sump nozzle N7 (DN 50), separate sensor from LT-2750 -> LSHH-2751: independent</text>
+  <text x="253" y="250.6" style="font-size:2.1px">    high-high level trip in the safety system, hardwired, not through the DCS -> closes XV-2750.</text>
+  <text x="253" y="254" style="font-size:2.1px">4. Setpoints (alarm below trip, both above normal sump level) and feed line number: to be confirmed.</text>
+  <path class="sig" d="M254,260 H266"/><text x="268" y="260.3">existing signal (as in column.xml)</text>
+  <path class="dsig" d="M254,264.5 H266"/><text x="268" y="264.8">new DCS signal (alarm)</text>
+  <path class="trip" d="M254,269 H266"/><text x="268" y="269.3">new independent trip signal</text>
+  <path class="bub" d="M330,258.3 H334 A2.7,2.7 0 0 1 334,263.7 H330 A2.7,2.7 0 0 1 330,258.3 Z M327.3,261 H336.7"/><text x="339" y="261.3">DCS function (central location)</text>
+  <circle class="bub" cx="331.5" cy="268" r="2.7"/><text x="339" y="268.3">field-mounted instrument</text>
+  <text x="253" y="276" style="font-size:2px">Black solid = process line; thin black = measuring / impulse line. Parts of the file not touched by the action are drawn unchanged.</text>
+  <text x="253" y="279.5" style="font-size:2px">Unconnected nozzles N4, N5 and the open end below the N3 tee are shown as in the file.</text>
+
+  <text x="10" y="289" style="font-size:2px">Source: column.xml, DEXPI Example C02 (A3, dimensions in mm). Tags in the drawing are the tags of the file; XV-2750 as specified in the HAZOP action.</text>
+</svg>

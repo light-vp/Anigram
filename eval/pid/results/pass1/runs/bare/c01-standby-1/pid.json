@@ -1,0 +1,277 @@
+{
+  "items": [
+    {
+      "tag": "FlowInPipeOffPageConnector-1",
+      "type": "off-page connector (flow in)",
+      "label": "Inlet from previous sheet, line 47121"
+    },
+    {
+      "tag": "P4711",
+      "type": "centrifugal pump",
+      "label": "Centrifugal pump, 200 m3/h"
+    },
+    {
+      "tag": "H1007",
+      "type": "plate heat exchanger",
+      "label": "Plate heat exchanger, 313 kW"
+    },
+    {
+      "tag": "HV4750.01",
+      "type": "actuated globe valve, fail closed",
+      "label": "On/off valve in line 47123 to T-4750"
+    },
+    {
+      "tag": "HS4750.01",
+      "type": "hand switch (control room)",
+      "label": "Hand switch for HV4750.01"
+    },
+    {
+      "tag": "T-4750",
+      "type": "tank",
+      "label": "Tank, 26 m3 (shown as T4750 in the source file)"
+    },
+    {
+      "tag": "TT4750.03",
+      "type": "temperature transmitter",
+      "label": "Temperature in T-4750"
+    },
+    {
+      "tag": "TICSA4750.03",
+      "type": "temperature indicating controller with switch and alarm (control room)",
+      "label": "Temperature control of T-4750"
+    },
+    {
+      "tag": "TV4750.03",
+      "type": "actuated globe control valve, fail open",
+      "label": "Steam condensate valve of H1008, line 47141"
+    },
+    {
+      "tag": "ButterflyValve-1",
+      "type": "butterfly valve",
+      "label": "Tank outlet valve 66KL21-80, line 47124"
+    },
+    {
+      "tag": "PipeTee-6",
+      "type": "pipe tee",
+      "label": "Suction tee for P-4712 and P-4712B, line 47124"
+    },
+    {
+      "tag": "SwingCheckValve-1",
+      "type": "swing check valve",
+      "label": "Suction check valve 75SA21-80 of P-4712"
+    },
+    {
+      "tag": "PipeReducer-1",
+      "type": "pipe reducer",
+      "label": "Reducer 80/50 in P-4712 suction"
+    },
+    {
+      "tag": "BallValve-1",
+      "type": "ball valve",
+      "label": "Suction isolating valve 73KH12-50 of P-4712"
+    },
+    {
+      "tag": "P-4712",
+      "type": "reciprocating pump",
+      "label": "Duty pump, 420 m3/h (shown as P4712 in the source file)"
+    },
+    {
+      "tag": "PipeTee-2",
+      "type": "pipe tee",
+      "label": "Vent branch tee, line 47126"
+    },
+    {
+      "tag": "BallValve-2",
+      "type": "ball valve",
+      "label": "Vent valve 73KH12-25, line 47126"
+    },
+    {
+      "tag": "PipeTee-1",
+      "type": "pipe tee",
+      "label": "Safety valve branch tee, line 47126"
+    },
+    {
+      "tag": "SV 104.01",
+      "type": "spring-loaded safety valve",
+      "label": "Relief valve 6 barg, returns to T-4750"
+    },
+    {
+      "tag": "PipeTee-7",
+      "type": "pipe tee",
+      "label": "Tie-in of P-4712B discharge into header 47126"
+    },
+    {
+      "tag": "PipeTee-3",
+      "type": "pipe tee",
+      "label": "Pressure tapping tee, line 47126"
+    },
+    {
+      "tag": "BallValve-3",
+      "type": "ball valve",
+      "label": "Root valve 73KH12-25 of PT4712.01"
+    },
+    {
+      "tag": "PT4712.01",
+      "type": "pressure transmitter",
+      "label": "Header 47126 pressure"
+    },
+    {
+      "tag": "PI4712.01",
+      "type": "pressure indicator (field)",
+      "label": "Header 47126 pressure indication"
+    },
+    {
+      "tag": "BallValve-4",
+      "type": "ball valve",
+      "label": "Header isolating valve 73KH12-50, line 47126"
+    },
+    {
+      "tag": "PipeTee-4",
+      "type": "pipe tee",
+      "label": "Branch tee to H1008, line 47126"
+    },
+    {
+      "tag": "H1008",
+      "type": "floating-head tubular heat exchanger",
+      "label": "Tubular heat exchanger, 313 kW"
+    },
+    {
+      "tag": "PipeTee-5",
+      "type": "pipe tee",
+      "label": "Pressure tapping tee, line 47126"
+    },
+    {
+      "tag": "BallValve-5",
+      "type": "ball valve",
+      "label": "Root valve 73KH12-25 of PT4712.02"
+    },
+    {
+      "tag": "PT4712.02",
+      "type": "pressure transmitter",
+      "label": "Header 47126 pressure for PICSA4712.02"
+    },
+    {
+      "tag": "PICSA4712.02",
+      "type": "pressure indicating controller with switch and alarm (control room)",
+      "label": "Pressure control of header 47126"
+    },
+    {
+      "tag": "PV4712.02",
+      "type": "actuated globe control valve, fail closed",
+      "label": "Pressure control valve, line 47127 back to T-4750"
+    },
+    {
+      "tag": "FlowOutPipeOffPageConnector-1",
+      "type": "off-page connector (flow out)",
+      "label": "Product leaves the sheet, line 47126"
+    },
+    {
+      "tag": "LineEnd-47130",
+      "type": "open line end (utility connection)",
+      "label": "Cooling water WKa in, line 47130"
+    },
+    {
+      "tag": "LineEnd-47131",
+      "type": "open line end (utility connection)",
+      "label": "Cooling water WKb out, line 47131"
+    },
+    {
+      "tag": "LineEnd-47140",
+      "type": "open line end (utility connection)",
+      "label": "Steam QSa in, line 47140"
+    },
+    {
+      "tag": "LineEnd-47141",
+      "type": "open line end (utility connection)",
+      "label": "Condensate QSb out, line 47141"
+    },
+    {
+      "tag": "P-4712B",
+      "type": "reciprocating pump",
+      "label": "Standby pump for P-4712, new"
+    },
+    {
+      "tag": "V-4712B-S",
+      "type": "ball valve",
+      "label": "P-4712B suction isolating valve, new, normally open"
+    },
+    {
+      "tag": "CV-4712B-D",
+      "type": "swing check valve",
+      "label": "P-4712B discharge check valve, new"
+    },
+    {
+      "tag": "V-4712B-D",
+      "type": "ball valve",
+      "label": "P-4712B discharge isolating valve, new, normally open"
+    },
+    {
+      "tag": "XSA4712.03",
+      "type": "pump trip detection switch with alarm (control room)",
+      "label": "Detects P-4712 trip, new"
+    },
+    {
+      "tag": "XY4712.04",
+      "type": "auto-start logic",
+      "label": "Starts P-4712B when P-4712 trips, new"
+    }
+  ],
+  "lines": [
+    {
+      "from": "FlowInPipeOffPageConnector-1",
+      "to": "P4711",
+      "kind": "process"
+    },
+    { "from": "P4711", "to": "H1007", "kind": "process" },
+    { "from": "H1007", "to": "HV4750.01", "kind": "process" },
+    { "from": "HV4750.01", "to": "T-4750", "kind": "process" },
+    { "from": "T-4750", "to": "ButterflyValve-1", "kind": "process" },
+    { "from": "ButterflyValve-1", "to": "PipeTee-6", "kind": "process" },
+    { "from": "PipeTee-6", "to": "SwingCheckValve-1", "kind": "process" },
+    { "from": "SwingCheckValve-1", "to": "PipeReducer-1", "kind": "process" },
+    { "from": "PipeReducer-1", "to": "BallValve-1", "kind": "process" },
+    { "from": "BallValve-1", "to": "P-4712", "kind": "process" },
+    { "from": "P-4712", "to": "PipeTee-2", "kind": "process" },
+    { "from": "PipeTee-2", "to": "BallValve-2", "kind": "process" },
+    { "from": "PipeTee-2", "to": "PipeTee-1", "kind": "process" },
+    { "from": "PipeTee-1", "to": "SV 104.01", "kind": "process" },
+    { "from": "SV 104.01", "to": "T-4750", "kind": "process" },
+    { "from": "PipeTee-1", "to": "PipeTee-7", "kind": "process" },
+    { "from": "PipeTee-7", "to": "PipeTee-3", "kind": "process" },
+    { "from": "PipeTee-3", "to": "BallValve-3", "kind": "process" },
+    { "from": "BallValve-3", "to": "PT4712.01", "kind": "process" },
+    { "from": "PipeTee-3", "to": "BallValve-4", "kind": "process" },
+    { "from": "BallValve-4", "to": "PipeTee-4", "kind": "process" },
+    { "from": "PipeTee-4", "to": "H1008", "kind": "process" },
+    { "from": "PipeTee-4", "to": "PipeTee-5", "kind": "process" },
+    { "from": "PipeTee-5", "to": "BallValve-5", "kind": "process" },
+    { "from": "BallValve-5", "to": "PT4712.02", "kind": "process" },
+    {
+      "from": "PipeTee-5",
+      "to": "FlowOutPipeOffPageConnector-1",
+      "kind": "process"
+    },
+    { "from": "H1008", "to": "PV4712.02", "kind": "process" },
+    { "from": "PV4712.02", "to": "T-4750", "kind": "process" },
+    { "from": "LineEnd-47130", "to": "H1007", "kind": "process" },
+    { "from": "H1007", "to": "LineEnd-47131", "kind": "process" },
+    { "from": "LineEnd-47140", "to": "H1008", "kind": "process" },
+    { "from": "H1008", "to": "TV4750.03", "kind": "process" },
+    { "from": "TV4750.03", "to": "LineEnd-47141", "kind": "process" },
+    { "from": "PipeTee-6", "to": "V-4712B-S", "kind": "process" },
+    { "from": "V-4712B-S", "to": "P-4712B", "kind": "process" },
+    { "from": "P-4712B", "to": "CV-4712B-D", "kind": "process" },
+    { "from": "CV-4712B-D", "to": "V-4712B-D", "kind": "process" },
+    { "from": "V-4712B-D", "to": "PipeTee-7", "kind": "process" },
+    { "from": "PT4712.01", "to": "PI4712.01", "kind": "signal" },
+    { "from": "PT4712.02", "to": "PICSA4712.02", "kind": "signal" },
+    { "from": "PICSA4712.02", "to": "PV4712.02", "kind": "signal" },
+    { "from": "HS4750.01", "to": "HV4750.01", "kind": "signal" },
+    { "from": "T-4750", "to": "TT4750.03", "kind": "signal" },
+    { "from": "TT4750.03", "to": "TICSA4750.03", "kind": "signal" },
+    { "from": "TICSA4750.03", "to": "TV4750.03", "kind": "signal" },
+    { "from": "P-4712", "to": "XSA4712.03", "kind": "signal" },
+    { "from": "XSA4712.03", "to": "XY4712.04", "kind": "signal" },
+    { "from": "XY4712.04", "to": "P-4712B", "kind": "signal" }
+  ]
+}

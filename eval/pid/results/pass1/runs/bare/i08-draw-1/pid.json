@@ -1,0 +1,37 @@
+{
+  "items": [
+    {
+      "tag": "PipingNetworkSegment-1",
+      "type": "process pipe segment",
+      "label": "Process line"
+    },
+    {
+      "tag": "PI-044",
+      "type": "pressure indication, control room",
+      "label": "Pressure indication (loop 044)"
+    },
+    {
+      "tag": "PI-045",
+      "type": "pressure indication, local gauge",
+      "label": "Local pressure gauge (loop 045)"
+    },
+    {
+      "tag": "US-046",
+      "type": "switching function, control room",
+      "label": "Switch on high and low pressure (loop 046)"
+    },
+    {
+      "tag": "US-047",
+      "type": "switching function, control room",
+      "label": "Switch on high-high and low-low pressure (loop 047)"
+    }
+  ],
+  "lines": [
+    { "from": "PipingNetworkSegment-1", "to": "PI-045", "kind": "signal" },
+    { "from": "PipingNetworkSegment-1", "to": "PI-044", "kind": "signal" },
+    { "from": "PI-044", "to": "US-047", "kind": "signal" },
+    { "from": "PI-044", "to": "US-047", "kind": "signal" },
+    { "from": "PI-044", "to": "US-046", "kind": "signal" },
+    { "from": "PI-044", "to": "US-046", "kind": "signal" }
+  ]
+}

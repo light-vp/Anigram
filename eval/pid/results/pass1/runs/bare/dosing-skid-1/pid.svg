@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1040" viewBox="0 0 1600 1040" font-family="Arial, Helvetica, sans-serif">
+<defs>
+  <marker id="sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#1565c0"/></marker>
+  <style>
+    .t{font-size:11px;font-weight:bold;fill:#111}
+    .d{font-size:9px;fill:#555}
+    .n{font-size:10px;fill:#333}
+    .c{text-anchor:middle}
+    .e{text-anchor:end}
+    .pp{fill:none;stroke:#5b2c00;stroke-width:2.5;stroke-linejoin:round}
+    .sg{fill:none;stroke:#1565c0;stroke-width:1.5;stroke-dasharray:6 4;marker-end:url(#sa)}
+    .v{fill:#fff;stroke:#111;stroke-width:1.5}
+    .eq{fill:#fff;stroke:#111;stroke-width:2}
+    .j{fill:#5b2c00}
+  </style>
+</defs>
+<rect width="1600" height="1040" fill="#fff"/>
+<rect x="4" y="4" width="1592" height="1032" fill="none" stroke="#111" stroke-width="1.5"/>
+<text x="800" y="30" font-size="18" font-weight="bold" text-anchor="middle">SODIUM HYPOCHLORITE DOSING SKID — P&amp;ID</text>
+<text x="800" y="46" font-size="11" text-anchor="middle" fill="#555">Day tank T-301 · duty/standby diaphragm metering pumps P-301A/B · flow-paced dosing into treated water main</text>
+
+<!-- ============ PIPES ============ -->
+<path class="pp" d="M62,60 H150 V90"/>
+<polygon points="150,88 146,80 154,80" fill="#5b2c00"/>
+<path class="pp" d="M150,290 V330 H600"/>
+<path class="pp" d="M350,330 V420"/>
+<path class="pp" d="M560,330 V420"/>
+<path class="pp" d="M455,330 V210"/>
+<path class="pp" d="M350,480 V640 H800"/>
+<path class="pp" d="M560,480 V640"/>
+<path class="pp" d="M350,500 H110"/>
+<path class="pp" d="M560,520 H360 a10,10 0 0 0 -20,0 H110 V290"/>
+<path class="pp" d="M800,640 V616"/>
+<path class="pp" d="M800,564 V520 H1350 V478"/>
+<circle class="j" cx="350" cy="330" r="3.5"/><circle class="j" cx="560" cy="330" r="3.5"/><circle class="j" cx="455" cy="330" r="3.5"/>
+<circle class="j" cx="350" cy="500" r="3.5"/><circle class="j" cx="560" cy="520" r="3.5"/><circle class="j" cx="110" cy="500" r="3.5"/><circle class="j" cx="560" cy="640" r="3.5"/>
+<!-- flow direction arrows -->
+<polygon points="150,305 146,297 154,297" fill="#5b2c00" transform="translate(0,0)"/>
+<polygon points="450,330 442,326 442,334" fill="#5b2c00"/>
+<polygon points="700,640 692,636 692,644" fill="#5b2c00"/>
+<polygon points="1250,520 1242,516 1242,524" fill="#5b2c00"/>
+<polygon points="200,500 208,496 208,504" fill="#5b2c00" transform="rotate(180 200 500)"/>
+
+<!-- treated water main -->
+<path d="M900,470 H1580" fill="none" stroke="#37474f" stroke-width="6"/>
+<polygon points="1000,470 990,465 990,475" fill="#37474f"/>
+<polygon points="1500,470 1490,465 1490,475" fill="#37474f"/>
+<text x="905" y="456" class="t" fill="#37474f" style="fill:#37474f">TWM-301  Treated water main</text>
+<text x="1580" y="456" class="d e">to contact tank</text>
+
+<!-- ============ EQUIPMENT ============ -->
+<!-- T-301 -->
+<rect x="80" y="90" width="140" height="200" rx="14" class="eq"/>
+<rect x="81" y="190" width="138" height="99" rx="12" fill="#cfe8ff" opacity="0.8"/>
+<line x1="81" y1="190" x2="219" y2="190" stroke="#1565c0" stroke-width="1.2" stroke-dasharray="4 3"/>
+<text x="150" y="184" class="d c" style="fill:#1565c0">normal level</text>
+<text x="150" y="122" font-size="14" font-weight="bold" text-anchor="middle">T-301</text>
+<text x="150" y="136" class="d c">NaOCl day tank</text>
+<text x="150" y="148" class="d c">(vented)</text>
+<text x="10" y="36" class="d">Bulk delivery</text>
+<text x="10" y="56" class="t">FC-301</text>
+<path class="v" d="M96,53 L116,67 L116,53 L96,67 Z"/>
+<text x="106" y="44" class="t c">HV-300</text>
+<text x="106" y="84" class="d c">Fill valve</text>
+<path class="v" d="M143,302 L157,322 L143,322 L157,302 Z"/>
+<text x="164" y="311" class="t">HV-310</text><text x="164" y="322" class="d">Tank outlet</text>
+
+<!-- calibration column -->
+<rect x="435" y="90" width="40" height="120" class="eq"/>
+<rect x="436" y="140" width="38" height="69" fill="#cfe8ff" opacity="0.8"/>
+<g stroke="#111"><line x1="435" y1="110" x2="447" y2="110"/><line x1="435" y1="130" x2="447" y2="130"/><line x1="435" y1="150" x2="447" y2="150"/><line x1="435" y1="170" x2="447" y2="170"/><line x1="435" y1="190" x2="447" y2="190"/></g>
+<text x="485" y="108" class="t">CC-301</text><text x="485" y="120" class="d">Calibration column</text>
+<path class="v" d="M448,260 L462,280 L448,280 L462,260 Z"/>
+<text x="472" y="269" class="t">HV-315</text><text x="472" y="280" class="d">Column isolation</text>
+
+<!-- pump A -->
+<circle cx="350" cy="450" r="30" class="eq"/>
+<path d="M332,450 Q350,425 368,450 Z" fill="none" stroke="#111" stroke-width="1.5"/>
+<text x="350" y="466" font-size="11" text-anchor="middle">M</text>
+<text x="388" y="444" font-size="12" font-weight="bold">P-301A</text><text x="388" y="456" class="d">Diaphragm metering pump</text><text x="388" y="468" font-size="9" font-weight="bold" fill="#b71c1c">DUTY</text>
+<!-- pump B -->
+<circle cx="560" cy="450" r="30" class="eq"/>
+<path d="M542,450 Q560,425 578,450 Z" fill="none" stroke="#111" stroke-width="1.5"/>
+<text x="560" y="466" font-size="11" text-anchor="middle">M</text>
+<text x="598" y="444" font-size="12" font-weight="bold">P-301B</text><text x="598" y="456" class="d">Diaphragm metering pump</text><text x="598" y="468" font-size="9" font-weight="bold" fill="#b71c1c">STANDBY</text>
+
+<!-- valves -->
+<path class="v" d="M343,370 L357,390 L343,390 L357,370 Z"/><text x="364" y="379" class="t">HV-311A</text><text x="364" y="390" class="d">Suction isol.</text>
+<path class="v" d="M553,370 L567,390 L553,390 L567,370 Z"/><text x="574" y="379" class="t">HV-311B</text><text x="574" y="390" class="d">Suction isol.</text>
+<path class="v" d="M343,535 L357,555 L343,555 L357,535 Z"/><text x="336" y="544" class="t e">HV-312A</text><text x="336" y="555" class="d e">Discharge isol.</text>
+<path class="v" d="M553,535 L567,555 L553,555 L567,535 Z"/><text x="546" y="544" class="t e">HV-312B</text><text x="546" y="555" class="d e">Discharge isol.</text>
+<!-- check valves -->
+<circle cx="350" cy="595" r="9" class="v"/><path d="M345,591 L355,591 L350,598 Z M345,600 L355,600" fill="#111" stroke="#111" stroke-width="1.5"/>
+<text x="364" y="594" class="t">CV-301A</text><text x="364" y="605" class="d">Discharge check</text>
+<circle cx="560" cy="595" r="9" class="v"/><path d="M555,591 L565,591 L560,598 Z M555,600 L565,600" fill="#111" stroke="#111" stroke-width="1.5"/>
+<text x="574" y="594" class="t">CV-301B</text><text x="574" y="605" class="d">Discharge check</text>
+<!-- relief valves -->
+<path class="v" d="M180,493 L200,507 L200,493 L180,507 Z"/>
+<path d="M190,493 L190,490 L185,487 L195,483 L185,479 L195,475 L190,472" fill="none" stroke="#111" stroke-width="1.4"/>
+<text x="190" y="467" class="t c">PSV-301A</text><text x="190" y="516" class="d c">Relief → T-301</text>
+<path class="v" d="M420,513 L440,527 L440,513 L420,527 Z"/>
+<path d="M430,513 L430,510 L425,507 L435,503 L425,499 L435,495 L430,492" fill="none" stroke="#111" stroke-width="1.4"/>
+<text x="430" y="546" class="t c">PSV-301B</text><text x="430" y="557" class="d c">Relief → T-301</text>
+
+<!-- pulsation dampener -->
+<circle cx="800" cy="590" r="26" class="eq"/>
+<path d="M776,590 H824" stroke="#111" stroke-width="1.5" stroke-dasharray="3 2"/>
+<text x="834" y="586" class="t">PD-301</text><text x="834" y="598" class="d">Pulsation dampener</text>
+
+<!-- injection point -->
+<path class="v" d="M1350,478 L1343,492 L1357,492 Z"/>
+<text x="1362" y="500" class="t">IP-301</text><text x="1362" y="512" class="d">Injection point (quill)</text>
+
+<!-- flow measurement and control -->
+<line x1="1100" y1="418" x2="1100" y2="463" stroke="#111" stroke-width="1.2"/>
+<line x1="1094" y1="463" x2="1106" y2="463" stroke="#111" stroke-width="2"/><line x1="1094" y1="477" x2="1106" y2="477" stroke="#111" stroke-width="2"/>
+<circle cx="1100" cy="400" r="18" class="v"/><text x="1100" y="397" font-size="10" text-anchor="middle">FT</text><text x="1100" y="411" font-size="10" text-anchor="middle">301</text>
+<text x="1124" y="398" class="t">FT-301</text><text x="1124" y="410" class="d">Flow transmitter</text>
+<circle cx="1100" cy="290" r="18" class="v"/><line x1="1082" y1="290" x2="1118" y2="290" stroke="#111"/>
+<text x="1100" y="287" font-size="10" text-anchor="middle">FIC</text><text x="1100" y="301" font-size="10" text-anchor="middle">301</text>
+<text x="1124" y="288" class="t">FIC-301</text><text x="1124" y="300" class="d">Flow-ratio controller</text>
+
+<!-- level instruments -->
+<line x1="62" y1="170" x2="80" y2="170" stroke="#111"/>
+<circle cx="44" cy="170" r="18" class="v"/><text x="44" y="167" font-size="10" text-anchor="middle">LT</text><text x="44" y="181" font-size="10" text-anchor="middle">301</text>
+<text x="44" y="142" class="t c">LT-301</text>
+<circle cx="44" cy="245" r="18" class="v"/><line x1="26" y1="245" x2="62" y2="245" stroke="#111"/>
+<text x="44" y="242" font-size="10" text-anchor="middle">LAL</text><text x="44" y="256" font-size="10" text-anchor="middle">301</text>
+<text x="44" y="273" class="t c">LAL-301</text><text x="44" y="284" class="d c">Low alarm</text>
+<line x1="220" y1="270" x2="247" y2="270" stroke="#111"/>
+<circle cx="265" cy="270" r="18" class="v"/><text x="265" y="267" font-size="10" text-anchor="middle">LSLL</text><text x="265" y="281" font-size="10" text-anchor="middle">301</text>
+<text x="265" y="244" class="t c">LSLL-301</text>
+
+<!-- ============ SIGNALS ============ -->
+<path class="sg" d="M44,188 V227"/>
+<path class="sg" d="M1100,382 V308"/>
+<path class="sg" d="M1082,290 H465 a10,10 0 0 0 -20,0 H310 V440 H320"/>
+<text x="700" y="283" font-size="10" fill="#1565c0">stroke speed (duty pump)</text>
+<path class="sg" d="M265,288 V320 a10,10 0 0 1 0,20 V462 H320"/>
+<circle cx="265" cy="400" r="3" fill="#1565c0"/>
+<path class="sg" d="M265,400 H300 a10,10 0 0 1 20,0 H340 a10,10 0 0 1 20,0 H515 V450 H530"/>
+<text x="430" y="396" font-size="9" fill="#1565c0">pump trip</text>
+
+<!-- notes -->
+<text x="650" y="330" class="n">FIC-301: SP = dose ratio × main flow;</text>
+<text x="650" y="343" class="n">output = stroke speed of duty pump P-301A.</text>
+<text x="650" y="356" class="n">On changeover the output transfers to P-301B.</text>
+<text x="650" y="372" class="n">LSLL-301 stops both pumps before T-301 runs dry.</text>
+
+<!-- legend -->
+<line x1="1230" y1="590" x2="1270" y2="590" stroke="#5b2c00" stroke-width="2.5"/><text x="1278" y="594" class="n">NaOCl process line</text>
+<line x1="1230" y1="610" x2="1270" y2="610" stroke="#37474f" stroke-width="6"/><text x="1278" y="614" class="n">Treated water main</text>
+<line x1="1230" y1="630" x2="1270" y2="630" stroke="#1565c0" stroke-width="1.5" stroke-dasharray="6 4"/><text x="1278" y="634" class="n">Instrument / control signal</text>
+
+<!-- ============ DAILY TRENDS ============ -->
+<line x1="20" y1="676" x2="1580" y2="676" stroke="#999"/>
+<text x="30" y="695" font-size="12" font-weight="bold">Typical day: dose follows the morning and evening demand peaks; T-301 runs down but stays above the low alarm and trip</text>
+
+<rect x="150" y="712" width="1350" height="82" fill="#fafafa" stroke="#bbb"/>
+<rect x="150" y="815" width="1350" height="82" fill="#fafafa" stroke="#bbb"/>
+<rect x="150" y="918" width="1350" height="82" fill="#fafafa" stroke="#bbb"/>
+<g stroke="#ddd" stroke-dasharray="2 3">
+<line x1="150" y1="712" x2="150" y2="1000"/><line x1="318.75" y1="712" x2="318.75" y2="1000"/><line x1="487.5" y1="712" x2="487.5" y2="1000"/><line x1="656.25" y1="712" x2="656.25" y2="1000"/><line x1="825" y1="712" x2="825" y2="1000"/><line x1="993.75" y1="712" x2="993.75" y2="1000"/><line x1="1162.5" y1="712" x2="1162.5" y2="1000"/><line x1="1331.25" y1="712" x2="1331.25" y2="1000"/><line x1="1500" y1="712" x2="1500" y2="1000"/>
+</g>
+<g font-size="10" fill="#555" text-anchor="middle">
+<text x="150" y="1014">00:00</text><text x="318.75" y="1014">03:00</text><text x="487.5" y="1014">06:00</text><text x="656.25" y="1014">09:00</text><text x="825" y="1014">12:00</text><text x="993.75" y="1014">15:00</text><text x="1162.5" y="1014">18:00</text><text x="1331.25" y="1014">21:00</text><text x="1500" y="1014">24:00</text>
+</g>
+<text x="800" y="1030" font-size="10" fill="#555" text-anchor="middle">Time of day</text>
+<text x="142" y="724" class="t e">FT-301 main flow</text><text x="142" y="736" class="d e">% of range</text>
+<text x="142" y="827" class="t e">FIC-301 output</text><text x="142" y="839" class="d e">P-301A stroke speed, % (= dose)</text>
+<text x="142" y="930" class="t e">LT-301 day tank level</text><text x="142" y="942" class="d e">% of tank</text>
+
+<!-- demand peaks -->
+<line x1="571.9" y1="712" x2="571.9" y2="1000" stroke="#c62828" stroke-dasharray="5 3"/>
+<line x1="1190.6" y1="712" x2="1190.6" y2="1000" stroke="#c62828" stroke-dasharray="5 3"/>
+<text x="578" y="724" font-size="10" fill="#c62828">morning peak</text>
+<text x="1197" y="724" font-size="10" fill="#c62828">evening peak</text>
+
+<!-- flow -->
+<polyline fill="none" stroke="#37474f" stroke-width="2" points="150,773.5 206.25,776 262.5,777.6 318.75,777.6 375,773.5 431.25,761.2 487.5,736.6 543.75,716.1 571.9,712 600,720.2 656.25,740.7 712.5,757.1 768.75,762.8 825,764.5 881.25,765.3 937.5,765.3 993.75,761.2 1050,748.9 1106.25,732.5 1162.5,721.8 1190.6,720.2 1218.75,724.3 1275,740.7 1331.25,757.1 1387.5,766.9 1443.75,771.9 1500,773.5"/>
+<!-- dose / stroke speed -->
+<polyline fill="none" stroke="#5b2c00" stroke-width="2" points="150,877.3 206.25,879 262.5,880.6 318.75,880.6 375,877.3 431.25,867.5 487.5,844.5 543.75,823.2 571.9,817.5 600,820.7 656.25,839.6 712.5,857.6 768.75,865 825,867.5 881.25,868.3 937.5,868.3 993.75,865 1050,854.4 1106.25,838.8 1162.5,828.1 1190.6,825.7 1218.75,827.3 1275,841.2 1331.25,857.6 1387.5,868.3 1443.75,874 1500,876.5"/>
+<!-- level -->
+<line x1="150" y1="979.5" x2="1500" y2="979.5" stroke="#ef6c00" stroke-dasharray="6 3"/>
+<line x1="150" y1="991.8" x2="1500" y2="991.8" stroke="#c62828" stroke-dasharray="6 3"/>
+<text x="1496" y="976" font-size="9" fill="#ef6c00" text-anchor="end">LAL-301 low alarm 25%</text>
+<text x="1496" y="988.5" font-size="9" fill="#c62828" text-anchor="end">LSLL-301 pump trip 10%</text>
+<polyline fill="none" stroke="#1565c0" stroke-width="2.5" points="150,927.8 206.25,928.7 262.5,929.6 318.75,930.3 375,931 431.25,931.9 487.5,933.3 543.75,935.6 600,938.9 656.25,942.4 712.5,944.9 768.75,946.7 825,948.2 881.25,949.5 937.5,950.7 993.75,952 1050,953.5 1106.25,955.4 1162.5,958 1218.75,961.1 1275,964.2 1331.25,966.8 1387.5,968.5 1443.75,969.8 1500,970.9"/>
+<text x="156" y="944" font-size="9" fill="#1565c0">start of day 88%</text>
+<text x="1494" y="962" font-size="9" fill="#1565c0" text-anchor="end">end of day ≈ 36% — refill via FC-301</text>
+</svg>

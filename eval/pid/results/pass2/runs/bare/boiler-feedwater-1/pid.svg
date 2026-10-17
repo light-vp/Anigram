@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720" font-family="Arial, sans-serif" font-size="11">
+  <rect width="1200" height="720" fill="#fff"/>
+  <text x="600" y="24" text-anchor="middle" font-size="16" font-weight="bold">Boiler Feedwater System P&amp;ID</text>
+
+  <!-- ===== process lines ===== -->
+  <g fill="none" stroke="#000" stroke-width="2">
+    <path d="M70 160 H300"/>                                   <!-- make-up -> D-501 -->
+    <path d="M390 200 V260 H700"/>                             <!-- D-501 outlet / suction header -->
+    <path d="M460 260 V400 H495"/>                             <!-- suction A -->
+    <path d="M700 260 V400 H735"/>                             <!-- suction B -->
+    <path d="M545 400 H580 V540"/>                             <!-- discharge A -->
+    <path d="M785 400 H820 V540"/>                             <!-- discharge B -->
+    <path d="M580 540 H1000 V380"/>                            <!-- common discharge -> V-502 -->
+    <path d="M1000 150 V90 H1100"/>                            <!-- steam out -->
+  </g>
+
+  <!-- ===== signal lines (dashed) ===== -->
+  <g fill="none" stroke="#06c" stroke-width="1.2" stroke-dasharray="5 3">
+    <path d="M420 120 V84"/>                                   <!-- D-501 -> LT-501 -->
+    <path d="M396 60 H326"/>                                   <!-- LT-501 -> LIC-501 -->
+    <path d="M274 60 H170 V140"/>                              <!-- LIC-501 -> LV-501 -->
+    <path d="M1050 230 H1106"/>                                <!-- V-502 -> LT-502 -->
+    <path d="M1130 254 V294"/>                                 <!-- LT-502 -> LIC-502 -->
+    <path d="M1130 344 V480 H900 V520"/>                       <!-- LIC-502 -> LV-502 -->
+    <path d="M700 540 V494"/>                                  <!-- header -> PSL-501 -->
+    <path d="M724 470 H760 V425"/>                             <!-- PSL-501 -> P-501B start -->
+  </g>
+
+  <!-- ===== equipment ===== -->
+  <g fill="#fff" stroke="#000" stroke-width="2">
+    <rect x="300" y="120" width="180" height="80" rx="40"/>    <!-- D-501 -->
+    <rect x="950" y="150" width="100" height="230" rx="40"/>   <!-- V-502 -->
+    <circle cx="520" cy="400" r="25"/>                         <!-- P-501A -->
+    <circle cx="760" cy="400" r="25"/>                         <!-- P-501B -->
+    <polygon points="10,148 58,148 70,160 58,172 10,172"/>     <!-- OSC-501 -->
+    <polygon points="1100,78 1158,78 1170,90 1158,102 1100,102"/> <!-- OSC-502 -->
+  </g>
+  <g text-anchor="middle" font-weight="bold">
+    <text x="390" y="154" font-size="13">D-501</text>
+    <text x="390" y="170">Deaerator</text>
+    <text x="1000" y="262" font-size="13">V-502</text>
+    <text x="1000" y="278">Steam drum</text>
+    <text x="520" y="352">P-501A</text>
+    <text x="760" y="352">P-501B</text>
+    <text x="34" y="164" font-size="10">OSC-501</text>
+    <text x="1129" y="94" font-size="10">OSC-502</text>
+  </g>
+  <g text-anchor="middle">
+    <text x="520" y="364">Boiler feed pump - duty</text>
+    <text x="760" y="364">Boiler feed pump - standby</text>
+    <text x="40" y="190">Make-up water</text>
+    <text x="40" y="203">from off sheet</text>
+    <text x="1135" y="120">Steam to</text>
+    <text x="1135" y="133">off sheet</text>
+  </g>
+  <!-- pump discharge nozzle marks -->
+  <g stroke="#000" stroke-width="1.5" fill="none">
+    <path d="M520 375 L545 400 L520 425"/>
+    <path d="M760 375 L785 400 L760 425"/>
+  </g>
+
+  <!-- ===== valves ===== -->
+  <g fill="#fff" stroke="#000" stroke-width="1.5">
+    <!-- horizontal control valves -->
+    <polygon points="160,152 180,168 180,152 160,168"/>        <!-- LV-501 -->
+    <polygon points="890,532 910,548 910,532 890,548"/>        <!-- LV-502 -->
+    <!-- vertical isolation valves -->
+    <polygon points="452,310 468,330 452,330 468,310"/>        <!-- HV-501A -->
+    <polygon points="692,310 708,330 692,330 708,310"/>        <!-- HV-501B -->
+    <polygon points="572,480 588,500 572,500 588,480"/>        <!-- HV-503A -->
+    <polygon points="812,480 828,500 812,500 828,480"/>        <!-- HV-503B -->
+    <!-- check valves: bowtie-free triangle + seat bar, vertical -->
+    <polygon points="572,450 588,450 580,432"/>                <!-- CV-501A -->
+    <polygon points="812,450 828,450 820,432"/>                <!-- CV-501B -->
+    <!-- actuators -->
+    <path d="M162 152 A8 8 0 0 1 178 152"/>
+    <path d="M892 532 A8 8 0 0 1 908 532"/>
+  </g>
+  <g stroke="#000" stroke-width="2">
+    <line x1="570" y1="430" x2="590" y2="430"/>
+    <line x1="810" y1="430" x2="830" y2="430"/>
+    <line x1="170" y1="144" x2="170" y2="152"/>
+    <line x1="900" y1="524" x2="900" y2="532"/>
+  </g>
+  <g>
+    <text x="170" y="185" text-anchor="middle" font-weight="bold">LV-501</text>
+    <text x="170" y="198" text-anchor="middle" font-size="10">FC</text>
+    <text x="900" y="568" text-anchor="middle" font-weight="bold">LV-502</text>
+    <text x="900" y="581" text-anchor="middle" font-size="10">FO</text>
+    <text x="476" y="324">HV-501A</text>
+    <text x="716" y="324">HV-501B</text>
+    <text x="596" y="448">CV-501A</text>
+    <text x="836" y="448">CV-501B</text>
+    <text x="596" y="508">HV-503A</text>
+    <text x="836" y="508">HV-503B</text>
+  </g>
+
+  <!-- ===== instruments ===== -->
+  <g fill="#fff" stroke="#06c" stroke-width="1.5">
+    <circle cx="420" cy="60" r="24"/>
+    <circle cx="300" cy="60" r="26"/>
+    <circle cx="1130" cy="230" r="24"/>
+    <circle cx="1130" cy="320" r="26"/>
+    <circle cx="700" cy="470" r="24"/>
+  </g>
+  <g fill="#000" text-anchor="middle" font-size="10" font-weight="bold">
+    <text x="420" y="64">LT-501</text>
+    <text x="300" y="64">LIC-501</text>
+    <text x="1130" y="234">LT-502</text>
+    <text x="1130" y="324">LIC-502</text>
+    <text x="700" y="474">PSL-501</text>
+  </g>
+  <g stroke="#06c" stroke-width="1">
+    <line x1="402" y1="60" x2="438" y2="60" opacity="0"/>
+  </g>
+  <g font-size="10" fill="#06c">
+    <text x="436" y="40">Level transmitter</text>
+    <text x="236" y="22" text-anchor="middle" opacity="0"> </text>
+    <text x="1160" y="262" text-anchor="end">Level transmitter</text>
+    <text x="1160" y="356" text-anchor="end">Level controller</text>
+    <text x="772" y="478">start P-501B on low pressure</text>
+  </g>
+
+  <!-- ===== notes ===== -->
+  <g stroke="#000" fill="none"><rect x="30" y="610" width="1140" height="95"/></g>
+  <g font-size="11">
+    <text x="42" y="628" font-weight="bold">Operating intent / P-501A trip</text>
+    <text x="42" y="645">1. Normal: P-501A runs and feeds V-502 through CV-501A, HV-503A and LV-502; P-501B is standby (HV-501B, HV-503B lined up open, CV-501B holds it isolated).</text>
+    <text x="42" y="660">2. P-501A trips: common discharge pressure falls, PSL-501 auto-starts P-501B; CV-501A stops backflow through the dead pump. LIC-502 keeps throttling LV-502 on drum level (LT-502).</text>
+    <text x="42" y="675">3. Deaerator: LIC-501 modulates LV-501 on D-501 level (LT-501); LV-501 fails closed (FC) so make-up stops on air or signal loss. LV-502 fails open (FO) to protect the drum from running dry.</text>
+    <text x="42" y="690">Dashed blue = instrument/control signal. This drawing shows the provisions only; hold-up times and overflow capacity of D-501 and V-502 need a separate check.</text>
+  </g>
+</svg>

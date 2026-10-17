@@ -30,6 +30,15 @@ entry says so under **Changed**.
 - `render_storyboard`, the same from an assistant: the board as a PNG to look
   at, an SVG or a PDF, or `out: "day.gif"` / `"day.mp4"` (MP4 needs ffmpeg).
   `at` picks the hours; `from`, `to`, `seconds`, `fps` and `linger` shape it.
+- **A P&ID evaluation** (`eval/pid/`): 31 scenarios, 15 of them on DEXPI
+  e.V.'s public example P&IDs, run blind with and without the MCP server
+  and graded by script, with the results in the docs.
+
+### Fixed
+
+- `import_dexpi` keeps the loop number of an instrument function numbered
+  with a trailing dot (`031.`, as in DEXPI's I05 ratio loop) instead of
+  numbering it afresh.
 
 ## 0.3.0
 

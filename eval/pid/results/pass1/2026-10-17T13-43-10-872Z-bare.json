@@ -1,0 +1,1329 @@
+{
+  "summary": {
+    "when": "2026-10-17T13:43:10.872Z",
+    "mode": "bare",
+    "model": "default",
+    "runs": 31,
+    "delivered": 1,
+    "static": 0.9348387096774193,
+    "behaviour": 0,
+    "cost": 13.946736300000003,
+    "seconds": 169.6451612903226,
+    "regraded": "2026-10-17T22:05:22.449Z"
+  },
+  "rows": [
+    {
+      "id": "c01-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c01-draw-XEZ8mS",
+      "exit": 0,
+      "scenario": "c01-draw",
+      "delivered": 1,
+      "static": 0.877,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 0.875,
+        "connections": 0.667,
+        "loops": 0.9,
+        "tags": 1,
+        "drawn": 0.696
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [
+          "instrument: TICSA 4750.03 on T4750 (Tank) (found 0 + 1 partly)"
+        ],
+        "connections": [
+          "connection: an off-page connector → P4711 (CentrifugalPump)",
+          "connection: P4712 (ReciprocatingPump) → an off-page connector",
+          "connection: H1008 (TubularHeatExchanger) → an off-page connector"
+        ],
+        "loops": ["loop: TICSA 4750.03 → TV4750.03 (measurement missing)"],
+        "tags": [],
+        "drawn": [
+          "drawn: ButterflyValve-1 is not on the drawing",
+          "drawn: SwingCheckValve-1 is not on the drawing",
+          "drawn: BallValve-1 is not on the drawing",
+          "drawn: BallValve-2 is not on the drawing",
+          "drawn: BallValve-3 is not on the drawing",
+          "drawn: BallValve-4 is not on the drawing",
+          "drawn: BallValve-5 is not on the drawing"
+        ]
+      },
+      "notes": [],
+      "items": 23,
+      "calls": 6,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Read!", "Read", "Read", "Write", "Edit", "Write"],
+      "turns": 7,
+      "cost": 2.0571529,
+      "seconds": 473
+    },
+    {
+      "id": "c02-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c02-draw-ltOfqG",
+      "exit": 0,
+      "scenario": "c02-draw",
+      "delivered": 1,
+      "static": 0.782,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 0,
+        "loops": 1,
+        "tags": 0.922,
+        "drawn": 0.84
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [
+          "connection: K 2750 (ProcessColumn) → an off-page connector"
+        ],
+        "loops": [],
+        "tags": [
+          "tags: \"SubTaggedColumnSection-1\" is not an ISA / plant tag"
+        ],
+        "drawn": [
+          "drawn: N1 is not on the drawing",
+          "drawn: N3 is not on the drawing",
+          "drawn: H658B1UV (OperatedValve-2) is not on the drawing",
+          "drawn: H658B1UV (OperatedValve-3) is not on the drawing"
+        ]
+      },
+      "notes": [],
+      "items": 25,
+      "calls": 7,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Read", "Read", "Grep!", "Read", "Read", "Write", "Write"],
+      "turns": 8,
+      "cost": 0.7409936000000001,
+      "seconds": 310
+    },
+    {
+      "id": "i05-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-i05-draw-KQRSKy",
+      "exit": 0,
+      "scenario": "i05-draw",
+      "delivered": 1,
+      "static": 0.961,
+      "behaviour": null,
+      "scores": {
+        "valves": 1,
+        "instruments": 1,
+        "loops": 0.963,
+        "tags": 0.767,
+        "drawn": 1
+      },
+      "missing": {
+        "valves": [],
+        "instruments": [],
+        "loops": [
+          "loop: YC 031.4 / FFIC 031 / FI 031.2 / FI 031.1 → GlobeValve-1 (measurement missing)"
+        ],
+        "tags": [
+          "tags: \"PipingNetworkSegment-1\" is not an ISA / plant tag",
+          "tags: \"GlobeValve-1\" is not an ISA / plant tag"
+        ],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 7,
+      "calls": 5,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Read", "Write", "Bash!", "Write", "Write"],
+      "turns": 6,
+      "cost": 0.13383810000000002,
+      "seconds": 58
+    },
+    {
+      "id": "c03-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c03-draw-gpFphT",
+      "exit": 0,
+      "scenario": "c03-draw",
+      "delivered": 1,
+      "static": 0.934,
+      "behaviour": null,
+      "scores": {
+        "valves": 1,
+        "instruments": 1,
+        "loops": 1,
+        "tags": 0.475,
+        "drawn": 1
+      },
+      "missing": {
+        "valves": [],
+        "instruments": [],
+        "loops": [],
+        "tags": [
+          "tags: \"ControlledActuator-1\" is not an ISA / plant tag",
+          "tags: \"ESD\" is not an ISA / plant tag",
+          "tags: \"RestrictionOrifice-1\" is not an ISA / plant tag"
+        ],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 13,
+      "calls": 6,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Read", "Read", "Write", "Bash!", "Write", "Write"],
+      "turns": 7,
+      "cost": 0.3374416,
+      "seconds": 131
+    },
+    {
+      "id": "e06-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-e06-draw-h6gRRX",
+      "exit": 0,
+      "scenario": "e06-draw",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "connections": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "connections": [],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 2,
+      "calls": 3,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Read", "Write", "Write"],
+      "turns": 4,
+      "cost": 0.0387816,
+      "seconds": 18
+    },
+    {
+      "id": "i04-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-i04-draw-aDjc93",
+      "exit": 0,
+      "scenario": "i04-draw",
+      "delivered": 1,
+      "static": 0.775,
+      "behaviour": null,
+      "scores": {
+        "valves": 0.5,
+        "instruments": 1,
+        "loops": 0.6,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "valves": ["valve: FV 04 (actuated GlobeValve) (found 0 + 1 partly)"],
+        "instruments": [],
+        "loops": ["loop: FIC 04 → FV 04 (final element not reached)"],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 4,
+      "calls": 3,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Read", "Write", "Write"],
+      "turns": 4,
+      "cost": 0.0572625,
+      "seconds": 29
+    },
+    {
+      "id": "i06-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-i06-draw-NZQTOK",
+      "exit": 0,
+      "scenario": "i06-draw",
+      "delivered": 1,
+      "static": 0.933,
+      "behaviour": null,
+      "scores": {
+        "valves": 1,
+        "instruments": 0.833,
+        "loops": 0.9,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "valves": [],
+        "instruments": ["instrument: FIC 032 on control (found 0 + 1 partly)"],
+        "loops": [
+          "loop: YCS 033 / FIC 032 / US 031 → GlobeValve-1 (measurement missing)"
+        ],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 5,
+      "calls": 3,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Read", "Write", "Write"],
+      "turns": 4,
+      "cost": 0.0927923,
+      "seconds": 45
+    },
+    {
+      "id": "i08-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-i08-draw-BTiHuU",
+      "exit": 0,
+      "scenario": "i08-draw",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": null,
+      "scores": {
+        "instruments": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "instruments": [],
+        "loops": [],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 5,
+      "calls": 3,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Read", "Write", "Write"],
+      "turns": 4,
+      "cost": 0.0767109,
+      "seconds": 39
+    },
+    {
+      "id": "c01-words",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c01-words-nLweop",
+      "exit": 0,
+      "scenario": "c01-words",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 28,
+      "calls": 10,
+      "errors": 1,
+      "denied": 0,
+      "tools": [
+        "Write",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Bash!",
+        "Write",
+        "Write"
+      ],
+      "turns": 11,
+      "cost": 0.5554174000000001,
+      "seconds": 297
+    },
+    {
+      "id": "c02-words",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c02-words-384c3y",
+      "exit": 0,
+      "scenario": "c02-words",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 20,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.13508430000000002,
+      "seconds": 78
+    },
+    {
+      "id": "i05-words",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-i05-words-2FwdrL",
+      "exit": 0,
+      "scenario": "i05-words",
+      "delivered": 1,
+      "static": 0.981,
+      "behaviour": null,
+      "scores": {
+        "valves": 1,
+        "instruments": 1,
+        "loops": 0.925,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "valves": [],
+        "instruments": [],
+        "loops": [
+          "loop: YC 031.4 / FFIC 031 / FI 031.2 / FI 031.1 → GlobeValve-1 (measurement missing)"
+        ],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 5,
+      "calls": 4,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write", "Edit", "Edit"],
+      "turns": 5,
+      "cost": 0.07651730000000001,
+      "seconds": 43
+    },
+    {
+      "id": "c01-bypass",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c01-bypass-u90jso",
+      "exit": 0,
+      "scenario": "c01-bypass",
+      "delivered": 1,
+      "static": 0.888,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 0.875,
+        "connections": 0.682,
+        "loops": 0.8,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [
+          "instrument: TICSA 4750.03 on T4750 (Tank) (found 0 + 1 partly)"
+        ],
+        "connections": [
+          "connection: an off-page connector → P4711 (CentrifugalPump)",
+          "connection: P4712 (ReciprocatingPump) → an off-page connector",
+          "connection: H1008 (TubularHeatExchanger) → an off-page connector",
+          "connection: a bypass from H-1008 to T-4750 that goes round PV-4712.02 through a valve (connected, but not by that route)"
+        ],
+        "loops": [
+          "loop: PICSA 4712.02 → PV4712.02 (measurement missing)",
+          "loop: TICSA 4750.03 → TV4750.03 (measurement missing)"
+        ],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 26,
+      "calls": 6,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Read!", "Read", "Read", "Write", "Edit", "Write"],
+      "turns": 7,
+      "cost": 2.1767413,
+      "seconds": 522
+    },
+    {
+      "id": "c01-standby",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c01-standby-qMs137",
+      "exit": 0,
+      "scenario": "c01-standby",
+      "delivered": 1,
+      "static": 0.972,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 0.875,
+        "connections": 1,
+        "loops": 1,
+        "tags": 0.878,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [
+          "instrument: TICSA 4750.03 on T4750 (Tank) (found 0 + 1 partly)"
+        ],
+        "connections": [],
+        "loops": [],
+        "tags": [
+          "tags: \"LineEnd-47130\" is not an ISA / plant tag",
+          "tags: \"LineEnd-47131\" is not an ISA / plant tag",
+          "tags: \"LineEnd-47140\" is not an ISA / plant tag",
+          "tags: \"LineEnd-47141\" is not an ISA / plant tag"
+        ],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 43,
+      "calls": 16,
+      "errors": 2,
+      "denied": 0,
+      "tools": [
+        "Read!",
+        "Read",
+        "Read!",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Write",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Write"
+      ],
+      "turns": 17,
+      "cost": 2.7311045999999997,
+      "seconds": 838
+    },
+    {
+      "id": "c02-trip",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c02-trip-XG5MxE",
+      "exit": 0,
+      "scenario": "c02-trip",
+      "delivered": 1,
+      "static": 0.99,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 0.867
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": [
+          "drawn: OPC-2765 is not on the drawing",
+          "drawn: OPC-FEED is not on the drawing"
+        ]
+      },
+      "notes": [],
+      "items": 15,
+      "calls": 8,
+      "errors": 1,
+      "denied": 0,
+      "tools": [
+        "Read",
+        "Grep!",
+        "Read",
+        "Read",
+        "Read",
+        "Write",
+        "Write",
+        "Edit"
+      ],
+      "turns": 9,
+      "cost": 1.1831471000000002,
+      "seconds": 445
+    },
+    {
+      "id": "e06-modify",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-e06-modify-qjYnww",
+      "exit": 0,
+      "scenario": "e06-modify",
+      "delivered": 1,
+      "static": 0.955,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 0.7,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": ["loop: TT-1009 → TIC-1009 → TV-1009 (measurement missing)"],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 12,
+      "calls": 4,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Read", "Write", "Edit", "Write"],
+      "turns": 5,
+      "cost": 0.10637369999999999,
+      "seconds": 59
+    },
+    {
+      "id": "transfer-level",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-transfer-level-oYqpqc",
+      "exit": 0,
+      "scenario": "transfer-level",
+      "delivered": 1,
+      "static": 0.918,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 0.75,
+        "connections": 1,
+        "loops": 0.7,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [
+          "instrument: LT-102 on tank T-102 (found 0 + 2 partly)",
+          "instrument: LT-101 on tank T-101 (found 0 + 2 partly)"
+        ],
+        "connections": [],
+        "loops": [
+          "loop: LT-102 → LIC-102 → LV-102 (measurement missing)",
+          "loop: low level on T-101 protects P-101 (measurement missing)"
+        ],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 11,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.0797398,
+      "seconds": 46
+    },
+    {
+      "id": "hx-temperature",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-hx-temperature-5grWWL",
+      "exit": 0,
+      "scenario": "hx-temperature",
+      "delivered": 1,
+      "static": 0.918,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 0.75,
+        "connections": 1,
+        "loops": 0.7,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [
+          "instrument: TT-201 on heat exchanger E-201 or offpage (found 0 + 1 partly)"
+        ],
+        "connections": [],
+        "loops": ["loop: TT-201 → TIC-201 → TV-201 (measurement missing)"],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 11,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.10628880000000002,
+      "seconds": 61
+    },
+    {
+      "id": "dosing-skid",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-dosing-skid-ApUaP8",
+      "exit": 0,
+      "scenario": "dosing-skid",
+      "delivered": 1,
+      "static": 0.93,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 0.667,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 0.958
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [
+          "connection: P-301A → injection point through a check valve",
+          "connection: P-301B → injection point through a check valve"
+        ],
+        "loops": [],
+        "tags": [],
+        "drawn": ["drawn: TWM-301 is not on the drawing"],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 24,
+      "calls": 5,
+      "errors": 2,
+      "denied": 0,
+      "tools": ["Read!", "Write", "Bash!", "Write", "Write"],
+      "turns": 6,
+      "cost": 0.5239803000000001,
+      "seconds": 292
+    },
+    {
+      "id": "compressor-antisurge",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-compressor-antisurge-Krlddl",
+      "exit": 0,
+      "scenario": "compressor-antisurge",
+      "delivered": 1,
+      "static": 0.949,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 0.7,
+        "tags": 1,
+        "drawn": 0.917
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [
+          "loop: FT-401 and PT-402 → UIC-401 → FV-401 (measurement missing)"
+        ],
+        "tags": [],
+        "drawn": ["drawn: OSC-3 is not on the drawing"],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 12,
+      "calls": 3,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Bash!", "Write", "Write"],
+      "turns": 4,
+      "cost": 0.1755356,
+      "seconds": 95
+    },
+    {
+      "id": "boiler-feedwater",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-boiler-feedwater-sA0Mvi",
+      "exit": 0,
+      "scenario": "boiler-feedwater",
+      "delivered": 1,
+      "static": 0.893,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 0.8,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 0.667,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": ["equipment: make-up in and steam out ×2 (found 0)"],
+        "valves": [],
+        "instruments": [],
+        "connections": [
+          "connection: make-up → D-501 through LV-501",
+          "connection: steam leaves V-502 off the sheet"
+        ],
+        "loops": [],
+        "tags": [],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 19,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.18886870000000006,
+      "seconds": 110
+    },
+    {
+      "id": "cooling-water",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-cooling-water-INdm2S",
+      "exit": 0,
+      "scenario": "cooling-water",
+      "delivered": 1,
+      "static": 0.935,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 0.7,
+        "tags": 1,
+        "drawn": 0.733
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": ["loop: TT-601 → TIC-601 → TV-601 (measurement missing)"],
+        "tags": [],
+        "drawn": [
+          "drawn: CT-601 is not on the drawing",
+          "drawn: E-601 is not on the drawing",
+          "drawn: BL-601 is not on the drawing",
+          "drawn: BL-602 is not on the drawing"
+        ],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 15,
+      "calls": 4,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Bash!", "Write", "Write"],
+      "turns": 5,
+      "cost": 0.202517,
+      "seconds": 105
+    },
+    {
+      "id": "separator-control",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-separator-control-CXqE7v",
+      "exit": 0,
+      "scenario": "separator-control",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 14,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.10149920000000001,
+      "seconds": 55
+    },
+    {
+      "id": "tank-farm-overfill",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-tank-farm-overfill-w9cV1e",
+      "exit": 0,
+      "scenario": "tank-farm-overfill",
+      "delivered": 1,
+      "static": 0.898,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 0.625,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 0.8,
+        "tags": 0.79,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [
+          "valve: shutdown valve XV-801 (found 0 + 1 partly)",
+          "valve: shutdown valve XV-802 (found 0 + 1 partly)",
+          "valve: shutdown valve XV-803 (found 0 + 1 partly)"
+        ],
+        "instruments": [],
+        "connections": [],
+        "loops": [
+          "loop: LSHH-811 closes XV-801 (final element not reached)",
+          "loop: LSHH-812 closes XV-802 (final element not reached)",
+          "loop: LSHH-813 closes XV-803 (final element not reached)"
+        ],
+        "tags": [
+          "tags: \"LT/LAH-801\" is not an ISA / plant tag",
+          "tags: \"LT/LAH-802\" is not an ISA / plant tag",
+          "tags: \"LT/LAH-803\" is not an ISA / plant tag"
+        ],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 18,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.22845150000000003,
+      "seconds": 131
+    },
+    {
+      "id": "duplex-filter",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-duplex-filter-EQPqDw",
+      "exit": 0,
+      "scenario": "duplex-filter",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 18,
+      "calls": 6,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Edit", "Edit", "Bash!", "Write", "Write"],
+      "turns": 7,
+      "cost": 0.22067550000000002,
+      "seconds": 123
+    },
+    {
+      "id": "reactor-jacket",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-reactor-jacket-55kn2B",
+      "exit": 0,
+      "scenario": "reactor-jacket",
+      "delivered": 1,
+      "static": 0.991,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 0.882
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": [
+          "drawn: AG-1001 is not on the drawing",
+          "drawn: P-1001 is not on the drawing"
+        ]
+      },
+      "notes": [],
+      "items": 17,
+      "calls": 6,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Read", "Bash!", "Write", "Write", "Edit"],
+      "turns": 7,
+      "cost": 0.17995980000000003,
+      "seconds": 92
+    },
+    {
+      "id": "distillation-reflux",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-distillation-reflux-kc62Le",
+      "exit": 0,
+      "scenario": "distillation-reflux",
+      "delivered": 1,
+      "static": 0.93,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 0.833,
+        "connections": 1,
+        "loops": 0.7,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [
+          "instrument: LT-1101 on reflux drum V-1101 (found 0 + 2 partly)",
+          "instrument: TT-1102 on column C-1101 (found 0 + 1 partly)",
+          "instrument: LT-1103 on column C-1101 (found 0 + 2 partly)"
+        ],
+        "connections": [],
+        "loops": [
+          "loop: FIC-1101 → FV-1101 (measurement missing)",
+          "loop: LIC-1101 → LV-1101 (measurement missing)",
+          "loop: TIC-1102 → TV-1102 (measurement missing)",
+          "loop: LIC-1103 → LV-1103 (measurement missing)",
+          "loop: PIC-1104 → PV-1104 (measurement missing)"
+        ],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 28,
+      "calls": 6,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Edit", "Edit", "Bash!", "Write", "Write"],
+      "turns": 7,
+      "cost": 0.45191870000000006,
+      "seconds": 249
+    },
+    {
+      "id": "ratio-blend",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-ratio-blend-2eVydb",
+      "exit": 0,
+      "scenario": "ratio-blend",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 9,
+      "calls": 6,
+      "errors": 3,
+      "denied": 2,
+      "tools": ["Write", "Bash!", "Write!", "Write!", "Write", "Write"],
+      "turns": 7,
+      "cost": 0.22376479999999999,
+      "seconds": 102
+    },
+    {
+      "id": "prv-station",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-prv-station-Aeehgb",
+      "exit": 0,
+      "scenario": "prv-station",
+      "delivered": 1,
+      "static": 0.863,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 0.667,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 0.75,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [
+          "equipment: trunk main in, district main out and the drain ×3 (found 1)"
+        ],
+        "valves": [],
+        "instruments": [],
+        "connections": ["connection: district main → drain through PSV-1301"],
+        "tags": [],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 13,
+      "calls": 4,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Bash!", "Write", "Write"],
+      "turns": 5,
+      "cost": 0.1656325,
+      "seconds": 85
+    },
+    {
+      "id": "chemical-injection",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-chemical-injection-YANOAP",
+      "exit": 0,
+      "scenario": "chemical-injection",
+      "delivered": 1,
+      "static": 0.863,
+      "behaviour": null,
+      "scores": {
+        "equipment": 0.75,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 0.667,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": ["equipment: the export pipeline (found 0)"],
+        "valves": [],
+        "instruments": [],
+        "connections": [
+          "connection: P-1401 → pipeline through two check valves and an isolating valve"
+        ],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 14,
+      "calls": 4,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Bash!", "Write", "Write"],
+      "turns": 5,
+      "cost": 0.14234189999999997,
+      "seconds": 73
+    },
+    {
+      "id": "lift-station",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-lift-station-CyaSTO",
+      "exit": 0,
+      "scenario": "lift-station",
+      "delivered": 1,
+      "static": 0.844,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 0,
+        "tags": 1,
+        "drawn": 0.917
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": ["loop: LT-1501 → PLC → the pumps (no controller)"],
+        "tags": [],
+        "drawn": ["drawn: WW-1501 is not on the drawing"],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 12,
+      "calls": 4,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Bash!", "Write", "Write"],
+      "turns": 5,
+      "cost": 0.26604750000000005,
+      "seconds": 145
+    },
+    {
+      "id": "raw-water-standby",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-raw-water-standby-l3Ljfu",
+      "exit": 0,
+      "scenario": "raw-water-standby",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 17,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.1901555,
+      "seconds": 110
+    }
+  ]
+}

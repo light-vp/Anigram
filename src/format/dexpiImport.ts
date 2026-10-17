@@ -955,9 +955,10 @@ function readInstruments(
     const fns = (
       a.ProcessInstrumentationFunctionsAssignmentClass ?? ''
     ).toUpperCase()
-    const number = (
-      a.ProcessInstrumentationFunctionNumberAssignmentClass ?? ''
-    ).replace(/[^0-9A-Za-z.]/g, '')
+    const number = (a.ProcessInstrumentationFunctionNumberAssignmentClass ?? '')
+      .replace(/[^0-9A-Za-z.]/g, '')
+      // a loop's own function is often numbered `031.`, the loop with nothing after it
+      .replace(/\.$/, '')
     let tag = `${cat}${fns}`.replace(/[^A-Z]/g, '').slice(0, 5) || 'X'
     tag = `${tag}-${number || 100 + i}`
     if (!isIsaTag(tag)) tag = `${tag.split('-')[0]}-${100 + i}`

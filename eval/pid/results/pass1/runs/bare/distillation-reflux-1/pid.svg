@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1000" width="1200" height="1000" font-family="Arial, Helvetica, sans-serif">
+<defs>
+<marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#222"/></marker>
+<marker id="sa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c0392b"/></marker>
+<clipPath id="cc"><rect x="300" y="120" width="100" height="520" rx="35"/></clipPath>
+<clipPath id="cd"><rect x="630" y="255" width="140" height="70" rx="35"/></clipPath>
+<style>
+.pipe{stroke:#222;stroke-width:2.2;fill:none}
+.sig{stroke:#c0392b;stroke-width:1.4;stroke-dasharray:6 4;fill:none}
+.thin{stroke:#222;stroke-width:1.2;fill:none}
+.eq{fill:#fff;stroke:#222;stroke-width:2}
+.fill{fill:#222}
+.tray{stroke:#777;stroke-width:1}
+.os{fill:#eef3f8;stroke:#444;stroke-width:1.3}
+.t{fill:#222} .tb{fill:#111;font-weight:bold} .g{fill:#666}
+</style>
+</defs>
+<rect width="1200" height="1000" fill="#fff"/>
+
+<text x="20" y="30" font-size="16" class="tb">P&amp;ID — Distillation Column C-1101 (reflux, reboiler and condenser)</text>
+
+<g transform="translate(0,50)">
+
+<!-- Column C-1101 -->
+<rect x="300" y="600" width="100" height="40" fill="#cfe4f7" clip-path="url(#cc)"/>
+<rect x="300" y="120" width="100" height="520" rx="35" class="eq"/>
+<line x1="302" y1="215" x2="398" y2="215" class="tray"/>
+<line x1="302" y1="250" x2="398" y2="250" class="tray"/>
+<line x1="302" y1="285" x2="398" y2="285" class="tray"/>
+<line x1="302" y1="320" x2="398" y2="320" class="tray"/>
+<line x1="302" y1="355" x2="398" y2="355" class="tray"/>
+<line x1="302" y1="390" x2="398" y2="390" class="tray"/>
+<line x1="302" y1="425" x2="398" y2="425" class="tray"/>
+<line x1="302" y1="460" x2="398" y2="460" class="tray"/>
+<line x1="302" y1="495" x2="398" y2="495" class="tray"/>
+<line x1="302" y1="530" x2="398" y2="530" class="tray"/>
+<line x1="302" y1="565" x2="398" y2="565" class="tray"/>
+<text x="290" y="150" font-size="12" text-anchor="end" class="tb">C-1101</text>
+<text x="290" y="164" font-size="10" text-anchor="end" class="g">Distillation column</text>
+
+<!-- Condenser E-1101 -->
+<circle cx="700" cy="150" r="40" class="eq"/>
+<polyline points="670,150 680,134 692,166 704,134 716,166 728,134 734,150" class="thin"/>
+<text x="650" y="142" font-size="11" text-anchor="end" class="tb">E-1101</text>
+<text x="650" y="156" font-size="10" text-anchor="end" class="g">Condenser</text>
+
+<!-- Reflux drum V-1101 -->
+<rect x="630" y="295" width="140" height="30" fill="#cfe4f7" clip-path="url(#cd)"/>
+<rect x="630" y="255" width="140" height="70" rx="35" class="eq"/>
+<text x="700" y="282" font-size="12" text-anchor="middle" class="tb">V-1101</text>
+<text x="700" y="296" font-size="10" text-anchor="middle" class="g">Reflux drum</text>
+
+<!-- Reboiler E-1102 -->
+<circle cx="560" cy="720" r="35" class="eq"/>
+<polyline points="535,720 545,706 555,734 565,706 575,734 585,720" class="thin"/>
+<text x="515" y="716" font-size="11" text-anchor="end" class="tb">E-1102</text>
+<text x="515" y="730" font-size="10" text-anchor="end" class="g">Reboiler</text>
+
+<!-- Process pipes -->
+<polyline class="pipe" points="150,380 300,380" marker-end="url(#pa)"/>
+<polyline class="pipe" points="350,120 350,60 700,60 700,110" marker-end="url(#pa)"/>
+<polyline class="pipe" points="700,190 700,255" marker-end="url(#pa)"/>
+<polyline class="pipe" points="700,325 700,398" marker-end="url(#pa)"/>
+<polyline class="pipe" points="678,420 600,420 600,190 400,190" marker-end="url(#pa)"/>
+<polyline class="pipe" points="600,420 600,500 1050,500" marker-end="url(#pa)"/>
+<polyline class="pipe" points="350,670 560,670 560,685" marker-end="url(#pa)"/>
+<polyline class="pipe" points="592,705 630,705 630,590 400,590" marker-end="url(#pa)"/>
+<polyline class="pipe" points="350,640 350,838"/>
+<polyline class="pipe" points="372,860 1050,860" marker-end="url(#pa)"/>
+<polyline class="pipe" points="1050,738 590,738" marker-end="url(#pa)"/>
+<polyline class="pipe" points="560,755 560,785 1050,785" marker-end="url(#pa)"/>
+<polyline class="pipe" points="1050,170 735,170" marker-end="url(#pa)"/>
+<polyline class="pipe" points="735,130 1050,130" marker-end="url(#pa)"/>
+<circle cx="600" cy="420" r="3.5" class="fill"/>
+<circle cx="350" cy="670" r="3.5" class="fill"/>
+
+<!-- Off-sheet connectors -->
+<polygon points="20,366 130,366 150,380 130,394 20,394" class="os"/>
+<text x="75" y="384" font-size="10" text-anchor="middle" class="tb">FEED</text>
+<polygon points="1050,486 1160,486 1180,500 1160,514 1050,514" class="os"/>
+<text x="1105" y="504" font-size="10" text-anchor="middle" class="tb">DISTILLATE</text>
+<polygon points="1050,846 1160,846 1180,860 1160,874 1050,874" class="os"/>
+<text x="1105" y="864" font-size="10" text-anchor="middle" class="tb">BOTTOMS</text>
+<polygon points="1050,738 1070,724 1180,724 1180,752 1070,752" class="os"/>
+<text x="1125" y="742" font-size="10" text-anchor="middle" class="tb">STEAM</text>
+<polygon points="1050,771 1160,771 1180,785 1160,799 1050,799" class="os"/>
+<text x="1105" y="789" font-size="10" text-anchor="middle" class="tb">CONDENSATE</text>
+<polygon points="1050,170 1070,156 1180,156 1180,184 1070,184" class="os"/>
+<text x="1125" y="174" font-size="10" text-anchor="middle" class="tb">CW-SUPPLY</text>
+<polygon points="1050,116 1160,116 1180,130 1160,144 1050,144" class="os"/>
+<text x="1105" y="134" font-size="10" text-anchor="middle" class="tb">CW-RETURN</text>
+
+<!-- Pumps -->
+<circle cx="700" cy="420" r="22" class="eq"/>
+<polygon points="686,420 708,409 708,431" class="fill"/>
+<text x="700" y="460" font-size="11" text-anchor="middle" class="tb">P-1101</text>
+<text x="700" y="473" font-size="10" text-anchor="middle" class="g">Reflux pump</text>
+<circle cx="350" cy="860" r="22" class="eq"/>
+<polygon points="364,860 342,849 342,871" class="fill"/>
+<text x="350" y="900" font-size="11" text-anchor="middle" class="tb">P-1102</text>
+<text x="350" y="913" font-size="10" text-anchor="middle" class="g">Bottoms pump</text>
+
+<!-- Control valves (bow-tie + stem + diaphragm actuator) -->
+<polygon points="430,180 450,200 450,180 430,200" class="eq"/><line x1="440" y1="190" x2="440" y2="170" class="thin"/><path d="M 430 170 A 10 10 0 0 1 450 170 Z" class="eq"/>
+<text x="456" y="210" font-size="10" class="tb">FV-1101</text>
+<polygon points="790,490 810,510 810,490 790,510" class="eq"/><line x1="800" y1="500" x2="800" y2="480" class="thin"/><path d="M 790 480 A 10 10 0 0 1 810 480 Z" class="eq"/>
+<text x="816" y="520" font-size="10" class="tb">LV-1101</text>
+<polygon points="790,728 810,748 810,728 790,748" class="eq"/><line x1="800" y1="738" x2="800" y2="718" class="thin"/><path d="M 790 718 A 10 10 0 0 1 810 718 Z" class="eq"/>
+<text x="816" y="758" font-size="10" class="tb">TV-1102</text>
+<polygon points="690,850 710,870 710,850 690,870" class="eq"/><line x1="700" y1="860" x2="700" y2="840" class="thin"/><path d="M 690 840 A 10 10 0 0 1 710 840 Z" class="eq"/>
+<text x="716" y="880" font-size="10" class="tb">LV-1103</text>
+<polygon points="770,160 790,180 790,160 770,180" class="eq"/><line x1="780" y1="170" x2="780" y2="150" class="thin"/><path d="M 770 150 A 10 10 0 0 1 790 150 Z" class="eq"/>
+<text x="796" y="200" font-size="10" class="tb">PV-1104</text>
+
+<!-- Instrument sensing connections -->
+<line x1="450" y1="31" x2="450" y2="60" class="thin"/>
+<line x1="560" y1="126" x2="560" y2="190" class="thin"/>
+<line x1="804" y1="290" x2="770" y2="290" class="thin"/>
+<line x1="434" y1="540" x2="400" y2="540" class="thin"/>
+<line x1="256" y1="590" x2="300" y2="590" class="thin"/>
+
+<!-- Instrument bubbles: transmitters (field) -->
+<circle cx="450" cy="5" r="26" class="eq"/><text x="450" y="9" font-size="10" text-anchor="middle" class="tb">PT-1104</text>
+<circle cx="560" cy="100" r="26" class="eq"/><text x="560" y="104" font-size="10" text-anchor="middle" class="tb">FT-1101</text>
+<circle cx="830" cy="290" r="26" class="eq"/><text x="830" y="294" font-size="10" text-anchor="middle" class="tb">LT-1101</text>
+<circle cx="460" cy="540" r="26" class="eq"/><text x="460" y="544" font-size="10" text-anchor="middle" class="tb">TT-1102</text>
+<circle cx="230" cy="590" r="26" class="eq"/><text x="230" y="594" font-size="10" text-anchor="middle" class="tb">LT-1103</text>
+
+<!-- Controllers (DCS: line through bubble) -->
+<circle cx="540" cy="5" r="26" class="eq"/><line x1="514" y1="5" x2="566" y2="5" class="thin"/><text x="540" y="1" font-size="10" text-anchor="middle" class="tb">PIC-1104</text><text x="540" y="19" font-size="8" text-anchor="middle" class="g">DCS</text>
+<circle cx="490" cy="100" r="26" class="eq"/><line x1="464" y1="100" x2="516" y2="100" class="thin"/><text x="490" y="96" font-size="10" text-anchor="middle" class="tb">FIC-1101</text><text x="490" y="114" font-size="8" text-anchor="middle" class="g">DCS</text>
+<circle cx="910" cy="290" r="26" class="eq"/><line x1="884" y1="290" x2="936" y2="290" class="thin"/><text x="910" y="286" font-size="10" text-anchor="middle" class="tb">LIC-1101</text><text x="910" y="304" font-size="8" text-anchor="middle" class="g">DCS</text>
+<circle cx="540" cy="540" r="26" class="eq"/><line x1="514" y1="540" x2="566" y2="540" class="thin"/><text x="540" y="536" font-size="10" text-anchor="middle" class="tb">TIC-1102</text><text x="540" y="554" font-size="8" text-anchor="middle" class="g">DCS</text>
+<circle cx="230" cy="670" r="26" class="eq"/><line x1="204" y1="670" x2="256" y2="670" class="thin"/><text x="230" y="666" font-size="10" text-anchor="middle" class="tb">LIC-1103</text><text x="230" y="684" font-size="8" text-anchor="middle" class="g">DCS</text>
+
+<!-- Signals -->
+<polyline class="sig" points="534,100 516,100" marker-end="url(#sa)"/>
+<polyline class="sig" points="490,126 490,145 440,145 440,160" marker-end="url(#sa)"/>
+<polyline class="sig" points="856,290 884,290" marker-end="url(#sa)"/>
+<polyline class="sig" points="910,316 910,455 800,455 800,470" marker-end="url(#sa)"/>
+<polyline class="sig" points="486,540 514,540" marker-end="url(#sa)"/>
+<polyline class="sig" points="566,540 800,540 800,708" marker-end="url(#sa)"/>
+<polyline class="sig" points="230,616 230,644" marker-end="url(#sa)"/>
+<polyline class="sig" points="230,696 230,812 700,812 700,830" marker-end="url(#sa)"/>
+<polyline class="sig" points="476,5 514,5" marker-end="url(#sa)"/>
+<polyline class="sig" points="566,5 780,5 780,140" marker-end="url(#sa)"/>
+
+<!-- Control-loop summary -->
+<rect x="840" y="570" width="340" height="112" fill="#fafafa" stroke="#888"/>
+<text x="850" y="588" font-size="10" class="tb">CONTROL LOOPS</text>
+<text x="850" y="604" font-size="10" class="t">FIC-1101: reflux flow (FT-1101) → FV-1101 to top tray</text>
+<text x="850" y="620" font-size="10" class="t">LIC-1101: drum level (LT-1101) → LV-1101 distillate</text>
+<text x="850" y="636" font-size="10" class="t">TIC-1102: tray temp (TT-1102) → TV-1102 reboiler steam</text>
+<text x="850" y="652" font-size="10" class="t">LIC-1103: sump level (LT-1103) → LV-1103 bottoms</text>
+<text x="850" y="668" font-size="10" class="t">PIC-1104: overhead pressure (PT-1104) → PV-1104 CW</text>
+
+</g>
+
+<!-- Legend -->
+<text x="20" y="1000" font-size="1" fill="#fff"> </text>
+<text x="20" y="948" font-size="10" class="t">Process line</text>
+<line x1="90" y1="944" x2="140" y2="944" class="pipe"/>
+<text x="20" y="966" font-size="10" class="t">Signal</text>
+<line x1="90" y1="962" x2="140" y2="962" class="sig"/>
+<text x="160" y="948" font-size="10" class="t">Plain bubble = field transmitter</text>
+<text x="160" y="966" font-size="10" class="t">Bubble with line = DCS controller</text>
+</svg>

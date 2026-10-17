@@ -1,0 +1,100 @@
+{
+  "items": [
+    {
+      "tag": "K 2750",
+      "type": "column",
+      "label": "Column (Kolonne), 500 x 14000 mm, 1.4571, pe=6/-1 bar, 150 °C"
+    },
+    {
+      "tag": "KX 2750",
+      "type": "column section with packing arrangement",
+      "label": "Section 1 Ventilböden, 600 mm, 1.4571"
+    },
+    {
+      "tag": "SubTaggedColumnSection-1",
+      "type": "column section with packing arrangement",
+      "label": "Packed bed in K 2750 (no tag in source)"
+    },
+    {
+      "tag": "PipeReducer-1",
+      "type": "pipe reducer",
+      "label": "Reducer DN200/DN150 on nozzle N1"
+    },
+    {
+      "tag": "2765",
+      "type": "off-page connector",
+      "label": "Outlet to off-page connector W 2765, line 2750.001.6-0N-2170.8503-150/10HB25T10B1-B40-"
+    },
+    {
+      "tag": "PipeTee-1",
+      "type": "pipe tee",
+      "label": "Tee DN150/DN150/DN80 on nozzle N3"
+    },
+    {
+      "tag": "H672B1V",
+      "type": "operated valve",
+      "label": "Valve DN80 AS9 on DN80 branch of the tee"
+    },
+    {
+      "tag": "BlindFlange-1",
+      "type": "blind flange",
+      "label": "DN80/DN25 transition on nozzle P3"
+    },
+    {
+      "tag": "H658B1UV (P3)",
+      "type": "operated valve",
+      "label": "Valve DN25 AS9 2170.8503 on tapping line P3"
+    },
+    {
+      "tag": "BlindFlange-2",
+      "type": "blind flange",
+      "label": "Measuring point at end of tapping line P3"
+    },
+    {
+      "tag": "BlindFlange-3",
+      "type": "blind flange",
+      "label": "DN80/DN25 transition on nozzle P4"
+    },
+    {
+      "tag": "H658B1UV (P4)",
+      "type": "operated valve",
+      "label": "Valve DN25 AS9 2170.8503 on tapping line P4"
+    },
+    {
+      "tag": "BlindFlange-4",
+      "type": "blind flange",
+      "label": "Measuring point at end of tapping line P4"
+    },
+    {
+      "tag": "PI(Z) 275003A",
+      "type": "pressure indicator (central location)",
+      "label": "Pressure indication I(Z) 275003A, tap P3"
+    },
+    {
+      "tag": "PI(Z) 275003B",
+      "type": "pressure indicator (central location)",
+      "label": "Pressure indication I(Z) 275003B, tap P4"
+    },
+    {
+      "tag": "PIS⁺Z⁺A 275003",
+      "type": "pressure indicating switch with alarm (central location)",
+      "label": "Pressure function IS⁺Z⁺A 275003, fed by 275003A and 275003B"
+    }
+  ],
+  "lines": [
+    { "from": "K 2750", "to": "PipeReducer-1", "kind": "process" },
+    { "from": "PipeReducer-1", "to": "2765", "kind": "process" },
+    { "from": "K 2750", "to": "PipeTee-1", "kind": "process" },
+    { "from": "PipeTee-1", "to": "H672B1V", "kind": "process" },
+    { "from": "K 2750", "to": "BlindFlange-1", "kind": "process" },
+    { "from": "BlindFlange-1", "to": "H658B1UV (P3)", "kind": "process" },
+    { "from": "H658B1UV (P3)", "to": "BlindFlange-2", "kind": "process" },
+    { "from": "K 2750", "to": "BlindFlange-3", "kind": "process" },
+    { "from": "BlindFlange-3", "to": "H658B1UV (P4)", "kind": "process" },
+    { "from": "H658B1UV (P4)", "to": "BlindFlange-4", "kind": "process" },
+    { "from": "BlindFlange-2", "to": "PI(Z) 275003A", "kind": "signal" },
+    { "from": "BlindFlange-4", "to": "PI(Z) 275003B", "kind": "signal" },
+    { "from": "PI(Z) 275003A", "to": "PIS⁺Z⁺A 275003", "kind": "signal" },
+    { "from": "PI(Z) 275003B", "to": "PIS⁺Z⁺A 275003", "kind": "signal" }
+  ]
+}

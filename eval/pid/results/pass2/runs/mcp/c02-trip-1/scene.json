@@ -1,0 +1,344 @@
+{
+  "anigram": 1,
+  "id": "k-2750-feed-trip",
+  "title": "Packed column K-2750",
+  "subtitle": "HAZOP action: feed XV-2750, sump level alarm and independent high-high trip",
+  "sheet": "DEXPI Example C02",
+  "size": [7, 8],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 120
+  },
+  "parts": [
+    {
+      "id": "k-2750",
+      "kind": "hottank",
+      "label": "Column",
+      "at": [3, 3],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 240,
+        "start": 0.5,
+        "maxIn": 120,
+        "maxOut": 120
+      },
+      "note": "ProcessColumn K 2750 (DN 500 x 14000 mm, 1.4571, 6/-1 bar, 150 °C) with packed section KX 2750. Feed on spare nozzle N2, sump level on spare nozzle N5.",
+      "labelSide": "right",
+      "tag": "K-2750",
+      "class": "Vessel"
+    },
+    {
+      "id": "feed-in",
+      "kind": "well",
+      "label": "Feed from off sheet",
+      "at": [0, 3],
+      "behaviour": {
+        "role": "source",
+        "output": 60
+      },
+      "labelSide": "above",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "xv-2750",
+      "kind": "valve",
+      "label": "Feed shutdown valve",
+      "at": [2, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 120,
+        "open": "on('xv-open') ? 1 : 0"
+      },
+      "labelSide": "above",
+      "toggles": "xv-open",
+      "tag": "XV-2750",
+      "class": "ControlValve"
+    },
+    {
+      "id": "out-bottom",
+      "kind": "tap",
+      "label": "To W 2765",
+      "at": [3, 7],
+      "behaviour": {
+        "role": "sink",
+        "demand": "prev('k-2750').fill > 0.2 ? 50 * knob('bottoms') : 0"
+      },
+      "note": "Flow-out connector 2765 on N1 (DN 200 reduced to DN 150).",
+      "labelSide": "right",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "tee-n3",
+      "kind": "manifold",
+      "label": "Tee on N3",
+      "at": [3, 1],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "right",
+      "class": "Junction"
+    },
+    {
+      "id": "out-overhead",
+      "kind": "tap",
+      "label": "Open end DN 150",
+      "at": [3, 0],
+      "behaviour": {
+        "role": "sink",
+        "demand": "prev('k-2750').fill > 0.2 ? 10 : 0"
+      },
+      "labelSide": "right",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "h672b1v",
+      "kind": "valve",
+      "label": "H672B1V (DN 80)",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": "on('h672b1v-open') ? 15 : 0"
+      },
+      "labelSide": "below",
+      "toggles": "h672b1v-open",
+      "class": "GlobeValve"
+    },
+    {
+      "id": "h658b1uv-p3",
+      "kind": "valve",
+      "label": "H658B1UV on P3",
+      "at": [1, 5],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "labelSide": "below",
+      "class": "GlobeValve"
+    },
+    {
+      "id": "h658b1uv-p4",
+      "kind": "valve",
+      "label": "H658B1UV on P4",
+      "at": [5, 6],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "labelSide": "below",
+      "class": "GlobeValve"
+    }
+  ],
+  "links": [
+    {
+      "from": "feed-in",
+      "to": "xv-2750",
+      "domain": "water",
+      "tag": "150-8503-2750.002"
+    },
+    {
+      "from": "xv-2750",
+      "to": "k-2750",
+      "domain": "water"
+    },
+    {
+      "from": "k-2750",
+      "to": "out-bottom",
+      "domain": "water",
+      "tag": "150-8503-2750.001.6"
+    },
+    {
+      "from": "k-2750",
+      "to": "tee-n3",
+      "domain": "water",
+      "tag": "*at N3*"
+    },
+    {
+      "from": "tee-n3",
+      "to": "out-overhead",
+      "domain": "water",
+      "tag": "*at N3* DN150"
+    },
+    {
+      "from": "tee-n3",
+      "to": "h672b1v",
+      "domain": "water",
+      "tag": "*at N3* DN80"
+    },
+    {
+      "from": "k-2750",
+      "to": "h658b1uv-p3",
+      "domain": "water",
+      "via": [[3, 5]]
+    },
+    {
+      "from": "k-2750",
+      "to": "h658b1uv-p4",
+      "domain": "water",
+      "via": [[3, 6]]
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 0.5
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "BASF SE",
+    "project": "Ludwigshafen V888 / V04 / plant section 2000",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "for review"
+  },
+  "instruments": [
+    {
+      "tag": "LT-2751",
+      "at": [5, 3],
+      "measures": "k-2750",
+      "low": 10,
+      "high": 80
+    },
+    {
+      "tag": "LAH-2751",
+      "at": [6, 3],
+      "measures": "LT-2751",
+      "mounting": "dcs",
+      "high": 80
+    },
+    {
+      "tag": "LT-2750",
+      "at": [4, 4],
+      "measures": "k-2750",
+      "high": 90
+    },
+    {
+      "tag": "LSHH-2750",
+      "at": [2, 4],
+      "measures": "LT-2750",
+      "drives": "xv-2750",
+      "mounting": "plc",
+      "high": 90
+    },
+    {
+      "tag": "PIZ-275003A",
+      "at": [0, 5],
+      "measures": "h658b1uv-p3",
+      "mounting": "panel"
+    },
+    {
+      "tag": "PIZ-275003B",
+      "at": [6, 6],
+      "measures": "h658b1uv-p4",
+      "mounting": "panel"
+    },
+    {
+      "tag": "PISZA-275003",
+      "at": [0, 6],
+      "measures": "PIZ-275003A",
+      "mounting": "panel"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "bottoms",
+      "label": "bottoms draw-off",
+      "value": 0.6,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05,
+      "format": "{pct}%"
+    }
+  ],
+  "switches": [
+    {
+      "id": "xv-open",
+      "label": "XV-2750 open (click to reset after a trip)",
+      "on": true
+    },
+    {
+      "id": "lah-alarm",
+      "label": "LAH-2751 alarm active in the DCS",
+      "on": false
+    },
+    {
+      "id": "h672b1v-open",
+      "label": "H672B1V open",
+      "on": false
+    }
+  ],
+  "captions": [
+    {
+      "from": 6,
+      "to": 9,
+      "text": "Feed enters through XV-2750 faster than the bottoms leave: the sump level climbs."
+    },
+    {
+      "from": 9,
+      "to": 12,
+      "text": "LAH-2751 alarms in the DCS; the operator has time to act."
+    },
+    {
+      "from": 12,
+      "to": 24,
+      "text": "If not, LSHH-2750 closes XV-2750 independently of the DCS and the level falls."
+    }
+  ],
+  "events": [
+    {
+      "id": "lah",
+      "says": "Sump level passes 80 %: LAH-2751 alarms in the DCS.",
+      "when": "part('k-2750').fill > 0.8",
+      "then": [
+        {
+          "switch": "lah-alarm",
+          "on": true
+        }
+      ],
+      "at": "k-2750"
+    },
+    {
+      "id": "hh-trip",
+      "says": "Level reaches 90 %: LSHH-2750 trips and closes XV-2750.",
+      "when": "part('k-2750').fill > 0.9",
+      "then": [
+        {
+          "switch": "xv-open",
+          "on": false
+        }
+      ],
+      "at": "xv-2750"
+    }
+  ],
+  "expect": [
+    {
+      "says": "feed runs through XV-2750 into the column before the level alarm",
+      "check": "part('xv-2750').out > 50 && part('k-2750').in > 50 && on('lah-alarm') == 0",
+      "from": 7,
+      "to": 8
+    },
+    {
+      "says": "the high level alarm is raised in the DCS before the trip",
+      "check": "on('lah-alarm') == 1 && part('k-2750').fill > 0.8",
+      "sometime": true
+    },
+    {
+      "says": "the high-high trip closes XV-2750 and the feed stops",
+      "check": "fired('hh-trip') == 1 && part('xv-2750').out < 0.001",
+      "sometime": true
+    },
+    {
+      "says": "the column is never filled past the trip level",
+      "check": "part('k-2750').fill < 0.95"
+    },
+    {
+      "says": "XV-2750 stays shut after the trip until reset by hand",
+      "check": "part('xv-2750').out < 0.001 && part('k-2750').in < 0.001",
+      "from": 12,
+      "to": 23
+    }
+  ]
+}

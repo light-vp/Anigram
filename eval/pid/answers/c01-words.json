@@ -1,0 +1,270 @@
+{
+  "id": "c01-words",
+  "source": "DEXPI e.V. TrainingTestCases, dexpi-c01-reference.xml (CC BY 4.0)",
+  "derived": "derive-dexpi.mjs",
+  "equipment": [
+    {
+      "family": ["heat-exchanger"],
+      "tag": "^H1007$",
+      "says": "H1007 (PlateHeatExchanger)"
+    },
+    {
+      "family": ["heat-exchanger"],
+      "tag": "^H1008$",
+      "says": "H1008 (TubularHeatExchanger)"
+    },
+    {
+      "family": ["pump"],
+      "tag": "^P4711$",
+      "says": "P4711 (CentrifugalPump)"
+    },
+    {
+      "family": ["pump"],
+      "tag": "^P4712$",
+      "says": "P4712 (ReciprocatingPump)"
+    },
+    {
+      "family": ["tank", "vessel", "container"],
+      "tag": "^T4750$",
+      "says": "T4750 (Tank)"
+    }
+  ],
+  "valves": [
+    {
+      "family": ["onoff", "control"],
+      "tag": "^HV4750\\.01$",
+      "says": "HV4750.01 (actuated GlobeValve)"
+    },
+    {
+      "family": "relief",
+      "tag": "^SV104\\.01$",
+      "says": "SV 104.01 (SpringLoadedGlobeSafetyValve)"
+    },
+    {
+      "family": ["control"],
+      "tag": "^PV4712\\.02$",
+      "says": "PV4712.02 (actuated GlobeValve)"
+    },
+    {
+      "family": ["control"],
+      "tag": "^TV4750\\.03$",
+      "says": "TV4750.03 (actuated GlobeValve)"
+    },
+    {
+      "family": "isolation",
+      "min": 6
+    },
+    {
+      "family": "check",
+      "min": 1
+    }
+  ],
+  "instruments": [
+    {
+      "letters": "PI",
+      "number": "4712.01",
+      "says": "PI 4712.01"
+    },
+    {
+      "letters": "PICSA",
+      "number": "4712.02",
+      "says": "PICSA 4712.02"
+    },
+    {
+      "letters": "HS",
+      "number": "4750.01",
+      "says": "HS 4750.01"
+    },
+    {
+      "letters": "TICSA",
+      "number": "4750.03",
+      "says": "TICSA 4750.03",
+      "on": [
+        {
+          "family": ["tank", "vessel", "container"],
+          "tag": "^T4750$",
+          "says": "T4750 (Tank)"
+        }
+      ],
+      "hops": 2
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["pump"],
+        "tag": "^P4711$"
+      },
+      "says": "an off-page connector → P4711 (CentrifugalPump)"
+    },
+    {
+      "from": {
+        "family": ["pump"],
+        "tag": "^P4711$"
+      },
+      "to": {
+        "family": ["heat-exchanger"],
+        "tag": "^H1007$"
+      },
+      "says": "P4711 (CentrifugalPump) → H1007 (PlateHeatExchanger)"
+    },
+    {
+      "from": {
+        "family": ["heat-exchanger"],
+        "tag": "^H1007$"
+      },
+      "to": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T4750$"
+      },
+      "via": [
+        {
+          "family": ["onoff", "control"],
+          "tag": "^HV4750\\.01$"
+        }
+      ],
+      "says": "H1007 (PlateHeatExchanger) → T4750 (Tank) via HV4750.01"
+    },
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T4750$"
+      },
+      "to": {
+        "family": ["pump"],
+        "tag": "^P4712$"
+      },
+      "via": [
+        {
+          "family": "check"
+        }
+      ],
+      "says": "T4750 (Tank) → P4712 (ReciprocatingPump) via SwingCheckValve"
+    },
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T4750$"
+      },
+      "to": {
+        "family": ["pump"],
+        "tag": "^P4712$"
+      },
+      "via": [
+        {
+          "family": "relief"
+        }
+      ],
+      "says": "T4750 (Tank) → P4712 (ReciprocatingPump) via SpringLoadedGlobeSafetyValve"
+    },
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T4750$"
+      },
+      "to": {
+        "family": ["heat-exchanger"],
+        "tag": "^H1008$"
+      },
+      "via": [
+        {
+          "family": ["control"],
+          "tag": "^PV4712\\.02$"
+        }
+      ],
+      "says": "T4750 (Tank) → H1008 (TubularHeatExchanger) via PV4712.02"
+    },
+    {
+      "from": {
+        "family": ["pump"],
+        "tag": "^P4712$"
+      },
+      "to": {
+        "family": ["heat-exchanger"],
+        "tag": "^H1008$"
+      },
+      "says": "P4712 (ReciprocatingPump) → H1008 (TubularHeatExchanger)"
+    },
+    {
+      "from": {
+        "family": ["pump"],
+        "tag": "^P4712$"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "says": "P4712 (ReciprocatingPump) → an off-page connector"
+    },
+    {
+      "from": {
+        "family": ["heat-exchanger"],
+        "tag": "^H1008$"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "says": "H1008 (TubularHeatExchanger) → an off-page connector"
+    }
+  ],
+  "loops": [
+    {
+      "says": "PICSA 4712.02 → PV4712.02",
+      "controller": [
+        {
+          "letters": "PICSA",
+          "number": "4712.02"
+        }
+      ],
+      "final": {
+        "family": ["control"],
+        "tag": "^PV4712\\.02$"
+      },
+      "sensor": [
+        {
+          "variable": "P",
+          "min": 1
+        }
+      ]
+    },
+    {
+      "says": "HS 4750.01 → HV4750.01",
+      "controller": [
+        {
+          "letters": "HS",
+          "number": "4750.01"
+        }
+      ],
+      "final": {
+        "family": ["onoff", "control"],
+        "tag": "^HV4750\\.01$"
+      }
+    },
+    {
+      "says": "TICSA 4750.03 → TV4750.03",
+      "controller": [
+        {
+          "letters": "TICSA",
+          "number": "4750.03"
+        }
+      ],
+      "final": {
+        "family": ["control"],
+        "tag": "^TV4750\\.03$"
+      },
+      "sensor": [
+        {
+          "variable": "T",
+          "min": 1,
+          "on": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^T4750$",
+            "says": "T4750 (Tank)"
+          }
+        }
+      ]
+    }
+  ]
+}

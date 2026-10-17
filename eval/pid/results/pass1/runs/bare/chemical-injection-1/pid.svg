@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" font-family="Arial, sans-serif">
+<style>.p{stroke:#000;stroke-width:2;fill:none}.s{stroke:#000;stroke-width:1.6;fill:#fff}.r{stroke:#000;stroke-width:2;stroke-dasharray:10 3 2 3;fill:none}text{text-anchor:middle;font-size:11px}.b{font-weight:bold}.n{font-size:9px}.l{text-anchor:start}</style>
+<rect width="1200" height="560" fill="#fff"/>
+<text x="600" y="30" style="font-size:16px" class="b">CORROSION INHIBITOR INJECTION - EXPORT PIPELINE</text>
+<text x="600" y="48">P&amp;ID (sheet 1 of 1)</text>
+
+<!-- T-1401 tote -->
+<rect x="40" y="200" width="110" height="150" class="s"/>
+<line x1="40" y1="225" x2="150" y2="225" class="p"/>
+<text x="95" y="285">Inhibitor</text><text x="95" y="300">tote</text>
+<text x="95" y="375" class="b" style="font-size:12px">T-1401</text>
+<text x="95" y="390" class="n">Corrosion inhibitor tote</text>
+
+<!-- suction line -->
+<line x1="150" y1="300" x2="448" y2="300" class="p"/>
+<polygon points="235,300 227,296 227,304" fill="#000"/>
+<!-- HV-1401 -->
+<polygon points="180,292 200,308 200,292 180,308" class="s"/>
+<text x="190" y="280" class="b">HV-1401</text><text x="190" y="324" class="n">Tote isolating valve</text>
+<!-- S-1401 strainer -->
+<rect x="270" y="286" width="40" height="28" class="s"/>
+<polyline points="276,308 284,292 292,308 300,292 304,300" fill="none" stroke="#000"/>
+<text x="290" y="278" class="b">S-1401</text><text x="290" y="330" class="n">Suction strainer</text>
+
+<!-- calibration pot branch -->
+<circle cx="380" cy="300" r="3" fill="#000"/>
+<line x1="380" y1="300" x2="380" y2="385" class="p"/>
+<polygon points="370,337 390,353 390,337 370,353" class="s"/>
+<text x="404" y="341" class="l b">HV-1402</text><text x="404" y="354" class="l n">Pot isolating valve</text>
+<rect x="355" y="385" width="50" height="80" class="s"/>
+<line x1="355" y1="405" x2="405" y2="405" stroke="#000"/>
+<line x1="355" y1="425" x2="370" y2="425" stroke="#000"/>
+<line x1="355" y1="445" x2="370" y2="445" stroke="#000"/>
+<text x="380" y="485" class="b" style="font-size:12px">CP-1401</text>
+<text x="380" y="499" class="n">Calibration pot</text>
+
+<!-- P-1401 positive displacement pump -->
+<circle cx="480" cy="300" r="32" class="s"/>
+<polyline points="462,286 480,316 498,286" fill="none" stroke="#000" stroke-width="1.6"/>
+<line x1="458" y1="286" x2="502" y2="286" stroke="#000" stroke-width="1.6"/>
+<text x="480" y="352" class="b" style="font-size:12px">P-1401</text>
+<text x="480" y="366" class="n">Injection pump (positive displacement)</text>
+
+<!-- discharge line -->
+<line x1="512" y1="300" x2="990" y2="300" class="p"/>
+<polygon points="610,300 602,296 602,304" fill="#000"/>
+<circle cx="550" cy="300" r="3" fill="#000"/>
+
+<!-- PSV-1401 -->
+<line x1="550" y1="300" x2="550" y2="205" class="p"/>
+<polygon points="540,205 560,205 550,190" class="s"/>
+<polygon points="540,175 560,175 550,190" class="s"/>
+<polyline points="550,175 542,168 558,160 542,152 558,144 550,138" fill="none" stroke="#000" stroke-width="1.4"/>
+<text x="572" y="172" class="l b">PSV-1401</text><text x="572" y="186" class="l n">Pressure relief valve</text>
+<polyline points="550,190 520,190 520,110 95,110 95,198" class="r"/>
+<polygon points="95,200 90,190 100,190" fill="#000"/>
+<text x="310" y="102" class="n">Relief return to tote T-1401</text>
+
+<!-- PI-1401 -->
+<circle cx="640" cy="300" r="3" fill="#000"/>
+<line x1="640" y1="300" x2="640" y2="237" class="p"/>
+<circle cx="640" cy="220" r="17" class="s"/>
+<text x="640" y="224">PI</text><text x="640" y="190" class="b">PI-1401</text>
+<text x="664" y="204" class="l n">Discharge pressure gauge</text>
+
+<!-- FI-1401 -->
+<circle cx="740" cy="300" r="17" class="s"/>
+<text x="740" y="304">FI</text><text x="740" y="274" class="b">FI-1401</text><text x="740" y="336" class="n">Flow indicator</text>
+
+<!-- check valves -->
+<polygon points="820,292 840,308 840,292 820,308" class="s"/><line x1="834" y1="290" x2="834" y2="310" class="p"/>
+<text x="830" y="278" class="b">CV-1401</text><text x="830" y="326" class="n">Check valve 1</text>
+<polygon points="890,292 910,308 910,292 890,308" class="s"/><line x1="904" y1="290" x2="904" y2="310" class="p"/>
+<text x="900" y="278" class="b">CV-1402</text><text x="900" y="326" class="n">Check valve 2</text>
+
+<!-- HV-1403 -->
+<polygon points="960,292 980,308 980,292 960,308" class="s"/>
+<text x="970" y="278" class="b">HV-1403</text><text x="970" y="326" class="n">Quill isolating valve</text>
+
+<!-- quill and pipeline -->
+<line x1="980" y1="300" x2="1055" y2="300" class="p"/>
+<polygon points="1055,293 1085,300 1055,307" class="s"/>
+<line x1="1085" y1="300" x2="1120" y2="300" class="p"/>
+<text x="1070" y="280" class="b">Q-1401</text><text x="1070" y="326" class="n">Injection quill</text>
+<line x1="1120" y1="140" x2="1120" y2="470" stroke="#000" stroke-width="6"/>
+<polygon points="1120,215 1115,205 1125,205" fill="#000"/>
+<text x="1120" y="112" class="n">Export pipeline</text>
+<text x="1120" y="127" class="b" style="font-size:12px">PL-1401</text>
+
+<text x="40" y="530" class="l n" style="font-size:10px">Notes: 1. HV-1402 is normally closed; opened to draw from CP-1401 when calibrating pump P-1401.  2. PSV-1401 relieves pump discharge back to tote T-1401.</text>
+<text x="40" y="546" class="l n" style="font-size:10px">3. CV-1401 and CV-1402 in series protect against pipeline backflow.  Legend: solid line = process; dash-dot = relief return.</text>
+</svg>

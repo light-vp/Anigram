@@ -1,0 +1,137 @@
+{
+  "items": [
+    {
+      "tag": "K 2750",
+      "type": "packed column",
+      "label": "Column (Kolonne), 500 x 14000 mm, 1.4571, pe=6/-1 bar, 150 °C"
+    },
+    {
+      "tag": "KX 2750",
+      "type": "valve tray section of the column",
+      "label": "Valve tray section (Ventilböden), 600 mm, 1.4571"
+    },
+    {
+      "tag": "SubTaggedColumnSection-1",
+      "type": "packed bed section of the column",
+      "label": "Fixed bed packing section (no tag in column.xml, file ID used)"
+    },
+    {
+      "tag": "PipeReducer-1",
+      "type": "pipe reducer",
+      "label": "Reducer DN200/DN150 on top outlet N1 (file ID used as tag)"
+    },
+    {
+      "tag": "2765",
+      "type": "off-page connector, flow out",
+      "label": "Top outlet line 2750.001 continues on W 2765"
+    },
+    {
+      "tag": "PipeTee-1",
+      "type": "pipe tee",
+      "label": "Tee on bottom outlet N3, DN150 run with DN80 branch (file ID used as tag)"
+    },
+    {
+      "tag": "H672B1V",
+      "type": "operated valve",
+      "label": "Valve DN80 in bottom outlet branch"
+    },
+    {
+      "tag": "BlindFlange-1",
+      "type": "reducing blind flange",
+      "label": "DN80/25 flange on nozzle P3 (file ID used as tag)"
+    },
+    {
+      "tag": "H658B1UV-P3",
+      "type": "operated valve",
+      "label": "Valve DN25 in pressure tap on nozzle P3 (file name H658B1UV, suffix added because P4 valve has the same name)"
+    },
+    {
+      "tag": "BlindFlange-2",
+      "type": "blind flange",
+      "label": "Pressure tap end on P3, measuring point of PI(Z) 275003A (file ID used as tag)"
+    },
+    {
+      "tag": "BlindFlange-3",
+      "type": "reducing blind flange",
+      "label": "DN80/25 flange on nozzle P4 (file ID used as tag)"
+    },
+    {
+      "tag": "H658B1UV-P4",
+      "type": "operated valve",
+      "label": "Valve DN25 in pressure tap on nozzle P4 (file name H658B1UV, suffix added because P3 valve has the same name)"
+    },
+    {
+      "tag": "BlindFlange-4",
+      "type": "blind flange",
+      "label": "Pressure tap end on P4, measuring point of PI(Z) 275003B (file ID used as tag)"
+    },
+    {
+      "tag": "PI(Z) 275003A",
+      "type": "pressure indicator",
+      "label": "Pressure indicator on P3 tap"
+    },
+    {
+      "tag": "PI(Z) 275003B",
+      "type": "pressure indicator",
+      "label": "Pressure indicator on P4 tap"
+    },
+    {
+      "tag": "PIS⁺Z⁺A 275003",
+      "type": "pressure indicator switch with alarm, central location",
+      "label": "Collects the signals of PI(Z) 275003A and 275003B"
+    },
+    {
+      "tag": "FEED-IN",
+      "type": "off-page connector, flow in",
+      "label": "NEW: feed to the column from off the sheet (source and line number to be defined)"
+    },
+    {
+      "tag": "XV-2750",
+      "type": "shutdown valve, on/off, fail closed",
+      "label": "NEW: feed shutdown valve, DN150, closed by the high-high level trip LSHH-2751"
+    },
+    {
+      "tag": "LT-2750",
+      "type": "level transmitter",
+      "label": "NEW: sump level transmitter on new nozzle N8, for the DCS high level alarm"
+    },
+    {
+      "tag": "LAH-2750",
+      "type": "high level alarm in the DCS",
+      "label": "NEW: sump high level alarm, alarm only, no trip action"
+    },
+    {
+      "tag": "LT-2751",
+      "type": "level transmitter",
+      "label": "NEW: independent sump level transmitter on existing nozzle N7, for the high-high level trip"
+    },
+    {
+      "tag": "LSHH-2751",
+      "type": "high-high level trip in the safety instrumented system",
+      "label": "NEW: independent sump high-high level trip, closes XV-2750"
+    }
+  ],
+  "lines": [
+    { "from": "FEED-IN", "to": "XV-2750", "kind": "process" },
+    { "from": "XV-2750", "to": "K 2750", "kind": "process" },
+    { "from": "K 2750", "to": "PipeReducer-1", "kind": "process" },
+    { "from": "PipeReducer-1", "to": "2765", "kind": "process" },
+    { "from": "K 2750", "to": "PipeTee-1", "kind": "process" },
+    { "from": "PipeTee-1", "to": "H672B1V", "kind": "process" },
+    { "from": "K 2750", "to": "BlindFlange-1", "kind": "process" },
+    { "from": "BlindFlange-1", "to": "H658B1UV-P3", "kind": "process" },
+    { "from": "H658B1UV-P3", "to": "BlindFlange-2", "kind": "process" },
+    { "from": "K 2750", "to": "BlindFlange-3", "kind": "process" },
+    { "from": "BlindFlange-3", "to": "H658B1UV-P4", "kind": "process" },
+    { "from": "H658B1UV-P4", "to": "BlindFlange-4", "kind": "process" },
+    { "from": "K 2750", "to": "LT-2750", "kind": "process" },
+    { "from": "K 2750", "to": "LT-2751", "kind": "process" },
+    { "from": "BlindFlange-2", "to": "PI(Z) 275003A", "kind": "signal" },
+    { "from": "BlindFlange-4", "to": "PI(Z) 275003B", "kind": "signal" },
+    { "from": "PI(Z) 275003A", "to": "PIS⁺Z⁺A 275003", "kind": "signal" },
+    { "from": "PI(Z) 275003B", "to": "PIS⁺Z⁺A 275003", "kind": "signal" },
+    { "from": "LT-2750", "to": "LAH-2750", "kind": "signal" },
+    { "from": "LT-2751", "to": "LSHH-2751", "kind": "signal" },
+    { "from": "LSHH-2751", "to": "XV-2750", "kind": "signal" }
+  ]
+}
