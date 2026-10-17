@@ -302,12 +302,12 @@ export const SECTIONS: Section[] = [
         p: 'A storyboard is the handful of moments that tell a sheet’s day, picked from what the simulation really did: the first time each event fires, so a chain that loops is told once, and the scene’s captions where nothing fires. Each panel is the drawing at that moment, with its time and what happened.',
       },
       {
-        p: 'The same moments pace a recording. The day plays quickly between them and slows as each one arrives, with what is happening written under the sheet, so a GIF of a Rube Goldberg machine lingers on every link of it.',
+        p: 'The same moments pace a recording. The clock stops for two seconds at each one, with what happened written under the sheet while the flows keep moving, then glides on to the next, so a GIF of a Rube Goldberg machine pauses on every link of it.',
       },
       {
         list: [
           'In the app: **▤ storyboard** on any sheet, or **storyboard** in the editor. It runs with the knobs and switches as you set them, and saves a GIF, an MP4 (where the browser can encode H.264), or the board as an SVG. Nothing is uploaded.',
-          'From an assistant: `render_storyboard` returns the board as a PNG to look at, or saves it as SVG or PDF; `out: "day.gif"` or `"day.mp4"` records the day (MP4 needs ffmpeg on the PATH). `at` picks the hours yourself; `from` and `to` narrow the stretch; `seconds`, `fps` and `linger` shape the recording.',
+          'From an assistant: `render_storyboard` returns the board as a PNG to look at, or saves it as SVG or PDF; `out: "day.gif"` or `"day.mp4"` records the day (MP4 needs ffmpeg on the PATH). `at` picks the hours yourself; `from` and `to` narrow the stretch; `seconds`, `fps` and `hold` shape the recording.',
         ],
       },
     ],

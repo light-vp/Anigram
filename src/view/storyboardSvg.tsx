@@ -193,6 +193,8 @@ export interface FrameRenderOptions {
   credit?: boolean
   /** how far through the recording, 0–1, drawn as a hairline under the caption */
   progress?: number
+  /** the words under the frame (default the scene's own caption at that moment) */
+  caption?: string
 }
 
 /** the band under a recorded frame: its caption and a progress hairline */
@@ -224,7 +226,7 @@ export function renderFrameSvg(
     true,
     opts.credit ?? true,
   )
-  const caption = frameCaption(scene, frame) ?? ''
+  const caption = opts.caption ?? frameCaption(scene, frame) ?? ''
   const fs = 17
   const lines = wrap(caption, Math.floor((w - 80) / (fs * 0.5)), 2)
   const text = lines

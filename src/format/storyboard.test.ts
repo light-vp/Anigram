@@ -6,7 +6,7 @@ import { test } from 'node:test'
 
 import { SCENES } from '../scenes/index.ts'
 import type { Scene } from '../sim/types.ts'
-import { frameRuns, record, storyboard } from './storyboard.ts'
+import { frameRuns, record, sayingAt, storyboard } from './storyboard.ts'
 
 const scene = (id: string) => SCENES.find((s) => s.id === id) as Scene
 const garden = scene('garden-machine')
@@ -69,24 +69,27 @@ test('the same scene gives the same board', () => {
   assert.deepEqual(storyboard(garden), storyboard(garden))
 })
 
-test('a recording slows down at each moment', () => {
+test('a recording stops at each moment, then glides to the next', () => {
   const board = storyboard(garden)
-  const runs = frameRuns(board, { seconds: 10, fps: 12 })
-  assert.equal(runs.length, 120)
-  assert.equal(runs[0], board.from)
-  assert.ok(Math.abs(runs.at(-1)! - board.to) < 1e-9)
+  const runs = frameRuns(board, { fps: 30 })
+  const stops = board.panels.map((p) => p.run)
+  assert.equal(runs[0], stops[0])
+  assert.equal(runs.at(-1), stops.at(-1))
   for (let i = 1; i < runs.length; i++) assert.ok(runs[i]! >= runs[i - 1]!)
-  // the step between frames near a moment is far shorter than in a quiet stretch
-  const step = (run: number) => {
-    const i = runs.findIndex((r) => r >= run)
-    return runs[i + 1]! - runs[i]!
+  // two seconds still at every panel
+  for (const stop of stops) {
+    const still = runs.filter((r) => r === stop).length
+    assert.ok(still >= 59 && still <= 62, `${still} frames at ${stop}`)
   }
-  const full = board.panels.find((p) => p.event === 'full')!.run
-  assert.ok(step(full) * 3 < step(23), `${step(full)} vs ${step(23)}`)
-  // linger 0 plays the day evenly
-  const even = frameRuns(board, { seconds: 4, fps: 6, linger: 0 })
-  const gaps = even.slice(1).map((r, i) => r - even[i]!)
-  assert.ok(Math.max(...gaps) - Math.min(...gaps) < 1e-6)
+  // no frame jumps more than a slice of the longest glide
+  const gaps = runs.slice(1).map((r, i) => r - runs[i]!)
+  assert.ok(Math.max(...gaps) < 0.4, `jumped ${Math.max(...gaps)} h`)
+  // the length asked for is the length made
+  assert.equal(frameRuns(board, { seconds: 10, fps: 12 }).length, 120)
+  // the caption under a frame is the last moment it reached
+  const full = board.panels.find((p) => p.event === 'full')!
+  assert.equal(sayingAt(board, full.run + 0.01), full.says)
+  assert.equal(sayingAt(board, 0), board.panels[0]!.says)
 })
 
 test('a recording plays the day it was boarded from', () => {

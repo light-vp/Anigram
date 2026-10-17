@@ -69,6 +69,7 @@ import { GifWriter } from '../src/format/gif.ts'
 import {
   frameRuns,
   MAX_FRAMES,
+  sayingAt,
   MAX_PANELS,
   record,
   storyboard,
@@ -1561,6 +1562,8 @@ server.registerTool(
 )
 
 const RECORDING_WIDTH = 800
+/** a video is sharper for little cost, so it is drawn wider than a GIF */
+const VIDEO_WIDTH = 1280
 const MAX_RECORDING_WIDTH = 1920
 
 /** width ÷ height of an SVG page, from its root attributes */
@@ -1644,7 +1647,7 @@ server.registerTool(
       "The moments that tell a scene's day, picked from what the simulation really did: the first time each event fires (so a chain that loops is told once), with the scene's captions filling the gaps. " +
       'By default it comes back as one PNG page of panels, each the drawing at its moment with its time and what happened: look at it to check the chain reads in order. ' +
       'format svg returns the page as markup; pdf saves it for printing. ' +
-      'format gif or mp4 records the day instead: it plays quickly between the moments and slows as each arrives, with what is happening written under the sheet. A recording needs `out`; mp4 also needs ffmpeg on the PATH (gif needs nothing). ' +
+      'format gif or mp4 records the day instead: the clock stops at each moment (with what happened written under the sheet, while the flows keep moving) and glides between them. A recording needs `out`; mp4 also needs ffmpeg on the PATH (gif needs nothing). ' +
       '`at` picks the clock hours yourself; `from` and `to` narrow the stretch of the day.',
     inputSchema: {
       ...sceneInput,
@@ -1693,21 +1696,25 @@ server.registerTool(
         .min(1)
         .max(60)
         .optional()
-        .describe('length of a recording (default 12)'),
+        .describe(
+          'length of a recording in seconds (default: as long as its moments need, about 2.5 s each)',
+        ),
       fps: z
         .number()
         .int()
         .min(4)
         .max(30)
         .optional()
-        .describe('frames a second of a recording (default 12)'),
-      linger: z
+        .describe(
+          'frames a second of a recording (default 30 for mp4, 15 for gif)',
+        ),
+      hold: z
         .number()
         .min(0)
-        .max(20)
+        .max(10)
         .optional()
         .describe(
-          'how much a recording slows at each moment; 0 plays the day evenly (default 5)',
+          'seconds the clock stops at each moment so it can be read, while what flows keeps moving (default 2)',
         ),
       width: z
         .number()
@@ -1760,7 +1767,7 @@ server.registerTool(
       format?: 'png' | 'svg' | 'pdf' | 'gif' | 'mp4'
       seconds?: number
       fps?: number
-      linger?: number
+      hold?: number
       width?: number
       out?: string
     }) => {
@@ -1783,8 +1790,8 @@ server.registerTool(
         throw new Error(
           `a ${format} is saved to a file: give \`out\`, such as "day.${format}"`,
         )
-      if (!recording && (args.seconds ?? args.fps ?? args.linger) !== undefined)
-        throw new Error('seconds, fps and linger shape a gif or mp4 recording')
+      if (!recording && (args.seconds ?? args.fps ?? args.hold) !== undefined)
+        throw new Error('seconds, fps and hold shape a gif or mp4 recording')
       if (format === 'mp4' && !hasFfmpeg())
         throw new Error(
           'an mp4 needs ffmpeg on the PATH, and it was not found; a gif needs nothing extra',
@@ -1843,15 +1850,19 @@ server.registerTool(
         return image(png, info)
       }
 
-      const fps = args.fps ?? 12
+      // a GIF stores every frame whole, so it runs at half the video's rate
+      const fps = args.fps ?? (format === 'gif' ? 15 : 30)
       const runs = frameRuns(board, {
         seconds: args.seconds,
         fps,
-        linger: args.linger,
+        hold: args.hold,
       })
       if (runs.length > MAX_FRAMES)
         throw new Error(`at most ${MAX_FRAMES} frames: shorten it or lower fps`)
-      const width = Math.min(MAX_RECORDING_WIDTH, args.width ?? RECORDING_WIDTH)
+      const width = Math.min(
+        MAX_RECORDING_WIDTH,
+        args.width ?? (format === 'gif' ? RECORDING_WIDTH : VIDEO_WIDTH),
+      )
       const size = frameSize(scene)
       let height = Math.round((width * size.h) / size.w)
       const svgs: string[] = []
@@ -1862,6 +1873,7 @@ server.registerTool(
             labels: args.labels,
             credit: args.credit,
             progress: runs.length > 1 ? i / (runs.length - 1) : 1,
+            caption: sayingAt(board, runs[i]!),
           }),
         ),
       )
