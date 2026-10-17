@@ -4,7 +4,12 @@
 import { GifWriter } from '../format/gif.ts'
 import { Mp4Muxer } from '../format/mp4.ts'
 import type { Controls } from '../format/report.ts'
-import { frameRuns, record, storyboard } from '../format/storyboard.ts'
+import {
+  framePlan,
+  record,
+  sayingAt,
+  storyboard,
+} from '../format/storyboard.ts'
 import type { Storyboard } from '../format/storyboard.ts'
 import type { Scene } from '../sim/types.ts'
 import type { ThemeId } from '../view/palette.ts'
@@ -24,7 +29,7 @@ import {
 
 export interface RecordingOptions extends Controls {
   theme: ThemeId
-  /** frame width in pixels (default 800) */
+  /** frame width in pixels (default 800 for a GIF, 1280 for an MP4) */
   width?: number
   seconds?: number
   fps?: number
@@ -64,22 +69,29 @@ async function draw(
 }
 
 /** the day's frames as SVG strings, with the size to draw them at */
-function frames(scene: Scene, opts: RecordingOptions) {
-  const fps = opts.fps ?? 12
+function frames(
+  scene: Scene,
+  opts: RecordingOptions,
+  fps: number,
+  wide: number,
+) {
   const board = storyboard(scene, opts)
-  const runs = frameRuns(board, { seconds: opts.seconds, fps })
+  const plan = framePlan(board, { seconds: opts.seconds, fps })
+  const runs = plan.map((f) => f.run)
   const svgs: string[] = []
   record(scene, runs, { ...opts, fps }, (frame, _sim, i) =>
     svgs.push(
       renderFrameSvg(scene, frame, {
         theme: opts.theme,
         progress: runs.length > 1 ? i / (runs.length - 1) : 1,
+        caption: sayingAt(board, runs[i]!),
+        fade: plan[i]!.fade,
       }),
     ),
   )
   const size = frameSize(scene)
   // even sides, as H.264 wants
-  const width = 2 * Math.round((opts.width ?? 800) / 2)
+  const width = 2 * Math.round((opts.width ?? wide) / 2)
   const height = 2 * Math.round((width * size.h) / size.w / 2)
   return { svgs, fps, width, height }
 }
@@ -99,7 +111,8 @@ export async function recordGif(
   scene: Scene,
   opts: RecordingOptions,
 ): Promise<Blob> {
-  const { svgs, fps, width, height } = frames(scene, opts)
+  // a GIF stores every frame whole, so it runs at half the video's rate
+  const { svgs, fps, width, height } = frames(scene, opts, opts.fps ?? 15, 800)
   const { ctx } = canvas(width, height)
   const pixels = async (svg: string) => {
     await draw(svg, ctx, width, height)
@@ -147,7 +160,7 @@ export async function recordMp4(
   scene: Scene,
   opts: RecordingOptions,
 ): Promise<Blob> {
-  const { svgs, fps, width, height } = frames(scene, opts)
+  const { svgs, fps, width, height } = frames(scene, opts, opts.fps ?? 30, 1280)
   const codec = await mp4Codec(width, height)
   if (!codec) throw new Error('this browser cannot encode H.264 video')
   const { c, ctx } = canvas(width, height)
@@ -181,7 +194,7 @@ export async function recordMp4(
     codec,
     width,
     height,
-    bitrate: 2_500_000,
+    bitrate: 4_000_000,
     framerate: fps,
     avc: { format: 'avc' },
   })

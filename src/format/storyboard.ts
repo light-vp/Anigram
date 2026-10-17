@@ -12,8 +12,8 @@ import type { Controls } from './report.ts'
  * simulation really did. Each event that fires is a moment (the first time
  * it fires, so a chain that loops is told once); the scene's captions fill in
  * where nothing fires. The same moments pace a recording: the day plays
- * quickly between them and slows as each one arrives, so a GIF of a Rube
- * Goldberg machine lingers on every link of it.
+ * between them and stops at each one, so a GIF of a Rube Goldberg machine
+ * pauses on every link of it.
  *
  * React-free and deterministic: the same scene and controls give the same
  * panels and the same frames, in node or the browser.
@@ -165,50 +165,128 @@ export function storyboard(scene: Scene, opts: StoryOptions = {}): Storyboard {
 }
 
 export interface RecordOptions {
-  /** length of the recording in seconds (default 12) */
+  /** length of the recording in seconds (default: as long as its moments need) */
   seconds?: number
-  /** frames a second (default 12) */
+  /** frames a second (default 30) */
   fps?: number
-  /** how much the day slows at each panel: 0 plays it evenly (default 5) */
-  linger?: number
+  /** seconds the clock stops at each moment, while what flows keeps moving (default 2) */
+  hold?: number
 }
 
-export const MAX_FRAMES = 600
+export const DEFAULT_FPS = 30
+export const DEFAULT_HOLD = 2
+export const MAX_FRAMES = 1800
+
+/** a glide plays at most this many hours of the day a second, so it can be followed */
+const HOURS_A_SECOND = 1
+/** a gap longer than this is cut: an hour out of one moment, a dip to paper, an hour into the next */
+const CUT_AFTER = 2.5
+/** seconds a cut takes to dip to paper, and to come back */
+const DIP = 0.35
+
+/** eases in and out of each moment, so the clock never jumps */
+const ease = (t: number) => t * t * (3 - 2 * t)
+
+/** one frame of a recording: the run hour it shows, and how far it has dipped to paper (0–1) */
+export interface PlannedFrame {
+  run: number
+  fade: number
+}
+
+interface Leg {
+  seconds: number
+  from: number
+  to: number
+  shape: (t: number) => number
+  /** dip to paper at the end of the leg, or come back from it at the start */
+  dip?: 'out' | 'in'
+}
 
 /**
- * the run hour each frame of a recording shows: evenly spread over the
- * stretch, but bunched up around each panel so the moments get screen time
+ * the frames of a recording. The clock stops at each panel for `hold`
+ * seconds, long enough to read what happened, then glides to the next at an
+ * hour of the day a second or slower. A long quiet gap is not raced through:
+ * the recording plays an hour out of one moment, dips to paper, and comes
+ * back an hour before the next. It starts at the first panel and ends on the
+ * last, so a quiet night after the story is not played.
  */
+export function framePlan(
+  board: Storyboard,
+  opts: RecordOptions = {},
+): PlannedFrame[] {
+  const fps = opts.fps ?? DEFAULT_FPS
+  const stops = [...new Set(board.panels.map((p) => p.run))].sort(
+    (a, b) => a - b,
+  )
+  if (!stops.length) stops.push(board.from)
+  const hold = opts.hold ?? DEFAULT_HOLD
+  const glide = (hours: number) => Math.max(1, hours / HOURS_A_SECOND)
+  const legs: Leg[] = []
+  stops.forEach((stop, i) => {
+    legs.push({ seconds: hold, from: stop, to: stop, shape: ease })
+    const next = stops[i + 1]
+    if (next === undefined) return
+    const gap = next - stop
+    if (gap <= CUT_AFTER) {
+      legs.push({ seconds: glide(gap), from: stop, to: next, shape: ease })
+      return
+    }
+    // ease out of the moment, then in to the next: the cut sits between
+    legs.push({
+      seconds: glide(1),
+      from: stop,
+      to: stop + 1,
+      shape: (t) => t * t,
+      dip: 'out',
+    })
+    legs.push({
+      seconds: glide(1),
+      from: next - 1,
+      to: next,
+      shape: (t) => 1 - (1 - t) * (1 - t),
+      dip: 'in',
+    })
+  })
+  const natural = legs.reduce((a, l) => a + l.seconds, 0)
+  const k = opts.seconds !== undefined ? opts.seconds / natural : 1
+  for (const l of legs) l.seconds *= k
+  const total = natural * k
+  const n = Math.max(2, Math.min(MAX_FRAMES, Math.round(total * fps)))
+  const dip = Math.min(DIP * k, 0.45 * glide(1) * k)
+  const frames: PlannedFrame[] = []
+  let leg = 0
+  let start = 0
+  for (let f = 0; f < n; f++) {
+    // the last frame lands on the last stop
+    const at = (total * f) / (n - 1)
+    while (leg < legs.length - 1 && at > start + legs[leg]!.seconds) {
+      start += legs[leg]!.seconds
+      leg++
+    }
+    const l = legs[leg]!
+    const into = Math.max(0, at - start)
+    const t = l.seconds > 0 ? Math.min(1, into / l.seconds) : 1
+    let fade = 0
+    if (l.dip === 'out') fade = Math.max(0, 1 - (l.seconds - into) / dip)
+    if (l.dip === 'in') fade = Math.max(0, 1 - into / dip)
+    frames.push({ run: l.from + (l.to - l.from) * l.shape(t), fade })
+  }
+  return frames
+}
+
+/** the run hour of each frame of a recording, as `framePlan` lays them out */
 export function frameRuns(
   board: Storyboard,
   opts: RecordOptions = {},
 ): number[] {
-  const seconds = opts.seconds ?? 12
-  const fps = opts.fps ?? 12
-  const n = Math.max(2, Math.min(MAX_FRAMES, Math.round(seconds * fps)))
-  const linger = opts.linger ?? 5
-  const { from, to } = board
-  // the weight of each slice of the day; a frame lands every equal share of it
-  const slices = Math.max(48, Math.ceil((to - from) * 120))
-  const width = (to - from) / slices
-  const at = board.panels.map((p) => p.run)
-  const weight = (run: number) =>
-    1 + linger * at.reduce((w, a) => w + Math.exp(-(((run - a) / 0.3) ** 2)), 0)
-  const cum = [0]
-  for (let i = 0; i < slices; i++)
-    cum.push(cum[i]! + weight(from + (i + 0.5) * width) * width)
-  const total = cum[slices]!
-  const runs: number[] = []
-  let j = 0
-  for (let k = 0; k < n; k++) {
-    const target = (total * k) / (n - 1)
-    while (j < slices - 1 && cum[j + 1]! < target) j++
-    const lo = cum[j]!
-    const hi = cum[j + 1]!
-    const t = hi > lo ? (target - lo) / (hi - lo) : 0
-    runs.push(Math.min(to, from + (j + t) * width))
-  }
-  return runs
+  return framePlan(board, opts).map((f) => f.run)
+}
+
+/** what a recorded frame at `run` says: the last moment the recording reached */
+export function sayingAt(board: Storyboard, run: number): string {
+  let says = board.panels[0]?.says ?? ''
+  for (const p of board.panels) if (p.run <= run + 1e-9) says = p.says
+  return says
 }
 
 /**
@@ -228,7 +306,7 @@ export function record(
   const start = scene.clock.start
   const first = runs[0] ?? 0
   if (first > 0) sim.seek(wrap24(start + first))
-  const dt = 1 / (opts.fps ?? 12)
+  const dt = 1 / (opts.fps ?? DEFAULT_FPS)
   let at = first
   runs.forEach((run, i) => {
     if (i > 0) sim.advance(Math.max(0, run - at), dt)
@@ -236,6 +314,3 @@ export function record(
     each(sim.frame, sim, i)
   })
 }
-
-/** the words shown under a recorded frame */
-export const recordedCaption = frameCaption

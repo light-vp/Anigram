@@ -23,13 +23,15 @@ entry says so under **Changed**.
   simulation really did: the first time each event fires (a chain that
   loops is told once) and the captions between. Each panel is the drawing
   at that moment with its time and what happened.
-- **GIF and MP4.** The day recorded, playing quickly between the moments
-  and slowing as each arrives, with what is happening written under the
-  sheet. In the app: **▤ storyboard** on any sheet, or **storyboard** in the
+- **GIF and MP4.** The day recorded: the clock stops for two seconds at
+  each moment, with what happened written under the sheet while the flows
+  keep moving, then glides to the next at no more than an hour of the day
+  a second; a long quiet stretch is cut behind a dip to paper. MP4 at 30 fps and 1280 wide, GIF at
+  15 fps. In the app: **▤ storyboard** on any sheet, or **storyboard** in the
   editor; made in the browser (MP4 through WebCodecs), nothing uploaded.
 - `render_storyboard`, the same from an assistant: the board as a PNG to look
   at, an SVG or a PDF, or `out: "day.gif"` / `"day.mp4"` (MP4 needs ffmpeg).
-  `at` picks the hours; `from`, `to`, `seconds`, `fps` and `linger` shape it.
+  `at` picks the hours; `from`, `to`, `seconds`, `fps` and `hold` shape it.
 - **A P&ID evaluation** (`eval/pid/`): 31 scenarios, 15 of them on DEXPI
   e.V.'s public example P&IDs, run blind with and without the MCP server
   and graded by script, with the results in the docs.
