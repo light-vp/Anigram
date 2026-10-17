@@ -67,7 +67,7 @@ import type { Paper } from './pdf.ts'
 import { svgToPixels, svgToPng } from './png.ts'
 import { GifWriter } from '../src/format/gif.ts'
 import {
-  frameRuns,
+  framePlan,
   MAX_FRAMES,
   sayingAt,
   MAX_PANELS,
@@ -1647,7 +1647,7 @@ server.registerTool(
       "The moments that tell a scene's day, picked from what the simulation really did: the first time each event fires (so a chain that loops is told once), with the scene's captions filling the gaps. " +
       'By default it comes back as one PNG page of panels, each the drawing at its moment with its time and what happened: look at it to check the chain reads in order. ' +
       'format svg returns the page as markup; pdf saves it for printing. ' +
-      'format gif or mp4 records the day instead: the clock stops at each moment (with what happened written under the sheet, while the flows keep moving) and glides between them. A recording needs `out`; mp4 also needs ffmpeg on the PATH (gif needs nothing). ' +
+      'format gif or mp4 records the day instead: the clock stops at each moment (with what happened written under the sheet, while the flows keep moving) and glides between them; a long quiet stretch is cut behind a dip to paper. A recording needs `out`; mp4 also needs ffmpeg on the PATH (gif needs nothing). ' +
       '`at` picks the clock hours yourself; `from` and `to` narrow the stretch of the day.',
     inputSchema: {
       ...sceneInput,
@@ -1852,11 +1852,12 @@ server.registerTool(
 
       // a GIF stores every frame whole, so it runs at half the video's rate
       const fps = args.fps ?? (format === 'gif' ? 15 : 30)
-      const runs = frameRuns(board, {
+      const plan = framePlan(board, {
         seconds: args.seconds,
         fps,
         hold: args.hold,
       })
+      const runs = plan.map((f) => f.run)
       if (runs.length > MAX_FRAMES)
         throw new Error(`at most ${MAX_FRAMES} frames: shorten it or lower fps`)
       const width = Math.min(
@@ -1874,6 +1875,7 @@ server.registerTool(
             credit: args.credit,
             progress: runs.length > 1 ? i / (runs.length - 1) : 1,
             caption: sayingAt(board, runs[i]!),
+            fade: plan[i]!.fade,
           }),
         ),
       )

@@ -177,60 +177,109 @@ export const DEFAULT_FPS = 30
 export const DEFAULT_HOLD = 2
 export const MAX_FRAMES = 1800
 
-/** seconds a recording takes to travel `hours` of the day between two moments */
-const travelFor = (hours: number) => Math.min(3, Math.max(1, hours * 0.6))
+/** a glide plays at most this many hours of the day a second, so it can be followed */
+const HOURS_A_SECOND = 1
+/** a gap longer than this is cut: an hour out of one moment, a dip to paper, an hour into the next */
+const CUT_AFTER = 2.5
+/** seconds a cut takes to dip to paper, and to come back */
+const DIP = 0.35
 
 /** eases in and out of each moment, so the clock never jumps */
 const ease = (t: number) => t * t * (3 - 2 * t)
 
+/** one frame of a recording: the run hour it shows, and how far it has dipped to paper (0–1) */
+export interface PlannedFrame {
+  run: number
+  fade: number
+}
+
+interface Leg {
+  seconds: number
+  from: number
+  to: number
+  shape: (t: number) => number
+  /** dip to paper at the end of the leg, or come back from it at the start */
+  dip?: 'out' | 'in'
+}
+
 /**
- * the run hour each frame of a recording shows. The clock stops at each panel
- * for `hold` seconds, long enough to read what happened, then glides to the
- * next; the recording starts at the first panel and ends on the last, so a
- * quiet night after the story is not played.
+ * the frames of a recording. The clock stops at each panel for `hold`
+ * seconds, long enough to read what happened, then glides to the next at an
+ * hour of the day a second or slower. A long quiet gap is not raced through:
+ * the recording plays an hour out of one moment, dips to paper, and comes
+ * back an hour before the next. It starts at the first panel and ends on the
+ * last, so a quiet night after the story is not played.
  */
-export function frameRuns(
+export function framePlan(
   board: Storyboard,
   opts: RecordOptions = {},
-): number[] {
+): PlannedFrame[] {
   const fps = opts.fps ?? DEFAULT_FPS
   const stops = [...new Set(board.panels.map((p) => p.run))].sort(
     (a, b) => a - b,
   )
   if (!stops.length) stops.push(board.from)
-  let hold = opts.hold ?? DEFAULT_HOLD
-  let travels = stops.slice(1).map((r, i) => travelFor(r - stops[i]!))
-  const natural = hold * stops.length + travels.reduce((a, b) => a + b, 0)
-  if (opts.seconds !== undefined && natural > 0) {
-    const k = opts.seconds / natural
-    hold *= k
-    travels = travels.map((t) => t * k)
-  }
-  // the recording as stretches of seconds: a hold at each stop, a glide between
-  const legs: Array<{ seconds: number; from: number; to: number }> = []
+  const hold = opts.hold ?? DEFAULT_HOLD
+  const glide = (hours: number) => Math.max(1, hours / HOURS_A_SECOND)
+  const legs: Leg[] = []
   stops.forEach((stop, i) => {
-    legs.push({ seconds: hold, from: stop, to: stop })
-    const t = travels[i]
-    if (t !== undefined)
-      legs.push({ seconds: t, from: stop, to: stops[i + 1]! })
+    legs.push({ seconds: hold, from: stop, to: stop, shape: ease })
+    const next = stops[i + 1]
+    if (next === undefined) return
+    const gap = next - stop
+    if (gap <= CUT_AFTER) {
+      legs.push({ seconds: glide(gap), from: stop, to: next, shape: ease })
+      return
+    }
+    // ease out of the moment, then in to the next: the cut sits between
+    legs.push({
+      seconds: glide(1),
+      from: stop,
+      to: stop + 1,
+      shape: (t) => t * t,
+      dip: 'out',
+    })
+    legs.push({
+      seconds: glide(1),
+      from: next - 1,
+      to: next,
+      shape: (t) => 1 - (1 - t) * (1 - t),
+      dip: 'in',
+    })
   })
-  const total = legs.reduce((a, l) => a + l.seconds, 0)
+  const natural = legs.reduce((a, l) => a + l.seconds, 0)
+  const k = opts.seconds !== undefined ? opts.seconds / natural : 1
+  for (const l of legs) l.seconds *= k
+  const total = natural * k
   const n = Math.max(2, Math.min(MAX_FRAMES, Math.round(total * fps)))
-  const runs: number[] = []
+  const dip = Math.min(DIP * k, 0.45 * glide(1) * k)
+  const frames: PlannedFrame[] = []
   let leg = 0
   let start = 0
-  for (let k = 0; k < n; k++) {
+  for (let f = 0; f < n; f++) {
     // the last frame lands on the last stop
-    const at = (total * k) / (n - 1)
+    const at = (total * f) / (n - 1)
     while (leg < legs.length - 1 && at > start + legs[leg]!.seconds) {
       start += legs[leg]!.seconds
       leg++
     }
     const l = legs[leg]!
-    const t = l.seconds > 0 ? Math.min(1, (at - start) / l.seconds) : 1
-    runs.push(l.from + (l.to - l.from) * ease(t))
+    const into = Math.max(0, at - start)
+    const t = l.seconds > 0 ? Math.min(1, into / l.seconds) : 1
+    let fade = 0
+    if (l.dip === 'out') fade = Math.max(0, 1 - (l.seconds - into) / dip)
+    if (l.dip === 'in') fade = Math.max(0, 1 - into / dip)
+    frames.push({ run: l.from + (l.to - l.from) * l.shape(t), fade })
   }
-  return runs
+  return frames
+}
+
+/** the run hour of each frame of a recording, as `framePlan` lays them out */
+export function frameRuns(
+  board: Storyboard,
+  opts: RecordOptions = {},
+): number[] {
+  return framePlan(board, opts).map((f) => f.run)
 }
 
 /** what a recorded frame at `run` says: the last moment the recording reached */

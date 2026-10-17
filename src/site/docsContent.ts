@@ -302,7 +302,7 @@ export const SECTIONS: Section[] = [
         p: 'A storyboard is the handful of moments that tell a sheet’s day, picked from what the simulation really did: the first time each event fires, so a chain that loops is told once, and the scene’s captions where nothing fires. Each panel is the drawing at that moment, with its time and what happened.',
       },
       {
-        p: 'The same moments pace a recording. The clock stops for two seconds at each one, with what happened written under the sheet while the flows keep moving, then glides on to the next, so a GIF of a Rube Goldberg machine pauses on every link of it.',
+        p: 'The same moments pace a recording. The clock stops for two seconds at each one, with what happened written under the sheet while the flows keep moving, then glides on to the next (a long quiet stretch is cut behind a dip to paper), so a GIF of a Rube Goldberg machine pauses on every link of it.',
       },
       {
         list: [

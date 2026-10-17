@@ -25,7 +25,8 @@ entry says so under **Changed**.
   at that moment with its time and what happened.
 - **GIF and MP4.** The day recorded: the clock stops for two seconds at
   each moment, with what happened written under the sheet while the flows
-  keep moving, then glides to the next. MP4 at 30 fps and 1280 wide, GIF at
+  keep moving, then glides to the next at no more than an hour of the day
+  a second; a long quiet stretch is cut behind a dip to paper. MP4 at 30 fps and 1280 wide, GIF at
   15 fps. In the app: **▤ storyboard** on any sheet, or **storyboard** in the
   editor; made in the browser (MP4 through WebCodecs), nothing uploaded.
 - `render_storyboard`, the same from an assistant: the board as a PNG to look

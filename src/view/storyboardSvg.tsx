@@ -195,6 +195,8 @@ export interface FrameRenderOptions {
   progress?: number
   /** the words under the frame (default the scene's own caption at that moment) */
   caption?: string
+  /** how far the sheet has dipped to paper, 0–1, for a cut between two moments */
+  fade?: number
 }
 
 /** the band under a recorded frame: its caption and a progress hairline */
@@ -239,6 +241,10 @@ export function renderFrameSvg(
     opts.progress === undefined
       ? ''
       : `<rect x="40" y="${h + 2}" width="${w - 80}" height="2" fill="${p.line}"/><rect x="40" y="${h + 2}" width="${(w - 80) * Math.max(0, Math.min(1, opts.progress))}" height="2" fill="${p.muted}"/>`
+  const fade = Math.max(0, Math.min(1, opts.fade ?? 0))
+  const dip = fade
+    ? `<rect width="${w}" height="${h}" fill="${p.paper}" opacity="${Math.round(fade * 1000) / 1000}"/>`
+    : ''
   return `<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h + BAND_H}" viewBox="0 0 ${w} ${h + BAND_H}" font-family="${FONT}"><rect width="${w}" height="${h + BAND_H}" fill="${p.paper}"/>${nest(markup, { x: 0, y: 0, w, h }, { x: 0, y: 0, w, h })}${progress}${text}</svg>`
+<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h + BAND_H}" viewBox="0 0 ${w} ${h + BAND_H}" font-family="${FONT}"><rect width="${w}" height="${h + BAND_H}" fill="${p.paper}"/>${nest(markup, { x: 0, y: 0, w, h }, { x: 0, y: 0, w, h })}${dip}${progress}${text}</svg>`
 }

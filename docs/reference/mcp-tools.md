@@ -865,7 +865,7 @@ Draw the sheet at an hour of the day, the same drawing the app shows in paper mo
 
 **Tell the day as a storyboard or a video**
 
-The moments that tell a scene's day, picked from what the simulation really did: the first time each event fires (so a chain that loops is told once), with the scene's captions filling the gaps. By default it comes back as one PNG page of panels, each the drawing at its moment with its time and what happened: look at it to check the chain reads in order. format svg returns the page as markup; pdf saves it for printing. format gif or mp4 records the day instead: the clock stops at each moment (with what happened written under the sheet, while the flows keep moving) and glides between them. A recording needs `out`; mp4 also needs ffmpeg on the PATH (gif needs nothing). `at` picks the clock hours yourself; `from` and `to` narrow the stretch of the day.
+The moments that tell a scene's day, picked from what the simulation really did: the first time each event fires (so a chain that loops is told once), with the scene's captions filling the gaps. By default it comes back as one PNG page of panels, each the drawing at its moment with its time and what happened: look at it to check the chain reads in order. format svg returns the page as markup; pdf saves it for printing. format gif or mp4 records the day instead: the clock stops at each moment (with what happened written under the sheet, while the flows keep moving) and glides between them; a long quiet stretch is cut behind a dip to paper. A recording needs `out`; mp4 also needs ffmpeg on the PATH (gif needs nothing). `at` picks the clock hours yourself; `from` and `to` narrow the stretch of the day.
 
 | parameter | type | required | what it is |
 | - | - | - | - |

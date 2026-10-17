@@ -5,7 +5,7 @@ import { GifWriter } from '../format/gif.ts'
 import { Mp4Muxer } from '../format/mp4.ts'
 import type { Controls } from '../format/report.ts'
 import {
-  frameRuns,
+  framePlan,
   record,
   sayingAt,
   storyboard,
@@ -76,7 +76,8 @@ function frames(
   wide: number,
 ) {
   const board = storyboard(scene, opts)
-  const runs = frameRuns(board, { seconds: opts.seconds, fps })
+  const plan = framePlan(board, { seconds: opts.seconds, fps })
+  const runs = plan.map((f) => f.run)
   const svgs: string[] = []
   record(scene, runs, { ...opts, fps }, (frame, _sim, i) =>
     svgs.push(
@@ -84,6 +85,7 @@ function frames(
         theme: opts.theme,
         progress: runs.length > 1 ? i / (runs.length - 1) : 1,
         caption: sayingAt(board, runs[i]!),
+        fade: plan[i]!.fade,
       }),
     ),
   )

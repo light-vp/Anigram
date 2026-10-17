@@ -6,7 +6,13 @@ import { test } from 'node:test'
 
 import { SCENES } from '../scenes/index.ts'
 import type { Scene } from '../sim/types.ts'
-import { frameRuns, record, sayingAt, storyboard } from './storyboard.ts'
+import {
+  framePlan,
+  frameRuns,
+  record,
+  sayingAt,
+  storyboard,
+} from './storyboard.ts'
 
 const scene = (id: string) => SCENES.find((s) => s.id === id) as Scene
 const garden = scene('garden-machine')
@@ -81,9 +87,21 @@ test('a recording stops at each moment, then glides to the next', () => {
     const still = runs.filter((r) => r === stop).length
     assert.ok(still >= 59 && still <= 62, `${still} frames at ${stop}`)
   }
-  // no frame jumps more than a slice of the longest glide
-  const gaps = runs.slice(1).map((r, i) => r - runs[i]!)
-  assert.ok(Math.max(...gaps) < 0.4, `jumped ${Math.max(...gaps)} h`)
+  // a glide never plays more than about an hour of the day a second, and
+  // the long quiet afternoon is cut, hidden behind a dip to paper
+  const plan = framePlan(board, { fps: 30 })
+  let cuts = 0
+  plan.slice(1).forEach((f, i) => {
+    const step = f.run - plan[i]!.run
+    if (step > 0.2) {
+      cuts++
+      assert.ok(
+        f.fade > 0.8 && plan[i]!.fade > 0.8,
+        `a cut in the open at ${f.run}`,
+      )
+    } else assert.ok(step < 0.07, `raced ${step} h at ${f.run}`)
+  })
+  assert.ok(cuts >= 1)
   // the length asked for is the length made
   assert.equal(frameRuns(board, { seconds: 10, fps: 12 }).length, 120)
   // the caption under a frame is the last moment it reached
