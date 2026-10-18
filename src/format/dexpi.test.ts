@@ -117,3 +117,32 @@ test('only a P&ID exports, and what cannot go across is said', () => {
   )
   wellFormed(r.xml)
 })
+
+test('the newer symbols go across as their own DEXPI classes and come back', async () => {
+  const { fromDexpi } = await import('./dexpiImport.ts')
+  const column = load(
+    JSON.parse(
+      readFileSync(
+        new URL('../../examples/distillation-pid.json', import.meta.url),
+        'utf8',
+      ),
+    ),
+  )
+  const { xml, notes } = toDexpi(column, { now: at })
+  wellFormed(xml)
+  assert.deepEqual(notes, [])
+  for (const v of [
+    'ProcessColumn',
+    'TubularHeatExchanger',
+    'AirCoolingSystem',
+    'PressureVessel',
+    'Strainer',
+  ])
+    assert.match(xml, new RegExp(`ComponentClass="${v}"`), v)
+  const back = fromDexpi(xml).scene
+  const cls = (tag: string) => back.parts.find((p) => p.tag === tag)?.class
+  assert.equal(cls('C-101'), 'ProcessColumn')
+  assert.equal(cls('E-101'), 'TubularHeatExchanger')
+  assert.equal(cls('E-102'), 'AirCoolingSystem')
+  assert.equal(cls('Y-101'), 'Strainer')
+})

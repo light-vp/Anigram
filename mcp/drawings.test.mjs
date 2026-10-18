@@ -68,7 +68,11 @@ test('every built-in sheet draws as it did', async () => {
         changed.push(name)
     }
   // and the engineering reference sheets, which carry instruments and a title block
-  for (const example of ['feed-tank-pid', 'hydraulic-press']) {
+  for (const example of [
+    'feed-tank-pid',
+    'distillation-pid',
+    'hydraulic-press',
+  ]) {
     const name = `${example}-9.svg`
     const file = new URL(name, DIR)
     const scene = readFileSync(

@@ -30,7 +30,12 @@ test('every built-in sheet and the example files match the schema', () => {
     const v = validateScene(stamp(JSON.parse(JSON.stringify(s))))
     assert.ok(check(v.scene), `${s.id}: ${ajv.errorsText(check.errors)}`)
   }
-  for (const f of ['narrowboat', 'feed-tank-pid', 'hydraulic-press'])
+  for (const f of [
+    'narrowboat',
+    'feed-tank-pid',
+    'distillation-pid',
+    'hydraulic-press',
+  ])
     assert.ok(
       check(read(`../../examples/${f}.json`)),
       `${f}: ${ajv.errorsText(check.errors)}`,

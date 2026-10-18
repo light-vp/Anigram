@@ -3,7 +3,7 @@
 
 import { PACKS, classOf, shows } from '../packs/catalogue.ts'
 import type { Ports } from '../packs/catalogue.ts'
-import { cellToPx, linkPoints } from './geometry.ts'
+import { TILE, cellToPx, linkPoints } from './geometry.ts'
 import type { Pt } from './geometry.ts'
 import { LABEL_OFFSET } from './layout.ts'
 import type { LineType, LinkSpec, PartSpec, Scene } from '../sim/types.ts'
@@ -19,6 +19,9 @@ export const LINE_NAMES: Record<LineType, string> = {
   signal: 'signal line',
   pneumatic: 'pneumatic signal',
   data: 'data link',
+  hydraulic: 'hydraulic signal',
+  capillary: 'capillary tube',
+  electromagnetic: 'electromagnetic signal',
 }
 
 export interface Way {
@@ -232,8 +235,18 @@ export function engPoints(scene: Scene, link: LinkSpec): Pt[] {
 /** where a part's words sit on an engineering sheet: beside a wide symbol, clear of all of it */
 export function engLabelOffset(scene: Scene, part: PartSpec) {
   const o = LABEL_OFFSET[part.labelSide ?? 'below']
-  if (part.labelSide !== 'left' && part.labelSide !== 'right') return o
   const c = classOf(part, scene)
-  const reach = c && scene.drawing && PACKS[scene.drawing]?.classes[c]?.reach
-  return reach ? { ...o, dx: Math.sign(o.dx) * (reach + 10) } : o
+  const info = c && scene.drawing ? PACKS[scene.drawing]?.classes[c] : undefined
+  if (part.labelSide !== 'left' && part.labelSide !== 'right') {
+    // clear of a tall symbol, and above it clear of a valve's actuator too
+    const past = Math.max(0, (info?.tall ?? TILE / 2) - TILE / 2)
+    if (part.labelSide === 'above')
+      return { ...o, dy: o.dy - Math.max(past, hasActuator(part, c) ? 14 : 0) }
+    return past ? { ...o, dy: o.dy + past } : o
+  }
+  return info?.reach ? { ...o, dx: Math.sign(o.dx) * (info.reach + 10) } : o
 }
+
+/** a valve drawn with an actuator on its stem */
+const hasActuator = (part: PartSpec, cls: string | undefined) =>
+  cls === 'ControlValve' || (!!part.actuator && !!cls?.endsWith('Valve'))

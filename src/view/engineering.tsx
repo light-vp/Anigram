@@ -80,7 +80,7 @@ export function EngLink({
     <g className={dim ? 'link dim' : 'link'}>
       <title>{`${reversed ? to : from} → ${reversed ? from : to}: ${rate(scene, link.domain, flow)} of ${DOMAIN_NAMES[link.domain]}`}</title>
       <path d={d} className={`route ${line}${link.loss ? ' loss' : ''}`} />
-      {line === 'pneumatic' && <Slashes pts={pts} />}
+      <LineMarks pts={pts} line={line} />
       {on && animate && line !== 'signal' && line !== 'data' && (
         <path
           d={d}
@@ -125,8 +125,30 @@ function Shaft({ d }: { d: string }) {
   )
 }
 
-/** ISA's pneumatic signal: a pair of short slashes every so often along the line */
-function Slashes({ pts }: { pts: Pt[] }) {
+/** the line types drawn with a mark repeated along them */
+const MARKED = new Set<LineType>([
+  'pneumatic',
+  'hydraulic',
+  'capillary',
+  'electromagnetic',
+])
+
+/**
+ * ISA-5.1's marks along a signal line, every so often: a pair of slashes for
+ * pneumatic, a pair of Ls for hydraulic, a pair of crosses for a capillary
+ * tube, a wave for an electromagnetic or sonic signal
+ */
+function LineMarks({
+  pts,
+  line,
+  once,
+}: {
+  pts: Pt[]
+  line: LineType
+  /** one mark only, this far along: the legend's short sample */
+  once?: number
+}) {
+  if (!MARKED.has(line)) return null
   const marks: string[] = []
   for (let i = 1; i < pts.length; i++) {
     const [x1, y1] = pts[i - 1]!
@@ -134,17 +156,28 @@ function Slashes({ pts }: { pts: Pt[] }) {
     const len = Math.hypot(x2 - x1, y2 - y1)
     const ux = (x2 - x1) / (len || 1)
     const uy = (y2 - y1) / (len || 1)
-    for (let t = 40; t < len - 30; t += 40) {
-      for (const o of [-2.5, 2.5]) {
-        const cx = x1 + ux * (t + o)
-        const cy = y1 + uy * (t + o)
-        // a slash leans across the line
-        const ax = cx + (-uy + ux) * 4
-        const ay = cy + (ux + uy) * 4
-        const bx = cx - (-uy + ux) * 4
-        const by = cy - (ux + uy) * 4
-        marks.push(`M${ax} ${ay} L${bx} ${by}`)
-      }
+    const along = once !== undefined ? [once] : []
+    if (once === undefined)
+      for (let t = 40; t < len - 30; t += 40) along.push(t)
+    for (const t of along) {
+      // a point `a` along the line from the mark's centre and `b` across it
+      const at = (a: number, b: number) =>
+        `${+(x1 + ux * (t + a) - uy * b).toFixed(2)} ${+(y1 + uy * (t + a) + ux * b).toFixed(2)}`
+      if (line === 'pneumatic')
+        for (const o of [-2.5, 2.5])
+          marks.push(`M${at(o + 4, 4)} L${at(o - 4, -4)}`)
+      if (line === 'hydraulic')
+        for (const o of [-4, 3])
+          marks.push(`M${at(o, -6)} L${at(o, 1.5)} L${at(o + 3.5, 1.5)}`)
+      if (line === 'capillary')
+        for (const o of [-4, 4])
+          marks.push(
+            `M${at(o - 3, -3)} L${at(o + 3, 3)} M${at(o - 3, 3)} L${at(o + 3, -3)}`,
+          )
+      if (line === 'electromagnetic')
+        marks.push(
+          `M${at(-8, 0)} Q${at(-6, -6)} ${at(-4, 0)} Q${at(-2, 6)} ${at(0, 0)} Q${at(2, -6)} ${at(4, 0)} Q${at(6, 6)} ${at(8, 0)}`,
+        )
     }
   }
   return <path className="ln thin" d={marks.join(' ')} />
@@ -348,10 +381,22 @@ export function EngLegend({
             {t === 'shaft' ? (
               <Shaft d={`M${at} ${y} H${at + 26}`} />
             ) : (
-              <path
-                className={t === 'loss' ? 'route process loss' : `route ${t}`}
-                d={`M${at} ${y} H${at + 26}`}
-              />
+              <>
+                <path
+                  className={t === 'loss' ? 'route process loss' : `route ${t}`}
+                  d={`M${at} ${y} H${at + 26}`}
+                />
+                {t !== 'loss' && (
+                  <LineMarks
+                    pts={[
+                      [at, y],
+                      [at + 26, y],
+                    ]}
+                    line={t}
+                    once={13}
+                  />
+                )}
+              </>
             )}
             <text className="legend" x={at + 34} y={y}>
               {label(t)}
@@ -409,7 +454,7 @@ export function InstrumentLines({
             className={`route ${line}`}
             d={roundedPath(wire(at, drives), 0)}
           />
-          {line === 'pneumatic' && <Slashes pts={wire(at, drives)} />}
+          <LineMarks pts={wire(at, drives)} line={line} />
         </>
       )}
     </g>

@@ -18,7 +18,7 @@ const starter = (d: keyof typeof STARTERS) =>
 test('every starter and the reference sheets follow their practice', () => {
   for (const s of Object.values(STARTERS))
     assert.deepEqual(drawingFindings(load(s)), [])
-  for (const name of ['feed-tank-pid', 'hydraulic-press']) {
+  for (const name of ['feed-tank-pid', 'distillation-pid', 'hydraulic-press']) {
     const file = JSON.parse(
       readFileSync(
         new URL(`../../examples/${name}.json`, import.meta.url),

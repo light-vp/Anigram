@@ -36,7 +36,7 @@ test("DEXPI's reference P&ID opens, with its plant and loops", () => {
   assert.equal(tag('P-4711')?.class, 'CentrifugalPump')
   assert.equal(tag('P-4712')?.class, 'PositiveDisplacementPump')
   assert.equal(tag('T-4750')?.class, 'Tank')
-  assert.equal(tag('H-1007')?.class, 'HeatExchanger')
+  assert.equal(tag('H-1007')?.class, 'PlateHeatExchanger')
   // the three actuated valves are control valves, each driven by its loop
   for (const [valve, by] of [
     ['PV-4712.02', 'PICSA-4712.02'],
@@ -116,6 +116,9 @@ test('a column with its instrument taps, and a ratio loop, open cleanly', () => 
     const s = load(scene)
     assert.ok(s.instruments?.length, f)
   }
+  // the column's sections hold packing, so it draws as a packed column
+  const column = load(fromDexpi(fixture('dexpi-c02-column.xml')).scene)
+  assert.ok(column.parts.some((p) => p.class === 'PackedColumn'))
   // the ratio controller is numbered `031.` in the file: it keeps its loop number
   const ratio = load(fromDexpi(fixture('dexpi-i05-ratio-control.xml')).scene)
   assert.ok(ratio.instruments?.some((i) => i.tag === 'FFIC-031'))

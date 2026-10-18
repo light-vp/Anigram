@@ -536,6 +536,24 @@
             "minLength": 1,
             "description": "what exactly it is in the drawing practice's vocabulary, like CentrifugalPump; picks the symbol"
           },
+          "actuator": {
+            "enum": [
+              "diaphragm",
+              "motor",
+              "solenoid",
+              "piston",
+              "hand"
+            ],
+            "description": "what moves a valve on a P&ID, drawn on its stem; a ControlValve's is a diaphragm unless it says otherwise"
+          },
+          "fails": {
+            "enum": [
+              "open",
+              "closed",
+              "last"
+            ],
+            "description": "where an actuated valve goes when its signal or power is lost (FO, FC, FL)"
+          },
           "effort": {
             "type": "object",
             "properties": {
@@ -655,7 +673,10 @@
               "utility",
               "signal",
               "pneumatic",
-              "data"
+              "data",
+              "hydraulic",
+              "capillary",
+              "electromagnetic"
             ],
             "description": "how an engineering drawing draws it; process by default, signal for data"
           },
@@ -721,7 +742,10 @@
             "enum": [
               "signal",
               "pneumatic",
-              "data"
+              "data",
+              "hydraulic",
+              "capillary",
+              "electromagnetic"
             ],
             "description": "how its signal to `drives` travels"
           },

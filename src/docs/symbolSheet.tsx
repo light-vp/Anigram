@@ -87,13 +87,15 @@ export function classSvg(cls: string, symbols: SymbolSet): string {
     behaviour: { role: 'bus' },
     class: cls,
   }
+  // a bursting disc is shown whole, as it sits until it lets go
+  const s = cls === 'RuptureDisc' ? { ...SHOWN, open: 0 } : SHOWN
   // a wide symbol (a directional valve, a cylinder's rod) is shrunk to fit
   const k = Math.min(1, 32 / reachOf(cls))
   const sym = (
     <PackSymbol
       cls={cls}
       name={cls}
-      s={SHOWN}
+      s={s}
       phase={0}
       part={part}
       symbols={symbols}

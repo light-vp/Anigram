@@ -11,22 +11,57 @@ Follows ISO 10628-2 symbols, ISA-5.1 tags and lines. Draws water, heat, fuel, da
 | IEC | ANSI | class | is | drawn for kinds |
 | - | - | - | - | - |
 | <img src="symbols/CentrifugalPump.svg" width="48" height="48" alt=""> | same | `CentrifugalPump` | a centrifugal pump | `pump` |
-| <img src="symbols/PositiveDisplacementPump.svg" width="48" height="48" alt=""> | same | `PositiveDisplacementPump` | a positive displacement pump | — |
+| <img src="symbols/PositiveDisplacementPump.svg" width="48" height="48" alt=""> | same | `PositiveDisplacementPump` | a positive displacement pump: reciprocating, diaphragm or metering | — |
+| <img src="symbols/RotaryPump.svg" width="48" height="48" alt=""> | same | `RotaryPump` | a rotary pump: gear, screw or lobe | — |
 | <img src="symbols/Compressor.svg" width="48" height="48" alt=""> | same | `Compressor` | a compressor | `heatpump` |
 | <img src="symbols/Fan.svg" width="48" height="48" alt=""> | same | `Fan` | a fan or blower | `fan` |
+| <img src="symbols/Ejector.svg" width="48" height="48" alt=""> | same | `Ejector` | an ejector or eductor: a motive jet drawing a second stream in from below | — |
+| <img src="symbols/StaticMixer.svg" width="48" height="48" alt=""> | same | `StaticMixer` | a static mixer in the line | — |
+| <img src="symbols/ElectricMotor.svg" width="48" height="48" alt=""> | same | `ElectricMotor` | an electric motor | — |
+| <img src="symbols/Turbine.svg" width="48" height="48" alt=""> | same | `Turbine` | a steam, gas or hydraulic turbine | `turbine` |
 | <img src="symbols/Tank.svg" width="48" height="48" alt=""> | same | `Tank` | an atmospheric storage tank; shows its level | `reservoir`, `watertower`, `fueltank` |
-| <img src="symbols/Vessel.svg" width="48" height="48" alt=""> | same | `Vessel` | a pressure vessel or drum; shows its level | `hottank` |
-| <img src="symbols/HeatExchanger.svg" width="48" height="48" alt=""> | same | `HeatExchanger` | a heat exchanger | — |
-| <img src="symbols/Filter.svg" width="48" height="48" alt=""> | same | `Filter` | a filter or strainer | `treatment` |
+| <img src="symbols/OpenTank.svg" width="48" height="48" alt=""> | same | `OpenTank` | an open tank, basin or sump; shows its level | — |
+| <img src="symbols/Vessel.svg" width="48" height="48" alt=""> | same | `Vessel` | a vertical pressure vessel or drum; shows its level | `hottank` |
+| <img src="symbols/HorizontalVessel.svg" width="48" height="48" alt=""> | same | `HorizontalVessel` | a horizontal drum on saddles: a receiver, separator or accumulator; shows its level | — |
+| <img src="symbols/SphericalTank.svg" width="48" height="48" alt=""> | same | `SphericalTank` | a sphere on legs, for gas or liquid under pressure; shows its level | — |
+| <img src="symbols/Silo.svg" width="48" height="48" alt=""> | same | `Silo` | a silo or hopper with a coned bottom; shows its level | — |
+| <img src="symbols/Reactor.svg" width="48" height="48" alt=""> | same | `Reactor` | a stirred vessel or reactor; its agitator turns, and it shows its level | — |
+| <img src="symbols/ProcessColumn.svg" width="48" height="48" alt=""> | same | `ProcessColumn` | a trayed column: distillation, absorption or stripping; shows the level in its sump | — |
+| <img src="symbols/PackedColumn.svg" width="48" height="48" alt=""> | same | `PackedColumn` | a packed column, two beds of packing; shows the level in its sump | — |
+| <img src="symbols/Cyclone.svg" width="48" height="48" alt=""> | same | `Cyclone` | a cyclone separator | — |
+| <img src="symbols/Filter.svg" width="48" height="48" alt=""> | same | `Filter` | a filter | `treatment` |
+| <img src="symbols/HeatExchanger.svg" width="48" height="48" alt=""> | same | `HeatExchanger` | a heat exchanger, any type | — |
+| <img src="symbols/TubularHeatExchanger.svg" width="48" height="48" alt=""> | same | `TubularHeatExchanger` | a shell-and-tube heat exchanger | — |
+| <img src="symbols/PlateHeatExchanger.svg" width="48" height="48" alt=""> | same | `PlateHeatExchanger` | a plate heat exchanger | — |
+| <img src="symbols/AirCoolingSystem.svg" width="48" height="48" alt=""> | same | `AirCoolingSystem` | an air cooler: a fin-fan over a tube bundle | — |
+| <img src="symbols/Furnace.svg" width="48" height="48" alt=""> | same | `Furnace` | a fired heater or furnace; its burners show while it works | — |
+| <img src="symbols/CoolingTower.svg" width="48" height="48" alt=""> | same | `CoolingTower` | a cooling tower; water falls through it while it works | `coolingtower` |
 | <img src="symbols/GateValve.svg" width="48" height="48" alt=""> | same | `GateValve` | an isolating valve; filled when shut | `valve` |
 | <img src="symbols/GlobeValve.svg" width="48" height="48" alt=""> | same | `GlobeValve` | a globe valve; filled when shut | — |
 | <img src="symbols/BallValve.svg" width="48" height="48" alt=""> | same | `BallValve` | a ball valve; filled when shut | — |
-| <img src="symbols/CheckValve.svg" width="48" height="48" alt=""> | same | `CheckValve` | a non-return valve | — |
 | <img src="symbols/ButterflyValve.svg" width="48" height="48" alt=""> | same | `ButterflyValve` | a butterfly valve; its disc turns across the bore as it shuts | — |
-| <img src="symbols/SafetyValve.svg" width="48" height="48" alt=""> | same | `SafetyValve` | a spring-loaded safety or relief valve; shut until pressure lifts it | — |
+| <img src="symbols/PlugValve.svg" width="48" height="48" alt=""> | same | `PlugValve` | a plug valve; filled when shut | — |
+| <img src="symbols/NeedleValve.svg" width="48" height="48" alt=""> | same | `NeedleValve` | a needle valve; filled when shut | — |
+| <img src="symbols/DiaphragmValve.svg" width="48" height="48" alt=""> | same | `DiaphragmValve` | a diaphragm valve; filled when shut | — |
+| <img src="symbols/AngleValve.svg" width="48" height="48" alt=""> | same | `AngleValve` | an angle valve: in from the side, out of the bottom; filled when shut | — |
+| <img src="symbols/ThreeWayValve.svg" width="48" height="48" alt=""> | same | `ThreeWayValve` | a three-way valve, its third port underneath; filled when shut | — |
+| <img src="symbols/CheckValve.svg" width="48" height="48" alt=""> | same | `CheckValve` | a non-return valve | — |
 | <img src="symbols/ControlValve.svg" width="48" height="48" alt=""> | same | `ControlValve` | a valve with an actuator; its opening follows the signal | — |
-| <img src="symbols/ElectricMotor.svg" width="48" height="48" alt=""> | same | `ElectricMotor` | an electric motor | — |
-| <img src="symbols/Turbine.svg" width="48" height="48" alt=""> | same | `Turbine` | a steam, gas or hydraulic turbine | `turbine` |
+| <img src="symbols/PressureReducingValve.svg" width="48" height="48" alt=""> | same | `PressureReducingValve` | a self-acting pressure regulator, sensing downstream | — |
+| <img src="symbols/SafetyValve.svg" width="48" height="48" alt=""> | same | `SafetyValve` | a spring-loaded safety or relief valve; shut until pressure lifts it | — |
+| <img src="symbols/BreatherValve.svg" width="48" height="48" alt=""> | same | `BreatherValve` | a pressure and vacuum breather on a tank roof | — |
+| <img src="symbols/RuptureDisc.svg" width="48" height="48" alt=""> | same | `RuptureDisc` | a bursting disc; shows burst once it lets go | — |
+| <img src="symbols/Strainer.svg" width="48" height="48" alt=""> | same | `Strainer` | a Y-strainer | — |
+| <img src="symbols/FlameArrestor.svg" width="48" height="48" alt=""> | same | `FlameArrestor` | a flame arrestor | — |
+| <img src="symbols/SteamTrap.svg" width="48" height="48" alt=""> | same | `SteamTrap` | a steam trap | — |
+| <img src="symbols/SightGlass.svg" width="48" height="48" alt=""> | same | `SightGlass` | a sight glass | — |
+| <img src="symbols/RestrictionOrifice.svg" width="48" height="48" alt=""> | same | `RestrictionOrifice` | a restriction orifice plate | — |
+| <img src="symbols/PipeReducer.svg" width="48" height="48" alt=""> | same | `PipeReducer` | a concentric reducer, wide end upstream | — |
+| <img src="symbols/FlexibleHose.svg" width="48" height="48" alt=""> | same | `FlexibleHose` | a flexible hose | — |
+| <img src="symbols/BlindFlange.svg" width="48" height="48" alt=""> | same | `BlindFlange` | a line closed off at a blind flange | — |
+| <img src="symbols/Funnel.svg" width="48" height="48" alt=""> | same | `Funnel` | a drain into a funnel, across an air gap | — |
+| <img src="symbols/Vent.svg" width="48" height="48" alt=""> | same | `Vent` | a vent to atmosphere, turned down | — |
+| <img src="symbols/Silencer.svg" width="48" height="48" alt=""> | same | `Silencer` | a vent or exhaust silencer | — |
 | <img src="symbols/Junction.svg" width="48" height="48" alt=""> | same | `Junction` | where lines meet; a tee or header | — |
 | <img src="symbols/OffPageConnector.svg" width="48" height="48" alt=""> | same | `OffPageConnector` | where a line leaves or joins the sheet; sources and consumers off the drawing | — |
 
@@ -57,14 +92,30 @@ Follows ISO 10628-1 major equipment and streams. Draws water, heat, fuel lines.
 | IEC | ANSI | class | is | drawn for kinds |
 | - | - | - | - | - |
 | <img src="symbols/CentrifugalPump.svg" width="48" height="48" alt=""> | same | `CentrifugalPump` | a centrifugal pump | `pump` |
-| <img src="symbols/PositiveDisplacementPump.svg" width="48" height="48" alt=""> | same | `PositiveDisplacementPump` | a positive displacement pump | — |
+| <img src="symbols/PositiveDisplacementPump.svg" width="48" height="48" alt=""> | same | `PositiveDisplacementPump` | a positive displacement pump: reciprocating, diaphragm or metering | — |
+| <img src="symbols/RotaryPump.svg" width="48" height="48" alt=""> | same | `RotaryPump` | a rotary pump: gear, screw or lobe | — |
 | <img src="symbols/Compressor.svg" width="48" height="48" alt=""> | same | `Compressor` | a compressor | `heatpump` |
 | <img src="symbols/Fan.svg" width="48" height="48" alt=""> | same | `Fan` | a fan or blower | `fan` |
-| <img src="symbols/Tank.svg" width="48" height="48" alt=""> | same | `Tank` | an atmospheric storage tank; shows its level | `reservoir`, `watertower`, `fueltank` |
-| <img src="symbols/Vessel.svg" width="48" height="48" alt=""> | same | `Vessel` | a pressure vessel or drum; shows its level | `hottank` |
-| <img src="symbols/HeatExchanger.svg" width="48" height="48" alt=""> | same | `HeatExchanger` | a heat exchanger | — |
-| <img src="symbols/Filter.svg" width="48" height="48" alt=""> | same | `Filter` | a filter or strainer | `treatment` |
+| <img src="symbols/Ejector.svg" width="48" height="48" alt=""> | same | `Ejector` | an ejector or eductor: a motive jet drawing a second stream in from below | — |
+| <img src="symbols/StaticMixer.svg" width="48" height="48" alt=""> | same | `StaticMixer` | a static mixer in the line | — |
 | <img src="symbols/Turbine.svg" width="48" height="48" alt=""> | same | `Turbine` | a steam, gas or hydraulic turbine | `turbine` |
+| <img src="symbols/Tank.svg" width="48" height="48" alt=""> | same | `Tank` | an atmospheric storage tank; shows its level | `reservoir`, `watertower`, `fueltank` |
+| <img src="symbols/OpenTank.svg" width="48" height="48" alt=""> | same | `OpenTank` | an open tank, basin or sump; shows its level | — |
+| <img src="symbols/Vessel.svg" width="48" height="48" alt=""> | same | `Vessel` | a vertical pressure vessel or drum; shows its level | `hottank` |
+| <img src="symbols/HorizontalVessel.svg" width="48" height="48" alt=""> | same | `HorizontalVessel` | a horizontal drum on saddles: a receiver, separator or accumulator; shows its level | — |
+| <img src="symbols/SphericalTank.svg" width="48" height="48" alt=""> | same | `SphericalTank` | a sphere on legs, for gas or liquid under pressure; shows its level | — |
+| <img src="symbols/Silo.svg" width="48" height="48" alt=""> | same | `Silo` | a silo or hopper with a coned bottom; shows its level | — |
+| <img src="symbols/Reactor.svg" width="48" height="48" alt=""> | same | `Reactor` | a stirred vessel or reactor; its agitator turns, and it shows its level | — |
+| <img src="symbols/ProcessColumn.svg" width="48" height="48" alt=""> | same | `ProcessColumn` | a trayed column: distillation, absorption or stripping; shows the level in its sump | — |
+| <img src="symbols/PackedColumn.svg" width="48" height="48" alt=""> | same | `PackedColumn` | a packed column, two beds of packing; shows the level in its sump | — |
+| <img src="symbols/Cyclone.svg" width="48" height="48" alt=""> | same | `Cyclone` | a cyclone separator | — |
+| <img src="symbols/Filter.svg" width="48" height="48" alt=""> | same | `Filter` | a filter | `treatment` |
+| <img src="symbols/HeatExchanger.svg" width="48" height="48" alt=""> | same | `HeatExchanger` | a heat exchanger, any type | — |
+| <img src="symbols/TubularHeatExchanger.svg" width="48" height="48" alt=""> | same | `TubularHeatExchanger` | a shell-and-tube heat exchanger | — |
+| <img src="symbols/PlateHeatExchanger.svg" width="48" height="48" alt=""> | same | `PlateHeatExchanger` | a plate heat exchanger | — |
+| <img src="symbols/AirCoolingSystem.svg" width="48" height="48" alt=""> | same | `AirCoolingSystem` | an air cooler: a fin-fan over a tube bundle | — |
+| <img src="symbols/Furnace.svg" width="48" height="48" alt=""> | same | `Furnace` | a fired heater or furnace; its burners show while it works | — |
+| <img src="symbols/CoolingTower.svg" width="48" height="48" alt=""> | same | `CoolingTower` | a cooling tower; water falls through it while it works | `coolingtower` |
 | <img src="symbols/Junction.svg" width="48" height="48" alt=""> | same | `Junction` | where lines meet; a tee or header | — |
 | <img src="symbols/OffPageConnector.svg" width="48" height="48" alt=""> | same | `OffPageConnector` | where a line leaves or joins the sheet; sources and consumers off the drawing | — |
 

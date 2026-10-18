@@ -87,7 +87,51 @@ const PID_LETTERS: Record<string, string[]> = {
   CheckValve: ['V', 'CV'],
   ElectricMotor: ['M', 'PM'],
   Turbine: ['T', 'ST', 'GT', 'HT'],
+  RotaryPump: ['P'],
+  Ejector: ['J', 'EJ', 'X'],
+  StaticMixer: ['M', 'MX', 'X'],
+  OpenTank: ['T', 'TK', 'S'],
+  HorizontalVessel: ['V', 'D'],
+  SphericalTank: ['T', 'TK', 'V'],
+  Silo: ['S', 'SL', 'T'],
+  Reactor: ['R'],
+  ProcessColumn: ['C', 'T'],
+  PackedColumn: ['C', 'T'],
+  Cyclone: ['S', 'CY'],
+  TubularHeatExchanger: ['E', 'H'],
+  PlateHeatExchanger: ['E', 'H'],
+  AirCoolingSystem: ['E', 'AC'],
+  Furnace: ['H', 'F', 'B'],
+  CoolingTower: ['CT', 'E'],
+  ButterflyValve: ['V', 'HV', 'XV'],
+  PlugValve: ['V', 'HV', 'XV'],
+  NeedleValve: ['V', 'HV'],
+  DiaphragmValve: ['V', 'HV', 'XV'],
+  AngleValve: ['V', 'HV', 'XV'],
+  ThreeWayValve: ['V', 'HV', 'XV'],
+  PressureReducingValve: ['PCV', 'PRV', 'V'],
+  SafetyValve: ['PSV', 'PRV', 'TSV', 'SV'],
+  RuptureDisc: ['PSE', 'RD'],
+  BreatherValve: ['PVRV', 'PSV', 'BV'],
+  Strainer: ['Y', 'S', 'STR'],
+  FlameArrestor: ['FA'],
+  SteamTrap: ['ST', 'T'],
+  SightGlass: ['SG'],
+  RestrictionOrifice: ['RO', 'FO'],
 }
+
+/** the P&ID classes that hold a liquid, and so have a level to measure */
+export const HOLDS_LEVEL = new Set([
+  'Tank',
+  'OpenTank',
+  'Vessel',
+  'HorizontalVessel',
+  'SphericalTank',
+  'Silo',
+  'Reactor',
+  'ProcessColumn',
+  'PackedColumn',
+])
 /** IEC 81346-2 class letters, first letter of the code */
 const IEC_LETTERS: Record<string, string[]> = {
   Grid: ['X', 'W', 'G'],
@@ -157,6 +201,11 @@ const ACTUATORS = new Set([
 const UNTAGGED = new Set([
   'OffPageConnector',
   'Junction',
+  'PipeReducer',
+  'BlindFlange',
+  'Funnel',
+  'Vent',
+  'FlexibleHose',
   'Cable',
   'Reservoir',
   'Silencer',
@@ -404,12 +453,7 @@ export function drawingFindings(scene: Scene): DrawingFinding[] {
       if (!fed && splitTag(x.tag).letters[0] === 'L') {
         const p = byId.get(x.measures)
         const c = cls(p)
-        if (
-          p &&
-          c !== 'Tank' &&
-          c !== 'Vessel' &&
-          p.behaviour.role !== 'storage'
-        )
+        if (p && !HOLDS_LEVEL.has(c ?? '') && p.behaviour.role !== 'storage')
           find(
             'measured-variable',
             path,
