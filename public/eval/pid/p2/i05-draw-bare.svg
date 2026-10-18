@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 540" width="900" height="540" font-family="Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#000"/></marker>
+  </defs>
+  <rect width="900" height="540" fill="#fff"/>
+  <text x="450" y="28" text-anchor="middle" font-size="16" font-weight="bold">Flow ratio control loop 031</text>
+
+  <!-- process pipes -->
+  <g stroke="#000" stroke-width="3" fill="none">
+    <line x1="60" y1="90" x2="840" y2="90" marker-end="url(#arr)"/>
+    <line x1="60" y1="470" x2="630" y2="470"/>
+    <line x1="670" y1="470" x2="840" y2="470" marker-end="url(#arr)"/>
+  </g>
+  <text x="60" y="78">PipingNetworkSegment-2</text>
+  <text x="60" y="458">PipingNetworkSegment-1</text>
+
+  <!-- globe valve GlobeValve-1 -->
+  <g stroke="#000" stroke-width="2" fill="#fff">
+    <polygon points="630,455 650,470 630,485"/>
+    <polygon points="670,455 650,470 670,485"/>
+    <circle cx="650" cy="470" r="5"/>
+    <line x1="650" y1="465" x2="650" y2="438"/>
+    <path d="M630,438 A20,20 0 0 1 670,438 Z"/>
+  </g>
+  <text x="650" y="510" text-anchor="middle">GlobeValve-1</text>
+  <text x="650" y="525" text-anchor="middle">Globe valve</text>
+  <text x="680" y="430">ControlledActuator-1</text>
+
+  <!-- measuring lines (thin solid) from pipe to transmitter/indicator -->
+  <g stroke="#000" stroke-width="1" fill="none">
+    <line x1="250" y1="90" x2="250" y2="162"/>
+    <line x1="250" y1="470" x2="250" y2="398"/>
+  </g>
+
+  <!-- instrument bubbles, central location (single bar) -->
+  <g stroke="#000" stroke-width="1.5" fill="#fff">
+    <circle cx="250" cy="190" r="28"/>
+    <circle cx="250" cy="370" r="28"/>
+    <circle cx="450" cy="280" r="34"/>
+    <circle cx="650" cy="280" r="28"/>
+  </g>
+  <g stroke="#000" stroke-width="1">
+    <line x1="222" y1="190" x2="278" y2="190"/>
+    <line x1="222" y1="370" x2="278" y2="370"/>
+    <line x1="416" y1="280" x2="484" y2="280"/>
+    <line x1="622" y1="280" x2="678" y2="280"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="250" y="185">FI</text><text x="250" y="204">031.1</text>
+    <text x="250" y="365">FI</text><text x="250" y="384">031.2</text>
+    <text x="450" y="275">FFIC</text><text x="450" y="295">031</text>
+    <text x="650" y="275">YC</text><text x="650" y="295">031.4</text>
+  </g>
+
+  <!-- signal lines (dashed) -->
+  <g stroke="#000" stroke-width="1.5" stroke-dasharray="6,4" fill="none" marker-end="url(#arr)">
+    <path d="M278,190 L350,190 L350,270 L416,270" marker-end="url(#arr)"/>
+    <path d="M278,370 L350,370 L350,290 L416,290" marker-end="url(#arr)"/>
+    <path d="M484,280 L622,280" marker-end="url(#arr)"/>
+    <path d="M650,308 L650,418" marker-end="url(#arr)"/>
+  </g>
+
+  <text x="450" y="335" text-anchor="middle" font-size="11">ratio controller</text>
+  <g font-size="11" transform="translate(690,110)">
+    <text>Legend</text>
+    <line x1="0" y1="18" x2="40" y2="18" stroke="#000" stroke-width="3"/><text x="48" y="22">process pipe</text>
+    <line x1="0" y1="38" x2="40" y2="38" stroke="#000" stroke-width="1.5" stroke-dasharray="6,4"/><text x="48" y="42">signal</text>
+    <line x1="0" y1="58" x2="40" y2="58" stroke="#000" stroke-width="1"/><text x="48" y="62">measuring line</text>
+  </g>
+</svg>

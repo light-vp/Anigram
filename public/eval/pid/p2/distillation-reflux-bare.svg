@@ -1,0 +1,205 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1000" viewBox="0 0 1400 1000">
+<style>
+.pipe{stroke:#000;stroke-width:2.5;fill:none}
+.pipe1{stroke:#000;stroke-width:1.5;fill:none}
+.sig{stroke:#1a4fa0;stroke-width:1.3;stroke-dasharray:5,3;fill:none}
+.eq{stroke:#000;stroke-width:1.8;fill:#fff}
+.arr{fill:#000}
+.t{font:11px Arial,sans-serif;fill:#000}
+.tag{font:bold 11px Arial,sans-serif;fill:#000}
+.ib{font:bold 10px Arial,sans-serif;fill:#000}
+.fl{font:bold 9px Arial,sans-serif;fill:#000}
+.sm{font:9px Arial,sans-serif;fill:#444}
+.big{font:bold 14px Arial,sans-serif;fill:#000}
+.liq{fill:#cfe6ff;stroke:none}
+</style>
+<defs>
+<polygon id="ar" class="arr" points="6,0 -5,4 -5,-4"/>
+<clipPath id="colclip"><rect x="475" y="150" width="90" height="500" rx="40"/></clipPath>
+<clipPath id="drumclip"><rect x="820" y="200" width="160" height="60" rx="30"/></clipPath>
+</defs>
+<rect width="1400" height="1000" fill="#fff"/>
+<text x="20" y="28" class="big">P&amp;ID - Distillation column C-1101 with overhead condenser, reflux drum and reboiler</text>
+<g transform="translate(0,70)">
+
+<!-- column C-1101 -->
+<g id="C-1101">
+<rect class="eq" x="475" y="150" width="90" height="500" rx="40"/>
+<rect class="liq" x="475" y="590" width="90" height="60" clip-path="url(#colclip)"/>
+<line stroke="#2a8" stroke-width="1" x1="475" y1="590" x2="565" y2="590"/>
+<line stroke="#000" stroke-width="1.3" x1="480" y1="200" x2="560" y2="200"/>
+<line stroke="#000" stroke-width="1.3" x1="480" y1="240" x2="560" y2="240"/>
+<line stroke="#000" stroke-width="1.3" x1="480" y1="280" x2="560" y2="280"/>
+<line stroke="#000" stroke-width="1.3" x1="480" y1="320" x2="560" y2="320"/>
+<line stroke="#000" stroke-width="1.3" x1="480" y1="360" x2="560" y2="360"/>
+<line stroke="#000" stroke-width="1.3" x1="480" y1="400" x2="560" y2="400"/>
+<line stroke="#000" stroke-width="1.3" x1="480" y1="440" x2="560" y2="440"/>
+<line stroke="#000" stroke-width="1.3" x1="480" y1="480" x2="560" y2="480"/>
+</g>
+<text x="450" y="668" class="tag" text-anchor="end">C-1101 Distillation column</text>
+<text x="572" y="203" class="sm">top tray</text>
+<text x="572" y="345" class="sm">feed (mid-column)</text>
+<text x="572" y="586" class="sm">sump level</text>
+
+<!-- condenser E-1101 -->
+<g id="E-1101">
+<rect class="eq" x="700" y="65" width="120" height="50" rx="25"/>
+<path class="pipe1" d="M712,90 l12,-14 l12,28 l12,-28 l12,28 l12,-28 l12,28 l12,-28 l12,14"/>
+</g>
+<text x="745" y="134" class="tag">E-1101 Condenser</text>
+
+<!-- reflux drum V-1101 -->
+<g id="V-1101">
+<rect class="eq" x="820" y="200" width="160" height="60" rx="30"/>
+<rect class="liq" x="820" y="230" width="160" height="30" clip-path="url(#drumclip)"/>
+<line stroke="#2a8" stroke-width="1" x1="820" y1="230" x2="980" y2="230"/>
+</g>
+<text x="890" y="192" class="tag" text-anchor="end">V-1101 Reflux drum</text>
+
+<!-- reboiler E-1102 -->
+<g id="E-1102">
+<rect class="eq" x="210" y="545" width="120" height="50" rx="8"/>
+<path class="pipe1" d="M222,570 l12,-14 l12,28 l12,-28 l12,28 l12,-28 l12,28 l12,-28 l12,14"/>
+</g>
+<text x="290" y="538" class="tag" text-anchor="end">E-1102 Reboiler</text>
+
+<!-- pumps -->
+<g id="P-1101"><circle class="eq" cx="900" cy="300" r="18"/><polygon class="eq" points="889,291 889,309 912,300"/></g>
+<text x="900" y="338" class="tag" text-anchor="middle">P-1101 Reflux pump</text>
+<g id="P-1102"><circle class="eq" cx="640" cy="740" r="18"/><polygon class="eq" points="629,731 629,749 652,740"/></g>
+<text x="640" y="775" class="tag" text-anchor="middle">P-1102 Bottoms pump</text>
+
+<!-- process pipes -->
+<!-- feed -->
+<path class="pipe" d="M90,330 L475,330"/>
+<use href="#ar" transform="translate(300,330)"/>
+<text x="250" y="322" class="t">Feed</text>
+<!-- overhead vapour to condenser, condensate to drum -->
+<path class="pipe" d="M520,150 L520,90 L700,90"/>
+<use href="#ar" transform="translate(520,120) rotate(270)"/>
+<use href="#ar" transform="translate(650,90)"/>
+<text x="505" y="125" class="t" text-anchor="end">Overhead vapour</text>
+<path class="pipe" d="M820,90 L900,90 L900,200"/>
+<use href="#ar" transform="translate(860,90)"/>
+<use href="#ar" transform="translate(900,175) rotate(90)"/>
+<!-- drum to reflux pump, discharge -->
+<path class="pipe" d="M860,260 L860,300 L882,300"/>
+<use href="#ar" transform="translate(860,280) rotate(90)"/>
+<path class="pipe" d="M918,300 L1000,300"/>
+<use href="#ar" transform="translate(960,300)"/>
+<circle cx="1000" cy="300" r="3.5" fill="#000"/>
+<!-- distillate -->
+<path class="pipe" d="M1000,300 L1146,300"/>
+<path class="pipe" d="M1174,300 L1250,300"/>
+<use href="#ar" transform="translate(1090,300)"/>
+<use href="#ar" transform="translate(1215,300)"/>
+<text x="1185" y="290" class="t">Distillate</text>
+<!-- reflux to top tray -->
+<path class="pipe" d="M1000,300 L1000,470 L864,470"/>
+<path class="pipe" d="M836,470 L700,470 L700,190 L565,190"/>
+<use href="#ar" transform="translate(1000,400) rotate(90)"/>
+<use href="#ar" transform="translate(770,470) rotate(180)"/>
+<use href="#ar" transform="translate(700,330) rotate(270)"/>
+<use href="#ar" transform="translate(630,190) rotate(180)"/>
+<text x="708" y="400" class="t">Reflux</text>
+<!-- reboiler circuit -->
+<path class="pipe" d="M475,625 L300,625 L300,595"/>
+<use href="#ar" transform="translate(400,625) rotate(180)"/>
+<path class="pipe" d="M300,545 L300,530 L475,530"/>
+<use href="#ar" transform="translate(400,530)"/>
+<text x="400" y="618" class="sm" text-anchor="middle">Reboiler circuit</text>
+<!-- steam and condensate -->
+<path class="pipe" d="M90,570 L136,570"/>
+<path class="pipe" d="M164,570 L210,570"/>
+<use href="#ar" transform="translate(112,570)"/>
+<use href="#ar" transform="translate(190,570)"/>
+<text x="100" y="560" class="t">Steam</text>
+<path class="pipe" d="M230,595 L230,680 L90,680"/>
+<use href="#ar" transform="translate(230,640) rotate(90)"/>
+<use href="#ar" transform="translate(160,680) rotate(180)"/>
+<text x="100" y="672" class="t">Condensate</text>
+<!-- bottoms -->
+<path class="pipe" d="M520,650 L520,740 L622,740"/>
+<use href="#ar" transform="translate(520,700) rotate(90)"/>
+<path class="pipe" d="M658,740 L836,740"/>
+<path class="pipe" d="M864,740 L1250,740"/>
+<use href="#ar" transform="translate(740,740)"/>
+<use href="#ar" transform="translate(1100,740)"/>
+<text x="1000" y="732" class="t">Bottoms</text>
+<!-- cooling water supply through PV-1104 into condenser -->
+<path class="pipe" d="M1250,40 L1014,40"/>
+<path class="pipe" d="M986,40 L790,40 L790,65"/>
+<use href="#ar" transform="translate(1150,40) rotate(180)"/>
+<use href="#ar" transform="translate(880,40) rotate(180)"/>
+<text x="1050" y="32" class="t">Cooling water supply</text>
+<!-- cooling water return, hops over condenser outlet at x=900 -->
+<path class="pipe" d="M730,115 L730,150 L888,150 A12,12 0 0 1 912,150 L1250,150"/>
+<use href="#ar" transform="translate(730,135) rotate(90)"/>
+<use href="#ar" transform="translate(1100,150)"/>
+<text x="1050" y="142" class="t">Cooling water return</text>
+
+<!-- control valves (diaphragm actuator on top) -->
+<g id="FV-1101"><polygon class="eq" points="836,460 864,480 864,460 836,480"/><line class="pipe1" x1="850" y1="470" x2="850" y2="444"/><path class="eq" d="M839,444 A11,11 0 0 1 861,444 Z"/></g>
+<text x="850" y="498" class="tag" text-anchor="middle">FV-1101</text>
+<g id="LV-1101"><polygon class="eq" points="1146,290 1174,310 1174,290 1146,310"/><line class="pipe1" x1="1160" y1="300" x2="1160" y2="274"/><path class="eq" d="M1149,274 A11,11 0 0 1 1171,274 Z"/></g>
+<text x="1160" y="328" class="tag" text-anchor="middle">LV-1101</text>
+<g id="TV-1102"><polygon class="eq" points="136,560 164,580 164,560 136,580"/><line class="pipe1" x1="150" y1="570" x2="150" y2="544"/><path class="eq" d="M139,544 A11,11 0 0 1 161,544 Z"/></g>
+<text x="150" y="598" class="tag" text-anchor="middle">TV-1102</text>
+<g id="LV-1103"><polygon class="eq" points="836,730 864,750 864,730 836,750"/><line class="pipe1" x1="850" y1="740" x2="850" y2="714"/><path class="eq" d="M839,714 A11,11 0 0 1 861,714 Z"/></g>
+<text x="850" y="768" class="tag" text-anchor="middle">LV-1103</text>
+<g id="PV-1104"><polygon class="eq" points="986,30 1014,50 1014,30 986,50"/><line class="pipe1" x1="1000" y1="40" x2="1000" y2="14"/><path class="eq" d="M989,14 A11,11 0 0 1 1011,14 Z"/></g>
+<text x="1000" y="68" class="tag" text-anchor="middle">PV-1104</text>
+
+<!-- off-sheet connectors -->
+<g id="FEED-IN"><polygon class="eq" points="10,318 78,318 90,330 78,342 10,342"/></g>
+<text x="50" y="333" class="fl" text-anchor="middle">FEED-IN</text><text x="50" y="312" class="sm" text-anchor="middle">from off sheet</text>
+<g id="STEAM-IN"><polygon class="eq" points="10,558 78,558 90,570 78,582 10,582"/></g>
+<text x="50" y="573" class="fl" text-anchor="middle">STEAM-IN</text><text x="50" y="552" class="sm" text-anchor="middle">from off sheet</text>
+<g id="COND-OUT"><polygon class="eq" points="90,668 22,668 10,680 22,692 90,692"/></g>
+<text x="50" y="683" class="fl" text-anchor="middle">COND-OUT</text><text x="50" y="662" class="sm" text-anchor="middle">to off sheet</text>
+<g id="DIST-OUT"><polygon class="eq" points="1250,288 1318,288 1330,300 1318,312 1250,312"/></g>
+<text x="1290" y="303" class="fl" text-anchor="middle">DIST-OUT</text><text x="1290" y="282" class="sm" text-anchor="middle">to off sheet</text>
+<g id="BTMS-OUT"><polygon class="eq" points="1250,728 1318,728 1330,740 1318,752 1250,752"/></g>
+<text x="1290" y="743" class="fl" text-anchor="middle">BTMS-OUT</text><text x="1290" y="722" class="sm" text-anchor="middle">to off sheet</text>
+<g id="CW-IN"><polygon class="eq" points="1330,28 1262,28 1250,40 1262,52 1330,52"/></g>
+<text x="1290" y="43" class="fl" text-anchor="middle">CW-IN</text><text x="1290" y="22" class="sm" text-anchor="middle">from off sheet</text>
+<g id="CW-OUT"><polygon class="eq" points="1250,138 1318,138 1330,150 1318,162 1250,162"/></g>
+<text x="1290" y="153" class="fl" text-anchor="middle">CW-OUT</text><text x="1290" y="132" class="sm" text-anchor="middle">to off sheet</text>
+
+<!-- instrument signals (dashed) -->
+<path class="sig" d="M950,470 L950,418"/>
+<path class="sig" d="M922,390 L878,390"/>
+<path class="sig" d="M850,418 L850,433"/>
+<path class="sig" d="M976,215 L1022,215"/>
+<path class="sig" d="M1078,215 L1132,215"/>
+<path class="sig" d="M1160,243 L1160,263"/>
+<path class="sig" d="M475,440 L428,440"/>
+<path class="sig" d="M372,440 L178,440"/>
+<path class="sig" d="M150,468 L150,533"/>
+<path class="sig" d="M565,610 L632,610"/>
+<path class="sig" d="M688,610 L822,610"/>
+<path class="sig" d="M850,638 L850,703"/>
+<path class="sig" d="M610,90 L610,8"/>
+<path class="sig" d="M638,-20 L1000,-20 L1000,3"/>
+
+<!-- instruments: transmitters = circle, controllers = circle in square -->
+<g id="FT-1101"><circle class="eq" cx="950" cy="390" r="28"/></g><text x="950" y="394" class="ib" text-anchor="middle">FT-1101</text>
+<g id="FIC-1101"><rect class="eq" x="822" y="362" width="56" height="56"/><circle class="eq" cx="850" cy="390" r="28"/></g><text x="850" y="394" class="ib" text-anchor="middle">FIC-1101</text>
+<g id="LT-1101"><circle class="eq" cx="1050" cy="215" r="28"/></g><text x="1050" y="219" class="ib" text-anchor="middle">LT-1101</text>
+<g id="LIC-1101"><rect class="eq" x="1132" y="187" width="56" height="56"/><circle class="eq" cx="1160" cy="215" r="28"/></g><text x="1160" y="219" class="ib" text-anchor="middle">LIC-1101</text>
+<g id="TT-1102"><circle class="eq" cx="400" cy="440" r="28"/></g><text x="400" y="444" class="ib" text-anchor="middle">TT-1102</text>
+<g id="TIC-1102"><rect class="eq" x="122" y="412" width="56" height="56"/><circle class="eq" cx="150" cy="440" r="28"/></g><text x="150" y="444" class="ib" text-anchor="middle">TIC-1102</text>
+<g id="LT-1103"><circle class="eq" cx="660" cy="610" r="28"/></g><text x="660" y="614" class="ib" text-anchor="middle">LT-1103</text>
+<g id="LIC-1103"><rect class="eq" x="822" y="582" width="56" height="56"/><circle class="eq" cx="850" cy="610" r="28"/></g><text x="850" y="614" class="ib" text-anchor="middle">LIC-1103</text>
+<g id="PIC-1104"><rect class="eq" x="582" y="-48" width="56" height="56"/><circle class="eq" cx="610" cy="-20" r="28"/></g><text x="610" y="-16" class="ib" text-anchor="middle">PIC-1104</text>
+
+<!-- control notes -->
+<text x="20" y="800" class="big">Control loops</text>
+<text x="20" y="822" class="t">FIC-1101: FT-1101 measures reflux flow; FIC-1101 sets FV-1101 on the reflux return to the top tray.</text>
+<text x="20" y="840" class="t">LIC-1101: LT-1101 measures reflux drum V-1101 level; LIC-1101 sets LV-1101 to let distillate leave the sheet.</text>
+<text x="20" y="858" class="t">TIC-1102: TT-1102 measures a tray temperature on C-1101; TIC-1102 sets TV-1102 on the steam to reboiler E-1102.</text>
+<text x="20" y="876" class="t">LIC-1103: LT-1103 measures C-1101 sump level; LIC-1103 sets LV-1103 to let bottoms leave the sheet (P-1102 pumps).</text>
+<text x="20" y="894" class="t">PIC-1104: senses overhead pressure; PIC-1104 sets PV-1104 on the cooling water to condenser E-1101.</text>
+<text x="20" y="912" class="t">Legend: solid heavy line = process pipe; dashed blue line = instrument / control signal; circle in square = controller.</text>
+</g>
+</svg>

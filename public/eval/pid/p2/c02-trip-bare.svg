@@ -1,0 +1,275 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="4 4 308 262" width="2200" height="1872">
+  <title>P&amp;ID column K 2750 (DEXPI Example C02) with HAZOP additions</title>
+  <style>
+    .t{fill:#111;stroke:none;font-family:Calibri,Carlito,'DejaVu Sans',Arial,sans-serif;font-size:2px;text-anchor:middle;dominant-baseline:central}
+    .l{text-anchor:start}
+    .h{dominant-baseline:hanging}
+    .r{fill:#d01010}
+    .b{font-weight:bold}
+  </style>
+  <defs>
+    <!-- symbols taken from the ShapeCatalogue of column.xml (local coordinates, metres) -->
+    <path id="vb" d="M-.005 .0025 L.005 -.0025 L.005 .0025 L-.005 -.0025 Z"/>
+    <path id="bf" d="M0 .0025 V-.0025"/>
+    <path id="bub" d="M-.00375 .00375 H.00375 A.00375 .00375 0 0 0 .00375 -.00375 H-.00375 A.00375 .00375 0 0 0 -.00375 .00375 Z M-.0075 0 H.0075"/>
+    <path id="opc" d="M0 -.0025 V.0025 H.005 V.005 L.01 0 L.005 -.005 V-.0025 Z"/>
+    <path id="arr" d="M-.0025 .00065 L0 0 L-.0025 -.00065 Z"/>
+    <path id="ins" d="M-.01 .0025 H.01 M-.01 -.0025 H.01 M-.01 -.0025 L-.005 .0025 M-.005 -.0025 L0 .0025 M0 -.0025 L.005 .0025 M.005 -.0025 L.01 .0025"/>
+    <path id="bed" d="M-.0025 .00875 H.0025 M.005 .00875 H.01 L-.01 -.00875 H-.005 M-.0025 -.00875 H.0025 M.005 -.00875 H.01 L-.01 .00875 H-.005"/>
+  </defs>
+  <rect x="0" y="0" width="420" height="297" fill="#fff"/>
+
+  <!-- everything below is in metres, y up (sheet 0.42 x 0.297 as in the file) -->
+  <g transform="matrix(1000 0 0 -1000 0 297)" fill="none" stroke="#111" stroke-width="0.0003" stroke-linejoin="round">
+
+    <!-- ================= EXISTING, as in column.xml ================= -->
+
+    <!-- piping -->
+    <g data-layer="existing-piping" stroke-width="0.0004">
+      <path d="M.197 .24105 V.24515 M.197 .24765 V.2545 H.2835"/>
+      <path d="M.197 .06855 V.0566 M.197 .063 H.18625"/>
+      <path d="M.1566 .23025 V.23685"/>
+      <path d="M.1755 .23025 V.23685"/>
+    </g>
+
+    <!-- column K 2750: shell (dished heads, 500 mm chamber) -->
+    <g data-tag="K 2750">
+      <path d="M.18625 .0743 V.2353 A.02076 .02076 0 0 1 .20775 .2353 V.0743 A.02076 .02076 0 0 1 .18625 .0743 Z" fill="#fff"/>
+      <!-- section KX 2750 (valve trays, 600 mm) -->
+      <g data-tag="KX 2750" transform="translate(.197 .1844) scale(1.075 3.7)" stroke-width="0.0001"><use href="#bed"/></g>
+      <!-- packed bed section (untagged in file) -->
+      <g data-tag="SubTaggedColumnSection-1" transform="translate(.197 .1169) scale(1.075 1.85)" stroke-width="0.00017"><use href="#bed"/></g>
+
+      <!-- internals and drawing marks (Labels in the file) -->
+      <path d="M.154 .2275 H.18625" stroke-width="0.0005"/>
+      <path d="M.18475 .225 H.20925" stroke="#555"/>
+      <path d="M.20775 .222 H.197 V.2195 M.1962 .2209 H.1978 M.1962 .2202 H.1978 M.1882 .2188 H.2058 V.2174 H.1882 Z" stroke="#555"/>
+      <path d="M.18475 .1426 H.20925" stroke="#555"/>
+      <path d="M.1882 .1412 V.1397 H.2058 V.1412 M.197 .1397 V.1386 M.1882 .1386 H.2058 V.136 H.1882 Z" stroke="#555"/>
+      <path d="M.18475 .0941 H.20925" stroke="#555"/>
+      <path d="M.18625 .0845 H.20775 M.1984 .0859 H.1964 L.197 .0845 L.1976 .0859 M.189 .0713 H.197 M.192 .0845 V.0713" stroke="#555" stroke-width="0.00009"/>
+      <path d="M.192 .0845 L.1924 .0831 L.192 .0835 L.1916 .0831 Z M.192 .0713 L.1924 .0727 L.192 .0723 L.1916 .0727 Z" fill="#555" stroke="#555" stroke-width="0.00008"/>
+      <path d="M.205 .0846 V.0905 M.195 .0726 H.199 M.1956 .07135 V.0726 M.1984 .07135 V.0726" stroke="#555"/>
+      <!-- nozzles: N1 top, N2 left (feed), N3 bottom, N4 right, N5 right top, N7 left sump, H1 manhole, P3/P4 -->
+      <g stroke-width="0.0003">
+        <path d="M.197 .2383 V.24105 M.1963 .24105 H.1977"/>
+        <path d="M.18625 .144 H.1835 M.1835 .1433 V.1447"/>
+        <path d="M.197 .0713 V.06855 M.1963 .06855 H.1977"/>
+        <path d="M.20775 .0892 H.2105 M.2105 .0885 V.0899"/>
+        <path d="M.20775 .222 H.2105 M.2105 .2213 V.2227"/>
+        <path d="M.18625 .0825 H.1835 M.1835 .0818 V.0832"/>
+        <path d="M.18625 .092 H.18425 M.18625 .088 H.18425 M.18425 .093 V.087 M.18355 .093 V.087"/>
+        <path d="M.1566 .2275 V.23025 M.1559 .23025 H.1573"/>
+        <path d="M.1755 .2275 V.23025 M.1748 .23025 H.1762"/>
+      </g>
+    </g>
+
+    <!-- bottom outlet N3: tee, DN80 branch with valve H672B1V -->
+    <g data-tag="PipeTee-1"><path d="M.197 .063 V.0566" stroke="none"/></g>
+    <g data-tag="H672B1V"><use href="#vb" transform="translate(.1875 .063) scale(.25)" stroke-width="0.0008" fill="#fff"/></g>
+
+    <!-- top outlet N1: reducer 200/150, line 2750.001.6, off-page connector 2765 -->
+    <g data-tag="PipeReducer-1"><path d="M.196375 .24515 H.197625 L.197 .24765 Z" fill="#fff" stroke-width="0.00015"/></g>
+    <g data-tag="2765"><use href="#opc" transform="translate(.2835 .2545) scale(.55)" stroke-width="0.00027"/></g>
+    <use href="#ins" transform="translate(.23747845 .2545) scale(.28)" stroke-width="0.0007"/>
+    <path d="M.21685 .255575 m-.00275 -.000688 v.001375 l.0055 -.001375 Z" stroke-width="0.0004" transform="translate(0 0)"/>
+    <use href="#arr" transform="translate(.197 .2545) rotate(90) scale(.55 .35)" fill="#111" stroke="#111" stroke-width="0.0005"/>
+
+    <!-- pressure taps on P3 / P4 with PI(Z) and PIS+Z+A -->
+    <g data-tag="BlindFlange-1"><use href="#bf" transform="translate(.1566 .23065) rotate(90) scale(.25)" stroke-width="0.0008"/></g>
+    <g data-tag="H658B1UV-P3"><use href="#vb" transform="translate(.1566 .2352) rotate(90) scale(.25)" stroke-width="0.0008" fill="#fff"/></g>
+    <g data-tag="BlindFlange-2"><use href="#bf" transform="translate(.1566 .23685) rotate(90) scale(.25)" stroke-width="0.0008"/></g>
+    <g data-tag="BlindFlange-3"><use href="#bf" transform="translate(.1755 .23065) rotate(90) scale(.25)" stroke-width="0.0008"/></g>
+    <g data-tag="H658B1UV-P4"><use href="#vb" transform="translate(.1755 .2352) rotate(90) scale(.25)" stroke-width="0.0008" fill="#fff"/></g>
+    <g data-tag="BlindFlange-4"><use href="#bf" transform="translate(.1755 .23685) rotate(90) scale(.25)" stroke-width="0.0008"/></g>
+    <path d="M.1566 .23685 V.2409 M.1755 .23685 V.2409" stroke="#1a3fc4" stroke-width="0.0002"/>
+    <g data-tag="PI(Z) 275003A"><use href="#bub" transform="translate(.1566 .2436) scale(.72)" fill="#fff" stroke-width="0.00028"/></g>
+    <g data-tag="PI(Z) 275003B"><use href="#bub" transform="translate(.1755 .2436) scale(.72)" fill="#fff" stroke-width="0.00028"/></g>
+    <g data-tag="PIS⁺Z⁺A 275003"><use href="#bub" transform="translate(.114 .2436) scale(.72)" fill="#fff" stroke-width="0.00028"/></g>
+    <g stroke="#1a3fc4" stroke-width="0.0002">
+      <path d="M.1512 .2436 H.1209"/>
+      <path d="M.1755 .2463 V.251 H.114 V.2463"/>
+    </g>
+    <g fill="#1a3fc4" stroke="none">
+      <use href="#arr" transform="translate(.1194 .2436) rotate(180) scale(.6)"/>
+      <use href="#arr" transform="translate(.1755 .251) rotate(90) scale(.6)"/>
+      <use href="#arr" transform="translate(.114 .251) rotate(180) scale(.6)"/>
+      <use href="#arr" transform="translate(.114 .2463) rotate(-90) scale(.6)"/>
+    </g>
+    <!-- sample-point frames (Labels of the P3 / P4 valves) -->
+    <path d="M.14575 .239 H.15115 V.2314 H.14575 Z M.16465 .239 H.17005 V.2314 H.16465 Z" stroke-width="0.0002"/>
+
+    <!-- ================= NEW, HAZOP action (red) ================= -->
+    <g stroke="#d01010">
+
+      <!-- feed line from off the sheet -->
+      <g data-tag="FEED-IN"><use href="#opc" transform="translate(.045 .144) scale(.55)" stroke-width="0.00027"/></g>
+      <path d="M.0505 .144 H.1835" stroke-width="0.0004"/>
+      <use href="#arr" transform="translate(.08 .144) scale(.55 .35)" fill="#d01010" stroke-width="0.0005"/>
+
+      <!-- shutdown valve XV-2750, spring-return (fail closed) actuator -->
+      <g data-tag="XV-2750">
+        <use href="#vb" transform="translate(.12 .144) scale(.4)" stroke-width="0.0005" fill="#fff"/>
+        <path d="M.12 .145 V.1478 M.1178 .1478 A.0022 .0022 0 0 0 .1222 .1478 Z" stroke-width="0.0003" fill="#fff"/>
+      </g>
+
+      <!-- sump taps: new nozzle N8 and existing N7 -->
+      <path d="M.18625 .0755 H.1835 M.1835 .0748 V.0762" stroke-width="0.0003"/>
+      <path d="M.1835 .0825 H.1607 M.1835 .0755 H.1607" stroke-width="0.0003"/>
+
+      <!-- LT-2750 (alarm) and LT-2751 (independent trip), field mounted -->
+      <g data-tag="LT-2751"><circle cx=".158" cy=".0825" r=".0027" fill="#fff" stroke-width="0.00028"/></g>
+      <g data-tag="LT-2750"><circle cx=".158" cy=".0755" r=".0027" fill="#fff" stroke-width="0.00028"/></g>
+
+      <!-- DCS alarm function LAH-2750 -->
+      <g data-tag="LAH-2750"><use href="#bub" transform="translate(.128 .098) scale(.72)" fill="#fff" stroke-width="0.00028"/></g>
+      <!-- SIS trip function LSHH-2751 -->
+      <g data-tag="LSHH-2751"><use href="#bub" transform="translate(.12 .17) scale(.72)" fill="#fff" stroke-width="0.00028"/></g>
+
+      <!-- signals (dashed) -->
+      <g stroke-width="0.00025" stroke-dasharray="0.0016 0.001">
+        <path d="M.1553 .0755 H.148 V.098 H.1349"/>
+        <path d="M.158 .0852 V.17 H.1269"/>
+        <path d="M.12 .1673 V.1515"/>
+      </g>
+      <g fill="#d01010" stroke="none">
+        <use href="#arr" transform="translate(.1334 .098) rotate(180) scale(.6)"/>
+        <use href="#arr" transform="translate(.1254 .17) rotate(180) scale(.6)"/>
+        <use href="#arr" transform="translate(.12 .15) rotate(-90) scale(.6)"/>
+      </g>
+    </g>
+
+    <!-- legend -->
+    <path d="M.1075 .0505 H.1175" stroke="#111" stroke-width="0.0005"/>
+    <path d="M.1075 .0465 H.1175" stroke="#d01010" stroke-width="0.0005"/>
+
+    <!-- ================= TEXT ================= -->
+
+    <!-- title and notes -->
+    <text class="t l b" style="font-size:4px" transform="translate(.010 .287) scale(.001 -.001)">P&amp;ID column K 2750 (DEXPI Example C02) with HAZOP additions</text>
+    <g>
+      <text class="t l b r" style="font-size:2.6px" transform="translate(.010 .2000) scale(.001 -.001)">HAZOP ACTION – SUMP HIGH LEVEL PROTECTION, K 2750</text>
+      <text class="t l r" style="font-size:2.2px" transform="translate(.010 .1966) scale(.001 -.001)">Added (red): feed from off the sheet through shutdown valve XV-2750 to nozzle N2;</text>
+      <text class="t l r" style="font-size:2.2px" transform="translate(.010 .1932) scale(.001 -.001)">LT-2750 on the sump (nozzle N8) → high level alarm LAH-2750 in the DCS (alarm only);</text>
+      <text class="t l r" style="font-size:2.2px" transform="translate(.010 .1898) scale(.001 -.001)">independent LT-2751 (nozzle N7) → SIS high-high level trip LSHH-2751.</text>
+      <text class="t l r" style="font-size:2.2px" transform="translate(.010 .1864) scale(.001 -.001)">On high-high level LSHH-2751 closes XV-2750 (spring return, fail closed).</text>
+      <text class="t l r" style="font-size:2.2px" transform="translate(.010 .1830) scale(.001 -.001)">The trip does not depend on the DCS: own transmitter, own nozzle, own logic.</text>
+      <text class="t l r" style="font-size:2.2px" transform="translate(.010 .1796) scale(.001 -.001)">Alarm and trip setpoints are not given – to be set (LAH below LSHH).</text>
+    </g>
+    <text class="t l" transform="translate(.120 .0505) scale(.001 -.001)">Existing (as in column.xml)</text>
+    <text class="t l r" transform="translate(.120 .0465) scale(.001 -.001)">Added by HAZOP action</text>
+
+    <!-- line 2750.001, reducer, off-page connector -->
+    <text class="t" transform="translate(.26165 .256225) scale(.001 -.001)">2750.001.6-0N-2170.8503-150/10HB25T10B1-B40-</text>
+    <text class="t" transform="translate(.1947 .2464) scale(.001 -.001) rotate(-90)">200/150</text>
+    <text class="t" transform="translate(.21625 .257575) scale(.001 -.001)">1%</text>
+    <text class="t" transform="translate(.2859 .25489) scale(.001 -.001)">2765</text>
+    <text class="t" transform="translate(.2872 .2512) scale(.001 -.001)">2750.001</text>
+    <text class="t" transform="translate(.2945 .25489) scale(.001 -.001)">W 2765</text>
+
+    <!-- bottom branch valve H672B1V -->
+    <text class="t" transform="translate(.1875 .0654) scale(.001 -.001)">H672B1V</text>
+    <text class="t" transform="translate(.1875 .0613) scale(.001 -.001)">80</text>
+    <text class="t" transform="translate(.1875 .0593) scale(.001 -.001)">AS9</text>
+
+    <!-- P3 / P4 pressure tap valves, flanges, sample-point frames -->
+    <text class="t" transform="translate(.1604 .23075) scale(.001 -.001)">80/25</text>
+    <text class="t" transform="translate(.1793 .23075) scale(.001 -.001)">80/25</text>
+    <g>
+      <text class="t" transform="translate(.1552 .2357) scale(.001 -.001) rotate(-90)">H658B1UV</text>
+      <text class="t" transform="translate(.1532 .2357) scale(.001 -.001) rotate(-90)">2170.8503</text>
+      <text class="t" transform="translate(.1593 .2357) scale(.001 -.001) rotate(-90)">25</text>
+      <text class="t" transform="translate(.1613 .2357) scale(.001 -.001) rotate(-90)">AS9</text>
+      <text class="t" transform="translate(.1633 .2357) scale(.001 -.001) rotate(-90)">(P3)</text>
+      <text class="t" transform="translate(.14795 .2362) scale(.001 -.001) rotate(-90)">SP</text>
+      <text class="t" transform="translate(.14995 .2362) scale(.001 -.001) rotate(-90)">2750-5</text>
+      <text class="t" transform="translate(.14895 .2309) scale(.001 -.001) rotate(-90)">1)</text>
+      <text class="t" transform="translate(.1741 .2362) scale(.001 -.001) rotate(-90)">H658B1UV</text>
+      <text class="t" transform="translate(.1721 .2362) scale(.001 -.001) rotate(-90)">2170.8503</text>
+      <text class="t" transform="translate(.1782 .2362) scale(.001 -.001) rotate(-90)">25</text>
+      <text class="t" transform="translate(.1802 .2362) scale(.001 -.001) rotate(-90)">AS9</text>
+      <text class="t" transform="translate(.1823 .2362) scale(.001 -.001) rotate(-90)">(P4)</text>
+      <text class="t" transform="translate(.16685 .2362) scale(.001 -.001) rotate(-90)">SP</text>
+      <text class="t" transform="translate(.16885 .2362) scale(.001 -.001) rotate(-90)">2750-6</text>
+      <text class="t" transform="translate(.16785 .2309) scale(.001 -.001) rotate(-90)">1)</text>
+    </g>
+
+    <!-- nozzle labels -->
+    <g>
+      <text class="t" transform="translate(.197 .23724) scale(.001 -.001)">N1</text>
+      <text class="t" transform="translate(.197 .23524) scale(.001 -.001)">200</text>
+      <text class="t" transform="translate(.184 .14834) scale(.001 -.001)">N2</text>
+      <text class="t" transform="translate(.184 .14634) scale(.001 -.001)">150</text>
+      <text class="t" transform="translate(.1998 .06989) scale(.001 -.001)">N3</text>
+      <text class="t" transform="translate(.1998 .06789) scale(.001 -.001)">150</text>
+      <text class="t" transform="translate(.2105 .09144) scale(.001 -.001)">N4</text>
+      <text class="t" transform="translate(.2105 .08764) scale(.001 -.001)">200</text>
+      <text class="t" transform="translate(.2105 .22424) scale(.001 -.001)">N5</text>
+      <text class="t" transform="translate(.2105 .22044) scale(.001 -.001)">50</text>
+      <text class="t" transform="translate(.180 .0862) scale(.001 -.001)">N7</text>
+      <text class="t" transform="translate(.180 .0842) scale(.001 -.001)">50</text>
+      <text class="t" transform="translate(.18825 .09139) scale(.001 -.001)">H1</text>
+      <text class="t" transform="translate(.18825 .08939) scale(.001 -.001)">250</text>
+      <text class="t" transform="translate(.1566 .22594) scale(.001 -.001)">P3</text>
+      <text class="t" transform="translate(.1566 .22394) scale(.001 -.001)">80</text>
+      <text class="t" transform="translate(.1755 .22594) scale(.001 -.001)">P4</text>
+      <text class="t" transform="translate(.1755 .22394) scale(.001 -.001)">80</text>
+      <text class="t r" transform="translate(.1795 .0728) scale(.001 -.001)">N8</text>
+      <text class="t r" transform="translate(.1795 .0708) scale(.001 -.001)">50</text>
+    </g>
+
+    <!-- column labels -->
+    <text class="t l" style="font-size:4.2px" transform="translate(.1626 .207814) scale(.001 -.001)">K 2750</text>
+    <text class="t l" style="font-size:4.2px" transform="translate(.1626 .203614) scale(.001 -.001)">KX 2750</text>
+    <g>
+      <text class="t l h" style="font-size:4.2px" transform="translate(.1075 .0745) scale(.001 -.001)">K 2750</text>
+      <text class="t l h" transform="translate(.1075 .0682) scale(.001 -.001)">1 Kolonne</text>
+      <text class="t l h" transform="translate(.1075 .0656) scale(.001 -.001)">⌀ 500 x 14000 mm</text>
+      <text class="t l h" transform="translate(.1075 .063) scale(.001 -.001)">1.4571</text>
+      <text class="t l h" transform="translate(.1075 .0604) scale(.001 -.001)">pe=6/-1 bar, 150 °C</text>
+      <text class="t l h" style="font-size:4.2px" transform="translate(.1285 .0745) scale(.001 -.001)">KX 2750</text>
+      <text class="t l h" transform="translate(.1285 .0682) scale(.001 -.001)">1 Ventilböden</text>
+      <text class="t l h" transform="translate(.1285 .0656) scale(.001 -.001)">⌀ 600 mm</text>
+      <text class="t l h" transform="translate(.1285 .063) scale(.001 -.001)">1.4571</text>
+      <text class="t" transform="translate(.1982 .0905) scale(.001 -.001)">Mit Prallblech</text>
+      <text class="t" transform="translate(.1904 .0779) scale(.001 -.001)">1000</text>
+      <text class="t" transform="translate(.197 .0743) scale(.001 -.001)">16)</text>
+    </g>
+
+    <!-- existing instrument bubbles -->
+    <g>
+      <text class="t" transform="translate(.114 .2453) scale(.001 -.001)">PIS⁺Z⁺A</text>
+      <text class="t" transform="translate(.114 .2428) scale(.001 -.001)">275003</text>
+      <text class="t" transform="translate(.1566 .2453) scale(.001 -.001)">PI(Z)</text>
+      <text class="t" transform="translate(.1566 .2428) scale(.001 -.001)">275003A</text>
+      <text class="t" transform="translate(.1755 .2453) scale(.001 -.001)">PI(Z)</text>
+      <text class="t" transform="translate(.1755 .2428) scale(.001 -.001)">275003B</text>
+    </g>
+
+    <!-- new: feed -->
+    <g class="r">
+      <text class="t r" style="font-size:2.4px" transform="translate(.0475 .1492) scale(.001 -.001)">FEED</text>
+      <text class="t r" style="font-size:1.8px" transform="translate(.0475 .1395) scale(.001 -.001)">from off sheet</text>
+      <text class="t r" style="font-size:1.8px" transform="translate(.093 .1467) scale(.001 -.001)">DN 150 – line no. TBD</text>
+      <text class="t r" style="font-size:2.4px" transform="translate(.12 .1385) scale(.001 -.001)">XV-2750</text>
+      <text class="t r l" style="font-size:1.8px" transform="translate(.1252 .1496) scale(.001 -.001)">FC</text>
+      <text class="t r l" style="font-size:1.6px" transform="translate(.1225 .159) scale(.001 -.001)">HH trip closes XV-2750</text>
+
+      <!-- new: SIS trip -->
+      <text class="t r" style="font-size:1.9px" transform="translate(.12 .1717) scale(.001 -.001)">LSHH</text>
+      <text class="t r" style="font-size:1.9px" transform="translate(.12 .1692) scale(.001 -.001)">2751</text>
+      <text class="t r" style="font-size:1.8px" transform="translate(.12 .1775) scale(.001 -.001)">SIS – independent trip</text>
+
+      <!-- new: DCS alarm -->
+      <text class="t r" style="font-size:1.9px" transform="translate(.128 .0997) scale(.001 -.001)">LAH</text>
+      <text class="t r" style="font-size:1.9px" transform="translate(.128 .0972) scale(.001 -.001)">2750</text>
+      <text class="t r" style="font-size:1.8px" transform="translate(.128 .0925) scale(.001 -.001)">DCS – high level alarm</text>
+
+      <!-- new: level transmitters -->
+      <text class="t r" style="font-size:1.7px" transform="translate(.158 .0833) scale(.001 -.001)">LT</text>
+      <text class="t r" style="font-size:1.7px" transform="translate(.158 .0815) scale(.001 -.001)">2751</text>
+      <text class="t r" style="font-size:1.7px" transform="translate(.158 .0763) scale(.001 -.001)">LT</text>
+      <text class="t r" style="font-size:1.7px" transform="translate(.158 .0745) scale(.001 -.001)">2750</text>
+    </g>
+  </g>
+</svg>

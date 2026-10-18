@@ -46,6 +46,7 @@ and only the Anigram sheets can be checked for behaviour (97%).
 | `run.mjs`           | the blind runner (separate; it only imports `grade`)                  |
 | `regrade.mjs`       | re-grades a kept pass with the current grader                         |
 | `report.mjs`        | the passes side by side, as Markdown                                  |
+| `gallery.mjs`       | every kept drawing, for the docs page's gallery (`public/eval/pid/`)  |
 | `results/`          | the committed baseline: each pass's JSON and every run's output       |
 
 ## Scenarios

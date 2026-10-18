@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 620" font-family="Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker>
+    <marker id="sarr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#06c"/></marker>
+  </defs>
+  <rect width="900" height="620" fill="#fff"/>
+  <text x="450" y="24" text-anchor="middle" font-size="16" font-weight="bold">P&amp;ID – Production Separator V-701</text>
+
+  <!-- Process piping -->
+  <g stroke="#000" stroke-width="2.5" fill="none" marker-end="none">
+    <!-- inlet -->
+    <line x1="40" y1="320" x2="232" y2="320"/>
+    <line x1="268" y1="320" x2="400" y2="320"/>
+    <!-- gas out -->
+    <polyline points="450,172 450,130 632,130"/>
+    <line x1="668" y1="130" x2="850" y2="130" marker-end="url(#arr)"/>
+    <!-- liquid out -->
+    <polyline points="450,468 450,550 632,550"/>
+    <line x1="668" y1="550" x2="850" y2="550" marker-end="url(#arr)"/>
+    <!-- PSV relief -->
+    <polyline points="420,176 420,90 330,90"/>
+    <line x1="330" y1="90" x2="40" y2="90" marker-end="url(#arr)"/>
+  </g>
+  <line x1="40" y1="320" x2="40" y2="320" />
+  <text x="40" y="308" font-weight="bold">WELL FLUID</text>
+  <text x="40" y="340" font-size="10">(from off sheet)</text>
+  <text x="850" y="118" text-anchor="end" font-weight="bold">TO GAS HEADER</text>
+  <text x="850" y="538" text-anchor="end" font-weight="bold">TO OIL LINE</text>
+  <text x="40" y="78" font-weight="bold">TO FLARE</text>
+
+  <!-- Vessel V-701 -->
+  <path d="M400,200 A50,26 0 0 1 500,200 L500,440 A50,26 0 0 1 400,440 Z" fill="#eef3f8" stroke="#000" stroke-width="3"/>
+  <line x1="400" y1="380" x2="500" y2="380" stroke="#06c" stroke-dasharray="6,3"/>
+  <text x="450" y="300" text-anchor="middle" font-weight="bold" font-size="14">V-701</text>
+  <text x="450" y="316" text-anchor="middle" font-size="10" fill="#333" dy="0"></text>
+  <text x="450" y="268" text-anchor="middle" font-size="11">Production</text>
+  <text x="450" y="282" text-anchor="middle" font-size="11">separator</text>
+
+  <!-- SDV-701 -->
+  <g>
+    <polygon points="232,308 232,332 268,308 268,332" fill="#fff" stroke="#000" stroke-width="2"/>
+    <line x1="250" y1="320" x2="250" y2="296" stroke="#000" stroke-width="2"/>
+    <path d="M236,296 A14,14 0 0 1 264,296 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+    <text x="250" y="352" text-anchor="middle" font-weight="bold">SDV-701</text>
+    <text x="250" y="366" text-anchor="middle" font-size="10">Inlet shutdown valve</text>
+    <text x="250" y="378" text-anchor="middle" font-size="10">(fail closed)</text>
+  </g>
+
+  <!-- PV-701 -->
+  <g>
+    <polygon points="632,118 632,142 668,118 668,142" fill="#fff" stroke="#000" stroke-width="2"/>
+    <line x1="650" y1="130" x2="650" y2="106" stroke="#000" stroke-width="2"/>
+    <path d="M636,106 A14,14 0 0 1 664,106 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+    <text x="650" y="160" text-anchor="middle" font-weight="bold">PV-701</text>
+    <text x="650" y="173" text-anchor="middle" font-size="10">Gas pressure control valve</text>
+  </g>
+
+  <!-- LV-701 -->
+  <g>
+    <polygon points="632,538 632,562 668,538 668,562" fill="#fff" stroke="#000" stroke-width="2"/>
+    <line x1="650" y1="550" x2="650" y2="526" stroke="#000" stroke-width="2"/>
+    <path d="M636,526 A14,14 0 0 1 664,526 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+    <text x="650" y="582" text-anchor="middle" font-weight="bold">LV-701</text>
+    <text x="650" y="595" text-anchor="middle" font-size="10">Oil level control valve</text>
+  </g>
+
+  <!-- PSV-701 (on 420 nozzle riser, relieving left to flare) -->
+  <g>
+    <polygon points="408,140 432,140 408,110 432,110" fill="#fff" stroke="#000" stroke-width="2" transform="rotate(0)"/>
+    <text x="440" y="128" font-weight="bold">PSV-701</text>
+    <text x="440" y="141" font-size="10">Pressure safety valve</text>
+  </g>
+
+  <!-- Instrument sensing lines (thin solid) -->
+  <g stroke="#06c" stroke-width="1.2" fill="none">
+    <polyline points="560,130 560,92" />
+    <polyline points="500,380 570,380" />
+    <polyline points="400,230 330,230" />
+  </g>
+
+  <!-- PT-701 / PIC-701 -->
+  <g stroke="#000" stroke-width="1.5" fill="#fff">
+    <circle cx="560" cy="72" r="20"/>
+    <circle cx="650" cy="52" r="20"/>
+    <line x1="630" y1="52" x2="670" y2="52"/>
+  </g>
+  <g text-anchor="middle" font-size="11" font-weight="bold">
+    <text x="560" y="70">PT</text><text x="560" y="82">701</text>
+    <text x="650" y="49">PIC</text><text x="650" y="65">701</text>
+  </g>
+
+  <!-- LT-701 / LIC-701 -->
+  <g stroke="#000" stroke-width="1.5" fill="#fff">
+    <circle cx="590" cy="380" r="20"/>
+    <circle cx="690" cy="380" r="20"/>
+    <line x1="670" y1="380" x2="710" y2="380"/>
+  </g>
+  <g text-anchor="middle" font-size="11" font-weight="bold">
+    <text x="590" y="378">LT</text><text x="590" y="390">701</text>
+    <text x="690" y="377">LIC</text><text x="690" y="393">701</text>
+  </g>
+
+  <!-- LSHH-702 -->
+  <g stroke="#000" stroke-width="1.5" fill="#fff"><circle cx="310" cy="230" r="20"/></g>
+  <g text-anchor="middle" font-size="11" font-weight="bold">
+    <text x="310" y="228">LSHH</text><text x="310" y="240">702</text>
+  </g>
+  <text x="310" y="262" text-anchor="middle" font-size="10">High-high level switch</text>
+  <text x="310" y="274" text-anchor="middle" font-size="10">(independent)</text>
+
+  <!-- Signals (dashed blue) -->
+  <g stroke="#06c" stroke-width="1.5" stroke-dasharray="6,4" fill="none" marker-end="url(#sarr)">
+    <line x1="580" y1="63" x2="628" y2="55" marker-end="url(#sarr)"/>
+    <line x1="650" y1="72" x2="650" y2="91" marker-end="url(#sarr)"/>
+    <line x1="610" y1="380" x2="668" y2="380" marker-end="url(#sarr)"/>
+    <line x1="690" y1="400" x2="690" y2="500" marker-end="none"/>
+    <polyline points="690,500 650,500 650,513" marker-end="url(#sarr)"/>
+    <polyline points="290,230 250,230 250,283" marker-end="url(#sarr)"/>
+  </g>
+  <text x="258" y="258" font-size="10" fill="#06c">trip: close on HH level</text>
+  <text x="700" y="462" font-size="10" fill="#06c">level controls LV-701</text>
+  <text x="680" y="22" font-size="10" fill="#06c" display="none"></text>
+
+  <!-- Legend -->
+  <g font-size="10" transform="translate(40,470)">
+    <line x1="0" y1="0" x2="40" y2="0" stroke="#000" stroke-width="2.5"/><text x="48" y="4">Process line</text>
+    <line x1="0" y1="18" x2="40" y2="18" stroke="#06c" stroke-width="1.5" stroke-dasharray="6,4"/><text x="48" y="22">Instrument / control signal</text>
+    <line x1="0" y1="36" x2="40" y2="36" stroke="#06c" stroke-width="1.2"/><text x="48" y="40">Instrument sensing connection</text>
+    <text x="0" y="60">Circle with bar = DCS controller; plain circle = field instrument</text>
+  </g>
+</svg>

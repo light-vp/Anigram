@@ -79,6 +79,26 @@ test('the site header goes to the examples, the docs and the editor', async ({
   await expect(page.getByRole('menubar', { name: 'Editor' })).toBeVisible()
 })
 
+test('the evaluation shows every scenario drawn both ways', async ({
+  page,
+}) => {
+  await page.goto('./?docs#evaluation')
+  const cards = page.getByRole('article')
+  await expect(cards).toHaveCount(31)
+  await page.getByRole('button', { name: 'Change a DEXPI file' }).click()
+  await expect(cards).toHaveCount(4)
+  const first = cards.first()
+  await expect(first.getByRole('img')).toHaveCount(2)
+  await first
+    .getByRole('button', { name: /compare the two drawings/ })
+    .first()
+    .click()
+  const dialog = page.getByRole('dialog')
+  await expect(dialog.getByRole('img')).toHaveCount(2)
+  await page.keyboard.press('Escape')
+  await expect(dialog).toHaveCount(0)
+})
+
 test('a view link still shows the sheet running', async ({ page }) => {
   await page.goto('./?scene=water-tower')
   await expect(page.getByRole('navigation', { name: 'Sheets' })).toBeVisible()

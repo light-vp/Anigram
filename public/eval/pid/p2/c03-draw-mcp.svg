@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="2000" height="568" class="sheet eng" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 568" style="--paper:#ffffff;--line:#e3e3e1;--tile:#fafaf9;--ink:#18181b;--muted:#8a8a87;--lit:#f5b301;--alarm:#e5484d;--light:#f5b301;--electric:#f08c00;--water:#2f7cf6;--heat:#e5484d;--fuel:#12a594;--mechanical:#71717a;--data:#7c5cf0;--oil:#b4651e;--air:#0f9fbf" role="img" aria-label="DEXPI Example C03: Offshore module piping with electrically actuated valve ESV-3712 (panel D-13)"><style>
+.sheet { font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+.ln { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+.ln.thin, .thin { stroke-width: 1; }
+.ln.solid { fill: var(--tile); }
+.inkf { fill: var(--ink); }
+.puff { fill: none; stroke: var(--muted); stroke-width: 1; }
+.win { fill: none; stroke: var(--ink); stroke-width: 0.9; }
+.win.on { fill: var(--lit); stroke: var(--lit); }
+.bar { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+.glyphText { font-size: 12px; font-weight: 600; fill: var(--ink); text-anchor: middle; dominant-baseline: central; }
+.glyphText.small { font-size: 8.5px; }
+
+.bg { fill: var(--paper); }
+
+.part .tile { fill: var(--tile); stroke: var(--line); stroke-width: 1; transition: stroke 0.2s; }
+.part.bad .tile { stroke: var(--alarm); }
+.part:hover .tile { stroke: var(--muted); }
+.part.selected .tile { stroke: var(--ink); stroke-width: 1.5; }
+.part .hit { fill: transparent; }
+.part.selectable .hit { cursor: pointer; }
+.dim { opacity: 0.18; }
+.part, .link, .tagGroup, .labelGroup { transition: opacity 0.25s; }
+
+.label, .value, .tag { paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
+.label { font-size: 11.5px; font-weight: 550; fill: var(--ink); }
+.value { font-size: 10.5px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.value.bad { fill: var(--alarm); }
+.chainArrow { fill: none; stroke: var(--muted); stroke-width: 1.25; stroke-dasharray: 3 4; opacity: 0.55; }
+.chainArrow.live { stroke: var(--lit); opacity: 1; stroke-dasharray: none; stroke-width: 1.75; }
+.chainRing { fill: none; stroke: var(--lit); stroke-width: 2; }
+
+.route { fill: none; stroke: var(--line); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.route.loss { stroke-dasharray: 1 5; stroke-width: 1.5; stroke: var(--muted); opacity: 0.6; }
+.route.limit { stroke: var(--alarm); }
+.stream { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.chev { fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.tag { font-size: 10px; fill: var(--muted); text-anchor: middle; dominant-baseline: central; font-variant-numeric: tabular-nums; }
+
+.title { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; fill: var(--ink); }
+.sub { font-size: 12.5px; fill: var(--muted); }
+.clock { font-size: 20px; font-weight: 500; fill: var(--ink); text-anchor: end; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.meta { font-size: 11px; fill: var(--muted); text-anchor: end; letter-spacing: 0.02em; }
+.legend { font-size: 11px; fill: var(--muted); dominant-baseline: central; }
+.credit { font-size: 10px; fill: var(--muted); text-anchor: end; letter-spacing: 0.02em; }
+.rule { stroke: var(--line); stroke-width: 1; }
+</style><style>
+.ln.sym, .sym { fill: var(--paper); }
+.mask { fill: var(--paper); stroke: none; }
+.ln.inkf { fill: var(--ink); }
+.ln.heavy { stroke-width: 3; }
+.ln.alarm, .alarmStroke { stroke: var(--alarm); }
+.ln.live { stroke: var(--muted); stroke-dasharray: 2 3; }
+.lvl { fill: var(--water); opacity: 0.35; stroke: none; }
+.lvl.oil { fill: var(--oil); }
+.lvl.air { fill: var(--air); }
+.lvl.low { fill: var(--alarm); }
+.symText { font-size: 13px; font-weight: 600; fill: var(--ink); text-anchor: middle; dominant-baseline: central; }
+.symText.small { font-size: 8.5px; font-weight: 500; }
+.eng .route { stroke: var(--ink); }
+.eng .route.process { stroke-width: 2; }
+.eng .route.utility { stroke-width: 1.25; }
+.eng .route.signal { stroke-width: 1; stroke-dasharray: 6 4; }
+.eng .route.data { stroke-width: 1.6; stroke-dasharray: 0.1 5; }
+.eng .route.pneumatic, .eng .route.hydraulic, .eng .route.capillary, .eng .route.electromagnetic { stroke-width: 1; }
+.eng .route.idle { stroke: var(--muted); }
+.eng .shaft { fill: none; stroke: var(--ink); stroke-width: 4; }
+.eng .shaftCore { fill: none; stroke: var(--paper); stroke-width: 2; }
+.eng .arrow { fill: var(--ink); }
+.eng .arrow.idle { fill: var(--paper); stroke: var(--muted); stroke-width: 1; }
+.eng .conn { fill: none; stroke: var(--ink); stroke-width: 1; }
+.ln.dashed { stroke-dasharray: 3 2.5; }
+.bubbleText { font-size: 9.5px; font-weight: 600; fill: var(--ink); text-anchor: middle; dominant-baseline: central; letter-spacing: 0.02em; }
+.eng .tagLabel { font-size: 11.5px; font-weight: 650; fill: var(--ink); letter-spacing: 0.02em; }
+.eng .lineNo { font-size: 9.5px; fill: var(--ink); font-variant-numeric: tabular-nums; paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }
+
+.tbCell { fill: var(--paper); stroke: var(--ink); stroke-width: 0.6; }
+.tbFrame { fill: none; stroke: var(--ink); stroke-width: 1.4; }
+.tbLabel { font-size: 6.5px; fill: var(--muted); letter-spacing: 0.06em; }
+.tbValue { font-size: 9.5px; fill: var(--ink); }
+.tbValue.muted { font-size: 8.5px; fill: var(--muted); }
+.tbTitle { font-size: 12.5px; font-weight: 600; fill: var(--ink); }
+.eng .credit { text-anchor: start; }
+</style><rect class="bg" width="2000" height="568"></rect><g><text class="title" x="40" y="38">DEXPI Example C03</text><text class="sub" x="40" y="58"><tspan x="40" dy="0">Offshore module piping with electrically actuated valve ESV-3712 (panel D-13)</tspan></text><text class="clock" x="1960" y="38">06:00</text><text class="meta" x="1960" y="58">DEXPI Example C03 · day 1</text></g><g><g class="link"><title>PLUG-1 → BF-1: 60 m³/h of water</title><path d="M100 264 L220 264" class="route process"></path><path class="arrow" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(160 264) rotate(0)"></path></g><g class="link"><title>BF-1 → FLG-1: 60 m³/h of water</title><path d="M220 264 L340 264" class="route process"></path><path class="arrow" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(280 264) rotate(0)"></path></g><g class="link"><title>FLG-1 → FLG-2: 60 m³/h of water</title><path d="M340 264 L460 264" class="route process"></path><path class="arrow" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(400 264) rotate(0)"></path></g><g class="link"><title>FLG-2 → XV-3712: 60 m³/h of water</title><path d="M460 264 L820 264" class="route process"></path><path class="arrow" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(640 264) rotate(0)"></path><text class="lineNo" text-anchor="middle" transform="translate(640 264) rotate(0) translate(0 14)">D-13L37014A-0200PB-FD120-0F000N</text></g><g class="link"><title>XV-3712 → FLG-3: 60 m³/h of water</title><path d="M820 264 L940 264" class="route process"></path><path class="arrow" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(880 264) rotate(0)"></path></g><g class="link"><title>FLG-3 → RO-1: 60 m³/h of water</title><path d="M940 264 L1060 264" class="route process"></path><path class="arrow" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(1000 264) rotate(0)"></path></g><g class="link"><title>RO-1 → HV-1: 60 m³/h of water</title><path d="M1060 264 L1420 264" class="route process"></path><path class="arrow" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(1240 264) rotate(0)"></path><text class="lineNo" text-anchor="middle" transform="translate(1240 264) rotate(0) translate(0 14)">D-13L37007A-0200PB-FS720-0F000N</text></g><g class="link"><title>HV-1 → RED-1: 60 m³/h of water</title><path d="M1420 264 L1540 264" class="route process"></path><path class="arrow" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(1480 264) rotate(0)"></path></g><g class="link"><title>RED-1 → OPC-1: 60 m³/h of water</title><path d="M1540 264 L1900 264" class="route process"></path><path class="arrow" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(1720 264) rotate(0)"></path><text class="lineNo" text-anchor="middle" transform="translate(1720 264) rotate(0) translate(0 14)">D-43L37007A-0800VF-AS7F0-0F000N</text></g><g class="link"><path class="conn" d="M820 144 L820 264"></path><path class="route signal" d="M820 144 L820 264"></path></g></g><g><g class="part selectable" transform="translate(100 264)"><g><circle r="3" class="inkf"></circle></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(220 264)"><g transform="rotate(0)"><g><path class="ln" d="M-16 0 H-2 M-2 -8 V8"></path><rect x="0.5" y="-8" width="3" height="16" class="ln inkf"></rect></g></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(340 264)"><g><g><rect x="-21.200000000000003" y="-13" width="42.400000000000006" height="26" rx="2" class="ln sym"></rect><text class="symText small">Flange</text></g></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(460 264)"><g><g><rect x="-21.200000000000003" y="-13" width="42.400000000000006" height="26" rx="2" class="ln sym"></rect><text class="symText small">Flange</text></g></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(820 264)"><g><g><g><path class="ln" d="M0 0 V-17"></path><path class="ln sym" d="M-9 -17 A 9 9 0 0 1 9 -17 Z"></path></g><g><path class="ln sym" d="M-11 -7 L11 7 V-7 L-11 7 Z"></path></g></g></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(940 264)"><g><g><rect x="-21.200000000000003" y="-13" width="42.400000000000006" height="26" rx="2" class="ln sym"></rect><text class="symText small">Flange</text></g></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(1060 264)"><g><path class="ln" d="M-2.5 -9 V9 M2.5 -9 V9"></path></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(1420 264)"><g><g><path class="ln sym" d="M-11 -7 L11 7 V-7 L-11 7 Z"></path><circle r="4" class="ln sym"></circle></g></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(1540 264)"><g transform="rotate(0)"><path class="ln sym" d="M-7 -7 L7 -3.5 V3.5 L-7 7 Z"></path></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(1900 264)"><g transform="rotate(0)"><path class="ln sym" d="M-18 -9 H8 L18 0 L8 9 H-18 Z"></path></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g></g><g><g class="labelGroup" transform="translate(220 216)" pointer-events="none"><text class="label tagLabel" text-anchor="middle" y="0">BF-1</text><text class="label" text-anchor="middle" y="14">Blind flange</text><text class="value" text-anchor="middle" y="28">60 m³/h</text></g><g class="labelGroup" transform="translate(340 216)" pointer-events="none"><text class="label tagLabel" text-anchor="middle" y="0">FLG-1</text><text class="label" text-anchor="middle" y="14">Flange</text><text class="value" text-anchor="middle" y="28">60 m³/h</text></g><g class="labelGroup" transform="translate(460 216)" pointer-events="none"><text class="label tagLabel" text-anchor="middle" y="0">FLG-2</text><text class="label" text-anchor="middle" y="14">Flange</text><text class="value" text-anchor="middle" y="28">60 m³/h</text></g><g class="labelGroup" transform="translate(820 306)" pointer-events="none"><text class="label tagLabel" text-anchor="middle" y="0">XV-3712</text><text class="label" text-anchor="middle" y="14">Operated valve</text><text class="value" text-anchor="middle" y="28">60 m³/h</text></g><g class="labelGroup" transform="translate(940 216)" pointer-events="none"><text class="label tagLabel" text-anchor="middle" y="0">FLG-3</text><text class="label" text-anchor="middle" y="14">Flange</text><text class="value" text-anchor="middle" y="28">60 m³/h</text></g><g class="labelGroup" transform="translate(1060 216)" pointer-events="none"><text class="label tagLabel" text-anchor="middle" y="0">RO-1</text><text class="label" text-anchor="middle" y="14">Restriction orifice</text><text class="value" text-anchor="middle" y="28">60 m³/h</text></g><g class="labelGroup" transform="translate(1420 306)" pointer-events="none"><text class="label tagLabel" text-anchor="middle" y="0">HV-1</text><text class="label" text-anchor="middle" y="14">Ball valve</text><text class="value" text-anchor="middle" y="28">60 m³/h</text></g><g class="labelGroup" transform="translate(1540 216)" pointer-events="none"><text class="label tagLabel" text-anchor="middle" y="0">RED-1</text><text class="label" text-anchor="middle" y="14">Reducer 0200x0800</text><text class="value" text-anchor="middle" y="28">60 m³/h</text></g><g class="labelGroup" transform="translate(1900 216)" pointer-events="none"><text class="label tagLabel" text-anchor="middle" y="0">OPC-1</text><text class="label" text-anchor="middle" y="14">Flow out</text><text class="value" text-anchor="middle" y="28">60 m³/h</text></g></g><g><g class="instrument" transform="translate(820 144)"><title>ESV-3712: voltage: switch, valve, damper</title><rect x="-17" y="-17" width="34" height="34" class="ln sym"></rect><circle r="17" class="ln sym"></circle><path class="ln thin" d="M-17 0 H17"></path><text class="bubbleText" y="-6">ESV</text><text class="bubbleText" y="7">3712</text></g></g><g><text class="tag" x="160" y="292" pointer-events="none">60 m³/h</text><text class="tag" x="280" y="292" pointer-events="none">60 m³/h</text><text class="tag" x="400" y="236" pointer-events="none">60 m³/h</text><text class="tag" x="580" y="252" pointer-events="none">60 m³/h</text><text class="tag" x="880" y="236" pointer-events="none">60 m³/h</text><text class="tag" x="1000" y="292" pointer-events="none">60 m³/h</text><text class="tag" x="1180" y="252" pointer-events="none">60 m³/h</text><text class="tag" x="1480" y="292" pointer-events="none">60 m³/h</text><text class="tag" x="1660" y="252" pointer-events="none">60 m³/h</text></g><rect class="tbFrame" x="12" y="12" width="1976" height="544"></rect><g class="titleBlock"><g><g><rect class="tbCell" x="1608" y="466" width="150" height="24"></rect><text class="tbLabel" x="1612" y="474">OWNER</text><text class="tbValue" x="1612" y="484">Equinor</text></g><g><rect class="tbCell" x="1758" y="466" width="120" height="24"></rect><text class="tbLabel" x="1762" y="474">DOCUMENT TYPE</text><text class="tbValue" x="1762" y="484">P&amp;ID</text></g><g><rect class="tbCell" x="1878" y="466" width="110" height="24"></rect><text class="tbLabel" x="1882" y="474">STATUS</text><text class="tbValue" x="1882" y="484">for information</text></g></g><rect class="tbCell" x="1608" y="490" width="380" height="38"></rect><text class="tbLabel" x="1612" y="498">TITLE · DEXPI EXAMPLE C03</text><text class="tbTitle" x="1612" y="512">DEXPI Example C03</text><text class="tbValue muted" x="1612" y="523">Offshore module piping with electrically actuated valve ESV-3712 (panel D-13)</text><g><g><rect class="tbCell" x="1608" y="528" width="60" height="28"></rect><text class="tbLabel" x="1612" y="536">DRAWN</text></g><g><rect class="tbCell" x="1668" y="528" width="60" height="28"></rect><text class="tbLabel" x="1672" y="536">CHECKED</text></g><g><rect class="tbCell" x="1728" y="528" width="60" height="28"></rect><text class="tbLabel" x="1732" y="536">APPROVED</text></g><g><rect class="tbCell" x="1788" y="528" width="70" height="28"></rect><text class="tbLabel" x="1792" y="536">ISSUED</text></g><g><rect class="tbCell" x="1858" y="528" width="30" height="28"></rect><text class="tbLabel" x="1862" y="536">REV</text></g><g><rect class="tbCell" x="1888" y="528" width="100" height="28"></rect><text class="tbLabel" x="1892" y="536">DRAWING NO.</text><text class="tbValue" x="1892" y="550">DEXPI Example C03</text></g></g><rect class="tbFrame" x="1608" y="466" width="380" height="90"></rect></g><g><g><path class="route process" d="M40 462 H66"></path><text class="legend" x="74" y="462">process line</text></g><g><path class="route signal" d="M40 478 H66"></path><text class="legend" x="74" y="478">signal line</text></g></g><a href="https://anigram.vaibhav.co.uk" target="_blank" rel="noopener"><text class="credit" x="40" y="546">Made with Anigram · Vaibhav Patel</text></a></svg>

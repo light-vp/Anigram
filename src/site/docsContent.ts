@@ -20,6 +20,8 @@ export type Block =
   | { steps: string[] }
   | { code: string }
   | { table: { head: string[]; rows: string[][] } }
+  /** the P&ID evaluation's drawings, side by side (EvalGallery.tsx) */
+  | { gallery: 'pid-evaluation' }
 
 export interface Section {
   id: string
@@ -421,9 +423,15 @@ export const SECTIONS: Section[] = [
       {
         p: 'The comparison flatters the runs without Anigram a little: their list of pipes is written by the assistant and taken on trust, while an Anigram scene is the drawing. The evaluation also found an importer bug (a DEXPI loop number written `031.` lost its number), fixed alongside it.',
       },
+      { h: 'Every scenario, drawn' },
+      {
+        p: 'Each brief as the assistant was given it, then what it drew with Anigram and without it. Open a pair to see both full size; an Anigram sheet also runs live. The drawing score is the share of the answer key found; behaviour is the share of the brief’s claims that held when the sheet was simulated.',
+      },
+      { gallery: 'pid-evaluation' },
       {
         code: `node eval/pid/run.mjs --mode both --keep   # both sides, every scenario (costs tokens)
-node eval/pid/report.mjs eval/pid/results/pass1 eval/pid/results/pass2`,
+node eval/pid/report.mjs eval/pid/results/pass1 eval/pid/results/pass2
+node eval/pid/gallery.mjs eval/pid/results/pass1 eval/pid/results/pass2   # the drawings above`,
       },
       {
         p: `Scenarios, scoring, known limits and every run’s output: [eval/pid](${BLOB}/eval/pid/README.md), with the full tables in [RESULTS.md](${BLOB}/eval/pid/RESULTS.md).`,

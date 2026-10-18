@@ -7,6 +7,7 @@ import type { ReactNode } from 'react'
 import { capture } from '../app/analytics'
 import { SECTIONS } from './docsContent.ts'
 import type { Block } from './docsContent.ts'
+import { EvalGallery } from './EvalGallery.tsx'
 import { SiteHeader } from './SiteHeader.tsx'
 import styles from './Docs.module.css'
 
@@ -106,6 +107,7 @@ function BlockView({ block }: { block: Block }) {
       </ol>
     )
   if ('code' in block) return <Code text={block.code} />
+  if ('gallery' in block) return <EvalGallery />
   return (
     <div className={styles.tableWrap}>
       <table className={styles.table}>

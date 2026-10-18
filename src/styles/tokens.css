@@ -23,6 +23,8 @@
   --hi: #f5b301;
   --on-hi: #18181b;
   --scrim: rgb(0 0 0 / 0.3);
+  /* behind a drawing shown as it was made, white in either theme */
+  --print: #ffffff;
   /* the time scrubber's sky */
   --night: #d9d9de;
   --noon: #f5b301;

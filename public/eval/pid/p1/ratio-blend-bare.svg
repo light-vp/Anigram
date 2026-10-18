@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 680" width="1100" height="680" font-family="Arial, sans-serif" font-size="12">
+<defs>
+<marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker>
+<marker id="as" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c00"/></marker>
+</defs>
+<rect width="1100" height="680" fill="#fff"/>
+<text x="550" y="28" text-anchor="middle" font-size="18" font-weight="bold">In-line Blending Skid - P&amp;ID</text>
+
+<!-- base stock line -->
+<polyline points="128,150 282,150" fill="none" stroke="#000" stroke-width="2.5"/>
+<polyline points="318,150 650,150" fill="none" stroke="#000" stroke-width="2.5" marker-end="url(#ar)"/>
+<polygon points="40,132 110,132 128,150 110,168 40,168" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<text x="75" y="154" text-anchor="middle" font-size="11" font-weight="bold">OSC-1201</text>
+<text x="75" y="118" text-anchor="middle" font-size="11">BASE STOCK</text>
+<text x="75" y="104" text-anchor="middle" font-size="11">from off sheet</text>
+
+<!-- FT-1201 -->
+<circle cx="300" cy="150" r="18" fill="#fff" stroke="#000" stroke-width="2"/>
+<line x1="300" y1="168" x2="300" y2="213" stroke="#000"/>
+<circle cx="300" cy="240" r="27" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<text x="300" y="237" text-anchor="middle" font-weight="bold">FT</text>
+<text x="300" y="253" text-anchor="middle" font-weight="bold">1201</text>
+<text x="300" y="285" text-anchor="middle" font-size="11">FT-1201 wild flow</text>
+
+<!-- static mixer M-1201 -->
+<rect x="650" y="132" width="110" height="36" fill="#fff" stroke="#000" stroke-width="2"/>
+<polyline points="662,136 672,150 662,164" fill="none" stroke="#000"/>
+<polyline points="683,136 693,150 683,164" fill="none" stroke="#000"/>
+<polyline points="704,136 714,150 704,164" fill="none" stroke="#000"/>
+<polyline points="725,136 735,150 725,164" fill="none" stroke="#000"/>
+<text x="705" y="112" text-anchor="middle" font-weight="bold">M-1201</text>
+<text x="705" y="126" text-anchor="middle" font-size="11">Static mixer</text>
+<polyline points="760,150 900,150" fill="none" stroke="#000" stroke-width="2.5" marker-end="url(#ar)"/>
+
+<!-- blend tank T-1203 -->
+<path d="M900,100 Q900,80 960,80 Q1020,80 1020,100 L1020,290 Q1020,310 960,310 Q900,310 900,290 Z" fill="#eef" stroke="#000" stroke-width="2"/>
+<text x="960" y="200" text-anchor="middle" font-size="13" font-weight="bold">T-1203</text>
+<text x="960" y="217" text-anchor="middle" font-size="11">Blend tank</text>
+
+<!-- additive tank T-1202 -->
+<path d="M60,390 Q60,370 110,370 Q160,370 160,390 L160,540 Q160,560 110,560 Q60,560 60,540 Z" fill="#eef" stroke="#000" stroke-width="2"/>
+<text x="110" y="455" text-anchor="middle" font-size="13" font-weight="bold">T-1202</text>
+<text x="110" y="472" text-anchor="middle" font-size="11">Additive tank</text>
+
+<!-- pump P-1202 -->
+<polyline points="160,520 252,520" fill="none" stroke="#000" stroke-width="2.5" marker-end="url(#ar)"/>
+<circle cx="280" cy="520" r="28" fill="#fff" stroke="#000" stroke-width="2"/>
+<polygon points="268,506 268,534 296,520" fill="none" stroke="#000" stroke-width="1.5"/>
+<text x="280" y="568" text-anchor="middle" font-weight="bold">P-1202</text>
+<text x="280" y="583" text-anchor="middle" font-size="11">Additive pump</text>
+
+<!-- additive line -->
+<polyline points="280,492 280,470 462,470" fill="none" stroke="#000" stroke-width="2.5"/>
+<polyline points="498,470 590,470" fill="none" stroke="#000" stroke-width="2.5"/>
+<circle cx="480" cy="470" r="18" fill="#fff" stroke="#000" stroke-width="2"/>
+<line x1="480" y1="452" x2="480" y2="427" stroke="#000"/>
+<circle cx="480" cy="400" r="27" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<text x="480" y="397" text-anchor="middle" font-weight="bold">FT</text>
+<text x="480" y="413" text-anchor="middle" font-weight="bold">1202</text>
+
+<!-- control valve FV-1202 -->
+<polygon points="590,455 590,485 650,455 650,485" fill="#fff" stroke="#000" stroke-width="2"/>
+<line x1="620" y1="470" x2="620" y2="435" stroke="#000" stroke-width="1.5"/>
+<path d="M600,435 A20,16 0 0 1 640,435 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<text x="620" y="505" text-anchor="middle" font-weight="bold">FV-1202</text>
+<text x="620" y="520" text-anchor="middle" font-size="11">Additive control valve</text>
+<polyline points="650,470 705,470 705,168" fill="none" stroke="#000" stroke-width="2.5" marker-end="url(#ar)"/>
+<text x="715" y="330" font-size="11">ADDITIVE</text>
+
+<!-- FFIC-1202 -->
+<circle cx="480" cy="300" r="27" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<line x1="453" y1="300" x2="507" y2="300" stroke="#000"/>
+<text x="480" y="297" text-anchor="middle" font-weight="bold">FFIC</text>
+<text x="480" y="314" text-anchor="middle" font-weight="bold">1202</text>
+<text x="480" y="256" text-anchor="middle" font-size="11" font-weight="bold" fill="#c00">Ratio SP = 5 % of FT-1201</text>
+
+<!-- signals -->
+<polyline points="300,267 300,300 451,300" fill="none" stroke="#c00" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#as)"/>
+<polyline points="480,373 480,329" fill="none" stroke="#c00" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#as)"/>
+<polyline points="507,300 620,300 620,419" fill="none" stroke="#c00" stroke-width="1.5" stroke-dasharray="6,4" marker-end="url(#as)"/>
+<text x="375" y="292" text-anchor="middle" font-size="10" fill="#c00">wild flow</text>
+<text x="565" y="292" text-anchor="middle" font-size="10" fill="#c00">output</text>
+<text x="490" y="350" font-size="10" fill="#c00">additive PV</text>
+
+<!-- trend inset -->
+<rect x="780" y="350" width="310" height="270" fill="#fafafa" stroke="#888"/>
+<text x="935" y="368" text-anchor="middle" font-size="11" font-weight="bold">Additive follows base stock at 5 % over 24 h (illustrative)</text>
+<rect x="790" y="380" width="270" height="85" fill="#fff" stroke="#000"/>
+<polyline points="790,422.5 812.5,427.8 835,430.5 857.5,417.2 880,401.2 902.5,393.3 925,390.6 947.5,398.6 970,406.6 992.5,414.5 1015,419.8 1037.5,425.2 1060,422.5" fill="none" stroke="#000" stroke-width="1.8"/>
+<text x="794" y="392" font-size="10">Base stock flow FT-1201 (wild)</text>
+<text x="787" y="388" text-anchor="end" font-size="9">160</text>
+<text x="787" y="465" text-anchor="end" font-size="9">0</text>
+<rect x="790" y="485" width="270" height="85" fill="#fff" stroke="#000"/>
+<polyline points="790,527.5 812.5,532.8 835,535.5 857.5,522.2 880,506.2 902.5,498.3 925,495.6 947.5,503.6 970,511.6 992.5,519.5 1015,524.8 1037.5,530.2 1060,527.5" fill="none" stroke="#c00" stroke-width="1.8"/>
+<text x="794" y="497" font-size="10" fill="#c00">Additive flow FT-1202 = 0.05 x FT-1201</text>
+<text x="787" y="493" text-anchor="end" font-size="9">8</text>
+<text x="787" y="570" text-anchor="end" font-size="9">0</text>
+<text x="1066" y="392" font-size="9">m3/h</text>
+<text x="1066" y="497" font-size="9">m3/h</text>
+<text x="790" y="586" text-anchor="middle" font-size="9">00:00</text>
+<text x="857.5" y="586" text-anchor="middle" font-size="9">06:00</text>
+<text x="925" y="586" text-anchor="middle" font-size="9">12:00</text>
+<text x="992.5" y="586" text-anchor="middle" font-size="9">18:00</text>
+<text x="1060" y="586" text-anchor="middle" font-size="9">24:00</text>
+<text x="925" y="607" text-anchor="middle" font-size="10">time of day</text>
+
+<!-- legend -->
+<text x="40" y="640" font-size="11" font-weight="bold">Legend:</text>
+<line x1="95" y1="636" x2="135" y2="636" stroke="#000" stroke-width="2.5"/>
+<text x="142" y="640" font-size="11">process line</text>
+<line x1="230" y1="636" x2="270" y2="636" stroke="#c00" stroke-width="1.5" stroke-dasharray="6,4"/>
+<text x="277" y="640" font-size="11">instrument / control signal</text>
+</svg>

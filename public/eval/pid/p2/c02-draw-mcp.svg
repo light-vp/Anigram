@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1040" height="1048" class="sheet eng" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 1048" style="--paper:#ffffff;--line:#e3e3e1;--tile:#fafaf9;--ink:#18181b;--muted:#8a8a87;--lit:#f5b301;--alarm:#e5484d;--light:#f5b301;--electric:#f08c00;--water:#2f7cf6;--heat:#e5484d;--fuel:#12a594;--mechanical:#71717a;--data:#7c5cf0;--oil:#b4651e;--air:#0f9fbf" role="img" aria-label="Packed column K 2750: Column, outlets and pressure instrumentation PIS+Z+A 275003"><style>
+.sheet { font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+.ln { fill: none; stroke: var(--ink); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round; }
+.ln.thin, .thin { stroke-width: 1; }
+.ln.solid { fill: var(--tile); }
+.inkf { fill: var(--ink); }
+.puff { fill: none; stroke: var(--muted); stroke-width: 1; }
+.win { fill: none; stroke: var(--ink); stroke-width: 0.9; }
+.win.on { fill: var(--lit); stroke: var(--lit); }
+.bar { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+.glyphText { font-size: 12px; font-weight: 600; fill: var(--ink); text-anchor: middle; dominant-baseline: central; }
+.glyphText.small { font-size: 8.5px; }
+
+.bg { fill: var(--paper); }
+
+.part .tile { fill: var(--tile); stroke: var(--line); stroke-width: 1; transition: stroke 0.2s; }
+.part.bad .tile { stroke: var(--alarm); }
+.part:hover .tile { stroke: var(--muted); }
+.part.selected .tile { stroke: var(--ink); stroke-width: 1.5; }
+.part .hit { fill: transparent; }
+.part.selectable .hit { cursor: pointer; }
+.dim { opacity: 0.18; }
+.part, .link, .tagGroup, .labelGroup { transition: opacity 0.25s; }
+
+.label, .value, .tag { paint-order: stroke; stroke: var(--paper); stroke-width: 4px; stroke-linejoin: round; }
+.label { font-size: 11.5px; font-weight: 550; fill: var(--ink); }
+.value { font-size: 10.5px; fill: var(--muted); font-variant-numeric: tabular-nums; }
+.value.bad { fill: var(--alarm); }
+.chainArrow { fill: none; stroke: var(--muted); stroke-width: 1.25; stroke-dasharray: 3 4; opacity: 0.55; }
+.chainArrow.live { stroke: var(--lit); opacity: 1; stroke-dasharray: none; stroke-width: 1.75; }
+.chainRing { fill: none; stroke: var(--lit); stroke-width: 2; }
+
+.route { fill: none; stroke: var(--line); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.route.loss { stroke-dasharray: 1 5; stroke-width: 1.5; stroke: var(--muted); opacity: 0.6; }
+.route.limit { stroke: var(--alarm); }
+.stream { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.chev { fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.tag { font-size: 10px; fill: var(--muted); text-anchor: middle; dominant-baseline: central; font-variant-numeric: tabular-nums; }
+
+.title { font-size: 20px; font-weight: 600; letter-spacing: -0.015em; fill: var(--ink); }
+.sub { font-size: 12.5px; fill: var(--muted); }
+.clock { font-size: 20px; font-weight: 500; fill: var(--ink); text-anchor: end; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.meta { font-size: 11px; fill: var(--muted); text-anchor: end; letter-spacing: 0.02em; }
+.legend { font-size: 11px; fill: var(--muted); dominant-baseline: central; }
+.credit { font-size: 10px; fill: var(--muted); text-anchor: end; letter-spacing: 0.02em; }
+.rule { stroke: var(--line); stroke-width: 1; }
+</style><style>
+.ln.sym, .sym { fill: var(--paper); }
+.mask { fill: var(--paper); stroke: none; }
+.ln.inkf { fill: var(--ink); }
+.ln.heavy { stroke-width: 3; }
+.ln.alarm, .alarmStroke { stroke: var(--alarm); }
+.ln.live { stroke: var(--muted); stroke-dasharray: 2 3; }
+.lvl { fill: var(--water); opacity: 0.35; stroke: none; }
+.lvl.oil { fill: var(--oil); }
+.lvl.air { fill: var(--air); }
+.lvl.low { fill: var(--alarm); }
+.symText { font-size: 13px; font-weight: 600; fill: var(--ink); text-anchor: middle; dominant-baseline: central; }
+.symText.small { font-size: 8.5px; font-weight: 500; }
+.eng .route { stroke: var(--ink); }
+.eng .route.process { stroke-width: 2; }
+.eng .route.utility { stroke-width: 1.25; }
+.eng .route.signal { stroke-width: 1; stroke-dasharray: 6 4; }
+.eng .route.data { stroke-width: 1.6; stroke-dasharray: 0.1 5; }
+.eng .route.pneumatic, .eng .route.hydraulic, .eng .route.capillary, .eng .route.electromagnetic { stroke-width: 1; }
+.eng .route.idle { stroke: var(--muted); }
+.eng .shaft { fill: none; stroke: var(--ink); stroke-width: 4; }
+.eng .shaftCore { fill: none; stroke: var(--paper); stroke-width: 2; }
+.eng .arrow { fill: var(--ink); }
+.eng .arrow.idle { fill: var(--paper); stroke: var(--muted); stroke-width: 1; }
+.eng .conn { fill: none; stroke: var(--ink); stroke-width: 1; }
+.ln.dashed { stroke-dasharray: 3 2.5; }
+.bubbleText { font-size: 9.5px; font-weight: 600; fill: var(--ink); text-anchor: middle; dominant-baseline: central; letter-spacing: 0.02em; }
+.eng .tagLabel { font-size: 11.5px; font-weight: 650; fill: var(--ink); letter-spacing: 0.02em; }
+.eng .lineNo { font-size: 9.5px; fill: var(--ink); font-variant-numeric: tabular-nums; paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }
+
+.tbCell { fill: var(--paper); stroke: var(--ink); stroke-width: 0.6; }
+.tbFrame { fill: none; stroke: var(--ink); stroke-width: 1.4; }
+.tbLabel { font-size: 6.5px; fill: var(--muted); letter-spacing: 0.06em; }
+.tbValue { font-size: 9.5px; fill: var(--ink); }
+.tbValue.muted { font-size: 8.5px; fill: var(--muted); }
+.tbTitle { font-size: 12.5px; font-weight: 600; fill: var(--ink); }
+.eng .credit { text-anchor: start; }
+</style><rect class="bg" width="1040" height="1048"></rect><g><text class="title" x="40" y="38">Packed column K 2750</text><text class="sub" x="40" y="58"><tspan x="40" dy="0">Column, outlets and pressure instrumentation PIS+Z+A 275003</tspan></text><text class="clock" x="1000" y="38">06:00</text><text class="meta" x="1000" y="58">DEXPI Example C02 · day 1</text></g><g><g class="link"><title>K 2750 → Reducer 200/150: 40 m³/h of water</title><path d="M460 504 L460 264" class="route process"></path><path class="arrow" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(460 384) rotate(-90)"></path><text class="lineNo" text-anchor="middle" transform="translate(460 384) rotate(-90) translate(0 14)">2750.001.6-0N-2170.8503-150/10HB25T10B1-B40-</text></g><g class="link"><title>Reducer 200/150 → 2765 (W 2765): 40 m³/h of water</title><path d="M460 264 L700 264" class="route process"></path><path class="arrow" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(580 264) rotate(0)"></path></g><g class="link"><title>K 2750 → Tee DN150 / DN80: 0 m³/h of water</title><path d="M460 504 L460 744" class="route process"></path><path class="arrow idle" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(460 624) rotate(90)"></path><text class="lineNo" text-anchor="middle" transform="translate(460 624) rotate(90) translate(0 14)">*at N3*</text></g><g class="link"><title>Tee DN150 / DN80 → Open end: 0 m³/h of water</title><path d="M460 744 L460 864" class="route process"></path><path class="arrow idle" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(460 804) rotate(90)"></path></g><g class="link"><title>Tee DN150 / DN80 → H672B1V: 0 m³/h of water</title><path d="M460 744 L700 744" class="route process"></path><path class="arrow idle" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(580 744) rotate(0)"></path></g><g class="link"><title>H672B1V → Open end: 0 m³/h of water</title><path d="M700 744 L940 744" class="route process"></path><path class="arrow idle" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(820 744) rotate(0)"></path></g><g class="link"><title>K 2750 → H658B1UV: 0 m³/h of water</title><path d="M460 504 L220 504 Q220 504 220 504 L220 384" class="route process"></path><path class="arrow idle" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(340 504) rotate(180)"></path><text class="lineNo" text-anchor="middle" transform="translate(340 504) rotate(0) translate(0 14)">*at P3*</text></g><g class="link"><title>K 2750 → H658B1UV DN25 AS9 (2750-6): 0 m³/h of water</title><path d="M460 504 L700 504" class="route process"></path><path class="arrow idle" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(580 504) rotate(0)"></path><text class="lineNo" text-anchor="middle" transform="translate(580 504) rotate(0) translate(0 14)">*at P4*</text></g><g class="link"><title>H658B1UV → Blind flange (tap 2750-5): 0 m³/h of water</title><path d="M220 384 L220 264" class="route process"></path><path class="arrow idle" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(220 324) rotate(-90)"></path></g><g class="link"><title>H658B1UV DN25 AS9 (2750-6) → Blind flange (tap 2750-6): 0 m³/h of water</title><path d="M700 504 L940 504" class="route process"></path><path class="arrow idle" d="M-5 -4 L4 0 L-5 4 Z" transform="translate(820 504) rotate(0)"></path></g><g class="link"><path class="conn" d="M100 384 L220 384"></path></g><g class="link"><path class="conn" d="M700 384 L700 504"></path></g><g class="link"><path class="route signal" d="M100 264 L100 384"></path></g></g><g><g class="part selectable" transform="translate(460 504)"><g><g><rect x="-12" y="-19" width="24" height="38" rx="10" class="ln sym"></rect><rect x="-12" y="-19" width="24" height="38" rx="10" class="ln"></rect></g></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(460 264)"><g><circle r="3" class="inkf"></circle></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(700 264)"><g transform="rotate(0)"><path class="ln sym" d="M-18 -9 H8 L18 0 L8 9 H-18 Z"></path></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(460 744)"><g><circle r="3" class="inkf"></circle></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(460 864)"><g transform="rotate(90)"><path class="ln sym" d="M-18 -9 H8 L18 0 L8 9 H-18 Z"></path></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(700 744)"><g><g><path class="ln inkf" d="M-11 -7 L11 7 V-7 L-11 7 Z"></path><circle r="2.6" class="sym"></circle></g></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(940 744)"><g transform="rotate(0)"><path class="ln sym" d="M-18 -9 H8 L18 0 L8 9 H-18 Z"></path></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(220 384)"><g transform="rotate(90)"><g><path class="ln sym" d="M-11 -7 L11 7 V-7 L-11 7 Z"></path><circle r="2.6" class="inkf"></circle></g></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(700 504)"><g><g><path class="ln sym" d="M-11 -7 L11 7 V-7 L-11 7 Z"></path><circle r="2.6" class="inkf"></circle></g></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(220 264)"><g transform="rotate(-90)"><path class="ln sym" d="M-18 -9 H8 L18 0 L8 9 H-18 Z"></path></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g><g class="part selectable" transform="translate(940 504)"><g transform="rotate(0)"><path class="ln sym" d="M-18 -9 H8 L18 0 L8 9 H-18 Z"></path></g><rect class="hit" x="-26" y="-26" width="52" height="52"></rect></g></g><g><g class="labelGroup" transform="translate(460 546)" pointer-events="none"><text class="label tagLabel" text-anchor="middle" y="0">K 2750</text><text class="label" text-anchor="middle" y="14">Column (Kolonne) Ø500 x 14000 mm</text><text class="value" text-anchor="middle" y="28">40 m³/h</text><text class="value effort" text-anchor="middle" y="42">1.5 bar</text></g><g class="labelGroup" transform="translate(700 306)" pointer-events="none"><text class="label" text-anchor="middle" y="0">2765 (W 2765)</text><text class="value" text-anchor="middle" y="14">40 m³/h</text></g><g class="labelGroup" transform="translate(496 862)" pointer-events="none"><text class="label" text-anchor="start" y="0">Open end</text><text class="value" text-anchor="start" y="14">off</text></g><g class="labelGroup" transform="translate(700 786)" pointer-events="none"><text class="label tagLabel" text-anchor="middle" y="0">H672B1V</text><text class="label" text-anchor="middle" y="14">H672B1V DN80 AS9</text><text class="value" text-anchor="middle" y="28">shut</text></g><g class="labelGroup" transform="translate(940 786)" pointer-events="none"><text class="label" text-anchor="middle" y="0">Open end</text><text class="value" text-anchor="middle" y="14">off</text></g><g class="labelGroup" transform="translate(256 382)" pointer-events="none"><text class="label tagLabel" text-anchor="start" y="0">H658B1UV</text><text class="label" text-anchor="start" y="14">H658B1UV DN25 AS9 (2750-5)</text><text class="value" text-anchor="start" y="28">0 m³/h</text></g><g class="labelGroup" transform="translate(700 546)" pointer-events="none"><text class="label" text-anchor="middle" y="0">H658B1UV DN25 AS9 (2750-6)</text><text class="value" text-anchor="middle" y="14">0 m³/h</text></g><g class="labelGroup" transform="translate(256 262)" pointer-events="none"><text class="label" text-anchor="start" y="0">Blind flange (tap 2750-5)</text><text class="value" text-anchor="start" y="14">off</text></g><g class="labelGroup" transform="translate(940 546)" pointer-events="none"><text class="label" text-anchor="middle" y="0">Blind flange (tap 2750-6)</text><text class="value" text-anchor="middle" y="14">off</text></g></g><g><g class="instrument" transform="translate(100 384)"><title>PIZ-275003A: pressure: indicate, final element, driver</title><circle r="17" class="ln sym"></circle><text class="bubbleText" y="-6">PIZ</text><text class="bubbleText" y="7">275003A</text><text class="value" x="21" y="-14">1.5 bar</text></g><g class="instrument" transform="translate(700 384)"><title>PIZ-275003B: pressure: indicate, final element, driver</title><circle r="17" class="ln sym"></circle><text class="bubbleText" y="-6">PIZ</text><text class="bubbleText" y="7">275003B</text><text class="value" x="21" y="-14">1.5 bar</text></g><g class="instrument" transform="translate(100 264)"><title>PISZA-275003: pressure: indicate, switch, final element, driver, alarm</title><circle r="17" class="ln sym"></circle><path class="ln thin" d="M-17 0 H17"></path><text class="bubbleText" y="-6">PISZA</text><text class="bubbleText" y="7">275003</text><text class="value" x="21" y="-14">1.5 bar</text></g></g><g><text class="tag" x="490.3" y="360" pointer-events="none">40 m³/h</text><text class="tag" x="520" y="252" pointer-events="none">40 m³/h</text></g><rect class="tbFrame" x="12" y="12" width="1016" height="1024"></rect><g class="titleBlock"><g><g><rect class="tbCell" x="648" y="946" width="150" height="24"></rect><text class="tbLabel" x="652" y="954">OWNER</text><text class="tbValue" x="652" y="964">BASF SE</text></g><g><rect class="tbCell" x="798" y="946" width="120" height="24"></rect><text class="tbLabel" x="802" y="954">DOCUMENT TYPE</text><text class="tbValue" x="802" y="964">P&amp;ID</text></g><g><rect class="tbCell" x="918" y="946" width="110" height="24"></rect><text class="tbLabel" x="922" y="954">STATUS</text><text class="tbValue" x="922" y="964">as imported from c…</text></g></g><rect class="tbCell" x="648" y="970" width="380" height="38"></rect><text class="tbLabel" x="652" y="978">TITLE · LUDWIGSHAFEN V888 / V04 / 2000</text><text class="tbTitle" x="652" y="992">Packed column K 2750</text><text class="tbValue muted" x="652" y="1003">Column, outlets and pressure instrumentation PIS+Z+A 275003</text><g><g><rect class="tbCell" x="648" y="1008" width="60" height="28"></rect><text class="tbLabel" x="652" y="1016">DRAWN</text></g><g><rect class="tbCell" x="708" y="1008" width="60" height="28"></rect><text class="tbLabel" x="712" y="1016">CHECKED</text></g><g><rect class="tbCell" x="768" y="1008" width="60" height="28"></rect><text class="tbLabel" x="772" y="1016">APPROVED</text></g><g><rect class="tbCell" x="828" y="1008" width="70" height="28"></rect><text class="tbLabel" x="832" y="1016">ISSUED</text></g><g><rect class="tbCell" x="898" y="1008" width="30" height="28"></rect><text class="tbLabel" x="902" y="1016">REV</text></g><g><rect class="tbCell" x="928" y="1008" width="100" height="28"></rect><text class="tbLabel" x="932" y="1016">DRAWING NO.</text><text class="tbValue" x="932" y="1030">DEXPI Example C02</text></g></g><rect class="tbFrame" x="648" y="946" width="380" height="90"></rect></g><g><g><path class="route process" d="M40 942 H66"></path><text class="legend" x="74" y="942">process line</text></g><g><path class="route signal" d="M40 958 H66"></path><text class="legend" x="74" y="958">signal line</text></g></g><a href="https://anigram.vaibhav.co.uk" target="_blank" rel="noopener"><text class="credit" x="40" y="1026">Made with Anigram · Vaibhav Patel</text></a></svg>

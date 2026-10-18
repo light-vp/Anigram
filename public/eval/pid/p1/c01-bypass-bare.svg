@@ -1,0 +1,317 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 297" width="1680" height="1188">
+<title>P&amp;ID Utilities - DEXPI example C01, rev. A: maintenance bypass around PV-4712.02</title>
+<style>
+.p{fill:none;stroke:#808000;stroke-width:.5}
+.s{fill:none;stroke:#808000;stroke-width:.25}
+.v{fill:none;stroke:#808000;stroke-width:.25}
+.w{fill:#fff;stroke:#808000;stroke-width:.25}
+.d{fill:#808000;stroke:#808000;stroke-width:.25}
+.e{fill:none;stroke:#800000;stroke-width:.3}
+.n{fill:none;stroke:#800000;stroke-width:.4}
+.b{fill:none;stroke:#000;stroke-width:.3}
+.bb{fill:none;stroke:#000;stroke-width:.6}
+.bt{fill:none;stroke:#000;stroke-width:.28}
+.k{fill:none;stroke:#000;stroke-width:.2}
+.m{fill:none;stroke:#008000;stroke-width:.2}
+.g{fill:none;stroke:#0000ff;stroke-width:.2;stroke-dasharray:1.5 1}
+.i{fill:#fff;stroke:#008000;stroke-width:.2}
+.rev{fill:#fff;stroke:#000;stroke-width:.3}
+svg{font-family:Calibri,Carlito,Arial,sans-serif;font-size:3px;fill:#000;text-anchor:middle;dominant-baseline:central}
+.l{text-anchor:start;dominant-baseline:alphabetic}
+.cb{dominant-baseline:alphabetic}
+.r{text-anchor:end}
+.a{font-size:2.5px}
+.h{font-size:4.5px}
+.f{font-size:4px}
+.z{font-size:2.85px}
+.u{font-size:1.6px;fill:#555}
+.nw{font-size:2.5px;font-weight:bold}
+</style>
+<rect width="420" height="297" fill="#fff"/>
+<g transform="translate(0 297) scale(1 -1)">
+
+<!-- drawing border and zone marks -->
+<rect class="b" x="1" y="1" width="418" height="295"/>
+<rect class="bb" x="4" y="4" width="412" height="289"/>
+<path class="b" d="M38.333,4V1 M38.333,293V296 M72.667,4V1 M72.667,293V296 M107,4V1 M107,293V296 M141.333,4V1 M141.333,293V296 M175.667,4V1 M175.667,293V296 M210,4V1 M210,293V296 M244.333,4V1 M244.333,293V296 M278.667,4V1 M278.667,293V296 M313,4V1 M313,293V296 M347.333,4V1 M347.333,293V296 M381.667,4V1 M381.667,293V296 M1,40.125H4 M416,40.125H419 M1,76.25H4 M416,76.25H419 M1,112.375H4 M416,112.375H419 M1,148.5H4 M416,148.5H419 M1,184.625H4 M416,184.625H419 M1,220.75H4 M416,220.75H419 M1,256.875H4 M416,256.875H419 M208.5,1L210,4L211.5,1 M208.5,296L210,293L211.5,296 M1,147L4,148.5L1,150 M419,147L416,148.5L419,150"/>
+
+<!-- title block -->
+<g class="bt">
+<rect x="296" y="4" width="120" height="30" stroke-width=".58"/>
+<rect x="296" y="4" width="18" height="5"/><rect x="314" y="4" width="30" height="5"/><rect x="344" y="4" width="14.4" height="5"/><rect x="358.4" y="4" width="21.6" height="5"/><rect x="380" y="4" width="36" height="5"/>
+<rect x="296" y="9" width="18" height="5"/><rect x="314" y="9" width="30" height="5"/><rect x="344" y="9" width="14.4" height="5"/><rect x="358.4" y="9" width="21.6" height="5"/><rect x="380" y="9" width="36" height="5"/>
+<rect x="296" y="14" width="18" height="5"/><rect x="314" y="14" width="30" height="5"/><rect x="344" y="14" width="14.4" height="5"/><rect x="358.4" y="14" width="57.6" height="10"/>
+<rect x="314" y="19" width="30" height="5"/><rect x="344" y="19" width="14.4" height="5"/>
+<rect x="296" y="24" width="62.4" height="10"/><rect x="358.4" y="24" width="21.6" height="5"/><rect x="380" y="24" width="36" height="5"/>
+<rect x="358.4" y="29" width="21.6" height="5"/><rect x="380" y="29" width="36" height="5"/>
+</g>
+
+<!-- equipment data tables -->
+<g class="bb">
+<path d="M6,60.5H96 M6,34.5V60.5 M96,34.5V60.5 M6,34.5H96"/>
+<path d="M98,60.5H188 M98,34.5V60.5 M188,34.5V60.5 M98,34.5H188"/>
+<path d="M6,32H96 M6,6V32 M96,6V32 M6,6H96"/>
+<path d="M98,32H188 M98,6V32 M188,6V32 M98,6H188"/>
+<path d="M190,32H280 M190,6V32 M280,6V32 M190,6H280"/>
+</g>
+<g class="b">
+<path d="M66,34.5V60.5 M6,57.25H96 M6,54H96 M6,50.75H96 M6,47.5H96 M6,44.25H96 M6,41H96 M6,37.75H96 M81,57.25V37.75"/>
+<path d="M158,34.5V60.5 M98,57.25H188 M98,54H188 M98,50.75H188 M98,47.5H188 M98,44.25H188 M98,41H188 M98,37.75H188 M173,57.25V34.5"/>
+<path d="M66,6V32 M6,28.75H96 M6,25.5H96 M6,22.25H96 M6,19H96 M6,15.75H96 M6,12.5H96 M6,9.25H96 M81,15.75V6"/>
+<path d="M158,6V32 M98,28.75H188 M98,25.5H188 M98,22.25H188 M98,19H188 M98,15.75H188 M98,12.5H188 M98,9.25H188 M173,15.75V6"/>
+<path d="M250,6V32 M190,28.75H280 M190,25.5H280 M190,22.25H280 M190,19H280 M190,15.75H280 M190,12.5H280 M190,9.25H280 M265,28.75V12.5 M265,9.25V6"/>
+</g>
+
+<!-- process piping, primary (heavy) -->
+<path class="p" d="M38,143H74.75 M93.25,143H132 M148,164H160V176 M160,180V236H181V224.36 M194,168.5V162 M194,158V143H201 M205,143H215 M219,143H229 M233,143H241.75 M260.25,143H287 M291,143H378"/>
+<path class="p" d="M182.75,233.11L181,231.36L179.25,233.11 M373.25,144.75L375,143L373.25,141.25"/>
+
+<!-- process piping, secondary (light) incl. utility lines -->
+<path class="s" d="M265,143V139 M269,143V201 M281,143V147 M281,151V151.8 M323.5,143V159.5 M365,143V147 M365,151V151.8 M344.5,95V159.5 M120,95V164H132 M148,143H153V95 M328,174.5V184H338.5 M342.5,184H353V95 M267,203H213"/>
+<path class="s" d="M218.75,204.75L217,203L218.75,201.25 M218.75,215.75L217,214L218.75,212.25 M118.25,134.25L120,136L121.75,134.25 M154.75,136L153,134.25L151.25,136 M342.75,134.25L344.5,136L346.25,134.25 M354.75,136L353,134.25L351.25,136 M255.25,203.76V204.64L258.75,203.76Z"/>
+
+<!-- recycle line 47127 from H1008 to T-4750, with the new bypass (rev. A) -->
+<g data-line="MNc 47127">
+<path class="s" d="M323.5,174.5V187 M323.5,191V197 M323.5,201V206 M323.5,210V214H213"/>
+<path class="s" d="M323.5,182H296V196 M296,200V214"/>
+<path class="k" d="M308.3,214.7H316 M308.3,213.3H316 M316,214L315.3,214.7 M315.3,213.3L313.9,214.7 M313.9,213.3L312.5,214.7 M312.5,213.3L311.1,214.7 M311.1,213.3L309.7,214.7 M309.7,213.3L308.3,214.7 M308.3,213.3L307.6,214"/>
+</g>
+
+<!-- off-page connectors -->
+<path class="k" d="M31,141.25V144.75H34.5V146.5L38,143L34.5,139.5V141.25Z M378,141.25V144.75H381.5V146.5L385,143L381.5,139.5V141.25Z"/>
+
+<!-- nozzles -->
+<path class="n" d="M78.75,143H74.75 M74.75,141V145 M89.25,143H93.25 M93.25,141V145 M136,143H132 M132,141V145 M144,164H148 M148,162V166 M136,164H132 M132,162V166 M144,143H148 M148,141V145 M245.75,143H241.75 M241.75,141V145 M256.25,143H260.25 M260.25,141V145 M323.5,163.5V159.5 M322.5,159.5H324.5 M323.5,170.5V174.5 M322.5,174.5H324.5 M328,170.5V174.5 M327,174.5H329 M344.5,163.5V159.5 M343.5,159.5H345.5 M181,220.36V224.36 M180,224.36H182 M194,172.5V168.5 M193,168.5H195 M179,186H175 M175,185V187 M209,203H213 M213,202V204 M209,214H213 M213,213V215 M204,221.676V225.676 M203,225.676H205 M179,206.5H176V208.25 M179,199.5H176V197.75 M174.95,208.25V197.75"/>
+
+<!-- equipment -->
+<g class="e" data-tag="P4711">
+<circle cx="84" cy="143" r="5.25"/><path d="M78.75,143H89.25 M84,137.75L89.25,143L84,148.25"/>
+</g>
+<g class="e" data-tag="P4712">
+<circle cx="251" cy="143" r="5.25"/><path d="M251,148.25L256.25,143L251,137.75 M249.25,143H252.75 M252.75,144.75V141.25"/>
+</g>
+<g class="e" data-tag="H1007">
+<path d="M136,140.75H144V166.25H136Z M136,142.875L144,164.125 M144,142.875L136,164.125 M136,147.125H144 M136,153.5H144 M136,159.875H144"/>
+</g>
+<g class="e" data-tag="H1008">
+<path d="M321.75,163.5H346.25V170.5H321.75Z M321.75,167H325.25 M325.25,163.5V170.5 M325.25,168.75H341 M325.25,167.583H341 M325.25,166.417H341 M325.25,165.25H341 M341,164.375H342.75V169.625H341Z"/>
+</g>
+<g class="e" data-tag="T-4750">
+<path d="M179,176.75V219.25 M209,176.75V219.25 M179,219.25A31.875,36.125 0 0 0 209,219.25 M179,176.75A31.875,36.125 0 0 1 209,176.75 M204,221.676V179.676"/>
+</g>
+
+<!-- valves: ball -->
+<g data-tag="BallValve-1"><path class="w" d="M229,144L233,142V144L229,142Z"/><circle class="w" cx="231" cy="143" r="1"/></g>
+<g data-tag="BallValve-2"><path class="w" d="M264,135L266,139H264L266,135Z"/><circle class="w" cx="265" cy="137" r="1"/></g>
+<g data-tag="BallValve-3"><path class="w" d="M280,147L282,151H280L282,147Z"/><circle class="w" cx="281" cy="149" r="1"/></g>
+<g data-tag="BallValve-4"><path class="w" d="M287,144L291,142V144L287,142Z"/><circle class="w" cx="289" cy="143" r="1"/></g>
+<g data-tag="BallValve-5"><path class="w" d="M364,147L366,151H364L366,147Z"/><circle class="w" cx="365" cy="149" r="1"/></g>
+<!-- valves: globe, with actuators -->
+<g data-tag="HV4750.01"><path class="v" d="M159,176L161,180H159L161,176Z"/><circle class="d" cx="160" cy="178" r=".5"/><path class="v" d="M160,178H155.95"/><circle class="v" cx="153.925" cy="178" r="2.025"/></g>
+<g data-tag="PV-4712.02"><path class="v" d="M322.5,197L324.5,201H322.5L324.5,197Z"/><circle class="d" cx="323.5" cy="199" r=".5"/><path class="v" d="M323.5,199H327.55"/><circle class="v" cx="329.575" cy="199" r="2.025"/></g>
+<g data-tag="TV4750.03"><path class="v" d="M338.5,185L342.5,183V185L338.5,183Z"/><circle class="d" cx="340.5" cy="184" r=".5"/><path class="v" d="M340.5,184V188.05"/><circle class="v" cx="340.5" cy="190.075" r="2.025"/></g>
+<!-- valves: butterfly, check, relief -->
+<g data-tag="ButterflyValve-1"><path class="v" d="M193,158L195,162L195,158L193,158L193,162L195,162"/><circle class="d" cx="194" cy="160" r=".5"/></g>
+<g data-tag="SwingCheckValve-1"><path class="v" d="M201,144V142H205V144H201L205,142"/><circle class="d" cx="201" cy="144" r=".5"/></g>
+<g data-tag="SV 104.01"><path class="v" d="M269,203L270,201H268Z M269,203L267,204V202Z M267.55,202V204 M269,203V204L270,204.5L268,205.333L270,206.167L268,207L269,207.5V208"/><circle class="d" cx="269" cy="203" r=".5"/>
+<path class="k" d="M273,206.1H289V196H273Z"/></g>
+<!-- reducer and blind flanges (fittings) -->
+<path class="v" d="M215,144L219,143L215,142Z"/>
+<path class="v" d="M280,151.8H282 M364,151.8H366"/>
+
+<!-- NEW (rev. A): block valves and hand-operated globe bypass valve -->
+<g data-tag="V-4712.02-U"><path class="w" d="M322.5,187L324.5,191H322.5L324.5,187Z"/><circle class="w" cx="323.5" cy="189" r="1"/></g>
+<g data-tag="V-4712.02-D"><path class="w" d="M322.5,206L324.5,210H322.5L324.5,206Z"/><circle class="w" cx="323.5" cy="208" r="1"/></g>
+<g data-tag="V-4712.02-B"><path class="v" d="M295,196L297,200H295L297,196Z"/><circle class="d" cx="296" cy="198" r=".5"/><path class="v" d="M295,198H293.2 M293.2,196.8V199.2"/></g>
+
+<!-- instruments -->
+<g data-tag="PI4712.01"><path class="i" d="M278,168.75H284A3.75,3.75 0 0 0 284,161.25H278A3.75,3.75 0 0 0 278,168.75Z"/></g>
+<g data-tag="PICSA4712.02"><path class="i" d="M362,168.75H368A3.75,3.75 0 0 0 368,161.25H362A3.75,3.75 0 0 0 362,168.75Z"/><path class="m" d="M358.25,165H371.75"/></g>
+<g data-tag="HS4750.01"><path class="i" d="M134,181.75H140A3.75,3.75 0 0 0 140,174.25H134A3.75,3.75 0 0 0 134,181.75Z"/><path class="m" d="M130.25,178H143.75"/></g>
+<g data-tag="TICSA4750.03"><path class="i" d="M201,239.75H207A3.75,3.75 0 0 0 207,232.25H201A3.75,3.75 0 0 0 201,239.75Z"/><path class="m" d="M197.25,236H210.75"/></g>
+<!-- measuring lines (transmitter to indicator/controller) -->
+<path class="m" d="M281,151.8V161.25 M365,151.8V161.25 M204,225.676V232.25"/>
+<!-- signal lines -->
+<path class="g" d="M365,168.75V199H331.6 M143.75,178H151.9 M210.75,236H340.5V192.1"/>
+
+<!-- rev. A note box -->
+<rect class="rev" x="232" y="219.5" width="106" height="14"/>
+
+<!-- ===== text (counter-flipped; y is negated raw drawing y) ===== -->
+<g transform="scale(1 -1)">
+
+<!-- zone numbers and letters -->
+<g class="z">
+<text x="21.167" y="-295.0595">1</text><text x="55.5" y="-295.0595">2</text><text x="89.833" y="-295.0595">3</text><text x="124.167" y="-295.0595">4</text><text x="158.5" y="-295.0595">5</text><text x="192.833" y="-295.0595">6</text><text x="227.167" y="-295.0595">7</text><text x="261.5" y="-295.0595">8</text><text x="295.833" y="-295.0595">9</text><text x="330.167" y="-295.0595">10</text><text x="364.5" y="-295.0595">11</text><text x="398.833" y="-295.0595">12</text>
+<text x="21.167" y="-2.9095">1</text><text x="55.5" y="-2.9095">2</text><text x="89.833" y="-2.9095">3</text><text x="124.167" y="-2.9095">4</text><text x="158.5" y="-2.9095">5</text><text x="192.833" y="-2.9095">6</text><text x="227.167" y="-2.9095">7</text><text x="261.5" y="-2.9095">8</text><text x="295.833" y="-2.9095">9</text><text x="330.167" y="-2.9095">10</text><text x="364.5" y="-2.9095">11</text><text x="398.833" y="-2.9095">12</text>
+<text x="2.425" y="-22.547">H</text><text x="2.425" y="-58.672">G</text><text x="2.425" y="-94.797">F</text><text x="2.425" y="-130.922">E</text><text x="2.425" y="-167.047">D</text><text x="2.425" y="-203.172">C</text><text x="2.425" y="-239.297">B</text><text x="2.425" y="-275.422">A</text>
+<text x="417.575" y="-22.547">H</text><text x="417.575" y="-58.672">G</text><text x="417.575" y="-94.797">F</text><text x="417.575" y="-130.922">E</text><text x="417.575" y="-167.047">D</text><text x="417.575" y="-203.172">C</text><text x="417.575" y="-239.297">B</text><text x="417.575" y="-275.422">A</text>
+</g>
+
+<!-- title block -->
+<g class="l a">
+<text x="297.2" y="-5.75">APPROVED BY</text><text x="315.2" y="-5.75">A. P. Prover</text><text x="345.2" y="-5.75">2016-04-01</text><text x="359.6" y="-5.75">DRAWING NO</text><text x="381.2" y="-5.75">123/A93</text>
+<text x="297.2" y="-10.75">CHECKED BY</text><text x="315.2" y="-10.75">C. Hecker</text><text x="359.6" y="-10.75">PROJECT</text><text x="381.2" y="-10.75">P3.1415</text>
+<text x="297.2" y="-15.75">CREATED BY</text><text x="315.2" y="-15.75">A. Creator</text><text x="345.2" y="-15.75">2016-04-01</text>
+<text x="315.2" y="-20.75">NAME</text><text x="345.2" y="-20.75">DATE</text>
+<text x="359.6" y="-25.75">PLANT SECTION</text><text x="381.2" y="-25.75">Utilities</text>
+<text x="359.6" y="-30.75">SITE</text><text x="381.2" y="-30.75">Dexpi City</text>
+</g>
+<g class="l f"><text x="359.6" y="-17.8">DEXPI example PID</text><text x="297.2" y="-27.8">Oil &amp; Gas, Inc.</text></g>
+
+<!-- equipment tags -->
+<g class="h">
+<text x="140" y="-135.265" data-tag="H1007">H1007</text>
+<text x="312" y="-167.765" data-tag="H1008">H1008</text>
+<text x="84" y="-152.765" data-tag="P4711">P4711</text>
+<text x="251" y="-152.765" data-tag="P4712">P4712</text>
+<text x="194" y="-198.765" data-tag="T-4750">T-4750</text>
+</g>
+
+<!-- line numbers -->
+<text x="56.375" y="-146">MNb 47121 75HB13 80</text>
+<text x="112.625" y="-146">MNb 47122 75HB13 80</text>
+<text x="157" y="-206.1795" transform="rotate(-90 157 -206.1795)">MNb 47123 75HB13 80</text>
+<text x="190" y="-148.75" transform="rotate(-90 190 -148.75)">MNc 47124 75HB13 80</text>
+<text x="272.3" y="-180.0005" transform="rotate(-90 272.3 -180.0005)">MNc 47125 73HG12 25</text>
+<text x="236" y="-205.5">MNc 47125 75HB13 50</text>
+<text x="308.251" y="-146">MNc 47126 75HB13 50</text>
+<text x="239.25" y="-216.25">MNc 47127 75HB13 50 Q 80</text>
+<text x="311.8" y="-211.5">Q80</text>
+<text x="117.5" y="-114" transform="rotate(-90 117.5 -114)">WKa 47130 75HB13 50</text>
+<text x="150.5" y="-114" transform="rotate(-90 150.5 -114)">WKb 47131 75HB13 50</text>
+<text x="342.1" y="-113.5" transform="rotate(-90 342.1 -113.5)">QSa 47140 75HB13 50 Q 80</text>
+<text x="350.7" y="-113.6" transform="rotate(-90 350.7 -113.6)">QSb 47141 75HB13 50 Q 80</text>
+
+<!-- valve labels from the source, and tags where the source has none -->
+<text x="198" y="-161" transform="rotate(-90 198 -161)">66KL21-80</text>
+<text x="203" y="-147">75SA21-80</text>
+<text x="217" y="-147">80/50</text>
+<text x="231" y="-147">73KH12-50</text>
+<text x="268" y="-133">73KH12-25</text>
+<text x="285" y="-153" transform="rotate(-90 285 -153)">73KH12-25</text>
+<text x="289" y="-139.5">73KH12-50</text>
+<text x="369" y="-152" transform="rotate(-90 369 -152)">73KH12-25</text>
+<g class="u">
+<text x="200.8" y="-160" transform="rotate(-90 200.8 -160)" data-tag="ButterflyValve-1">ButterflyValve-1</text>
+<text x="203" y="-139.8" data-tag="SwingCheckValve-1">SwingCheckValve-1</text>
+<text x="231" y="-139.8" data-tag="BallValve-1">BallValve-1</text>
+<text x="268" y="-130.3" data-tag="BallValve-2">BallValve-2</text>
+<text x="277.8" y="-149" transform="rotate(-90 277.8 -149)" data-tag="BallValve-3">BallValve-3</text>
+<text x="289" y="-136.8" data-tag="BallValve-4">BallValve-4</text>
+<text x="361.8" y="-149" transform="rotate(-90 361.8 -149)" data-tag="BallValve-5">BallValve-5</text>
+</g>
+<text x="274" y="-203" class="l a" data-tag="SV 104.01">SV 104.01</text>
+<text x="274" y="-200" class="l a">P = 6 barg</text>
+<text x="274" y="-197" class="l a">DN = 25/50</text>
+
+<!-- actuated valves -->
+<text x="319.5" y="-199" transform="rotate(-90 319.5 -199)" data-tag="PV-4712.02">PV-4712.02</text>
+<text x="327" y="-197.5" transform="rotate(-90 327 -197.5)">F.C.</text>
+<text x="340.5" y="-181.5" data-tag="TV4750.03">TV4750.03</text>
+<text x="337.5" y="-187.5">F.O.</text>
+<text x="157.5" y="-176" transform="rotate(-90 157.5 -176)">F.C.</text>
+<text x="162.4" y="-178" class="l" data-tag="HV4750.01">HV4750.01</text>
+
+<!-- instrument bubbles -->
+<text x="281" y="-167.25">PI</text><text x="281" y="-163.8" data-tag="PI4712.01">4712.01</text>
+<text x="365" y="-167.25">PICSA</text><text x="365" y="-163.8" data-tag="PICSA4712.02">4712.02</text>
+<text x="137" y="-180.25">HS</text><text x="137" y="-176.8" data-tag="HS4750.01">4750.01</text>
+<text x="204" y="-238.25">TICSA</text><text x="204" y="-234.8" data-tag="TICSA4750.03">4750.03</text>
+<text x="279" y="-158" class="r a" data-tag="PT4712.01">PT4712.01</text>
+<text x="363" y="-158" class="r a" data-tag="PT4712.02">PT4712.02</text>
+<text x="202" y="-229" class="r a" data-tag="TT4750.03">TT4750.03</text>
+
+<!-- nozzle labels -->
+<g>
+<text x="75.95" y="-146.36">N1</text><text x="75.95" y="-140.66">80</text>
+<text x="92.05" y="-146.36">N2</text><text x="92.05" y="-140.66">80</text>
+<text x="133.2" y="-146.36">N1</text><text x="133.2" y="-140.66">80</text>
+<text x="146.8" y="-167.36">N2</text><text x="146.8" y="-161.66">80</text>
+<text x="133.2" y="-167.36">N3</text><text x="133.2" y="-161.66">50</text>
+<text x="146.8" y="-146.36">N4</text><text x="146.8" y="-140.66">50</text>
+<text x="242.95" y="-146.36">N1</text><text x="242.95" y="-140.66">50</text>
+<text x="259.05" y="-146.36">N2</text><text x="259.05" y="-140.66">50</text>
+<text x="327.5" y="-161.51">N1</text><text x="327.5" y="-158.51">50</text>
+<text x="319.5" y="-176.51">N2</text><text x="319.5" y="-173.51">50</text>
+<text x="332" y="-176.51">N3</text><text x="332" y="-173.51">50</text>
+<text x="340.5" y="-161.51">N4</text><text x="340.5" y="-158.51">50</text>
+<text x="177" y="-226.369">N1</text><text x="177" y="-223.369">80</text>
+<text x="190" y="-170.51">N2</text><text x="190" y="-167.51">80</text>
+<text x="176.2" y="-189.36">N3</text><text x="176.2" y="-183.66">80</text>
+<text x="211.8" y="-206.36">N5</text><text x="211.8" y="-200.66">50</text>
+<text x="211.8" y="-217.36">N6</text><text x="211.8" y="-211.66">50</text>
+<text x="208" y="-227.686">N7</text><text x="208" y="-224.686">25</text>
+<text x="171" y="-205.01">N8</text><text x="171" y="-202.01">800</text>
+</g>
+
+<!-- NEW (rev. A) labels -->
+<g class="nw">
+<text x="321.2" y="-188.5" class="r" data-tag="V-4712.02-U">V-4712.02-U</text>
+<text x="321.2" y="-209" class="r" data-tag="V-4712.02-D">V-4712.02-D</text>
+<text x="325.4" y="-189" class="l">NO</text>
+<text x="325.4" y="-208" class="l">NO</text>
+<text x="298" y="-200.4" class="l" data-tag="V-4712.02-B">V-4712.02-B</text>
+<text x="298" y="-197" class="l">HAND / NC</text>
+<text x="309.8" y="-183.6">BYPASS DN 50</text>
+</g>
+<g class="l a">
+<text x="234" y="-230.8" font-weight="bold">REV. A - maintenance bypass around PV-4712.02 (recycle to T-4750)</text>
+<text x="234" y="-227.8">V-4712.02-U / -D: block valves, DN 50, normally open (NO)</text>
+<text x="234" y="-224.8">V-4712.02-B: hand-operated globe valve, DN 50, normally closed (NC)</text>
+<text x="234" y="-221.8">Isolate PV-4712.02: close -U and -D, open -B; recycle to T-4750 continues.</text>
+</g>
+
+<!-- equipment data tables -->
+<g class="l a">
+<text x="6.8" y="-58.05">Ident</text><text x="6.8" y="-54.8">Design Press. min. Chamber 1 / 2</text><text x="6.8" y="-51.55">Design Press. max. Chamber 1 / 2</text><text x="6.8" y="-48.3">Design Temp. min. Chamber 1 / 2</text><text x="6.8" y="-45.05">Design Temp. max. Chamber 1 / 2</text><text x="6.8" y="-41.8">Design Duty / Design Heat Transfer Area</text><text x="6.8" y="-38.55">DesignPlate Height / Plate Width</text><text x="6.8" y="-35.3">MaterialPlates</text>
+<text x="98.8" y="-58.05">Ident</text><text x="98.8" y="-54.8">Design Press. min. Chamber 1 / 2</text><text x="98.8" y="-51.55">Design Press. max. Chamber 1 / 2</text><text x="98.8" y="-48.3">Design Temp. min. Chamber 1 / 2</text><text x="98.8" y="-45.05">Design Temp. max. Chamber 1 / 2</text><text x="98.8" y="-41.8">Design Duty / Design Heat Transfer Area</text><text x="98.8" y="-38.55">Nominal Diameter / Tube Length</text><text x="98.8" y="-35.3">MaterialTubes / Material Shell</text>
+<text x="6.8" y="-29.55">Ident</text><text x="6.8" y="-26.3">Design Press. Casing min.</text><text x="6.8" y="-23.05">Design Press. Casing max.</text><text x="6.8" y="-19.8">Design Temp. Casing min.</text><text x="6.8" y="-16.55">Design Temp. Casing max.</text><text x="6.8" y="-13.3">Design Capacity / Design Press. Head</text><text x="6.8" y="-10.05">Design Speed / Design Power max. Diam. Wheel</text><text x="6.8" y="-6.8">Material Case Press. Side / Material Impeller</text>
+<text x="98.8" y="-29.55">Ident</text><text x="98.8" y="-26.3">Design Press. Casing min.</text><text x="98.8" y="-23.05">Design Press. Casing max.</text><text x="98.8" y="-19.8">Design Temp. Casing min.</text><text x="98.8" y="-16.55">Design Temp. Casing max.</text><text x="98.8" y="-13.3">Design Capacity / Design Press. Head</text><text x="98.8" y="-10.05">Design Speed / Design Power max. Diam. Wheel</text><text x="98.8" y="-6.8">Material Case Press. Side / Material Impeller</text>
+<text x="190.8" y="-29.55">Ident</text><text x="190.8" y="-26.3">Design Press. min. Chamber 1 / 2</text><text x="190.8" y="-23.05">Design Press. max. Chamber 1 / 2</text><text x="190.8" y="-19.8">Design Temp. min. Chamber 1 / 2</text><text x="190.8" y="-16.55">Design Temp. max. Chamber 1 / 2</text><text x="190.8" y="-13.3">Nominal Diameter / Overall Height/Length</text><text x="190.8" y="-10.05">Nominal Capacity</text><text x="190.8" y="-6.8">Material Chamber 1 / 2</text>
+</g>
+<g class="cb a">
+<!-- H1007 -->
+<text x="81" y="-58.05">H1007</text>
+<text x="73.5" y="-54.8">-1 barg</text><text x="88.5" y="-54.8">-1 barg</text>
+<text x="73.5" y="-51.55">60 barg</text><text x="88.5" y="-51.55">30 barg</text>
+<text x="73.5" y="-48.3">-45 °C</text><text x="88.5" y="-48.3">-45 °C</text>
+<text x="73.5" y="-45.05">100 °C</text><text x="88.5" y="-45.05">100 °C</text>
+<text x="73.5" y="-41.8">313 kW</text><text x="88.5" y="-41.8">46.8 m²</text>
+<text x="73.5" y="-38.55">850 mm</text><text x="88.5" y="-38.55">1100 mm</text>
+<text x="81" y="-35.3">1.4306</text>
+<!-- H1008 -->
+<text x="173" y="-58.05">H1008</text>
+<text x="165.5" y="-54.8">-1 barg</text><text x="180.5" y="-54.8">-1 barg</text>
+<text x="165.5" y="-51.55">60 barg</text><text x="180.5" y="-51.55">30 barg</text>
+<text x="165.5" y="-48.3">-45 °C</text><text x="180.5" y="-48.3">-45 °C</text>
+<text x="165.5" y="-45.05">100 °C</text><text x="180.5" y="-45.05">100 °C</text>
+<text x="165.5" y="-41.8">313 kW</text><text x="180.5" y="-41.8">46.8 m²</text>
+<text x="165.5" y="-38.55">DN 800</text><text x="180.5" y="-38.55">2200 mm</text>
+<text x="165.5" y="-35.3">1.4306</text><text x="180.5" y="-35.3">1.4308</text>
+<!-- P4711 -->
+<text x="81" y="-29.55">P4711</text>
+<text x="81" y="-26.3">-0.5 barg</text><text x="81" y="-23.05">60 barg</text><text x="81" y="-19.8">-45 °C</text><text x="81" y="-16.55">80 °C</text>
+<text x="73.5" y="-13.3">200 m³/h</text><text x="88.5" y="-13.3">10 m</text>
+<text x="73.5" y="-10.05">600 1/min</text><text x="88.5" y="-10.05">60 kW</text>
+<text x="73.5" y="-6.8">1.4306</text><text x="88.5" y="-6.8">1.4308</text>
+<!-- P4712 -->
+<text x="173" y="-29.55">P4712</text>
+<text x="173" y="-26.3">-1 barg</text><text x="173" y="-23.05">60 barg</text><text x="173" y="-19.8">-45 °C</text><text x="173" y="-16.55">100 °C</text>
+<text x="165.5" y="-13.3">420 m³/h</text><text x="180.5" y="-13.3">40 m</text>
+<text x="165.5" y="-10.05">1400 1/min</text><text x="180.5" y="-10.05">84 kW</text>
+<text x="165.5" y="-6.8">1.4306</text><text x="180.5" y="-6.8">1.4305</text>
+<!-- T-4750 -->
+<text x="265" y="-29.55">T-4750</text>
+<text x="257.5" y="-26.3">-0.1 barg</text><text x="272.5" y="-26.3">-0.1 barg</text>
+<text x="257.5" y="-23.05">0.1 barg</text><text x="272.5" y="-23.05">0.05 barg</text>
+<text x="257.5" y="-19.8">-45 °C</text><text x="272.5" y="-19.8">-45 °C</text>
+<text x="257.5" y="-16.55">100 °C</text><text x="272.5" y="-16.55">100 °C</text>
+<text x="257.5" y="-13.3">DN 20000</text><text x="272.5" y="-13.3">4 m</text>
+<text x="265" y="-10.05">26 m³</text>
+<text x="257.5" y="-6.8">1.4306</text><text x="272.5" y="-6.8">1.4305</text>
+</g>
+
+</g>
+</g>
+</svg>
