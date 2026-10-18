@@ -6,7 +6,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { capture } from '../app/analytics'
 import { Alerts } from '../app/panels'
 import { StoryboardDialog } from '../app/StoryboardDialog'
-import { SiteHeader } from '../site/SiteHeader.tsx'
+import { REPO_URL, SUPPORT_URL } from '../site/links.ts'
+import { Logo } from '../site/SiteHeader.tsx'
 import { validateScene } from '../format/validate.ts'
 import type { Scene } from '../sim/types.ts'
 import { autoLayout, withLayout } from '../view/autoLayout.ts'
@@ -41,12 +42,16 @@ import {
   STARTERS,
   STORE,
   accept,
+  blank,
   editLink,
   fileOf,
   initialDoc,
   viewLink,
 } from './open.ts'
 import type { Opened } from './open.ts'
+import { MOD } from './keys.ts'
+import { MenuBar } from './MenuBar.tsx'
+import type { Menu, MenuItem } from './MenuBar.tsx'
 import { Palette } from './Palette.tsx'
 import { findItem, place, placeInstrument } from './practice.ts'
 import styles from './Editor.module.css'
@@ -58,6 +63,10 @@ import styles from './Editor.module.css'
  * and drop it on a square; drag one part onto another to connect them, or
  * onto an empty square to move it. Every edit re-runs the sheet at the same
  * time of day, and the checks beside it say what the MCP server would.
+ *
+ * It is laid out like a desktop app: a menu bar along the top, the parts
+ * down the left, the sheet in the middle with its clock underneath, and the
+ * selected thing's settings down the right.
  */
 
 export interface EditorProps {
@@ -65,6 +74,8 @@ export interface EditorProps {
   onTheme: (theme: ThemeId) => void
   /** false inside the portfolio's iframe, which has its own header */
   header: boolean
+  /** open as a static drawing (?mode=static) */
+  plain?: boolean
 }
 
 export function Editor(props: EditorProps) {
@@ -116,6 +127,7 @@ function Editing({
   theme,
   onTheme,
   header,
+  plain: startPlain = false,
   opened,
 }: EditorProps & { opened: Opened }) {
   const [h, setH] = useState(() => history.start(opened.doc))
@@ -128,6 +140,9 @@ function Editing({
   const [clock] = useState(keepClock)
   const fileInput = useRef<HTMLInputElement>(null)
   const [story, setStory] = useState(false)
+  const [help, setHelp] = useState(false)
+  // a static drawing: nothing moves, no clock, no readings
+  const [plain, setPlain] = useState(startPlain)
 
   const validation = useMemo(() => validateScene(doc), [doc])
   // the last scene that ran: what the sheet shows while the file has a problem
@@ -324,7 +339,7 @@ function Editing({
     capture('editor_auto_layout')
   }
 
-  const save = () => {
+  const save = useCallback(() => {
     const text = `${JSON.stringify(fileOf(doc), null, 2)}\n`
     const a = document.createElement('a')
     a.href = URL.createObjectURL(new Blob([text], { type: 'application/json' }))
@@ -332,7 +347,24 @@ function Editing({
     a.click()
     URL.revokeObjectURL(a.href)
     capture('editor_saved')
-  }
+  }, [doc])
+
+  // ⌘O opens a file and ⌘S saves one, as anywhere else
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!(e.metaKey || e.ctrlKey) || e.shiftKey || e.altKey) return
+      const k = e.key.toLowerCase()
+      if (k === 's') {
+        e.preventDefault()
+        save()
+      } else if (k === 'o') {
+        e.preventDefault()
+        fileInput.current?.click()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [save])
 
   const selectedPart =
     selection?.kind === 'part'
@@ -345,9 +377,181 @@ function Editing({
     say: setNote,
   }
 
+  const copy = (what: string, text: () => Promise<string>, event: string) => {
+    void text()
+      .then((t) => navigator.clipboard?.writeText(t))
+      .then(() => setNote(`${what} copied.`))
+      .catch(() => setNote(`Couldn’t copy the ${what.toLowerCase()}.`))
+    capture(event)
+  }
+
+  const setMotion = (still: boolean) => {
+    setPlain(still)
+    capture(still ? 'static_mode' : 'animated_mode', { from: 'editor' })
+  }
+
+  const starterItems = (group: 'starter' | 'built-in') =>
+    STARTERS.filter((st) => st.group === group && st.id !== 'blank').map(
+      (st): MenuItem => ({
+        kind: 'action',
+        label: st.label,
+        onSelect: () => replace(st.doc(), `starter:${st.id}`),
+      }),
+    )
+
+  const menus: Menu[] = [
+    {
+      id: 'file',
+      label: 'File',
+      items: [
+        {
+          kind: 'action',
+          label: 'New blank sheet',
+          onSelect: () => replace(blank(doc.drawing), 'starter:blank'),
+        },
+        { kind: 'heading', label: 'Start from' },
+        ...starterItems('starter'),
+        { kind: 'heading', label: 'A built-in sheet' },
+        ...starterItems('built-in'),
+        { kind: 'separator' },
+        {
+          kind: 'action',
+          label: 'Open file…',
+          shortcut: `${MOD}O`,
+          onSelect: () => fileInput.current?.click(),
+        },
+        {
+          kind: 'action',
+          label: 'Save file',
+          shortcut: `${MOD}S`,
+          onSelect: save,
+        },
+        { kind: 'separator' },
+        {
+          kind: 'action',
+          label: 'Copy link to edit',
+          onSelect: () =>
+            copy(
+              'Edit link',
+              () => editLink(doc, window.location),
+              'editor_link_copied',
+            ),
+        },
+        {
+          kind: 'action',
+          label: plain ? 'Copy link to the static drawing' : 'Copy view link',
+          onSelect: () =>
+            copy(
+              'View link',
+              () => viewLink(doc, window.location, plain),
+              'editor_view_link_copied',
+            ),
+        },
+        { kind: 'separator' },
+        {
+          kind: 'action',
+          label: 'Storyboard and recording…',
+          disabled: !validation.scene || !doc.parts.length,
+          onSelect: () => {
+            setStory(true)
+            capture('storyboard_opened', { scene: doc.id, from: 'editor' })
+          },
+        },
+      ],
+    },
+    {
+      id: 'edit',
+      label: 'Edit',
+      items: [
+        {
+          kind: 'action',
+          label: 'Undo',
+          shortcut: `${MOD}Z`,
+          disabled: !h.past.length,
+          onSelect: undo,
+        },
+        {
+          kind: 'action',
+          label: 'Redo',
+          shortcut: `⇧${MOD}Z`,
+          disabled: !h.future.length,
+          onSelect: redo,
+        },
+        { kind: 'separator' },
+        {
+          kind: 'action',
+          label: 'Delete',
+          shortcut: '⌫',
+          disabled: !selection,
+          onSelect: removeSelected,
+        },
+        { kind: 'separator' },
+        {
+          kind: 'action',
+          label: 'Lay it out by its flow',
+          disabled: !doc.parts.length,
+          onSelect: layOut,
+        },
+      ],
+    },
+    {
+      id: 'view',
+      label: 'View',
+      items: [
+        {
+          kind: 'radio',
+          label: 'Animated',
+          checked: !plain,
+          onSelect: () => setMotion(false),
+        },
+        {
+          kind: 'radio',
+          label: 'Static drawing',
+          checked: plain,
+          onSelect: () => setMotion(true),
+        },
+        { kind: 'separator' },
+        {
+          kind: 'radio',
+          label: 'Light',
+          checked: theme === 'light',
+          onSelect: () => onTheme('light'),
+        },
+        {
+          kind: 'radio',
+          label: 'Dark',
+          checked: theme === 'dark',
+          onSelect: () => onTheme('dark'),
+        },
+      ],
+    },
+    {
+      id: 'help',
+      label: 'Help',
+      items: [
+        {
+          kind: 'action',
+          label: 'How the editor works',
+          onSelect: () => setHelp(true),
+        },
+        { kind: 'link', label: 'Docs', href: './?docs' },
+        { kind: 'link', label: 'MCP server', href: './?docs#mcp' },
+        { kind: 'link', label: 'Examples', href: './?examples' },
+        { kind: 'separator' },
+        { kind: 'link', label: 'GitHub', href: REPO_URL, external: true },
+        {
+          kind: 'link',
+          label: 'Support Anigram',
+          href: SUPPORT_URL,
+          external: true,
+        },
+      ],
+    },
+  ]
+
   return (
     <div
-      className={header ? styles.app : `${styles.app} ${styles.noHeader}`}
+      className={styles.app}
       onDragOver={(e) => e.preventDefault()}
       onDrop={(e) => {
         const file = e.dataTransfer.files[0]
@@ -356,119 +560,33 @@ function Editing({
         void openFile(file)
       }}
     >
-      {header && <SiteHeader page="editor" />}
-
-      <div className={styles.tools} role="toolbar" aria-label="Editor">
-        <TitleInput
-          value={doc.title}
-          onCommit={(title) => edit(patchSheet(doc, { title }))}
-        />
-        <label className={styles.field}>
-          <span className={styles.muted}>start from</span>
-          <select
-            className={styles.select}
-            value=""
-            onChange={(e) => {
-              const s = STARTERS.find((x) => x.id === e.target.value)
-              if (s) replace(s.doc(), `starter:${s.id}`)
-            }}
-          >
-            <option value="" disabled>
-              choose…
-            </option>
-            {STARTERS.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.label}
-              </option>
-            ))}
-          </select>
-        </label>
-        <button
-          type="button"
-          className={styles.tool}
-          onClick={() => fileInput.current?.click()}
-        >
-          open file
-        </button>
-        <input
-          ref={fileInput}
-          type="file"
-          accept=".json,application/json"
-          hidden
-          onChange={(e) => {
-            const f = e.target.files?.[0]
-            if (f) void openFile(f)
-            e.target.value = ''
-          }}
-        />
-        <span className={styles.spacer} />
-        <button
-          type="button"
-          className={styles.tool}
-          onClick={undo}
-          disabled={!h.past.length}
-          title="Undo (⌘Z)"
-        >
-          undo
-        </button>
-        <button
-          type="button"
-          className={styles.tool}
-          onClick={redo}
-          disabled={!h.future.length}
-          title="Redo (⌘⇧Z)"
-        >
-          redo
-        </button>
-        <div className={styles.seg} role="group" aria-label="Sheet colour">
-          <button
-            type="button"
-            aria-pressed={theme === 'light'}
-            onClick={() => onTheme('light')}
-          >
-            light
-          </button>
-          <button
-            type="button"
-            aria-pressed={theme === 'dark'}
-            onClick={() => onTheme('dark')}
-          >
-            dark
-          </button>
-        </div>
-        <button
-          type="button"
-          className={styles.tool}
-          disabled={!validation.scene || !doc.parts.length}
-          onClick={() => {
-            setStory(true)
-            capture('storyboard_opened', { scene: doc.id, from: 'editor' })
-          }}
-          title="The moments that tell the day, and the day as a GIF or MP4"
-        >
-          storyboard
-        </button>
-        <button
-          type="button"
-          className={styles.tool}
-          onClick={save}
-          title="The scene file: the same JSON an assistant writes with the MCP server"
-        >
-          save file
-        </button>
-        <CopyButton
-          label="copy link"
-          text={() => editLink(doc, window.location)}
-          event="editor_link_copied"
-          title="A link that opens this sheet in the editor"
-        />
-        <CopyButton
-          label="copy view link"
-          text={() => viewLink(doc, window.location)}
-          event="editor_view_link_copied"
-          title="A link that shows this sheet running, without the editor"
-        />
-      </div>
+      <MenuBar
+        menus={menus}
+        start={
+          header && (
+            <a className={styles.brand} href="./" aria-label="Anigram home">
+              <Logo size={20} />
+            </a>
+          )
+        }
+        middle={
+          <TitleInput
+            value={doc.title}
+            onCommit={(title) => edit(patchSheet(doc, { title }))}
+          />
+        }
+      />
+      <input
+        ref={fileInput}
+        type="file"
+        accept=".json,application/json"
+        hidden
+        onChange={(e) => {
+          const f = e.target.files?.[0]
+          if (f) void openFile(f)
+          e.target.value = ''
+        }}
+      />
 
       <div className={styles.main}>
         <Palette
@@ -489,6 +607,8 @@ function Editing({
           scene={scene}
           theme={theme}
           clock={clock}
+          plain={plain}
+          onAnimate={() => setMotion(false)}
           selected={selectedPart?.id ?? null}
           armed={armed}
           linkFrom={linkFrom}
@@ -496,7 +616,7 @@ function Editing({
           note={note}
         >
           {(frame) => (
-            <aside className={styles.side}>
+            <aside className={styles.side} aria-label="Details">
               {selectedPart ? (
                 <PartPanel
                   key={selectedPart.id}
@@ -534,35 +654,11 @@ function Editing({
                 scene={scene}
                 onSelect={setSelection}
               />
-              <Alerts
-                frame={frame}
-                onSelect={(id) => setSelection({ kind: 'part', id })}
-              />
-              {!selection && (
-                <section className={styles.card}>
-                  <h2 className={styles.h}>How it works</h2>
-                  <ol className={styles.steps}>
-                    <li>
-                      Pick a part on the left, then click an empty square.
-                    </li>
-                    <li>
-                      Drag one part onto another to connect them. Drag to an
-                      empty square to move it.
-                    </li>
-                    <li>
-                      Click a part to size it, tag it or write its signals.
-                    </li>
-                    <li>
-                      Save the file, or open one an assistant wrote: it is the
-                      same JSON.
-                    </li>
-                  </ol>
-                  <p className={styles.more}>
-                    Or have your coding assistant draw it with the{' '}
-                    <a href="./?docs#mcp">MCP server</a>. More in the{' '}
-                    <a href="./?docs">docs</a>.
-                  </p>
-                </section>
+              {!plain && (
+                <Alerts
+                  frame={frame}
+                  onSelect={(id) => setSelection({ kind: 'part', id })}
+                />
               )}
             </aside>
           )}
@@ -576,7 +672,54 @@ function Editing({
           onClose={() => setStory(false)}
         />
       )}
+      {help && <HelpDialog onClose={() => setHelp(false)} />}
     </div>
+  )
+}
+
+/** Help → How the editor works */
+function HelpDialog({ onClose }: { onClose: () => void }) {
+  const ref = useRef<HTMLDialogElement>(null)
+  useEffect(() => {
+    ref.current?.showModal()
+  }, [])
+  return (
+    <dialog
+      ref={ref}
+      className={styles.dialog}
+      onClose={onClose}
+      onClick={(e) => e.target === ref.current && ref.current.close()}
+      aria-labelledby="help-title"
+    >
+      <h2 id="help-title" className={styles.h}>
+        How the editor works
+      </h2>
+      <ol className={styles.steps}>
+        <li>Pick a part on the left, then click an empty square.</li>
+        <li>
+          Drag one part onto another to connect them. Drag to an empty square to
+          move it.
+        </li>
+        <li>Click a part to size it, tag it or write its signals.</li>
+        <li>
+          Save the file, or open one an assistant wrote: it is the same JSON.
+        </li>
+        <li>
+          View → Static drawing stops everything moving and draws the sheet the
+          way it would be printed.
+        </li>
+      </ol>
+      <p className={styles.more}>
+        Or have your coding assistant draw it with the{' '}
+        <a href="./?docs#mcp">MCP server</a>. More in the{' '}
+        <a href="./?docs">docs</a>.
+      </p>
+      <form method="dialog" className={styles.actions}>
+        <button type="submit" className={styles.tool} autoFocus>
+          Got it
+        </button>
+      </form>
+    </dialog>
   )
 }
 
@@ -608,39 +751,5 @@ function TitleInput({
         onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
       />
     </label>
-  )
-}
-
-function CopyButton({
-  label,
-  text,
-  event,
-  title,
-}: {
-  label: string
-  text: () => string | Promise<string>
-  event: string
-  title?: string
-}) {
-  const [done, setDone] = useState(false)
-  useEffect(() => {
-    if (!done) return
-    const t = setTimeout(() => setDone(false), 1600)
-    return () => clearTimeout(t)
-  }, [done])
-  return (
-    <button
-      type="button"
-      className={styles.tool}
-      title={title}
-      onClick={() => {
-        void Promise.resolve(text())
-          .then((t) => navigator.clipboard?.writeText(t))
-          .then(() => setDone(true))
-        capture(event)
-      }}
-    >
-      {done ? 'copied' : label}
-    </button>
   )
 }

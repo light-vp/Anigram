@@ -43,11 +43,24 @@ async function dragCell(
 
 const parts = (page: Page) => sheetOf(page).locator('g.part')
 
+const menuBar = (page: Page) => page.getByRole('menubar', { name: 'Editor' })
+
+/** pick an item from one of the editor's menus */
+async function choose(page: Page, menu: string, item: string) {
+  await menuBar(page).getByRole('menuitem', { name: menu, exact: true }).click()
+  const open = page.getByRole('menu', { name: menu })
+  await open
+    .getByRole('menuitem', { name: item, exact: true })
+    .or(open.getByRole('menuitemradio', { name: item, exact: true }))
+    .click()
+}
+
 async function startFrom(page: Page, label: string) {
-  await page
-    .getByRole('toolbar', { name: 'Editor' })
-    .getByRole('combobox')
-    .selectOption({ label })
+  await choose(
+    page,
+    'File',
+    label === 'A blank sheet' ? 'New blank sheet' : label,
+  )
 }
 
 async function placeFromPalette(
@@ -64,7 +77,7 @@ async function placeFromPalette(
 
 test('?build=1 opens the editor on a working sheet', async ({ page }) => {
   await page.goto('./?build=1')
-  await expect(page.getByRole('toolbar', { name: 'Editor' })).toBeVisible()
+  await expect(menuBar(page)).toBeVisible()
   await expect(page.getByRole('navigation', { name: 'Parts' })).toBeVisible()
   await expect(sheetOf(page)).toBeVisible()
   await expect(page.getByRole('region', { name: 'Checks' })).toBeVisible()
@@ -88,12 +101,10 @@ test('build a sheet: place, connect, undo, redo, and it is still there after a r
     page.getByRole('button', { name: /^Disconnect / }).first(),
   ).toBeVisible()
 
-  const undo = page.getByRole('button', { name: 'undo' })
-  const redo = page.getByRole('button', { name: 'redo' })
-  await undo.click() // the link
-  await undo.click() // the house
+  await choose(page, 'Edit', 'Undo') // the link
+  await page.keyboard.press('ControlOrMeta+z') // the house
   await expect(parts(page)).toHaveCount(1)
-  await redo.click()
+  await choose(page, 'Edit', 'Redo')
   await expect(parts(page)).toHaveCount(2)
 
   await page.reload()
@@ -122,18 +133,72 @@ test('a P&ID gets the P&ID palette, and parts arrive tagged', async ({
 
 test('every starter opens without a problem', async ({ page }) => {
   await page.goto('./?build=1')
-  const picker = page
-    .getByRole('toolbar', { name: 'Editor' })
-    .getByRole('combobox')
-  await expect(picker).toBeVisible()
-  const options = await picker
-    .locator('option:not([disabled])')
-    .allTextContents()
-  expect(options.length).toBeGreaterThan(8)
-  for (const label of options) {
-    await startFrom(page, label)
+  await menuBar(page)
+    .getByRole('menuitem', { name: 'File', exact: true })
+    .click()
+  const file = page.getByRole('menu', { name: 'File' })
+  const all = await file.getByRole('menuitem').allTextContents()
+  const starters = all.slice(
+    0,
+    all.findIndex((t) => t.startsWith('Open file')),
+  )
+  expect(starters.length).toBeGreaterThan(8)
+  await page.keyboard.press('Escape')
+  for (const label of starters) {
+    await choose(page, 'File', label)
     await expect(sheetOf(page), label).toBeVisible()
   }
+})
+
+test('the menus work from the keyboard', async ({ page }) => {
+  await page.goto('./?build=1')
+  const file = menuBar(page).getByRole('menuitem', {
+    name: 'File',
+    exact: true,
+  })
+  await file.focus()
+  await page.keyboard.press('ArrowDown')
+  await expect(page.getByRole('menu', { name: 'File' })).toBeVisible()
+  await expect(
+    page.getByRole('menuitem', { name: 'New blank sheet' }),
+  ).toBeFocused()
+  await page.keyboard.press('ArrowRight')
+  await expect(page.getByRole('menu', { name: 'Edit' })).toBeVisible()
+  await page.keyboard.press('Escape')
+  await expect(page.getByRole('menu')).toHaveCount(0)
+  await expect(
+    menuBar(page).getByRole('menuitem', { name: 'Edit', exact: true }),
+  ).toBeFocused()
+})
+
+test('View → Static drawing stops the sheet and drops its readings', async ({
+  page,
+}) => {
+  await page.goto('./?build=1&drawing=pid')
+  await expect(
+    page.getByRole('button', { name: /^(Play|Pause)$/ }),
+  ).toBeVisible()
+  await choose(page, 'View', 'Static drawing')
+  await expect(sheetOf(page)).toHaveClass(/\bplain\b/)
+  await expect(sheetOf(page).locator('text.clock')).toHaveCount(0)
+  await expect(sheetOf(page).locator('text.value').first()).toBeHidden()
+  await expect(
+    page.getByRole('button', { name: /^(Play|Pause)$/ }),
+  ).toHaveCount(0)
+  await page.getByRole('button', { name: 'Animate' }).click()
+  await expect(sheetOf(page)).not.toHaveClass(/\bplain\b/)
+  await expect(page.getByRole('button', { name: 'Pause' })).toBeVisible()
+})
+
+test('?mode=static opens the editor on a static drawing', async ({ page }) => {
+  await page.goto('./?build=1&drawing=pid&mode=static')
+  await expect(sheetOf(page)).toHaveClass(/\bplain\b/)
+  await menuBar(page)
+    .getByRole('menuitem', { name: 'View', exact: true })
+    .click()
+  await expect(
+    page.getByRole('menuitemradio', { name: 'Static drawing' }),
+  ).toHaveAttribute('aria-checked', 'true')
 })
 
 test('an old playground #sheet= link opens as a scene', async ({ page }) => {
@@ -164,7 +229,7 @@ test('save file downloads the scene', async ({ page }) => {
   await page.goto('./?build=1')
   const [file] = await Promise.all([
     page.waitForEvent('download'),
-    page.getByRole('button', { name: 'save file' }).click(),
+    choose(page, 'File', 'Save file'),
   ])
   expect(file.suggestedFilename()).toMatch(/\.json$/)
   const text = await (await file.createReadStream()).toArray()
@@ -179,10 +244,19 @@ test('copy link round-trips the sheet', async ({ page, context }) => {
   const title = page.getByRole('textbox', { name: 'Sheet title' })
   await title.fill('Round trip')
   await title.press('Enter')
-  await page.getByRole('button', { name: 'copy view link' }).click()
+  await choose(page, 'File', 'Copy view link')
+  await expect(page.getByText('View link copied.')).toBeVisible()
   const link = await page.evaluate(() => navigator.clipboard.readText())
   expect(link).toContain('#scene=')
   const viewer = await context.newPage()
   await viewer.goto(link)
   await expect(sheetOf(viewer)).toHaveAttribute('aria-label', /^Round trip/)
+
+  // a static drawing's view link opens static
+  await choose(page, 'View', 'Static drawing')
+  await choose(page, 'File', 'Copy link to the static drawing')
+  const still = await page.evaluate(() => navigator.clipboard.readText())
+  expect(still).toContain('?mode=static#scene=')
+  await viewer.goto(still)
+  await expect(sheetOf(viewer)).toHaveClass(/\bplain\b/)
 })

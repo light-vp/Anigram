@@ -38,11 +38,12 @@ export function EmbedView({
   const sim = useSimulation(scene, (s) => {
     if (initial.hour !== null) s.seek(initial.hour)
     if (initial.speed !== null) s.setSpeed(initial.speed)
-    if (initial.paper || initial.paused || reduced) s.setPlaying(false)
+    if (initial.paper || initial.plain || initial.paused || reduced)
+      s.setPlaying(false)
   })
   const frame = useFrame(sim)
   const [selected, setSelected] = useState<string | null>(null)
-  const still = initial.paper || reduced
+  const still = initial.paper || initial.plain || reduced
 
   useEffect(() => {
     sim.setAnimate(!still)
@@ -58,12 +59,19 @@ export function EmbedView({
     if (initial.speed !== was.speed) sim.setSpeed(initial.speed ?? 1)
     if (initial.hour !== was.hour && initial.hour !== null)
       sim.seek(initial.hour)
-    if (initial.paused !== was.paused || initial.paper !== was.paper)
-      sim.setPlaying(!(initial.paused || initial.paper || reduced))
+    if (
+      initial.paused !== was.paused ||
+      initial.paper !== was.paper ||
+      initial.plain !== was.plain
+    )
+      sim.setPlaying(
+        !(initial.paused || initial.paper || initial.plain || reduced),
+      )
   }, [sim, initial, reduced])
 
   const part = selected ? scene.parts.find((p) => p.id === selected) : undefined
-  const caption = frameCaption(scene, frame)
+  // a static drawing tells no moment
+  const caption = initial.plain ? null : frameCaption(scene, frame)
   const { w, h } = sheetSize(scene)
 
   return (
@@ -77,6 +85,7 @@ export function EmbedView({
         theme={theme}
         annotate={still}
         animate={!still}
+        plain={initial.plain}
         selected={selected}
         onSelect={setSelected}
         onToggle={(id) => sim.toggle(id)}
@@ -91,7 +100,9 @@ export function EmbedView({
         </div>
       )}
       <div className={styles.bar}>
-        {initial.controls && <Transport sim={sim} frame={frame} compact />}
+        {initial.controls && !initial.plain && (
+          <Transport sim={sim} frame={frame} compact />
+        )}
         <div className={styles.foot}>
           <p className={styles.caption}>{caption ?? ''}</p>
           <SourceLink inline />

@@ -824,7 +824,7 @@ Write a scene's process streams (water, heat and fuel; not power, signals or los
 
 **Draw the sheet**
 
-Draw the sheet at an hour of the day, the same drawing the app shows in paper mode: every flow labelled with its value and direction. The scene runs from its opening hour first, so tanks and batteries show real levels. By default it comes back as a PNG image: look at it to check the layout (crossed lines, labels on top of each other, parts too close) and fix the scene. format svg returns the markup instead. With `out`, the drawing is saved to that .png, .svg or .pdf path and only its details are returned. A PDF is one landscape page of ISO A paper (A3 unless `paper` says otherwise) for printing and filing; an engineering drawing carries its title block. A PDF needs `out`.
+Draw the sheet at an hour of the day, the same drawing the app shows in paper mode: every flow labelled with its value and direction. With `static`, it is the drawing alone, as the app shows it in static mode: no clock, no readings, and an engineering drawing at rest (vessels empty, valves in their rest position), the way a P&ID is printed and filed. The scene runs from its opening hour first, so tanks and batteries show real levels. By default it comes back as a PNG image: look at it to check the layout (crossed lines, labels on top of each other, parts too close) and fix the scene. format svg returns the markup instead. With `out`, the drawing is saved to that .png, .svg or .pdf path and only its details are returned. A PDF is one landscape page of ISO A paper (A3 unless `paper` says otherwise) for printing and filing; an engineering drawing carries its title block. A PDF needs `out`.
 
 | parameter | type | required | what it is |
 | - | - | - | - |
@@ -836,6 +836,7 @@ Draw the sheet at an hour of the day, the same drawing the app shows in paper mo
 | `hour` | number |  | hour of day to draw, e.g. 18.5; default the opening hour |
 | `theme` | string |  |  One of `light`, `dark`. |
 | `labels` | boolean |  | label every flow (default true) |
+| `static` | boolean |  | the drawing alone, with no clock, readings or labels; an engineering drawing at rest (default false) |
 | `credit` | boolean |  | sign the bottom corner "Made with Anigram · Vaibhav Patel" (default true; false leaves it off) |
 | `format` | string |  | png (default) to look at; svg for the markup; pdf to print. With `out`, taken from its extension One of `png`, `svg`, `pdf`. |
 | `paper` | string |  | the PDF page, landscape; default A3 One of `A4`, `A3`, `A2`, `A1`. |
@@ -946,14 +947,14 @@ The moments that tell a scene's day, picked from what the simulation really did:
 
 **Open it live** · read-only
 
-A link that opens the scene running live in the Anigram app — the whole scene travels in the URL, so nothing is uploaded. view: app (the workbench, default), embed (just the sheet, for an iframe), paper (frozen and labelled), screen (full-bleed wall view).
+A link that opens the scene running live in the Anigram app — the whole scene travels in the URL, so nothing is uploaded. view: app (the workbench, default), embed (just the sheet, for an iframe), paper (frozen and labelled), static (the drawing alone: nothing moves, no clock or readings), screen (full-bleed wall view), editor.
 
 | parameter | type | required | what it is |
 | - | - | - | - |
 | `scene` | object or string |  | a scene object (or its JSON text) |
 | `file` | string |  | path to a .json scene file, relative to the working directory |
 | `id` | string |  | a built-in sheet id, e.g. "grid" — see list_scenes |
-| `view` | string |  |  One of `app`, `embed`, `paper`, `screen`, `editor`. |
+| `view` | string |  |  One of `app`, `embed`, `paper`, `static`, `screen`, `editor`. |
 | `hour` | number |  |  |
 | `theme` | string |  |  One of `light`, `dark`. |
 

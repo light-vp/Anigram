@@ -42,16 +42,19 @@ export interface Starter {
   id: string
   label: string
   doc: () => Doc
+  /** a starting point, or one of the built-in sheets */
+  group: 'starter' | 'built-in'
 }
 
 const copy = <T>(x: T): T => structuredClone(x)
 
-/** everything the "start from" menu offers */
+/** everything File → New offers */
 export const STARTERS: Starter[] = [
   ...PICTORIAL_STARTERS.map((d) => ({
     id: d.id,
     label: d.title,
     doc: () => copy(d),
+    group: 'starter' as const,
   })),
   ...(['pid', 'single-line', 'pfd', 'fluid-power'] as DrawingType[]).map(
     (k) => ({
@@ -63,17 +66,20 @@ export const STARTERS: Starter[] = [
         'fluid-power': 'A hydraulic circuit',
       }[k as 'pid'],
       doc: () => copy(PRACTICE_STARTERS[k] as unknown as Doc),
+      group: 'starter' as const,
     }),
   ),
   ...SCENES.map((s) => ({
     id: s.id,
     label: s.title,
     doc: () => builtIn(s.id)!,
+    group: 'built-in' as const,
   })),
   {
     id: 'blank',
     label: 'A blank sheet',
     doc: () => blank(),
+    group: 'starter',
   },
 ]
 
@@ -184,10 +190,11 @@ export async function editLink(
   return `${base.origin}${base.pathname}?build=1#${HASH_KEY}=${await encodeScene(fileOf(doc))}`
 }
 
-/** a link that shows this sheet in the app, without the editor */
+/** a link that shows this sheet in the app, without the editor; `plain` shows it as a static drawing */
 export async function viewLink(
   doc: Doc,
   base: { origin: string; pathname: string },
+  plain = false,
 ): Promise<string> {
-  return `${base.origin}${base.pathname}#${HASH_KEY}=${await encodeScene(fileOf(doc))}`
+  return `${base.origin}${base.pathname}${plain ? '?mode=static' : ''}#${HASH_KEY}=${await encodeScene(fileOf(doc))}`
 }

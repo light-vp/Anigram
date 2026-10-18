@@ -208,6 +208,20 @@ test('write, edit, simulate, render, share', async () => {
   assert.ok(readFileSync(saved.data.saved, 'utf8').includes('</svg>'))
   assert.equal(saved.data.format, 'svg')
 
+  // static: the drawing alone, with no clock and no readings
+  const still = await call('render_scene', {
+    id: 'water-tower',
+    hour: 13,
+    static: true,
+    format: 'svg',
+  })
+  assert.match(still.text, /class="sheet plain"/)
+  assert.doesNotMatch(still.text, /class="clock"/)
+  const stillLink = (
+    await call('share_link', { id: 'water-tower', view: 'static' })
+  ).data
+  assert.match(stillLink.url, /[?&]mode=static/)
+
   const link = (
     await call('share_link', { file: 'kettle.json', view: 'embed' })
   ).data

@@ -93,7 +93,7 @@ test('an old cloud-era scene id still resolves', async ({ page }) => {
 test('✎ edit opens the sheet in the editor', async ({ page }) => {
   await page.goto('./?scene=grid')
   await page.getByRole('button', { name: '✎ edit' }).click()
-  await expect(page.getByRole('toolbar', { name: 'Editor' })).toBeVisible()
+  await expect(page.getByRole('menubar', { name: 'Editor' })).toBeVisible()
   await expect(page.getByRole('textbox', { name: 'Sheet title' })).toHaveValue(
     SCENES.find((s) => s.id === 'grid')!.title,
   )

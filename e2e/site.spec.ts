@@ -1,24 +1,62 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { MCP_INSTALL } from '../src/site/links.ts'
+import type { Page } from '@playwright/test'
+
+import { MCP_INSTALL, REPO_URL, SUPPORT_URL } from '../src/site/links.ts'
 import { expect, sheetOf, test } from './fixtures.ts'
+
+const help = async (page: Page, item: string) => {
+  await page
+    .getByRole('menubar', { name: 'Editor' })
+    .getByRole('menuitem', { name: 'Help', exact: true })
+    .click()
+  await page
+    .getByRole('menu', { name: 'Help' })
+    .getByRole('menuitem', { name: item })
+    .click()
+}
 
 test('the home page is the editor', async ({ page }) => {
   await page.goto('./')
-  await expect(page.getByRole('toolbar', { name: 'Editor' })).toBeVisible()
+  await expect(page.getByRole('menubar', { name: 'Editor' })).toBeVisible()
   await expect(sheetOf(page)).toBeVisible()
-  const nav = page.getByRole('navigation', { name: 'Anigram' })
-  await expect(nav.getByRole('link', { name: 'Editor' })).toHaveAttribute(
-    'aria-current',
-    'page',
-  )
 })
 
-test('the header goes to the examples, the docs and the MCP server', async ({
+test('Help goes to the docs and the MCP server, and has GitHub and support', async ({
   page,
 }) => {
   await page.goto('./')
+  await page
+    .getByRole('menubar', { name: 'Editor' })
+    .getByRole('menuitem', { name: 'Help', exact: true })
+    .click()
+  const menu = page.getByRole('menu', { name: 'Help' })
+  await expect(menu.getByRole('menuitem', { name: 'GitHub' })).toHaveAttribute(
+    'href',
+    REPO_URL,
+  )
+  await expect(
+    menu.getByRole('menuitem', { name: 'Support Anigram' }),
+  ).toHaveAttribute('href', SUPPORT_URL)
+  await menu.getByRole('menuitem', { name: 'How the editor works' }).click()
+  await expect(
+    page.getByRole('dialog', { name: 'How the editor works' }),
+  ).toBeVisible()
+  await page.getByRole('button', { name: 'Got it' }).click()
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+
+  await help(page, 'MCP server')
+  await expect(page).toHaveURL(/\?docs#mcp$/)
+  await expect(
+    page.getByRole('heading', { name: 'MCP server' }),
+  ).toBeInViewport()
+})
+
+test('the site header goes to the examples, the docs and the editor', async ({
+  page,
+}) => {
+  await page.goto('./?docs')
   const nav = page.getByRole('navigation', { name: 'Anigram' })
   await nav.getByRole('link', { name: 'Examples' }).click()
   await expect(page.getByRole('navigation', { name: 'Sheets' })).toBeVisible()
@@ -38,11 +76,11 @@ test('the header goes to the examples, the docs and the MCP server', async ({
   await expect(page.getByText(MCP_INSTALL, { exact: true })).toBeVisible()
 
   await nav.getByRole('link', { name: 'Editor' }).click()
-  await expect(page.getByRole('toolbar', { name: 'Editor' })).toBeVisible()
+  await expect(page.getByRole('menubar', { name: 'Editor' })).toBeVisible()
 })
 
 test('a view link still shows the sheet running', async ({ page }) => {
   await page.goto('./?scene=water-tower')
   await expect(page.getByRole('navigation', { name: 'Sheets' })).toBeVisible()
-  await expect(page.getByRole('toolbar', { name: 'Editor' })).toHaveCount(0)
+  await expect(page.getByRole('menubar', { name: 'Editor' })).toHaveCount(0)
 })

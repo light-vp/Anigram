@@ -1,0 +1,179 @@
+/* SPDX-License-Identifier: MIT */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+.bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 12px;
+  height: 44px;
+  padding: 0 12px;
+  border-bottom: var(--b) solid var(--rule);
+  background: var(--card);
+}
+
+.start {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.middle {
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+}
+
+.middle > * {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.menus {
+  display: flex;
+  gap: 2px;
+}
+
+.menuSlot {
+  position: relative;
+}
+
+.trigger {
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  padding: 5px 9px;
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+  cursor: pointer;
+}
+
+.trigger:hover,
+.trigger[aria-expanded='true'] {
+  background: var(--desk-2);
+  color: var(--ink);
+}
+
+.trigger:focus-visible,
+.item:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 20;
+  min-width: 232px;
+  max-height: calc(100dvh - 60px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+  background: var(--card);
+  border: var(--b) solid var(--rule);
+  border-radius: 10px;
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.04),
+    0 8px 24px rgb(0 0 0 / 0.08);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  padding: 6px 10px 6px 6px;
+  font: inherit;
+  font-size: var(--fs-sm);
+  color: var(--ink);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.item:hover,
+.item:focus {
+  background: var(--desk-2);
+  outline: none;
+}
+
+.item[aria-disabled='true'] {
+  color: var(--muted);
+  opacity: 0.6;
+  cursor: default;
+}
+
+.item[aria-disabled='true']:hover {
+  background: transparent;
+}
+
+.mark {
+  flex: none;
+  width: 14px;
+  height: 14px;
+  display: grid;
+  place-items: center;
+}
+
+.mark svg,
+.out {
+  width: 12px;
+  height: 12px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.out {
+  width: 10px;
+  height: 10px;
+  color: var(--muted);
+}
+
+.label {
+  flex: 1;
+}
+
+.shortcut {
+  font: inherit;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+  letter-spacing: 0.04em;
+}
+
+.separator {
+  height: 1px;
+  margin: 5px 6px;
+  background: var(--rule);
+}
+
+.heading {
+  padding: 6px 10px 3px 26px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* a phone: the title gets a row of its own under the menus */
+@media (max-width: 720px) {
+  .bar {
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+    gap: 2px;
+    padding: 6px 10px;
+  }
+
+  .end {
+    display: none;
+  }
+}

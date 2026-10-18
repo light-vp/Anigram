@@ -18,6 +18,8 @@ export interface RenderOptions extends Controls {
   annotate?: boolean
   /** sign the sheet "Made with Anigram · Vaibhav Patel" (default true) */
   credit?: boolean
+  /** a static drawing: no clock or readings, an engineering drawing at rest */
+  plain?: boolean
 }
 
 /**
@@ -39,6 +41,7 @@ export function renderSheetSvg(scene: Scene, opts: RenderOptions = {}): string {
       animate={false}
       selected={null}
       credit={opts.credit ?? true}
+      plain={opts.plain ?? false}
     />,
   ).replace('<svg ', `<svg width="${w}" height="${h}" `)
   return `<?xml version="1.0" encoding="UTF-8"?>\n${markup}`

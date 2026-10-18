@@ -2,7 +2,11 @@
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import { useEffect, useRef, useState } from 'react'
-import type { PointerEvent as ReactPointerEvent, ReactNode } from 'react'
+import type {
+  CSSProperties,
+  PointerEvent as ReactPointerEvent,
+  ReactNode,
+} from 'react'
 
 import { useFrame, usePrefersReducedMotion, useSimulation } from '../app/hooks'
 import { Transport } from '../app/Transport'
@@ -42,6 +46,10 @@ export interface CanvasProps {
   scene: Scene
   theme: ThemeId
   clock: ClockKeeper
+  /** a static drawing: the clock stops and the sheet shows no moment */
+  plain: boolean
+  /** View → Animated, from the static bar */
+  onAnimate: () => void
   /** the selected part's id, for the sheet's highlight */
   selected: string | null
   /** something is armed in the palette, or a link is being drawn */
@@ -57,6 +65,8 @@ export function Canvas({
   scene,
   theme,
   clock,
+  plain,
+  onAnimate,
   selected,
   armed,
   linkFrom,
@@ -70,13 +80,21 @@ export function Canvas({
     s.seek(was.hour)
     s.day = was.day
     s.setSpeed(was.speed)
-    s.setPlaying(was.playing && !reduced)
+    s.setPlaying(was.playing && !reduced && !plain)
   })
   const frame = useFrame(sim)
 
   useEffect(() => {
-    sim.setAnimate(!reduced)
-  }, [sim, reduced])
+    sim.setAnimate(!reduced && !plain)
+  }, [sim, reduced, plain])
+
+  // going static stops the clock; coming back starts it again
+  const wasPlain = useRef(plain)
+  useEffect(() => {
+    if (wasPlain.current === plain) return
+    wasPlain.current = plain
+    sim.setPlaying(!plain && !reduced)
+  }, [sim, plain, reduced])
 
   useEffect(() => {
     clock.set({
@@ -92,55 +110,68 @@ export function Canvas({
     const onKey = (e: KeyboardEvent) => {
       const el = e.target as HTMLElement
       if (el.closest('input, textarea, button, select, dialog')) return
-      if (e.key === ' ') {
+      if (e.key === ' ' && !plain) {
         e.preventDefault()
         sim.setPlaying(!sim.playing)
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [sim])
+  }, [sim, plain])
 
   const { w, h } = sheetSize(scene)
 
   return (
     <>
       <div className={styles.stage}>
-        <div
-          className={styles.sheetWrap}
-          // as wide as the column allows, but short enough to keep the clock in view
-          style={{
-            aspectRatio: `${w} / ${h}`,
-            maxWidth: `calc((100vh - 190px) * ${(w / h).toFixed(4)})`,
-          }}
-        >
-          <Sheet
-            scene={scene}
-            frame={frame}
-            theme={theme}
-            annotate={reduced}
-            animate={!reduced}
-            selected={selected}
-            className={styles.sheet}
-          />
-          <Overlay
-            doc={doc}
-            scene={scene}
-            w={w}
-            h={h}
-            armed={armed}
-            linkFrom={linkFrom}
-            selected={selected}
-            onDrop={onDrop}
-          />
+        <div className={styles.frame}>
+          <div
+            className={styles.sheetWrap}
+            // as big as the middle allows, either way round
+            style={{ '--ratio': (w / h).toFixed(4) } as CSSProperties}
+          >
+            <Sheet
+              scene={scene}
+              frame={frame}
+              theme={theme}
+              annotate={reduced}
+              animate={!reduced}
+              plain={plain}
+              selected={selected}
+              className={styles.sheet}
+            />
+            <Overlay
+              doc={doc}
+              scene={scene}
+              w={w}
+              h={h}
+              armed={armed}
+              linkFrom={linkFrom}
+              selected={selected}
+              onDrop={onDrop}
+            />
+          </div>
         </div>
         <p className={styles.note} aria-live="polite">
           {note ??
             (doc.parts.length === 0
               ? 'An empty sheet. Pick a part on the left to begin.'
-              : ' ')}
+              : '\u00a0')}
         </p>
-        <Transport sim={sim} frame={frame} />
+        <div className={styles.timeline}>
+          {plain ? (
+            <div className={styles.still}>
+              <span>
+                Static drawing: nothing moves, and the sheet reads no values.
+              </span>
+              <button type="button" className={styles.tool} onClick={onAnimate}>
+                Animate
+              </button>
+            </div>
+          ) : (
+            <Transport sim={sim} frame={frame} />
+          )}
+        </div>
       </div>
       {children(frame)}
     </>

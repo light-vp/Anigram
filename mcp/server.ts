@@ -1411,6 +1411,7 @@ server.registerTool(
     title: 'Draw the sheet',
     description:
       'Draw the sheet at an hour of the day, the same drawing the app shows in paper mode: every flow labelled with its value and direction. ' +
+      'With `static`, it is the drawing alone, as the app shows it in static mode: no clock, no readings, and an engineering drawing at rest (vessels empty, valves in their rest position), the way a P&ID is printed and filed. ' +
       'The scene runs from its opening hour first, so tanks and batteries show real levels. ' +
       'By default it comes back as a PNG image: look at it to check the layout (crossed lines, labels on top of each other, parts too close) and fix the scene. ' +
       'format svg returns the markup instead. With `out`, the drawing is saved to that .png, .svg or .pdf path and only its details are returned. ' +
@@ -1429,6 +1430,12 @@ server.registerTool(
         .boolean()
         .optional()
         .describe('label every flow (default true)'),
+      static: z
+        .boolean()
+        .optional()
+        .describe(
+          'the drawing alone, with no clock, readings or labels; an engineering drawing at rest (default false)',
+        ),
       credit: z
         .boolean()
         .optional()
@@ -1481,6 +1488,7 @@ server.registerTool(
       hour?: number
       theme?: 'light' | 'dark'
       labels?: boolean
+      static?: boolean
       credit?: boolean
       format?: 'png' | 'svg' | 'pdf'
       paper?: Paper
@@ -1512,6 +1520,7 @@ server.registerTool(
         theme: args.theme,
         annotate: args.labels ?? true,
         credit: args.credit,
+        plain: args.static ?? false,
         knobs: args.knobs,
         switches: args.switches,
       })
@@ -1937,10 +1946,12 @@ server.registerTool(
     title: 'Open it live',
     description:
       'A link that opens the scene running live in the Anigram app — the whole scene travels in the URL, so nothing is uploaded. ' +
-      'view: app (the workbench, default), embed (just the sheet, for an iframe), paper (frozen and labelled), screen (full-bleed wall view).',
+      'view: app (the workbench, default), embed (just the sheet, for an iframe), paper (frozen and labelled), static (the drawing alone: nothing moves, no clock or readings), screen (full-bleed wall view), editor.',
     inputSchema: {
       ...sceneInput,
-      view: z.enum(['app', 'embed', 'paper', 'screen', 'editor']).optional(),
+      view: z
+        .enum(['app', 'embed', 'paper', 'static', 'screen', 'editor'])
+        .optional(),
       hour: z.number().min(0).max(24).optional(),
       theme: z.enum(['light', 'dark']).optional(),
     },
@@ -1959,7 +1970,7 @@ server.registerTool(
       scene?: Json | string
       file?: string
       id?: string
-      view?: 'app' | 'embed' | 'paper' | 'screen' | 'editor'
+      view?: 'app' | 'embed' | 'paper' | 'static' | 'screen' | 'editor'
       hour?: number
       theme?: 'light' | 'dark'
     }) => {
@@ -1967,6 +1978,7 @@ server.registerTool(
       const view = args.view ?? 'app'
       if (view === 'embed') url.searchParams.set('embed', '1')
       if (view === 'paper') url.searchParams.set('mode', 'paper')
+      if (view === 'static') url.searchParams.set('mode', 'static')
       if (view === 'screen') url.searchParams.set('screen', '1')
       if (view === 'editor') url.searchParams.set('build', '1')
       if (args.hour !== undefined) url.searchParams.set('t', String(args.hour))

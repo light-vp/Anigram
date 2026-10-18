@@ -8,7 +8,7 @@ export const PICTORIAL_STARTERS: Doc[] = [
   {
     anigram: 1,
     id: 'small-solar-house',
-    title: 'A solar house',
+    title: 'A small solar house',
     subtitle: 'A starting point: change anything',
     sheet: 'LD-000',
     size: [8, 5],

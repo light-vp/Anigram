@@ -15,6 +15,17 @@ test('?embed=1 is the sheet and a play bar, with no app chrome', async ({
   await expect(page.getByRole('navigation', { name: 'Sheets' })).toHaveCount(0)
 })
 
+test('?mode=static embeds the drawing alone: no clock, readings or play bar', async ({
+  page,
+}) => {
+  await page.goto('./?embed=1&scene=water-tower&mode=static')
+  await expect(sheetOf(page)).toHaveClass(/\bplain\b/)
+  await expect(sheetOf(page).locator('text.clock')).toHaveCount(0)
+  await expect(
+    page.getByRole('button', { name: /^(Play|Pause)$/ }),
+  ).toHaveCount(0)
+})
+
 test('the portfolio embed (?embed=presentation) still works', async ({
   page,
 }) => {

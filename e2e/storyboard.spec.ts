@@ -42,7 +42,13 @@ test('the editor opens the storyboard of the sheet being drawn', async ({
   page,
 }) => {
   await page.goto('./?build=1&scene=water-tower')
-  await page.getByRole('button', { name: 'storyboard', exact: true }).click()
+  await page
+    .getByRole('menubar', { name: 'Editor' })
+    .getByRole('menuitem', { name: 'File', exact: true })
+    .click()
+  await page
+    .getByRole('menuitem', { name: 'Storyboard and recording…' })
+    .click()
   await expect(
     page
       .getByRole('dialog', { name: 'Storyboard' })

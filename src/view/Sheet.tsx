@@ -39,7 +39,8 @@ import { DOMAIN_NAMES, THEMES, paletteVars } from './palette.ts'
 import type { ThemeId } from './palette.ts'
 import { LABEL_OFFSET, glyphBox, labelBox, placeTags } from './layout.ts'
 import type { Tag } from './layout.ts'
-import { SHEET_CSS } from './sheetStyle.ts'
+import { PLAIN_CSS, SHEET_CSS } from './sheetStyle.ts'
+import { restFrame } from './rest.ts'
 import { trace } from './trace.ts'
 import {
   EngInstrument,
@@ -68,6 +69,11 @@ export interface SheetProps {
   className?: string
   /** sign the bottom corner "Made with Anigram · Vaibhav Patel" (default true) */
   credit?: boolean
+  /**
+   * a static drawing: no clock, no readings, nothing moving. An engineering
+   * drawing is drawn at rest (see rest.ts); a picture keeps its moment.
+   */
+  plain?: boolean
 }
 
 /** the line every sheet carries unless its maker turns it off */
@@ -89,20 +95,27 @@ const SPACING: Record<Domain, number> = {
 
 export function Sheet({
   scene,
-  frame,
+  frame: live,
   theme,
-  annotate,
-  animate,
+  annotate: labelled,
+  animate: moving,
   selected,
   onSelect,
   onToggle,
   svgRef,
   className,
   credit = true,
+  plain = false,
 }: SheetProps) {
   const { w, h } = sheetSize(scene)
   // an engineering drawing draws a two-way pair (charge and discharge) as one line
   const eng = !!scene.drawing && scene.drawing !== 'pictorial'
+  const frame = useMemo(
+    () => (plain && eng ? restFrame(scene, live) : live),
+    [plain, eng, scene, live],
+  )
+  const annotate = labelled && !plain
+  const animate = moving && !plain
   const geometry = useMemo(
     () =>
       scene.links.map((l) =>
@@ -137,7 +150,9 @@ export function Sheet({
   return (
     <svg
       ref={svgRef}
-      className={['sheet', eng && 'eng', className].filter(Boolean).join(' ')}
+      className={['sheet', eng && 'eng', plain && 'plain', className]
+        .filter(Boolean)
+        .join(' ')}
       xmlns="http://www.w3.org/2000/svg"
       viewBox={`0 0 ${w} ${h}`}
       style={vars}
@@ -145,10 +160,10 @@ export function Sheet({
       aria-label={`${scene.title}: ${scene.subtitle}`}
       onClick={() => onSelect?.(null)}
     >
-      <style>{SHEET_CSS}</style>
+      <style>{plain ? SHEET_CSS + PLAIN_CSS : SHEET_CSS}</style>
       {eng && <style>{SYMBOL_CSS}</style>}
       <rect className="bg" width={w} height={h} />
-      <Header scene={scene} frame={frame} w={w} />
+      <Header scene={scene} frame={frame} w={w} plain={plain} />
 
       <g>
         {scene.links.map((link, i) =>
@@ -569,10 +584,13 @@ function Header({
   scene,
   frame,
   w,
+  plain,
 }: {
   scene: Scene
   frame: Frame
   w: number
+  /** a static drawing has no clock: just its sheet number */
+  plain: boolean
 }) {
   return (
     <g>
@@ -586,11 +604,13 @@ function Header({
         width={w * 0.62}
         text={scene.subtitle}
       />
-      <text className="clock" x={w - PAD} y={38}>
-        {clockTime(frame.hour)}
-      </text>
-      <text className="meta" x={w - PAD} y={58}>
-        {`${scene.sheet} · day ${frame.day + 1}`}
+      {!plain && (
+        <text className="clock" x={w - PAD} y={38}>
+          {clockTime(frame.hour)}
+        </text>
+      )}
+      <text className="meta" x={w - PAD} y={plain ? 38 : 58}>
+        {plain ? scene.sheet : `${scene.sheet} · day ${frame.day + 1}`}
       </text>
     </g>
   )
