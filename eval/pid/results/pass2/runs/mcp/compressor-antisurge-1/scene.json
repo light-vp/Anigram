@@ -1,0 +1,400 @@
+{
+  "anigram": 1,
+  "id": "compressor-antisurge",
+  "title": "Gas compressor with anti-surge recycle",
+  "subtitle": "Scrubber, compressor, after-cooler and export; recycle opens when export demand falls",
+  "sheet": "PID-401",
+  "size": [8, 4],
+  "units": {
+    "fuel": {
+      "rate": "km³/h",
+      "amount": "km³",
+      "effort": "bar"
+    },
+    "electric": {
+      "rate": "MW",
+      "amount": "MWh"
+    }
+  },
+  "scale": {
+    "fuel": 100,
+    "electric": 5
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "gaswell",
+      "label": "Gas from inlet header",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": 120,
+        "dispatchable": true
+      },
+      "tag": "OPC-401",
+      "class": "OffPageConnector",
+      "effort": {
+        "set": 5
+      }
+    },
+    {
+      "id": "power",
+      "kind": "grid",
+      "label": "Drive power",
+      "at": [6, 3],
+      "behaviour": {
+        "role": "source",
+        "output": 10,
+        "dispatchable": true
+      }
+    },
+    {
+      "id": "j1",
+      "kind": "manifold",
+      "label": "Suction tee",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "bus"
+      },
+      "tag": "J-401",
+      "class": "Junction"
+    },
+    {
+      "id": "v401",
+      "kind": "reservoir",
+      "label": "Suction scrubber",
+      "at": [2, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": 1
+      },
+      "tag": "V-401",
+      "class": "Vessel"
+    },
+    {
+      "id": "k401",
+      "kind": "compressor",
+      "label": "Gas compressor",
+      "at": [3, 1],
+      "behaviour": {
+        "role": "converter",
+        "output": "fuel",
+        "recipe": {
+          "fuel": 1,
+          "electric": 0.05
+        },
+        "capacity": 150
+      },
+      "tag": "K-401",
+      "class": "Compressor",
+      "effort": {
+        "boost": 25
+      }
+    },
+    {
+      "id": "e401",
+      "kind": "valve",
+      "label": "Discharge after-cooler",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": 1
+      },
+      "tag": "E-401",
+      "class": "HeatExchanger"
+    },
+    {
+      "id": "j2",
+      "kind": "manifold",
+      "label": "Discharge tee",
+      "at": [5, 1],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "below",
+      "tag": "J-402",
+      "class": "Junction"
+    },
+    {
+      "id": "cv401",
+      "kind": "valve",
+      "label": "Discharge check valve",
+      "at": [6, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": 1
+      },
+      "labelSide": "below",
+      "tag": "CV-401",
+      "class": "CheckValve"
+    },
+    {
+      "id": "export",
+      "kind": "city",
+      "label": "To export header",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": "between(hour, 22, 6) ? 25 : 100"
+      },
+      "labelSide": "above",
+      "tag": "OPC-402",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "fv401",
+      "kind": "valve",
+      "label": "Anti-surge valve",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": "clamp((70 - prev('export').in) / 40, 0, 1)"
+      },
+      "tag": "FV-401",
+      "class": "ControlValve"
+    },
+    {
+      "id": "psv401",
+      "kind": "valve",
+      "label": "Discharge relief valve",
+      "at": [5, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 50,
+        "relief": {
+          "at": 40,
+          "full": 44
+        }
+      },
+      "labelSide": "above",
+      "tag": "PSV-401",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "flare",
+      "kind": "sky",
+      "label": "To flare",
+      "at": [6, 0],
+      "behaviour": {
+        "role": "sink",
+        "demand": "prev('j2').effort > 40 ? 50 : 0"
+      },
+      "tag": "OPC-403",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "rcyout",
+      "kind": "manifold",
+      "label": "Recycle line",
+      "at": [1.5, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": "80 * clamp((70 - prev('export').in) / 40, 0, 1)"
+      },
+      "labelSide": "below",
+      "tag": "J-403",
+      "class": "Junction"
+    },
+    {
+      "id": "rcyin",
+      "kind": "manifold",
+      "label": "Return to suction",
+      "at": [1, 2],
+      "behaviour": {
+        "role": "source",
+        "output": "80 * clamp((70 - prev('export').in) / 40, 0, 1)"
+      },
+      "labelSide": "above",
+      "tag": "J-404",
+      "class": "Junction"
+    }
+  ],
+  "links": [
+    {
+      "from": "j2",
+      "to": "fv401",
+      "domain": "fuel",
+      "via": [[5, 2]],
+      "line": "process",
+      "tag": "100-G-408"
+    },
+    {
+      "from": "feed",
+      "to": "j1",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "150-G-401"
+    },
+    {
+      "from": "j1",
+      "to": "v401",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "150-G-402"
+    },
+    {
+      "from": "v401",
+      "to": "k401",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "150-G-403"
+    },
+    {
+      "from": "power",
+      "to": "k401",
+      "domain": "electric"
+    },
+    {
+      "from": "k401",
+      "to": "e401",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "100-G-404"
+    },
+    {
+      "from": "e401",
+      "to": "j2",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "100-G-405"
+    },
+    {
+      "from": "j2",
+      "to": "cv401",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "100-G-406"
+    },
+    {
+      "from": "cv401",
+      "to": "export",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "100-G-407"
+    },
+    {
+      "from": "j2",
+      "to": "psv401",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "50-G-411"
+    },
+    {
+      "from": "psv401",
+      "to": "flare",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "50-G-412"
+    },
+    {
+      "from": "fv401",
+      "to": "rcyout",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "100-G-409"
+    },
+    {
+      "from": "rcyin",
+      "to": "j1",
+      "domain": "fuel",
+      "line": "process",
+      "tag": "100-G-410"
+    }
+  ],
+  "clock": {
+    "start": 12,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Export Gas Ltd",
+    "project": "Gas compression train K-401",
+    "drawnBy": "VP",
+    "checkedBy": "AK",
+    "approvedBy": "MR",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "FT-401",
+      "at": [2, 0],
+      "measures": "v401",
+      "unit": "km³/h"
+    },
+    {
+      "tag": "PT-402",
+      "at": [4, 0],
+      "measures": "e401",
+      "reads": "part('e401').effort",
+      "unit": "bar"
+    },
+    {
+      "tag": "UIC-401",
+      "at": [3, 3],
+      "measures": "FT-401",
+      "drives": "fv401",
+      "mounting": "dcs"
+    }
+  ],
+  "captions": [
+    {
+      "from": 6,
+      "to": 22,
+      "text": "Daytime: export takes full flow, FV-401 stays shut."
+    },
+    {
+      "from": 22,
+      "to": 24,
+      "text": "Overnight: export demand falls, UIC-401 opens FV-401 and gas circulates round the recycle."
+    },
+    {
+      "from": 0,
+      "to": 6,
+      "text": "Overnight: export demand falls, UIC-401 opens FV-401 and gas circulates round the recycle."
+    }
+  ],
+  "expect": [
+    {
+      "says": "by day the anti-surge valve stays shut",
+      "check": "part('fv401').out < 0.01",
+      "from": 7,
+      "to": 21
+    },
+    {
+      "says": "by day the export takes full flow",
+      "check": "part('export').in > 90",
+      "from": 7,
+      "to": 21
+    },
+    {
+      "says": "overnight export demand falls",
+      "check": "part('export').in < 40",
+      "from": 23,
+      "to": 5
+    },
+    {
+      "says": "overnight the recycle valve opens and gas goes round the recycle",
+      "check": "part('fv401').out > 0.5 && part('rcyout').in > 30",
+      "from": 0,
+      "to": 5
+    },
+    {
+      "says": "overnight the compressor stays well loaded while the export takes little",
+      "check": "part('k401').out > 60",
+      "from": 0,
+      "to": 5
+    },
+    {
+      "says": "by day no gas is recycled",
+      "check": "part('rcyout').in < 0.1",
+      "from": 7,
+      "to": 21
+    }
+  ]
+}

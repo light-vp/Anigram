@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1830" height="980" viewBox="0 0 1830 980" font-family="Arial, Helvetica, sans-serif">
+<style>.proc{fill:none;stroke:#000;stroke-width:2.2}.sig{fill:none;stroke:#1a4fb4;stroke-width:1.3;stroke-dasharray:6 4}.sym{fill:#fff;stroke:#000;stroke-width:1.5}.symline{stroke:#000;stroke-width:1.5;fill:none}.ln{font-size:11px;font-weight:bold;fill:#7a1f1f}.t{font-size:11px;font-weight:bold}.s{font-size:9px}</style>
+<rect width="1830" height="980" fill="#fff"/>
+<rect x="10" y="10" width="1810" height="960" fill="none" stroke="#000" stroke-width="2"/>
+
+<!-- process pipes -->
+<g id="pipes">
+<polyline class="proc" points="115,200 202,200"/>
+<polyline class="proc" points="258,200 400,200"/>
+<polyline class="proc" points="480,200 800,200"/>
+<polyline class="proc" points="860,420 860,520 368,520"/>
+<polyline class="proc" points="340,548 340,700 1640,700"/>
+<polyline class="proc" points="420,700 420,800"/>
+<polyline class="proc" points="900,700 900,580 980,580 980,330 920,330"/>
+<polyline class="proc" points="1050,700 1050,792"/>
+<polyline class="proc" points="1260,700 1260,590 1300,590"/>
+<polyline class="proc" points="1480,700 1480,794"/>
+<polyline class="proc" points="1480,590 1620,590 1620,250 920,250"/>
+<polyline class="proc" points="420,110 420,170"/>
+<polyline class="proc" points="460,230 460,300"/>
+<polyline class="proc" points="1340,430 1340,560"/>
+<polyline class="proc" points="1440,560 1440,430"/>
+</g>
+
+<!-- equipment -->
+<rect class="sym" x="800" y="140" width="120" height="280" rx="40"/>
+<text x="860" y="282" text-anchor="middle" font-size="13" font-weight="bold">T-4750</text>
+<text x="860" y="297" text-anchor="middle" font-size="10">tank</text>
+
+<circle class="sym" cx="230" cy="200" r="28"/>
+<polygon class="sym" points="214,184 214,216 246,200"/>
+<text x="230" y="248" text-anchor="middle" font-size="12" font-weight="bold">P-4711</text>
+<text x="230" y="262" text-anchor="middle" font-size="10">centrifugal pump</text>
+
+<rect class="sym" x="400" y="170" width="80" height="60"/>
+<line class="symline" x1="412" y1="172" x2="412" y2="228"/>
+<line class="symline" x1="426" y1="172" x2="426" y2="228"/>
+<line class="symline" x1="440" y1="172" x2="440" y2="228"/>
+<line class="symline" x1="454" y1="172" x2="454" y2="228"/>
+<line class="symline" x1="468" y1="172" x2="468" y2="228"/>
+<text x="450" y="250" text-anchor="end" font-size="12" font-weight="bold">H-1007</text>
+<text x="450" y="264" text-anchor="end" font-size="10">plate heat exchanger</text>
+
+<circle class="sym" cx="340" cy="520" r="28"/>
+<rect class="sym" x="326" y="512" width="28" height="16"/>
+<line class="symline" x1="332" y1="520" x2="348" y2="520"/>
+<text x="300" y="512" text-anchor="end" font-size="12" font-weight="bold">P-4712</text>
+<text x="300" y="526" text-anchor="end" font-size="10">reciprocating pump</text>
+
+<rect class="sym" x="1300" y="560" width="180" height="60" rx="6"/>
+<rect fill="none" stroke="#000" stroke-width="1" x="1312" y="570" width="140" height="40"/>
+<line class="symline" x1="1452" y1="566" x2="1452" y2="614"/>
+<line stroke="#000" stroke-width="1" x1="1312" y1="580" x2="1452" y2="580"/>
+<line stroke="#000" stroke-width="1" x1="1312" y1="590" x2="1452" y2="590"/>
+<line stroke="#000" stroke-width="1" x1="1312" y1="600" x2="1452" y2="600"/>
+<text x="1390" y="640" text-anchor="middle" font-size="12" font-weight="bold">H-1008</text>
+<text x="1390" y="653" text-anchor="middle" font-size="10">floating-head exchanger</text>
+<text x="1390" y="666" text-anchor="middle" font-size="9">tube side: process / shell side: utility</text>
+<text x="1467" y="556" text-anchor="middle" font-size="8">floating head</text>
+
+<!-- HV-4750.01 actuated on/off globe valve -->
+<polygon class="sym" points="608,192 608,208 632,192 632,208"/>
+<circle class="sym" cx="620" cy="200" r="4"/>
+<line class="symline" x1="620" y1="196" x2="620" y2="178"/>
+<path class="sym" d="M608,178 A12,12 0 0 1 632,178 Z"/>
+<text x="620" y="236" text-anchor="middle" class="t">HV-4750.01</text>
+<text x="620" y="249" text-anchor="middle" class="s">actuated on/off globe valve</text>
+
+<!-- suction line valves -->
+<polygon class="sym" points="748,512 748,528 772,512 772,528"/>
+<line class="symline" x1="760" y1="509" x2="760" y2="531"/>
+<text x="760" y="494" text-anchor="middle" font-size="10" font-weight="bold">BFV-47124.01<tspan font-size="8" baseline-shift="super">†</tspan></text>
+<text x="760" y="548" text-anchor="middle" class="s">butterfly</text>
+
+<polygon class="sym" points="670,511 670,529 650,520"/>
+<line class="symline" x1="650" y1="511" x2="650" y2="529"/>
+<text x="660" y="494" text-anchor="middle" font-size="10" font-weight="bold">NRV-47124.02<tspan font-size="8" baseline-shift="super">†</tspan></text>
+<text x="660" y="548" text-anchor="middle" class="s">swing check</text>
+
+<polygon class="sym" points="548,515 572,511 572,529 548,525"/>
+<text x="560" y="494" text-anchor="middle" font-size="10" font-weight="bold">RED-47124.03<tspan font-size="8" baseline-shift="super">†</tspan></text>
+<text x="560" y="548" text-anchor="middle" class="s">reducer</text>
+
+<polygon class="sym" points="448,512 448,528 472,512 472,528"/>
+<circle cx="460" cy="520" r="4" fill="#000" stroke="#000"/>
+<text x="460" y="494" text-anchor="middle" font-size="10" font-weight="bold">BV-47124.04<tspan font-size="8" baseline-shift="super">†</tspan></text>
+<text x="460" y="548" text-anchor="middle" class="s">ball</text>
+
+<!-- drain -->
+<polygon class="sym" points="428,738 412,738 428,762 412,762"/>
+<circle cx="420" cy="750" r="4" fill="#000" stroke="#000"/>
+<text x="440" y="752" font-size="10" font-weight="bold">BV-47126.01<tspan font-size="8" baseline-shift="super">†</tspan></text>
+<text x="440" y="765" class="s">ball (drain)</text>
+<polygon class="sym" points="410,800 430,800 420,814"/>
+<text x="440" y="812" font-size="10">DRAIN</text>
+<text x="440" y="825" font-size="9">DRN-47126.01<tspan font-size="8" baseline-shift="super">†</tspan></text>
+
+<!-- SV-104.01 -->
+<polygon class="sym" points="892,652 908,652 900,640"/>
+<polygon class="sym" points="892,628 908,628 900,640"/>
+<polyline class="symline" points="900,628 900,622 892,618 908,610 892,602 908,594 900,590 900,586"/>
+<text x="878" y="628" text-anchor="end" class="t">SV-104.01</text>
+<text x="878" y="641" text-anchor="end" class="s">safety valve</text>
+<text x="878" y="654" text-anchor="end" font-size="10" font-weight="bold">set 6 barg</text>
+
+<!-- PI-4712.01 -->
+<polygon class="sym" points="1058,738 1042,738 1058,762 1042,762"/>
+<circle cx="1050" cy="750" r="4" fill="#000" stroke="#000"/>
+<text x="1070" y="752" font-size="10" font-weight="bold">BV-47126.02<tspan font-size="8" baseline-shift="super">†</tspan></text>
+<circle class="sym" cx="1050" cy="810" r="18"/>
+<text x="1050" y="814" text-anchor="middle" font-size="10">PI</text>
+<text x="1074" y="806" class="t">PI-4712.01</text>
+<text x="1074" y="819" class="s">local pressure gauge</text>
+
+<!-- header ball valve -->
+<polygon class="sym" points="1158,692 1158,708 1182,692 1182,708"/>
+<circle cx="1170" cy="700" r="4" fill="#000" stroke="#000"/>
+<text x="1170" y="676" text-anchor="middle" font-size="10" font-weight="bold">BV-47126.03<tspan font-size="8" baseline-shift="super">†</tspan></text>
+<text x="1170" y="724" text-anchor="middle" class="s">ball (header)</text>
+
+<!-- PICSA-4712.02 tapping -->
+<polygon class="sym" points="1488,738 1472,738 1488,762 1472,762"/>
+<circle cx="1480" cy="750" r="4" fill="#000" stroke="#000"/>
+<text x="1500" y="752" font-size="10" font-weight="bold">BV-47126.04<tspan font-size="8" baseline-shift="super">†</tspan></text>
+<circle class="sym" cx="1480" cy="820" r="26"/>
+<line class="symline" x1="1454" y1="820" x2="1506" y2="820"/>
+<text x="1480" y="816" text-anchor="middle" font-size="10">PICSA</text>
+<text x="1448" y="814" text-anchor="end" class="t">PICSA-4712.02</text>
+<text x="1448" y="827" text-anchor="end" class="s">pressure controller, DCS</text>
+
+<!-- PV-4712.02 -->
+<polygon class="sym" points="1628,408 1612,408 1628,432 1612,432"/>
+<circle class="sym" cx="1620" cy="420" r="4"/>
+<line class="symline" x1="1624" y1="420" x2="1642" y2="420"/>
+<path class="sym" d="M1642,408 A12,12 0 0 1 1642,432 Z"/>
+<text x="1632" y="470" class="t">PV-4712.02</text>
+<text x="1632" y="483" class="s">control valve</text>
+
+<!-- TV-4750.03 -->
+<polygon class="sym" points="1448,488 1432,488 1448,512 1432,512"/>
+<circle class="sym" cx="1440" cy="500" r="4"/>
+<line class="symline" x1="1444" y1="500" x2="1462" y2="500"/>
+<path class="sym" d="M1462,488 A12,12 0 0 1 1462,512 Z"/>
+<text x="1424" y="500" text-anchor="end" class="t">TV-4750.03</text>
+<text x="1424" y="513" text-anchor="end" class="s">control valve</text>
+
+<!-- HS-4750.01 and TICSA-4750.03 -->
+<circle class="sym" cx="620" cy="100" r="18"/>
+<line class="symline" x1="602" y1="100" x2="638" y2="100"/>
+<text x="620" y="96" text-anchor="middle" font-size="10">HS</text>
+<text x="644" y="96" class="t">HS-4750.01</text>
+<text x="644" y="109" class="s">hand switch, control room</text>
+<circle class="sym" cx="860" cy="60" r="26"/>
+<line class="symline" x1="834" y1="60" x2="886" y2="60"/>
+<text x="860" y="56" text-anchor="middle" font-size="10">TICSA</text>
+<text x="826" y="54" text-anchor="end" class="t">TICSA-4750.03</text>
+<text x="826" y="67" text-anchor="end" class="s">temperature controller, DCS</text>
+
+<!-- off-sheet / utility connectors -->
+<rect class="sym" x="25" y="189" width="90" height="22" rx="4" stroke-dasharray="4 2"/><text x="70" y="204" text-anchor="middle" font-size="10">FEED IN</text>
+<rect class="sym" x="1640" y="689" width="80" height="22" rx="4" stroke-dasharray="4 2"/><text x="1680" y="704" text-anchor="middle" font-size="10">PRODUCT</text>
+<rect class="sym" x="378" y="88" width="84" height="22" rx="4" stroke-dasharray="4 2"/><text x="420" y="103" text-anchor="middle" font-size="10">UTILITY IN</text>
+<rect class="sym" x="418" y="300" width="84" height="22" rx="4" stroke-dasharray="4 2"/><text x="460" y="315" text-anchor="middle" font-size="10">UTILITY OUT</text>
+<rect class="sym" x="1298" y="408" width="84" height="22" rx="4" stroke-dasharray="4 2"/><text x="1340" y="423" text-anchor="middle" font-size="10">UTILITY IN</text>
+<rect class="sym" x="1398" y="408" width="84" height="22" rx="4" stroke-dasharray="4 2"/><text x="1440" y="423" text-anchor="middle" font-size="10">UTILITY OUT</text>
+
+<!-- signals -->
+<polyline class="sig" points="620,118 620,164"/>
+<polygon points="616,159 620,169 624,159" fill="#1a4fb4"/>
+<polyline class="sig" points="860,140 860,86"/>
+<polyline class="sig" points="886,60 1540,60 1540,500 1480,500"/>
+<polygon points="1481,496 1471,500 1481,504" fill="#1a4fb4"/>
+<polyline class="sig" points="1506,820 1770,820 1770,420 1660,420"/>
+<polygon points="1661,416 1651,420 1661,424" fill="#1a4fb4"/>
+
+<!-- flow arrows -->
+<polygon points="155,196 165,200 155,204"/><polygon points="325,196 335,200 325,204"/>
+<polygon points="535,196 545,200 535,204"/><polygon points="735,196 745,200 735,204"/>
+<polygon points="856,465 860,475 864,465"/><polygon points="815,516 805,520 815,524"/>
+<polygon points="405,516 395,520 405,524"/>
+<polygon points="336,615 340,625 344,615"/><polygon points="375,696 385,700 375,704"/>
+<polygon points="695,696 705,700 695,704"/><polygon points="1095,696 1105,700 1095,704"/>
+<polygon points="1575,696 1585,700 1575,704"/>
+<polygon points="416,775 420,785 424,775"/><polygon points="896,675 900,665 904,675"/>
+<polygon points="976,455 980,445 984,455"/><polygon points="955,326 945,330 955,334"/>
+<polygon points="1256,655 1260,645 1264,655"/><polygon points="1616,525 1620,515 1624,525"/>
+<polygon points="1616,335 1620,325 1624,335"/><polygon points="1205,246 1195,250 1205,254"/>
+<polygon points="416,135 420,145 424,135"/><polygon points="456,275 460,285 464,275"/>
+<polygon points="1336,495 1340,505 1344,495"/><polygon points="1436,475 1440,465 1444,475"/>
+
+<!-- line numbers -->
+<text class="ln" x="130" y="190" text-anchor="middle">47121</text>
+<text class="ln" x="330" y="190" text-anchor="middle">47122</text>
+<text class="ln" x="700" y="190" text-anchor="middle">47123</text>
+<text class="ln" x="868" y="470">47124</text>
+<text class="ln" x="500" y="690">47126</text>
+<text class="ln" x="1580" y="690" text-anchor="middle">47126</text>
+<text class="ln" x="988" y="450">47125</text>
+<text class="ln" x="1200" y="242" text-anchor="middle">47127</text>
+<text class="ln" x="1628" y="540">47127</text>
+<text class="ln" x="428" y="140">47130</text>
+<text class="ln" x="468" y="280">47131</text>
+<text class="ln" x="1332" y="470" text-anchor="end">47140</text>
+<text class="ln" x="1448" y="540">47141</text>
+
+<!-- notes and title block -->
+<text x="40" y="880" font-size="12" font-weight="bold">CONTROL NOTES</text>
+<text x="40" y="898" font-size="11">1. HS-4750.01 (control room) opens and shuts on/off valve HV-4750.01 on line 47123 into T-4750.</text>
+<text x="40" y="914" font-size="11">2. PICSA-4712.02 (DCS) reads discharge pressure from header 47126 and throttles PV-4712.02 (H-1008 outlet, line 47127) to hold it.</text>
+<text x="40" y="930" font-size="11">3. SV-104.01 relieves at 6 barg from header 47126 back to T-4750 on line 47125.</text>
+<text x="40" y="946" font-size="11">4. TICSA-4750.03 (DCS) measures the temperature in T-4750 and throttles TV-4750.03 on H-1008 utility outlet 47141.</text>
+<text x="40" y="962" font-size="11">† Tag not supplied: provisional, to be confirmed.   Bubble with a line = control room / DCS.   Solid = process line, dashed blue = signal.</text>
+<rect x="1330" y="900" width="480" height="60" fill="none" stroke="#000" stroke-width="1.5"/>
+<text x="1570" y="925" text-anchor="middle" font-size="16" font-weight="bold">P&amp;ID - UTILITIES SECTION</text>
+<text x="1570" y="947" text-anchor="middle" font-size="13">Drawing 123/A93</text>
+</svg>

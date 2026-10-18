@@ -1,0 +1,306 @@
+{
+  "anigram": 1,
+  "id": "raw-water-standby",
+  "title": "Raw water transfer",
+  "subtitle": "Duty and standby transfer pumps off T-1601",
+  "sheet": "PID-1601",
+  "size": [14, 7],
+  "units": {
+    "water": {
+      "rate": "m\u00b3/h",
+      "amount": "m\u00b3"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 80,
+    "electric": 20
+  },
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "switches": [
+    {
+      "id": "duty",
+      "label": "P-1601A running",
+      "on": true
+    },
+    {
+      "id": "standby",
+      "label": "P-1601B running",
+      "on": false
+    }
+  ],
+  "parts": [
+    {
+      "id": "intake",
+      "kind": "river",
+      "label": "From river intake",
+      "at": [0, 3],
+      "behaviour": {
+        "role": "source",
+        "output": 80
+      }
+    },
+    {
+      "id": "lv",
+      "kind": "valve",
+      "class": "ControlValve",
+      "tag": "LV-1601",
+      "label": "Intake level control valve",
+      "at": [2, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 60,
+        "open": 1
+      }
+    },
+    {
+      "id": "tank",
+      "kind": "reservoir",
+      "class": "Tank",
+      "tag": "T-1601",
+      "label": "Raw water tank",
+      "at": [4, 3],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 400,
+        "start": 0.95,
+        "maxIn": 60,
+        "maxOut": 80
+      }
+    },
+    {
+      "id": "sa",
+      "kind": "valve",
+      "class": "GateValve",
+      "tag": "HV-1601A",
+      "label": "P-1601A suction valve",
+      "at": [6, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": "on('duty') ? 1 : 0"
+      }
+    },
+    {
+      "id": "sb",
+      "kind": "valve",
+      "class": "GateValve",
+      "tag": "HV-1601B",
+      "label": "P-1601B suction valve",
+      "at": [6, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80,
+        "open": "on('standby') ? 1 : 0"
+      }
+    },
+    {
+      "id": "mains",
+      "kind": "grid",
+      "label": "Electricity",
+      "at": [8, 3],
+      "behaviour": {
+        "role": "source",
+        "output": 50,
+        "dispatchable": true
+      }
+    },
+    {
+      "id": "pa",
+      "kind": "pump",
+      "class": "CentrifugalPump",
+      "tag": "P-1601A",
+      "label": "Transfer pump (duty)",
+      "at": [8, 1],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.2,
+          "water": 1
+        },
+        "capacity": 50
+      }
+    },
+    {
+      "id": "pb",
+      "kind": "pump",
+      "class": "CentrifugalPump",
+      "label": "Transfer pump (standby)",
+      "at": [8, 5],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.2,
+          "water": 1
+        },
+        "capacity": 50
+      }
+    },
+    {
+      "id": "ca",
+      "kind": "valve",
+      "class": "CheckValve",
+      "tag": "NRV-1601A",
+      "label": "Check valve",
+      "at": [9.5, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80
+      }
+    },
+    {
+      "id": "cb",
+      "kind": "valve",
+      "class": "CheckValve",
+      "label": "Check valve",
+      "at": [9.5, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80
+      }
+    },
+    {
+      "id": "da",
+      "kind": "valve",
+      "class": "GateValve",
+      "tag": "HV-1602A",
+      "label": "Discharge valve",
+      "at": [11, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80
+      }
+    },
+    {
+      "id": "db",
+      "kind": "valve",
+      "class": "GateValve",
+      "tag": "HV-1602B",
+      "label": "Discharge valve",
+      "at": [11, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 80
+      }
+    },
+    {
+      "id": "hdr",
+      "kind": "manifold",
+      "class": "Junction",
+      "label": "Discharge header",
+      "at": [12, 3],
+      "behaviour": {
+        "role": "bus"
+      }
+    },
+    {
+      "id": "plant",
+      "kind": "factory",
+      "label": "To treatment plant",
+      "at": [13.5, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": 40
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "intake",
+      "to": "lv",
+      "domain": "water"
+    },
+    {
+      "from": "lv",
+      "to": "tank",
+      "domain": "water"
+    },
+    {
+      "from": "tank",
+      "to": "sa",
+      "domain": "water"
+    },
+    {
+      "from": "tank",
+      "to": "sb",
+      "domain": "water"
+    },
+    {
+      "from": "sa",
+      "to": "pa",
+      "domain": "water"
+    },
+    {
+      "from": "sb",
+      "to": "pb",
+      "domain": "water"
+    },
+    {
+      "from": "mains",
+      "to": "pa",
+      "domain": "electric"
+    },
+    {
+      "from": "mains",
+      "to": "pb",
+      "domain": "electric"
+    },
+    {
+      "from": "pa",
+      "to": "ca",
+      "domain": "water"
+    },
+    {
+      "from": "pb",
+      "to": "cb",
+      "domain": "water"
+    },
+    {
+      "from": "ca",
+      "to": "da",
+      "domain": "water"
+    },
+    {
+      "from": "cb",
+      "to": "db",
+      "domain": "water"
+    },
+    {
+      "from": "da",
+      "to": "hdr",
+      "domain": "water"
+    },
+    {
+      "from": "db",
+      "to": "hdr",
+      "domain": "water"
+    },
+    {
+      "from": "hdr",
+      "to": "plant",
+      "domain": "water"
+    }
+  ],
+  "instruments": [
+    {
+      "tag": "LT-1601",
+      "at": [4, 1],
+      "measures": "tank"
+    },
+    {
+      "tag": "LIC-1601",
+      "at": [2, 1],
+      "measures": "LT-1601",
+      "drives": "lv",
+      "mounting": "dcs"
+    }
+  ]
+}

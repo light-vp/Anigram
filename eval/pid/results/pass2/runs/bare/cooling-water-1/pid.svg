@@ -1,0 +1,165 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 820" width="1400" height="820" font-family="Arial, Helvetica, sans-serif" font-size="12">
+  <defs>
+    <g id="valve"><polygon points="-14,-9 14,9 14,-9 -14,9" fill="#fff" stroke="#000" stroke-width="1.8"/></g>
+    <g id="check"><polygon points="-10,-9 10,0 -10,9" fill="#fff" stroke="#000" stroke-width="1.8"/><line x1="10" y1="-9" x2="10" y2="9" stroke="#000" stroke-width="2.5"/></g>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker>
+    <marker id="sarr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c0392b"/></marker>
+  </defs>
+  <rect width="1400" height="820" fill="#fff"/>
+  <text x="20" y="28" font-size="18" font-weight="bold">P&amp;ID – Cooling Water Circuit (CT-601 / E-601)</text>
+  <text x="20" y="46" fill="#444">Duty pump P-601A running; P-601B standby. TIC-601 modulates tower bypass TV-601 from supply temperature TT-601.</text>
+
+  <!-- Cooling tower -->
+  <rect x="60" y="120" width="180" height="400" fill="#eef6fb" stroke="#000" stroke-width="2.5"/>
+  <rect x="60" y="430" width="180" height="90" fill="#9fd0ea" stroke="#000" stroke-width="2.5"/>
+  <line x1="60" y1="430" x2="240" y2="430" stroke="#000" stroke-dasharray="6,3"/>
+  <text x="150" y="480" text-anchor="middle" fill="#134">BASIN</text>
+  <path d="M90,200 l30,20 l30,-20 l30,20 l30,-20 M90,250 l30,20 l30,-20 l30,20 l30,-20 M90,300 l30,20 l30,-20 l30,20 l30,-20" fill="none" stroke="#789" stroke-width="1.5"/>
+  <text x="150" y="108" text-anchor="middle" font-weight="bold">CT-601</text>
+  <text x="150" y="560" text-anchor="middle">Cooling tower</text>
+
+  <!-- Return line to tower top (process, blue) -->
+  <g fill="none" stroke="#1565c0" stroke-width="3">
+    <polyline points="960,400 1040,400 1040,80 150,80 150,120"/>
+    <!-- supply: basin -> suction header -->
+    <polyline points="240,490 300,490 300,730"/>
+    <line x1="300" y1="620" x2="660" y2="620"/>
+    <line x1="300" y1="730" x2="660" y2="730"/>
+    <polyline points="660,730 660,400 860,400"/>
+    <!-- bypass -->
+    <polyline points="1040,300 280,300 280,470 240,470"/>
+  </g>
+  <!-- process stream (orange) -->
+  <g fill="none" stroke="#e67e22" stroke-width="3">
+    <polyline points="880,550 880,460"/>
+    <polyline points="940,460 940,550"/>
+  </g>
+  <circle cx="1040" cy="300" r="4" fill="#1565c0"/>
+  <circle cx="300" cy="620" r="4" fill="#1565c0"/>
+  <circle cx="300" cy="730" r="4" fill="#1565c0"/>
+  <circle cx="660" cy="620" r="4" fill="#1565c0"/>
+
+  <!-- flow arrows -->
+  <g stroke="#1565c0" stroke-width="3" fill="none">
+    <line x1="1000" y1="400" x2="1002" y2="400" marker-end="url(#arr)"/>
+    <line x1="1040" y1="200" x2="1040" y2="198" marker-end="url(#arr)"/>
+    <line x1="600" y1="80" x2="598" y2="80" marker-end="url(#arr)"/>
+    <line x1="800" y1="400" x2="802" y2="400" marker-end="url(#arr)"/>
+    <line x1="380" y1="300" x2="378" y2="300" marker-end="url(#arr)"/>
+    <line x1="270" y1="490" x2="272" y2="490" marker-end="url(#arr)"/>
+  </g>
+  <g stroke="#e67e22" stroke-width="3">
+    <line x1="880" y1="505" x2="880" y2="503" marker-end="url(#arr)"/>
+    <line x1="940" y1="505" x2="940" y2="507" marker-end="url(#arr)"/>
+  </g>
+  <text x="1048" y="60" fill="#1565c0">Warm return to tower top</text>
+  <text x="310" y="475" fill="#1565c0">Cold supply</text>
+  <text x="745" y="418" fill="#1565c0">Supply to E-601</text>
+  <text x="300" y="292" fill="#1565c0">Tower bypass (warm return to basin)</text>
+
+  <!-- E-601 plate heat exchanger -->
+  <rect x="860" y="340" width="100" height="120" fill="#fff" stroke="#000" stroke-width="2.5"/>
+  <path d="M875,350 v100 M890,350 v100 M905,350 v100 M920,350 v100 M935,350 v100 M950,350 v100" stroke="#888" stroke-width="2"/>
+  <text x="910" y="330" text-anchor="middle" font-weight="bold">E-601</text>
+  <text x="910" y="475" text-anchor="middle" font-size="11" dy="14">Plate heat exchanger</text>
+  <text x="870" y="572" text-anchor="middle" fill="#a85a00">PS-IN</text>
+  <text x="870" y="586" text-anchor="middle" fill="#a85a00" font-size="10">process in (hot)</text>
+  <text x="960" y="572" text-anchor="middle" fill="#a85a00">PS-OUT</text>
+  <text x="960" y="586" text-anchor="middle" fill="#a85a00" font-size="10">process out (cooled)</text>
+
+  <!-- Pump A (running) -->
+  <circle cx="440" cy="620" r="27" fill="#7bd88f" stroke="#000" stroke-width="2.5"/>
+  <polygon points="440,593 467,620 440,620" fill="none"/>
+  <path d="M430,606 L456,620 L430,634" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="440" y="570" text-anchor="middle" font-weight="bold">P-601A</text>
+  <text x="440" y="585" text-anchor="middle" fill="#1b7a31" font-weight="bold">DUTY – RUNNING</text>
+  <use href="#valve" x="360" y="620"/>
+  <text x="360" y="650" text-anchor="middle">V-601A</text>
+  <text x="360" y="663" text-anchor="middle" font-size="10">suction isol.</text>
+  <use href="#check" x="530" y="620"/>
+  <text x="530" y="650" text-anchor="middle">CV-601A</text>
+  <text x="530" y="663" text-anchor="middle" font-size="10">check</text>
+  <use href="#valve" x="600" y="620"/>
+  <text x="600" y="598" text-anchor="middle">V-611A</text>
+  <text x="600" y="586" text-anchor="middle" font-size="10">discharge isol.</text>
+
+  <!-- Pump B (standby) -->
+  <circle cx="440" cy="730" r="27" fill="#e4e4e4" stroke="#000" stroke-width="2.5"/>
+  <path d="M430,716 L456,730 L430,744" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="440" y="685" text-anchor="middle" font-weight="bold">P-601B</text>
+  <text x="440" y="700" text-anchor="middle" fill="#666" font-weight="bold">STANDBY – STOPPED</text>
+  <use href="#valve" x="360" y="730"/>
+  <text x="360" y="760" text-anchor="middle">V-601B</text>
+  <text x="360" y="773" text-anchor="middle" font-size="10">suction isol.</text>
+  <use href="#check" x="530" y="730"/>
+  <text x="530" y="760" text-anchor="middle">CV-601B</text>
+  <text x="530" y="773" text-anchor="middle" font-size="10">check</text>
+  <use href="#valve" x="600" y="730"/>
+  <text x="600" y="708" text-anchor="middle">V-611B</text>
+  <text x="600" y="696" text-anchor="middle" font-size="10">discharge isol.</text>
+  <text x="620" y="796" text-anchor="middle" font-size="10" fill="#555">Standby: suction and discharge isolation valves open, check valve holds</text>
+
+  <!-- TV-601 control valve with actuator -->
+  <use href="#valve" x="520" y="300"/>
+  <line x1="520" y1="291" x2="520" y2="272" stroke="#000" stroke-width="1.8"/>
+  <path d="M502,272 A18,16 0 0 1 538,272 z" fill="#fff" stroke="#000" stroke-width="1.8"/>
+  <text x="520" y="326" text-anchor="middle" font-weight="bold">TV-601</text>
+  <text x="520" y="339" text-anchor="middle" font-size="10">bypass control valve</text>
+
+  <!-- TT-601 -->
+  <line x1="770" y1="400" x2="770" y2="366" stroke="#000" stroke-width="1.5"/>
+  <circle cx="770" cy="350" r="16" fill="#fff" stroke="#000" stroke-width="1.8"/>
+  <text x="770" y="354" text-anchor="middle" font-size="10">TT</text>
+  <text x="794" y="354" font-weight="bold">TT-601</text>
+
+  <!-- TIC-601 -->
+  <circle cx="640" cy="200" r="28" fill="#fff" stroke="#000" stroke-width="1.8"/>
+  <line x1="612" y1="200" x2="668" y2="200" stroke="#000" stroke-width="1"/>
+  <text x="640" y="196" text-anchor="middle" font-size="10" font-weight="bold">TIC-601</text>
+  <text x="640" y="212" text-anchor="middle" font-size="9">DCS</text>
+
+  <!-- signals -->
+  <g fill="none" stroke="#c0392b" stroke-width="1.8" stroke-dasharray="6,4">
+    <polyline points="770,334 770,200 670,200" marker-end="url(#sarr)"/>
+    <polyline points="612,200 520,200 520,254" marker-end="url(#sarr)"/>
+  </g>
+  <text x="780" y="190" fill="#c0392b" font-size="10">temperature signal</text>
+  <text x="528" y="190" fill="#c0392b" font-size="10">output to valve</text>
+
+  <!-- Behaviour chart -->
+  <g transform="translate(790,610)">
+    <text x="0" y="-6" font-weight="bold">Daily operation (indicative)</text>
+    <rect x="60" y="0" width="480" height="150" fill="#fafafa" stroke="#888"/>
+    <!-- hours grid: 20 px per hour -->
+    <g stroke="#ddd">
+      <line x1="180" y1="0" x2="180" y2="150"/><line x1="300" y1="0" x2="300" y2="150"/><line x1="420" y1="0" x2="420" y2="150"/>
+    </g>
+    <g text-anchor="middle" font-size="10">
+      <text x="60" y="164">00:00</text><text x="180" y="164">06:00</text><text x="300" y="164">12:00</text><text x="420" y="164">18:00</text><text x="540" y="164">24:00</text>
+    </g>
+    <!-- P-601A run bar -->
+    <text x="55" y="22" text-anchor="end" font-size="10">P-601A</text>
+    <rect x="60" y="12" width="480" height="14" fill="#7bd88f" stroke="#1b7a31"/>
+    <text x="300" y="23" text-anchor="middle" font-size="10">running all day</text>
+    <text x="55" y="42" text-anchor="end" font-size="10">P-601B</text>
+    <rect x="60" y="32" width="480" height="14" fill="#e4e4e4" stroke="#999"/>
+    <text x="300" y="43" text-anchor="middle" font-size="10" fill="#555">standby</text>
+    <!-- TV-601 opening: y = 140 - 0.8*pct -->
+    <text x="55" y="70" text-anchor="end" font-size="10">TV-601</text>
+    <text x="55" y="82" text-anchor="end" font-size="10">opening</text>
+    <polyline points="60,92 120,86 180,80 240,102 300,120 360,128 375,130 420,114 480,98 540,92" fill="none" stroke="#c0392b" stroke-width="2.5"/>
+    <circle cx="180" cy="80" r="5" fill="#c0392b"/>
+    <circle cx="375" cy="130" r="5" fill="#c0392b"/>
+    <text x="186" y="72" font-size="11" fill="#c0392b" font-weight="bold">06:00 – more bypass (cool morning)</text>
+    <text x="380" y="146" font-size="11" fill="#c0392b" font-weight="bold" text-anchor="middle" dx="-20">15:00 – less bypass (hottest)</text>
+    <text x="60" y="184" font-size="10" fill="#555">TV-601 opens to bypass more warm water when the air is cool and closes toward the tower as it heats up. Curve is illustrative, not a design value.</text>
+  </g>
+
+  <!-- Legend -->
+  <g transform="translate(20,640)" font-size="11">
+    <text x="0" y="0" font-weight="bold">Legend</text>
+    <line x1="0" y1="16" x2="40" y2="16" stroke="#1565c0" stroke-width="3"/><text x="48" y="20">Cooling water</text>
+    <line x1="0" y1="36" x2="40" y2="36" stroke="#e67e22" stroke-width="3"/><text x="48" y="40">Process stream</text>
+    <line x1="0" y1="56" x2="40" y2="56" stroke="#c0392b" stroke-width="1.8" stroke-dasharray="6,4"/><text x="48" y="60">Instrument / control signal</text>
+  </g>
+</svg>

@@ -1,0 +1,271 @@
+{
+  "anigram": 1,
+  "id": "dexpi-example-c03",
+  "title": "DEXPI Example C03",
+  "subtitle": "Offshore module piping with electrically actuated valve ESV-3712 (panel D-13)",
+  "sheet": "DEXPI Example C03",
+  "size": [16, 3],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 120
+  },
+  "parts": [
+    {
+      "id": "plug",
+      "kind": "tap",
+      "label": "Plug",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": "60 * knob('throughput')"
+      },
+      "note": "PipeFitting-1, plug shape. The file has no supply upstream of the capped end, so the flow here is a placeholder.",
+      "labelSide": "above",
+      "tag": "PLUG-1",
+      "class": "Junction"
+    },
+    {
+      "id": "bf1",
+      "kind": "valve",
+      "label": "Blind flange",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "BlindFlange-1",
+      "labelSide": "above",
+      "tag": "BF-1",
+      "class": "BlindFlange"
+    },
+    {
+      "id": "fl1",
+      "kind": "valve",
+      "label": "Flange",
+      "at": [2, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "Flange-1, 0200",
+      "labelSide": "above",
+      "tag": "FLG-1",
+      "class": "Flange"
+    },
+    {
+      "id": "fl2",
+      "kind": "valve",
+      "label": "Flange",
+      "at": [3, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "Flange-2, 0200",
+      "labelSide": "above",
+      "tag": "FLG-2",
+      "class": "Flange"
+    },
+    {
+      "id": "esv",
+      "kind": "valve",
+      "label": "Operated valve",
+      "at": [6, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "on('esv') ? 1 : 0"
+      },
+      "note": "OperatedValve-1 with electric actuator ControlledActuator-1 (fail action FB), driven by ESV-3712 from panel D-13.",
+      "labelSide": "below",
+      "toggles": "esv",
+      "tag": "XV-3712",
+      "class": "ControlValve"
+    },
+    {
+      "id": "fl3",
+      "kind": "valve",
+      "label": "Flange",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "Flange-3, 0200",
+      "labelSide": "above",
+      "tag": "FLG-3",
+      "class": "Flange"
+    },
+    {
+      "id": "ro1",
+      "kind": "valve",
+      "label": "Restriction orifice",
+      "at": [8, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "RestrictionOrifice-1, 0200",
+      "labelSide": "above",
+      "tag": "RO-1",
+      "class": "RestrictionOrifice"
+    },
+    {
+      "id": "bv1",
+      "kind": "valve",
+      "label": "Ball valve",
+      "at": [11, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": "on('bv1') ? 1 : 0"
+      },
+      "note": "BallValve-1, 0200",
+      "labelSide": "below",
+      "toggles": "bv1",
+      "tag": "HV-1",
+      "class": "BallValve"
+    },
+    {
+      "id": "red1",
+      "kind": "valve",
+      "label": "Reducer 0200x0800",
+      "at": [12, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 180,
+        "open": 1
+      },
+      "note": "PipeReducer-1, 0200 to 0800",
+      "labelSide": "above",
+      "tag": "RED-1",
+      "class": "PipeReducer"
+    },
+    {
+      "id": "out",
+      "kind": "tap",
+      "label": "Flow out",
+      "at": [15, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": "60 * knob('throughput')"
+      },
+      "note": "FlowOutPipeOffPageConnector-1; line slopes down towards it (PipeSlopeSymbol-1).",
+      "labelSide": "above",
+      "tag": "OPC-1",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "plug",
+      "to": "bf1",
+      "domain": "water"
+    },
+    {
+      "from": "bf1",
+      "to": "fl1",
+      "domain": "water"
+    },
+    {
+      "from": "fl1",
+      "to": "fl2",
+      "domain": "water"
+    },
+    {
+      "from": "fl2",
+      "to": "esv",
+      "domain": "water",
+      "tag": "D-13L37014A-0200PB-FD120-0F000N"
+    },
+    {
+      "from": "esv",
+      "to": "fl3",
+      "domain": "water"
+    },
+    {
+      "from": "fl3",
+      "to": "ro1",
+      "domain": "water"
+    },
+    {
+      "from": "ro1",
+      "to": "bv1",
+      "domain": "water",
+      "tag": "D-13L37007A-0200PB-FS720-0F000N"
+    },
+    {
+      "from": "bv1",
+      "to": "red1",
+      "domain": "water"
+    },
+    {
+      "from": "red1",
+      "to": "out",
+      "domain": "water",
+      "tag": "D-43L37007A-0800VF-AS7F0-0F000N"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Equinor",
+    "project": "DEXPI Example C03",
+    "status": "for information"
+  },
+  "instruments": [
+    {
+      "tag": "ESV-3712",
+      "at": [6, 0],
+      "measures": "esv",
+      "drives": "esv",
+      "mounting": "dcs"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "throughput",
+      "label": "throughput",
+      "value": 1,
+      "min": 0,
+      "max": 1.5,
+      "step": 0.05,
+      "format": "{pct}%"
+    }
+  ],
+  "switches": [
+    {
+      "id": "esv",
+      "label": "ESV-3712 valve open",
+      "on": true
+    },
+    {
+      "id": "bv1",
+      "label": "Ball valve open",
+      "on": true
+    }
+  ],
+  "expect": [
+    {
+      "says": "with both valves open the line passes its flow out of the module",
+      "check": "part('out').in >= 0.999 * part('out').demand && part('out').in > 0"
+    },
+    {
+      "says": "closing the actuated valve stops the flow",
+      "check": "on('esv') == 1 || part('out').in < 0.001"
+    }
+  ]
+}

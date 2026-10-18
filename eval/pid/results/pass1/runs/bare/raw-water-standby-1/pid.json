@@ -1,0 +1,111 @@
+{
+  "items": [
+    {
+      "tag": "T-1601",
+      "type": "atmospheric storage tank",
+      "label": "Raw water tank"
+    },
+    {
+      "tag": "P-1601A",
+      "type": "centrifugal pump",
+      "label": "Transfer pump - duty"
+    },
+    {
+      "tag": "P-1601B",
+      "type": "centrifugal pump",
+      "label": "Transfer pump - standby"
+    },
+    {
+      "tag": "HV-1601A",
+      "type": "isolating valve",
+      "label": "P-1601A suction isolation"
+    },
+    {
+      "tag": "HV-1602A",
+      "type": "isolating valve",
+      "label": "P-1601A discharge isolation"
+    },
+    {
+      "tag": "CV-1601A",
+      "type": "check valve",
+      "label": "P-1601A discharge check"
+    },
+    {
+      "tag": "HV-1601B",
+      "type": "isolating valve",
+      "label": "P-1601B suction isolation"
+    },
+    {
+      "tag": "HV-1602B",
+      "type": "isolating valve",
+      "label": "P-1601B discharge isolation"
+    },
+    {
+      "tag": "CV-1601B",
+      "type": "check valve",
+      "label": "P-1601B discharge check"
+    },
+    {
+      "tag": "LV-1601",
+      "type": "control valve",
+      "label": "Intake level control valve"
+    },
+    {
+      "tag": "XV-1601",
+      "type": "on/off shutoff valve",
+      "label": "Intake high-high trip shutoff valve"
+    },
+    {
+      "tag": "LT-1601",
+      "type": "level transmitter",
+      "label": "Tank level transmitter"
+    },
+    {
+      "tag": "LIC-1601",
+      "type": "level indicating controller",
+      "label": "Tank level controller"
+    },
+    {
+      "tag": "LSHH-1602",
+      "type": "level switch high-high",
+      "label": "Independent high-high level trip"
+    },
+    {
+      "tag": "XY-1601",
+      "type": "auto-start logic",
+      "label": "Standby pump auto-start on duty pump trip"
+    },
+    {
+      "tag": "OSC-1601-IN",
+      "type": "off-sheet connector",
+      "label": "Raw water from river intake"
+    },
+    {
+      "tag": "OSC-1601-OUT",
+      "type": "off-sheet connector",
+      "label": "To treatment plant"
+    }
+  ],
+  "lines": [
+    { "from": "OSC-1601-IN", "to": "XV-1601", "kind": "process" },
+    { "from": "XV-1601", "to": "LV-1601", "kind": "process" },
+    { "from": "LV-1601", "to": "T-1601", "kind": "process" },
+    { "from": "T-1601", "to": "HV-1601A", "kind": "process" },
+    { "from": "HV-1601A", "to": "P-1601A", "kind": "process" },
+    { "from": "P-1601A", "to": "CV-1601A", "kind": "process" },
+    { "from": "CV-1601A", "to": "HV-1602A", "kind": "process" },
+    { "from": "HV-1602A", "to": "OSC-1601-OUT", "kind": "process" },
+    { "from": "T-1601", "to": "HV-1601B", "kind": "process" },
+    { "from": "HV-1601B", "to": "P-1601B", "kind": "process" },
+    { "from": "P-1601B", "to": "CV-1601B", "kind": "process" },
+    { "from": "CV-1601B", "to": "HV-1602B", "kind": "process" },
+    { "from": "HV-1602B", "to": "OSC-1601-OUT", "kind": "process" },
+    { "from": "T-1601", "to": "LT-1601", "kind": "signal" },
+    { "from": "LT-1601", "to": "LIC-1601", "kind": "signal" },
+    { "from": "LIC-1601", "to": "LV-1601", "kind": "signal" },
+    { "from": "T-1601", "to": "LSHH-1602", "kind": "signal" },
+    { "from": "LSHH-1602", "to": "XV-1601", "kind": "signal" },
+    { "from": "P-1601A", "to": "XY-1601", "kind": "signal" },
+    { "from": "XY-1601", "to": "P-1601B", "kind": "signal" }
+  ]
+}

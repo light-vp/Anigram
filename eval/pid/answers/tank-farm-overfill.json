@@ -1,0 +1,375 @@
+{
+  "id": "tank-farm-overfill",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["tank", "vessel", "container"],
+      "tag": "^TK801$",
+      "says": "TK-801"
+    },
+    {
+      "family": ["tank", "vessel", "container"],
+      "tag": "^TK802$",
+      "says": "TK-802"
+    },
+    {
+      "family": ["tank", "vessel", "container"],
+      "tag": "^TK803$",
+      "says": "TK-803"
+    },
+    {
+      "family": "pump",
+      "tag": "^P801$",
+      "says": "pump P-801"
+    },
+    {
+      "family": "offpage",
+      "min": 2,
+      "says": "the pipeline in and the loading rack out"
+    }
+  ],
+  "valves": [
+    {
+      "family": ["onoff", "control"],
+      "tag": "^XV801$",
+      "says": "shutdown valve XV-801"
+    },
+    {
+      "family": ["onoff", "control"],
+      "tag": "^XV802$",
+      "says": "shutdown valve XV-802"
+    },
+    {
+      "family": ["onoff", "control"],
+      "tag": "^XV803$",
+      "says": "shutdown valve XV-803"
+    },
+    {
+      "family": "isolation",
+      "min": 3
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["LT", "LIT"],
+      "min": 3,
+      "says": "a level transmitter on each tank"
+    },
+    {
+      "letters": ["LAH", "LIAH"],
+      "min": 3,
+      "says": "a high level alarm on each tank"
+    },
+    {
+      "letters": ["LSHH", "LZHH"],
+      "min": 3,
+      "says": "an independent high-high switch on each tank"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^TK801$",
+        "says": "TK-801"
+      },
+      "via": [
+        {
+          "family": ["onoff", "control"],
+          "tag": "^XV801$",
+          "says": "shutdown valve XV-801"
+        }
+      ],
+      "says": "receipt header → TK-801 through XV-801"
+    },
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^TK801$",
+        "says": "TK-801"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P801$",
+        "says": "pump P-801"
+      },
+      "via": [
+        {
+          "family": "isolation"
+        }
+      ],
+      "says": "TK-801 → P-801 through an isolating valve"
+    },
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^TK802$",
+        "says": "TK-802"
+      },
+      "via": [
+        {
+          "family": ["onoff", "control"],
+          "tag": "^XV802$",
+          "says": "shutdown valve XV-802"
+        }
+      ],
+      "says": "receipt header → TK-802 through XV-802"
+    },
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^TK802$",
+        "says": "TK-802"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P801$",
+        "says": "pump P-801"
+      },
+      "via": [
+        {
+          "family": "isolation"
+        }
+      ],
+      "says": "TK-802 → P-801 through an isolating valve"
+    },
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^TK803$",
+        "says": "TK-803"
+      },
+      "via": [
+        {
+          "family": ["onoff", "control"],
+          "tag": "^XV803$",
+          "says": "shutdown valve XV-803"
+        }
+      ],
+      "says": "receipt header → TK-803 through XV-803"
+    },
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^TK803$",
+        "says": "TK-803"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P801$",
+        "says": "pump P-801"
+      },
+      "via": [
+        {
+          "family": "isolation"
+        }
+      ],
+      "says": "TK-803 → P-801 through an isolating valve"
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P801$",
+        "says": "pump P-801"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "says": "P-801 → loading rack"
+    }
+  ],
+  "loops": [
+    {
+      "says": "LSHH-811 closes XV-801",
+      "controller": [
+        {
+          "letters": "LSHH"
+        },
+        {
+          "letters": "LZHH"
+        },
+        {
+          "letters": "LSH"
+        },
+        {
+          "letters": "LAHH"
+        },
+        {
+          "letters": "US"
+        },
+        {
+          "letters": "UZ"
+        }
+      ],
+      "final": {
+        "family": ["onoff", "control"],
+        "tag": "^XV801$",
+        "says": "shutdown valve XV-801"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^TK801$",
+            "says": "TK-801"
+          }
+        }
+      ]
+    },
+    {
+      "says": "LSHH-812 closes XV-802",
+      "controller": [
+        {
+          "letters": "LSHH"
+        },
+        {
+          "letters": "LZHH"
+        },
+        {
+          "letters": "LSH"
+        },
+        {
+          "letters": "LAHH"
+        },
+        {
+          "letters": "US"
+        },
+        {
+          "letters": "UZ"
+        }
+      ],
+      "final": {
+        "family": ["onoff", "control"],
+        "tag": "^XV802$",
+        "says": "shutdown valve XV-802"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^TK802$",
+            "says": "TK-802"
+          }
+        }
+      ]
+    },
+    {
+      "says": "LSHH-813 closes XV-803",
+      "controller": [
+        {
+          "letters": "LSHH"
+        },
+        {
+          "letters": "LZHH"
+        },
+        {
+          "letters": "LSH"
+        },
+        {
+          "letters": "LAHH"
+        },
+        {
+          "letters": "US"
+        },
+        {
+          "letters": "UZ"
+        }
+      ],
+      "final": {
+        "family": ["onoff", "control"],
+        "tag": "^XV803$",
+        "says": "shutdown valve XV-803"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^TK803$",
+            "says": "TK-803"
+          }
+        }
+      ]
+    }
+  ],
+  "behaviour": [
+    {
+      "says": "no tank ever overflows",
+      "all": [
+        {
+          "of": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^TK80[123]$"
+          },
+          "agg": "all",
+          "field": "fill",
+          "op": "<",
+          "value": 0.99
+        }
+      ]
+    },
+    {
+      "says": "TK-801 fills first, on its own",
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^TK801$",
+            "says": "TK-801"
+          },
+          "field": "in",
+          "op": ">",
+          "value": 0
+        },
+        {
+          "of": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^TK802$",
+            "says": "TK-802"
+          },
+          "field": "in",
+          "op": "==",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "says": "once XV-801 has closed, the receipt carries on into TK-802",
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": ["onoff", "control"],
+            "tag": "^XV801$",
+            "says": "shutdown valve XV-801"
+          },
+          "field": "out",
+          "op": "==",
+          "value": 0
+        },
+        {
+          "of": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^TK802$",
+            "says": "TK-802"
+          },
+          "field": "in",
+          "op": ">",
+          "value": 0
+        }
+      ]
+    }
+  ]
+}

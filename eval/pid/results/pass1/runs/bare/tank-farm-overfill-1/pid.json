@@ -1,0 +1,102 @@
+{
+  "items": [
+    {
+      "tag": "PL-IN",
+      "type": "off-sheet connector",
+      "label": "From pipeline (receipt header)"
+    },
+    {
+      "tag": "RACK-OUT",
+      "type": "off-sheet connector",
+      "label": "To loading rack"
+    },
+    { "tag": "TK-801", "type": "storage tank", "label": "Storage tank" },
+    { "tag": "TK-802", "type": "storage tank", "label": "Storage tank" },
+    { "tag": "TK-803", "type": "storage tank", "label": "Storage tank" },
+    {
+      "tag": "XV-801",
+      "type": "motor-operated valve",
+      "label": "TK-801 inlet valve (closed by LSHH-811)"
+    },
+    {
+      "tag": "XV-802",
+      "type": "motor-operated valve",
+      "label": "TK-802 inlet valve (closed by LSHH-812)"
+    },
+    {
+      "tag": "XV-803",
+      "type": "motor-operated valve",
+      "label": "TK-803 inlet valve (closed by LSHH-813)"
+    },
+    {
+      "tag": "LT/LAH-801",
+      "type": "level transmitter with high alarm",
+      "label": "TK-801 level"
+    },
+    {
+      "tag": "LT/LAH-802",
+      "type": "level transmitter with high alarm",
+      "label": "TK-802 level"
+    },
+    {
+      "tag": "LT/LAH-803",
+      "type": "level transmitter with high alarm",
+      "label": "TK-803 level"
+    },
+    {
+      "tag": "LSHH-811",
+      "type": "high-high level switch",
+      "label": "TK-801 independent overfill trip"
+    },
+    {
+      "tag": "LSHH-812",
+      "type": "high-high level switch",
+      "label": "TK-802 independent overfill trip"
+    },
+    {
+      "tag": "LSHH-813",
+      "type": "high-high level switch",
+      "label": "TK-803 independent overfill trip"
+    },
+    {
+      "tag": "HV-801",
+      "type": "manual isolation valve",
+      "label": "TK-801 discharge isolating valve"
+    },
+    {
+      "tag": "HV-802",
+      "type": "manual isolation valve",
+      "label": "TK-802 discharge isolating valve"
+    },
+    {
+      "tag": "HV-803",
+      "type": "manual isolation valve",
+      "label": "TK-803 discharge isolating valve"
+    },
+    { "tag": "P-801", "type": "centrifugal pump", "label": "Loading pump" }
+  ],
+  "lines": [
+    { "from": "PL-IN", "to": "XV-801", "kind": "process" },
+    { "from": "PL-IN", "to": "XV-802", "kind": "process" },
+    { "from": "PL-IN", "to": "XV-803", "kind": "process" },
+    { "from": "XV-801", "to": "TK-801", "kind": "process" },
+    { "from": "XV-802", "to": "TK-802", "kind": "process" },
+    { "from": "XV-803", "to": "TK-803", "kind": "process" },
+    { "from": "TK-801", "to": "HV-801", "kind": "process" },
+    { "from": "TK-802", "to": "HV-802", "kind": "process" },
+    { "from": "TK-803", "to": "HV-803", "kind": "process" },
+    { "from": "HV-801", "to": "P-801", "kind": "process" },
+    { "from": "HV-802", "to": "P-801", "kind": "process" },
+    { "from": "HV-803", "to": "P-801", "kind": "process" },
+    { "from": "P-801", "to": "RACK-OUT", "kind": "process" },
+    { "from": "TK-801", "to": "LT/LAH-801", "kind": "signal" },
+    { "from": "TK-802", "to": "LT/LAH-802", "kind": "signal" },
+    { "from": "TK-803", "to": "LT/LAH-803", "kind": "signal" },
+    { "from": "TK-801", "to": "LSHH-811", "kind": "signal" },
+    { "from": "TK-802", "to": "LSHH-812", "kind": "signal" },
+    { "from": "TK-803", "to": "LSHH-813", "kind": "signal" },
+    { "from": "LSHH-811", "to": "XV-801", "kind": "signal" },
+    { "from": "LSHH-812", "to": "XV-802", "kind": "signal" },
+    { "from": "LSHH-813", "to": "XV-803", "kind": "signal" }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "items": [
+    {
+      "tag": "FE 04",
+      "type": "flow measuring element",
+      "label": "Flow element"
+    },
+    {
+      "tag": "FV 04",
+      "type": "globe control valve, normally closed (NC)",
+      "label": "Globe control valve"
+    },
+    {
+      "tag": "FV 04-ACT",
+      "type": "spring-diaphragm actuator",
+      "label": "Spring-diaphragm actuator"
+    },
+    {
+      "tag": "FIC 04",
+      "type": "flow indicating controller (central location)",
+      "label": "Flow indicating controller"
+    }
+  ],
+  "lines": [
+    { "from": "FE 04", "to": "FV 04", "kind": "process" },
+    { "from": "FE 04", "to": "FIC 04", "kind": "signal" },
+    { "from": "FIC 04", "to": "FV 04-ACT", "kind": "signal" }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "id": "e06-draw",
+  "source": "DEXPI e.V. TrainingTestCases, dexpi-e06-pump-exchanger.xml (CC BY 4.0)",
+  "derived": "derive-dexpi.mjs",
+  "equipment": [
+    {
+      "family": ["pump"],
+      "tag": "^P4713$",
+      "says": "P-4713 (CentrifugalPump)"
+    },
+    {
+      "family": ["heat-exchanger"],
+      "tag": "^H1009$",
+      "says": "H-1009 (PlateHeatExchanger)"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": ["pump"],
+        "tag": "^P4713$"
+      },
+      "to": {
+        "family": ["heat-exchanger"],
+        "tag": "^H1009$"
+      },
+      "says": "P-4713 (CentrifugalPump) → H-1009 (PlateHeatExchanger)"
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "anigram": 1,
+  "id": "flow-loop",
+  "title": "Flow control loop 04",
+  "subtitle": "Flow element FE 04, flow controller FIC 04 and control valve FV 04",
+  "sheet": "PID-04",
+  "size": [6, 3],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 100
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "river",
+      "label": "From process",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": 100
+      }
+    },
+    {
+      "id": "fv",
+      "kind": "valve",
+      "label": "Control valve",
+      "at": [3, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": "knob('fic')"
+      },
+      "tag": "FV 04",
+      "class": "ControlValve"
+    },
+    {
+      "id": "dest",
+      "kind": "factory",
+      "label": "To process",
+      "at": [5, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 100
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "fv",
+      "domain": "water"
+    },
+    {
+      "from": "fv",
+      "to": "dest",
+      "domain": "water"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "FE 04",
+      "at": [1, 0],
+      "measures": "feed"
+    },
+    {
+      "tag": "FIC 04",
+      "at": [2, 0],
+      "measures": "FE 04",
+      "drives": "fv",
+      "mounting": "dcs"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "fic",
+      "label": "FIC 04 output",
+      "value": 0.6,
+      "format": "{pct}%"
+    }
+  ]
+}

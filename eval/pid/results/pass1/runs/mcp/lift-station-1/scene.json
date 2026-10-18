@@ -1,0 +1,406 @@
+{
+  "anigram": 1,
+  "id": "lift-station",
+  "title": "Wastewater Lift Station",
+  "subtitle": "Wet well WW-1501, duty/assist submersible pumps, level-controlled by the station PLC",
+  "sheet": "PID-1501",
+  "size": [10, 5],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 150,
+    "electric": 30
+  },
+  "parts": [
+    {
+      "id": "inflow",
+      "kind": "river",
+      "label": "Gravity sewer inflow",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": "8 + 150 * rain(hour)"
+      }
+    },
+    {
+      "id": "power",
+      "kind": "grid",
+      "label": "MCC supply",
+      "at": [2, 4],
+      "behaviour": {
+        "role": "source",
+        "output": 100,
+        "dispatchable": true
+      }
+    },
+    {
+      "id": "mca",
+      "kind": "breaker",
+      "label": "Starter A",
+      "at": [3, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "on('runA') ? 1 : 0"
+      }
+    },
+    {
+      "id": "mcb",
+      "kind": "breaker",
+      "label": "Starter B",
+      "at": [3, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "on('runB') ? 1 : 0"
+      }
+    },
+    {
+      "id": "ww",
+      "kind": "reservoir",
+      "label": "Wet well",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 100,
+        "start": 0.2,
+        "maxIn": 300,
+        "maxOut": 300
+      },
+      "tag": "WW-1501",
+      "class": "Tank"
+    },
+    {
+      "id": "pa",
+      "kind": "pump",
+      "label": "Submersible pump A",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.15,
+          "water": 1
+        },
+        "capacity": 120
+      },
+      "tag": "P-1501A",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "pb",
+      "kind": "pump",
+      "label": "Submersible pump B",
+      "at": [4, 3],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.15,
+          "water": 1
+        },
+        "capacity": 120
+      },
+      "tag": "P-1501B",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "cva",
+      "kind": "valve",
+      "label": "Check valve",
+      "at": [5, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150
+      },
+      "tag": "CV-1501A",
+      "class": "CheckValve"
+    },
+    {
+      "id": "cvb",
+      "kind": "valve",
+      "label": "Check valve",
+      "at": [5, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150
+      },
+      "tag": "CV-1501B",
+      "class": "CheckValve"
+    },
+    {
+      "id": "iva",
+      "kind": "valve",
+      "label": "Isolating valve",
+      "at": [6, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": 1
+      },
+      "tag": "HV-1501A",
+      "class": "GateValve"
+    },
+    {
+      "id": "ivb",
+      "kind": "valve",
+      "label": "Isolating valve",
+      "at": [6, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": 1
+      },
+      "tag": "HV-1501B",
+      "class": "GateValve"
+    },
+    {
+      "id": "hdr",
+      "kind": "manifold",
+      "label": "Common discharge",
+      "at": [7, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "tag": "J-1501",
+      "class": "Junction"
+    },
+    {
+      "id": "main",
+      "kind": "river",
+      "label": "To rising main",
+      "at": [9, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": "120 * (on('runA') + on('runB'))"
+      },
+      "tag": "OPC-1501",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "inflow",
+      "to": "ww",
+      "domain": "water",
+      "tag": "300-SW-001"
+    },
+    {
+      "from": "ww",
+      "to": "pa",
+      "domain": "water",
+      "via": [
+        [3, 2],
+        [3, 1]
+      ],
+      "tag": "150-SW-002"
+    },
+    {
+      "from": "ww",
+      "to": "pb",
+      "domain": "water",
+      "via": [
+        [3, 2],
+        [3, 3]
+      ],
+      "tag": "150-SW-003"
+    },
+    {
+      "from": "power",
+      "to": "mca",
+      "domain": "electric",
+      "via": [
+        [1, 4],
+        [1, 0]
+      ]
+    },
+    {
+      "from": "power",
+      "to": "mcb",
+      "domain": "electric"
+    },
+    {
+      "from": "mca",
+      "to": "pa",
+      "domain": "electric"
+    },
+    {
+      "from": "mcb",
+      "to": "pb",
+      "domain": "electric"
+    },
+    {
+      "from": "pa",
+      "to": "cva",
+      "domain": "water",
+      "tag": "150-SW-004"
+    },
+    {
+      "from": "pb",
+      "to": "cvb",
+      "domain": "water",
+      "tag": "150-SW-005"
+    },
+    {
+      "from": "cva",
+      "to": "iva",
+      "domain": "water",
+      "tag": "150-SW-006"
+    },
+    {
+      "from": "cvb",
+      "to": "ivb",
+      "domain": "water",
+      "tag": "150-SW-007"
+    },
+    {
+      "from": "iva",
+      "to": "hdr",
+      "domain": "water",
+      "via": [[7, 1]],
+      "tag": "150-SW-008"
+    },
+    {
+      "from": "ivb",
+      "to": "hdr",
+      "domain": "water",
+      "via": [[7, 3]],
+      "tag": "150-SW-009"
+    },
+    {
+      "from": "hdr",
+      "to": "main",
+      "domain": "water",
+      "tag": "250-SW-010"
+    }
+  ],
+  "clock": {
+    "start": 0,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Municipal Wastewater Utility",
+    "project": "Lift Station 15",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "LT-1501",
+      "at": [2, 1],
+      "measures": "ww",
+      "mounting": "field",
+      "low": 10,
+      "high": 90
+    },
+    {
+      "tag": "LAHH-1501",
+      "at": [1, 1],
+      "measures": "LT-1501",
+      "mounting": "plc"
+    }
+  ],
+  "switches": [
+    {
+      "id": "runA",
+      "label": "P-1501A running",
+      "on": false
+    },
+    {
+      "id": "runB",
+      "label": "P-1501B running",
+      "on": false
+    }
+  ],
+  "captions": [
+    {
+      "from": 0,
+      "to": 6,
+      "text": "Overnight: low flow, the lead pump cycles on and off."
+    },
+    {
+      "from": 13,
+      "to": 19,
+      "text": "Afternoon storm: both pumps run to hold the wet well down."
+    }
+  ],
+  "events": [
+    {
+      "id": "leadOn",
+      "says": "Level reaches the start level: the PLC starts lead pump P-1501A.",
+      "when": "part('ww').fill > 0.5",
+      "then": [
+        {
+          "switch": "runA",
+          "on": true
+        }
+      ],
+      "at": "pa"
+    },
+    {
+      "id": "leadOff",
+      "says": "Level falls to the stop level: the PLC stops P-1501A.",
+      "when": "part('ww').fill < 0.2",
+      "then": [
+        {
+          "switch": "runA",
+          "on": false
+        }
+      ],
+      "at": "pa"
+    },
+    {
+      "id": "lagOn",
+      "says": "High level: the PLC starts lag pump P-1501B.",
+      "when": "part('ww').fill > 0.7",
+      "then": [
+        {
+          "switch": "runB",
+          "on": true
+        }
+      ],
+      "at": "pb"
+    },
+    {
+      "id": "lagOff",
+      "says": "Level has come back down: lag pump P-1501B stops.",
+      "when": "part('ww').fill < 0.4",
+      "then": [
+        {
+          "switch": "runB",
+          "on": false
+        }
+      ],
+      "at": "pb"
+    }
+  ],
+  "expect": [
+    {
+      "says": "the wet well never overflows",
+      "check": "part('ww').fill < 0.98"
+    },
+    {
+      "says": "during the afternoon storm both pumps run",
+      "check": "part('pa').out > 0 && part('pb').out > 0",
+      "at": 15
+    },
+    {
+      "says": "in the quiet hours overnight the pumps stop at times",
+      "check": "part('pa').out == 0 && part('pb').out == 0",
+      "from": 0,
+      "to": 5,
+      "sometime": true
+    }
+  ]
+}

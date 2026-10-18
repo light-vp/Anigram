@@ -1,0 +1,204 @@
+{
+  "items": [
+    {
+      "tag": "P4711",
+      "type": "centrifugal pump",
+      "label": "Centrifugal pump, 200 m3/h, 10 m head, 60 kW"
+    },
+    {
+      "tag": "H1007",
+      "type": "plate heat exchanger",
+      "label": "Plate heat exchanger, 313 kW, 46.8 m2 (chamber 1: MNb process, chamber 2: WKa/WKb)"
+    },
+    {
+      "tag": "P4712",
+      "type": "reciprocating pump",
+      "label": "Reciprocating pump, 420 m3/h, 40 m head, 84 kW"
+    },
+    {
+      "tag": "H1008",
+      "type": "tubular heat exchanger (floating head tube bundle)",
+      "label": "Tubular heat exchanger, 313 kW, 46.8 m2 (tube side: MNc, shell side: QSa/QSb)"
+    },
+    {
+      "tag": "T4750",
+      "type": "vertical tank with dished heads",
+      "label": "Tank, 26 m3"
+    },
+    {
+      "tag": "HV4750.01",
+      "type": "globe control valve, fail closed",
+      "label": "Hand-switch operated globe valve (F.C.), DN80, loop 4750.01"
+    },
+    {
+      "tag": "PV4712.02",
+      "type": "globe control valve, fail closed",
+      "label": "Pressure control valve (F.C.), DN50, insulated line, loop 4712.02"
+    },
+    {
+      "tag": "TV4750.03",
+      "type": "globe control valve, fail open",
+      "label": "Temperature control valve (F.O.), DN50, loop 4750.03"
+    },
+    {
+      "tag": "ButterflyValve-1",
+      "type": "butterfly valve",
+      "label": "66KL21-80"
+    },
+    {
+      "tag": "SwingCheckValve-1",
+      "type": "swing check valve",
+      "label": "75SA21-80"
+    },
+    { "tag": "PipeReducer-1", "type": "pipe reducer", "label": "80/50" },
+    { "tag": "BallValve-1", "type": "ball valve", "label": "73KH12-50" },
+    {
+      "tag": "BallValve-2",
+      "type": "ball valve",
+      "label": "73KH12-25 (branch from PipeTee-2, open end)"
+    },
+    {
+      "tag": "BallValve-3",
+      "type": "ball valve",
+      "label": "73KH12-25 (isolation for PT4712.01)"
+    },
+    { "tag": "BallValve-4", "type": "ball valve", "label": "73KH12-50" },
+    {
+      "tag": "BallValve-5",
+      "type": "ball valve",
+      "label": "73KH12-25 (isolation for PT4712.02)"
+    },
+    {
+      "tag": "SV 104.01",
+      "type": "spring-loaded angle safety valve",
+      "label": "Safety valve, set pressure 6 barg, DN 25/50"
+    },
+    {
+      "tag": "PipeTee-1",
+      "type": "pipe tee",
+      "label": "Tee, branch DN25 to SV 104.01"
+    },
+    {
+      "tag": "PipeTee-2",
+      "type": "pipe tee",
+      "label": "Tee, branch DN25 to BallValve-2"
+    },
+    {
+      "tag": "PipeTee-3",
+      "type": "pipe tee",
+      "label": "Tee, branch DN25 to BallValve-3"
+    },
+    {
+      "tag": "PipeTee-4",
+      "type": "pipe tee",
+      "label": "Tee, branch DN50 to H1008 N1"
+    },
+    {
+      "tag": "PipeTee-5",
+      "type": "pipe tee",
+      "label": "Tee, branch DN25 to BallValve-5"
+    },
+    {
+      "tag": "BlindFlange-1",
+      "type": "blind flange",
+      "label": "Blind flange carrying PT4712.01"
+    },
+    {
+      "tag": "BlindFlange-2",
+      "type": "blind flange",
+      "label": "Blind flange carrying PT4712.02"
+    },
+    {
+      "tag": "FlowInPipeOffPageConnector-1",
+      "type": "off-page connector (inlet)",
+      "label": "Inlet of line MNb 47121"
+    },
+    {
+      "tag": "FlowOutPipeOffPageConnector-1",
+      "type": "off-page connector (outlet)",
+      "label": "Outlet of line MNc 47126"
+    },
+    {
+      "tag": "PT4712.01",
+      "type": "pressure transmitter",
+      "label": "Pressure transmitter on BlindFlange-1, loop 4712.01"
+    },
+    {
+      "tag": "PI4712.01",
+      "type": "pressure indicator, field mounted",
+      "label": "Pressure indicator, loop 4712.01"
+    },
+    {
+      "tag": "PT4712.02",
+      "type": "pressure transmitter",
+      "label": "Pressure transmitter on BlindFlange-2, loop 4712.02"
+    },
+    {
+      "tag": "PICSA4712.02",
+      "type": "pressure indicating controller with switch and alarm, central location",
+      "label": "Pressure controller, loop 4712.02, acts on PV4712.02"
+    },
+    {
+      "tag": "HS4750.01",
+      "type": "hand switch, central location",
+      "label": "Hand switch, loop 4750.01, acts on HV4750.01"
+    },
+    {
+      "tag": "TT4750.03",
+      "type": "temperature transmitter",
+      "label": "Temperature transmitter on tank nozzle N7 (DN25), loop 4750.03"
+    },
+    {
+      "tag": "TICSA4750.03",
+      "type": "temperature indicating controller with switch and alarm, central location",
+      "label": "Temperature controller, loop 4750.03, acts on TV4750.03"
+    }
+  ],
+  "lines": [
+    {
+      "from": "FlowInPipeOffPageConnector-1",
+      "to": "P4711",
+      "kind": "process"
+    },
+    { "from": "P4711", "to": "H1007", "kind": "process" },
+    { "from": "H1007", "to": "HV4750.01", "kind": "process" },
+    { "from": "HV4750.01", "to": "T4750", "kind": "process" },
+    { "from": "T4750", "to": "ButterflyValve-1", "kind": "process" },
+    {
+      "from": "ButterflyValve-1",
+      "to": "SwingCheckValve-1",
+      "kind": "process"
+    },
+    { "from": "SwingCheckValve-1", "to": "PipeReducer-1", "kind": "process" },
+    { "from": "PipeReducer-1", "to": "BallValve-1", "kind": "process" },
+    { "from": "BallValve-1", "to": "P4712", "kind": "process" },
+    { "from": "P4712", "to": "PipeTee-2", "kind": "process" },
+    { "from": "PipeTee-2", "to": "BallValve-2", "kind": "process" },
+    { "from": "PipeTee-2", "to": "PipeTee-1", "kind": "process" },
+    { "from": "PipeTee-1", "to": "SV 104.01", "kind": "process" },
+    { "from": "SV 104.01", "to": "T4750", "kind": "process" },
+    { "from": "PipeTee-1", "to": "PipeTee-3", "kind": "process" },
+    { "from": "PipeTee-3", "to": "BallValve-3", "kind": "process" },
+    { "from": "BallValve-3", "to": "BlindFlange-1", "kind": "process" },
+    { "from": "PipeTee-3", "to": "BallValve-4", "kind": "process" },
+    { "from": "BallValve-4", "to": "PipeTee-4", "kind": "process" },
+    { "from": "PipeTee-4", "to": "H1008", "kind": "process" },
+    { "from": "PipeTee-4", "to": "PipeTee-5", "kind": "process" },
+    { "from": "PipeTee-5", "to": "BallValve-5", "kind": "process" },
+    { "from": "BallValve-5", "to": "BlindFlange-2", "kind": "process" },
+    {
+      "from": "PipeTee-5",
+      "to": "FlowOutPipeOffPageConnector-1",
+      "kind": "process"
+    },
+    { "from": "H1008", "to": "PV4712.02", "kind": "process" },
+    { "from": "PV4712.02", "to": "T4750", "kind": "process" },
+    { "from": "H1008", "to": "TV4750.03", "kind": "process" },
+    { "from": "PT4712.01", "to": "PI4712.01", "kind": "signal" },
+    { "from": "PT4712.02", "to": "PICSA4712.02", "kind": "signal" },
+    { "from": "PICSA4712.02", "to": "PV4712.02", "kind": "signal" },
+    { "from": "HS4750.01", "to": "HV4750.01", "kind": "signal" },
+    { "from": "TT4750.03", "to": "TICSA4750.03", "kind": "signal" },
+    { "from": "TICSA4750.03", "to": "TV4750.03", "kind": "signal" }
+  ]
+}

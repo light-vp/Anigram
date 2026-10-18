@@ -1,0 +1,98 @@
+{
+  "items": [
+    {
+      "tag": "CT-601",
+      "type": "cooling tower",
+      "label": "Cooling tower with basin"
+    },
+    {
+      "tag": "P-601A",
+      "type": "centrifugal pump",
+      "label": "Circulating pump A (duty, running all day)"
+    },
+    {
+      "tag": "P-601B",
+      "type": "centrifugal pump",
+      "label": "Circulating pump B (standby)"
+    },
+    {
+      "tag": "E-601",
+      "type": "plate heat exchanger",
+      "label": "Process stream cooler"
+    },
+    {
+      "tag": "HV-601A",
+      "type": "isolation valve",
+      "label": "P-601A suction isolation"
+    },
+    {
+      "tag": "HV-601B",
+      "type": "isolation valve",
+      "label": "P-601B suction isolation"
+    },
+    {
+      "tag": "CV-601A",
+      "type": "check valve",
+      "label": "P-601A discharge check"
+    },
+    {
+      "tag": "CV-601B",
+      "type": "check valve",
+      "label": "P-601B discharge check"
+    },
+    {
+      "tag": "HV-602A",
+      "type": "isolation valve",
+      "label": "P-601A discharge isolation"
+    },
+    {
+      "tag": "HV-602B",
+      "type": "isolation valve",
+      "label": "P-601B discharge isolation"
+    },
+    {
+      "tag": "TV-601",
+      "type": "temperature control valve",
+      "label": "Tower bypass valve"
+    },
+    {
+      "tag": "TT-601",
+      "type": "temperature transmitter",
+      "label": "E-601 cooling water supply temperature"
+    },
+    {
+      "tag": "TIC-601",
+      "type": "temperature indicating controller",
+      "label": "Supply temperature controller, works TV-601"
+    },
+    {
+      "tag": "BL-601",
+      "type": "battery limit connection",
+      "label": "Process stream in (hot)"
+    },
+    {
+      "tag": "BL-602",
+      "type": "battery limit connection",
+      "label": "Process stream out (cooled)"
+    }
+  ],
+  "lines": [
+    { "from": "CT-601", "to": "HV-601A", "kind": "process" },
+    { "from": "HV-601A", "to": "P-601A", "kind": "process" },
+    { "from": "P-601A", "to": "CV-601A", "kind": "process" },
+    { "from": "CV-601A", "to": "HV-602A", "kind": "process" },
+    { "from": "HV-602A", "to": "E-601", "kind": "process" },
+    { "from": "CT-601", "to": "HV-601B", "kind": "process" },
+    { "from": "HV-601B", "to": "P-601B", "kind": "process" },
+    { "from": "P-601B", "to": "CV-601B", "kind": "process" },
+    { "from": "CV-601B", "to": "HV-602B", "kind": "process" },
+    { "from": "HV-602B", "to": "E-601", "kind": "process" },
+    { "from": "BL-601", "to": "E-601", "kind": "process" },
+    { "from": "E-601", "to": "BL-602", "kind": "process" },
+    { "from": "E-601", "to": "CT-601", "kind": "process" },
+    { "from": "E-601", "to": "TV-601", "kind": "process" },
+    { "from": "TV-601", "to": "CT-601", "kind": "process" },
+    { "from": "TT-601", "to": "TIC-601", "kind": "signal" },
+    { "from": "TIC-601", "to": "TV-601", "kind": "signal" }
+  ]
+}

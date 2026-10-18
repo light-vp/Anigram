@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="1000" height="600" font-family="Arial, sans-serif" font-size="12">
+<defs>
+<marker id="ar" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z"/></marker>
+<marker id="sa" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#06c"/></marker>
+</defs>
+<rect width="1000" height="600" fill="#fff"/>
+<text x="500" y="28" text-anchor="middle" font-size="18" font-weight="bold">P&amp;ID - In-line Blending Skid</text>
+
+<!-- process lines -->
+<g stroke="#000" fill="none" stroke-width="2">
+<line x1="40" y1="250" x2="600" y2="250"/>
+<line x1="720" y1="250" x2="820" y2="250" marker-end="url(#ar)"/>
+<polyline points="150,520 218,520"/>
+<polyline points="262,520 435,520"/>
+<polyline points="465,520 660,520 660,270" marker-end="url(#ar)"/>
+<line x1="250" y1="204" x2="250" y2="250" stroke-width="1"/>
+<line x1="350" y1="474" x2="350" y2="520" stroke-width="1"/>
+</g>
+<polygon points="20,238 40,250 20,262" fill="#fff" stroke="#000"/>
+<text x="10" y="282" font-size="11">OSC-1</text>
+<text x="10" y="296" font-size="11">Base stock</text>
+<text x="10" y="310" font-size="11">from off sheet</text>
+<text x="420" y="242" font-size="11" text-anchor="middle">Base stock (wild flow)</text>
+<text x="560" y="540" font-size="11" text-anchor="middle">Additive</text>
+<text x="770" y="242" font-size="11" text-anchor="middle">Blend</text>
+
+<!-- FT-1201 -->
+<circle cx="250" cy="180" r="24" fill="#fff" stroke="#000" stroke-width="2"/>
+<line x1="226" y1="180" x2="274" y2="180" stroke="#000"/>
+<text x="250" y="176" text-anchor="middle" font-size="11">FT</text>
+<text x="250" y="193" text-anchor="middle" font-size="11">1201</text>
+<text x="250" y="150" text-anchor="middle" font-weight="bold">FT-1201</text>
+
+<!-- T-1202 -->
+<path d="M60,440 Q60,420 105,420 Q150,420 150,440 L150,520 Q150,540 105,540 Q60,540 60,520 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+<text x="105" y="475" text-anchor="middle" font-weight="bold">T-1202</text>
+<text x="105" y="491" text-anchor="middle" font-size="11">Additive tank</text>
+
+<!-- P-1202 -->
+<circle cx="240" cy="520" r="22" fill="#fff" stroke="#000" stroke-width="2"/>
+<polyline points="240,498 262,520 240,542" stroke="#000" fill="none" stroke-width="2"/>
+<text x="240" y="565" text-anchor="middle" font-weight="bold">P-1202</text>
+<text x="240" y="579" text-anchor="middle" font-size="11">Additive pump</text>
+
+<!-- FT-1202 -->
+<circle cx="350" cy="450" r="24" fill="#fff" stroke="#000" stroke-width="2"/>
+<line x1="326" y1="450" x2="374" y2="450" stroke="#000"/>
+<text x="350" y="446" text-anchor="middle" font-size="11">FT</text>
+<text x="350" y="463" text-anchor="middle" font-size="11">1202</text>
+<text x="350" y="500" text-anchor="middle" font-weight="bold">FT-1202</text>
+
+<!-- FV-1202 -->
+<polygon points="435,505 450,520 435,535" fill="#fff" stroke="#000" stroke-width="2"/>
+<polygon points="465,505 450,520 465,535" fill="#fff" stroke="#000" stroke-width="2"/>
+<line x1="450" y1="520" x2="450" y2="498" stroke="#000" stroke-width="2"/>
+<path d="M434,498 Q450,478 466,498 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+<text x="450" y="565" text-anchor="middle" font-weight="bold">FV-1202</text>
+<text x="450" y="579" text-anchor="middle" font-size="11">Additive control valve</text>
+
+<!-- M-1201 -->
+<rect x="600" y="230" width="120" height="40" fill="#fff" stroke="#000" stroke-width="2"/>
+<polyline points="610,260 630,240 650,260 670,240 690,260 710,240" stroke="#000" fill="none"/>
+<text x="660" y="296" text-anchor="middle" font-weight="bold">M-1201</text>
+<text x="660" y="310" text-anchor="middle" font-size="11">Static mixer</text>
+
+<!-- T-1203 -->
+<path d="M820,220 Q820,200 870,200 Q920,200 920,220 L920,340 Q920,360 870,360 Q820,360 820,340 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+<text x="870" y="285" text-anchor="middle" font-weight="bold">T-1203</text>
+<text x="870" y="301" text-anchor="middle" font-size="11">Blend tank</text>
+
+<!-- FFIC-1202 -->
+<circle cx="450" cy="380" r="30" fill="#fff" stroke="#000" stroke-width="2"/>
+<line x1="420" y1="380" x2="480" y2="380" stroke="#000"/>
+<text x="450" y="376" text-anchor="middle" font-size="11">FFIC</text>
+<text x="450" y="393" text-anchor="middle" font-size="11">1202</text>
+<text x="490" y="372" font-size="11" font-weight="bold" fill="#06c">Ratio SP = 5%</text>
+<text x="490" y="386" font-size="11" fill="#06c">(0.05 x FT-1201)</text>
+<text x="490" y="408" font-size="12" font-weight="bold">FFIC-1202</text>
+
+<!-- signals -->
+<g stroke="#06c" fill="none" stroke-width="1.5" stroke-dasharray="6 4">
+<polyline points="274,180 450,180 450,350" marker-end="url(#sa)"/>
+<polyline points="350,426 350,380 420,380" marker-end="url(#sa)"/>
+<polyline points="450,410 450,478" marker-end="url(#sa)"/>
+</g>
+<text x="460" y="170" font-size="11" fill="#06c">base flow (ratio input)</text>
+<text x="344" y="405" font-size="11" fill="#06c" text-anchor="end">PV</text>
+<text x="430" y="445" font-size="11" fill="#06c" text-anchor="end">MV</text>
+
+<!-- trend inset -->
+<rect x="620" y="365" width="340" height="215" fill="#fafafa" stroke="#888"/>
+<text x="790" y="381" text-anchor="middle" font-weight="bold">Typical day: additive follows base stock at 5%</text>
+<g stroke="#555">
+<line x1="660" y1="455" x2="940" y2="455"/><line x1="660" y1="389" x2="660" y2="455"/>
+<line x1="660" y1="545" x2="940" y2="545"/><line x1="660" y1="479" x2="660" y2="545"/>
+</g>
+<text x="669" y="399" font-size="11">Base stock FT-1201 (0-100)</text>
+<text x="669" y="489" font-size="11">Additive FT-1202 (0-5)</text>
+<polyline fill="none" stroke="#000" stroke-width="2" points="660,431 683.3,434 706.7,425 730,413 753.3,407 776.7,416 800,410 823.3,404 846.7,413 870,422 893.3,425 916.7,428 940,431"/>
+<polyline fill="none" stroke="#06c" stroke-width="2" points="660,521 683.3,524 706.7,515 730,503 753.3,497 776.7,506 800,500 823.3,494 846.7,503 870,512 893.3,515 916.7,518 940,521"/>
+<g font-size="10" text-anchor="middle">
+<text x="660" y="468">00:00</text><text x="730" y="468">06:00</text><text x="800" y="468">12:00</text><text x="870" y="468">18:00</text><text x="940" y="468">24:00</text>
+<text x="660" y="558">00:00</text><text x="730" y="558">06:00</text><text x="800" y="558">12:00</text><text x="870" y="558">18:00</text><text x="940" y="558">24:00</text>
+<text x="790" y="574">Axes scaled 20:1 so the curves coincide: additive = 5% of base at all times</text>
+</g>
+</svg>

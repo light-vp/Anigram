@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="300" viewBox="0 0 700 300" font-family="Arial, sans-serif" font-size="12">
+  <rect width="700" height="300" fill="white"/>
+  <!-- pump P-4713 -->
+  <g id="P-4713" stroke="black" stroke-width="2" fill="white">
+    <circle cx="150" cy="150" r="40"/>
+    <path d="M150 110 L190 150 L150 190" fill="none" transform="rotate(0 150 150)" stroke-width="0"/>
+    <path d="M123 125 L190 150 L123 175" fill="none"/>
+    <!-- suction nozzle N-1 (open stub) -->
+    <line x1="150" y1="190" x2="150" y2="215"/>
+    <!-- discharge nozzle N-2 -->
+    <line x1="190" y1="150" x2="210" y2="150"/>
+  </g>
+  <text x="150" y="235" text-anchor="middle">P-4713</text>
+  <text x="150" y="250" text-anchor="middle">Centrifugal pump</text>
+  <!-- plate heat exchanger H-1009 -->
+  <g id="H-1009" stroke="black" stroke-width="2" fill="white">
+    <rect x="450" y="100" width="120" height="100"/>
+    <path d="M470 100 L470 200 M490 100 L490 200 M510 100 L510 200 M530 100 L530 200 M550 100 L550 200" stroke-width="1"/>
+    <line x1="430" y1="150" x2="450" y2="150"/>
+  </g>
+  <text x="510" y="225" text-anchor="middle">H-1009</text>
+  <text x="510" y="240" text-anchor="middle">Plate heat exchanger</text>
+  <!-- process line -->
+  <line x1="210" y1="150" x2="430" y2="150" stroke="black" stroke-width="2.5"/>
+  <polygon points="320,144 332,150 320,156" fill="black"/>
+  <text x="320" y="135" text-anchor="middle">Line 47132 - DN80 - 75HB13 - MNb</text>
+  <text x="215" y="168" font-size="10">N-2</text>
+  <text x="405" y="168" font-size="10">N-1</text>
+</svg>

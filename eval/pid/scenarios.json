@@ -1,0 +1,224 @@
+[
+  {
+    "id": "c01-draw",
+    "title": "DEXPI C01 reference P&ID, from the file",
+    "source": "dataset",
+    "files": {
+      "reference.xml": "src/format/fixtures/dexpi-c01-reference.xml"
+    },
+    "prompt": "reference.xml in this folder is a DEXPI P&ID exported from our plant design system (the utilities section of the isophorone chain). Draw it as a P&ID: keep every piece of equipment, valve and instrument function with the tags and loop numbers the file gives them, and keep the piping as it is connected in the file."
+  },
+  {
+    "id": "c02-draw",
+    "title": "DEXPI C02 BASF process column, from the file",
+    "source": "dataset",
+    "files": {
+      "column.xml": "src/format/fixtures/dexpi-c02-column.xml"
+    },
+    "prompt": "column.xml is a DEXPI export of one of our packed columns and its pressure instrumentation. Please draw it as a P&ID with the same equipment, piping, valves and instrument functions, keeping the tags and instrument numbers from the file."
+  },
+  {
+    "id": "i05-draw",
+    "title": "DEXPI I05 flow ratio control, from the file",
+    "source": "dataset",
+    "files": {
+      "ratio.xml": "src/format/fixtures/dexpi-i05-ratio-control.xml"
+    },
+    "prompt": "ratio.xml is a DEXPI file of a flow ratio control loop. Draw it as a P&ID: both lines, the valve, and every instrument function with its loop number, wired the way the file wires them."
+  },
+  {
+    "id": "c03-draw",
+    "title": "DEXPI C03 piping example (Equinor), from the file",
+    "source": "dataset",
+    "files": {
+      "piping.xml": "eval/pid/dataset/dexpi-c03-piping.xml"
+    },
+    "prompt": "piping.xml is a DEXPI export of a short run of piping from an offshore module, with an electrically actuated valve on it. Draw it as a P&ID with every valve, fitting and instrument function the file has, keeping its numbers."
+  },
+  {
+    "id": "e06-draw",
+    "title": "DEXPI E06 pump and plate exchanger, from the file",
+    "source": "dataset",
+    "files": {
+      "pump-exchanger.xml": "eval/pid/dataset/dexpi-e06-pump-exchanger.xml"
+    },
+    "prompt": "pump-exchanger.xml is a DEXPI P&ID fragment: a pump and a plate heat exchanger joined by one line. Draw it as a P&ID, keeping the equipment tags and how they are connected."
+  },
+  {
+    "id": "i04-draw",
+    "title": "DEXPI I04 flow measurement and control, from the file",
+    "source": "dataset",
+    "files": {
+      "flow-loop.xml": "eval/pid/dataset/dexpi-i04-measurement-control.xml"
+    },
+    "prompt": "flow-loop.xml is a DEXPI file of a single flow control loop. Draw it as a P&ID: the flow element, the control valve with its actuator, and the controller, with the numbers the file gives them."
+  },
+  {
+    "id": "i06-draw",
+    "title": "DEXPI I06 flow control with CCR indication and alarm, from the file",
+    "source": "dataset",
+    "files": {
+      "flow-control.xml": "eval/pid/dataset/dexpi-i06-flow-control.xml"
+    },
+    "prompt": "flow-control.xml is a DEXPI file of a flow control loop with control-room indication, an alarm and a safety override. Draw it as a P&ID: the line, the control valve and every instrument function, with its loop number, signalling where the file says it signals."
+  },
+  {
+    "id": "i08-draw",
+    "title": "DEXPI I08 pressure indication, alarms and switches, from the file",
+    "source": "dataset",
+    "files": {
+      "pressure.xml": "eval/pid/dataset/dexpi-i08-pressure-alarms.xml"
+    },
+    "prompt": "pressure.xml is a DEXPI file showing pressure measurement on one line: a local gauge, a control-room indication, and the switching functions it drives. Draw it as a P&ID with every instrument function and its loop number, and the signal lines between them."
+  },
+  {
+    "id": "c01-words",
+    "title": "DEXPI C01 reference P&ID, described in words",
+    "source": "dataset (described)",
+    "prompt": "Can you draw up the P&ID for our utilities section (drawing 123/A93)? It goes like this. Feed comes in from off the sheet on line 47121 to centrifugal pump P-4711, which pushes it on line 47122 through plate heat exchanger H-1007 (the other side of H-1007 is a utility, in on line 47130 and out on 47131). From H-1007, line 47123 runs through an actuated on/off globe valve HV-4750.01 into tank T-4750; HV-4750.01 is opened and shut by hand switch HS-4750.01 in the control room. From the bottom of T-4750, line 47124 goes through a butterfly valve, a swing check valve, a reducer and a ball valve to the reciprocating pump P-4712. P-4712 discharges into header 47126: first a tee to a drain ball valve, then a tee to safety valve SV-104.01 (set at 6 barg), which relieves on line 47125 back into T-4750; then a ball-valved tapping for local pressure gauge PI-4712.01; then a ball valve in the header; then a branch into the tube side of floating-head exchanger H-1008; then a second ball-valved tapping for pressure controller PICSA-4712.02 in the DCS; and finally the header leaves the sheet as product. Out of H-1008 the stream goes back to T-4750 on line 47127 through control valve PV-4712.02, which PICSA-4712.02 throttles to hold the discharge pressure. H-1008's other side takes a utility in on line 47140 and out on 47141 through control valve TV-4750.03, worked by TICSA-4750.03, which measures the temperature in T-4750."
+  },
+  {
+    "id": "c02-words",
+    "title": "DEXPI C02 BASF process column, described in words",
+    "source": "dataset (described)",
+    "prompt": "Please draw a P&ID for packed column K-2750 (packed section KX-2750, 14 m tall, 500 mm inside). The bottoms leave from nozzle N2 through a reducer on insulated line 2750.001.6 and go off the sheet to W 2765. Nozzle N3 has a tee: one leg carries on off the sheet, the other goes through an isolating valve. Nozzles P3 and P4 are pressure tappings, each with a root valve between blind flanges, feeding pressure transmitters PIZ-275003A and PIZ-275003B in the DCS. Both transmitters feed the high-pressure safety function PISZA-275003, which indicates, switches, trips (interlock) and alarms on high column pressure."
+  },
+  {
+    "id": "i05-words",
+    "title": "DEXPI I05 flow ratio control, described in words",
+    "source": "dataset (described)",
+    "prompt": "I need a P&ID of a flow ratio control loop, loop 031. There are two lines. On the first (the wild stream) a flow measurement FI-031.1 reports to the DCS. On the second (the controlled stream) a flow measurement FI-031.2 sits upstream of a globe control valve. Both flows go to the ratio controller FFIC-031 in the DCS, and its output goes through a signal converter YC-031.4 to the control valve's actuator."
+  },
+  {
+    "id": "c01-bypass",
+    "title": "DEXPI C01 plus a bypass round PV-4712.02",
+    "source": "dataset (modified)",
+    "files": {
+      "reference.xml": "src/format/fixtures/dexpi-c01-reference.xml"
+    },
+    "prompt": "reference.xml is the DEXPI P&ID of our utilities section. Maintenance want to be able to take control valve PV-4712.02 out without stopping the recycle to T-4750. Draw the P&ID as it is in the file, and add block valves either side of PV-4712.02 and a bypass line round them with a hand-operated globe valve. Keep everything else, tags included."
+  },
+  {
+    "id": "c01-standby",
+    "title": "DEXPI C01 plus a standby pump",
+    "source": "dataset (modified)",
+    "files": {
+      "reference.xml": "src/format/fixtures/dexpi-c01-reference.xml"
+    },
+    "prompt": "reference.xml is our utilities section as a DEXPI P&ID. P-4712 has no spare, so we are adding standby pump P-4712B in parallel with it: suction from T-4750 with its own isolating valve, discharge into the 47126 header through its own check valve and isolating valve. Draw the P&ID as in the file with that change, keeping the existing tags. Show that when P-4712 trips during the day, P-4712B starts and product keeps leaving the sheet every hour."
+  },
+  {
+    "id": "c02-trip",
+    "title": "DEXPI C02 plus a sump high-level alarm and trip",
+    "source": "dataset (modified)",
+    "files": {
+      "column.xml": "src/format/fixtures/dexpi-c02-column.xml"
+    },
+    "prompt": "column.xml is the DEXPI P&ID of packed column K-2750. HAZOP action: add a feed line into the column from off the sheet with a shutdown valve XV-2750, a level transmitter on the column sump with a high level alarm in the DCS, and an independent high-high level trip that closes XV-2750. Draw the column as it is in the file with those additions."
+  },
+  {
+    "id": "e06-modify",
+    "title": "DEXPI E06 plus valves and a temperature loop",
+    "source": "dataset (modified)",
+    "files": {
+      "pump-exchanger.xml": "eval/pid/dataset/dexpi-e06-pump-exchanger.xml"
+    },
+    "prompt": "pump-exchanger.xml is a DEXPI fragment: pump P-4713 delivers through line 47132 into plate exchanger H-1009. Develop it into a proper P&ID: suction from off the sheet with an isolating valve, a check valve and an isolating valve on the pump discharge, the product leaving H-1009 off the sheet, and cooling water through the other side of H-1009. Add a temperature loop: TT-1009 on the product outlet feeding TIC-1009, which throttles TV-1009 on the cooling water."
+  },
+  {
+    "id": "transfer-level",
+    "title": "Pumped transfer with level control",
+    "source": "written",
+    "prompt": "We need a P&ID for a transfer system: storage tank T-101 feeds transfer pump P-101, which pumps to day tank T-102. Isolating valve on the pump suction, check valve and isolating valve on the discharge. Level on T-102 is held by LT-102 and LIC-102 throttling control valve LV-102 in the pump discharge line. T-101 has a level transmitter LT-101 with a low-level alarm that also protects the pump."
+  },
+  {
+    "id": "hx-temperature",
+    "title": "Product cooler with temperature control",
+    "source": "written",
+    "prompt": "Please draw the P&ID for product cooler E-201, a shell-and-tube exchanger. Hot product from off the sheet goes through the tube side and leaves to storage off the sheet. Cooling water comes from the CW supply header through the shell side and back to the CW return header. TT-201 on the product outlet feeds TIC-201, which throttles TV-201 on the cooling water return. Put isolating valves on both cooling water connections and a relief valve on the shell side for blocked-in thermal expansion."
+  },
+  {
+    "id": "dosing-skid",
+    "title": "Hypochlorite dosing skid",
+    "source": "written",
+    "prompt": "Draw the P&ID for a sodium hypochlorite dosing skid. Day tank T-301 feeds two diaphragm metering pumps, P-301A (duty) and P-301B (standby), each with suction and discharge isolating valves, a discharge check valve and a pressure relief valve that returns to the day tank. A calibration column on the common suction. The common discharge goes through a pulsation dampener to the injection point on the treated water main. A flow transmitter FT-301 on the main feeds FIC-301, which sets the duty pump's stroke speed. Show the dose following the morning and evening demand peaks and the day tank running down over the day without running dry."
+  },
+  {
+    "id": "compressor-antisurge",
+    "title": "Centrifugal compressor with anti-surge recycle",
+    "source": "written",
+    "prompt": "Draw a P&ID of a gas compressor: suction scrubber V-401, centrifugal compressor K-401, discharge after-cooler E-401, then a check valve and off the sheet to the export header. An anti-surge recycle line leaves downstream of E-401 and returns to the suction upstream of V-401 through anti-surge valve FV-401, driven by anti-surge controller UIC-401, which takes suction flow FT-401 and discharge pressure PT-402. A relief valve PSV-401 on the discharge. Show that overnight, when export demand falls, the recycle valve opens and gas goes round the recycle, and that during the day it stays shut."
+  },
+  {
+    "id": "boiler-feedwater",
+    "title": "Boiler feedwater with duty/standby pumps",
+    "source": "written",
+    "prompt": "We need the boiler feedwater P&ID. Make-up water from off the sheet enters deaerator D-501 through level control valve LV-501 (LT-501, LIC-501 on the deaerator). Two boiler feed pumps, P-501A duty and P-501B standby, each with a suction isolating valve, a discharge check valve and isolating valve, pump to steam drum V-502. Drum level is controlled by LT-502 and LIC-502 throttling feed control valve LV-502 on the common discharge. Steam leaves the drum off the sheet. Show that when P-501A trips during the day, P-501B takes over, the drum never runs dry and the deaerator never overflows."
+  },
+  {
+    "id": "cooling-water",
+    "title": "Cooling water loop with tower bypass",
+    "source": "written",
+    "prompt": "Draw a P&ID of a cooling water circuit: cooling tower CT-601 basin, circulating pumps P-601A and P-601B (duty and standby, each with suction isolation and a discharge check valve and isolating valve), supply to plate heat exchanger E-601 that cools a process stream, and the return back to the top of the tower. A tower bypass line with TV-601 lets warm return water go straight to the basin; TT-601 on the supply to E-601 feeds TIC-601, which works TV-601. Show the duty pump running all day and the bypass valve passing more water at 6 in the morning than at 3 in the afternoon, when it is hotter."
+  },
+  {
+    "id": "separator-control",
+    "title": "Two-phase separator with level and pressure control",
+    "source": "written",
+    "prompt": "Please do the P&ID for production separator V-701. Well fluid comes in from off the sheet through inlet shutdown valve SDV-701. Gas leaves the top through PV-701 to the gas header, controlled by PT-701 and PIC-701. Liquid leaves the bottom through LV-701 to the oil line, controlled by LT-701 and LIC-701. PSV-701 on the vessel relieves to flare. An independent high-high level switch LSHH-702 closes SDV-701."
+  },
+  {
+    "id": "tank-farm-overfill",
+    "title": "Tank farm with overfill protection",
+    "source": "written",
+    "prompt": "Draw a P&ID for a three-tank storage farm receiving from a pipeline. The receipt header feeds tanks TK-801, TK-802 and TK-803, each through its own motor-operated inlet valve (XV-801, XV-802, XV-803). Each tank has a level transmitter with a high alarm (LT/LAH-801 to 803) and an independent high-high level switch (LSHH-811 to 813) that closes its own inlet valve. The tanks discharge through isolating valves into a common header to loading pump P-801 and off the sheet to the loading rack. Show a day where TK-801 fills first, its high-high closes XV-801 and the receipt carries on into TK-802, and no tank ever overflows."
+  },
+  {
+    "id": "duplex-filter",
+    "title": "Duplex filters with differential pressure",
+    "source": "written",
+    "prompt": "Draw a P&ID for a duplex filter set on a lube oil line: filters F-901A and F-901B in parallel, each with inlet and outlet isolating valves and a drain valve. A differential pressure transmitter across each filter (PDT-901A and PDT-901B) reports to the DCS with a high differential pressure alarm (PDAH). The common inlet comes from off the sheet and the common outlet goes off the sheet; put a pressure gauge on each."
+  },
+  {
+    "id": "reactor-jacket",
+    "title": "Jacketed reactor with cooling",
+    "source": "written",
+    "prompt": "Draw the P&ID for jacketed stirred reactor R-1001. Feed comes from off the sheet through FV-1001 (FT-1001, FIC-1001). The reactor has an agitator, a level transmitter LT-1001, and a temperature transmitter TT-1001 feeding TIC-1001, which throttles cooling water to the jacket through TV-1001; the jacket return goes back to the CW return off the sheet. Product leaves the bottom through pump P-1001 off the sheet. A rupture disc and relief valve PSV-1001 protect the reactor and vent to a catch tank off the sheet."
+  },
+  {
+    "id": "distillation-reflux",
+    "title": "Distillation column with reflux",
+    "source": "written",
+    "prompt": "Please draw a P&ID for distillation column C-1101. Feed enters mid-column from off the sheet. Overhead vapour goes to condenser E-1101 and into reflux drum V-1101. Reflux pump P-1101 takes from the drum; reflux returns to the top tray through FV-1101 (FT-1101, FIC-1101) and distillate leaves off the sheet through LV-1101, controlled by the drum level LT-1101 / LIC-1101. Reboiler E-1102 is heated with steam through TV-1102, controlled by TIC-1102 on a tray temperature TT-1102. Bottoms are pumped by P-1102 off the sheet through LV-1103 on column sump level (LT-1103, LIC-1103). PIC-1104 on the overhead controls column pressure through PV-1104 on the condenser's cooling water."
+  },
+  {
+    "id": "ratio-blend",
+    "title": "Flow ratio blending",
+    "source": "written",
+    "prompt": "Draw a P&ID for an in-line blending skid. Base stock comes from off the sheet through FT-1201 (wild flow). Additive comes from additive tank T-1202 by pump P-1202 through FT-1202 and control valve FV-1202. FFIC-1202 holds the additive at 5% of the base stock flow. Both streams meet at static mixer M-1201 and the blend goes to blend tank T-1203. Show the additive flow following the base stock flow through the day at 5% of it."
+  },
+  {
+    "id": "prv-station",
+    "title": "Pressure-reducing station with relief",
+    "source": "written",
+    "prompt": "Draw the P&ID for a water pressure-reducing station between the 10 bar trunk main and the 4 bar district main. Incoming strainer, then two parallel streams, each with an isolating valve either side of a pressure-reducing valve (PCV-1301A and PCV-1301B). Downstream, a relief valve PSV-1301 set at 6 bar discharging to drain, and pressure gauges upstream and downstream. Show that normally the relief valve stays shut, and that when the duty PRV fails open in the afternoon the relief valve lifts."
+  },
+  {
+    "id": "chemical-injection",
+    "title": "Corrosion inhibitor injection",
+    "source": "written",
+    "prompt": "Please draw a P&ID for corrosion inhibitor injection into an export pipeline. Inhibitor tote T-1401 feeds injection pump P-1401 (positive displacement) through a suction strainer and isolating valve. The discharge has a pressure relief valve back to the tote, a pressure gauge PI-1401, a flow indicator FI-1401, and then two check valves in series and an isolating valve at the injection quill on the pipeline. A calibration pot on the pump suction."
+  },
+  {
+    "id": "lift-station",
+    "title": "Wastewater lift station",
+    "source": "written",
+    "prompt": "Draw a P&ID for a wastewater lift station. Sewage flows by gravity into wet well WW-1501. Two submersible pumps, P-1501A and P-1501B, each with a check valve and an isolating valve, discharge into a common rising main off the sheet. The level in the wet well is read by LT-1501 into the station PLC: the lead pump starts at the start level and stops at the stop level, the lag pump starts on high level, and LAHH-1501 raises an alarm. Show that during the afternoon storm both pumps run and the wet well never overflows, and that in the quiet hours overnight the pumps stop at times."
+  },
+  {
+    "id": "raw-water-standby",
+    "title": "Raw water tank with duty/standby transfer",
+    "source": "written",
+    "prompt": "Draw a P&ID of the raw water transfer: raw water from the river intake (off the sheet) fills tank T-1601. Two transfer pumps, P-1601A duty and P-1601B standby, each with suction and discharge isolating valves and a discharge check valve, pump to the treatment plant off the sheet. LT-1601 and LIC-1601 control the intake through LV-1601, and LSHH-1602 is an independent high-high level trip on the tank. Show that when the duty pump trips at mid-morning the standby starts and the tank never overflows."
+  }
+]

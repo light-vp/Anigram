@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="860" viewBox="0 0 1400 860" font-family="Arial, Helvetica, sans-serif" font-size="12">
+<defs>
+<marker id="ar" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#1565c0"/></marker>
+<marker id="kr" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#000"/></marker>
+<marker id="sa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#000"/></marker>
+<marker id="sr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#c62828"/></marker>
+<clipPath id="tankclip"><path d="M-70,560 L-70,335 Q-70,320 0,320 Q70,320 70,335 L70,560 Z"/></clipPath>
+</defs>
+<rect width="1400" height="860" fill="#fff"/>
+<rect x="8" y="8" width="1384" height="844" fill="none" stroke="#000" stroke-width="2"/>
+<text x="700" y="38" font-size="18" font-weight="bold" text-anchor="middle">TANK FARM - PIPELINE RECEIPT, STORAGE AND LOADING PUMP</text>
+<text x="700" y="56" text-anchor="middle">P&amp;ID shown at the moment TK-801 reaches high-high: XV-801 closed by LSHH-811, receipt continues into TK-802</text>
+
+<!-- receipt header -->
+<polyline points="90,140 900,140" fill="none" stroke="#000" stroke-width="2"/>
+<polyline points="95,140 600,140 600,316" fill="none" stroke="#1565c0" stroke-width="4" marker-end="url(#ar)"/>
+<line x1="200" y1="140" x2="235" y2="140" stroke="#1565c0" stroke-width="4" marker-end="url(#ar)"/>
+<line x1="430" y1="140" x2="465" y2="140" stroke="#1565c0" stroke-width="4" marker-end="url(#ar)"/>
+<polygon points="20,124 78,124 94,140 78,156 20,156" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<text x="49" y="138" font-size="10" font-weight="bold" text-anchor="middle">OSC-1</text>
+<text x="49" y="151" font-size="9" text-anchor="middle">SH 1</text>
+<text x="20" y="114" font-size="11" font-weight="bold">FROM PIPELINE</text>
+<text x="120" y="128" font-size="11">RECEIPT HEADER</text>
+
+<!-- ========== TK-801 ========== -->
+<g transform="translate(300,0)">
+<line x1="0" y1="140" x2="0" y2="320" stroke="#000" stroke-width="2"/>
+<circle cx="0" cy="140" r="3"/>
+<polygon points="-8,219 8,241 -8,241 8,219" fill="#000" stroke="#000" stroke-width="1.6"/>
+<line x1="0" y1="230" x2="22" y2="230" stroke="#000" stroke-width="1.3"/>
+<circle cx="30" cy="230" r="8" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<text x="30" y="234" font-size="10" font-weight="bold" text-anchor="middle">M</text>
+<text x="-14" y="226" font-weight="bold" text-anchor="end">XV-801</text>
+<text x="-14" y="240" font-size="9" text-anchor="end">CLOSED (tripped)</text>
+<path d="M-70,560 L-70,335 Q-70,320 0,320 Q70,320 70,335 L70,560 Z" fill="#fff"/>
+<rect x="-70" y="338" width="140" height="222" fill="#bbdefb" clip-path="url(#tankclip)"/>
+<path d="M-70,560 L-70,335 Q-70,320 0,320 Q70,320 70,335 L70,560 Z" fill="none" stroke="#000" stroke-width="2"/>
+<text x="0" y="500" font-size="15" font-weight="bold" text-anchor="middle">TK-801</text>
+<text x="0" y="518" font-size="11" text-anchor="middle">Storage tank</text>
+<line x1="-70" y1="345" x2="-50" y2="345" stroke="#c62828"/><text x="-74" y="349" font-size="9" fill="#c62828" text-anchor="end">HH</text>
+<line x1="-70" y1="385" x2="-50" y2="385" stroke="#ef6c00"/><text x="-74" y="389" font-size="9" fill="#ef6c00" text-anchor="end">H</text>
+<line x1="70" y1="345" x2="106" y2="345" stroke="#000" stroke-width="2"/>
+<circle cx="130" cy="345" r="24" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+<line x1="106" y1="345" x2="154" y2="345" stroke="#c62828"/>
+<text x="130" y="340" font-size="10" font-weight="bold" text-anchor="middle">LSHH</text>
+<text x="130" y="359" font-size="11" font-weight="bold" text-anchor="middle">811</text>
+<text x="130" y="384" font-size="9" font-weight="bold" fill="#c62828" text-anchor="middle">TRIPPED</text>
+<line x1="70" y1="440" x2="106" y2="440" stroke="#000" stroke-width="2"/>
+<circle cx="130" cy="440" r="24" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<line x1="106" y1="440" x2="154" y2="440" stroke="#000"/>
+<text x="130" y="435" font-size="10" font-weight="bold" text-anchor="middle">LT/LAH</text>
+<text x="130" y="454" font-size="11" font-weight="bold" text-anchor="middle">801</text>
+<polyline points="130,321 130,230 40,230" fill="none" stroke="#c62828" stroke-width="1.6" stroke-dasharray="6,4" marker-end="url(#sr)"/>
+<line x1="0" y1="560" x2="0" y2="700" stroke="#000" stroke-width="2"/>
+<circle cx="0" cy="700" r="3"/>
+<polygon points="-8,619 8,641 -8,641 8,619" fill="#fff" stroke="#000" stroke-width="1.6"/>
+<text x="-14" y="628" font-weight="bold" text-anchor="end">HV-821</text>
+<text x="-14" y="641" font-size="9" text-anchor="end">OPEN</text>
+</g>
+
+<!-- ========== TK-802 ========== -->
+<g transform="translate(600,0)">
+<line x1="0" y1="140" x2="0" y2="320" stroke="#000" stroke-width="2"/>
+<polyline points="0,140 0,316" fill="none" stroke="#1565c0" stroke-width="4"/>
+<circle cx="0" cy="140" r="3"/>
+<polygon points="-8,219 8,241 -8,241 8,219" fill="#fff" stroke="#000" stroke-width="1.6"/>
+<line x1="0" y1="230" x2="22" y2="230" stroke="#000" stroke-width="1.3"/>
+<circle cx="30" cy="230" r="8" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<text x="30" y="234" font-size="10" font-weight="bold" text-anchor="middle">M</text>
+<text x="-14" y="226" font-weight="bold" text-anchor="end">XV-802</text>
+<text x="-14" y="240" font-size="9" text-anchor="end">OPEN</text>
+<path d="M-70,560 L-70,335 Q-70,320 0,320 Q70,320 70,335 L70,560 Z" fill="#fff"/>
+<rect x="-70" y="450" width="140" height="110" fill="#bbdefb" clip-path="url(#tankclip)"/>
+<path d="M-70,560 L-70,335 Q-70,320 0,320 Q70,320 70,335 L70,560 Z" fill="none" stroke="#000" stroke-width="2"/>
+<text x="0" y="500" font-size="15" font-weight="bold" text-anchor="middle">TK-802</text>
+<text x="0" y="518" font-size="11" text-anchor="middle">Storage tank</text>
+<line x1="-70" y1="345" x2="-50" y2="345" stroke="#c62828"/><text x="-74" y="349" font-size="9" fill="#c62828" text-anchor="end">HH</text>
+<line x1="-70" y1="385" x2="-50" y2="385" stroke="#ef6c00"/><text x="-74" y="389" font-size="9" fill="#ef6c00" text-anchor="end">H</text>
+<line x1="70" y1="345" x2="106" y2="345" stroke="#000" stroke-width="2"/>
+<circle cx="130" cy="345" r="24" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<line x1="106" y1="345" x2="154" y2="345" stroke="#000"/>
+<text x="130" y="340" font-size="10" font-weight="bold" text-anchor="middle">LSHH</text>
+<text x="130" y="359" font-size="11" font-weight="bold" text-anchor="middle">812</text>
+<line x1="70" y1="440" x2="106" y2="440" stroke="#000" stroke-width="2"/>
+<circle cx="130" cy="440" r="24" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<line x1="106" y1="440" x2="154" y2="440" stroke="#000"/>
+<text x="130" y="435" font-size="10" font-weight="bold" text-anchor="middle">LT/LAH</text>
+<text x="130" y="454" font-size="11" font-weight="bold" text-anchor="middle">802</text>
+<polyline points="130,321 130,230 40,230" fill="none" stroke="#000" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#sa)"/>
+<line x1="0" y1="560" x2="0" y2="700" stroke="#000" stroke-width="2"/>
+<circle cx="0" cy="700" r="3"/>
+<polygon points="-8,619 8,641 -8,641 8,619" fill="#fff" stroke="#000" stroke-width="1.6"/>
+<text x="-14" y="628" font-weight="bold" text-anchor="end">HV-822</text>
+<text x="-14" y="641" font-size="9" text-anchor="end">OPEN</text>
+</g>
+
+<!-- ========== TK-803 ========== -->
+<g transform="translate(900,0)">
+<line x1="0" y1="140" x2="0" y2="320" stroke="#000" stroke-width="2"/>
+<circle cx="0" cy="140" r="3"/>
+<polygon points="-8,219 8,241 -8,241 8,219" fill="#000" stroke="#000" stroke-width="1.6"/>
+<line x1="0" y1="230" x2="22" y2="230" stroke="#000" stroke-width="1.3"/>
+<circle cx="30" cy="230" r="8" fill="#fff" stroke="#000" stroke-width="1.3"/>
+<text x="30" y="234" font-size="10" font-weight="bold" text-anchor="middle">M</text>
+<text x="-14" y="226" font-weight="bold" text-anchor="end">XV-803</text>
+<text x="-14" y="240" font-size="9" text-anchor="end">CLOSED (standby)</text>
+<path d="M-70,560 L-70,335 Q-70,320 0,320 Q70,320 70,335 L70,560 Z" fill="#fff"/>
+<rect x="-70" y="520" width="140" height="40" fill="#bbdefb" clip-path="url(#tankclip)"/>
+<path d="M-70,560 L-70,335 Q-70,320 0,320 Q70,320 70,335 L70,560 Z" fill="none" stroke="#000" stroke-width="2"/>
+<text x="0" y="500" font-size="15" font-weight="bold" text-anchor="middle">TK-803</text>
+<text x="0" y="518" font-size="11" text-anchor="middle" dy="-0">Storage tank</text>
+<line x1="-70" y1="345" x2="-50" y2="345" stroke="#c62828"/><text x="-74" y="349" font-size="9" fill="#c62828" text-anchor="end">HH</text>
+<line x1="-70" y1="385" x2="-50" y2="385" stroke="#ef6c00"/><text x="-74" y="389" font-size="9" fill="#ef6c00" text-anchor="end">H</text>
+<line x1="70" y1="345" x2="106" y2="345" stroke="#000" stroke-width="2"/>
+<circle cx="130" cy="345" r="24" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<line x1="106" y1="345" x2="154" y2="345" stroke="#000"/>
+<text x="130" y="340" font-size="10" font-weight="bold" text-anchor="middle">LSHH</text>
+<text x="130" y="359" font-size="11" font-weight="bold" text-anchor="middle">813</text>
+<line x1="70" y1="440" x2="106" y2="440" stroke="#000" stroke-width="2"/>
+<circle cx="130" cy="440" r="24" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<line x1="106" y1="440" x2="154" y2="440" stroke="#000"/>
+<text x="130" y="435" font-size="10" font-weight="bold" text-anchor="middle">LT/LAH</text>
+<text x="130" y="454" font-size="11" font-weight="bold" text-anchor="middle">803</text>
+<polyline points="130,321 130,230 40,230" fill="none" stroke="#000" stroke-width="1.3" stroke-dasharray="6,4" marker-end="url(#sa)"/>
+<line x1="0" y1="560" x2="0" y2="700" stroke="#000" stroke-width="2"/>
+<circle cx="0" cy="700" r="3"/>
+<polygon points="-8,619 8,641 -8,641 8,619" fill="#fff" stroke="#000" stroke-width="1.6"/>
+<text x="-14" y="628" font-weight="bold" text-anchor="end">HV-823</text>
+<text x="-14" y="641" font-size="9" text-anchor="end">OPEN</text>
+</g>
+
+<!-- common discharge header, pump, off-sheet -->
+<polyline points="300,700 1102,700" fill="none" stroke="#000" stroke-width="2"/>
+<line x1="500" y1="700" x2="535" y2="700" stroke="#000" stroke-width="2" marker-end="url(#kr)"/>
+<line x1="980" y1="700" x2="1015" y2="700" stroke="#000" stroke-width="2" marker-end="url(#kr)"/>
+<text x="330" y="720" font-size="11">COMMON DISCHARGE HEADER</text>
+<circle cx="1130" cy="700" r="28" fill="#fff" stroke="#000" stroke-width="2"/>
+<polygon points="1130,672 1154,712 1106,712" fill="none" stroke="#000" stroke-width="1.5" transform="rotate(90 1130 700)"/>
+<polyline points="1130,672 1130,600 1284,600" fill="none" stroke="#000" stroke-width="2"/>
+<text x="1130" y="750" font-size="14" font-weight="bold" text-anchor="middle">P-801</text>
+<text x="1130" y="766" font-size="11" text-anchor="middle">Loading pump</text>
+<polygon points="1284,600 1300,584 1358,584 1358,616 1300,616" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<text x="1329" y="598" font-size="10" font-weight="bold" text-anchor="middle">OSC-2</text>
+<text x="1329" y="611" font-size="9" text-anchor="middle">SH 1</text>
+<text x="1284" y="570" font-size="11" font-weight="bold">TO LOADING RACK</text>
+
+<!-- sequence notes -->
+<rect x="1090" y="70" width="290" height="236" fill="#fafafa" stroke="#000"/>
+<text x="1100" y="90" font-weight="bold">SEQUENCE SHOWN (TK-801 FIRST)</text>
+<g font-size="11">
+<text x="1100" y="110">1. Receipt enters TK-801 via XV-801.</text>
+<text x="1100" y="128">2. TK-801 reaches HH: LSHH-811 trips.</text>
+<text x="1100" y="146">3. LSHH-811 closes XV-801 by hardwired</text>
+<text x="1100" y="160">    signal, independent of LT/LAH-801.</text>
+<text x="1100" y="178">4. Receipt carries on via XV-802 into</text>
+<text x="1100" y="192">    TK-802 (XV-802 open, about half full).</text>
+<text x="1100" y="210">5. TK-803 idle: XV-803 closed, low level.</text>
+<text x="1100" y="228">6. No tank is above its HH: no overflow.</text>
+<text x="1100" y="248">Each LSHH-81x acts only on its own XV-80x.</text>
+<text x="1100" y="266">XV-802 must be open before XV-801 closes,</text>
+<text x="1100" y="280">so the pipeline is never dead-headed.</text>
+</g>
+
+<!-- legend -->
+<rect x="40" y="790" width="860" height="50" fill="#fff" stroke="#000"/>
+<line x1="55" y1="806" x2="105" y2="806" stroke="#000" stroke-width="2"/><text x="112" y="810" font-size="11">Process line</text>
+<line x1="215" y1="806" x2="265" y2="806" stroke="#1565c0" stroke-width="4" marker-end="url(#ar)"/><text x="272" y="810" font-size="11">Active flow</text>
+<line x1="375" y1="806" x2="425" y2="806" stroke="#000" stroke-width="1.3" stroke-dasharray="6,4"/><text x="432" y="810" font-size="11">Signal</text>
+<polygon points="520,798 536,814 520,814 536,798" fill="#000" stroke="#000"/><text x="543" y="810" font-size="11">Closed valve</text>
+<polygon points="640,798 656,814 640,814 656,798" fill="#fff" stroke="#000"/><text x="663" y="810" font-size="11">Open valve</text>
+<text x="55" y="830" font-size="10">M = motor actuator. LT = level transmitter, LAH = level alarm high, LSHH = level switch high-high, XV = motor-operated valve, HV = manual isolating valve.</text>
+</svg>

@@ -1,0 +1,249 @@
+{
+  "id": "raw-water-standby",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["tank", "vessel", "container"],
+      "tag": "^T1601$",
+      "says": "tank T-1601"
+    },
+    {
+      "family": "pump",
+      "tag": "^P1601A$",
+      "says": "pump P-1601A"
+    },
+    {
+      "family": "pump",
+      "tag": "^P1601B$",
+      "says": "pump P-1601B"
+    },
+    {
+      "family": "offpage",
+      "min": 2,
+      "says": "the river intake and the treatment plant"
+    }
+  ],
+  "valves": [
+    {
+      "family": "control",
+      "tag": "^LV1601$",
+      "says": "control valve LV-1601"
+    },
+    {
+      "family": "check",
+      "min": 2
+    },
+    {
+      "family": "isolation",
+      "min": 4
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["LT", "LIT"],
+      "number": "1601",
+      "on": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T1601$",
+        "says": "tank T-1601"
+      },
+      "hops": 2,
+      "says": "LT-1601"
+    },
+    {
+      "letters": "LIC",
+      "number": "1601",
+      "says": "LIC-1601"
+    },
+    {
+      "letters": ["LSHH", "LZHH", "LAHH"],
+      "number": "1602",
+      "on": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T1601$",
+        "says": "tank T-1601"
+      },
+      "hops": 2,
+      "says": "LSHH-1602"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T1601$",
+        "says": "tank T-1601"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^LV1601$",
+          "says": "control valve LV-1601"
+        }
+      ],
+      "says": "intake → T-1601 through LV-1601"
+    },
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T1601$",
+        "says": "tank T-1601"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P1601A$",
+        "says": "pump P-1601A"
+      },
+      "via": [
+        {
+          "family": "isolation"
+        }
+      ]
+    },
+    {
+      "from": {
+        "family": ["tank", "vessel", "container"],
+        "tag": "^T1601$",
+        "says": "tank T-1601"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P1601B$",
+        "says": "pump P-1601B"
+      },
+      "via": [
+        {
+          "family": "isolation"
+        }
+      ]
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P1601A$",
+        "says": "pump P-1601A"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "check"
+        },
+        {
+          "family": "isolation"
+        }
+      ],
+      "says": "P-1601A → treatment through a check and an isolating valve"
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P1601B$",
+        "says": "pump P-1601B"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "check"
+        },
+        {
+          "family": "isolation"
+        }
+      ],
+      "says": "P-1601B → treatment through a check and an isolating valve"
+    }
+  ],
+  "loops": [
+    {
+      "says": "LT-1601 → LIC-1601 → LV-1601",
+      "controller": {
+        "letters": "LIC",
+        "number": "1601"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^LV1601$",
+        "says": "control valve LV-1601"
+      },
+      "sensor": [
+        {
+          "variable": "L",
+          "on": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^T1601$",
+            "says": "tank T-1601"
+          }
+        }
+      ]
+    }
+  ],
+  "behaviour": [
+    {
+      "says": "P-1601A runs as duty in the morning",
+      "from": 0,
+      "to": 11,
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": "pump",
+            "tag": "^P1601A$",
+            "says": "pump P-1601A"
+          },
+          "field": "out",
+          "op": ">",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "says": "after P-1601A trips, P-1601B takes over",
+      "from": 9,
+      "to": 23,
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": "pump",
+            "tag": "^P1601A$",
+            "says": "pump P-1601A"
+          },
+          "field": "out",
+          "op": "==",
+          "value": 0
+        },
+        {
+          "of": {
+            "family": "pump",
+            "tag": "^P1601B$",
+            "says": "pump P-1601B"
+          },
+          "field": "out",
+          "op": ">",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "says": "the tank never overflows",
+      "all": [
+        {
+          "of": {
+            "family": ["tank", "vessel", "container"],
+            "tag": "^T1601$",
+            "says": "tank T-1601"
+          },
+          "field": "fill",
+          "op": "<",
+          "value": 0.99
+        }
+      ]
+    }
+  ]
+}

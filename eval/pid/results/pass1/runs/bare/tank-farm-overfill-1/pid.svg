@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 800" width="1400" height="800" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <g id="valve"><polygon points="-12,-10 -12,10 12,-10 12,10" stroke="#000" stroke-width="2"/></g>
+  </defs>
+  <rect width="1400" height="800" fill="#fff"/>
+  <text x="700" y="36" text-anchor="middle" font-size="20" font-weight="bold">TANK FARM RECEIPT AND LOADING – TK-801 / TK-802 / TK-803</text>
+
+  <!-- liquid in tanks -->
+  <rect x="230" y="300" width="140" height="220" fill="#bde3f7"/>
+  <rect x="530" y="420" width="140" height="100" fill="#bde3f7"/>
+  <rect x="830" y="480" width="140" height="40" fill="#bde3f7"/>
+
+  <!-- process pipes (base) -->
+  <g stroke="#000" stroke-width="2" fill="none">
+    <path d="M72,100 H900"/>
+    <path d="M300,100 V190 M300,210 V255"/>
+    <path d="M600,100 V190 M600,210 V255"/>
+    <path d="M900,100 V190 M900,210 V255"/>
+    <path d="M300,520 V570 M300,590 V640"/>
+    <path d="M600,520 V570 M600,590 V640"/>
+    <path d="M900,520 V570 M900,590 V640"/>
+    <path d="M300,640 H1124"/>
+    <path d="M1150,614 V560 H1300"/>
+  </g>
+  <!-- active receipt path (blue) -->
+  <g stroke="#1565c0" stroke-width="4" fill="none">
+    <path d="M72,100 H600 V190 M600,210 V255"/>
+  </g>
+  <g fill="#1565c0">
+    <polygon points="170,94 182,100 170,106"/>
+    <polygon points="450,94 462,100 450,106"/>
+    <polygon points="594,228 600,240 606,228"/>
+  </g>
+  <g fill="#000">
+    <polygon points="1000,634 1012,640 1000,646"/>
+    <polygon points="1220,554 1232,560 1220,566"/>
+  </g>
+
+  <!-- off-sheet flags -->
+  <text x="20" y="78" font-size="11">FROM PIPELINE (off sheet)</text>
+  <polygon points="20,88 60,88 72,100 60,112 20,112" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="38" y="104" text-anchor="middle" font-size="9">PIPE</text>
+  <text x="46" y="130" text-anchor="middle" font-size="11" font-weight="bold">PL-IN</text>
+  <text x="1390" y="534" text-anchor="end" font-size="11">TO LOADING RACK (off sheet)</text>
+  <polygon points="1300,548 1340,548 1352,560 1340,572 1300,572" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="1318" y="564" text-anchor="middle" font-size="9">RACK</text>
+  <text x="1326" y="592" text-anchor="middle" font-size="11" font-weight="bold">RACK-OUT</text>
+  <text x="72" y="88" font-size="11">Receipt header</text>
+  <text x="1010" y="662" font-size="11">Common discharge header</text>
+
+  <!-- ===== TK-801 column ===== -->
+  <path d="M230,520 V270 Q300,240 370,270 V520 Z" fill="none" stroke="#000" stroke-width="2.5"/>
+  <text x="300" y="400" text-anchor="middle" font-size="15" font-weight="bold">TK-801</text>
+  <text x="300" y="417" text-anchor="middle" font-size="11">Storage tank</text>
+  <line x1="350" y1="300" x2="370" y2="300" stroke="#c00" stroke-width="1.5"/><text x="346" y="303" text-anchor="end" font-size="10" fill="#c00">HH</text>
+  <line x1="350" y1="320" x2="370" y2="320" stroke="#666" stroke-width="1.5"/><text x="346" y="323" text-anchor="end" font-size="10" fill="#666">H</text>
+  <!-- inlet valve XV-801 (closed) -->
+  <use href="#valve" x="300" y="200" fill="#222"/>
+  <line x1="300" y1="181" x2="300" y2="190" stroke="#000" stroke-width="2"/>
+  <circle cx="300" cy="170" r="11" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="300" y="174" text-anchor="middle" font-size="11" font-weight="bold">M</text>
+  <text x="318" y="203" font-size="12" font-weight="bold">XV-801</text>
+  <text x="318" y="219" font-size="11" fill="#c00" font-weight="bold">CLOSED</text>
+  <!-- LSHH-811 (tripped) -->
+  <line x1="206" y1="300" x2="230" y2="300" stroke="#c00" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="180" cy="300" r="26" fill="#fff" stroke="#c00" stroke-width="2"/>
+  <text x="180" y="304" text-anchor="middle" font-size="11">LSHH</text>
+  <text x="180" y="339" text-anchor="middle" font-size="11" font-weight="bold">LSHH-811</text>
+  <text x="180" y="353" text-anchor="middle" font-size="10" fill="#c00" font-weight="bold">TRIPPED</text>
+  <path d="M180,274 V170 H289" fill="none" stroke="#c00" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="174" y="250" text-anchor="end" font-size="10" fill="#c00">HH: close XV-801</text>
+  <!-- LT/LAH-801 -->
+  <line x1="384" y1="340" x2="370" y2="340" stroke="#000" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="410" cy="340" r="26" fill="#fff" stroke="#000" stroke-width="2"/>
+  <line x1="384" y1="340" x2="436" y2="340" stroke="#000" stroke-width="1"/>
+  <text x="410" y="336" text-anchor="middle" font-size="9">LT/LAH</text>
+  <text x="410" y="379" text-anchor="middle" font-size="11" font-weight="bold">LT/LAH-801</text>
+  <!-- discharge valve -->
+  <use href="#valve" x="300" y="580" fill="#fff"/>
+  <text x="318" y="584" font-size="12" font-weight="bold">HV-801</text>
+
+  <!-- ===== TK-802 column ===== -->
+  <path d="M530,520 V270 Q600,240 670,270 V520 Z" fill="none" stroke="#000" stroke-width="2.5"/>
+  <text x="600" y="380" text-anchor="middle" font-size="15" font-weight="bold">TK-802</text>
+  <text x="600" y="397" text-anchor="middle" font-size="11">Storage tank</text>
+  <line x1="650" y1="300" x2="670" y2="300" stroke="#c00" stroke-width="1.5"/><text x="646" y="303" text-anchor="end" font-size="10" fill="#c00">HH</text>
+  <line x1="650" y1="320" x2="670" y2="320" stroke="#666" stroke-width="1.5"/><text x="646" y="323" text-anchor="end" font-size="10" fill="#666">H</text>
+  <use href="#valve" x="600" y="200" fill="#fff"/>
+  <line x1="600" y1="181" x2="600" y2="190" stroke="#000" stroke-width="2"/>
+  <circle cx="600" cy="170" r="11" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="600" y="174" text-anchor="middle" font-size="11" font-weight="bold">M</text>
+  <text x="618" y="203" font-size="12" font-weight="bold">XV-802</text>
+  <text x="618" y="219" font-size="11" fill="#1565c0" font-weight="bold">OPEN</text>
+  <line x1="506" y1="300" x2="530" y2="300" stroke="#000" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="480" cy="300" r="26" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="480" y="304" text-anchor="middle" font-size="11">LSHH</text>
+  <text x="480" y="339" text-anchor="middle" font-size="11" font-weight="bold">LSHH-812</text>
+  <path d="M480,274 V170 H589" fill="none" stroke="#000" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="474" y="250" text-anchor="end" font-size="10">HH: close XV-802</text>
+  <line x1="684" y1="340" x2="670" y2="340" stroke="#000" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="710" cy="340" r="26" fill="#fff" stroke="#000" stroke-width="2"/>
+  <line x1="684" y1="340" x2="736" y2="340" stroke="#000" stroke-width="1"/>
+  <text x="710" y="336" text-anchor="middle" font-size="9">LT/LAH</text>
+  <text x="710" y="379" text-anchor="middle" font-size="11" font-weight="bold">LT/LAH-802</text>
+  <use href="#valve" x="600" y="580" fill="#fff"/>
+  <text x="618" y="584" font-size="12" font-weight="bold">HV-802</text>
+
+  <!-- ===== TK-803 column ===== -->
+  <path d="M830,520 V270 Q900,240 970,270 V520 Z" fill="none" stroke="#000" stroke-width="2.5"/>
+  <text x="900" y="380" text-anchor="middle" font-size="15" font-weight="bold">TK-803</text>
+  <text x="900" y="397" text-anchor="middle" font-size="11">Storage tank</text>
+  <line x1="950" y1="300" x2="970" y2="300" stroke="#c00" stroke-width="1.5"/><text x="946" y="303" text-anchor="end" font-size="10" fill="#c00">HH</text>
+  <line x1="950" y1="320" x2="970" y2="320" stroke="#666" stroke-width="1.5"/><text x="946" y="323" text-anchor="end" font-size="10" fill="#666">H</text>
+  <use href="#valve" x="900" y="200" fill="#222"/>
+  <line x1="900" y1="181" x2="900" y2="190" stroke="#000" stroke-width="2"/>
+  <circle cx="900" cy="170" r="11" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="900" y="174" text-anchor="middle" font-size="11" font-weight="bold">M</text>
+  <text x="918" y="203" font-size="12" font-weight="bold">XV-803</text>
+  <text x="918" y="219" font-size="11" font-weight="bold">CLOSED</text>
+  <line x1="806" y1="300" x2="830" y2="300" stroke="#000" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="780" cy="300" r="26" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="780" y="304" text-anchor="middle" font-size="11">LSHH</text>
+  <text x="780" y="339" text-anchor="middle" font-size="11" font-weight="bold">LSHH-813</text>
+  <path d="M780,274 V170 H889" fill="none" stroke="#000" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="774" y="250" text-anchor="end" font-size="10">HH: close XV-803</text>
+  <line x1="984" y1="340" x2="970" y2="340" stroke="#000" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <circle cx="1010" cy="340" r="26" fill="#fff" stroke="#000" stroke-width="2"/>
+  <line x1="984" y1="340" x2="1036" y2="340" stroke="#000" stroke-width="1"/>
+  <text x="1010" y="336" text-anchor="middle" font-size="9">LT/LAH</text>
+  <text x="1010" y="379" text-anchor="middle" font-size="11" font-weight="bold">LT/LAH-803</text>
+  <use href="#valve" x="900" y="580" fill="#fff"/>
+  <text x="918" y="584" font-size="12" font-weight="bold">HV-803</text>
+
+  <!-- pump P-801 -->
+  <circle cx="1150" cy="640" r="26" fill="#fff" stroke="#000" stroke-width="2.5"/>
+  <polygon points="1132,650 1168,650 1150,622" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="1150" y="692" text-anchor="middle" font-size="13" font-weight="bold">P-801</text>
+  <text x="1150" y="708" text-anchor="middle" font-size="11">Loading pump</text>
+
+  <!-- snapshot panel -->
+  <rect x="1110" y="130" width="275" height="250" fill="#f7f7f7" stroke="#555" stroke-width="1.2"/>
+  <text x="1122" y="152" font-size="12" font-weight="bold">SNAPSHOT – RECEIPT IN PROGRESS</text>
+  <g font-size="11">
+    <text x="1122" y="176">1. TK-801 fills first; passes H alarm</text>
+    <text x="1122" y="192">    (LT/LAH-801) then reaches HH.</text>
+    <text x="1122" y="214">2. LSHH-811 trips and closes its own</text>
+    <text x="1122" y="230">    inlet valve XV-801.</text>
+    <text x="1122" y="252">3. XV-802 is open, so the receipt</text>
+    <text x="1122" y="268">    carries on into TK-802 (blue path).</text>
+    <text x="1122" y="290">4. TK-803 idle, XV-803 closed.</text>
+    <text x="1122" y="312">5. Every level stays below top of shell:</text>
+    <text x="1122" y="328">    no tank overflows. The H alarm and</text>
+    <text x="1122" y="344">    HH trip sit well below the roof line.</text>
+  </g>
+
+  <!-- legend -->
+  <rect x="30" y="728" width="640" height="56" fill="none" stroke="#555"/>
+  <line x1="42" y1="744" x2="82" y2="744" stroke="#000" stroke-width="2"/><text x="90" y="748" font-size="11">Process pipe</text>
+  <line x1="190" y1="744" x2="230" y2="744" stroke="#000" stroke-width="2" stroke-dasharray="6,4"/><text x="238" y="748" font-size="11">Instrument / interlock signal</text>
+  <line x1="410" y1="744" x2="450" y2="744" stroke="#1565c0" stroke-width="4"/><text x="458" y="748" font-size="11">Active receipt flow</text>
+  <line x1="570" y1="744" x2="610" y2="744" stroke="#c00" stroke-width="2" stroke-dasharray="6,4"/><text x="616" y="748" font-size="11">Tripped</text>
+  <use href="#valve" x="54" y="768" fill="#222"/><text x="76" y="772" font-size="11">Closed valve</text>
+  <use href="#valve" x="190" y="768" fill="#fff"/><text x="212" y="772" font-size="11">Open valve</text>
+  <circle cx="320" cy="768" r="8" fill="#fff" stroke="#000" stroke-width="1.5"/><text x="320" y="771" text-anchor="middle" font-size="9">M</text><text x="334" y="772" font-size="11">Motor operator</text>
+  <text x="450" y="772" font-size="11">Bubble = field instrument</text>
+
+  <text x="1385" y="760" text-anchor="end" font-size="12" font-weight="bold">P&amp;ID – Tank farm receipt and loading</text>
+  <text x="1385" y="778" text-anchor="end" font-size="11">Sheet 1 of 1</text>
+</svg>

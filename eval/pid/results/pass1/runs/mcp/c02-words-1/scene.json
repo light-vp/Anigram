@@ -1,0 +1,353 @@
+{
+  "anigram": 1,
+  "id": "k-2750",
+  "title": "Packed column K-2750",
+  "subtitle": "Packed section KX-2750, 14 m tall, 500 mm ID: bottoms, N3 branch and high-pressure trip",
+  "sheet": "PID-2750",
+  "size": [10, 5],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³",
+      "effort": "barg"
+    }
+  },
+  "scale": {
+    "water": 20
+  },
+  "parts": [
+    {
+      "id": "k",
+      "kind": "reservoir",
+      "label": "KX-2750 packed section, 14 m, Ø500 mm ID",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 10
+      },
+      "note": "Packed section KX-2750: 14 m tall, 500 mm inside diameter. Nozzles N2 (bottoms), N3, P3 and P4 (pressure tappings).",
+      "labelSide": "right",
+      "tag": "K-2750",
+      "class": "Vessel",
+      "effort": {
+        "set": 1.8,
+        "max": 2.5
+      }
+    },
+    {
+      "id": "red",
+      "kind": "valve",
+      "label": "Reducer on N2 (line insulated)",
+      "at": [5, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 20
+      },
+      "note": "Line 2750.001.6 is insulated.",
+      "labelSide": "above",
+      "class": "Reducer"
+    },
+    {
+      "id": "w2765",
+      "kind": "river",
+      "label": "Bottoms off sheet",
+      "at": [8, 4],
+      "behaviour": {
+        "role": "sink",
+        "demand": 8
+      },
+      "tag": "W 2765",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "tee",
+      "kind": "valve",
+      "label": "Tee on N3",
+      "at": [7, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "below",
+      "class": "Junction"
+    },
+    {
+      "id": "n3off",
+      "kind": "river",
+      "label": "N3 carries on off sheet",
+      "at": [9, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 1
+      },
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "iso",
+      "kind": "valve",
+      "label": "Isolating valve",
+      "at": [8, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 5,
+        "open": 1
+      },
+      "labelSide": "above",
+      "class": "GateValve"
+    },
+    {
+      "id": "n3end",
+      "kind": "river",
+      "label": "N3 branch end",
+      "at": [9, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 1
+      },
+      "labelSide": "above",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "p3bf1",
+      "kind": "valve",
+      "label": "Blind flange P3",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 1
+      },
+      "labelSide": "above",
+      "class": "BlindFlange"
+    },
+    {
+      "id": "p3rv",
+      "kind": "valve",
+      "label": "Root valve P3",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 1,
+        "open": 1
+      },
+      "labelSide": "above",
+      "class": "GateValve"
+    },
+    {
+      "id": "p3bf2",
+      "kind": "valve",
+      "label": "Blind flange P3",
+      "at": [1, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 1
+      },
+      "labelSide": "above",
+      "class": "BlindFlange"
+    },
+    {
+      "id": "p3end",
+      "kind": "reservoir",
+      "label": "P3 tapping",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "labelSide": "above",
+      "class": "Junction"
+    },
+    {
+      "id": "p4bf1",
+      "kind": "valve",
+      "label": "Blind flange P4",
+      "at": [3, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 1
+      },
+      "labelSide": "above",
+      "class": "BlindFlange"
+    },
+    {
+      "id": "p4rv",
+      "kind": "valve",
+      "label": "Root valve P4",
+      "at": [2, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 1,
+        "open": 1
+      },
+      "labelSide": "above",
+      "class": "GateValve"
+    },
+    {
+      "id": "p4bf2",
+      "kind": "valve",
+      "label": "Blind flange P4",
+      "at": [1, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 1
+      },
+      "labelSide": "above",
+      "class": "BlindFlange"
+    },
+    {
+      "id": "p4end",
+      "kind": "reservoir",
+      "label": "P4 tapping",
+      "at": [0, 0],
+      "behaviour": {
+        "role": "sink",
+        "demand": 0
+      },
+      "labelSide": "above",
+      "class": "Junction"
+    }
+  ],
+  "links": [
+    {
+      "from": "k",
+      "to": "red",
+      "domain": "water",
+      "via": [[4, 4]],
+      "line": "process",
+      "tag": "2750.001.6"
+    },
+    {
+      "from": "red",
+      "to": "w2765",
+      "domain": "water",
+      "line": "process",
+      "tag": "2750.001.6"
+    },
+    {
+      "from": "k",
+      "to": "tee",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "tee",
+      "to": "n3off",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "tee",
+      "to": "iso",
+      "domain": "water",
+      "via": [[7, 1]],
+      "line": "process"
+    },
+    {
+      "from": "iso",
+      "to": "n3end",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "k",
+      "to": "p3bf1",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "p3bf1",
+      "to": "p3rv",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "p3rv",
+      "to": "p3bf2",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "p3bf2",
+      "to": "p3end",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "k",
+      "to": "p4bf1",
+      "domain": "water",
+      "via": [[4, 0]],
+      "line": "process"
+    },
+    {
+      "from": "p4bf1",
+      "to": "p4rv",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "p4rv",
+      "to": "p4bf2",
+      "domain": "water",
+      "line": "process"
+    },
+    {
+      "from": "p4bf2",
+      "to": "p4end",
+      "domain": "water",
+      "line": "process"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Vaibhav Patel",
+    "project": "Packed column K-2750",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "PIZ-275003A",
+      "at": [1, 3],
+      "measures": "p3bf2",
+      "reads": "part('k').effort",
+      "unit": "barg",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "PIZ-275003B",
+      "at": [1, 1],
+      "measures": "p4bf2",
+      "reads": "part('k').effort",
+      "unit": "barg",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "PISZA-275003",
+      "at": [3, 3],
+      "measures": "PIZ-275003A",
+      "reads": "part('k').effort",
+      "unit": "barg",
+      "mounting": "dcs",
+      "high": 2.2
+    }
+  ],
+  "expect": [
+    {
+      "says": "the bottoms leave through N2 on line 2750.001.6 to W 2765",
+      "check": "part('w2765').in >= 0.999 * part('w2765').demand"
+    },
+    {
+      "says": "the N3 branch through the isolating valve carries flow",
+      "check": "part('n3end').in > 0"
+    },
+    {
+      "says": "column pressure stays below the PISZA-275003 high-pressure trip",
+      "check": "part('k').effort < 2.2"
+    }
+  ]
+}

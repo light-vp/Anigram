@@ -1,0 +1,71 @@
+{
+  "id": "c02-draw",
+  "source": "DEXPI e.V. TrainingTestCases, dexpi-c02-column.xml (CC BY 4.0)",
+  "derived": "derive-dexpi.mjs",
+  "equipment": [
+    {
+      "family": ["column", "vessel"],
+      "tag": "^K2750$",
+      "says": "K 2750 (ProcessColumn)"
+    }
+  ],
+  "valves": [
+    {
+      "family": "isolation",
+      "min": 3
+    }
+  ],
+  "instruments": [
+    {
+      "letters": "PISZA",
+      "number": "275003",
+      "says": "PISZA 275003"
+    },
+    {
+      "letters": "PIZ",
+      "number": "275003A",
+      "says": "PIZ 275003A"
+    },
+    {
+      "letters": "PIZ",
+      "number": "275003B",
+      "says": "PIZ 275003B"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": ["column", "vessel"],
+        "tag": "^K2750$"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "says": "K 2750 (ProcessColumn) → an off-page connector"
+    }
+  ],
+  "signals": [
+    {
+      "from": {
+        "letters": "PIZ",
+        "number": "275003A"
+      },
+      "to": {
+        "letters": "PISZA",
+        "number": "275003"
+      },
+      "says": "PIZ 275003A → PISZA 275003"
+    },
+    {
+      "from": {
+        "letters": "PIZ",
+        "number": "275003B"
+      },
+      "to": {
+        "letters": "PISZA",
+        "number": "275003"
+      },
+      "says": "PIZ 275003B → PISZA 275003"
+    }
+  ]
+}

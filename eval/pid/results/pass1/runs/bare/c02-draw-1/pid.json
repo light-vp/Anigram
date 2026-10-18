@@ -1,0 +1,141 @@
+{
+  "items": [
+    {
+      "tag": "K 2750",
+      "type": "process column",
+      "label": "Column (Kolonne), 500 x 14000 mm, 1.4571, design pe=6/-1 bar, 150 °C"
+    },
+    {
+      "tag": "KX 2750",
+      "type": "column section (packed bed)",
+      "label": "Upper column section, 600 mm, 1.4571, labelled '1 Ventilböden'"
+    },
+    {
+      "tag": "SubTaggedColumnSection-1",
+      "type": "column section (packed bed)",
+      "label": "Lower packed bed inside K 2750 (no tag in source; file ID used)"
+    },
+    { "tag": "H1", "type": "manhole nozzle", "label": "Manhole DN250" },
+    { "tag": "N1", "type": "nozzle", "label": "Top outlet nozzle DN200" },
+    {
+      "tag": "N2",
+      "type": "nozzle",
+      "label": "Side nozzle DN150 (no piping in source)"
+    },
+    { "tag": "N3", "type": "nozzle", "label": "Bottom outlet nozzle DN150" },
+    {
+      "tag": "N4",
+      "type": "nozzle",
+      "label": "Side nozzle DN200 with baffle plate (no piping in source)"
+    },
+    {
+      "tag": "N5",
+      "type": "nozzle",
+      "label": "Feed nozzle DN50 to distributor (no piping in source)"
+    },
+    {
+      "tag": "N7",
+      "type": "nozzle",
+      "label": "Side nozzle DN50 (no piping in source)"
+    },
+    { "tag": "P3", "type": "nozzle", "label": "Pressure tapping nozzle DN80" },
+    { "tag": "P4", "type": "nozzle", "label": "Pressure tapping nozzle DN80" },
+    {
+      "tag": "PipeReducer-1",
+      "type": "pipe reducer",
+      "label": "Reducer DN200/DN150 (file ID used as tag)"
+    },
+    {
+      "tag": "2765",
+      "type": "off-page connector (flow out)",
+      "label": "Off-page connector 2765, line 2750.001, referenced as W 2765"
+    },
+    {
+      "tag": "PipeTee-1",
+      "type": "pipe tee",
+      "label": "Tee DN150 with DN80 branch (file ID used as tag)"
+    },
+    {
+      "tag": "H672B1V",
+      "type": "operated valve",
+      "label": "Operated valve DN80, AS9, on bottom branch"
+    },
+    {
+      "tag": "BlindFlange-1",
+      "type": "blind flange",
+      "label": "Blind flange labelled 80/25 at nozzle P3 (file ID used as tag)"
+    },
+    {
+      "tag": "H658B1UV (OperatedValve-2)",
+      "type": "operated valve",
+      "label": "Operated valve H658B1UV DN25, AS9, SP 2750-5, in P3 tapping line (tag duplicated in source, file ID added)"
+    },
+    {
+      "tag": "BlindFlange-2",
+      "type": "blind flange",
+      "label": "Blind flange closing P3 tapping line, pressure measuring point (file ID used as tag)"
+    },
+    {
+      "tag": "BlindFlange-3",
+      "type": "blind flange",
+      "label": "Blind flange labelled 80/25 at nozzle P4 (file ID used as tag)"
+    },
+    {
+      "tag": "H658B1UV (OperatedValve-3)",
+      "type": "operated valve",
+      "label": "Operated valve H658B1UV DN25, AS9, SP 2750-6, in P4 tapping line (tag duplicated in source, file ID added)"
+    },
+    {
+      "tag": "BlindFlange-4",
+      "type": "blind flange",
+      "label": "Blind flange closing P4 tapping line, pressure measuring point (file ID used as tag)"
+    },
+    {
+      "tag": "PI(Z) 275003A",
+      "type": "pressure indicator, central location",
+      "label": "Pressure indication (Z) 275003A for tapping P3"
+    },
+    {
+      "tag": "PI(Z) 275003B",
+      "type": "pressure indicator, central location",
+      "label": "Pressure indication (Z) 275003B for tapping P4"
+    },
+    {
+      "tag": "PIS⁺Z⁺A 275003",
+      "type": "pressure indicating switch, central location",
+      "label": "Pressure indication and switch, Z function and alarm, high (IS⁺Z⁺A), fed by 275003A and 275003B"
+    }
+  ],
+  "lines": [
+    { "from": "N1", "to": "PipeReducer-1", "kind": "process" },
+    { "from": "PipeReducer-1", "to": "2765", "kind": "process" },
+    { "from": "N3", "to": "PipeTee-1", "kind": "process" },
+    { "from": "PipeTee-1", "to": "H672B1V", "kind": "process" },
+    { "from": "P3", "to": "BlindFlange-1", "kind": "process" },
+    {
+      "from": "BlindFlange-1",
+      "to": "H658B1UV (OperatedValve-2)",
+      "kind": "process"
+    },
+    {
+      "from": "H658B1UV (OperatedValve-2)",
+      "to": "BlindFlange-2",
+      "kind": "process"
+    },
+    { "from": "P4", "to": "BlindFlange-3", "kind": "process" },
+    {
+      "from": "BlindFlange-3",
+      "to": "H658B1UV (OperatedValve-3)",
+      "kind": "process"
+    },
+    {
+      "from": "H658B1UV (OperatedValve-3)",
+      "to": "BlindFlange-4",
+      "kind": "process"
+    },
+    { "from": "BlindFlange-2", "to": "PI(Z) 275003A", "kind": "signal" },
+    { "from": "BlindFlange-4", "to": "PI(Z) 275003B", "kind": "signal" },
+    { "from": "PI(Z) 275003A", "to": "PIS⁺Z⁺A 275003", "kind": "signal" },
+    { "from": "PI(Z) 275003B", "to": "PIS⁺Z⁺A 275003", "kind": "signal" }
+  ]
+}

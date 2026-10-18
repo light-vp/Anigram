@@ -1,0 +1,55 @@
+{
+  "items": [
+    {
+      "tag": "PipingNetworkSegment-1",
+      "type": "process pipe segment",
+      "label": "Process line"
+    },
+    {
+      "tag": "ProcessSignalGeneratingFunction-1",
+      "type": "pressure measuring point",
+      "label": "Tapping point for PI-044"
+    },
+    {
+      "tag": "ProcessSignalGeneratingFunction-2",
+      "type": "pressure measuring point",
+      "label": "Tapping point for PI-045"
+    },
+    {
+      "tag": "PI-044",
+      "type": "pressure indication, control room",
+      "label": "Pressure indication, loop 044"
+    },
+    {
+      "tag": "PI-045",
+      "type": "pressure indication, local field gauge",
+      "label": "Local pressure gauge, loop 045"
+    },
+    {
+      "tag": "US-046",
+      "type": "multivariable switch, high and low",
+      "label": "Switch, loop 046 (H, L)"
+    },
+    {
+      "tag": "US-047",
+      "type": "multivariable switch, high-high and low-low",
+      "label": "Switch, loop 047 (HH, LL)"
+    }
+  ],
+  "lines": [
+    {
+      "from": "ProcessSignalGeneratingFunction-1",
+      "to": "PI-044",
+      "kind": "signal"
+    },
+    {
+      "from": "ProcessSignalGeneratingFunction-2",
+      "to": "PI-045",
+      "kind": "signal"
+    },
+    { "from": "PI-044", "to": "US-046", "kind": "signal" },
+    { "from": "PI-044", "to": "US-046", "kind": "signal" },
+    { "from": "PI-044", "to": "US-047", "kind": "signal" },
+    { "from": "PI-044", "to": "US-047", "kind": "signal" }
+  ]
+}

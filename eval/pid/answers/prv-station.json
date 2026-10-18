@@ -1,0 +1,150 @@
+{
+  "id": "prv-station",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["strainer", "filter"],
+      "says": "the inlet strainer"
+    },
+    {
+      "family": "offpage",
+      "min": 3,
+      "says": "trunk main in, district main out and the drain"
+    }
+  ],
+  "valves": [
+    {
+      "family": ["regulator", "control"],
+      "tag": "^PCV1301A$",
+      "says": "PRV PCV-1301A"
+    },
+    {
+      "family": ["regulator", "control"],
+      "tag": "^PCV1301B$",
+      "says": "PRV PCV-1301B"
+    },
+    {
+      "family": "relief",
+      "tag": "^PSV1301$",
+      "says": "relief valve PSV-1301"
+    },
+    {
+      "family": "isolation",
+      "min": 4
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["PI", "PG"],
+      "min": 2,
+      "says": "pressure gauges upstream and downstream"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["strainer", "filter"],
+        "says": "the inlet strainer"
+      },
+      "says": "trunk main → strainer"
+    },
+    {
+      "from": {
+        "family": ["strainer", "filter"],
+        "says": "the inlet strainer"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": ["regulator", "control"],
+          "tag": "^PCV1301A$",
+          "says": "PRV PCV-1301A"
+        },
+        {
+          "family": "isolation",
+          "count": 2
+        }
+      ],
+      "says": "stream A: isolating valves either side of PCV-1301A"
+    },
+    {
+      "from": {
+        "family": ["strainer", "filter"],
+        "says": "the inlet strainer"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": ["regulator", "control"],
+          "tag": "^PCV1301B$",
+          "says": "PRV PCV-1301B"
+        },
+        {
+          "family": "isolation",
+          "count": 2
+        }
+      ],
+      "says": "stream B: isolating valves either side of PCV-1301B"
+    },
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "relief",
+          "tag": "^PSV1301$",
+          "says": "relief valve PSV-1301"
+        }
+      ],
+      "says": "district main → drain through PSV-1301"
+    }
+  ],
+  "behaviour": [
+    {
+      "says": "through the morning the relief valve stays shut",
+      "from": 0,
+      "to": 11,
+      "all": [
+        {
+          "of": {
+            "family": "relief",
+            "tag": "^PSV1301$",
+            "says": "relief valve PSV-1301"
+          },
+          "field": "out",
+          "op": "==",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "says": "when the duty PRV fails open in the afternoon, the relief valve lifts",
+      "from": 12,
+      "to": 23,
+      "sometime": true,
+      "all": [
+        {
+          "of": {
+            "family": "relief",
+            "tag": "^PSV1301$",
+            "says": "relief valve PSV-1301"
+          },
+          "field": "out",
+          "op": ">",
+          "value": 0
+        }
+      ]
+    }
+  ]
+}

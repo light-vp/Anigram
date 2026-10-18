@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="28 48 372 168" width="1488" height="672">
+  <title>P&amp;ID - Utilities, Isophorone chain (DEXPI example C01)</title>
+  <desc>Drawn from reference.xml. Coordinates are the sheet millimetres of the source file with the Y axis flipped (svg y = 297 - Y).</desc>
+  <defs>
+    <style>
+      .p{stroke:#000;stroke-width:.5;fill:none}
+      .q{stroke:#000;stroke-width:.25;fill:none}
+      .sig{stroke:#00f;stroke-width:.25;stroke-dasharray:1.2 .8;fill:none}
+      .meas{stroke:#080;stroke-width:.25;fill:none}
+      .eq{stroke:#000;stroke-width:.4;fill:#fff}
+      .th{stroke:#000;stroke-width:.2;fill:none}
+      .sym{stroke:#000;stroke-width:.3;fill:#fff}
+      text{font-family:Calibri,Arial,sans-serif;fill:#000}
+      .t{font-size:3.6px;font-weight:bold;text-anchor:middle}
+      .note{font-size:2px;fill:#444;text-anchor:middle}
+      .l{font-size:2.6px;text-anchor:middle}
+      .n{font-size:2.1px;text-anchor:middle}
+      .id{font-size:1.6px;fill:#555}
+      .ib{font-size:2.4px;text-anchor:middle;dominant-baseline:central}
+      .in{font-size:2px;text-anchor:middle;dominant-baseline:central}
+      .tg{font-size:2.5px;font-weight:bold}
+    </style>
+    <path id="arr" d="M-1.3,-0.9 L1.3,0 L-1.3,0.9 Z"/>
+    <g id="globe"><path class="sym" d="M-2,-1.5 L2,1.5 L2,-1.5 L-2,1.5 Z"/><circle r=".8" fill="#000"/></g>
+    <g id="ball"><path class="sym" d="M-2,-1.5 L2,1.5 L2,-1.5 L-2,1.5 Z"/><circle class="sym" r=".9"/></g>
+    <g id="bfly"><path class="sym" d="M-2,-1.6 V1.6 M2,-1.6 V1.6"/><ellipse class="sym" rx=".5" ry="1.4"/></g>
+    <g id="check"><path class="sym" d="M-1.6,-1.5 L1.6,0 L-1.6,1.5 Z M1.6,-1.5 V1.5"/></g>
+    <g id="reducer"><path class="sym" d="M-2,-1.6 L2,-.8 L2,.8 L-2,1.6 Z"/></g>
+    <g id="act"><path class="sym" d="M0,0 H4.5"/><path class="sym" d="M4.5,-3.2 A3.2,3.2 0 0 1 4.5,3.2 Z"/></g>
+  </defs>
+
+  <text x="30" y="53" style="font-size:3.4px;font-weight:bold">Utilities - Isophorone chain (Area F4, section 10) - DEXPI example C01, drawing 123/A93, rev R2.2</text>
+
+  <!-- ===================== PIPING ===================== -->
+  <!-- 47121 MNb DN80 : off-page in -> P4711 -->
+  <path class="p" d="M38,154 H78.75"/>
+  <!-- 47122 MNb DN80 : P4711 -> H1007 N1 -->
+  <path class="p" d="M89.25,154 H136"/>
+  <!-- 47123 MNb DN80 : H1007 N2 -> HV4750.01 -> T4750 N1 -->
+  <path class="p" d="M144,133 H160 V121 M160,117 V61 H181 V72.64"/>
+  <!-- 47124 MNc DN80 (tank N2 -> ... -> P4712 N1), reducer to DN50 -->
+  <path class="p" d="M194,124.5 V135 M194,139 V154 H201 M205,154 H215 M219,154 H229 M233,154 H245.75"/>
+  <!-- 47126 MNc DN50 main discharge -->
+  <path class="p" d="M256.25,154 H265 M265,154 H269 M269,154 H281 M281,154 H287 M291,154 H323.5 M323.5,154 H365 M365,154 H378"/>
+  <!-- branch to H1008 N1 -->
+  <path class="q" d="M323.5,154 V133.5"/>
+  <!-- 47126 secondary: Tee-2 drain/vent branch, Tee-3 and Tee-5 instrument taps -->
+  <path class="q" d="M265,154 V158 M265,162 V162.8 M263.8,162.8 H266.2"/>
+  <path class="q" d="M281,154 V150 M281,146 V145.2 M279.8,145.2 H282.2"/>
+  <path class="q" d="M365,154 V150 M365,146 V145.2 M363.8,145.2 H366.2"/>
+  <!-- 47125 DN25 relief branch to SV 104.01, then DN50 to tank N5 -->
+  <path class="q" d="M269,154 V96"/>
+  <path class="q" d="M266.5,94 H209"/>
+  <!-- 47127 MNc DN50 insulated Q80 : H1008 N2 -> PV4712.02 -> tank N6 -->
+  <path class="q" d="M323.5,126.5 V100 M323.5,96 V83 H209"/>
+  <!-- 47130 WKa, 47131 WKb (plate HX chamber 2) -->
+  <path class="q" d="M120,202 V133 H136"/>
+  <path class="q" d="M144,154 H153 V202"/>
+  <!-- 47140 QSa in, 47141 QSb out (H1008 shell) -->
+  <path class="q" d="M344.5,202 V133.5"/>
+  <path class="q" d="M328,126.5 V113 H338.5 M342.5,113 H353 V202"/>
+
+  <!-- flow arrows (positions from the file) -->
+  <use href="#arr" transform="translate(181,65.64) rotate(90)"/>
+  <use href="#arr" transform="translate(217,94) rotate(180)"/>
+  <use href="#arr" transform="translate(375,154)"/>
+  <use href="#arr" transform="translate(217,83) rotate(180)"/>
+  <use href="#arr" transform="translate(120,161) rotate(-90)"/>
+  <use href="#arr" transform="translate(153,162.75) rotate(90)"/>
+  <use href="#arr" transform="translate(344.5,161) rotate(-90)"/>
+  <use href="#arr" transform="translate(353,162.75) rotate(90)"/>
+  <!-- insulation Q80 on 47127, slope marker on relief line -->
+  <rect class="th" x="309.8" y="81.7" width="4" height="2.6"/>
+  <text class="n" x="311.8" y="87">Q80</text>
+  <path class="sym" d="M-2,.8 L2,-.8 L2,.8 Z" transform="translate(257,92.6)"/>
+
+  <!-- free pipe ends (no partner in the source file) -->
+  <text class="n" x="120" y="206">ext.</text>
+  <text class="n" x="153" y="206">ext.</text>
+  <text class="n" x="344.5" y="206">ext.</text>
+  <text class="n" x="353" y="206">ext.</text>
+
+  <!-- line labels -->
+  <text class="l" x="56.4" y="151">MNb 47121 75HB13 80</text>
+  <text class="l" x="112.6" y="151">MNb 47122 75HB13 80</text>
+  <text class="l" transform="rotate(-90 157.2 90.8)" x="157.2" y="90.8">MNb 47123 75HB13 80</text>
+  <text class="l" transform="rotate(-90 190 148.25)" x="190" y="148.25">MNc 47124 75HB13 80</text>
+  <text class="l" transform="rotate(-90 272.3 117)" x="272.3" y="117">MNc 47125 73HG12 25</text>
+  <text class="l" x="236" y="91.5">MNc 47125 75HB13 50</text>
+  <text class="l" x="308.25" y="151">MNc 47126 75HB13 50</text>
+  <text class="l" x="239.25" y="80.75">MNc 47127 75HB13 50 Q 80</text>
+  <text class="l" transform="rotate(-90 117.5 183)" x="117.5" y="183">WKa 47130 75HB13 50</text>
+  <text class="l" transform="rotate(-90 150.5 183)" x="150.5" y="183">WKb 47131 75HB13 50</text>
+  <text class="l" transform="rotate(-90 342.1 183.5)" x="342.1" y="183.5">QSa 47140 75HB13 50 Q 80</text>
+  <text class="l" transform="rotate(-90 350.7 183.4)" x="350.7" y="183.4">QSb 47141 75HB13 50 Q 80</text>
+
+  <!-- ===================== OFF-PAGE CONNECTORS ===================== -->
+  <g data-tag="FlowInPipeOffPageConnector-1">
+    <polygon class="sym" points="30,151.5 36,151.5 38,154 36,156.5 30,156.5"/>
+    <text class="id" x="30" y="160.5">FlowInPipeOffPageConnector-1</text>
+  </g>
+  <g data-tag="FlowOutPipeOffPageConnector-1">
+    <polygon class="sym" points="378,151.5 384,151.5 386,154 384,156.5 378,156.5"/>
+    <text class="id" x="370" y="161.5">FlowOutPipeOffPageConnector-1</text>
+  </g>
+
+  <!-- ===================== EQUIPMENT ===================== -->
+  <!-- P4711 centrifugal pump -->
+  <g data-tag="P4711">
+    <circle class="eq" cx="84" cy="154" r="5.25"/>
+    <polygon class="th" points="81.7,151.5 87,154 81.7,156.5"/>
+    <path class="p" d="M74.75,152.5 V155.5 M93.25,152.5 V155.5" style="stroke-width:.3"/>
+    <text class="t" x="84" y="144.2">P4711</text>
+    <text class="note" x="84" y="140.6">200 m³/h, 10 m, 60 kW</text>
+    <text class="n" x="75.95" y="150.6">N1</text><text class="n" x="75.95" y="156.3">80</text>
+    <text class="n" x="92.05" y="150.6">N2</text><text class="n" x="92.05" y="156.3">80</text>
+  </g>
+
+  <!-- H1007 plate heat exchanger -->
+  <g data-tag="H1007">
+    <rect class="eq" x="136" y="131" width="8" height="25"/>
+    <path class="th" d="M137.6,131 V156 M139.2,131 V156 M140.8,131 V156 M142.4,131 V156"/>
+    <text class="t" x="140" y="161.7">H1007</text>
+    <text class="note" x="140" y="165">313 kW, 46.8 m²</text>
+    <text class="n" x="133.2" y="150.6">N1</text><text class="n" x="133.2" y="156.3">80</text>
+    <text class="n" x="146.8" y="129.6">N2</text><text class="n" x="146.8" y="135.3">80</text>
+    <text class="n" x="133.2" y="129.6">N3</text><text class="n" x="133.2" y="135.3">50</text>
+    <text class="n" x="146.8" y="150.6">N4</text><text class="n" x="146.8" y="156.3">50</text>
+  </g>
+
+  <!-- P4712 reciprocating pump -->
+  <g data-tag="P4712">
+    <rect class="eq" x="245.75" y="148.5" width="10.5" height="11"/>
+    <rect class="th" x="249.8" y="150.5" width="2.4" height="7"/>
+    <path class="th" d="M247,154 H249.8 M252.2,154 H255"/>
+    <text class="t" x="251" y="144.2">P4712</text>
+    <text class="note" x="251" y="140.6">420 m³/h, 40 m, 84 kW</text>
+    <text class="n" x="242.95" y="150.6">N1</text><text class="n" x="242.95" y="156.3">50</text>
+    <text class="n" x="259.05" y="150.6">N2</text><text class="n" x="259.05" y="156.3">50</text>
+  </g>
+
+  <!-- H1008 floating-head tube bundle heat exchanger -->
+  <g data-tag="H1008">
+    <rect class="eq" x="326" y="126.5" width="24" height="7"/>
+    <rect class="eq" x="319" y="126.5" width="7" height="7"/>
+    <path class="th" d="M319,130 H326 M326,128.3 H348 M326,131.7 H348 M348,128.3 V131.7"/>
+    <path class="q" d="M323.5,133.5 V137.5 M344.5,133.5 V137.5 M323.5,126.5 V122.5 M328,126.5 V122.5"/>
+    <text class="t" x="312" y="129.2">H1008</text>
+    <text class="note" x="312" y="133.5">313 kW, 46.8 m²</text>
+    <text class="n" x="327.5" y="135.5">N1</text><text class="n" x="327.5" y="138.5">50</text>
+    <text class="n" x="319.5" y="120.5">N2</text><text class="n" x="319.5" y="123.5">50</text>
+    <text class="n" x="332" y="120.5">N3</text><text class="n" x="332" y="123.5">50</text>
+    <text class="n" x="340.5" y="135.5">N4</text><text class="n" x="340.5" y="138.5">50</text>
+  </g>
+
+  <!-- T4750 vertical vessel with dished heads -->
+  <g data-tag="T4750">
+    <path class="eq" d="M179,81.3 A15,6 0 0 1 209,81.3 L209,118.5 A15,6 0 0 1 179,118.5 Z"/>
+    <path class="p" d="M181,72.64 V78.3 M204,71.32 V76.8 M194,124.5 V128.5 M209,94 H213 M209,83 H213" style="stroke-width:.4"/>
+    <path class="p" d="M175,111 H179 M175,109.5 V112.5" style="stroke-width:.4"/>
+    <rect class="eq" x="174.5" y="90.5" width="4.5" height="7"/>
+    <text class="t" x="194" y="98.5">T4750</text>
+    <text class="note" x="194" y="102.5">26 m³</text>
+    <text class="n" x="177" y="70.6">N1</text><text class="n" x="177" y="73.6">80</text>
+    <text class="n" x="190" y="126.5">N2</text><text class="n" x="190" y="129.5">80</text>
+    <text class="n" x="176.2" y="107.6">N3</text><text class="n" x="176.2" y="113.3">80</text>
+    <text class="n" x="211.8" y="90.6">N5</text><text class="n" x="211.8" y="96.3">50</text>
+    <text class="n" x="211.8" y="79.6">N6</text><text class="n" x="211.8" y="85.3">50</text>
+    <text class="n" x="208" y="69.3">N7</text><text class="n" x="208" y="72.3">25</text>
+    <text class="n" x="171" y="92">N8</text><text class="n" x="171" y="95">800</text>
+  </g>
+
+  <!-- ===================== VALVES ===================== -->
+  <!-- HV4750.01 globe control valve, F.C., DN80 -->
+  <g data-tag="HV4750.01">
+    <use href="#globe" transform="translate(160,119) rotate(90)"/>
+    <use href="#act" transform="translate(160,119) rotate(180)"/>
+    <text class="n" x="155.6" y="113.6">F.C.</text>
+    <text class="tg" x="158.5" y="126.6" text-anchor="end">HV4750.01</text>
+  </g>
+  <!-- PV4712.02 globe control valve, F.C., DN50 -->
+  <g data-tag="PV4712.02">
+    <use href="#globe" transform="translate(323.5,98) rotate(90)"/>
+    <use href="#act" transform="translate(323.5,98)"/>
+    <text class="n" x="328.5" y="93.8">F.C.</text>
+    <text class="tg" transform="rotate(-90 321 98)" x="321" y="98" text-anchor="middle">PV4712.02</text>
+  </g>
+  <!-- TV4750.03 globe control valve, F.O., DN50 -->
+  <g data-tag="TV4750.03">
+    <use href="#globe" transform="translate(340.5,113)"/>
+    <use href="#act" transform="translate(340.5,113) rotate(-90)"/>
+    <text class="n" x="336.5" y="108.5" text-anchor="end">F.O.</text>
+    <text class="tg" x="340.5" y="118.8" text-anchor="middle">TV4750.03</text>
+  </g>
+
+  <g data-tag="ButterflyValve-1">
+    <use href="#bfly" transform="translate(194,137) rotate(90)"/>
+    <text class="l" transform="rotate(-90 197.4 136)" x="197.4" y="136">66KL21-80</text>
+    <text class="id" transform="rotate(-90 200.2 147.5)" x="200.2" y="147.5">ButterflyValve-1</text>
+  </g>
+  <g data-tag="SwingCheckValve-1">
+    <use href="#check" transform="translate(203,154)"/>
+    <text class="l" x="203" y="150">75SA21-80</text>
+    <text class="id" transform="rotate(90 202.8 157.5)" x="202.8" y="157.5">SwingCheckValve-1</text>
+  </g>
+  <g data-tag="PipeReducer-1">
+    <use href="#reducer" transform="translate(217,154)"/>
+    <text class="l" x="217" y="150">80/50</text>
+    <text class="id" transform="rotate(90 216.8 157.5)" x="216.8" y="157.5">PipeReducer-1</text>
+  </g>
+  <g data-tag="BallValve-1">
+    <use href="#ball" transform="translate(231,154)"/>
+    <text class="l" x="231" y="150">73KH12-50</text>
+    <text class="id" transform="rotate(90 230.8 157.5)" x="230.8" y="157.5">BallValve-1</text>
+  </g>
+  <g data-tag="BallValve-2">
+    <use href="#ball" transform="translate(265,160) rotate(90)"/>
+    <text class="l" x="268" y="164">73KH12-25</text>
+    <text class="id" x="268" y="167.2">BallValve-2</text>
+  </g>
+  <g data-tag="BallValve-3">
+    <use href="#ball" transform="translate(281,148) rotate(90)"/>
+    <text class="l" transform="rotate(-90 284.6 144)" x="284.6" y="144">73KH12-25</text>
+    <text class="id" transform="rotate(-90 286.8 150)" x="286.8" y="150">BallValve-3</text>
+  </g>
+  <g data-tag="BallValve-4">
+    <use href="#ball" transform="translate(289,154)"/>
+    <text class="l" x="289" y="157.5">73KH12-50</text>
+    <text class="id" transform="rotate(-90 290.6 151)" x="290.6" y="151">BallValve-4</text>
+  </g>
+  <g data-tag="BallValve-5">
+    <use href="#ball" transform="translate(365,148) rotate(90)"/>
+    <text class="l" transform="rotate(-90 368.6 145)" x="368.6" y="145">73KH12-25</text>
+    <text class="id" transform="rotate(-90 370.8 150)" x="370.8" y="150">BallValve-5</text>
+  </g>
+
+  <!-- SV 104.01 spring loaded angle safety valve (inlet below, outlet to the left) -->
+  <g data-tag="SV 104.01">
+    <path class="sym" d="M269,96 L266.5,94 L271.5,94 Z"/>
+    <path class="th" d="M269,94 V92.5 L267.8,92 L270.2,91 L267.8,90 L270.2,89 L269,88.6 M267.8,88.4 H270.2"/>
+    <rect class="th" x="273" y="90.9" width="16" height="10.1"/>
+    <text style="font-size:2.6px" x="274" y="94">SV 104.01</text>
+    <text style="font-size:2.6px" x="274" y="97">P = 6 barg</text>
+    <text style="font-size:2.6px" x="274" y="100">DN = 25/50</text>
+  </g>
+
+  <!-- tees and blind flanges -->
+  <g data-tag="PipeTee-2"><circle cx="265" cy="154" r=".6"/><text class="id" x="263.5" y="160.5" text-anchor="end">PipeTee-2</text></g>
+  <g data-tag="PipeTee-1"><circle cx="269" cy="154" r=".6"/><text class="id" x="270.4" y="150.8">PipeTee-1</text></g>
+  <g data-tag="PipeTee-3"><circle cx="281" cy="154" r=".6"/><text class="id" x="279.6" y="158" text-anchor="end">PipeTee-3</text></g>
+  <g data-tag="PipeTee-4"><circle cx="323.5" cy="154" r=".6"/><text class="id" x="325" y="151">PipeTee-4</text></g>
+  <g data-tag="PipeTee-5"><circle cx="365" cy="154" r=".6"/><text class="id" x="366.5" y="158">PipeTee-5</text></g>
+  <g data-tag="BlindFlange-1"><text class="id" transform="rotate(-90 278.6 152)" x="278.6" y="152">BlindFlange-1</text></g>
+  <g data-tag="BlindFlange-2"><text class="id" transform="rotate(-90 362.6 152)" x="362.6" y="152">BlindFlange-2</text></g>
+
+  <!-- ===================== INSTRUMENTATION ===================== -->
+  <!-- loop 4712.01 : field pressure indication -->
+  <g data-tag="PT4712.01">
+    <circle class="sym" cx="281" cy="143.2" r="1.3"/>
+    <text class="tg" transform="rotate(-90 276.4 152)" x="276.4" y="152">PT4712.01</text>
+  </g>
+  <path class="meas" d="M281,141.9 V137"/>
+  <g data-tag="PI4712.01">
+    <circle class="sym" cx="281" cy="132" r="5"/>
+    <text class="ib" x="281" y="129.8">PI</text>
+    <text class="in" x="281" y="133.8">4712.01</text>
+  </g>
+
+  <!-- loop 4712.02 : pressure indicating controller (central) -> PV4712.02 -->
+  <g data-tag="PT4712.02">
+    <circle class="sym" cx="365" cy="143.2" r="1.3"/>
+    <text class="tg" transform="rotate(-90 360.4 152)" x="360.4" y="152">PT4712.02</text>
+  </g>
+  <path class="meas" d="M365,141.9 V137"/>
+  <g data-tag="PICSA4712.02">
+    <circle class="sym" cx="365" cy="132" r="5"/>
+    <path class="th" d="M360,132 H370"/>
+    <text class="ib" x="365" y="129.7">PICSA</text>
+    <text class="in" x="365" y="134.2">4712.02</text>
+  </g>
+  <path class="sig" d="M365,127 V98 H331.4"/>
+
+  <!-- loop 4750.01 : hand switch (central) -> HV4750.01 -->
+  <g data-tag="HS4750.01">
+    <circle class="sym" cx="137" cy="119" r="5"/>
+    <path class="th" d="M132,119 H142"/>
+    <text class="ib" x="137" y="116.7">HS</text>
+    <text class="in" x="137" y="121.2">4750.01</text>
+  </g>
+  <path class="sig" d="M142,119 H152.1"/>
+
+  <!-- loop 4750.03 : temperature indicating controller (central) -> TV4750.03 -->
+  <g data-tag="TT4750.03">
+    <circle class="sym" cx="204" cy="69.6" r="1.3"/>
+    <text class="tg" x="201.8" y="70.4" text-anchor="end">TT4750.03</text>
+  </g>
+  <path class="meas" d="M204,68.3 V66"/>
+  <g data-tag="TICSA4750.03">
+    <circle class="sym" cx="204" cy="61" r="5"/>
+    <path class="th" d="M199,61 H209"/>
+    <text class="ib" x="204" y="58.7">TICSA</text>
+    <text class="in" x="204" y="63.2">4750.03</text>
+  </g>
+  <path class="sig" d="M209,61 H340.5 V104.7"/>
+
+  <!-- ===================== LEGEND ===================== -->
+  <g transform="translate(190,181)">
+    <rect class="th" x="0" y="0" width="108" height="31"/>
+    <path class="p" d="M3,4 H15"/><text style="font-size:2.2px" x="18" y="4.8">process pipe (primary segment)</text>
+    <path class="q" d="M3,8 H15"/><text style="font-size:2.2px" x="18" y="8.8">secondary pipe segment</text>
+    <path class="sig" d="M3,12 H15"/><text style="font-size:2.2px" x="18" y="12.8">control / actuating signal</text>
+    <path class="meas" d="M3,16 H15"/><text style="font-size:2.2px" x="18" y="16.8">measuring line</text>
+    <text style="font-size:2.2px" x="3" y="21">ext. = pipe end with no partner in the source file (open on this sheet)</text>
+    <text style="font-size:2.2px" x="3" y="25">F.C. / F.O. = valve fails closed / fails open</text>
+    <text style="font-size:2.2px" x="3" y="29">Bubble: top = function letters, bottom = loop number; bar = central location</text>
+  </g>
+</svg>

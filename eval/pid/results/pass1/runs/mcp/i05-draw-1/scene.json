@@ -1,0 +1,162 @@
+{
+  "anigram": 1,
+  "id": "ratio-control",
+  "title": "Flow ratio control loop 031",
+  "subtitle": "Controlled flow follows the wild flow at a set ratio",
+  "sheet": "PID-031",
+  "size": [6, 5],
+  "units": {
+    "water": {
+      "rate": "m3/h",
+      "amount": "m3"
+    }
+  },
+  "scale": {
+    "water": 20
+  },
+  "parts": [
+    {
+      "id": "in1",
+      "kind": "well",
+      "label": "Controlled feed",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 20
+      },
+      "tag": "OPC-101",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "gv",
+      "kind": "valve",
+      "label": "Ratio valve",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 20,
+        "open": "clamp(0.5 * prev('in2').out / 20, 0, 1)"
+      },
+      "labelSide": "above",
+      "tag": "V-101",
+      "class": "GlobeValve"
+    },
+    {
+      "id": "out1",
+      "kind": "tap",
+      "label": "To process",
+      "at": [5, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 20,
+        "absorbsSurplus": true
+      },
+      "tag": "OPC-102",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "in2",
+      "kind": "well",
+      "label": "Wild feed",
+      "at": [0, 4],
+      "behaviour": {
+        "role": "source",
+        "output": "20 * knob('wild')"
+      },
+      "tag": "OPC-103",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "out2",
+      "kind": "tap",
+      "label": "To process",
+      "at": [5, 4],
+      "behaviour": {
+        "role": "sink",
+        "demand": 20,
+        "absorbsSurplus": true
+      },
+      "tag": "OPC-104",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "in1",
+      "to": "gv",
+      "domain": "water",
+      "tag": "031-W-001"
+    },
+    {
+      "from": "gv",
+      "to": "out1",
+      "domain": "water",
+      "tag": "031-W-002"
+    },
+    {
+      "from": "in2",
+      "to": "out2",
+      "domain": "water",
+      "tag": "031-W-003"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "DEXPI example",
+    "project": "Ratio control",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "FI-031.2",
+      "at": [1, 1],
+      "measures": "gv",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "FI-031.1",
+      "at": [4, 3],
+      "measures": "in2",
+      "reads": "part('in2').out",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "FFIC-031",
+      "at": [3, 3],
+      "measures": "FI-031.1",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "YC-031.4",
+      "at": [2, 3],
+      "measures": "FFIC-031",
+      "drives": "gv",
+      "mounting": "dcs"
+    }
+  ],
+  "knobs": [
+    {
+      "id": "wild",
+      "label": "wild flow",
+      "value": 0.5,
+      "format": "{pct}%"
+    }
+  ],
+  "expect": [
+    {
+      "says": "the controlled flow is half the wild flow",
+      "check": "abs(part('gv').out - 0.5 * part('in2').out) < 0.05"
+    },
+    {
+      "says": "the wild line carries flow",
+      "check": "part('in2').out > 9.9"
+    }
+  ]
+}

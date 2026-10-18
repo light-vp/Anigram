@@ -1,0 +1,80 @@
+{
+  "items": [
+    {
+      "tag": "V-701",
+      "type": "production separator vessel",
+      "label": "Production separator"
+    },
+    {
+      "tag": "SDV-701",
+      "type": "shutdown valve",
+      "label": "Inlet shutdown valve"
+    },
+    {
+      "tag": "PV-701",
+      "type": "pressure control valve",
+      "label": "Gas outlet pressure control valve"
+    },
+    {
+      "tag": "LV-701",
+      "type": "level control valve",
+      "label": "Liquid outlet level control valve"
+    },
+    {
+      "tag": "PSV-701",
+      "type": "pressure safety valve",
+      "label": "Separator relief valve to flare"
+    },
+    {
+      "tag": "PT-701",
+      "type": "pressure transmitter",
+      "label": "Separator pressure transmitter"
+    },
+    {
+      "tag": "PIC-701",
+      "type": "pressure indicating controller",
+      "label": "Separator pressure controller"
+    },
+    {
+      "tag": "LT-701",
+      "type": "level transmitter",
+      "label": "Separator level transmitter"
+    },
+    {
+      "tag": "LIC-701",
+      "type": "level indicating controller",
+      "label": "Separator level controller"
+    },
+    {
+      "tag": "LSHH-702",
+      "type": "level switch high-high",
+      "label": "Independent high-high level switch"
+    },
+    {
+      "tag": "WELL-FLUID",
+      "type": "off-sheet connector",
+      "label": "Well fluid from off sheet"
+    },
+    { "tag": "GAS-HDR", "type": "off-sheet connector", "label": "Gas header" },
+    { "tag": "OIL-LINE", "type": "off-sheet connector", "label": "Oil line" },
+    { "tag": "FLARE", "type": "off-sheet connector", "label": "Flare" }
+  ],
+  "lines": [
+    { "from": "WELL-FLUID", "to": "SDV-701", "kind": "process" },
+    { "from": "SDV-701", "to": "V-701", "kind": "process" },
+    { "from": "V-701", "to": "PV-701", "kind": "process" },
+    { "from": "PV-701", "to": "GAS-HDR", "kind": "process" },
+    { "from": "V-701", "to": "LV-701", "kind": "process" },
+    { "from": "LV-701", "to": "OIL-LINE", "kind": "process" },
+    { "from": "V-701", "to": "PSV-701", "kind": "process" },
+    { "from": "PSV-701", "to": "FLARE", "kind": "process" },
+    { "from": "V-701", "to": "PT-701", "kind": "process" },
+    { "from": "V-701", "to": "LT-701", "kind": "process" },
+    { "from": "V-701", "to": "LSHH-702", "kind": "process" },
+    { "from": "PT-701", "to": "PIC-701", "kind": "signal" },
+    { "from": "PIC-701", "to": "PV-701", "kind": "signal" },
+    { "from": "LT-701", "to": "LIC-701", "kind": "signal" },
+    { "from": "LIC-701", "to": "LV-701", "kind": "signal" },
+    { "from": "LSHH-702", "to": "SDV-701", "kind": "signal" }
+  ]
+}

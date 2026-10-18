@@ -1,0 +1,626 @@
+{
+  "anigram": 1,
+  "id": "hypochlorite-dosing-skid",
+  "title": "Sodium Hypochlorite Dosing Skid",
+  "subtitle": "Duty/standby diaphragm metering pumps dosing the treated water main, flow-paced",
+  "sheet": "PID-301",
+  "size": [14, 7],
+  "units": {
+    "water": {
+      "rate": "L/h",
+      "amount": "L"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 12,
+    "electric": 1
+  },
+  "parts": [
+    {
+      "id": "power",
+      "kind": "grid",
+      "label": "Power",
+      "at": [5, 3],
+      "behaviour": {
+        "role": "source",
+        "output": 5,
+        "dispatchable": true
+      }
+    },
+    {
+      "id": "t301",
+      "kind": "reservoir",
+      "label": "Day tank",
+      "at": [0, 3],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 500,
+        "start": 0.9,
+        "maxIn": 50,
+        "maxOut": 50
+      },
+      "labelSide": "below",
+      "tag": "T-301",
+      "class": "Tank"
+    },
+    {
+      "id": "jc",
+      "kind": "manifold",
+      "label": "Tee",
+      "at": [2, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "cc",
+      "kind": "reservoir",
+      "label": "Calibration column",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 2,
+        "start": 1,
+        "maxIn": 0.5,
+        "maxOut": 0
+      },
+      "labelSide": "left",
+      "tag": "T-302",
+      "class": "Tank"
+    },
+    {
+      "id": "js",
+      "kind": "manifold",
+      "label": "Tee",
+      "at": [3, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "v311a",
+      "kind": "valve",
+      "label": "Suction isol.",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 50,
+        "open": 1
+      },
+      "tag": "V-311A",
+      "class": "GateValve"
+    },
+    {
+      "id": "p301a",
+      "kind": "pump",
+      "label": "Metering pump (duty)",
+      "at": [5, 1],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.25,
+          "water": 1
+        },
+        "capacity": 20
+      },
+      "labelSide": "below",
+      "tag": "P-301A",
+      "class": "PositiveDisplacementPump",
+      "effort": {
+        "max": 50
+      }
+    },
+    {
+      "id": "jda",
+      "kind": "manifold",
+      "label": "Tee",
+      "at": [6, 1],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "psv301a",
+      "kind": "valve",
+      "label": "Relief",
+      "at": [6, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 50,
+        "relief": {
+          "at": 8,
+          "full": 8.8
+        }
+      },
+      "labelSide": "right",
+      "tag": "PSV-301A",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "v313a",
+      "kind": "valve",
+      "label": "Check",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 50,
+        "open": 1
+      },
+      "tag": "V-313A",
+      "class": "CheckValve"
+    },
+    {
+      "id": "v312a",
+      "kind": "valve",
+      "label": "Discharge isol.",
+      "at": [8, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 50,
+        "open": 1
+      },
+      "tag": "V-312A",
+      "class": "GateValve"
+    },
+    {
+      "id": "v311b",
+      "kind": "valve",
+      "label": "Suction isol.",
+      "at": [4, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 50,
+        "open": 0
+      },
+      "tag": "V-311B",
+      "class": "GateValve"
+    },
+    {
+      "id": "p301b",
+      "kind": "pump",
+      "label": "Metering pump (standby)",
+      "at": [5, 5],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.25,
+          "water": 1
+        },
+        "capacity": 20
+      },
+      "labelSide": "below",
+      "tag": "P-301B",
+      "class": "PositiveDisplacementPump",
+      "effort": {
+        "max": 50
+      }
+    },
+    {
+      "id": "jdb",
+      "kind": "manifold",
+      "label": "Tee",
+      "at": [6, 5],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "psv301b",
+      "kind": "valve",
+      "label": "Relief",
+      "at": [6, 6],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 50,
+        "relief": {
+          "at": 8,
+          "full": 8.8
+        }
+      },
+      "labelSide": "right",
+      "tag": "PSV-301B",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "v313b",
+      "kind": "valve",
+      "label": "Check",
+      "at": [7, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 50,
+        "open": 1
+      },
+      "tag": "V-313B",
+      "class": "CheckValve"
+    },
+    {
+      "id": "v312b",
+      "kind": "valve",
+      "label": "Discharge isol.",
+      "at": [8, 5],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 50,
+        "open": 0
+      },
+      "tag": "V-312B",
+      "class": "GateValve"
+    },
+    {
+      "id": "jd",
+      "kind": "manifold",
+      "label": "Tee",
+      "at": [9, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "damp",
+      "kind": "manifold",
+      "label": "Pulsation dampener",
+      "at": [10, 3],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "below",
+      "tag": "V-301",
+      "class": "Vessel"
+    },
+    {
+      "id": "main",
+      "kind": "river",
+      "label": "Treated water main",
+      "at": [10, 2],
+      "behaviour": {
+        "role": "source",
+        "output": "1000 * (150 + 650 * max(bump(hour, 7.5, 1.5), bump(hour, 19, 1.5)))"
+      },
+      "labelSide": "above"
+    },
+    {
+      "id": "v304",
+      "kind": "valve",
+      "label": "Main isol.",
+      "at": [11, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 1000000,
+        "open": 1
+      },
+      "tag": "V-304",
+      "class": "GateValve"
+    },
+    {
+      "id": "inj",
+      "kind": "manifold",
+      "label": "Injection point",
+      "at": [12, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "labelSide": "below",
+      "class": "Junction"
+    },
+    {
+      "id": "out",
+      "kind": "river",
+      "label": "To distribution",
+      "at": [13, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": "1.000015 * 1000 * (150 + 650 * max(bump(hour, 7.5, 1.5), bump(hour, 19, 1.5)))"
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "power",
+      "to": "p301a",
+      "domain": "electric"
+    },
+    {
+      "from": "power",
+      "to": "p301b",
+      "domain": "electric"
+    },
+    {
+      "from": "t301",
+      "to": "jc",
+      "domain": "water",
+      "line": "process",
+      "tag": "25-HYP-001"
+    },
+    {
+      "from": "jc",
+      "to": "cc",
+      "domain": "water",
+      "line": "process",
+      "tag": "15-HYP-002"
+    },
+    {
+      "from": "cc",
+      "to": "jc",
+      "domain": "water",
+      "line": "process",
+      "tag": "15-HYP-003"
+    },
+    {
+      "from": "jc",
+      "to": "js",
+      "domain": "water",
+      "line": "process",
+      "tag": "25-HYP-004"
+    },
+    {
+      "from": "js",
+      "to": "v311a",
+      "domain": "water",
+      "via": [[3, 1]],
+      "line": "process",
+      "tag": "25-HYP-005"
+    },
+    {
+      "from": "v311a",
+      "to": "p301a",
+      "domain": "water",
+      "line": "process",
+      "tag": "25-HYP-006"
+    },
+    {
+      "from": "p301a",
+      "to": "jda",
+      "domain": "water",
+      "line": "process",
+      "tag": "15-HYP-007"
+    },
+    {
+      "from": "jda",
+      "to": "psv301a",
+      "domain": "water",
+      "line": "process",
+      "tag": "15-HYP-008"
+    },
+    {
+      "from": "psv301a",
+      "to": "t301",
+      "domain": "water",
+      "via": [[0, 0]],
+      "line": "process",
+      "tag": "15-HYP-009"
+    },
+    {
+      "from": "jda",
+      "to": "v313a",
+      "domain": "water",
+      "line": "process",
+      "tag": "15-HYP-010"
+    },
+    {
+      "from": "v313a",
+      "to": "v312a",
+      "domain": "water",
+      "line": "process",
+      "tag": "15-HYP-011"
+    },
+    {
+      "from": "v312a",
+      "to": "jd",
+      "domain": "water",
+      "via": [[9, 1]],
+      "line": "process",
+      "tag": "15-HYP-012"
+    },
+    {
+      "from": "js",
+      "to": "v311b",
+      "domain": "water",
+      "via": [[3, 5]],
+      "line": "process",
+      "tag": "25-HYP-013"
+    },
+    {
+      "from": "v311b",
+      "to": "p301b",
+      "domain": "water",
+      "line": "process",
+      "tag": "25-HYP-014"
+    },
+    {
+      "from": "p301b",
+      "to": "jdb",
+      "domain": "water",
+      "line": "process",
+      "tag": "15-HYP-015"
+    },
+    {
+      "from": "jdb",
+      "to": "psv301b",
+      "domain": "water",
+      "line": "process",
+      "tag": "15-HYP-016"
+    },
+    {
+      "from": "psv301b",
+      "to": "t301",
+      "domain": "water",
+      "via": [[0, 6]],
+      "line": "process",
+      "tag": "15-HYP-017"
+    },
+    {
+      "from": "jdb",
+      "to": "v313b",
+      "domain": "water",
+      "line": "process",
+      "tag": "15-HYP-018"
+    },
+    {
+      "from": "v313b",
+      "to": "v312b",
+      "domain": "water",
+      "line": "process",
+      "tag": "15-HYP-019"
+    },
+    {
+      "from": "v312b",
+      "to": "jd",
+      "domain": "water",
+      "via": [[9, 5]],
+      "line": "process",
+      "tag": "15-HYP-020"
+    },
+    {
+      "from": "jd",
+      "to": "damp",
+      "domain": "water",
+      "line": "process",
+      "tag": "15-HYP-021"
+    },
+    {
+      "from": "damp",
+      "to": "inj",
+      "domain": "water",
+      "via": [[12, 3]],
+      "line": "process",
+      "tag": "15-HYP-022"
+    },
+    {
+      "from": "main",
+      "to": "v304",
+      "domain": "water",
+      "line": "process",
+      "tag": "600-W-001"
+    },
+    {
+      "from": "v304",
+      "to": "inj",
+      "domain": "water",
+      "line": "process",
+      "tag": "600-W-002"
+    },
+    {
+      "from": "inj",
+      "to": "out",
+      "domain": "water",
+      "line": "process",
+      "tag": "600-W-003"
+    }
+  ],
+  "clock": {
+    "start": 0,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Water Treatment Works",
+    "project": "Hypochlorite disinfection",
+    "drawnBy": "VP",
+    "checkedBy": "-",
+    "approvedBy": "-",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "LT-301",
+      "at": [0, 2],
+      "measures": "t301",
+      "low": 20
+    },
+    {
+      "tag": "FT-301",
+      "at": [11, 1],
+      "measures": "v304",
+      "reads": "part('v304').out / 1000",
+      "unit": "m³/h"
+    },
+    {
+      "tag": "FIC-301",
+      "at": [5, 0],
+      "measures": "FT-301",
+      "drives": "p301a",
+      "mounting": "dcs"
+    }
+  ],
+  "captions": [
+    {
+      "from": 0,
+      "to": 5.5,
+      "text": "Night: low main flow, P-301A strokes slowly and the day tank barely moves."
+    },
+    {
+      "from": 5.5,
+      "to": 10,
+      "text": "Morning peak: FT-301 sees the main flow rise and FIC-301 raises P-301A's stroke speed."
+    },
+    {
+      "from": 10,
+      "to": 17,
+      "text": "Midday: dose settles back to the base rate."
+    },
+    {
+      "from": 17,
+      "to": 21,
+      "text": "Evening peak: dose rises again with the main flow."
+    },
+    {
+      "from": 21,
+      "to": 24,
+      "text": "The day tank has run down but never dry; P-301B stands by."
+    }
+  ],
+  "expect": [
+    {
+      "says": "at night the dose is at its low base rate",
+      "check": "part('p301a').out < 4",
+      "at": 3
+    },
+    {
+      "says": "the morning peak raises the dose well above base",
+      "check": "part('p301a').out > 8",
+      "from": 7,
+      "to": 8
+    },
+    {
+      "says": "the dose is back near base at midday",
+      "check": "part('p301a').out < 5",
+      "at": 13
+    },
+    {
+      "says": "the evening peak raises the dose again",
+      "check": "part('p301a').out > 8",
+      "at": 19
+    },
+    {
+      "says": "dose follows the main flow (15 mL per m3)",
+      "check": "abs(part('p301a').out - 0.000015 * part('main').out) < 0.6"
+    },
+    {
+      "says": "the day tank runs down over the day",
+      "check": "part('t301').fill < 0.85",
+      "at": 23
+    },
+    {
+      "says": "the day tank never runs dry",
+      "check": "part('t301').fill > 0.2"
+    },
+    {
+      "says": "standby pump P-301B stays idle",
+      "check": "part('p301b').out == 0"
+    }
+  ]
+}

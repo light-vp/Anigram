@@ -1,0 +1,290 @@
+{
+  "anigram": 1,
+  "id": "e-201",
+  "title": "Product Cooler E-201",
+  "subtitle": "Shell-and-tube product cooler with cooling water temperature control",
+  "sheet": "PID-201",
+  "size": [6, 4],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "heat": {
+      "rate": "MW",
+      "amount": "MWh",
+      "effort": "°C"
+    }
+  },
+  "scale": {
+    "water": 100,
+    "heat": 10
+  },
+  "parts": [
+    {
+      "id": "prodin",
+      "kind": "river",
+      "label": "Hot product from upstream",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": 8
+      },
+      "labelSide": "above",
+      "class": "OffPageConnector",
+      "effort": {
+        "set": 140
+      }
+    },
+    {
+      "id": "e201",
+      "kind": "valve",
+      "label": "Product cooler",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 200,
+        "open": 1
+      },
+      "tag": "E-201",
+      "class": "HeatExchanger",
+      "effort": {
+        "set": "140 - 60 * prev('tv201').out / 100"
+      }
+    },
+    {
+      "id": "prodout",
+      "kind": "fueltank",
+      "label": "Cooled product to storage",
+      "at": [2, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 8
+      },
+      "labelSide": "above",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "cwsup",
+      "kind": "river",
+      "label": "CW supply header",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 120
+      },
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "hv201",
+      "kind": "valve",
+      "label": "CW inlet isolation",
+      "at": [1, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 120,
+        "open": 1
+      },
+      "tag": "HV-201",
+      "class": "GateValve"
+    },
+    {
+      "id": "hv202",
+      "kind": "valve",
+      "label": "CW outlet isolation",
+      "at": [3, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 120,
+        "open": 1
+      },
+      "labelSide": "left",
+      "tag": "HV-202",
+      "class": "GateValve"
+    },
+    {
+      "id": "tv201",
+      "kind": "valve",
+      "label": "CW return control valve",
+      "at": [4, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "clamp((prev('e201').effort - 40) / 100, 0, 1)"
+      },
+      "labelSide": "below",
+      "tag": "TV-201",
+      "class": "ControlValve"
+    },
+    {
+      "id": "cwret",
+      "kind": "river",
+      "label": "CW return header",
+      "at": [5, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": 100,
+        "absorbsSurplus": true
+      },
+      "labelSide": "above",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "psv201",
+      "kind": "valve",
+      "label": "Shell thermal relief",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 5,
+        "relief": {
+          "at": 10,
+          "full": 11
+        }
+      },
+      "tag": "PSV-201",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "relief",
+      "kind": "river",
+      "label": "To safe location",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 5,
+        "absorbsSurplus": true
+      },
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "shell",
+      "kind": "manifold",
+      "label": "E-201 shell side",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    }
+  ],
+  "links": [
+    {
+      "from": "prodin",
+      "to": "e201",
+      "domain": "heat",
+      "line": "process",
+      "tag": "100-P-201"
+    },
+    {
+      "from": "e201",
+      "to": "prodout",
+      "domain": "heat",
+      "line": "process",
+      "tag": "100-P-202"
+    },
+    {
+      "from": "cwsup",
+      "to": "hv201",
+      "domain": "water",
+      "line": "process",
+      "tag": "150-CW-201"
+    },
+    {
+      "from": "hv202",
+      "to": "tv201",
+      "domain": "water",
+      "line": "process",
+      "tag": "150-CW-204"
+    },
+    {
+      "from": "tv201",
+      "to": "cwret",
+      "domain": "water",
+      "line": "process",
+      "tag": "150-CW-205"
+    },
+    {
+      "from": "psv201",
+      "to": "relief",
+      "domain": "water",
+      "line": "process",
+      "tag": "50-CW-207"
+    },
+    {
+      "from": "hv201",
+      "to": "shell",
+      "domain": "water",
+      "line": "process",
+      "tag": "150-CW-202"
+    },
+    {
+      "from": "shell",
+      "to": "hv202",
+      "domain": "water",
+      "via": [
+        [2.5, 2],
+        [2.5, 3]
+      ],
+      "line": "process",
+      "tag": "150-CW-203"
+    },
+    {
+      "from": "shell",
+      "to": "psv201",
+      "domain": "water",
+      "line": "process",
+      "tag": "50-CW-206"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Process Plant",
+    "project": "Product cooling",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "TT-201",
+      "at": [1, 0],
+      "measures": "e201",
+      "unit": "°C"
+    },
+    {
+      "tag": "TIC-201",
+      "at": [5, 2],
+      "measures": "TT-201",
+      "drives": "tv201",
+      "mounting": "dcs"
+    }
+  ],
+  "expect": [
+    {
+      "says": "hot product passes through the tube side to storage",
+      "check": "part('prodout').in > 0.99 * part('prodout').demand"
+    },
+    {
+      "says": "cooling water flows through the shell side to the return header",
+      "check": "part('cwret').in > 10",
+      "from": 8,
+      "to": 5
+    },
+    {
+      "says": "TIC-201 throttles TV-201 open and the product leaves E-201 cooler than it entered",
+      "check": "part('tv201').out > 10 && part('e201').effort < 120",
+      "from": 8,
+      "to": 5
+    },
+    {
+      "says": "the shell relief valve stays shut in normal operation",
+      "check": "part('psv201').out < 0.01"
+    }
+  ]
+}

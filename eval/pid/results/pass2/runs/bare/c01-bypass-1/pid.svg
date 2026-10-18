@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="25 45 375 170" width="1500" height="680">
+<title>P&amp;ID, utilities section (DEXPI example C01) with bypass round PV4712.02</title>
+<desc>Drawn from reference.xml in the file's own coordinates (mm, Y up; the drawing group flips Y). Items added for the PV4712.02 bypass are red.</desc>
+<defs>
+<style>
+.p1{fill:none;stroke:#808000;stroke-width:.6}
+.p2{fill:none;stroke:#808000;stroke-width:.35}
+.p2.nw{stroke:#c00000;stroke-width:.5}
+.m{fill:none;stroke:#008000;stroke-width:.25}
+.sg{fill:none;stroke:#0000ff;stroke-width:.25;stroke-dasharray:1.2 .8}
+.e{fill:#fff;stroke:#000;stroke-width:.4}
+.nz{fill:none;stroke:#000;stroke-width:1.2}
+.v{fill:#fff;stroke:currentColor;stroke-width:.3;color:#000}
+.nw{color:#c00000}
+.f{fill:#fff;stroke:#000;stroke-width:.3}
+.ln{fill:none;stroke:#000;stroke-width:.3}
+.t{font-family:Arial,Helvetica,sans-serif;font-size:3px;fill:#000;text-anchor:middle;paint-order:stroke;stroke:#fff;stroke-width:.6px;stroke-linejoin:round}
+.t.nw{fill:#c00000}
+.l{text-anchor:start}
+.r{text-anchor:end}
+.tg{font-size:4.5px}
+.sm{font-size:2.4px}
+.xs{font-size:1.9px}
+</style>
+<path id="bow" d="M-2,-1.3 L2,1.3 V-1.3 L-2,1.3 Z"/>
+<g id="ball"><use xlink:href="#bow"/><circle r=".85" style="fill:#fff"/></g>
+<g id="globe"><use xlink:href="#bow"/><circle r=".85" style="fill:currentColor"/></g>
+<g id="bfly"><use xlink:href="#bow"/><path d="M0,-1.9 V1.9"/></g>
+<g id="chk"><use xlink:href="#bow"/><path d="M-1,-.8 L1,0 L-1,.8 Z" style="fill:currentColor"/></g>
+<path id="red" d="M-2,-1.6 L2,-1 V1 L-2,1.6 Z"/>
+<path id="arw" d="M-1.5,-.9 L1.5,0 L-1.5,.9 Z" style="fill:#000;stroke:none"/>
+</defs>
+
+<rect x="25" y="45" width="375" height="170" fill="#fff"/>
+<g transform="matrix(1 0 0 -1 0 297)">
+
+<!-- ===== piping, existing ===== -->
+<g class="p1">
+<path d="M38,143 H74.75"/>
+<path d="M93.25,143 H132"/>
+<path d="M148,164 H160 V176"/>
+<path d="M160,180 V236 H181 V224.36"/>
+<path d="M194,168.5 V162"/>
+<path d="M194,158 V143 H201"/>
+<path d="M205,143 H215"/>
+<path d="M219,143 H229"/>
+<path d="M233,143 H241.75"/>
+<path d="M260.25,143 H287"/>
+<path d="M291,143 H378"/>
+</g>
+<g class="p2">
+<path d="M120,95 V164 H132"/>
+<path d="M148,143 H153 V95"/>
+<path d="M344.5,95 V159.5"/>
+<path d="M328,174.5 V184 H338.5"/>
+<path d="M342.5,184 H353 V95"/>
+<path d="M265,143 V139"/>
+<path d="M269,143 V201"/>
+<path d="M267,203 H213"/>
+<path d="M281,143 V147 M281,151 V151.8"/>
+<path d="M365,143 V147 M365,151 V151.8"/>
+<path d="M323.5,143 V159.5"/>
+<!-- recycle 47127: H1008 N2 to T4750 N6, split round the new valves -->
+<path d="M323.5,174.5 V187"/>
+<path d="M323.5,191 V197"/>
+<path d="M323.5,201 V205"/>
+<path d="M323.5,209 V214 H213"/>
+</g>
+<!-- ===== piping, new bypass ===== -->
+<g class="p2 nw">
+<path d="M323.5,180 H305 V195"/>
+<path d="M305,199 V214"/>
+</g>
+<circle cx="323.5" cy="180" r=".7" fill="#c00000"/>
+<circle cx="305" cy="214" r=".7" fill="#c00000"/>
+
+<!-- ===== measuring and signal lines ===== -->
+<path class="m" d="M281,151.8 V161.25"/>
+<path class="m" d="M365,151.8 V161.25"/>
+<path class="m" d="M204,225.68 V232.25"/>
+<path class="sg" d="M365,168.75 V199 H331.6"/>
+<path class="sg" d="M143.75,178 H151.9"/>
+<path class="sg" d="M210.75,236 H340.5 V192.1"/>
+
+<!-- ===== equipment ===== -->
+<g data-tag="H1007">
+<path class="nz" d="M136,143 H132 M144,143 H148 M144,164 H148 M136,164 H132"/>
+<rect class="e" x="136" y="143" width="8" height="21"/>
+<path class="ln" d="M136,146 L144,150 L136,154 L144,158 L136,162"/>
+<text class="t tg" transform="translate(140 135.265) scale(1 -1)" dy=".35em">H1007</text>
+</g>
+<g data-tag="H1008">
+<path class="nz" d="M323.5,163.5 V159.5 M323.5,170.5 V174.5 M328,170.5 V174.5 M344.5,163.5 V159.5"/>
+<rect class="e" x="320" y="163.5" width="34" height="7"/>
+<path class="ln" d="M323,163.5 V170.5 M351,163.5 V170.5 M323,165.3 H351 M323,168.7 H351 M354,163.5 Q357.5,167 354,170.5"/>
+<text class="t tg" transform="translate(312 167.765) scale(1 -1)" dy=".35em">H1008</text>
+</g>
+<g data-tag="P4711">
+<path class="nz" d="M78.75,143 H74.75 M89.25,143 H93.25"/>
+<circle class="e" cx="84" cy="143" r="5.25"/>
+<path d="M81.5,140.5 V145.5 L87,143 Z" fill="#000"/>
+<text class="t tg" transform="translate(84 152.765) scale(1 -1)" dy=".35em">P4711</text>
+</g>
+<g data-tag="P4712">
+<path class="nz" d="M245.75,143 H241.75 M256.25,143 H260.25"/>
+<circle class="e" cx="251" cy="143" r="5.25"/>
+<rect class="ln" x="247.2" y="141" width="5" height="4"/>
+<path class="ln" d="M252.2,143 H256.25"/>
+<text class="t tg" transform="translate(251 152.765) scale(1 -1)" dy=".35em">P4712</text>
+</g>
+<g data-tag="T4750">
+<path class="nz" d="M181,219 V224.36 M194,172.5 V168.5 M179,186 H175 M209,203 H213 M209,214 H213 M204,220 V225.68"/>
+<path class="e" d="M179,180 V215 C179,219 185,221.7 194,221.7 C203,221.7 209,219 209,215 V180 C209,176 203,172.5 194,172.5 C185,172.5 179,176 179,180 Z"/>
+<path d="M204,179.67 V221.67" fill="none" stroke="#800000" stroke-width=".3"/>
+<rect class="f" x="175.5" y="200" width="3.5" height="6"/>
+<path class="ln" d="M175.5,200 L179,206 M175.5,206 L179,200"/>
+<text class="t tg" transform="translate(194 198.765) scale(1 -1)" dy=".35em">T4750</text>
+</g>
+
+<!-- ===== existing valves and fittings ===== -->
+<g data-tag="HV4750.01">
+<use xlink:href="#globe" class="v" transform="translate(160 178) rotate(90)"/>
+<path class="ln" d="M160,178 H154.9"/>
+<path class="f" d="M154.9,181 A3,3 0 0 1 154.9,175 Z"/>
+<text class="t xs" transform="translate(157.5 176) scale(1 -1) rotate(-90)" dy=".35em">F.C.</text>
+<text class="t l" transform="translate(162 178) scale(1 -1)" dy=".35em">HV4750.01</text>
+</g>
+<g data-tag="TV4750.03">
+<use xlink:href="#globe" class="v" transform="translate(340.5 184)"/>
+<path class="ln" d="M340.5,184 V189.1"/>
+<path class="f" d="M343.5,189.1 A3,3 0 0 1 337.5,189.1 Z"/>
+<text class="t xs" transform="translate(337.5 187.5) scale(1 -1)" dy=".35em">F.O.</text>
+<text class="t" transform="translate(340.5 181.5) scale(1 -1)" dy=".35em">TV4750.03</text>
+</g>
+<g data-tag="PV4712.02">
+<use xlink:href="#globe" class="v" transform="translate(323.5 199) rotate(90)"/>
+<path class="ln" d="M323.5,199 H328.6"/>
+<path class="f" d="M328.6,196 A3,3 0 0 1 328.6,202 Z"/>
+<text class="t xs" transform="translate(327 197.5) scale(1 -1) rotate(-90)" dy=".35em">F.C.</text>
+<text class="t" transform="translate(319.5 199) scale(1 -1) rotate(-90)" dy=".35em">PV4712.02</text>
+</g>
+<g data-tag="ButterflyValve-1">
+<use xlink:href="#bfly" class="v" transform="translate(194 160) rotate(90)"/>
+<text class="t sm" transform="translate(198 161) scale(1 -1) rotate(-90)" dy=".35em">66KL21-80</text>
+</g>
+<g data-tag="SwingCheckValve-1">
+<use xlink:href="#chk" class="v" transform="translate(203 143)"/>
+<text class="t sm" transform="translate(203 147) scale(1 -1)" dy=".35em">75SA21-80</text>
+</g>
+<g data-tag="PipeReducer-1">
+<use xlink:href="#red" class="v" transform="translate(217 143)"/>
+<text class="t sm" transform="translate(217 147) scale(1 -1)" dy=".35em">80/50</text>
+</g>
+<g data-tag="BallValve-1">
+<use xlink:href="#ball" class="v" transform="translate(231 143)"/>
+<text class="t sm" transform="translate(231 147) scale(1 -1)" dy=".35em">73KH12-50</text>
+</g>
+<g data-tag="BallValve-2">
+<use xlink:href="#ball" class="v" transform="translate(265 137) rotate(90)"/>
+<text class="t sm" transform="translate(268 133) scale(1 -1)" dy=".35em">73KH12-25</text>
+</g>
+<g data-tag="BallValve-3">
+<use xlink:href="#ball" class="v" transform="translate(281 149) rotate(90)"/>
+<text class="t sm" transform="translate(285 153) scale(1 -1) rotate(-90)" dy=".35em">73KH12-25</text>
+</g>
+<g data-tag="BallValve-4">
+<use xlink:href="#ball" class="v" transform="translate(289 143)"/>
+<text class="t sm" transform="translate(289 139.5) scale(1 -1)" dy=".35em">73KH12-50</text>
+</g>
+<g data-tag="BallValve-5">
+<use xlink:href="#ball" class="v" transform="translate(365 149) rotate(90)"/>
+<text class="t sm" transform="translate(369 152) scale(1 -1) rotate(-90)" dy=".35em">73KH12-25</text>
+</g>
+<g data-tag="SV 104.01">
+<path class="f" d="M267.6,200.6 H270.4 L269,203 Z"/>
+<path class="f" d="M269,203 L267,204.3 V201.7 Z"/>
+<path class="ln" d="M269,203.4 L270,204.2 L268,205 L270,205.8 L268,206.6 L269,207.2"/>
+<rect x="273" y="196" width="16" height="10.1" fill="none" stroke="#000" stroke-width=".3"/>
+<text class="t sm l" transform="translate(274 203) scale(1 -1)">SV 104.01</text>
+<text class="t sm l" transform="translate(274 200) scale(1 -1)">P = 6 barg</text>
+<text class="t sm l" transform="translate(274 197) scale(1 -1)">DN = 25/50</text>
+</g>
+<path class="ln" d="M254.5,203.5 H259.5 V205.5 Z"/>
+<path class="ln" d="M309.6,213 L311.8,215.4 L314,213"/>
+
+<!-- ===== NEW: block valves and hand-operated globe bypass valve round PV4712.02 ===== -->
+<g data-tag="HV4712.03">
+<use xlink:href="#ball" class="v nw" transform="translate(323.5 189) rotate(90)"/>
+<path d="M323.5,189 H326 M326,187.8 V190.2" fill="none" stroke="#c00000" stroke-width=".3"/>
+<text class="t sm r nw" transform="translate(321.6 189.6) scale(1 -1)" dy=".35em">HV4712.03</text>
+<text class="t sm r nw" transform="translate(321.6 187) scale(1 -1)" dy=".35em">NO</text>
+</g>
+<g data-tag="HV4712.05">
+<use xlink:href="#ball" class="v nw" transform="translate(323.5 207) rotate(90)"/>
+<path d="M323.5,207 H326 M326,205.8 V208.2" fill="none" stroke="#c00000" stroke-width=".3"/>
+<text class="t sm l nw" transform="translate(327.2 208) scale(1 -1)" dy=".35em">HV4712.05</text>
+<text class="t sm l nw" transform="translate(327.2 205.3) scale(1 -1)" dy=".35em">NO</text>
+</g>
+<g data-tag="HV4712.04">
+<use xlink:href="#globe" class="v nw" transform="translate(305 197) rotate(90)"/>
+<path d="M305,197 H307.5 M307.5,195.8 V198.2" fill="none" stroke="#c00000" stroke-width=".3"/>
+<text class="t sm nw" transform="translate(302.4 197) scale(1 -1) rotate(-90)" dy=".35em">HV4712.04</text>
+<text class="t sm nw" transform="translate(299.6 197) scale(1 -1) rotate(-90)" dy=".35em">NC</text>
+</g>
+
+<!-- ===== instruments ===== -->
+<g data-tag="PT4712.01">
+<path d="M279.9,151.8 H282.1" stroke="#000" stroke-width=".8"/>
+<text class="t sm l" transform="translate(287.5 157.5) scale(1 -1)" dy=".35em">PT4712.01</text>
+</g>
+<g data-tag="PI4712.01">
+<circle class="f" cx="281" cy="165" r="3.75"/>
+<text class="t xs" transform="translate(281 167.25) scale(1 -1)" dy=".35em">PI</text>
+<text class="t xs" transform="translate(281 163.8) scale(1 -1)" dy=".35em">4712.01</text>
+</g>
+<g data-tag="PT4712.02">
+<path d="M363.9,151.8 H366.1" stroke="#000" stroke-width=".8"/>
+<text class="t sm l" transform="translate(371.5 157.5) scale(1 -1)" dy=".35em">PT4712.02</text>
+</g>
+<g data-tag="PICSA4712.02">
+<circle class="f" cx="365" cy="165" r="3.75"/>
+<path class="ln" d="M361.25,165 H368.75"/>
+<text class="t xs" transform="translate(365 167.25) scale(1 -1)" dy=".35em">PICSA</text>
+<text class="t xs" transform="translate(365 163.8) scale(1 -1)" dy=".35em">4712.02</text>
+</g>
+<g data-tag="HS4750.01">
+<circle class="f" cx="137" cy="178" r="3.75"/>
+<path class="ln" d="M133.25,178 H140.75"/>
+<text class="t xs" transform="translate(137 180.25) scale(1 -1)" dy=".35em">HS</text>
+<text class="t xs" transform="translate(137 176.8) scale(1 -1)" dy=".35em">4750.01</text>
+</g>
+<g data-tag="TT4750.03">
+<text class="t sm l" transform="translate(206.5 230.5) scale(1 -1)" dy=".35em">TT4750.03</text>
+</g>
+<g data-tag="TICSA4750.03">
+<circle class="f" cx="204" cy="236" r="3.75"/>
+<path class="ln" d="M200.25,236 H207.75"/>
+<text class="t xs" transform="translate(204 238.25) scale(1 -1)" dy=".35em">TICSA</text>
+<text class="t xs" transform="translate(204 234.8) scale(1 -1)" dy=".35em">4750.03</text>
+</g>
+
+<!-- ===== off-page connectors and open pipe ends ===== -->
+<g data-tag="FlowInPipeOffPageConnector-1">
+<path class="f" d="M30,145.5 H36 L38,143 L36,140.5 H30 Z"/>
+<text class="t xs l" transform="translate(27 137.5) scale(1 -1)" dy=".35em">FlowInPipeOffPageConnector-1</text>
+</g>
+<g data-tag="FlowOutPipeOffPageConnector-1">
+<path class="f" d="M378,143 L380,145.5 H386 V140.5 H380 Z"/>
+<text class="t xs r" transform="translate(398 137.5) scale(1 -1)" dy=".35em">FlowOutPipeOffPageConnector-1</text>
+</g>
+<g data-tag="47130-END">
+<path d="M118,95 H122" stroke="#000" stroke-width=".5"/>
+<text class="t xs" transform="translate(120 92) scale(1 -1)" dy=".35em">47130-END</text>
+</g>
+<g data-tag="47131-END">
+<path d="M151,95 H155" stroke="#000" stroke-width=".5"/>
+<text class="t xs" transform="translate(153 92) scale(1 -1)" dy=".35em">47131-END</text>
+</g>
+<g data-tag="47140-END">
+<path d="M342.5,95 H346.5" stroke="#000" stroke-width=".5"/>
+<text class="t xs" transform="translate(344.5 92) scale(1 -1)" dy=".35em">47140-END</text>
+</g>
+<g data-tag="47141-END">
+<path d="M351,95 H355" stroke="#000" stroke-width=".5"/>
+<text class="t xs" transform="translate(353 88.5) scale(1 -1)" dy=".35em">47141-END</text>
+</g>
+
+<!-- ===== flow arrows ===== -->
+<use xlink:href="#arw" transform="translate(181 231.36) rotate(-90)"/>
+<use xlink:href="#arw" transform="translate(217 203) rotate(180)"/>
+<use xlink:href="#arw" transform="translate(217 214) rotate(180)"/>
+<use xlink:href="#arw" transform="translate(375 143)"/>
+<use xlink:href="#arw" transform="translate(120 136) rotate(90)"/>
+<use xlink:href="#arw" transform="translate(153 134.25) rotate(-90)"/>
+<use xlink:href="#arw" transform="translate(344.5 136) rotate(90)"/>
+<use xlink:href="#arw" transform="translate(353 134.25) rotate(-90)"/>
+
+<!-- ===== line numbers ===== -->
+<text class="t" transform="translate(56.375 146) scale(1 -1)" dy=".35em">MNb 47121 75HB13 80</text>
+<text class="t" transform="translate(112.625 146) scale(1 -1)" dy=".35em">MNb 47122 75HB13 80</text>
+<text class="t" transform="translate(157 206.18) scale(1 -1) rotate(-90)" dy=".35em">MNb 47123 75HB13 80</text>
+<text class="t" transform="translate(190 148.75) scale(1 -1) rotate(-90)" dy=".35em">MNc 47124 75HB13 80</text>
+<text class="t" transform="translate(272.3 180) scale(1 -1) rotate(-90)" dy=".35em">MNc 47125 73HG12 25</text>
+<text class="t" transform="translate(236 205.5) scale(1 -1)" dy=".35em">MNc 47125 75HB13 50</text>
+<text class="t" transform="translate(308.25 146) scale(1 -1)" dy=".35em">MNc 47126 75HB13 50</text>
+<text class="t" transform="translate(239.25 216.25) scale(1 -1)" dy=".35em">MNc 47127 75HB13 50 Q 80</text>
+<text class="t" transform="translate(311.8 211.5) scale(1 -1)" dy=".35em">Q80</text>
+<text class="t" transform="translate(117.5 114) scale(1 -1) rotate(-90)" dy=".35em">WKa 47130 75HB13 50</text>
+<text class="t" transform="translate(150.5 114) scale(1 -1) rotate(-90)" dy=".35em">WKb 47131 75HB13 50</text>
+<text class="t" transform="translate(342.1 113.5) scale(1 -1) rotate(-90)" dy=".35em">QSa 47140 75HB13 50 Q 80</text>
+<text class="t" transform="translate(350.7 113.6) scale(1 -1) rotate(-90)" dy=".35em">QSb 47141 75HB13 50 Q 80</text>
+
+<!-- ===== nozzle labels ===== -->
+<g class="t xs">
+<text transform="translate(133.2 146.36) scale(1 -1)" dy=".35em">N1</text><text transform="translate(133.2 140.66) scale(1 -1)" dy=".35em">80</text>
+<text transform="translate(146.8 167.36) scale(1 -1)" dy=".35em">N2</text><text transform="translate(146.8 161.66) scale(1 -1)" dy=".35em">80</text>
+<text transform="translate(133.2 167.36) scale(1 -1)" dy=".35em">N3</text><text transform="translate(133.2 161.66) scale(1 -1)" dy=".35em">50</text>
+<text transform="translate(146.8 146.36) scale(1 -1)" dy=".35em">N4</text><text transform="translate(146.8 140.66) scale(1 -1)" dy=".35em">50</text>
+<text transform="translate(327.5 161.51) scale(1 -1)" dy=".35em">N1</text><text transform="translate(327.5 158.51) scale(1 -1)" dy=".35em">50</text>
+<text transform="translate(319.5 176.51) scale(1 -1)" dy=".35em">N2</text><text transform="translate(319.5 173.51) scale(1 -1)" dy=".35em">50</text>
+<text transform="translate(332 176.51) scale(1 -1)" dy=".35em">N3</text><text transform="translate(332 173.51) scale(1 -1)" dy=".35em">50</text>
+<text transform="translate(340.5 161.51) scale(1 -1)" dy=".35em">N4</text><text transform="translate(340.5 158.51) scale(1 -1)" dy=".35em">50</text>
+<text transform="translate(75.95 146.36) scale(1 -1)" dy=".35em">N1</text><text transform="translate(75.95 140.66) scale(1 -1)" dy=".35em">80</text>
+<text transform="translate(92.05 146.36) scale(1 -1)" dy=".35em">N2</text><text transform="translate(92.05 140.66) scale(1 -1)" dy=".35em">80</text>
+<text transform="translate(242.95 146.36) scale(1 -1)" dy=".35em">N1</text><text transform="translate(242.95 140.66) scale(1 -1)" dy=".35em">50</text>
+<text transform="translate(259.05 146.36) scale(1 -1)" dy=".35em">N2</text><text transform="translate(259.05 140.66) scale(1 -1)" dy=".35em">50</text>
+<text transform="translate(177 226.37) scale(1 -1)" dy=".35em">N1</text><text transform="translate(177 223.37) scale(1 -1)" dy=".35em">80</text>
+<text transform="translate(190 170.51) scale(1 -1)" dy=".35em">N2</text><text transform="translate(190 167.51) scale(1 -1)" dy=".35em">80</text>
+<text transform="translate(176.2 189.36) scale(1 -1)" dy=".35em">N3</text><text transform="translate(176.2 183.66) scale(1 -1)" dy=".35em">80</text>
+<text transform="translate(211.8 206.36) scale(1 -1)" dy=".35em">N5</text><text transform="translate(211.8 200.66) scale(1 -1)" dy=".35em">50</text>
+<text transform="translate(211.8 217.36) scale(1 -1)" dy=".35em">N6</text><text transform="translate(211.8 211.66) scale(1 -1)" dy=".35em">50</text>
+<text transform="translate(208 227.69) scale(1 -1)" dy=".35em">N7</text><text transform="translate(208 224.69) scale(1 -1)" dy=".35em">25</text>
+<text transform="translate(171 205.01) scale(1 -1)" dy=".35em">N8</text><text transform="translate(171 202.01) scale(1 -1)" dy=".35em">800</text>
+</g>
+
+<!-- ===== title, legend, operating note ===== -->
+<text class="t l" transform="translate(30 247) scale(1 -1)">DEXPI Example C01, Utilities (area F4, section 10), rev. R2.2 + bypass round PV4712.02</text>
+<rect x="30" y="241.6" width="3" height="2" fill="#c00000"/>
+<text class="t sm l" transform="translate(35 242.6) scale(1 -1)" dy=".35em">Added: block valves HV4712.03 / HV4712.05 and bypass line with hand globe valve HV4712.04 (NO = normally open, NC = normally closed)</text>
+<rect x="221" y="218.8" width="111" height="15.6" fill="none" stroke="#c00000" stroke-width=".3"/>
+<text class="t xs l nw" transform="translate(222.5 232) scale(1 -1)">Normal: HV4712.03 and HV4712.05 open, HV4712.04 closed. Recycle goes through PV4712.02.</text>
+<text class="t xs l nw" transform="translate(222.5 228.5) scale(1 -1)">To take PV4712.02 out: open HV4712.04 first, then close HV4712.03 and HV4712.05.</text>
+<text class="t xs l nw" transform="translate(222.5 225) scale(1 -1)">The recycle 47127 to T4750 stays on line through the bypass; throttle HV4712.04 by hand.</text>
+<text class="t xs l nw" transform="translate(222.5 221.5) scale(1 -1)">PV4712.02 is fail closed; with it isolated, loop PICSA4712.02 has no final element.</text>
+</g>
+</svg>

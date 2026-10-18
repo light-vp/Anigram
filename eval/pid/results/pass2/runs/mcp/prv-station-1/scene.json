@@ -1,0 +1,403 @@
+{
+  "anigram": 1,
+  "id": "prv-station",
+  "title": "Water Pressure-Reducing Station",
+  "subtitle": "10 bar trunk to 4 bar district main",
+  "sheet": "PID-1301",
+  "size": [9, 4],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³",
+      "effort": "bar"
+    }
+  },
+  "scale": {
+    "water": 200
+  },
+  "parts": [
+    {
+      "id": "trunk",
+      "kind": "river",
+      "label": "10 bar trunk main",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": 300
+      },
+      "effort": {
+        "set": 10
+      }
+    },
+    {
+      "id": "strainer",
+      "kind": "valve",
+      "label": "Inlet strainer",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 300
+      },
+      "tag": "S-1301",
+      "class": "Filter",
+      "effort": {
+        "drop": 0.1
+      }
+    },
+    {
+      "id": "j1",
+      "kind": "manifold",
+      "label": "Inlet header",
+      "at": [2, 1],
+      "behaviour": {
+        "role": "bus"
+      },
+      "tag": "J-1301",
+      "class": "Junction"
+    },
+    {
+      "id": "ivA1",
+      "kind": "valve",
+      "label": "Isolating valve A1",
+      "at": [3, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 300,
+        "open": 1
+      },
+      "tag": "HV-1301A1",
+      "class": "GateValve"
+    },
+    {
+      "id": "pcvA",
+      "kind": "valve",
+      "label": "Duty PRV A",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 250,
+        "open": 1
+      },
+      "tag": "PCV-1301A",
+      "class": "ControlValve",
+      "effort": {
+        "set": "on('failA') ? 10 : 4"
+      }
+    },
+    {
+      "id": "ivA2",
+      "kind": "valve",
+      "label": "Isolating valve A2",
+      "at": [5, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 300,
+        "open": 1
+      },
+      "tag": "HV-1301A2",
+      "class": "GateValve"
+    },
+    {
+      "id": "ivB1",
+      "kind": "valve",
+      "label": "Isolating valve B1",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 300,
+        "open": 1
+      },
+      "tag": "HV-1301B1",
+      "class": "GateValve"
+    },
+    {
+      "id": "pcvB",
+      "kind": "valve",
+      "label": "Standby PRV B",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 250,
+        "open": 0
+      },
+      "tag": "PCV-1301B",
+      "class": "ControlValve",
+      "effort": {
+        "set": 4
+      }
+    },
+    {
+      "id": "ivB2",
+      "kind": "valve",
+      "label": "Isolating valve B2",
+      "at": [5, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 300,
+        "open": 1
+      },
+      "tag": "HV-1301B2",
+      "class": "GateValve"
+    },
+    {
+      "id": "j2",
+      "kind": "manifold",
+      "label": "Outlet header",
+      "at": [6, 1],
+      "behaviour": {
+        "role": "bus"
+      },
+      "tag": "J-1302",
+      "class": "Junction"
+    },
+    {
+      "id": "psv",
+      "kind": "valve",
+      "label": "Relief valve",
+      "at": [7, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "relief": {
+          "at": 6,
+          "full": 6.6
+        }
+      },
+      "tag": "PSV-1301",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "drain",
+      "kind": "river",
+      "label": "To drain",
+      "at": [8, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": "prev('j2').effort > 5.9 ? 100 : 0"
+      }
+    },
+    {
+      "id": "district",
+      "kind": "city",
+      "label": "4 bar district main",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 80
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "trunk",
+      "to": "strainer",
+      "domain": "water",
+      "tag": "300-W-1301"
+    },
+    {
+      "from": "strainer",
+      "to": "j1",
+      "domain": "water",
+      "tag": "300-W-1302"
+    },
+    {
+      "from": "j1",
+      "to": "ivA1",
+      "domain": "water",
+      "tag": "200-W-1303"
+    },
+    {
+      "from": "ivA1",
+      "to": "pcvA",
+      "domain": "water",
+      "tag": "200-W-1304"
+    },
+    {
+      "from": "pcvA",
+      "to": "ivA2",
+      "domain": "water",
+      "tag": "200-W-1305"
+    },
+    {
+      "from": "ivA2",
+      "to": "j2",
+      "domain": "water",
+      "tag": "200-W-1306"
+    },
+    {
+      "from": "j1",
+      "to": "ivB1",
+      "domain": "water",
+      "via": [
+        [2.5, 1],
+        [2.5, 2]
+      ],
+      "tag": "200-W-1307"
+    },
+    {
+      "from": "ivB1",
+      "to": "pcvB",
+      "domain": "water",
+      "tag": "200-W-1308"
+    },
+    {
+      "from": "pcvB",
+      "to": "ivB2",
+      "domain": "water",
+      "tag": "200-W-1309"
+    },
+    {
+      "from": "ivB2",
+      "to": "j2",
+      "domain": "water",
+      "via": [
+        [5.5, 2],
+        [5.5, 1]
+      ],
+      "tag": "200-W-1310"
+    },
+    {
+      "from": "j2",
+      "to": "district",
+      "domain": "water",
+      "tag": "300-W-1311"
+    },
+    {
+      "from": "j2",
+      "to": "psv",
+      "domain": "water",
+      "via": [
+        [6.5, 1],
+        [6.5, 2]
+      ],
+      "tag": "50-W-1312"
+    },
+    {
+      "from": "psv",
+      "to": "drain",
+      "domain": "water",
+      "tag": "50-W-1313"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "District Water Co.",
+    "project": "PRS-13 pressure-reducing station",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "PI-1301",
+      "at": [2, 0],
+      "measures": "j1",
+      "unit": "bar",
+      "mounting": "field"
+    },
+    {
+      "tag": "PI-1302",
+      "at": [6, 0],
+      "measures": "j2",
+      "unit": "bar",
+      "mounting": "field"
+    },
+    {
+      "tag": "PIC-1301A",
+      "at": [4, 0],
+      "measures": "j2",
+      "drives": "pcvA",
+      "mounting": "field"
+    },
+    {
+      "tag": "PIC-1301B",
+      "at": [6, 3],
+      "measures": "j2",
+      "drives": "pcvB",
+      "mounting": "field"
+    }
+  ],
+  "switches": [
+    {
+      "id": "failA",
+      "label": "PCV-1301A failed open",
+      "on": false
+    }
+  ],
+  "captions": [
+    {
+      "from": 6,
+      "to": 14,
+      "text": "Normal: PCV-1301A holds 4 bar downstream; PSV-1301 (6 bar) stays shut."
+    },
+    {
+      "from": 14,
+      "to": 17,
+      "text": "PCV-1301A fails open: header pressure rises and PSV-1301 lifts to drain."
+    },
+    {
+      "from": 17,
+      "to": 24,
+      "text": "PCV-1301A repaired: 4 bar again, relief valve shut."
+    }
+  ],
+  "events": [
+    {
+      "id": "fail",
+      "says": "Afternoon: duty PCV-1301A fails open and passes trunk pressure downstream.",
+      "when": "hour >= 14 && hour < 17",
+      "then": [
+        {
+          "switch": "failA",
+          "on": true
+        }
+      ],
+      "at": "pcvA"
+    },
+    {
+      "id": "fixed",
+      "says": "PCV-1301A is repaired and the relief valve reseats.",
+      "when": "hour >= 17",
+      "then": [
+        {
+          "switch": "failA",
+          "on": false
+        }
+      ],
+      "at": "pcvA"
+    }
+  ],
+  "expect": [
+    {
+      "says": "normally the relief valve stays shut",
+      "check": "part('psv').out < 0.01",
+      "from": 6,
+      "to": 13
+    },
+    {
+      "says": "normally the district main sits at about 4 bar",
+      "check": "part('j2').effort > 3.5 && part('j2').effort < 4.5",
+      "at": 10
+    },
+    {
+      "says": "in the afternoon the failed-open duty PRV lets pressure build and the relief valve lifts",
+      "check": "part('psv').out > 1",
+      "from": 15,
+      "to": 16
+    },
+    {
+      "says": "after the repair the relief valve is shut again",
+      "check": "part('psv').out < 0.01",
+      "at": 20
+    },
+    {
+      "says": "the district main is always supplied",
+      "check": "part('district').in >= 0.999 * part('district').demand"
+    }
+  ]
+}

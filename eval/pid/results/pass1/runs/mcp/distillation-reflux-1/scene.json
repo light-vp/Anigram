@@ -1,0 +1,492 @@
+{
+  "anigram": 1,
+  "id": "c-1101-distillation",
+  "title": "Distillation column C-1101",
+  "subtitle": "Reflux, reboiler and bottoms control",
+  "sheet": "PID-1101",
+  "size": [14, 9],
+  "units": {
+    "fuel": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "heat": {
+      "rate": "MW",
+      "amount": "MWh"
+    },
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "fuel": 60,
+    "heat": 20,
+    "water": 30
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "gaswell",
+      "label": "Feed from upstream",
+      "at": [0, 4],
+      "behaviour": {
+        "role": "source",
+        "output": 80
+      },
+      "tag": "FEED-IN",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "c1101",
+      "kind": "reservoir",
+      "label": "Column",
+      "at": [3, 4],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 100,
+        "start": 0.5,
+        "maxIn": 200,
+        "maxOut": 200,
+        "refill": {
+          "below": 0.5,
+          "until": 0.6
+        }
+      },
+      "labelSide": "left",
+      "tag": "C-1101",
+      "class": "Vessel"
+    },
+    {
+      "id": "e1101",
+      "kind": "valve",
+      "label": "Overhead condenser",
+      "at": [5, 2],
+      "behaviour": {
+        "role": "converter",
+        "output": "fuel",
+        "recipe": {
+          "fuel": 1,
+          "water": 0.1
+        },
+        "capacity": 120
+      },
+      "tag": "E-1101",
+      "class": "HeatExchanger"
+    },
+    {
+      "id": "v1101",
+      "kind": "reservoir",
+      "label": "Reflux drum",
+      "at": [7, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 50,
+        "start": 0.5,
+        "maxIn": 120,
+        "maxOut": 120,
+        "refill": {
+          "below": 0.6,
+          "until": 0.7
+        }
+      },
+      "tag": "V-1101",
+      "class": "Vessel"
+    },
+    {
+      "id": "p1101",
+      "kind": "pump",
+      "label": "Reflux pump",
+      "at": [9, 2],
+      "behaviour": {
+        "role": "converter",
+        "output": "fuel",
+        "recipe": {
+          "fuel": 1
+        },
+        "capacity": 80
+      },
+      "labelSide": "above",
+      "tag": "P-1101",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "fv1101",
+      "kind": "valve",
+      "label": "Reflux valve",
+      "at": [9, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 20,
+        "open": 1
+      },
+      "tag": "FV-1101",
+      "class": "ControlValve"
+    },
+    {
+      "id": "lv1101",
+      "kind": "valve",
+      "label": "Distillate valve",
+      "at": [11, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 40,
+        "open": "clamp((prev('v1101').fill - 0.3) / 0.3, 0, 1)"
+      },
+      "tag": "LV-1101",
+      "class": "ControlValve"
+    },
+    {
+      "id": "dist",
+      "kind": "factory",
+      "label": "Distillate off-sheet",
+      "at": [13, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 15
+      },
+      "tag": "DIST-OUT",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "e1102",
+      "kind": "valve",
+      "label": "Reboiler",
+      "at": [3, 6],
+      "behaviour": {
+        "role": "converter",
+        "output": "fuel",
+        "recipe": {
+          "fuel": 1,
+          "heat": 0.3
+        },
+        "capacity": 80
+      },
+      "tag": "E-1102",
+      "class": "HeatExchanger"
+    },
+    {
+      "id": "steam",
+      "kind": "gaswell",
+      "label": "Steam supply",
+      "at": [0, 6],
+      "behaviour": {
+        "role": "source",
+        "output": 30
+      },
+      "tag": "STM-IN",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "tv1102",
+      "kind": "valve",
+      "label": "Steam valve",
+      "at": [1, 6],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 30,
+        "open": "clamp(0.5 + 2 * (0.5 - prev('c1101').fill), 0.1, 1)"
+      },
+      "tag": "TV-1102",
+      "class": "ControlValve"
+    },
+    {
+      "id": "cw",
+      "kind": "river",
+      "label": "Cooling water supply",
+      "at": [5, 0],
+      "behaviour": {
+        "role": "source",
+        "output": 20
+      },
+      "labelSide": "right",
+      "tag": "CW-IN",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "pv1104",
+      "kind": "valve",
+      "label": "Cooling water valve",
+      "at": [5, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 20,
+        "open": "clamp(0.5 + 2 * (prev('c1101').fill - 0.5), 0.2, 1)"
+      },
+      "labelSide": "right",
+      "tag": "PV-1104",
+      "class": "ControlValve"
+    },
+    {
+      "id": "p1102",
+      "kind": "pump",
+      "label": "Bottoms pump",
+      "at": [5, 6],
+      "behaviour": {
+        "role": "converter",
+        "output": "fuel",
+        "recipe": {
+          "fuel": 1
+        },
+        "capacity": 60
+      },
+      "tag": "P-1102",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "lv1103",
+      "kind": "valve",
+      "label": "Bottoms valve",
+      "at": [7, 6],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 40,
+        "open": "clamp((prev('c1101').fill - 0.2) / 0.2, 0, 1)"
+      },
+      "tag": "LV-1103",
+      "class": "ControlValve"
+    },
+    {
+      "id": "btms",
+      "kind": "factory",
+      "label": "Bottoms off-sheet",
+      "at": [9, 6],
+      "behaviour": {
+        "role": "sink",
+        "demand": 25
+      },
+      "tag": "BTMS-OUT",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "c1101",
+      "domain": "fuel",
+      "tag": "100-HC-001"
+    },
+    {
+      "from": "c1101",
+      "to": "e1101",
+      "domain": "fuel",
+      "via": [[3, 2]],
+      "tag": "150-HC-002"
+    },
+    {
+      "from": "cw",
+      "to": "pv1104",
+      "domain": "water",
+      "tag": "80-CW-003"
+    },
+    {
+      "from": "pv1104",
+      "to": "e1101",
+      "domain": "water",
+      "tag": "80-CW-004"
+    },
+    {
+      "from": "e1101",
+      "to": "v1101",
+      "domain": "fuel",
+      "tag": "150-HC-005"
+    },
+    {
+      "from": "v1101",
+      "to": "p1101",
+      "domain": "fuel",
+      "tag": "100-HC-006"
+    },
+    {
+      "from": "p1101",
+      "to": "fv1101",
+      "domain": "fuel",
+      "via": [[9, 3]],
+      "tag": "80-HC-007"
+    },
+    {
+      "from": "fv1101",
+      "to": "c1101",
+      "domain": "fuel",
+      "via": [[4, 4]],
+      "tag": "80-HC-008"
+    },
+    {
+      "from": "p1101",
+      "to": "lv1101",
+      "domain": "fuel",
+      "tag": "50-HC-009"
+    },
+    {
+      "from": "lv1101",
+      "to": "dist",
+      "domain": "fuel",
+      "tag": "50-HC-010"
+    },
+    {
+      "from": "steam",
+      "to": "tv1102",
+      "domain": "heat",
+      "tag": "80-ST-011"
+    },
+    {
+      "from": "tv1102",
+      "to": "e1102",
+      "domain": "heat",
+      "tag": "80-ST-012"
+    },
+    {
+      "from": "c1101",
+      "to": "e1102",
+      "domain": "fuel",
+      "tag": "150-HC-013"
+    },
+    {
+      "from": "e1102",
+      "to": "p1102",
+      "domain": "fuel",
+      "tag": "100-HC-015"
+    },
+    {
+      "from": "p1102",
+      "to": "lv1103",
+      "domain": "fuel",
+      "tag": "80-HC-016"
+    },
+    {
+      "from": "lv1103",
+      "to": "btms",
+      "domain": "fuel",
+      "tag": "80-HC-017"
+    }
+  ],
+  "clock": {
+    "start": 0,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Process Plant",
+    "project": "Column C-1101 distillation",
+    "drawnBy": "VP",
+    "checkedBy": "-",
+    "approvedBy": "-",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "FT-1101",
+      "at": [9, 5],
+      "measures": "fv1101"
+    },
+    {
+      "tag": "FIC-1101",
+      "at": [10, 5],
+      "measures": "FT-1101",
+      "drives": "fv1101",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "LT-1101",
+      "at": [7, 0],
+      "measures": "v1101",
+      "low": 20,
+      "high": 80
+    },
+    {
+      "tag": "LIC-1101",
+      "at": [11, 0],
+      "measures": "LT-1101",
+      "drives": "lv1101",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "TT-1102",
+      "at": [2, 5],
+      "measures": "c1101",
+      "reads": "90 + 40 * part('e1102').out / 80",
+      "unit": "°C"
+    },
+    {
+      "tag": "TIC-1102",
+      "at": [1, 5],
+      "measures": "TT-1102",
+      "drives": "tv1102",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "LT-1103",
+      "at": [4, 5],
+      "measures": "c1101",
+      "reads": "part('c1101').fill * 100",
+      "unit": "%",
+      "low": 20,
+      "high": 80
+    },
+    {
+      "tag": "LIC-1103",
+      "at": [7, 5],
+      "measures": "LT-1103",
+      "drives": "lv1103",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "PT-1104",
+      "at": [4, 1],
+      "measures": "c1101",
+      "reads": "1.0 + 0.8 * part('c1101').fill",
+      "unit": "bar"
+    },
+    {
+      "tag": "PIC-1104",
+      "at": [3, 1],
+      "measures": "PT-1104",
+      "drives": "pv1104",
+      "mounting": "dcs"
+    }
+  ],
+  "expect": [
+    {
+      "says": "feed enters the column",
+      "check": "part('c1101').in > 0",
+      "sometime": true
+    },
+    {
+      "says": "overhead vapour is condensed into the reflux drum",
+      "check": "part('v1101').in > 0 && part('e1101').out > 0",
+      "sometime": true
+    },
+    {
+      "says": "the reflux pump returns reflux through FV-1101",
+      "check": "part('fv1101').out > 0",
+      "sometime": true
+    },
+    {
+      "says": "distillate leaves through LV-1101 all day",
+      "check": "part('dist').in > 0"
+    },
+    {
+      "says": "the drum level is held mid-range",
+      "check": "part('v1101').fill > 0.3 && part('v1101').fill < 0.9"
+    },
+    {
+      "says": "steam heats the reboiler through TV-1102",
+      "check": "part('tv1102').out > 0 && part('e1102').out > 0"
+    },
+    {
+      "says": "bottoms leave through LV-1103 all day",
+      "check": "part('btms').in > 0"
+    },
+    {
+      "says": "the column sump level is held mid-range",
+      "check": "part('c1101').fill > 0.3 && part('c1101').fill < 0.8"
+    },
+    {
+      "says": "cooling water flows through PV-1104 to the condenser",
+      "check": "part('pv1104').out > 0",
+      "sometime": true
+    }
+  ]
+}

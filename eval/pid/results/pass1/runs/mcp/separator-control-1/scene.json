@@ -1,0 +1,301 @@
+{
+  "anigram": 1,
+  "id": "separator-v701",
+  "title": "Production separator V-701",
+  "subtitle": "Pressure and level control, relief to flare and high-high level shutdown",
+  "sheet": "PID-701",
+  "size": [9, 5],
+  "units": {
+    "fuel": {
+      "rate": "t/h",
+      "amount": "t",
+      "effort": "bar"
+    }
+  },
+  "scale": {
+    "fuel": 100
+  },
+  "parts": [
+    {
+      "id": "well",
+      "kind": "gaswell",
+      "label": "Well fluid from manifold",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 100
+      }
+    },
+    {
+      "id": "sdv701",
+      "kind": "valve",
+      "label": "Inlet shutdown valve",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": "on('sdv')"
+      },
+      "tag": "SDV-701",
+      "class": "ControlValve"
+    },
+    {
+      "id": "v701",
+      "kind": "fueltank",
+      "label": "Production separator",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 50,
+        "start": 0.5,
+        "maxIn": 150,
+        "maxOut": 150
+      },
+      "tag": "V-701",
+      "class": "Vessel",
+      "effort": {
+        "set": "30 + 10 * part('v701').fill"
+      }
+    },
+    {
+      "id": "pv701",
+      "kind": "valve",
+      "label": "Gas pressure control valve",
+      "at": [6, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "clamp((prev('v701').effort - 28) / 4, 0, 1)"
+      },
+      "tag": "PV-701",
+      "class": "ControlValve"
+    },
+    {
+      "id": "gas",
+      "kind": "factory",
+      "label": "To gas header",
+      "at": [8, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 40
+      }
+    },
+    {
+      "id": "lv701",
+      "kind": "valve",
+      "label": "Liquid level control valve",
+      "at": [6, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": "clamp((prev('v701').fill - 0.2) / 0.3, 0, 1)"
+      },
+      "tag": "LV-701",
+      "class": "ControlValve"
+    },
+    {
+      "id": "oil",
+      "kind": "factory",
+      "label": "To oil line",
+      "at": [8, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": "between(hour, 10, 12) ? 0 : 60"
+      }
+    },
+    {
+      "id": "psv701",
+      "kind": "valve",
+      "label": "Relief valve",
+      "at": [4, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "relief": {
+          "at": 45,
+          "full": 49.5
+        }
+      },
+      "tag": "PSV-701",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "flare",
+      "kind": "factory",
+      "label": "To flare",
+      "at": [6, 0],
+      "behaviour": {
+        "role": "sink",
+        "demand": 100,
+        "absorbsSurplus": true
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "well",
+      "to": "sdv701",
+      "domain": "fuel",
+      "tag": "150-PW-701"
+    },
+    {
+      "from": "sdv701",
+      "to": "v701",
+      "domain": "fuel",
+      "tag": "150-PW-702"
+    },
+    {
+      "from": "v701",
+      "to": "pv701",
+      "domain": "fuel",
+      "via": [[4, 1]],
+      "tag": "100-PG-703"
+    },
+    {
+      "from": "pv701",
+      "to": "gas",
+      "domain": "fuel",
+      "tag": "100-PG-704"
+    },
+    {
+      "from": "v701",
+      "to": "lv701",
+      "domain": "fuel",
+      "via": [[4, 3]],
+      "tag": "100-PL-705"
+    },
+    {
+      "from": "lv701",
+      "to": "oil",
+      "domain": "fuel",
+      "tag": "100-PL-706"
+    },
+    {
+      "from": "v701",
+      "to": "psv701",
+      "domain": "fuel",
+      "tag": "100-PG-707"
+    },
+    {
+      "from": "psv701",
+      "to": "flare",
+      "domain": "fuel",
+      "tag": "100-FL-708"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Operator",
+    "project": "Production separator",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "PT-701",
+      "at": [5, 0.55],
+      "measures": "v701",
+      "reads": "part('v701').effort",
+      "unit": "bar"
+    },
+    {
+      "tag": "PIC-701",
+      "at": [6, 2],
+      "measures": "PT-701",
+      "drives": "pv701",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "LT-701",
+      "at": [5, 2.55],
+      "measures": "v701"
+    },
+    {
+      "tag": "LIC-701",
+      "at": [6, 4],
+      "measures": "LT-701",
+      "drives": "lv701",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "LSHH-702",
+      "at": [3, 3],
+      "measures": "v701",
+      "reads": "part('v701').fill * 100",
+      "unit": "%",
+      "drives": "sdv701",
+      "mounting": "plc"
+    }
+  ],
+  "switches": [
+    {
+      "id": "sdv",
+      "label": "SDV-701 open",
+      "on": true
+    }
+  ],
+  "events": [
+    {
+      "id": "trip",
+      "says": "LSHH-702 sees high-high level in V-701 and closes SDV-701.",
+      "when": "part('v701').fill > 0.9",
+      "then": [
+        {
+          "switch": "sdv",
+          "on": false
+        }
+      ],
+      "at": "v701"
+    },
+    {
+      "id": "reset",
+      "says": "Oil line is back and the level has drained; the operator resets SDV-701 open.",
+      "when": "fired('trip') < 1 && since('trip') < 20 && hour >= 14 && part('v701').fill < 0.6",
+      "then": [
+        {
+          "switch": "sdv",
+          "on": true
+        }
+      ],
+      "at": "sdv701"
+    }
+  ],
+  "expect": [
+    {
+      "says": "normally V-701 level is held mid-range",
+      "check": "part('v701').fill > 0.3 && part('v701').fill < 0.8",
+      "at": 8
+    },
+    {
+      "says": "normally gas leaves through PV-701 to the gas header",
+      "check": "part('pv701').out > 30",
+      "at": 8
+    },
+    {
+      "says": "normally liquid leaves through LV-701 to the oil line",
+      "check": "part('lv701').out > 50",
+      "at": 8
+    },
+    {
+      "says": "PSV-701 stays shut in normal operation",
+      "check": "part('psv701').out < 0.5",
+      "at": 8
+    },
+    {
+      "says": "when the oil line is blocked, LSHH-702 trips and SDV-701 closes",
+      "check": "part('sdv701').out < 0.5",
+      "sometime": true
+    },
+    {
+      "says": "well fluid stops entering V-701 while SDV-701 is shut",
+      "check": "on('sdv') > 0 || part('v701').in < 0.5",
+      "sometime": true
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "items": [
+    {
+      "tag": "OSC-1",
+      "type": "off-sheet connector",
+      "label": "Suction from upstream (off sheet)"
+    },
+    {
+      "tag": "HV-4713-1",
+      "type": "manual isolating valve",
+      "label": "Suction isolation valve"
+    },
+    { "tag": "P-4713", "type": "centrifugal pump", "label": "Pump P-4713" },
+    {
+      "tag": "NRV-4713",
+      "type": "check valve",
+      "label": "Pump discharge check valve"
+    },
+    {
+      "tag": "HV-4713-2",
+      "type": "manual isolating valve",
+      "label": "Discharge isolation valve"
+    },
+    {
+      "tag": "H-1009",
+      "type": "plate heat exchanger",
+      "label": "Product cooler H-1009"
+    },
+    {
+      "tag": "OSC-2",
+      "type": "off-sheet connector",
+      "label": "Product out (off sheet)"
+    },
+    {
+      "tag": "OSC-3",
+      "type": "off-sheet connector",
+      "label": "Cooling water in (off sheet)"
+    },
+    {
+      "tag": "TV-1009",
+      "type": "control valve",
+      "label": "Cooling water temperature control valve"
+    },
+    {
+      "tag": "OSC-4",
+      "type": "off-sheet connector",
+      "label": "Cooling water out (off sheet)"
+    },
+    {
+      "tag": "TT-1009",
+      "type": "temperature transmitter",
+      "label": "Product outlet temperature"
+    },
+    {
+      "tag": "TIC-1009",
+      "type": "temperature indicating controller",
+      "label": "Product outlet temperature controller"
+    }
+  ],
+  "lines": [
+    { "from": "OSC-1", "to": "HV-4713-1", "kind": "process" },
+    { "from": "HV-4713-1", "to": "P-4713", "kind": "process" },
+    { "from": "P-4713", "to": "NRV-4713", "kind": "process" },
+    { "from": "NRV-4713", "to": "HV-4713-2", "kind": "process" },
+    { "from": "HV-4713-2", "to": "H-1009", "kind": "process" },
+    { "from": "H-1009", "to": "OSC-2", "kind": "process" },
+    { "from": "OSC-3", "to": "TV-1009", "kind": "process" },
+    { "from": "TV-1009", "to": "H-1009", "kind": "process" },
+    { "from": "H-1009", "to": "OSC-4", "kind": "process" },
+    { "from": "TT-1009", "to": "TIC-1009", "kind": "signal" },
+    { "from": "TIC-1009", "to": "TV-1009", "kind": "signal" }
+  ]
+}

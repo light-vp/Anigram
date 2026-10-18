@@ -1,0 +1,1630 @@
+{
+  "summary": {
+    "when": "2026-10-17T17:22:06.679Z",
+    "mode": "bare",
+    "model": "claude-sonnet-5-5",
+    "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+    "runs": 31,
+    "delivered": 1,
+    "static": 0.9442903225806452,
+    "behaviour": 0,
+    "cost": 14.6083427,
+    "tokens": {
+      "input": 300,
+      "cacheWrite": 1646859,
+      "cacheRead": 7542395,
+      "output": 726054,
+      "total": 9915608
+    },
+    "seconds": 166.83870967741936,
+    "rerun": "11 runs lost to an API outage were run again at 2026-10-17T21:50:19.558Z; c01-standby, which stopped mid-run during the same outage, was run again too",
+    "regraded": "2026-10-17T22:05:15.097Z"
+  },
+  "rows": [
+    {
+      "id": "c01-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c01-draw-5hEnmE",
+      "exit": 0,
+      "scenario": "c01-draw",
+      "delivered": 1,
+      "static": 0.951,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 0.875,
+        "connections": 1,
+        "loops": 0.8,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [
+          "instrument: TICSA 4750.03 on T4750 (Tank) (found 0 + 1 partly)"
+        ],
+        "connections": [],
+        "loops": [
+          "loop: PICSA 4712.02 → PV4712.02 (measurement missing)",
+          "loop: TICSA 4750.03 → TV4750.03 (measurement missing)"
+        ],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 33,
+      "calls": 10,
+      "errors": 2,
+      "denied": 0,
+      "tools": [
+        "Read!",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Read!",
+        "Read",
+        "Read",
+        "Write",
+        "Write"
+      ],
+      "turns": 11,
+      "cost": 1.7863545,
+      "tokens": {
+        "input": 20,
+        "cacheWrite": 271945,
+        "cacheRead": 1032100,
+        "output": 59516,
+        "total": 1363581
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 437
+    },
+    {
+      "id": "c02-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c02-draw-nSb4tr",
+      "exit": 0,
+      "scenario": "c02-draw",
+      "delivered": 1,
+      "static": 0.949,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 0.883,
+        "drawn": 0.438
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [
+          "tags: \"SubTaggedColumnSection-1\" is not an ISA / plant tag"
+        ],
+        "drawn": [
+          "drawn: SubTaggedColumnSection-1 is not on the drawing",
+          "drawn: PipeReducer-1 is not on the drawing",
+          "drawn: PipeTee-1 is not on the drawing",
+          "drawn: BlindFlange-1 is not on the drawing",
+          "drawn: H658B1UV (P3) is not on the drawing",
+          "drawn: BlindFlange-2 is not on the drawing",
+          "drawn: BlindFlange-3 is not on the drawing",
+          "drawn: H658B1UV (P4) is not on the drawing",
+          "drawn: BlindFlange-4 is not on the drawing"
+        ]
+      },
+      "notes": [],
+      "items": 16,
+      "calls": 7,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Read", "Read", "Write", "Edit", "Edit", "Write", "Write"],
+      "turns": 8,
+      "cost": 1.0914073,
+      "tokens": {
+        "input": 12,
+        "cacheWrite": 135551,
+        "cacheRead": 368867,
+        "output": 51213,
+        "total": 555643
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 377
+    },
+    {
+      "id": "i05-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-i05-draw-E69Rya",
+      "exit": 0,
+      "scenario": "i05-draw",
+      "delivered": 1,
+      "static": 0.951,
+      "behaviour": null,
+      "scores": {
+        "valves": 1,
+        "instruments": 0.875,
+        "loops": 1,
+        "tags": 0.86,
+        "drawn": 1
+      },
+      "missing": {
+        "valves": [],
+        "instruments": ["instrument: FI 031.2 on control (found 0 + 3 partly)"],
+        "loops": [],
+        "tags": ["tags: \"ControlledActuator-1\" is not an ISA / plant tag"],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 8,
+      "calls": 3,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Read", "Write", "Write"],
+      "turns": 4,
+      "cost": 0.10116339999999999,
+      "tokens": {
+        "input": 6,
+        "cacheWrite": 12984,
+        "cacheRead": 18530,
+        "output": 4720,
+        "total": 36240
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 38
+    },
+    {
+      "id": "c03-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c03-draw-uUj8tm",
+      "exit": 0,
+      "scenario": "c03-draw",
+      "delivered": 1,
+      "static": 0.92,
+      "behaviour": null,
+      "scores": {
+        "valves": 1,
+        "instruments": 1,
+        "loops": 1,
+        "tags": 0.44,
+        "drawn": 0.923
+      },
+      "missing": {
+        "valves": [],
+        "instruments": [],
+        "loops": [],
+        "tags": [
+          "tags: \"OperatedValve-1\" is not an ISA / plant tag",
+          "tags: \"ControlledActuator-1\" is not an ISA / plant tag",
+          "tags: \"RestrictionOrifice-1\" is not an ISA / plant tag",
+          "tags: \"ESD\" is not an ISA / plant tag"
+        ],
+        "drawn": ["drawn: ControlledActuator-1 is not on the drawing"]
+      },
+      "notes": [],
+      "items": 13,
+      "calls": 11,
+      "errors": 1,
+      "denied": 0,
+      "tools": [
+        "Read",
+        "Read",
+        "Write",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Bash!",
+        "Write",
+        "Write"
+      ],
+      "turns": 12,
+      "cost": 0.5893074,
+      "tokens": {
+        "input": 16,
+        "cacheWrite": 67292,
+        "cacheRead": 311946,
+        "output": 28875,
+        "total": 408129
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 208
+    },
+    {
+      "id": "e06-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-e06-draw-td3LAc",
+      "exit": 0,
+      "scenario": "e06-draw",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "connections": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "connections": [],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 2,
+      "calls": 3,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Read", "Write", "Write"],
+      "turns": 4,
+      "cost": 0.0546351,
+      "tokens": {
+        "input": 6,
+        "cacheWrite": 7260,
+        "cacheRead": 16697,
+        "output": 2375,
+        "total": 26338
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 20
+    },
+    {
+      "id": "i04-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-i04-draw-XsY8h2",
+      "exit": 0,
+      "scenario": "i04-draw",
+      "delivered": 1,
+      "static": 0.928,
+      "behaviour": null,
+      "scores": {
+        "valves": 1,
+        "instruments": 1,
+        "loops": 0.8,
+        "tags": 0.825,
+        "drawn": 1
+      },
+      "missing": {
+        "valves": [],
+        "instruments": [],
+        "loops": ["loop: FIC 04 → FV 04 (final element not reached)"],
+        "tags": ["tags: \"FV 04-ACT\" is not an ISA / plant tag"],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 4,
+      "calls": 3,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Read", "Write", "Write"],
+      "turns": 4,
+      "cost": 0.0685425,
+      "tokens": {
+        "input": 6,
+        "cacheWrite": 8505,
+        "cacheRead": 17095,
+        "output": 3264,
+        "total": 28870
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 26
+    },
+    {
+      "id": "i06-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-i06-draw-czpDVg",
+      "exit": 0,
+      "scenario": "i06-draw",
+      "delivered": 1,
+      "static": 0.923,
+      "behaviour": null,
+      "scores": {
+        "valves": 1,
+        "instruments": 0.833,
+        "loops": 1,
+        "tags": 0.72,
+        "drawn": 1
+      },
+      "missing": {
+        "valves": [],
+        "instruments": ["instrument: FIC 032 on control (found 0 + 1 partly)"],
+        "loops": [],
+        "tags": [
+          "tags: \"GlobeValve-1\" is not an ISA / plant tag",
+          "tags: \"ControlledActuator-1\" is not an ISA / plant tag"
+        ],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 6,
+      "calls": 3,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Read", "Write", "Write"],
+      "turns": 4,
+      "cost": 0.10416729999999999,
+      "tokens": {
+        "input": 6,
+        "cacheWrite": 12510,
+        "cacheRead": 19434,
+        "output": 5201,
+        "total": 37151
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 42
+    },
+    {
+      "id": "i08-draw",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-i08-draw-qOLKT5",
+      "exit": 0,
+      "scenario": "i08-draw",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": null,
+      "scores": {
+        "instruments": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "instruments": [],
+        "loops": [],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 7,
+      "calls": 3,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Read", "Write", "Write"],
+      "turns": 4,
+      "cost": 0.1101154,
+      "tokens": {
+        "input": 6,
+        "cacheWrite": 13580,
+        "cacheRead": 20221,
+        "output": 5360,
+        "total": 39167
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 44
+    },
+    {
+      "id": "c01-words",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c01-words-dtq0zD",
+      "exit": 0,
+      "scenario": "c01-words",
+      "delivered": 1,
+      "static": 0.984,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 0.786
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": [
+          "drawn: OSC-47121 is not on the drawing",
+          "drawn: OSC-47126 is not on the drawing",
+          "drawn: UTL-47130 is not on the drawing",
+          "drawn: UTL-47131 is not on the drawing",
+          "drawn: UTL-47140 is not on the drawing",
+          "drawn: UTL-47141 is not on the drawing"
+        ]
+      },
+      "notes": [],
+      "items": 28,
+      "calls": 4,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Bash!", "Write", "Write"],
+      "turns": 5,
+      "cost": 0.5458975,
+      "tokens": {
+        "input": 8,
+        "cacheWrite": 39635,
+        "cacheRead": 71314,
+        "output": 38000,
+        "total": 148957
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 262
+    },
+    {
+      "id": "c02-words",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c02-words-wlHZkx",
+      "exit": 0,
+      "scenario": "c02-words",
+      "delivered": 1,
+      "static": 0.8,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 0,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [
+          "connection: K 2750 (ProcessColumn) → an off-page connector"
+        ],
+        "loops": [],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 20,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.1635897,
+      "tokens": {
+        "input": 4,
+        "cacheWrite": 12621,
+        "cacheRead": 8406,
+        "output": 11208,
+        "total": 32239
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 83
+    },
+    {
+      "id": "i05-words",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-i05-words-9M8hAP",
+      "exit": 0,
+      "scenario": "i05-words",
+      "delivered": 1,
+      "static": 0.981,
+      "behaviour": null,
+      "scores": {
+        "valves": 1,
+        "instruments": 1,
+        "loops": 0.925,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "valves": [],
+        "instruments": [],
+        "loops": [
+          "loop: YC 031.4 / FFIC 031 / FI 031.2 / FI 031.1 → GlobeValve-1 (measurement missing)"
+        ],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 5,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.0850111,
+      "tokens": {
+        "input": 4,
+        "cacheWrite": 6950,
+        "cacheRead": 8313,
+        "output": 5620,
+        "total": 20887
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 43
+    },
+    {
+      "id": "c01-bypass",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c01-bypass-T1rCjo",
+      "exit": 0,
+      "scenario": "c01-bypass",
+      "delivered": 1,
+      "static": 0.954,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 0.875,
+        "connections": 0.955,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 0.758
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [
+          "instrument: TICSA 4750.03 on T4750 (Tank) (found 0 + 1 partly)"
+        ],
+        "connections": [
+          "connection: a bypass from H-1008 to T-4750 that goes round PV-4712.02 through a valve (connected, but not by that route)"
+        ],
+        "loops": [],
+        "tags": [],
+        "drawn": [
+          "drawn: ButterflyValve-1 is not on the drawing",
+          "drawn: SwingCheckValve-1 is not on the drawing",
+          "drawn: PipeReducer-1 is not on the drawing",
+          "drawn: BallValve-1 is not on the drawing",
+          "drawn: BallValve-2 is not on the drawing",
+          "drawn: BallValve-3 is not on the drawing",
+          "drawn: BallValve-4 is not on the drawing",
+          "drawn: BallValve-5 is not on the drawing"
+        ]
+      },
+      "notes": [],
+      "items": 33,
+      "calls": 22,
+      "errors": 4,
+      "denied": 0,
+      "tools": [
+        "Read!",
+        "Read",
+        "Read!",
+        "Read!",
+        "Read!",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Write",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Write"
+      ],
+      "turns": 23,
+      "cost": 2.0500355999999997,
+      "tokens": {
+        "input": 40,
+        "cacheWrite": 276883,
+        "cacheRead": 2121671,
+        "output": 73009,
+        "total": 2471603
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 540
+    },
+    {
+      "id": "c01-standby",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c01-standby-f8OFdF",
+      "exit": 0,
+      "scenario": "c01-standby",
+      "delivered": 1,
+      "static": 0.981,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 0.875,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [
+          "instrument: TICSA 4750.03 on T4750 (Tank) (found 0 + 1 partly)"
+        ],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 35,
+      "calls": 30,
+      "errors": 3,
+      "denied": 0,
+      "tools": [
+        "Read!",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Read!",
+        "Read!",
+        "Read",
+        "Read",
+        "Write",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Write",
+        "Read",
+        "Read",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Read"
+      ],
+      "turns": 31,
+      "cost": 2.529027,
+      "tokens": {
+        "input": 32,
+        "cacheWrite": 323522,
+        "cacheRead": 2771960,
+        "output": 95751,
+        "total": 3191265
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 690
+    },
+    {
+      "id": "c02-trip",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-c02-trip-71dkwi",
+      "exit": 0,
+      "scenario": "c02-trip",
+      "delivered": 1,
+      "static": 0.961,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 0.93,
+        "drawn": 0.545
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [
+          "tags: \"SubTaggedColumnSection-1\" is not an ISA / plant tag"
+        ],
+        "drawn": [
+          "drawn: SubTaggedColumnSection-1 is not on the drawing",
+          "drawn: PipeReducer-1 is not on the drawing",
+          "drawn: PipeTee-1 is not on the drawing",
+          "drawn: BlindFlange-1 is not on the drawing",
+          "drawn: H658B1UV-P3 is not on the drawing",
+          "drawn: BlindFlange-2 is not on the drawing",
+          "drawn: BlindFlange-3 is not on the drawing",
+          "drawn: H658B1UV-P4 is not on the drawing",
+          "drawn: BlindFlange-4 is not on the drawing",
+          "drawn: FEED-IN is not on the drawing"
+        ]
+      },
+      "notes": [],
+      "items": 22,
+      "calls": 4,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Read", "Read", "Write", "Write"],
+      "turns": 5,
+      "cost": 1.3820478,
+      "tokens": {
+        "input": 8,
+        "cacheWrite": 157056,
+        "cacheRead": 121002,
+        "output": 74154,
+        "total": 352220
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 530
+    },
+    {
+      "id": "e06-modify",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-e06-modify-sxP5HZ",
+      "exit": 0,
+      "scenario": "e06-modify",
+      "delivered": 1,
+      "static": 0.955,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 0.7,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": ["loop: TT-1009 → TIC-1009 → TV-1009 (measurement missing)"],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 12,
+      "calls": 7,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Read", "Write", "Edit", "Edit", "Bash!", "Write", "Write"],
+      "turns": 8,
+      "cost": 0.18970759999999998,
+      "tokens": {
+        "input": 12,
+        "cacheWrite": 16859,
+        "cacheRead": 62847,
+        "output": 11579,
+        "total": 91297
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 80
+    },
+    {
+      "id": "transfer-level",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-transfer-level-C1v57z",
+      "exit": 0,
+      "scenario": "transfer-level",
+      "delivered": 1,
+      "static": 0.918,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 0.75,
+        "connections": 1,
+        "loops": 0.7,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [
+          "instrument: LT-102 on tank T-102 (found 0 + 2 partly)",
+          "instrument: LT-101 on tank T-101 (found 0 + 2 partly)"
+        ],
+        "connections": [],
+        "loops": [
+          "loop: LT-102 → LIC-102 → LV-102 (measurement missing)",
+          "loop: low level on T-101 protects P-101 (measurement missing)"
+        ],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 12,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.08618319999999999,
+      "tokens": {
+        "input": 4,
+        "cacheWrite": 7053,
+        "cacheRead": 8311,
+        "output": 5684,
+        "total": 21052
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 42
+    },
+    {
+      "id": "hx-temperature",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-hx-temperature-gF2hHF",
+      "exit": 0,
+      "scenario": "hx-temperature",
+      "delivered": 1,
+      "static": 0.911,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 0.75,
+        "connections": 1,
+        "loops": 0.7,
+        "tags": 1,
+        "drawn": 0.917
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [
+          "instrument: TT-201 on heat exchanger E-201 or offpage (found 0 + 1 partly)"
+        ],
+        "connections": [],
+        "loops": ["loop: TT-201 → TIC-201 → TV-201 (measurement missing)"],
+        "tags": [],
+        "drawn": ["drawn: E-201 is not on the drawing"]
+      },
+      "notes": [],
+      "items": 12,
+      "calls": 7,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Bash!", "Write", "Write", "Edit", "Edit", "Edit"],
+      "turns": 8,
+      "cost": 0.171768,
+      "tokens": {
+        "input": 10,
+        "cacheWrite": 13200,
+        "cacheRead": 46082,
+        "output": 11417,
+        "total": 70709
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 78
+    },
+    {
+      "id": "dosing-skid",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-dosing-skid-hYJ2Tz",
+      "exit": 0,
+      "scenario": "dosing-skid",
+      "delivered": 1,
+      "static": 0.93,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 0.667,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 0.952
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [
+          "connection: P-301A → injection point through a check valve",
+          "connection: P-301B → injection point through a check valve"
+        ],
+        "loops": [],
+        "tags": [],
+        "drawn": ["drawn: MAIN-301 is not on the drawing"],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 21,
+      "calls": 4,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Bash!", "Write", "Write"],
+      "turns": 5,
+      "cost": 0.5603020999999999,
+      "tokens": {
+        "input": 8,
+        "cacheWrite": 40593,
+        "cacheRead": 60909,
+        "output": 39155,
+        "total": 140665
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 276
+    },
+    {
+      "id": "compressor-antisurge",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-compressor-antisurge-fwGQZd",
+      "exit": 0,
+      "scenario": "compressor-antisurge",
+      "delivered": 1,
+      "static": 0.955,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 0.7,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [
+          "loop: FT-401 and PT-402 → UIC-401 → FV-401 (measurement missing)"
+        ],
+        "tags": [],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 12,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.1681926,
+      "tokens": {
+        "input": 4,
+        "cacheWrite": 12902,
+        "cacheRead": 8387,
+        "output": 11556,
+        "total": 32849
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 84
+    },
+    {
+      "id": "boiler-feedwater",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-boiler-feedwater-tdzWkN",
+      "exit": 1,
+      "scenario": "boiler-feedwater",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 19,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.11180949999999999,
+      "tokens": {
+        "input": 2,
+        "cacheWrite": 1866,
+        "cacheRead": 3264,
+        "output": 10384,
+        "total": 15516
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 73
+    },
+    {
+      "id": "cooling-water",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-cooling-water-DE8lfi",
+      "exit": 0,
+      "scenario": "cooling-water",
+      "delivered": 1,
+      "static": 0.943,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 0.7,
+        "tags": 0.844,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": ["loop: TT-601 → TIC-601 → TV-601 (measurement missing)"],
+        "tags": [
+          "tags: \"PS-IN\" is not an ISA / plant tag",
+          "tags: \"PS-OUT\" is not an ISA / plant tag"
+        ],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 15,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.17608540000000003,
+      "tokens": {
+        "input": 4,
+        "cacheWrite": 15815,
+        "cacheRead": 5116,
+        "output": 11213,
+        "total": 32148
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 78
+    },
+    {
+      "id": "separator-control",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-separator-control-pklvRl",
+      "exit": 0,
+      "scenario": "separator-control",
+      "delivered": 1,
+      "static": 0.7,
+      "behaviour": null,
+      "scores": {
+        "equipment": 0.5,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 0,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [
+          "equipment: well fluid in, gas, oil and flare ×4 (found 0)"
+        ],
+        "valves": [],
+        "instruments": [],
+        "connections": [
+          "connection: well fluid → V-701 through SDV-701",
+          "connection: gas → header through PV-701",
+          "connection: liquid → oil line through LV-701",
+          "connection: V-701 → flare through PSV-701"
+        ],
+        "loops": [],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 10,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.1178271,
+      "tokens": {
+        "input": 4,
+        "cacheWrite": 11701,
+        "cacheRead": 5060,
+        "output": 7034,
+        "total": 23799
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 49
+    },
+    {
+      "id": "tank-farm-overfill",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-tank-farm-overfill-K1Ez5r",
+      "exit": 0,
+      "scenario": "tank-farm-overfill",
+      "delivered": 1,
+      "static": 0.988,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 0.838,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [
+          "tags: \"LT/LAH-801\" is not an ISA / plant tag",
+          "tags: \"LT/LAH-802\" is not an ISA / plant tag",
+          "tags: \"LT/LAH-803\" is not an ISA / plant tag"
+        ],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 18,
+      "calls": 4,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Bash!", "Write", "Write"],
+      "turns": 5,
+      "cost": 0.2957206,
+      "tokens": {
+        "input": 8,
+        "cacheWrite": 24289,
+        "cacheRead": 33816,
+        "output": 19499,
+        "total": 77612
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 123
+    },
+    {
+      "id": "duplex-filter",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-duplex-filter-giolAq",
+      "exit": 0,
+      "scenario": "duplex-filter",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 18,
+      "calls": 7,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Edit", "Edit", "Edit", "bash!", "Write", "Write"],
+      "turns": 8,
+      "cost": 0.2612193,
+      "tokens": {
+        "input": 12,
+        "cacheWrite": 21839,
+        "cacheRead": 66903,
+        "output": 16698,
+        "total": 105452
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 117
+    },
+    {
+      "id": "reactor-jacket",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-reactor-jacket-1YpNmM",
+      "exit": 0,
+      "scenario": "reactor-jacket",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 17,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.143885,
+      "tokens": {
+        "input": 4,
+        "cacheWrite": 11091,
+        "cacheRead": 8373,
+        "output": 9850,
+        "total": 29318
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 67
+    },
+    {
+      "id": "distillation-reflux",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-distillation-reflux-HIf0UR",
+      "exit": 0,
+      "scenario": "distillation-reflux",
+      "delivered": 1,
+      "static": 0.983,
+      "behaviour": null,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 0.778
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": [
+          "drawn: C-1101 is not on the drawing",
+          "drawn: E-1101 is not on the drawing",
+          "drawn: V-1101 is not on the drawing",
+          "drawn: P-1101 is not on the drawing",
+          "drawn: E-1102 is not on the drawing",
+          "drawn: P-1102 is not on the drawing"
+        ]
+      },
+      "notes": [],
+      "items": 27,
+      "calls": 4,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Bash!", "Write", "Write"],
+      "turns": 5,
+      "cost": 0.5549171,
+      "tokens": {
+        "input": 10,
+        "cacheWrite": 39839,
+        "cacheRead": 108789,
+        "output": 38448,
+        "total": 187086
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 264
+    },
+    {
+      "id": "ratio-blend",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-ratio-blend-Y5NnzT",
+      "exit": 0,
+      "scenario": "ratio-blend",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 9,
+      "calls": 9,
+      "errors": 2,
+      "denied": 2,
+      "tools": [
+        "Write",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Edit",
+        "Write!",
+        "Write!",
+        "Write",
+        "Write"
+      ],
+      "turns": 10,
+      "cost": 0.2517408,
+      "tokens": {
+        "input": 12,
+        "cacheWrite": 19187,
+        "cacheRead": 63301,
+        "output": 16847,
+        "total": 99347
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 102
+    },
+    {
+      "id": "prv-station",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-prv-station-En4TRx",
+      "exit": 0,
+      "scenario": "prv-station",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "tags": [],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 13,
+      "calls": 2,
+      "errors": 0,
+      "denied": 0,
+      "tools": ["Write", "Write"],
+      "turns": 3,
+      "cost": 0.1580303,
+      "tokens": {
+        "input": 4,
+        "cacheWrite": 12054,
+        "cacheRead": 8343,
+        "output": 10880,
+        "total": 31281
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 77
+    },
+    {
+      "id": "chemical-injection",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-chemical-injection-sNA14j",
+      "exit": 0,
+      "scenario": "chemical-injection",
+      "delivered": 1,
+      "static": 0.863,
+      "behaviour": null,
+      "scores": {
+        "equipment": 0.75,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 0.667,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": ["equipment: the export pipeline (found 0)"],
+        "valves": [],
+        "instruments": [],
+        "connections": [
+          "connection: P-1401 → pipeline through two check valves and an isolating valve"
+        ],
+        "tags": [],
+        "drawn": []
+      },
+      "notes": [],
+      "items": 14,
+      "calls": 4,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Bash!", "Write", "Write"],
+      "turns": 5,
+      "cost": 0.1726089,
+      "tokens": {
+        "input": 8,
+        "cacheWrite": 13221,
+        "cacheRead": 31681,
+        "output": 11637,
+        "total": 56547
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 75
+    },
+    {
+      "id": "lift-station",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-lift-station-TjH3yz",
+      "exit": 0,
+      "scenario": "lift-station",
+      "delivered": 1,
+      "static": 0.844,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 0,
+        "tags": 1,
+        "drawn": 0.917
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": ["loop: LT-1501 → PLC → the pumps (no controller)"],
+        "tags": [],
+        "drawn": ["drawn: WW-1501 is not on the drawing"],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 12,
+      "calls": 6,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Edit", "Edit", "Bash!", "Write", "Write"],
+      "turns": 7,
+      "cost": 0.2993155,
+      "tokens": {
+        "input": 10,
+        "cacheWrite": 22002,
+        "cacheRead": 62542,
+        "output": 20486,
+        "total": 105040
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 142
+    },
+    {
+      "id": "raw-water-standby",
+      "mode": "bare",
+      "run": 1,
+      "dir": "/tmp/anigram-pid-bare-raw-water-standby-mHIvmv",
+      "exit": 0,
+      "scenario": "raw-water-standby",
+      "delivered": 1,
+      "static": 1,
+      "behaviour": 0,
+      "scores": {
+        "equipment": 1,
+        "valves": 1,
+        "instruments": 1,
+        "connections": 1,
+        "loops": 1,
+        "tags": 1,
+        "drawn": 1
+      },
+      "missing": {
+        "equipment": [],
+        "valves": [],
+        "instruments": [],
+        "connections": [],
+        "loops": [],
+        "tags": [],
+        "drawn": [],
+        "behaviour": [
+          "behaviour: a bare drawing cannot be simulated, so no claim can be verified"
+        ]
+      },
+      "notes": [],
+      "items": 16,
+      "calls": 6,
+      "errors": 1,
+      "denied": 0,
+      "tools": ["Write", "Edit", "Edit", "Bash!", "Write", "Write"],
+      "turns": 7,
+      "cost": 0.22772810000000004,
+      "tokens": {
+        "input": 10,
+        "cacheWrite": 17054,
+        "cacheRead": 51115,
+        "output": 15421,
+        "total": 83600
+      },
+      "models": ["claude-haiku-5-5", "claude-sonnet-5-5"],
+      "seconds": 105
+    }
+  ]
+}

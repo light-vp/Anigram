@@ -1,0 +1,215 @@
+{
+  "id": "reactor-jacket",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["reactor", "vessel", "container"],
+      "tag": "^R1001$",
+      "says": "reactor R-1001"
+    },
+    {
+      "family": "pump",
+      "tag": "^P1001$",
+      "says": "pump P-1001"
+    },
+    {
+      "family": ["agitator", "mixer", "motor"],
+      "says": "the agitator"
+    },
+    {
+      "family": "offpage",
+      "min": 3,
+      "says": "feed, product and the relief and CW connections"
+    }
+  ],
+  "valves": [
+    {
+      "family": "control",
+      "tag": "^FV1001$",
+      "says": "control valve FV-1001"
+    },
+    {
+      "family": "control",
+      "tag": "^TV1001$",
+      "says": "control valve TV-1001"
+    },
+    {
+      "family": "relief",
+      "tag": "^PSV1001$",
+      "says": "relief valve PSV-1001"
+    },
+    {
+      "family": "rupture-disc",
+      "says": "a rupture disc"
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["FT", "FIT", "FE"],
+      "number": "1001",
+      "says": "FT-1001"
+    },
+    {
+      "letters": "FIC",
+      "number": "1001",
+      "says": "FIC-1001"
+    },
+    {
+      "letters": ["LT", "LIT"],
+      "number": "1001",
+      "on": {
+        "family": ["reactor", "vessel", "container"],
+        "tag": "^R1001$",
+        "says": "reactor R-1001"
+      },
+      "hops": 2,
+      "says": "LT-1001"
+    },
+    {
+      "letters": ["TT", "TIT", "TE"],
+      "number": "1001",
+      "on": {
+        "family": ["reactor", "vessel", "container"],
+        "tag": "^R1001$",
+        "says": "reactor R-1001"
+      },
+      "hops": 2,
+      "says": "TT-1001"
+    },
+    {
+      "letters": "TIC",
+      "number": "1001",
+      "says": "TIC-1001"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": {
+        "family": ["reactor", "vessel", "container"],
+        "tag": "^R1001$",
+        "says": "reactor R-1001"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^FV1001$",
+          "says": "control valve FV-1001"
+        }
+      ],
+      "says": "feed → R-1001 through FV-1001"
+    },
+    {
+      "from": {
+        "family": ["reactor", "vessel", "container"],
+        "tag": "^R1001$",
+        "says": "reactor R-1001"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P1001$",
+        "says": "pump P-1001"
+      }
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P1001$",
+        "says": "pump P-1001"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "says": "P-1001 → product off the sheet"
+    },
+    {
+      "from": {
+        "family": "offpage"
+      },
+      "to": [
+        {
+          "family": ["reactor", "vessel", "container"],
+          "tag": "^R1001$",
+          "says": "reactor R-1001"
+        },
+        {
+          "family": "heat-exchanger",
+          "says": "the jacket"
+        }
+      ],
+      "via": [
+        {
+          "family": "control",
+          "tag": "^TV1001$",
+          "says": "control valve TV-1001"
+        }
+      ],
+      "says": "cooling water → jacket through TV-1001"
+    },
+    {
+      "from": {
+        "family": ["reactor", "vessel", "container"],
+        "tag": "^R1001$",
+        "says": "reactor R-1001"
+      },
+      "to": {
+        "family": "offpage"
+      },
+      "via": [
+        {
+          "family": "relief"
+        }
+      ],
+      "says": "R-1001 relief → catch tank"
+    }
+  ],
+  "loops": [
+    {
+      "says": "FT-1001 → FIC-1001 → FV-1001",
+      "controller": {
+        "letters": "FIC",
+        "number": "1001"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^FV1001$",
+        "says": "control valve FV-1001"
+      },
+      "sensor": [
+        {
+          "variable": "F"
+        }
+      ]
+    },
+    {
+      "says": "TT-1001 → TIC-1001 → TV-1001",
+      "controller": {
+        "letters": "TIC",
+        "number": "1001"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^TV1001$",
+        "says": "control valve TV-1001"
+      },
+      "sensor": [
+        {
+          "variable": "T",
+          "on": [
+            {
+              "family": ["reactor", "vessel", "container"],
+              "tag": "^R1001$",
+              "says": "reactor R-1001"
+            },
+            {
+              "family": "heat-exchanger",
+              "says": "the jacket"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,153 @@
+{
+  "anigram": 1,
+  "id": "flow-ratio-control",
+  "title": "Flow ratio control, loop 031",
+  "subtitle": "Line 1 is throttled to hold a set ratio to the wild flow in line 2",
+  "sheet": "PID-031",
+  "size": [8, 5],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    }
+  },
+  "scale": {
+    "water": 100
+  },
+  "parts": [
+    {
+      "id": "s1",
+      "kind": "river",
+      "label": "Line 1 supply",
+      "at": [0, 4],
+      "behaviour": {
+        "role": "source",
+        "output": 100
+      },
+      "tag": "S-101",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "cv",
+      "kind": "valve",
+      "label": "Ratio control valve",
+      "at": [3, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "clamp(0.5 * prev('s2').out / 100, 0, 1)"
+      },
+      "tag": "FV-031",
+      "class": "ControlValve"
+    },
+    {
+      "id": "d1",
+      "kind": "factory",
+      "label": "Line 1 to process",
+      "at": [7, 4],
+      "behaviour": {
+        "role": "sink",
+        "demand": "0.5 * (40 + 40 * shift(hour))"
+      },
+      "tag": "D-101",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "s2",
+      "kind": "river",
+      "label": "Line 2 wild flow",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": "40 + 40 * shift(hour)"
+      },
+      "tag": "S-102",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "d2",
+      "kind": "factory",
+      "label": "Line 2 to process",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": "40 + 40 * shift(hour)"
+      },
+      "tag": "D-102",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "s1",
+      "to": "cv",
+      "domain": "water",
+      "tag": "50-W-001"
+    },
+    {
+      "from": "cv",
+      "to": "d1",
+      "domain": "water",
+      "tag": "50-W-002"
+    },
+    {
+      "from": "s2",
+      "to": "d2",
+      "domain": "water",
+      "tag": "50-W-003"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Your organisation",
+    "project": "Flow ratio control",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "FI-031.1",
+      "at": [5, 0],
+      "measures": "d2",
+      "reads": "part('d2').in",
+      "unit": "m³/h"
+    },
+    {
+      "tag": "FI-031.2",
+      "at": [5, 3],
+      "measures": "cv",
+      "reads": "part('cv').out",
+      "unit": "m³/h"
+    },
+    {
+      "tag": "FFIC-031",
+      "at": [4, 3],
+      "measures": "FI-031.2",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "YC-031.4",
+      "at": [3, 3],
+      "measures": "FFIC-031",
+      "drives": "cv",
+      "mounting": "dcs"
+    }
+  ],
+  "expect": [
+    {
+      "says": "line 1 flow is held at half the wild flow in line 2",
+      "check": "abs(part('d1').in - 0.5 * part('d2').in) < 0.02 * part('d2').in + 0.1"
+    },
+    {
+      "says": "when the wild flow is high line 1 is higher too",
+      "check": "part('d1').in > 35",
+      "at": 12
+    }
+  ]
+}

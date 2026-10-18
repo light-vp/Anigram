@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 560" width="900" height="560" font-family="Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="pa" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 Z" fill="#000"/></marker>
+    <marker id="sa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#06c"/></marker>
+  </defs>
+  <rect width="900" height="560" fill="#fff"/>
+  <text x="450" y="24" text-anchor="middle" font-size="18" font-weight="bold">P&amp;ID - Flow Ratio Control Loop 031</text>
+
+  <!-- Wild stream -->
+  <g stroke="#000" stroke-width="2.5" fill="none">
+    <line x1="60" y1="110" x2="830" y2="110" marker-end="url(#pa)"/>
+  </g>
+  <text x="60" y="98" font-weight="bold">Wild stream</text>
+  <line x1="300" y1="110" x2="300" y2="82" stroke="#000"/>
+  <circle cx="300" cy="60" r="22" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="300" y="65" text-anchor="middle">FI</text>
+  <text x="330" y="56">FI-031.1</text>
+
+  <!-- Controlled stream -->
+  <line x1="60" y1="440" x2="830" y2="440" stroke="#000" stroke-width="2.5" marker-end="url(#pa)"/>
+  <text x="60" y="466" font-weight="bold">Controlled stream</text>
+  <line x1="300" y1="440" x2="300" y2="402" stroke="#000"/>
+  <circle cx="300" cy="380" r="22" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="300" y="385" text-anchor="middle">FI</text>
+  <text x="330" y="376">FI-031.2</text>
+
+  <!-- Globe control valve with actuator -->
+  <path d="M575,425 L625,455 L625,425 L575,455 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+  <circle cx="600" cy="440" r="7" fill="#fff" stroke="#000" stroke-width="2"/>
+  <line x1="600" y1="433" x2="600" y2="410" stroke="#000" stroke-width="2"/>
+  <path d="M578,410 A22,22 0 0 1 622,410 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="640" y="415">FV-031.3</text>
+  <text x="640" y="431" font-size="11">globe control valve</text>
+
+  <!-- Signal converter -->
+  <circle cx="600" cy="320" r="22" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="600" y="325" text-anchor="middle">YC</text>
+  <text x="630" y="316">YC-031.4</text>
+  <text x="630" y="332" font-size="11">signal converter</text>
+
+  <!-- DCS ratio controller (shared display, DCS) -->
+  <circle cx="450" cy="250" r="26" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <line x1="424" y1="250" x2="476" y2="250" stroke="#000" stroke-width="1.5"/>
+  <text x="450" y="246" text-anchor="middle">FFIC</text>
+  <text x="450" y="264" text-anchor="middle" font-size="10">R</text>
+  <text x="450" y="296" text-anchor="middle">FFIC-031 (DCS)</text>
+  <text x="60" y="215" font-size="11">Ratio setpoint R: FI-031.2 = R x FI-031.1</text>
+  <text x="60" y="231" font-size="11">Controlled flow follows the wild flow</text>
+
+  <!-- Signals (dashed) -->
+  <g stroke="#06c" stroke-width="1.5" stroke-dasharray="6,4" fill="none">
+    <polyline points="300,82 300,170 450,170 450,224" marker-end="url(#sa)"/>
+    <polyline points="300,358 300,330 450,330 450,276" marker-end="url(#sa)"/>
+    <polyline points="476,250 600,250 600,298" marker-end="url(#sa)"/>
+    <polyline points="600,342 600,386" marker-end="url(#sa)"/>
+  </g>
+
+  <!-- Legend -->
+  <g font-size="11">
+    <line x1="60" y1="510" x2="100" y2="510" stroke="#000" stroke-width="2.5"/><text x="108" y="514">Process line</text>
+    <line x1="200" y1="510" x2="240" y2="510" stroke="#06c" stroke-width="1.5" stroke-dasharray="6,4"/><text x="248" y="514">Instrument / control signal</text>
+    <circle cx="430" cy="510" r="8" fill="#fff" stroke="#000"/><text x="446" y="514">Field instrument</text>
+    <circle cx="560" cy="510" r="8" fill="#fff" stroke="#000"/><line x1="552" y1="510" x2="568" y2="510" stroke="#000"/><text x="576" y="514">DCS function</text>
+  </g>
+</svg>

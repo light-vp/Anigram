@@ -1,0 +1,115 @@
+{
+  "items": [
+    {
+      "tag": "OSC-501",
+      "type": "off-sheet connector",
+      "label": "Make-up water from off sheet"
+    },
+    {
+      "tag": "LV-501",
+      "type": "level control valve (fail closed)",
+      "label": "Deaerator make-up water control valve"
+    },
+    { "tag": "D-501", "type": "deaerator", "label": "Deaerator" },
+    {
+      "tag": "LT-501",
+      "type": "level transmitter",
+      "label": "Deaerator level transmitter"
+    },
+    {
+      "tag": "LIC-501",
+      "type": "level indicating controller",
+      "label": "Deaerator level controller"
+    },
+    {
+      "tag": "HV-501A",
+      "type": "isolating valve",
+      "label": "P-501A suction isolating valve"
+    },
+    {
+      "tag": "HV-501B",
+      "type": "isolating valve",
+      "label": "P-501B suction isolating valve"
+    },
+    {
+      "tag": "P-501A",
+      "type": "centrifugal pump",
+      "label": "Boiler feed pump A (duty)"
+    },
+    {
+      "tag": "P-501B",
+      "type": "centrifugal pump",
+      "label": "Boiler feed pump B (standby)"
+    },
+    {
+      "tag": "CV-501A",
+      "type": "check valve",
+      "label": "P-501A discharge check valve"
+    },
+    {
+      "tag": "CV-501B",
+      "type": "check valve",
+      "label": "P-501B discharge check valve"
+    },
+    {
+      "tag": "HV-503A",
+      "type": "isolating valve",
+      "label": "P-501A discharge isolating valve"
+    },
+    {
+      "tag": "HV-503B",
+      "type": "isolating valve",
+      "label": "P-501B discharge isolating valve"
+    },
+    {
+      "tag": "PSL-501",
+      "type": "pressure switch low",
+      "label": "Common discharge low pressure, auto-starts P-501B"
+    },
+    {
+      "tag": "LV-502",
+      "type": "level control valve (fail open)",
+      "label": "Boiler feed control valve"
+    },
+    { "tag": "V-502", "type": "steam drum", "label": "Steam drum" },
+    {
+      "tag": "LT-502",
+      "type": "level transmitter",
+      "label": "Steam drum level transmitter"
+    },
+    {
+      "tag": "LIC-502",
+      "type": "level indicating controller",
+      "label": "Steam drum level controller"
+    },
+    {
+      "tag": "OSC-502",
+      "type": "off-sheet connector",
+      "label": "Steam to off sheet"
+    }
+  ],
+  "lines": [
+    { "from": "OSC-501", "to": "LV-501", "kind": "process" },
+    { "from": "LV-501", "to": "D-501", "kind": "process" },
+    { "from": "D-501", "to": "HV-501A", "kind": "process" },
+    { "from": "D-501", "to": "HV-501B", "kind": "process" },
+    { "from": "HV-501A", "to": "P-501A", "kind": "process" },
+    { "from": "HV-501B", "to": "P-501B", "kind": "process" },
+    { "from": "P-501A", "to": "CV-501A", "kind": "process" },
+    { "from": "CV-501A", "to": "HV-503A", "kind": "process" },
+    { "from": "HV-503A", "to": "LV-502", "kind": "process" },
+    { "from": "P-501B", "to": "CV-501B", "kind": "process" },
+    { "from": "CV-501B", "to": "HV-503B", "kind": "process" },
+    { "from": "HV-503B", "to": "LV-502", "kind": "process" },
+    { "from": "LV-502", "to": "V-502", "kind": "process" },
+    { "from": "V-502", "to": "OSC-502", "kind": "process" },
+    { "from": "D-501", "to": "LT-501", "kind": "signal" },
+    { "from": "LT-501", "to": "LIC-501", "kind": "signal" },
+    { "from": "LIC-501", "to": "LV-501", "kind": "signal" },
+    { "from": "V-502", "to": "LT-502", "kind": "signal" },
+    { "from": "LT-502", "to": "LIC-502", "kind": "signal" },
+    { "from": "LIC-502", "to": "LV-502", "kind": "signal" },
+    { "from": "HV-503A", "to": "PSL-501", "kind": "signal" },
+    { "from": "PSL-501", "to": "P-501B", "kind": "signal" }
+  ]
+}

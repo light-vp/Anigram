@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="420" viewBox="0 0 720 420" font-family="Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#000"/></marker>
+  </defs>
+  <rect width="720" height="420" fill="#fff"/>
+  <text x="20" y="28" font-size="16" font-weight="bold">Flow control loop 04</text>
+
+  <!-- process line -->
+  <g stroke="#000" stroke-width="2.5" fill="none">
+    <line x1="30" y1="300" x2="150" y2="300"/>
+    <line x1="210" y1="300" x2="470" y2="300"/>
+    <line x1="530" y1="300" x2="690" y2="300" marker-end="url(#arrow)"/>
+  </g>
+
+  <!-- FE 04: flow measuring element (orifice-style) on the line -->
+  <g stroke="#000" stroke-width="2" fill="#fff">
+    <line x1="180" y1="285" x2="180" y2="315"/>
+    <line x1="168" y1="285" x2="192" y2="285"/>
+    <line x1="168" y1="315" x2="192" y2="315"/>
+  </g>
+  <text x="180" y="342" text-anchor="middle">FE 04</text>
+  <text x="180" y="358" text-anchor="middle" font-size="11">Flow measuring element</text>
+
+  <!-- FV 04: globe valve (bowtie) -->
+  <g stroke="#000" stroke-width="2" fill="#fff">
+    <polygon points="470,285 470,315 500,300"/>
+    <polygon points="530,285 530,315 500,300"/>
+    <circle cx="500" cy="300" r="4" fill="#000"/>
+  </g>
+  <text x="500" y="342" text-anchor="middle">FV 04</text>
+  <text x="500" y="358" text-anchor="middle" font-size="11">Globe valve</text>
+
+  <!-- actuator: spring-diaphragm -->
+  <g stroke="#000" stroke-width="2" fill="#fff">
+    <line x1="500" y1="296" x2="500" y2="250"/>
+    <path d="M472,250 A28,28 0 0 1 528,250 Z"/>
+  </g>
+  <path d="M478,236 q5,-5 10,0 t10,0 t10,0 t10,0" stroke="#000" stroke-width="1.2" fill="none" transform="translate(-4,10)"/>
+  <text x="545" y="236" font-size="12">Actuator</text>
+  <text x="545" y="251" font-size="11">Spring-diaphragm</text>
+  <text x="545" y="266" font-size="11">NC: closed on signal/air failure</text>
+  <text x="545" y="281" font-size="10" fill="#555">(ControlledActuator-1, no tag in file)</text>
+
+  <!-- FIC 04: central control room (DCS), solid line across the bubble -->
+  <g stroke="#000" stroke-width="2" fill="#fff">
+    <circle cx="340" cy="120" r="30"/>
+    <line x1="310" y1="120" x2="370" y2="120"/>
+  </g>
+  <text x="340" y="113" text-anchor="middle" font-size="14">FIC</text>
+  <text x="340" y="138" text-anchor="middle" font-size="14">04</text>
+  <text x="340" y="172" text-anchor="middle" font-size="11">Flow indicating controller</text>
+  <text x="340" y="186" text-anchor="middle" font-size="11">(central location)</text>
+
+  <!-- signals (dashed) -->
+  <g stroke="#000" stroke-width="1.5" stroke-dasharray="6,4" fill="none">
+    <path d="M180,285 L180,120 L310,120" marker-end="url(#arrow)"/>
+    <path d="M370,120 L500,120 L500,222" marker-end="url(#arrow)"/>
+  </g>
+  <text x="190" y="205" font-size="11">measuring signal</text>
+  <text x="510" y="170" font-size="11">control signal</text>
+</svg>

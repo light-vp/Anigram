@@ -1,0 +1,78 @@
+{
+  "items": [
+    {
+      "tag": "T-1401",
+      "type": "tote tank",
+      "label": "Corrosion inhibitor tote"
+    },
+    {
+      "tag": "HV-1401",
+      "type": "isolating valve",
+      "label": "Tote outlet / pump suction isolating valve"
+    },
+    { "tag": "S-1401", "type": "strainer", "label": "Pump suction strainer" },
+    {
+      "tag": "HV-1402",
+      "type": "isolating valve",
+      "label": "Calibration pot isolating valve"
+    },
+    {
+      "tag": "CP-1401",
+      "type": "calibration pot",
+      "label": "Pump suction calibration pot"
+    },
+    {
+      "tag": "P-1401",
+      "type": "positive displacement pump",
+      "label": "Corrosion inhibitor injection pump"
+    },
+    {
+      "tag": "PSV-1401",
+      "type": "pressure relief valve",
+      "label": "Pump discharge relief valve"
+    },
+    {
+      "tag": "PI-1401",
+      "type": "pressure gauge",
+      "label": "Pump discharge pressure indicator"
+    },
+    {
+      "tag": "FI-1401",
+      "type": "flow indicator",
+      "label": "Injection flow indicator"
+    },
+    {
+      "tag": "CV-1401",
+      "type": "check valve",
+      "label": "Injection check valve 1"
+    },
+    {
+      "tag": "CV-1402",
+      "type": "check valve",
+      "label": "Injection check valve 2"
+    },
+    {
+      "tag": "HV-1403",
+      "type": "isolating valve",
+      "label": "Injection quill isolating valve"
+    },
+    { "tag": "Q-1401", "type": "injection quill", "label": "Injection quill" },
+    { "tag": "PL-1401", "type": "pipeline", "label": "Export pipeline" }
+  ],
+  "lines": [
+    { "from": "T-1401", "to": "HV-1401", "kind": "process" },
+    { "from": "HV-1401", "to": "S-1401", "kind": "process" },
+    { "from": "S-1401", "to": "P-1401", "kind": "process" },
+    { "from": "S-1401", "to": "HV-1402", "kind": "process" },
+    { "from": "HV-1402", "to": "CP-1401", "kind": "process" },
+    { "from": "P-1401", "to": "PSV-1401", "kind": "process" },
+    { "from": "PSV-1401", "to": "T-1401", "kind": "process" },
+    { "from": "P-1401", "to": "PI-1401", "kind": "process" },
+    { "from": "P-1401", "to": "FI-1401", "kind": "process" },
+    { "from": "FI-1401", "to": "CV-1401", "kind": "process" },
+    { "from": "CV-1401", "to": "CV-1402", "kind": "process" },
+    { "from": "CV-1402", "to": "HV-1403", "kind": "process" },
+    { "from": "HV-1403", "to": "Q-1401", "kind": "process" },
+    { "from": "Q-1401", "to": "PL-1401", "kind": "process" }
+  ]
+}

@@ -1,0 +1,461 @@
+{
+  "anigram": 1,
+  "id": "raw-water-transfer",
+  "title": "Raw water transfer",
+  "subtitle": "Intake fills T-1601; duty/standby pumps P-1601A/B send it to treatment",
+  "sheet": "PID-1601",
+  "size": [14, 5],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 120,
+    "electric": 50
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "river",
+      "label": "Raw water from river intake",
+      "at": [0.5, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 120
+      },
+      "labelSide": "below"
+    },
+    {
+      "id": "power",
+      "kind": "grid",
+      "label": "Electricity",
+      "at": [9, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 100,
+        "dispatchable": true
+      }
+    },
+    {
+      "id": "mccA",
+      "kind": "breaker",
+      "label": "Motor starter A",
+      "at": [8, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "on('tripA') ? 0 : 1"
+      }
+    },
+    {
+      "id": "mccB",
+      "kind": "breaker",
+      "label": "Motor starter B",
+      "at": [8, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "on('runB') ? 1 : 0"
+      }
+    },
+    {
+      "id": "lv",
+      "kind": "valve",
+      "label": "Intake control valve",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 150,
+        "open": "clamp((0.8 - prev('tank').fill) / 0.1, 0, 1) * (prev('tank').fill < 0.95 ? 1 : 0)"
+      },
+      "tag": "LV-1601",
+      "class": "ControlValve"
+    },
+    {
+      "id": "tank",
+      "kind": "reservoir",
+      "label": "Raw water tank",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 400,
+        "start": 0.6,
+        "maxIn": 150,
+        "maxOut": 150
+      },
+      "tag": "T-1601",
+      "class": "Tank"
+    },
+    {
+      "id": "j1",
+      "kind": "manifold",
+      "label": "Suction header",
+      "at": [6, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "sva",
+      "kind": "valve",
+      "label": "Suction isolation",
+      "at": [7, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100
+      },
+      "tag": "V-1601",
+      "class": "GateValve"
+    },
+    {
+      "id": "pa",
+      "kind": "pump",
+      "label": "Transfer pump (duty)",
+      "at": [8, 0],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.2,
+          "water": 1
+        },
+        "capacity": 100
+      },
+      "labelSide": "above",
+      "tag": "P-1601A",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "dva",
+      "kind": "valve",
+      "label": "Discharge isolation",
+      "at": [9, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100
+      },
+      "tag": "V-1602",
+      "class": "GateValve"
+    },
+    {
+      "id": "cva",
+      "kind": "valve",
+      "label": "Discharge check",
+      "at": [10, 0],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100
+      },
+      "labelSide": "above",
+      "tag": "V-1603",
+      "class": "CheckValve"
+    },
+    {
+      "id": "svb",
+      "kind": "valve",
+      "label": "Suction isolation",
+      "at": [7, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100
+      },
+      "tag": "V-1604",
+      "class": "GateValve"
+    },
+    {
+      "id": "pb",
+      "kind": "pump",
+      "label": "Transfer pump (standby)",
+      "at": [8, 4],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.2,
+          "water": 1
+        },
+        "capacity": 100
+      },
+      "labelSide": "above",
+      "tag": "P-1601B",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "dvb",
+      "kind": "valve",
+      "label": "Discharge isolation",
+      "at": [9, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100
+      },
+      "tag": "V-1605",
+      "class": "GateValve"
+    },
+    {
+      "id": "cvb",
+      "kind": "valve",
+      "label": "Discharge check",
+      "at": [10, 4],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100
+      },
+      "labelSide": "above",
+      "tag": "V-1606",
+      "class": "CheckValve"
+    },
+    {
+      "id": "j2",
+      "kind": "manifold",
+      "label": "Discharge header",
+      "at": [12, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "class": "Junction"
+    },
+    {
+      "id": "plant",
+      "kind": "factory",
+      "label": "To treatment plant",
+      "at": [13, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 80
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "lv",
+      "domain": "water",
+      "tag": "300-RW-001"
+    },
+    {
+      "from": "lv",
+      "to": "tank",
+      "domain": "water",
+      "tag": "300-RW-002"
+    },
+    {
+      "from": "tank",
+      "to": "j1",
+      "domain": "water",
+      "tag": "300-RW-003"
+    },
+    {
+      "from": "j1",
+      "to": "sva",
+      "domain": "water",
+      "via": [[6, 0]],
+      "tag": "200-RW-004"
+    },
+    {
+      "from": "sva",
+      "to": "pa",
+      "domain": "water",
+      "tag": "200-RW-005"
+    },
+    {
+      "from": "pa",
+      "to": "dva",
+      "domain": "water",
+      "tag": "200-RW-006"
+    },
+    {
+      "from": "dva",
+      "to": "cva",
+      "domain": "water",
+      "tag": "200-RW-007"
+    },
+    {
+      "from": "cva",
+      "to": "j2",
+      "domain": "water",
+      "via": [[12, 0]],
+      "tag": "200-RW-008"
+    },
+    {
+      "from": "j1",
+      "to": "svb",
+      "domain": "water",
+      "via": [[6, 4]],
+      "tag": "200-RW-009"
+    },
+    {
+      "from": "svb",
+      "to": "pb",
+      "domain": "water",
+      "tag": "200-RW-010"
+    },
+    {
+      "from": "pb",
+      "to": "dvb",
+      "domain": "water",
+      "tag": "200-RW-011"
+    },
+    {
+      "from": "dvb",
+      "to": "cvb",
+      "domain": "water",
+      "tag": "200-RW-012"
+    },
+    {
+      "from": "cvb",
+      "to": "j2",
+      "domain": "water",
+      "via": [[12, 4]],
+      "tag": "200-RW-013"
+    },
+    {
+      "from": "j2",
+      "to": "plant",
+      "domain": "water",
+      "tag": "300-RW-014"
+    },
+    {
+      "from": "power",
+      "to": "mccA",
+      "domain": "electric"
+    },
+    {
+      "from": "mccA",
+      "to": "pa",
+      "domain": "electric"
+    },
+    {
+      "from": "power",
+      "to": "mccB",
+      "domain": "electric"
+    },
+    {
+      "from": "mccB",
+      "to": "pb",
+      "domain": "electric"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 0.5
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Water Treatment Works",
+    "project": "Raw water transfer",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "LT-1601",
+      "at": [4, 1],
+      "measures": "tank",
+      "low": 20,
+      "high": 90
+    },
+    {
+      "tag": "LIC-1601",
+      "at": [2, 1],
+      "measures": "LT-1601",
+      "drives": "lv",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "LSHH-1602",
+      "at": [5, 1],
+      "measures": "tank",
+      "mounting": "plc",
+      "high": 95
+    }
+  ],
+  "switches": [
+    {
+      "id": "tripA",
+      "label": "P-1601A tripped",
+      "on": false
+    },
+    {
+      "id": "runB",
+      "label": "P-1601B running",
+      "on": false
+    }
+  ],
+  "captions": [
+    {
+      "from": 6,
+      "to": 10,
+      "text": "P-1601A pumps tank T-1601 to treatment; LV-1601 holds the level."
+    },
+    {
+      "from": 10,
+      "to": 12,
+      "text": "P-1601A trips; P-1601B starts and the tank never overflows."
+    }
+  ],
+  "events": [
+    {
+      "id": "trip",
+      "says": "Mid-morning the duty pump P-1601A trips.",
+      "when": "hour >= 10",
+      "then": [
+        {
+          "switch": "tripA",
+          "on": true
+        }
+      ],
+      "at": "pa",
+      "once": true
+    },
+    {
+      "id": "standby",
+      "says": "Loss of duty flow starts standby pump P-1601B.",
+      "when": "on('tripA')",
+      "then": [
+        {
+          "switch": "runB",
+          "on": true
+        }
+      ],
+      "after": 0.1,
+      "at": "pb",
+      "once": true
+    }
+  ],
+  "expect": [
+    {
+      "says": "before the trip the duty pump P-1601A feeds the plant",
+      "check": "part('pa').out > 70 && part('pb').out < 1",
+      "at": 8
+    },
+    {
+      "says": "after the trip the standby P-1601B carries the plant",
+      "check": "part('pa').out < 1 && part('pb').out > 70",
+      "at": 12
+    },
+    {
+      "says": "the plant is supplied after the standby takes over",
+      "check": "part('plant').in >= 0.99 * part('plant').demand",
+      "from": 12,
+      "to": 16
+    },
+    {
+      "says": "the tank never overflows (stays below the LSHH-1602 trip)",
+      "check": "part('tank').fill < 0.95"
+    },
+    {
+      "says": "the tank never runs dry",
+      "check": "part('tank').fill > 0.1"
+    }
+  ]
+}

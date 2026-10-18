@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 480" width="1000" height="480" font-family="Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="flow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#000"/></marker>
+    <marker id="sig" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#06c"/></marker>
+  </defs>
+  <rect width="1000" height="480" fill="#fff"/>
+  <text x="500" y="26" text-anchor="middle" font-size="16" font-weight="bold">P&amp;ID – Transfer System T-101 to T-102</text>
+
+  <!-- Tanks -->
+  <g fill="#fff" stroke="#000" stroke-width="2">
+    <rect x="60" y="180" width="100" height="170" rx="14"/>
+    <rect x="820" y="150" width="100" height="200" rx="14"/>
+  </g>
+  <text x="110" y="375" text-anchor="middle" font-weight="bold">T-101</text>
+  <text x="110" y="391" text-anchor="middle">Storage tank</text>
+  <text x="870" y="375" text-anchor="middle" font-weight="bold">T-102</text>
+  <text x="870" y="391" text-anchor="middle">Day tank</text>
+  <!-- level marks -->
+  <g stroke="#c00" stroke-dasharray="6 4" stroke-width="1.2">
+    <line x1="62" y1="300" x2="158" y2="300"/>
+  </g>
+  <text x="110" y="294" text-anchor="middle" font-size="10" fill="#c00">low level (LAL-101)</text>
+  <g stroke="#06c" stroke-dasharray="6 4" stroke-width="1.2">
+    <line x1="822" y1="230" x2="918" y2="230"/>
+  </g>
+  <text x="870" y="224" text-anchor="middle" font-size="10" fill="#06c">setpoint (LIC-102)</text>
+
+  <!-- Process piping -->
+  <g stroke="#000" stroke-width="3" fill="none">
+    <line x1="160" y1="330" x2="302" y2="330" marker-end="url(#flow)"/>
+    <polyline points="330,302 330,270 820,270" marker-end="url(#flow)"/>
+  </g>
+
+  <!-- Pump -->
+  <circle cx="330" cy="330" r="28" fill="#fff" stroke="#000" stroke-width="2"/>
+  <polygon points="330,306 330,354 352,330" fill="none" stroke="#000" stroke-width="1.5" transform="rotate(0)"/>
+  <text x="330" y="378" text-anchor="middle" font-weight="bold">P-101</text>
+  <text x="330" y="394" text-anchor="middle">Transfer pump</text>
+
+  <!-- Valves -->
+  <g fill="#fff" stroke="#000" stroke-width="2">
+    <polygon points="215,318 215,342 245,318 245,342"/>
+    <polygon points="525,258 525,282 555,258 555,282"/>
+    <polygon points="645,258 645,282 675,258 675,282"/>
+    <polygon points="430,258 430,282 452,270"/>
+  </g>
+  <line x1="455" y1="257" x2="455" y2="283" stroke="#000" stroke-width="3"/>
+  <!-- control valve stem and actuator -->
+  <line x1="660" y1="270" x2="660" y2="240" stroke="#000" stroke-width="2"/>
+  <path d="M644 240 A16 16 0 0 1 676 240 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+
+  <g text-anchor="middle">
+    <text x="230" y="362" font-weight="bold">HV-101</text>
+    <text x="230" y="376">Suction isolating valve</text>
+    <text x="443" y="302" font-weight="bold">CV-101</text>
+    <text x="443" y="316">Discharge check valve</text>
+    <text x="540" y="302" font-weight="bold">HV-102</text>
+    <text x="540" y="316">Discharge isolating valve</text>
+    <text x="660" y="302" font-weight="bold">LV-102</text>
+    <text x="660" y="316">Level control valve</text>
+  </g>
+
+  <!-- Instruments -->
+  <g fill="#fff" stroke="#000" stroke-width="1.8">
+    <circle cx="110" cy="100" r="28"/>
+    <circle cx="290" cy="100" r="28"/>
+    <circle cx="900" cy="90" r="28"/>
+    <circle cx="780" cy="90" r="28"/>
+  </g>
+  <line x1="762" y1="90" x2="798" y2="90" stroke="#000" stroke-width="1"/>
+  <g text-anchor="middle" font-size="11" font-weight="bold">
+    <text x="110" y="104">LT-101</text>
+    <text x="290" y="104">LAL-101</text>
+    <text x="900" y="94">LT-102</text>
+    <text x="780" y="84">LIC-102</text>
+  </g>
+  <g text-anchor="middle" font-size="10">
+    <text x="110" y="62">Level transmitter</text>
+    <text x="290" y="62">Low level alarm</text>
+    <text x="900" y="52">Level transmitter</text>
+    <text x="780" y="52">Level indicating controller</text>
+  </g>
+  <!-- impulse (tank connection) lines -->
+  <g stroke="#000" stroke-width="1">
+    <line x1="110" y1="128" x2="110" y2="180"/>
+    <line x1="900" y1="118" x2="900" y2="150"/>
+  </g>
+
+  <!-- Signals -->
+  <g stroke="#06c" stroke-width="1.8" stroke-dasharray="7 4" fill="none">
+    <line x1="138" y1="100" x2="260" y2="100" marker-end="url(#sig)"/>
+    <polyline points="290,128 290,310 306,310" marker-end="url(#sig)"/>
+    <line x1="872" y1="90" x2="810" y2="90" marker-end="url(#sig)"/>
+    <polyline points="752,90 660,90 660,222" marker-end="url(#sig)"/>
+  </g>
+  <text x="298" y="215" fill="#06c" font-size="10">low level: alarm and P-101 trip</text>
+  <text x="668" y="150" fill="#06c" font-size="10">output to LV-102</text>
+
+  <!-- Legend -->
+  <g font-size="11">
+    <line x1="60" y1="440" x2="100" y2="440" stroke="#000" stroke-width="3"/>
+    <text x="108" y="444">Process line</text>
+    <line x1="220" y1="440" x2="260" y2="440" stroke="#06c" stroke-width="1.8" stroke-dasharray="7 4"/>
+    <text x="268" y="444">Instrument / control signal</text>
+  </g>
+</svg>

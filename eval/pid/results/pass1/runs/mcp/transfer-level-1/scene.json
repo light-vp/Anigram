@@ -1,0 +1,323 @@
+{
+  "anigram": 1,
+  "id": "transfer-level",
+  "title": "Transfer system T-101 to T-102",
+  "subtitle": "P-101 moves product to the day tank; LIC-102 holds T-102 level through LV-102",
+  "sheet": "PID-100",
+  "size": [12, 3],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 100,
+    "electric": 30
+  },
+  "parts": [
+    {
+      "id": "feed",
+      "kind": "river",
+      "label": "Product supply",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": "between(hour, 6, 9) ? 10 : 60"
+      },
+      "tag": "FEED-1",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "power",
+      "kind": "grid",
+      "label": "Electricity",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "source",
+        "output": 50,
+        "dispatchable": true
+      }
+    },
+    {
+      "id": "t101",
+      "kind": "reservoir",
+      "label": "Storage tank",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 200,
+        "start": 0.35,
+        "maxIn": 60,
+        "maxOut": 90
+      },
+      "tag": "T-101",
+      "class": "Tank"
+    },
+    {
+      "id": "hv101",
+      "kind": "valve",
+      "label": "Suction isolation",
+      "at": [2, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": 1
+      },
+      "tag": "HV-101",
+      "class": "GateValve"
+    },
+    {
+      "id": "xv101",
+      "kind": "valve",
+      "label": "Suction trip valve",
+      "at": [3, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "prev('t101').fill > 0.15 ? 1 : 0"
+      },
+      "tag": "XV-101",
+      "class": "BallValve"
+    },
+    {
+      "id": "p101",
+      "kind": "pump",
+      "label": "Transfer pump",
+      "at": [4, 1],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.25,
+          "water": 1
+        },
+        "capacity": 90
+      },
+      "tag": "P-101",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "nrv101",
+      "kind": "valve",
+      "label": "Discharge check",
+      "at": [5, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": 1
+      },
+      "tag": "V-101",
+      "class": "CheckValve"
+    },
+    {
+      "id": "hv102",
+      "kind": "valve",
+      "label": "Discharge isolation",
+      "at": [6, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": 1
+      },
+      "labelSide": "above",
+      "tag": "HV-102",
+      "class": "GateValve"
+    },
+    {
+      "id": "lv102",
+      "kind": "valve",
+      "label": "Control valve",
+      "at": [7, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100,
+        "open": "clamp((0.9 - prev('t102').fill) / 0.1, 0, 1)"
+      },
+      "tag": "LV-102",
+      "class": "ControlValve"
+    },
+    {
+      "id": "t102",
+      "kind": "reservoir",
+      "label": "Day tank",
+      "at": [9, 1],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 150,
+        "start": 0.9,
+        "maxIn": 100,
+        "maxOut": 60,
+        "refill": {
+          "below": 0.95,
+          "until": 0.97
+        }
+      },
+      "tag": "T-102",
+      "class": "Tank"
+    },
+    {
+      "id": "user",
+      "kind": "factory",
+      "label": "To process",
+      "at": [11, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 40
+      },
+      "tag": "PROC-1",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "feed",
+      "to": "t101",
+      "domain": "water",
+      "tag": "100-P-001"
+    },
+    {
+      "from": "t101",
+      "to": "hv101",
+      "domain": "water",
+      "tag": "100-P-002"
+    },
+    {
+      "from": "hv101",
+      "to": "xv101",
+      "domain": "water",
+      "tag": "100-P-003"
+    },
+    {
+      "from": "xv101",
+      "to": "p101",
+      "domain": "water",
+      "tag": "100-P-004"
+    },
+    {
+      "from": "power",
+      "to": "p101",
+      "domain": "electric"
+    },
+    {
+      "from": "p101",
+      "to": "nrv101",
+      "domain": "water",
+      "tag": "80-P-005"
+    },
+    {
+      "from": "nrv101",
+      "to": "hv102",
+      "domain": "water",
+      "tag": "80-P-006"
+    },
+    {
+      "from": "hv102",
+      "to": "lv102",
+      "domain": "water",
+      "tag": "80-P-007"
+    },
+    {
+      "from": "lv102",
+      "to": "t102",
+      "domain": "water",
+      "tag": "80-P-008"
+    },
+    {
+      "from": "t102",
+      "to": "user",
+      "domain": "water",
+      "tag": "80-P-009"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Site Operations",
+    "project": "Tank transfer system",
+    "drawnBy": "VP",
+    "checkedBy": "-",
+    "approvedBy": "-",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "LT-101",
+      "at": [1, 0],
+      "measures": "t101",
+      "low": 15
+    },
+    {
+      "tag": "LAL-101",
+      "at": [2, 0],
+      "measures": "LT-101",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "LSL-101",
+      "at": [3, 0],
+      "measures": "LT-101",
+      "drives": "xv101",
+      "mounting": "dcs"
+    },
+    {
+      "tag": "LT-102",
+      "at": [9, 0],
+      "measures": "t102",
+      "low": 20,
+      "high": 95
+    },
+    {
+      "tag": "LIC-102",
+      "at": [7, 0],
+      "measures": "LT-102",
+      "drives": "lv102",
+      "mounting": "dcs"
+    }
+  ],
+  "captions": [
+    {
+      "from": 6,
+      "to": 24,
+      "text": "LIC-102 throttles LV-102 to hold T-102; on low level in T-101 LAL-101 alarms and LSL-101 closes XV-101, protecting P-101."
+    }
+  ],
+  "expect": [
+    {
+      "says": "LIC-102 keeps the day tank T-102 within its band",
+      "check": "part('t102').fill > 0.3 && part('t102').fill < 0.99"
+    },
+    {
+      "says": "The transfer pump runs while T-101 has product",
+      "check": "part('p101').out > 0",
+      "at": 7
+    },
+    {
+      "says": "Low level in T-101 closes the suction trip valve, stopping P-101",
+      "check": "part('xv101').out == 0 && part('p101').out == 0",
+      "sometime": true
+    },
+    {
+      "says": "T-101 never runs dry",
+      "check": "part('t101').fill > 0.1"
+    },
+    {
+      "says": "LV-102 throttles as T-102 fills",
+      "check": "part('lv102').out < 99",
+      "sometime": true
+    },
+    {
+      "says": "The process is always served",
+      "check": "part('user').in >= 0.999 * part('user').demand"
+    }
+  ]
+}

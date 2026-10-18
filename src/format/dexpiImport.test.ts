@@ -116,6 +116,9 @@ test('a column with its instrument taps, and a ratio loop, open cleanly', () => 
     const s = load(scene)
     assert.ok(s.instruments?.length, f)
   }
+  // the ratio controller is numbered `031.` in the file: it keeps its loop number
+  const ratio = load(fromDexpi(fixture('dexpi-i05-ratio-control.xml')).scene)
+  assert.ok(ratio.instruments?.some((i) => i.tag === 'FFIC-031'))
 })
 
 test('the layout follows the file, or the flow when asked', () => {

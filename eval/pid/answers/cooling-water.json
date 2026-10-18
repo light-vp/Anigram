@@ -1,0 +1,224 @@
+{
+  "id": "cooling-water",
+  "source": "written",
+  "equipment": [
+    {
+      "family": ["cooling-tower", "tank", "container"],
+      "tag": "^CT601$",
+      "says": "cooling tower CT-601"
+    },
+    {
+      "family": "pump",
+      "tag": "^P601A$",
+      "says": "pump P-601A"
+    },
+    {
+      "family": "pump",
+      "tag": "^P601B$",
+      "says": "pump P-601B"
+    },
+    {
+      "family": "heat-exchanger",
+      "tag": "^E601$",
+      "says": "heat exchanger E-601"
+    }
+  ],
+  "valves": [
+    {
+      "family": "control",
+      "tag": "^TV601$",
+      "says": "control valve TV-601"
+    },
+    {
+      "family": "check",
+      "min": 2
+    },
+    {
+      "family": "isolation",
+      "min": 4
+    }
+  ],
+  "instruments": [
+    {
+      "letters": ["TT", "TIT"],
+      "number": "601",
+      "says": "TT-601"
+    },
+    {
+      "letters": "TIC",
+      "number": "601",
+      "says": "TIC-601"
+    }
+  ],
+  "connections": [
+    {
+      "from": {
+        "family": ["cooling-tower", "tank", "container"],
+        "tag": "^CT601$",
+        "says": "cooling tower CT-601"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P601A$",
+        "says": "pump P-601A"
+      }
+    },
+    {
+      "from": {
+        "family": ["cooling-tower", "tank", "container"],
+        "tag": "^CT601$",
+        "says": "cooling tower CT-601"
+      },
+      "to": {
+        "family": "pump",
+        "tag": "^P601B$",
+        "says": "pump P-601B"
+      }
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P601A$",
+        "says": "pump P-601A"
+      },
+      "to": {
+        "family": "heat-exchanger",
+        "tag": "^E601$",
+        "says": "heat exchanger E-601"
+      },
+      "via": [
+        {
+          "family": "check"
+        }
+      ]
+    },
+    {
+      "from": {
+        "family": "pump",
+        "tag": "^P601B$",
+        "says": "pump P-601B"
+      },
+      "to": {
+        "family": "heat-exchanger",
+        "tag": "^E601$",
+        "says": "heat exchanger E-601"
+      },
+      "via": [
+        {
+          "family": "check"
+        }
+      ]
+    },
+    {
+      "from": {
+        "family": "heat-exchanger",
+        "tag": "^E601$",
+        "says": "heat exchanger E-601"
+      },
+      "to": {
+        "family": ["cooling-tower", "tank", "container"],
+        "tag": "^CT601$",
+        "says": "cooling tower CT-601"
+      },
+      "avoid": [
+        {
+          "tag": "^TV601$"
+        }
+      ],
+      "says": "E-601 return → top of CT-601"
+    },
+    {
+      "from": {
+        "family": "heat-exchanger",
+        "tag": "^E601$",
+        "says": "heat exchanger E-601"
+      },
+      "to": {
+        "family": ["cooling-tower", "tank", "container"],
+        "tag": "^CT601$",
+        "says": "cooling tower CT-601"
+      },
+      "via": [
+        {
+          "family": "control",
+          "tag": "^TV601$",
+          "says": "control valve TV-601"
+        }
+      ],
+      "says": "the tower bypass from the return to the basin through TV-601"
+    }
+  ],
+  "loops": [
+    {
+      "says": "TT-601 → TIC-601 → TV-601",
+      "controller": {
+        "letters": "TIC",
+        "number": "601"
+      },
+      "final": {
+        "family": "control",
+        "tag": "^TV601$",
+        "says": "control valve TV-601"
+      },
+      "sensor": [
+        {
+          "variable": "T",
+          "on": [
+            {
+              "family": "heat-exchanger",
+              "tag": "^E601$",
+              "says": "heat exchanger E-601"
+            },
+            {
+              "family": "pump",
+              "tag": "^P601A$",
+              "says": "pump P-601A"
+            },
+            {
+              "family": "pump",
+              "tag": "^P601B$",
+              "says": "pump P-601B"
+            }
+          ],
+          "hops": 3
+        }
+      ]
+    }
+  ],
+  "behaviour": [
+    {
+      "says": "the duty pump runs all day",
+      "all": [
+        {
+          "of": {
+            "family": "pump",
+            "tag": "^P601A$",
+            "says": "pump P-601A"
+          },
+          "field": "out",
+          "op": ">",
+          "value": 0
+        }
+      ]
+    },
+    {
+      "says": "the bypass passes more at 06:00 than at 15:00",
+      "at": 6,
+      "all": [
+        {
+          "of": {
+            "family": "control",
+            "tag": "^TV601$",
+            "says": "control valve TV-601"
+          },
+          "field": "out",
+          "op": ">",
+          "ref": {
+            "field": "out",
+            "at": 15
+          }
+        }
+      ]
+    }
+  ]
+}

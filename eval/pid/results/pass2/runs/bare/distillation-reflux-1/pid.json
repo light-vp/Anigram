@@ -1,0 +1,166 @@
+{
+  "items": [
+    {
+      "tag": "C-1101",
+      "type": "distillation column",
+      "label": "Distillation column"
+    },
+    {
+      "tag": "E-1101",
+      "type": "shell-and-tube condenser",
+      "label": "Overhead condenser"
+    },
+    {
+      "tag": "V-1101",
+      "type": "horizontal reflux drum",
+      "label": "Reflux drum"
+    },
+    { "tag": "P-1101", "type": "centrifugal pump", "label": "Reflux pump" },
+    {
+      "tag": "E-1102",
+      "type": "shell-and-tube reboiler",
+      "label": "Reboiler (steam heated)"
+    },
+    { "tag": "P-1102", "type": "centrifugal pump", "label": "Bottoms pump" },
+    {
+      "tag": "FV-1101",
+      "type": "control valve",
+      "label": "Reflux flow control valve"
+    },
+    {
+      "tag": "LV-1101",
+      "type": "control valve",
+      "label": "Distillate level control valve"
+    },
+    {
+      "tag": "TV-1102",
+      "type": "control valve",
+      "label": "Reboiler steam control valve"
+    },
+    {
+      "tag": "LV-1103",
+      "type": "control valve",
+      "label": "Bottoms level control valve"
+    },
+    {
+      "tag": "PV-1104",
+      "type": "control valve",
+      "label": "Condenser cooling water control valve"
+    },
+    {
+      "tag": "FT-1101",
+      "type": "flow transmitter",
+      "label": "Reflux flow transmitter"
+    },
+    {
+      "tag": "LT-1101",
+      "type": "level transmitter",
+      "label": "Reflux drum level transmitter"
+    },
+    {
+      "tag": "TT-1102",
+      "type": "temperature transmitter",
+      "label": "Column tray temperature transmitter"
+    },
+    {
+      "tag": "LT-1103",
+      "type": "level transmitter",
+      "label": "Column sump level transmitter"
+    },
+    {
+      "tag": "FIC-1101",
+      "type": "flow indicating controller",
+      "label": "Reflux flow controller"
+    },
+    {
+      "tag": "LIC-1101",
+      "type": "level indicating controller",
+      "label": "Reflux drum level controller"
+    },
+    {
+      "tag": "TIC-1102",
+      "type": "temperature indicating controller",
+      "label": "Tray temperature controller"
+    },
+    {
+      "tag": "LIC-1103",
+      "type": "level indicating controller",
+      "label": "Column sump level controller"
+    },
+    {
+      "tag": "PIC-1104",
+      "type": "pressure indicating controller",
+      "label": "Column pressure controller"
+    },
+    {
+      "tag": "FEED-IN",
+      "type": "off-sheet connector",
+      "label": "Feed from off sheet"
+    },
+    {
+      "tag": "DIST-OUT",
+      "type": "off-sheet connector",
+      "label": "Distillate to off sheet"
+    },
+    {
+      "tag": "BTMS-OUT",
+      "type": "off-sheet connector",
+      "label": "Bottoms to off sheet"
+    },
+    {
+      "tag": "STEAM-IN",
+      "type": "off-sheet connector",
+      "label": "Steam supply from off sheet"
+    },
+    {
+      "tag": "COND-OUT",
+      "type": "off-sheet connector",
+      "label": "Steam condensate to off sheet"
+    },
+    {
+      "tag": "CW-IN",
+      "type": "off-sheet connector",
+      "label": "Cooling water supply from off sheet"
+    },
+    {
+      "tag": "CW-OUT",
+      "type": "off-sheet connector",
+      "label": "Cooling water return to off sheet"
+    }
+  ],
+  "lines": [
+    { "from": "FEED-IN", "to": "C-1101", "kind": "process" },
+    { "from": "C-1101", "to": "E-1101", "kind": "process" },
+    { "from": "E-1101", "to": "V-1101", "kind": "process" },
+    { "from": "V-1101", "to": "P-1101", "kind": "process" },
+    { "from": "P-1101", "to": "FV-1101", "kind": "process" },
+    { "from": "FV-1101", "to": "C-1101", "kind": "process" },
+    { "from": "P-1101", "to": "LV-1101", "kind": "process" },
+    { "from": "LV-1101", "to": "DIST-OUT", "kind": "process" },
+    { "from": "C-1101", "to": "E-1102", "kind": "process" },
+    { "from": "E-1102", "to": "C-1101", "kind": "process" },
+    { "from": "C-1101", "to": "P-1102", "kind": "process" },
+    { "from": "P-1102", "to": "LV-1103", "kind": "process" },
+    { "from": "LV-1103", "to": "BTMS-OUT", "kind": "process" },
+    { "from": "STEAM-IN", "to": "TV-1102", "kind": "process" },
+    { "from": "TV-1102", "to": "E-1102", "kind": "process" },
+    { "from": "E-1102", "to": "COND-OUT", "kind": "process" },
+    { "from": "CW-IN", "to": "PV-1104", "kind": "process" },
+    { "from": "PV-1104", "to": "E-1101", "kind": "process" },
+    { "from": "E-1101", "to": "CW-OUT", "kind": "process" },
+    { "from": "V-1101", "to": "LT-1101", "kind": "signal" },
+    { "from": "LT-1101", "to": "LIC-1101", "kind": "signal" },
+    { "from": "LIC-1101", "to": "LV-1101", "kind": "signal" },
+    { "from": "P-1101", "to": "FT-1101", "kind": "signal" },
+    { "from": "FT-1101", "to": "FIC-1101", "kind": "signal" },
+    { "from": "FIC-1101", "to": "FV-1101", "kind": "signal" },
+    { "from": "C-1101", "to": "TT-1102", "kind": "signal" },
+    { "from": "TT-1102", "to": "TIC-1102", "kind": "signal" },
+    { "from": "TIC-1102", "to": "TV-1102", "kind": "signal" },
+    { "from": "C-1101", "to": "LT-1103", "kind": "signal" },
+    { "from": "LT-1103", "to": "LIC-1103", "kind": "signal" },
+    { "from": "LIC-1103", "to": "LV-1103", "kind": "signal" },
+    { "from": "C-1101", "to": "PIC-1104", "kind": "signal" },
+    { "from": "PIC-1104", "to": "PV-1104", "kind": "signal" }
+  ]
+}

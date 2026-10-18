@@ -1,0 +1,342 @@
+{
+  "anigram": 1,
+  "id": "inhibitor-injection",
+  "title": "Corrosion inhibitor injection",
+  "subtitle": "Tote, PD pump and quill into the export pipeline",
+  "sheet": "PID-1401",
+  "size": [11, 4],
+  "units": {
+    "fuel": {
+      "rate": "L/h",
+      "amount": "L",
+      "effort": "bar"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "fuel": 25,
+    "electric": 1
+  },
+  "parts": [
+    {
+      "id": "power",
+      "kind": "grid",
+      "label": "Motor supply",
+      "at": [4, 3],
+      "behaviour": {
+        "role": "source",
+        "output": 5,
+        "dispatchable": true
+      }
+    },
+    {
+      "id": "tote",
+      "kind": "fueltank",
+      "label": "Inhibitor tote",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 1000,
+        "start": 0.8,
+        "maxIn": 30,
+        "maxOut": 30
+      },
+      "tag": "T-1401",
+      "class": "Tank"
+    },
+    {
+      "id": "strainer",
+      "kind": "valve",
+      "label": "Suction strainer",
+      "at": [1, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 30
+      },
+      "tag": "F-1401",
+      "class": "Filter"
+    },
+    {
+      "id": "hv1",
+      "kind": "valve",
+      "label": "Suction isolation",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 30,
+        "open": 1
+      },
+      "tag": "HV-1401",
+      "class": "GateValve"
+    },
+    {
+      "id": "j1",
+      "kind": "manifold",
+      "label": "Suction tee",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "tag": "J-1401",
+      "class": "Junction"
+    },
+    {
+      "id": "pot",
+      "kind": "fueltank",
+      "label": "Calibration pot",
+      "at": [3, 0],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 2,
+        "start": 1,
+        "maxIn": 5,
+        "maxOut": 5
+      },
+      "labelSide": "right",
+      "tag": "V-1401",
+      "class": "Vessel"
+    },
+    {
+      "id": "pump",
+      "kind": "pump",
+      "label": "Injection pump",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "converter",
+        "output": "fuel",
+        "recipe": {
+          "electric": 0.05,
+          "fuel": 1
+        },
+        "capacity": 20
+      },
+      "tag": "P-1401",
+      "class": "PositiveDisplacementPump",
+      "effort": {
+        "set": 120
+      }
+    },
+    {
+      "id": "j2",
+      "kind": "manifold",
+      "label": "Discharge tee",
+      "at": [5, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "tag": "J-1402",
+      "class": "Junction"
+    },
+    {
+      "id": "psv",
+      "kind": "valve",
+      "label": "Pressure relief",
+      "at": [5, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 30,
+        "relief": {
+          "at": 150,
+          "full": 165
+        }
+      },
+      "tag": "PSV-1401",
+      "class": "SafetyValve"
+    },
+    {
+      "id": "j3",
+      "kind": "manifold",
+      "label": "Flow tap",
+      "at": [6, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "tag": "J-1403",
+      "class": "Junction"
+    },
+    {
+      "id": "nrv1",
+      "kind": "valve",
+      "label": "Check valve 1",
+      "at": [7, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 30,
+        "open": 1
+      },
+      "tag": "V-1402",
+      "class": "CheckValve"
+    },
+    {
+      "id": "nrv2",
+      "kind": "valve",
+      "label": "Check valve 2",
+      "at": [8, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 30,
+        "open": 1
+      },
+      "tag": "V-1403",
+      "class": "CheckValve"
+    },
+    {
+      "id": "hv2",
+      "kind": "valve",
+      "label": "Quill isolation",
+      "at": [9, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 30,
+        "open": 1
+      },
+      "tag": "HV-1402",
+      "class": "GateValve"
+    },
+    {
+      "id": "pipe",
+      "kind": "tap",
+      "label": "Export pipeline (quill)",
+      "at": [10, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 10
+      },
+      "labelSide": "above",
+      "tag": "PL-1401",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "tote",
+      "to": "strainer",
+      "domain": "fuel",
+      "tag": "25-CI-001"
+    },
+    {
+      "from": "strainer",
+      "to": "hv1",
+      "domain": "fuel",
+      "tag": "25-CI-002"
+    },
+    {
+      "from": "hv1",
+      "to": "j1",
+      "domain": "fuel",
+      "tag": "25-CI-003"
+    },
+    {
+      "from": "j1",
+      "to": "pot",
+      "domain": "fuel",
+      "tag": "15-CI-004"
+    },
+    {
+      "from": "j1",
+      "to": "pump",
+      "domain": "fuel",
+      "tag": "25-CI-006"
+    },
+    {
+      "from": "power",
+      "to": "pump",
+      "domain": "electric"
+    },
+    {
+      "from": "pump",
+      "to": "j2",
+      "domain": "fuel",
+      "tag": "15-CI-007"
+    },
+    {
+      "from": "j2",
+      "to": "psv",
+      "domain": "fuel",
+      "tag": "15-CI-008"
+    },
+    {
+      "from": "psv",
+      "to": "tote",
+      "domain": "fuel",
+      "via": [[0, 3]],
+      "tag": "15-CI-009"
+    },
+    {
+      "from": "j2",
+      "to": "j3",
+      "domain": "fuel",
+      "tag": "15-CI-010"
+    },
+    {
+      "from": "j3",
+      "to": "nrv1",
+      "domain": "fuel",
+      "tag": "15-CI-011"
+    },
+    {
+      "from": "nrv1",
+      "to": "nrv2",
+      "domain": "fuel",
+      "tag": "15-CI-012"
+    },
+    {
+      "from": "nrv2",
+      "to": "hv2",
+      "domain": "fuel",
+      "tag": "15-CI-013"
+    },
+    {
+      "from": "hv2",
+      "to": "pipe",
+      "domain": "fuel",
+      "tag": "15-CI-014"
+    }
+  ],
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Export Pipeline Operations",
+    "project": "Corrosion inhibitor injection",
+    "drawnBy": "VP",
+    "issued": "2026-10-17",
+    "revision": "A",
+    "status": "draft"
+  },
+  "instruments": [
+    {
+      "tag": "PI-1401",
+      "at": [5, 1],
+      "measures": "j2",
+      "reads": "part('j2').effort",
+      "unit": "bar",
+      "high": 150
+    },
+    {
+      "tag": "FI-1401",
+      "at": [6, 1],
+      "measures": "j3",
+      "unit": "L/h"
+    }
+  ],
+  "expect": [
+    {
+      "says": "the pump delivers the dosing rate to the pipeline quill",
+      "check": "part('pipe').in >= 0.999 * part('pipe').demand"
+    },
+    {
+      "says": "the relief valve stays shut in normal running",
+      "check": "part('psv').in < 0.01"
+    },
+    {
+      "says": "the tote supplies the inhibitor and stays stocked",
+      "check": "part('tote').fill > 0.5"
+    }
+  ]
+}

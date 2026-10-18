@@ -1,0 +1,44 @@
+{
+  "items": [
+    {
+      "tag": "GlobeValve-1",
+      "type": "globe control valve",
+      "label": "Flow control valve"
+    },
+    {
+      "tag": "ControlledActuator-1",
+      "type": "controlled valve actuator",
+      "label": "Actuator of GlobeValve-1"
+    },
+    {
+      "tag": "ProcessSignalGeneratingFunction-1",
+      "type": "flow measuring point",
+      "label": "Flow sensing point on process line"
+    },
+    {
+      "tag": "FIC-032",
+      "type": "flow indicating controller (control room)",
+      "label": "Flow indication and control, loop 032"
+    },
+    {
+      "tag": "YCS-033",
+      "type": "control function / switch (control room)",
+      "label": "Control and switching, loop 033"
+    },
+    {
+      "tag": "US-031",
+      "type": "switch (control room)",
+      "label": "Safety override, loop 031"
+    }
+  ],
+  "lines": [
+    {
+      "from": "ProcessSignalGeneratingFunction-1",
+      "to": "FIC-032",
+      "kind": "signal"
+    },
+    { "from": "FIC-032", "to": "YCS-033", "kind": "signal" },
+    { "from": "US-031", "to": "YCS-033", "kind": "signal" },
+    { "from": "YCS-033", "to": "ControlledActuator-1", "kind": "signal" }
+  ]
+}

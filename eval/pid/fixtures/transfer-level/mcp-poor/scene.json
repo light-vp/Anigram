@@ -1,0 +1,157 @@
+{
+  "anigram": 1,
+  "id": "transfer-level",
+  "title": "Transfer to day tank",
+  "subtitle": "P-101 lifts from T-101 to T-102 on level control",
+  "sheet": "PID-101",
+  "drawing": "pid",
+  "size": [12, 4],
+  "units": {
+    "water": {
+      "rate": "m\u00b3/h",
+      "amount": "m\u00b3"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 60,
+    "electric": 20
+  },
+  "clock": {
+    "start": 6,
+    "rate": 1
+  },
+  "parts": [
+    {
+      "id": "t101",
+      "kind": "reservoir",
+      "class": "Tank",
+      "tag": "T-101",
+      "label": "Storage tank",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 500,
+        "start": 0.8,
+        "maxIn": 0,
+        "maxOut": 60
+      }
+    },
+    {
+      "id": "v1",
+      "kind": "valve",
+      "class": "GateValve",
+      "label": "Suction isolating valve",
+      "at": [1.5, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100
+      }
+    },
+    {
+      "id": "mains",
+      "kind": "grid",
+      "label": "Electricity",
+      "at": [3, 3.5],
+      "behaviour": {
+        "role": "source",
+        "output": 50,
+        "dispatchable": true
+      }
+    },
+    {
+      "id": "p101",
+      "kind": "pump",
+      "class": "CentrifugalPump",
+      "tag": "P-101",
+      "label": "Transfer pump",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.25,
+          "water": 1
+        },
+        "capacity": 50
+      }
+    },
+    {
+      "id": "v2",
+      "kind": "valve",
+      "class": "GateValve",
+      "label": "Discharge isolating valve",
+      "at": [6, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 100
+      }
+    },
+    {
+      "id": "t102",
+      "kind": "reservoir",
+      "class": "Tank",
+      "label": "Day tank",
+      "at": [9, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 100,
+        "start": 0.5,
+        "maxIn": 50,
+        "maxOut": 50
+      }
+    },
+    {
+      "id": "users",
+      "kind": "factory",
+      "label": "To users",
+      "at": [11, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": 20
+      }
+    }
+  ],
+  "links": [
+    {
+      "from": "t101",
+      "to": "v1",
+      "domain": "water"
+    },
+    {
+      "from": "v1",
+      "to": "p101",
+      "domain": "water"
+    },
+    {
+      "from": "mains",
+      "to": "p101",
+      "domain": "electric"
+    },
+    {
+      "from": "t102",
+      "to": "users",
+      "domain": "water"
+    },
+    {
+      "from": "v2",
+      "to": "t102",
+      "domain": "water"
+    },
+    {
+      "from": "p101",
+      "to": "v2",
+      "domain": "water"
+    }
+  ],
+  "instruments": [
+    {
+      "tag": "LT-102",
+      "at": [9, 0.5],
+      "measures": "t102"
+    }
+  ]
+}

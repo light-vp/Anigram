@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" font-family="Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#000"/></marker>
+  </defs>
+  <rect width="900" height="620" fill="#fff"/>
+  <text x="450" y="30" text-anchor="middle" font-size="18" font-weight="bold">P&amp;ID – Pressure measurement, indication and switching</text>
+
+  <!-- process line -->
+  <line x1="40" y1="500" x2="860" y2="500" stroke="#000" stroke-width="3"/>
+  <polygon points="840,492 856,500 840,508" fill="#000"/>
+  <text x="40" y="525">Process line (PipingNetworkSegment-1)</text>
+
+  <!-- field gauge PI-045 -->
+  <line x1="200" y1="500" x2="200" y2="400" stroke="#000" stroke-width="1.5"/>
+  <text x="208" y="450" font-size="11">measuring line</text>
+  <circle cx="200" cy="370" r="30" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="200" y="366" text-anchor="middle" font-weight="bold">PI</text>
+  <text x="200" y="382" text-anchor="middle" font-weight="bold">045</text>
+  <text x="200" y="326" text-anchor="middle" font-size="11">Local pressure gauge (field)</text>
+  <text x="200" y="312" text-anchor="middle" font-size="11">Loop 045</text>
+
+  <!-- control room indicator PI-044 -->
+  <line x1="400" y1="500" x2="400" y2="270" stroke="#000" stroke-width="1.5"/>
+  <text x="408" y="450" font-size="11">measuring line</text>
+  <circle cx="400" cy="240" r="30" fill="#fff" stroke="#000" stroke-width="2"/>
+  <line x1="370" y1="240" x2="430" y2="240" stroke="#000" stroke-width="2"/>
+  <text x="400" y="234" text-anchor="middle" font-weight="bold">PI</text>
+  <text x="400" y="256" text-anchor="middle" font-weight="bold">044</text>
+  <text x="400" y="196" text-anchor="middle" font-size="11">Pressure indication (control room)</text>
+  <text x="400" y="182" text-anchor="middle" font-size="11">Loop 044</text>
+
+  <!-- switching functions -->
+  <circle cx="680" cy="140" r="30" fill="#fff" stroke="#000" stroke-width="2"/>
+  <line x1="650" y1="140" x2="710" y2="140" stroke="#000" stroke-width="2"/>
+  <text x="680" y="134" text-anchor="middle" font-weight="bold">US</text>
+  <text x="680" y="156" text-anchor="middle" font-weight="bold">047</text>
+  <text x="680" y="92" text-anchor="middle" font-size="11">Switching function (control room)</text>
+  <text x="680" y="78" text-anchor="middle" font-size="11">Loop 047 – trips on HH and LL</text>
+
+  <circle cx="680" cy="340" r="30" fill="#fff" stroke="#000" stroke-width="2"/>
+  <line x1="650" y1="340" x2="710" y2="340" stroke="#000" stroke-width="2"/>
+  <text x="680" y="334" text-anchor="middle" font-weight="bold">US</text>
+  <text x="680" y="356" text-anchor="middle" font-weight="bold">046</text>
+  <text x="680" y="388" text-anchor="middle" font-size="11">Switching function (control room)</text>
+  <text x="680" y="402" text-anchor="middle" font-size="11">Loop 046 – acts on H and L</text>
+
+  <!-- signal lines (dashed) from PI-044 -->
+  <g stroke="#000" stroke-width="1.5" stroke-dasharray="7,4" fill="none" marker-end="url(#arr)">
+    <path d="M430,232 L540,232 L540,128 L650,128"/>
+    <path d="M430,246 L520,246 L520,152 L650,152"/>
+    <path d="M430,236 L560,236 L560,328 L650,328"/>
+    <path d="M430,250 L500,250 L500,352 L650,352"/>
+  </g>
+  <g font-size="11">
+    <text x="545" y="122">HH (high-high)</text>
+    <text x="525" y="172">LL (low-low)</text>
+    <text x="565" y="318">H (high)</text>
+    <text x="505" y="372">L (low)</text>
+  </g>
+
+  <!-- legend -->
+  <g font-size="11">
+    <rect x="40" y="560" width="440" height="46" fill="none" stroke="#000"/>
+    <line x1="50" y1="578" x2="90" y2="578" stroke="#000" stroke-width="3"/>
+    <text x="98" y="582">process line</text>
+    <line x1="190" y1="578" x2="230" y2="578" stroke="#000" stroke-width="1.5"/>
+    <text x="238" y="582">measuring line</text>
+    <line x1="340" y1="578" x2="380" y2="578" stroke="#000" stroke-width="1.5" stroke-dasharray="7,4"/>
+    <text x="388" y="582">signal line</text>
+    <text x="50" y="598">Bubble with bar = central (control room); plain bubble = field mounted</text>
+  </g>
+</svg>
