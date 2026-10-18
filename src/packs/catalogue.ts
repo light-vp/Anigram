@@ -43,6 +43,10 @@ export interface ClassInfo {
   ports?: Ports
   /** how far it reaches either side of its centre, at most, when that is past its tile */
   reach?: number
+  /** how far it reaches above or below its centre, at most, when that is past its tile */
+  tall?: number
+  /** a valve or fitting in a pipe, which a process flow diagram leaves off */
+  piping?: boolean
 }
 
 export interface Ports {
@@ -71,37 +75,136 @@ export interface PackInfo {
   shows: readonly Domain[]
 }
 
+/** a valve or fitting set in a line: drawn on a P&ID, left off a PFD */
+const piping = (is: string, more: Partial<ClassInfo> = {}): ClassInfo => ({
+  is,
+  inline: true,
+  piping: true,
+  ...more,
+})
+
 const PID: PackInfo = {
   drawing: 'pid',
   name: 'P&ID',
   follows: 'ISO 10628-2 symbols, ISA-5.1 tags and lines',
   classes: {
+    // machines
     CentrifugalPump: { is: 'a centrifugal pump' },
-    PositiveDisplacementPump: { is: 'a positive displacement pump' },
+    PositiveDisplacementPump: {
+      is: 'a positive displacement pump: reciprocating, diaphragm or metering',
+    },
+    RotaryPump: { is: 'a rotary pump: gear, screw or lobe' },
     Compressor: { is: 'a compressor' },
     Fan: { is: 'a fan or blower' },
-    Tank: { is: 'an atmospheric storage tank; shows its level' },
-    Vessel: { is: 'a pressure vessel or drum; shows its level' },
-    HeatExchanger: { is: 'a heat exchanger' },
-    Filter: { is: 'a filter or strainer' },
-    GateValve: { is: 'an isolating valve; filled when shut', inline: true },
-    GlobeValve: { is: 'a globe valve; filled when shut', inline: true },
-    BallValve: { is: 'a ball valve; filled when shut', inline: true },
-    CheckValve: { is: 'a non-return valve', inline: true },
-    ButterflyValve: {
-      is: 'a butterfly valve; its disc turns across the bore as it shuts',
+    Ejector: {
+      is: 'an ejector or eductor: a motive jet drawing a second stream in from below',
       inline: true,
+      directed: true,
     },
-    SafetyValve: {
-      is: 'a spring-loaded safety or relief valve; shut until pressure lifts it',
-      inline: true,
-    },
-    ControlValve: {
-      is: 'a valve with an actuator; its opening follows the signal',
-      inline: true,
-    },
+    StaticMixer: { is: 'a static mixer in the line', inline: true },
     ElectricMotor: { is: 'an electric motor' },
     Turbine: { is: 'a steam, gas or hydraulic turbine' },
+    // vessels
+    Tank: { is: 'an atmospheric storage tank; shows its level' },
+    OpenTank: { is: 'an open tank, basin or sump; shows its level' },
+    Vessel: { is: 'a vertical pressure vessel or drum; shows its level' },
+    HorizontalVessel: {
+      is: 'a horizontal drum on saddles: a receiver, separator or accumulator; shows its level',
+      reach: 32,
+    },
+    SphericalTank: {
+      is: 'a sphere on legs, for gas or liquid under pressure; shows its level',
+    },
+    Silo: { is: 'a silo or hopper with a coned bottom; shows its level' },
+    Reactor: {
+      is: 'a stirred vessel or reactor; its agitator turns, and it shows its level',
+      tall: 34,
+    },
+    ProcessColumn: {
+      is: 'a trayed column: distillation, absorption or stripping; shows the level in its sump',
+      tall: 28,
+    },
+    PackedColumn: {
+      is: 'a packed column, two beds of packing; shows the level in its sump',
+      tall: 28,
+    },
+    Cyclone: { is: 'a cyclone separator' },
+    Filter: { is: 'a filter' },
+    // heat transfer
+    HeatExchanger: { is: 'a heat exchanger, any type' },
+    TubularHeatExchanger: {
+      is: 'a shell-and-tube heat exchanger',
+      reach: 34,
+    },
+    PlateHeatExchanger: { is: 'a plate heat exchanger' },
+    AirCoolingSystem: { is: 'an air cooler: a fin-fan over a tube bundle' },
+    Furnace: {
+      is: 'a fired heater or furnace; its burners show while it works',
+    },
+    CoolingTower: {
+      is: 'a cooling tower; water falls through it while it works',
+    },
+    // valves
+    GateValve: piping('an isolating valve; filled when shut'),
+    GlobeValve: piping('a globe valve; filled when shut'),
+    BallValve: piping('a ball valve; filled when shut'),
+    ButterflyValve: piping(
+      'a butterfly valve; its disc turns across the bore as it shuts',
+    ),
+    PlugValve: piping('a plug valve; filled when shut'),
+    NeedleValve: piping('a needle valve; filled when shut'),
+    DiaphragmValve: piping('a diaphragm valve; filled when shut'),
+    AngleValve: piping(
+      'an angle valve: in from the side, out of the bottom; filled when shut',
+      { inline: false },
+    ),
+    ThreeWayValve: piping(
+      'a three-way valve, its third port underneath; filled when shut',
+    ),
+    CheckValve: piping('a non-return valve'),
+    ControlValve: piping(
+      'a valve with an actuator; its opening follows the signal',
+    ),
+    PressureReducingValve: piping(
+      'a self-acting pressure regulator, sensing downstream',
+      { directed: true },
+    ),
+    SafetyValve: piping(
+      'a spring-loaded safety or relief valve; shut until pressure lifts it',
+    ),
+    BreatherValve: piping('a pressure and vacuum breather on a tank roof', {
+      inline: false,
+    }),
+    RuptureDisc: piping('a bursting disc; shows burst once it lets go', {
+      directed: true,
+    }),
+    // fittings
+    Strainer: piping('a Y-strainer'),
+    FlameArrestor: piping('a flame arrestor'),
+    SteamTrap: piping('a steam trap'),
+    SightGlass: piping('a sight glass'),
+    RestrictionOrifice: piping('a restriction orifice plate'),
+    PipeReducer: piping('a concentric reducer, wide end upstream', {
+      directed: true,
+    }),
+    FlexibleHose: piping('a flexible hose'),
+    BlindFlange: piping('a line closed off at a blind flange', {
+      inline: false,
+      terminal: true,
+    }),
+    Funnel: piping('a drain into a funnel, across an air gap', {
+      inline: false,
+      terminal: true,
+    }),
+    Vent: piping('a vent to atmosphere, turned down', {
+      inline: false,
+      terminal: true,
+    }),
+    Silencer: piping('a vent or exhaust silencer', {
+      inline: false,
+      terminal: true,
+    }),
+    // where lines meet and end
     Junction: { is: 'where lines meet; a tee or header' },
     OffPageConnector: {
       is: 'where a line leaves or joins the sheet; sources and consumers off the drawing',
@@ -119,6 +222,7 @@ const PID: PackInfo = {
     fueltank: 'Tank',
     treatment: 'Filter',
     turbine: 'Turbine',
+    coolingtower: 'CoolingTower',
   },
   // a shaft is not a line on a P&ID: the machine at its end is drawn by what it does
   shows: ['water', 'heat', 'fuel', 'data'],
@@ -183,7 +287,7 @@ const PFD: PackInfo = {
   follows: 'ISO 10628-1 major equipment and streams',
   classes: Object.fromEntries(
     Object.entries(PID.classes).filter(
-      ([c]) => !c.endsWith('Valve') && c !== 'ElectricMotor',
+      ([c, info]) => !info.piping && c !== 'ElectricMotor',
     ),
   ),
   fromKind: Object.fromEntries(

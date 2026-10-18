@@ -35,6 +35,7 @@ const SHEETS: Array<{ name: string; scene: unknown }> = [
     scene,
   })),
   { name: 'example-feed-tank-pid', scene: example('feed-tank-pid') },
+  { name: 'example-distillation-pid', scene: example('distillation-pid') },
   { name: 'example-narrowboat', scene: example('narrowboat') },
   { name: 'grid-single-line', scene: asDrawing('grid', 'single-line') },
   { name: 'water-tower-pid', scene: asDrawing('water-tower', 'pid') },

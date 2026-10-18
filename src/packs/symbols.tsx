@@ -37,6 +37,11 @@ export type SymbolGlyph = (props: SymbolProps) => ReactNode
 
 const shut = (s: PartState) => s.open < 0.05
 
+/** two decimals are plenty on a 44-unit symbol, and keep the markup short */
+const r2 = (n: number) => Math.round(n * 100) / 100
+
+const clamp01 = (x: number) => Math.min(1, Math.max(0, x))
+
 // ---- P&ID ------------------------------------------------------------------
 
 /** a few short curved vanes, turning with the work */
@@ -224,17 +229,80 @@ const SafetyValve: SymbolGlyph = ({ s }) => (
   </g>
 )
 
-const ControlValve: SymbolGlyph = ({ s }) => (
-  <g>
-    {/* the stem and a diaphragm actuator; the stem lifts as it opens */}
-    <path className="ln" d={`M0 0 V${-15 - 2 * s.open}`} />
-    <path
-      className="ln sym"
-      d={`M-9 ${-15 - 2 * s.open} A 9 9 0 0 1 9 ${-15 - 2 * s.open} Z`}
-    />
-    <Bowtie s={s} />
-  </g>
-)
+/**
+ * What moves a valve, on a stem above it (ISA-5.1): a diaphragm's dome, a
+ * motor, a solenoid, a piston's cylinder or a handwheel. The stem lifts as
+ * the valve opens. Where it fails to is written beside the stem.
+ */
+function Actuator({
+  type,
+  open,
+  fails,
+}: {
+  type: Actuator
+  open: number
+  fails?: FailPosition
+}) {
+  const top = r2(-15 - 2 * clamp01(open))
+  return (
+    <g>
+      <path className="ln" d={`M0 0 V${top}`} />
+      {type === 'diaphragm' && (
+        <path className="ln sym" d={`M-9 ${top} A 9 9 0 0 1 9 ${top} Z`} />
+      )}
+      {type === 'motor' && (
+        <g transform={`translate(0 ${top - 6})`}>
+          <circle r={6} className="ln sym" />
+          <text className="symText small">M</text>
+        </g>
+      )}
+      {type === 'solenoid' && (
+        <g transform={`translate(0 ${top - 6})`}>
+          <rect x={-6} y={-6} width={12} height={12} className="ln sym" />
+          <text className="symText small">S</text>
+        </g>
+      )}
+      {type === 'piston' && (
+        <g transform={`translate(0 ${top})`}>
+          <rect x={-7} y={-11} width={14} height={11} className="ln sym" />
+          {/* the piston, on the end of the stem */}
+          <path className="ln" d="M-7 -5 H7 M0 -5 V0" />
+        </g>
+      )}
+      {type === 'hand' && <path className="ln heavy" d={`M-7 ${top} H7`} />}
+      {fails && (
+        <text className="symText small" x={16} y={-12}>
+          {FAILS[fails]}
+        </text>
+      )}
+    </g>
+  )
+}
+
+export type Actuator = NonNullable<PartSpec['actuator']>
+type FailPosition = NonNullable<PartSpec['fails']>
+const FAILS: Record<FailPosition, string> = {
+  open: 'FO',
+  closed: 'FC',
+  last: 'FL',
+}
+
+/** the valves that can carry an actuator, and the one that always has one */
+const STEMMED = new Set([
+  'GateValve',
+  'GlobeValve',
+  'BallValve',
+  'ButterflyValve',
+  'PlugValve',
+  'NeedleValve',
+  'DiaphragmValve',
+  'AngleValve',
+  'ThreeWayValve',
+  'ControlValve',
+])
+
+/** its actuator, a diaphragm unless it names another, is drawn on by PackSymbol */
+const ControlValve: SymbolGlyph = ({ s }) => <Bowtie s={s} />
 
 const ElectricMotor: SymbolGlyph = () => (
   <g>
@@ -248,6 +316,427 @@ const Junction: SymbolGlyph = () => <circle r={3} className="inkf" />
 /** a pentagon pointing the way the flow goes, on or off the drawing (the sheet turns it) */
 const OffPageConnector: SymbolGlyph = () => (
   <path className="ln sym" d="M-18 -9 H8 L18 0 L8 9 H-18 Z" />
+)
+
+// ---- P&ID: more equipment ---------------------------------------------------
+
+/** the liquid in a vessel that isn't a box, clipped to its outline */
+function LevelIn({
+  shape,
+  top,
+  bottom,
+  fill,
+}: {
+  /** the vessel's inside, as a shape to clip to */
+  shape: ReactNode
+  top: number
+  bottom: number
+  fill: number
+}) {
+  const id = `lv${useId().replace(/[^a-zA-Z0-9]/g, '')}`
+  const f = clamp01(fill)
+  if (f < 0.005) return null
+  const y = r2(bottom - (bottom - top) * f)
+  return (
+    <g>
+      <clipPath id={id}>{shape}</clipPath>
+      <g clipPath={`url(#${id})`}>
+        <rect
+          x={-40}
+          y={y}
+          width={80}
+          height={r2(bottom - y + 2)}
+          className={f < 0.15 ? 'lvl low' : 'lvl'}
+        />
+        <path className="ln thin" d={`M-40 ${y} H40`} />
+      </g>
+    </g>
+  )
+}
+
+/** a blade seen edge on as it turns: as wide as its angle shows it */
+const blade = (r: number, deg: number) =>
+  r2(r * Math.cos((deg * Math.PI) / 180))
+
+const RotaryPump: SymbolGlyph = ({ phase }) => (
+  <g>
+    <circle r={13} className="ln sym" />
+    {/* two gears in mesh, turning against each other */}
+    {[-1, 1].map((k) => (
+      <g key={k} transform={`translate(${k * 4.4} 0) rotate(${k * phase * 2})`}>
+        <circle r={4.2} className="ln thin" />
+        <path className="ln thin" d="M0 -4.2 V4.2" />
+      </g>
+    ))}
+  </g>
+)
+
+/** an ejector or eductor: a jet through a throat, drawing a second stream in from below */
+const Ejector: SymbolGlyph = () => (
+  <g>
+    <path className="ln" d="M-18 -7 L-4 -3 L18 -8 M-18 7 L-4 3 L18 8" />
+    <path className="inkf" d="M-16 -3 L-7 0 L-16 3 Z" />
+    <path className="ln" d="M-10 5.5 V13" />
+  </g>
+)
+
+const StaticMixer: SymbolGlyph = () => (
+  <g>
+    <rect x={-14} y={-7} width={28} height={14} className="ln sym" />
+    <path
+      className="ln thin"
+      d="M-14 0 L-10 -7 L-5 7 L0 -7 L5 7 L10 -7 L14 0"
+    />
+  </g>
+)
+
+/** a stirred vessel: a drum with an agitator driven from the top */
+const Reactor: SymbolGlyph = ({ s, phase }) => {
+  const shell = (cls?: string) => (
+    <rect x={-14} y={-16} width={28} height={36} rx={11} className={cls} />
+  )
+  return (
+    <g>
+      {shell('ln sym')}
+      <LevelIn shape={shell()} top={-10} bottom={20} fill={s.fill} />
+      {shell('ln')}
+      <path className="ln" d="M0 -24 V9" />
+      <path
+        className="ln"
+        d={`M${-blade(9, phase * 2)} 9 H${blade(9, phase * 2)}`}
+      />
+      <path
+        className="ln"
+        d={`M${-blade(7, phase * 2 + 90)} 1 H${blade(7, phase * 2 + 90)}`}
+      />
+      <g transform="translate(0 -28)">
+        <circle r={5.5} className="ln sym" />
+        <text className="symText small">M</text>
+      </g>
+    </g>
+  )
+}
+
+const HorizontalVessel: SymbolGlyph = ({ s }) => {
+  const shell = (cls?: string) => (
+    <rect x={-30} y={-11} width={60} height={22} rx={11} className={cls} />
+  )
+  return (
+    <g>
+      {/* on two saddles */}
+      <path
+        className="ln"
+        d="M-19 10 L-22 16 H-12 L-15 10 M19 10 L22 16 H12 L15 10"
+      />
+      {shell('ln sym')}
+      <LevelIn shape={shell()} top={-11} bottom={11} fill={s.fill} />
+      {shell('ln')}
+    </g>
+  )
+}
+
+/** a tall column; the liquid in its sump is what it holds */
+function Column({ s, inside }: { s: PartState; inside: ReactNode }) {
+  const shell = (cls?: string) => (
+    <rect x={-10} y={-28} width={20} height={56} rx={10} className={cls} />
+  )
+  return (
+    <g>
+      {shell('ln sym')}
+      <LevelIn shape={shell()} top={16} bottom={28} fill={s.fill} />
+      {inside}
+      {shell('ln')}
+    </g>
+  )
+}
+
+const ProcessColumn: SymbolGlyph = ({ s }) => (
+  <Column
+    s={s}
+    inside={
+      // trays, each with its downcomer on the other side from the last
+      <path
+        className="ln thin"
+        d="M-10 -17 H5 M-5 -10 H10 M-10 -3 H5 M-5 4 H10 M-10 11 H5"
+      />
+    }
+  />
+)
+
+const PackedColumn: SymbolGlyph = ({ s }) => (
+  <Column
+    s={s}
+    inside={
+      // two packed beds, each crossed through
+      <path
+        className="ln thin"
+        d="M-10 -19 H10 M-10 -5 H10 M-10 -19 L10 -5 M10 -19 L-10 -5 M-10 0 H10 M-10 14 H10 M-10 0 L10 14 M10 0 L-10 14"
+      />
+    }
+  />
+)
+
+const SphericalTank: SymbolGlyph = ({ s }) => (
+  <g>
+    <path
+      className="ln"
+      d="M-9 5 L-13 20 M9 5 L13 20 M-16 20 H-10 M10 20 H16"
+    />
+    <circle cy={-3} r={15} className="ln sym" />
+    <LevelIn
+      shape={<circle cy={-3} r={15} />}
+      top={-18}
+      bottom={12}
+      fill={s.fill}
+    />
+    <circle cy={-3} r={15} className="ln" />
+  </g>
+)
+
+const SILO = 'M-13 -20 H13 V4 L3 17 H-3 L-13 4 Z'
+const Silo: SymbolGlyph = ({ s }) => (
+  <g>
+    <path className="ln sym" d={SILO} />
+    <LevelIn shape={<path d={SILO} />} top={-20} bottom={17} fill={s.fill} />
+    <path className="ln" d={SILO} />
+  </g>
+)
+
+const OpenTank: SymbolGlyph = ({ s }) => (
+  <g>
+    <rect x={-16} y={-14} width={32} height={30} className="sym" />
+    <Level x={-16} w={32} top={-10} bottom={16} fill={s.fill} />
+    {/* open at the top */}
+    <path className="ln" d="M-16 -14 V16 H16 V-14" />
+  </g>
+)
+
+const Cyclone: SymbolGlyph = () => (
+  <g>
+    {/* the inlet comes in on the tangent; the gas leaves up the middle */}
+    <path className="ln" d="M-18 -15 H-11" />
+    <path className="ln sym" d="M-11 -18 H11 V-4 L2.5 18 H-2.5 L-11 -4 Z" />
+    <rect x={-4} y={-25} width={8} height={15} className="ln sym" />
+  </g>
+)
+
+// ---- P&ID: heat transfer --------------------------------------------------------
+
+const TubularHeatExchanger: SymbolGlyph = ({ s }) => (
+  <g>
+    {/* the shell, its channel head on the left and the tube bundle bent back */}
+    <path className="ln sym" d="M-20 -10 H22 A10 10 0 0 1 22 10 H-20 Z" />
+    <rect x={-28} y={-10} width={8} height={20} className="ln sym" />
+    <path className="ln thin" d="M-28 0 H-20" />
+    <path
+      className="ln thin"
+      d="M-20 -4.5 H20 A4.5 4.5 0 0 1 20 4.5 H-20"
+      opacity={0.45 + 0.55 * clamp01(s.activity)}
+    />
+  </g>
+)
+
+const PlateHeatExchanger: SymbolGlyph = ({ s }) => (
+  <g>
+    <rect x={-11} y={-15} width={22} height={30} className="ln sym" />
+    {/* the end plates, and the plate pack between them */}
+    <path className="ln heavy" d="M-11 -15 V15 M11 -15 V15" />
+    <path
+      className="ln thin"
+      d="M-6 -12 V12 M-2 -12 V12 M2 -12 V12 M6 -12 V12"
+      opacity={0.45 + 0.55 * clamp01(s.activity)}
+    />
+  </g>
+)
+
+const AirCoolingSystem: SymbolGlyph = ({ phase }) => (
+  <g>
+    {/* the finned tube bundle, with the fan blowing up through it */}
+    <rect x={-18} y={-16} width={36} height={10} className="ln sym" />
+    <path
+      className="ln thin"
+      d="M-18 -11 L-15 -14 L-11 -8 L-7 -14 L-3 -8 L1 -14 L5 -8 L9 -14 L13 -8 L18 -11"
+    />
+    <path
+      className="ln"
+      d={`M${-blade(14, phase * 3)} 3 H${blade(14, phase * 3)}`}
+    />
+    <path className="ln" d="M0 3 V11" />
+    <circle cy={3} r={1.8} className="inkf" />
+    <g transform="translate(0 16)">
+      <circle r={5} className="ln sym" />
+      <text className="symText small">M</text>
+    </g>
+  </g>
+)
+
+const Furnace: SymbolGlyph = ({ s }) => (
+  <g>
+    {/* the firebox and its stack, the coil inside and the burners firing */}
+    <path className="ln sym" d="M-4 -14 V-24 H4 V-14" />
+    <path className="ln sym" d="M-15 18 V-6 L-5 -14 H5 L15 -6 V18 Z" />
+    <path className="ln thin" d="M-9 -5 H9 V-1 H-9 V3 H9 V7 H-9" />
+    <path
+      className="ln thin"
+      d="M-6 17 Q -9 13 -6 10 Q -3 13 -6 17 M6 17 Q 3 13 6 10 Q 9 13 6 17 M0 17 Q -3 13 0 10 Q 3 13 0 17"
+      opacity={s.activity > 0.01 ? 1 : 0.25}
+    />
+  </g>
+)
+
+const CoolingTower: SymbolGlyph = ({ s, phase }) => (
+  <g>
+    <path className="ln sym" d="M-15 18 Q -7 2 -11 -18 H11 Q 7 2 15 18 Z" />
+    <path className="ln heavy" d="M-18 18 H18" />
+    {/* the water falling through the fill, while it works */}
+    {s.activity > 0.01 && (
+      <path
+        className="ln thin"
+        d="M-5 -8 V12 M0 -10 V12 M5 -8 V12"
+        strokeDasharray="2 4"
+        strokeDashoffset={r2(-phase / 4)}
+      />
+    )}
+  </g>
+)
+
+// ---- P&ID: more valves -----------------------------------------------------------
+
+const NeedleValve: SymbolGlyph = ({ s }) => (
+  <Bowtie
+    s={s}
+    extra={<path className="ln inkf" d="M-2.5 -9 H2.5 L0 -2 Z" />}
+  />
+)
+
+const PlugValve: SymbolGlyph = ({ s }) => (
+  <Bowtie
+    s={s}
+    extra={<rect x={-2.5} y={-4.5} width={5} height={9} className="ln sym" />}
+  />
+)
+
+const DiaphragmValve: SymbolGlyph = ({ s }) => (
+  <Bowtie s={s} extra={<path className="ln" d="M-6 -8 A 6 6 0 0 1 6 -8 Z" />} />
+)
+
+/** an angle valve: in from the side, out of the bottom */
+const AngleValve: SymbolGlyph = ({ s }) => (
+  <path
+    className={shut(s) ? 'ln inkf' : 'ln sym'}
+    d="M-11 -7 L0 0 L-11 7 Z M-7 11 L0 0 L7 11 Z"
+  />
+)
+
+const ThreeWayValve: SymbolGlyph = ({ s }) => (
+  <g>
+    <path className={shut(s) ? 'ln inkf' : 'ln sym'} d="M-7 11 L0 0 L7 11 Z" />
+    <Bowtie s={s} />
+  </g>
+)
+
+/** a self-acting regulator: its diaphragm reads the pressure downstream through a sensing line */
+const PressureReducingValve: SymbolGlyph = ({ s }) => (
+  <g>
+    <path className="ln" d="M0 0 V-13" />
+    <path className="ln sym" d="M-8 -13 A 8 8 0 0 1 8 -13 Z" />
+    <path className="ln thin dashed" d="M8 -13 H16 V0" />
+    <Bowtie s={s} />
+  </g>
+)
+
+/** a breather on a tank roof: lets vapour out on pressure, air in on vacuum */
+const BreatherValve: SymbolGlyph = () => (
+  <g>
+    <rect x={-8} y={-8} width={16} height={16} className="ln sym" />
+    <Arrow from={[-3.5, 5]} to={[-3.5, -5]} head={3} />
+    <Arrow from={[3.5, -5]} to={[3.5, 5]} head={3} />
+  </g>
+)
+
+/** a bursting disc between its holders; it shows burst once it lets go */
+const RuptureDisc: SymbolGlyph = ({ s }) => (
+  <g>
+    <rect x={-4} y={-8} width={8} height={16} className="mask" />
+    <path className="ln" d="M-4 -9 V9 M4 -9 V9" />
+    <path
+      className={shut(s) ? 'ln' : 'ln alarm'}
+      d={shut(s) ? 'M-2 -7 Q 5 0 -2 7' : 'M-2 -7 Q 2 -6 3 -2 M-2 7 Q 2 6 3 2'}
+    />
+  </g>
+)
+
+const FlameArrestor: SymbolGlyph = () => (
+  <g>
+    <rect x={-7} y={-8} width={14} height={16} className="ln sym" />
+    <path
+      className="ln thin"
+      d="M-7 -2 L-1 -8 M-7 4 L5 -8 M-5 8 L7 -4 M1 8 L7 2 M-7 -4 L5 8 M-7 2 L-1 8 M-5 -8 L7 4 M1 -8 L7 -2"
+    />
+  </g>
+)
+
+const SteamTrap: SymbolGlyph = () => (
+  <g>
+    <circle r={7} className="ln sym" />
+    <text className="symText small">T</text>
+  </g>
+)
+
+const SightGlass: SymbolGlyph = () => (
+  <g>
+    <rect x={-8} y={-6} width={16} height={12} rx={6} className="ln sym" />
+    <path className="ln thin" d="M-3 -6 V6 M3 -6 V6" />
+  </g>
+)
+
+const RestrictionOrifice: SymbolGlyph = () => (
+  <path className="ln" d="M-2.5 -9 V9 M2.5 -9 V9" />
+)
+
+/** a concentric reducer, its wide end on the left */
+const PipeReducer: SymbolGlyph = () => (
+  <path className="ln sym" d="M-7 -7 L7 -3.5 V3.5 L-7 7 Z" />
+)
+
+/** a line closed off at a flange */
+const BlindFlange: SymbolGlyph = () => (
+  <g>
+    <path className="ln" d="M-16 0 H-2 M-2 -8 V8" />
+    <rect x={0.5} y={-8} width={3} height={16} className="ln inkf" />
+  </g>
+)
+
+/** a drain into a funnel, across an air gap */
+const Funnel: SymbolGlyph = () => (
+  <g>
+    <rect x={-10} y={-2} width={20} height={4} className="mask" />
+    <path className="ln" d="M-16 0 H-10" />
+    <path className="ln" d="M-6 -8 L1 -2.5 H9 M-6 8 L1 2.5 H9" />
+  </g>
+)
+
+/** a vent to atmosphere: the line turns back down so the rain stays out */
+const Vent: SymbolGlyph = () => (
+  <path className="ln" d="M-16 0 H0 A 6 6 0 0 1 6 6 V10" />
+)
+
+const FlexibleHose: SymbolGlyph = () => (
+  <g>
+    <rect x={-12} y={-3} width={24} height={6} className="mask" />
+    <path className="ln" d="M-12 0 Q -9 -5 -6 0 T 0 0 T 6 0 T 12 0" />
+  </g>
+)
+
+/** a Y-strainer: the screen sits in the leg, where the dirt collects */
+const Strainer: SymbolGlyph = () => (
+  <g>
+    <g transform="translate(-1 2) rotate(-45)">
+      <rect x={-3.5} y={0} width={7} height={16} className="ln sym" />
+      <path className="ln thin dashed" d="M0 3 V13" />
+    </g>
+    <rect x={-10} y={-5} width={20} height={10} className="ln sym" />
+  </g>
 )
 
 // ---- single-line -------------------------------------------------------------
@@ -433,11 +922,6 @@ const Busbar: SymbolGlyph = ({ span = [-50, 50] }) => (
 // ---- fluid power (ISO 1219-1) ------------------------------------------------
 
 type Pt = [number, number]
-
-/** two decimals are plenty on a 44-unit symbol, and keep the markup short */
-const r2 = (n: number) => Math.round(n * 100) / 100
-
-const clamp01 = (x: number) => Math.min(1, Math.max(0, x))
 
 /** a straight arrow, its head filled with the tip on `to` */
 function Arrow({ from, to, head = 3.6 }: { from: Pt; to: Pt; head?: number }) {
@@ -1025,9 +1509,43 @@ const SYMBOLS: Record<string, SymbolGlyph> = {
   ButterflyValve,
   SafetyValve,
   ControlValve,
+  NeedleValve,
+  PlugValve,
+  DiaphragmValve,
+  AngleValve,
+  ThreeWayValve,
+  PressureReducingValve,
+  BreatherValve,
+  RuptureDisc,
   ElectricMotor,
   Junction,
   OffPageConnector,
+  RotaryPump,
+  Ejector,
+  StaticMixer,
+  Reactor,
+  HorizontalVessel,
+  ProcessColumn,
+  PackedColumn,
+  SphericalTank,
+  Silo,
+  OpenTank,
+  Cyclone,
+  TubularHeatExchanger,
+  PlateHeatExchanger,
+  AirCoolingSystem,
+  Furnace,
+  CoolingTower,
+  Strainer,
+  FlameArrestor,
+  SteamTrap,
+  SightGlass,
+  RestrictionOrifice,
+  PipeReducer,
+  BlindFlange,
+  Funnel,
+  Vent,
+  FlexibleHose,
   Grid,
   Generator,
   Motor,
@@ -1076,5 +1594,18 @@ export function PackSymbol({
   ...props
 }: SymbolProps & { cls: string | undefined; name: string }) {
   const Glyph = cls ? SYMBOLS[cls] : undefined
-  return Glyph ? <Glyph {...props} /> : <Block name={name} />
+  if (!Glyph) return <Block name={name} />
+  const actuator =
+    cls && STEMMED.has(cls)
+      ? (props.part.actuator ??
+        (cls === 'ControlValve' ? 'diaphragm' : undefined))
+      : undefined
+  return actuator ? (
+    <g>
+      <Actuator type={actuator} open={props.s.open} fails={props.part.fails} />
+      <Glyph {...props} />
+    </g>
+  ) : (
+    <Glyph {...props} />
+  )
 }

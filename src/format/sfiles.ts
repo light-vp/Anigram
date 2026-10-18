@@ -126,38 +126,43 @@ const UNITS: Record<string, UnitInfo> = {
     tag: 'TK',
     role: 'storage',
   },
-  r: { label: 'Reactor', cls: 'Vessel', kind: 'hottank', tag: 'R' },
+  r: { label: 'Reactor', cls: 'Reactor', kind: 'hottank', tag: 'R' },
   dist: {
     label: 'Distillation column',
-    cls: 'Vessel',
+    cls: 'ProcessColumn',
     kind: 'hottank',
     tag: 'C',
   },
   rect: {
     label: 'Rectification column',
-    cls: 'Vessel',
+    cls: 'ProcessColumn',
     kind: 'hottank',
     tag: 'C',
   },
   strip: {
     label: 'Stripping column',
-    cls: 'Vessel',
+    cls: 'ProcessColumn',
     kind: 'hottank',
     tag: 'C',
   },
-  abs: { label: 'Absorption column', cls: 'Vessel', kind: 'hottank', tag: 'C' },
+  abs: {
+    label: 'Absorption column',
+    cls: 'PackedColumn',
+    kind: 'hottank',
+    tag: 'C',
+  },
   extr: {
     label: 'Extraction column',
-    cls: 'Vessel',
+    cls: 'ProcessColumn',
     kind: 'hottank',
     tag: 'C',
   },
-  scrub: { label: 'Scrubber', cls: 'Vessel', kind: 'hottank', tag: 'C' },
+  scrub: { label: 'Scrubber', cls: 'PackedColumn', kind: 'hottank', tag: 'C' },
   flash: { label: 'Flash drum', cls: 'Vessel', kind: 'hottank', tag: 'V' },
   sep: { label: 'Separator', cls: 'Vessel', kind: 'hottank', tag: 'V' },
   centr: { label: 'Centrifuge', cls: 'Vessel', kind: 'hottank', tag: 'S' },
-  cycl: { label: 'Cyclone', cls: 'Vessel', kind: 'hottank', tag: 'S' },
-  hcycl: { label: 'Hydrocyclone', cls: 'Vessel', kind: 'hottank', tag: 'S' },
+  cycl: { label: 'Cyclone', cls: 'Cyclone', kind: 'hottank', tag: 'S' },
+  hcycl: { label: 'Hydrocyclone', cls: 'Cyclone', kind: 'hottank', tag: 'S' },
   egclean: { label: 'Gas cleaner', cls: 'Vessel', kind: 'hottank', tag: 'S' },
   X: { label: 'Unit', cls: 'Vessel', kind: 'hottank', tag: 'X' },
   lfil: { label: 'Filter', cls: 'Filter', kind: 'treatment', tag: 'F' },
@@ -637,11 +642,20 @@ function unitOf(p: PartSpec, scene: Scene, ins: number, outs: number): string {
   if (cls === 'Compressor' || p.kind === 'heatpump') return 'comp'
   if (cls === 'Fan' || p.kind === 'fan') return 'blwr'
   if (cls === 'Turbine' || p.kind === 'turbine') return 'turb'
-  if (cls === 'HeatExchanger' || p.kind === 'radiator') return 'hex'
-  if (cls === 'Filter' || p.kind === 'treatment') return 'lfil'
+  if (
+    /HeatExchanger$|^AirCoolingSystem$|^Furnace$/.test(cls) ||
+    p.kind === 'radiator'
+  )
+    return 'hex'
+  if (cls === 'ProcessColumn') return 'dist'
+  if (cls === 'PackedColumn') return 'abs'
+  if (cls === 'Reactor') return 'r'
+  if (cls === 'Cyclone') return 'cycl'
+  if (cls === 'Filter' || cls === 'Strainer' || p.kind === 'treatment')
+    return 'lfil'
   if (/Valve$/.test(cls) || p.kind === 'valve' || r === 'gate') return 'v'
-  if (cls === 'Tank' || r === 'storage') return 'tank'
-  if (cls === 'Vessel') return 'sep'
+  if (/Tank$|^Silo$/.test(cls) || r === 'storage') return 'tank'
+  if (/Vessel$/.test(cls)) return 'sep'
   if (r === 'converter') return /heat|hot/.test(words) ? 'hex' : 'r'
   if (outs > 1) return 'splt'
   if (ins > 1) return 'mix'

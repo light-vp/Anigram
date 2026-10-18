@@ -35,6 +35,23 @@ const EQUIPMENT: Record<string, string> = {
   Filter: 'Filter',
   ElectricMotor: 'AlternatingCurrentMotor',
   Turbine: 'SteamTurbine',
+  RotaryPump: 'RotaryPump',
+  Ejector: 'Ejector',
+  StaticMixer: 'StaticMixer',
+  OpenTank: 'Tank',
+  HorizontalVessel: 'PressureVessel',
+  SphericalTank: 'PressureVessel',
+  Silo: 'Silo',
+  // a stirred vessel: DEXPI draws its agitator as a part of the vessel
+  Reactor: 'PressureVessel',
+  ProcessColumn: 'ProcessColumn',
+  PackedColumn: 'ProcessColumn',
+  Cyclone: 'Separator',
+  TubularHeatExchanger: 'TubularHeatExchanger',
+  PlateHeatExchanger: 'PlateHeatExchanger',
+  AirCoolingSystem: 'AirCoolingSystem',
+  Furnace: 'Furnace',
+  CoolingTower: 'CoolingTower',
 }
 const PIPING: Record<string, string> = {
   GateValve: 'GateValve',
@@ -46,6 +63,26 @@ const PIPING: Record<string, string> = {
   // a control valve is a globe valve whose actuator is in an actuating system
   ControlValve: 'GlobeValve',
   Junction: 'PipeTee',
+  PlugValve: 'PlugValve',
+  NeedleValve: 'NeedleValve',
+  DiaphragmValve: 'DiaphragmValve',
+  AngleValve: 'AngleGlobeValve',
+  ThreeWayValve: 'ThreeWayGlobeValve',
+  // a self-acting regulator is a globe valve with its own actuator
+  PressureReducingValve: 'GlobeValve',
+  BreatherValve: 'BreatherValve',
+  RuptureDisc: 'RuptureDisc',
+  Strainer: 'Strainer',
+  FlameArrestor: 'FlameArrestor',
+  SteamTrap: 'SteamTrap',
+  SightGlass: 'SightGlass',
+  RestrictionOrifice: 'RestrictionOrifice',
+  PipeReducer: 'PipeReducer',
+  FlexibleHose: 'Hose',
+  BlindFlange: 'BlindFlange',
+  Funnel: 'Funnel',
+  Vent: 'VentilationDevice',
+  Silencer: 'Silencer',
 }
 
 const LOCATIONS: Record<string, string> = {

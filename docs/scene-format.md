@@ -258,10 +258,17 @@ pipes.
   picks a class (a `pump` is a `CentrifugalPump` on a P&ID, a `Motor` on a
   single-line) and then its role does (a source is an off-page connector on a
   P&ID, a generator on a single-line). A part with no class at all draws as a
-  labelled box, with a warning.
+  labelled box, with a warning. The full list, with each symbol drawn, is
+  in [the symbol reference](reference/symbols.md).
+- `actuator` puts what moves a valve on its stem, after ISA-5.1:
+  `diaphragm`, `motor`, `solenoid`, `piston` or `hand`. A `ControlValve` has
+  a diaphragm unless it names another; any other P&ID valve has none unless
+  it names one. `fails` writes where it goes when its signal or air is lost
+  beside the stem: `open` (FO), `closed` (FC) or `last` (FL).
 - `line` is what a link is drawn as: `process` (solid, heavy), `utility`
-  (solid, light), `signal` (dashed), `pneumatic` (slashed) or `data` (dotted).
-  It defaults to `signal` for data and `process` otherwise.
+  (solid, light), `signal` (dashed), `pneumatic` (slashed), `data` (dotted),
+  `hydraulic` (marked with Ls), `capillary` (crossed) or `electromagnetic`
+  (waved). It defaults to `signal` for data and `process` otherwise.
 - `titleBlock` fills the drawing's ISO 7200 title block, which every
   engineering sheet carries in the bottom right of its border: owner,
   document type (from `drawing`) and status along the top, `title` and
@@ -349,13 +356,16 @@ outside its `low` and `high`.
   instrument only draws the loop: the gate's own `open` signal does the
   controlling, as in `"clamp((prev('tank').fill - 0.2) / 0.3, 0, 1)"`.
 - `signal` is how that signal travels: `signal` (electric, dashed, the
-  default), `pneumatic` or `data`.
+  default), `pneumatic`, `data`, `hydraulic`, `capillary` or
+  `electromagnetic`, each drawn with its ISA-5.1 marks.
 - `mounting` is where it is: `field` (a plain bubble, the default),
   `panel` (a line across it), `behind-panel` (a dashed line), `dcs` (in a
   square) or `plc` (a diamond in a square).
 
 [`examples/feed-tank-pid.json`](../examples/feed-tank-pid.json) is a whole
-P&ID with a level control loop.
+P&ID with a level control loop, and
+[`examples/distillation-pid.json`](../examples/distillation-pid.json) a
+column with its condenser, reflux drum and two level loops.
 
 ## Signals
 

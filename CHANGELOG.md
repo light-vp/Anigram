@@ -19,6 +19,28 @@ entry says so under **Changed**.
 
 ### Added
 
+- **35 more P&ID symbols**, drawn after ISO 10628-2 and ISA-5.1 and named
+  for DEXPI's classes. Machines: `RotaryPump`, `Ejector`, `StaticMixer`.
+  Vessels and columns: `OpenTank`, `HorizontalVessel`, `SphericalTank`,
+  `Silo`, `Reactor` (its agitator turns), `ProcessColumn` (trayed),
+  `PackedColumn`, `Cyclone`; each shows its level. Heat transfer:
+  `TubularHeatExchanger`, `PlateHeatExchanger`, `AirCoolingSystem` (its fan
+  turns), `Furnace`, `CoolingTower` (water falls while it works). Valves:
+  `PlugValve`, `NeedleValve`, `DiaphragmValve`, `AngleValve`,
+  `ThreeWayValve`, `PressureReducingValve`, `BreatherValve`, `RuptureDisc`.
+  Fittings and line ends: `Strainer`, `FlameArrestor`, `SteamTrap`,
+  `SightGlass`, `RestrictionOrifice`, `PipeReducer`, `FlexibleHose`,
+  `BlindFlange`, `Funnel`, `Vent`, `Silencer`. All are in the editor's
+  palette, the MCP guide and the drawing checks' tag letters, and go to and
+  from DEXPI and SFILES as their own classes.
+- **Valve actuators and fail positions.** A part's `actuator` (`diaphragm`,
+  `motor`, `solenoid`, `piston`, `hand`) is drawn on any P&ID valve's stem,
+  and `fails` (`open`, `closed`, `last`) writes FO, FC or FL beside it.
+- **ISA-5.1 signal lines:** `hydraulic`, `capillary` and `electromagnetic`,
+  for a link's `line` or an instrument's `signal`, each with its marks; the
+  legend now shows a line's marks too.
+- **A distillation column example**, `examples/distillation-pid.json`.
+
 - **Storyboards.** The moments that tell a sheet's day, picked from what the
   simulation really did: the first time each event fires (a chain that
   loops is told once) and the captions between. Each panel is the drawing

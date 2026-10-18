@@ -216,7 +216,25 @@ export type SymbolSet = 'iec' | 'ansi'
  * What a line on an engineering drawing stands for, which sets how it is
  * drawn: a process line solid and heavy, a signal dashed, and so on.
  */
-export type LineType = 'process' | 'utility' | 'signal' | 'pneumatic' | 'data'
+export type LineType =
+  | 'process'
+  | 'utility'
+  | 'signal'
+  | 'pneumatic'
+  | 'data'
+  /** ISA-5.1's hydraulic signal, its capillary tube, and a guided electromagnetic or sonic signal */
+  | 'hydraulic'
+  | 'capillary'
+  | 'electromagnetic'
+
+/** the lines an instrument's signal can travel on */
+export type SignalLine = Exclude<LineType, 'process' | 'utility'>
+
+/** what moves a valve: a diaphragm, a motor, a solenoid, a piston or a handwheel */
+export type Actuator = 'diaphragm' | 'motor' | 'solenoid' | 'piston' | 'hand'
+
+/** where a valve fails to: open, closed, or wherever it last was */
+export type FailPosition = 'open' | 'closed' | 'last'
 
 /** The title block's fields (after ISO 7200), beside the sheet's title and number */
 export interface TitleBlock {
@@ -258,6 +276,13 @@ export interface PartSpec {
    * `kind` still picks the pictorial glyph.
    */
   class?: string
+  /**
+   * what moves a valve on a P&ID, drawn on its stem (ISA-5.1). A
+   * `ControlValve` has a diaphragm unless it names another.
+   */
+  actuator?: Actuator
+  /** where an actuated valve goes when its signal or power is lost: FO, FC or FL */
+  fails?: FailPosition
   /** pressure, voltage or temperature: what it sets, adds, loses and is rated for */
   effort?: EffortSpec
 }
@@ -389,8 +414,11 @@ export interface InstrumentSpec {
   unit?: string
   /** the final element it drives, such as a control valve; a signal line runs there */
   drives?: string
-  /** how that signal travels: electric (dashed, the default), pneumatic or data */
-  signal?: 'signal' | 'pneumatic' | 'data'
+  /**
+   * how that signal travels: electric (dashed, the default), pneumatic,
+   * data, hydraulic, capillary or electromagnetic
+   */
+  signal?: SignalLine
   /** field (the default), panel, behind-panel, dcs or plc */
   mounting?: InstrumentMounting
   /** the reading shows as an alarm below `low` or above `high` */

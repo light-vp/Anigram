@@ -135,19 +135,41 @@ const capital = (s: string) => s.charAt(0).toUpperCase() + s.slice(1)
 // --------------------------------------------------------- what is what
 
 /** DEXPI equipment classes as Anigram's P&ID classes, most specific first */
-function equipmentClass(c: string): string | undefined {
-  if (/Pump$/.test(c))
-    return /Centrifugal|Axial|Jet/.test(c) || c === 'Pump'
-      ? 'CentrifugalPump'
-      : 'PositiveDisplacementPump'
+function equipmentClass(c: string, n?: XmlNode): string | undefined {
+  if (/Ejector$|JetPump$|Eductor$/.test(c)) return 'Ejector'
+  if (/Pump$/.test(c)) {
+    if (/Centrifugal|Axial|Jet/.test(c) || c === 'Pump')
+      return 'CentrifugalPump'
+    if (/Rotary|Gear|Screw|Lobe|Vane/.test(c)) return 'RotaryPump'
+    return 'PositiveDisplacementPump'
+  }
   if (/Compressor$/.test(c)) return 'Compressor'
   if (/(Fan|Blower)$/.test(c)) return 'Fan'
+  if (/StaticMixer$|InLineMixer$/.test(c)) return 'StaticMixer'
+  if (/^AirCool|AirCooledHeatExchanger$/.test(c)) return 'AirCoolingSystem'
+  if (/PlateHeatExchanger$/.test(c)) return 'PlateHeatExchanger'
+  if (/TubularHeatExchanger$|ShellAndTube|TubeBundle/.test(c))
+    return 'TubularHeatExchanger'
+  if (/Furnace$|FiredHeater$|Boiler$|SteamGenerator$/.test(c)) return 'Furnace'
+  if (/CoolingTower$/.test(c)) return 'CoolingTower'
   if (/HeatExchanger$|Cooler$|Heater$|Condenser$|Evaporator$|Reboiler$/.test(c))
     return 'HeatExchanger'
   if (/(Filter|Strainer)$/.test(c)) return 'Filter'
-  if (/^(Tank|Silo|Basin|Pit)$|Tank$/.test(c)) return 'Tank'
-  if (/Vessel$|Column$|Drum$|Reactor$|Separator$|Tower$/.test(c))
-    return 'Vessel'
+  if (/Cyclone$/.test(c)) return 'Cyclone'
+  if (/^Silo$|Hopper$/.test(c)) return 'Silo'
+  if (/^(Basin|Pit)$|OpenTank$/.test(c)) return 'OpenTank'
+  if (/^(Tank)$|Tank$/.test(c)) return 'Tank'
+  if (/Column$|Tower$/.test(c))
+    // a column whose sections hold packing rather than trays
+    return n &&
+      [...descendants(n)].some((d) =>
+        /Packing/.test(d.attrs.ComponentClass ?? d.name),
+      )
+      ? 'PackedColumn'
+      : 'ProcessColumn'
+  if (/Reactor$|Agitat|Stirred|Mixer$|Kneader$/.test(c)) return 'Reactor'
+  if (/Sphere|Spherical/.test(c)) return 'SphericalTank'
+  if (/Vessel$|Drum$|Separator$/.test(c)) return 'Vessel'
   if (/Motor$/.test(c)) return 'ElectricMotor'
   if (/Turbine$/.test(c)) return 'Turbine'
   return undefined
@@ -155,26 +177,32 @@ function equipmentClass(c: string): string | undefined {
 
 /** DEXPI piping classes as Anigram's, or 'pass' for a fitting that only joins pipe */
 function pipingClass(c: string): string | 'pass' | undefined {
-  if (
-    /SafetyValve|ReliefValve|SafetyValveOrFitting|BurstingDisc|RuptureDisc/.test(
-      c,
-    )
-  )
+  if (/BurstingDisc|RuptureDisc/.test(c)) return 'RuptureDisc'
+  if (/BreatherValve|VacuumReliefValve|BreatherFitting/.test(c))
+    return 'BreatherValve'
+  if (/SafetyValve|ReliefValve|SafetyValveOrFitting/.test(c))
     return 'SafetyValve'
   if (/CheckValve$|NonReturnValve$/.test(c)) return 'CheckValve'
   if (/ButterflyValve$/.test(c)) return 'ButterflyValve'
-  if (/BallValve$|PlugValve$/.test(c)) return 'BallValve'
+  if (/^ThreeWay|^FourWay/.test(c)) return 'ThreeWayValve'
+  if (/^Angle.*Valve$/.test(c)) return 'AngleValve'
+  if (/PlugValve$/.test(c)) return 'PlugValve'
+  if (/BallValve$/.test(c)) return 'BallValve'
+  if (/NeedleValve$/.test(c)) return 'NeedleValve'
+  if (/DiaphragmValve$/.test(c)) return 'DiaphragmValve'
   if (/GateValve$|KnifeValve$/.test(c)) return 'GateValve'
-  if (
-    /GlobeValve$|NeedleValve$|AngleValve$|DiaphragmValve$|OperatedValve$/.test(
-      c,
-    )
-  )
-    return 'GlobeValve'
+  if (/GlobeValve$|OperatedValve$/.test(c)) return 'GlobeValve'
   if (/Valve$/.test(c)) return 'GateValve'
   if (/Tee$|Cross$|Header$/.test(c)) return 'Junction'
+  if (/Strainer$/.test(c)) return 'Strainer'
+  if (/FlameArrestor$|FlameArrester$/.test(c)) return 'FlameArrestor'
+  if (/Steam ?Trap$/.test(c)) return 'SteamTrap'
+  if (/SightGlass$/.test(c)) return 'SightGlass'
+  if (/RestrictionOrifice$/.test(c)) return 'RestrictionOrifice'
+  if (/Silencer$/.test(c)) return 'Silencer'
+  if (/Funnel$/.test(c)) return 'Funnel'
   if (
-    /Flange$|Reducer$|Fitting$|Coupling$|Orifice$|Spectacle|Blind|Plug$|Cap$|Hose$|Elbow$|Bend$|Union$|Spool$|Sleeve$|Funnel$|SightGlass$|Silencer$|Steam ?Trap$|Expansion|Compensator$/.test(
+    /Flange$|Reducer$|Fitting$|Coupling$|Orifice$|Spectacle|Blind|Plug$|Cap$|Hose$|Elbow$|Bend$|Union$|Spool$|Sleeve$|Expansion|Compensator$/.test(
       c,
     )
   )
@@ -202,7 +230,57 @@ const KIND: Record<string, string> = {
   CheckValve: 'valve',
   ControlValve: 'valve',
   SafetyValve: 'valve',
+  RotaryPump: 'pump',
+  Ejector: 'pump',
+  StaticMixer: 'treatment',
+  OpenTank: 'reservoir',
+  HorizontalVessel: 'hottank',
+  SphericalTank: 'hottank',
+  Silo: 'reservoir',
+  Reactor: 'hottank',
+  ProcessColumn: 'hottank',
+  PackedColumn: 'hottank',
+  Cyclone: 'treatment',
+  TubularHeatExchanger: 'radiator',
+  PlateHeatExchanger: 'radiator',
+  AirCoolingSystem: 'radiator',
+  Furnace: 'radiator',
+  CoolingTower: 'coolingtower',
+  PlugValve: 'valve',
+  NeedleValve: 'valve',
+  DiaphragmValve: 'valve',
+  AngleValve: 'valve',
+  ThreeWayValve: 'valve',
+  RuptureDisc: 'valve',
+  BreatherValve: 'valve',
+  Strainer: 'treatment',
+  FlameArrestor: 'valve',
+  SteamTrap: 'valve',
+  SightGlass: 'valve',
+  RestrictionOrifice: 'valve',
+  Silencer: 'valve',
+  Funnel: 'valve',
 }
+
+/** the valves an actuating function can work, which then import as control valves */
+const OPERABLE = new Set([
+  'GateValve',
+  'GlobeValve',
+  'BallValve',
+  'ButterflyValve',
+  'PlugValve',
+  'NeedleValve',
+  'DiaphragmValve',
+  'AngleValve',
+  'ThreeWayValve',
+])
+
+/** the classes that exchange heat between two streams */
+const EXCHANGERS = new Set([
+  'HeatExchanger',
+  'TubularHeatExchanger',
+  'PlateHeatExchanger',
+])
 
 const MOUNTING: Record<string, InstrumentMounting> = {
   Field: 'field',
@@ -253,7 +331,7 @@ export function fromDexpi(
     const dexpi = n.attrs.ComponentClass ?? 'Equipment'
     const a = attrsOf(n)
     const tag = tagOf(a)
-    const cls = equipmentClass(dexpi)
+    const cls = equipmentClass(dexpi, n)
     nodes.set(n.attrs.ID, {
       id: n.attrs.ID,
       xml: n,
@@ -498,7 +576,7 @@ export function fromDexpi(
   const vents = new Set<string>()
   const exchangers = new Map<string, { process: Domain; utility: Domain }>()
   for (const n of nodes.values()) {
-    if (n.cls !== 'HeatExchanger') continue
+    if (!EXCHANGERS.has(n.cls ?? '')) continue
     const upRuns = ins(n.id).map((e) => runToEdge(e, true))
     const downRuns = outs(n.id).map((e) => runToEdge(e, false))
     const util = upRuns.findIndex(Boolean)
@@ -585,7 +663,7 @@ export function fromDexpi(
     const outs_ = outs(n.id)
     const driven = drivenBy.get(n.id)
     let cls = n.cls
-    if (driven && n.what === 'piping' && cls !== 'SafetyValve')
+    if (driven && n.what === 'piping' && OPERABLE.has(cls ?? ''))
       cls = 'ControlValve'
     let tag = n.tag
     if (driven?.number) tag = isaPartTag(driven.number)
@@ -854,6 +932,7 @@ function guessBehaviour(
   switch (cls) {
     case 'CentrifugalPump':
     case 'PositiveDisplacementPump':
+    case 'RotaryPump':
     case 'Compressor':
     case 'Fan':
       ctx.switches.push({ id: ctx.id, label: `${name} running`, on: true })
@@ -863,7 +942,14 @@ function guessBehaviour(
         open: `on('${ctx.id}') ? 1 : 0`,
       }
     case 'Tank':
+    case 'OpenTank':
     case 'Vessel':
+    case 'HorizontalVessel':
+    case 'SphericalTank':
+    case 'Silo':
+    case 'Reactor':
+    case 'ProcessColumn':
+    case 'PackedColumn':
       return {
         role: 'storage',
         capacity: 4 * Q,
@@ -875,6 +961,11 @@ function guessBehaviour(
     case 'GlobeValve':
     case 'BallValve':
     case 'ButterflyValve':
+    case 'PlugValve':
+    case 'NeedleValve':
+    case 'DiaphragmValve':
+    case 'AngleValve':
+    case 'ThreeWayValve':
       // a valve the line ends at: a drain or vent, shut until opened; one
       // before a blind flange can't pass anything at all
       if (!ctx.outs.length && ctx.ins.length) {
@@ -900,8 +991,15 @@ function guessBehaviour(
     case 'CheckValve':
       return { role: 'gate', capacity: 3 * Q }
     case 'SafetyValve':
+    case 'RuptureDisc':
       // it lifts on pressure, which the sheet doesn't model; it stays shut
       return { role: 'gate', capacity: 3 * Q, open: 0 }
+    case 'BreatherValve':
+    case 'Funnel':
+    case 'Silencer':
+      // the open air at the end of a line: takes whatever comes
+      if (!ctx.outs.length) return { role: 'vent' }
+      return { role: 'bus' }
     default:
       return { role: 'bus' }
   }

@@ -5,6 +5,7 @@ import { isPartKind, PART_KINDS } from '../parts/kinds.ts'
 import { ExprError, exprRefs } from '../sim/expr.ts'
 import { didYouMean } from '../sim/suggest.ts'
 import type {
+  Actuator,
   Behaviour,
   Caption,
   Expectation,
@@ -12,6 +13,7 @@ import type {
   EffortSpec,
   EventAction,
   EventSpec,
+  FailPosition,
   InstrumentMounting,
   InstrumentSpec,
   DrawingType,
@@ -21,6 +23,7 @@ import type {
   PartSpec,
   Scene,
   Signal,
+  SignalLine,
   Switch,
   TitleBlock,
 } from '../sim/types.ts'
@@ -64,6 +67,32 @@ export const LINE_TYPES: readonly LineType[] = [
   'signal',
   'pneumatic',
   'data',
+  'hydraulic',
+  'capillary',
+  'electromagnetic',
+]
+
+/** the line types an instrument's signal can take */
+export const SIGNAL_LINES: readonly SignalLine[] = [
+  'signal',
+  'pneumatic',
+  'data',
+  'hydraulic',
+  'capillary',
+  'electromagnetic',
+]
+
+export const ACTUATORS: readonly Actuator[] = [
+  'diaphragm',
+  'motor',
+  'solenoid',
+  'piston',
+  'hand',
+]
+export const FAIL_POSITIONS: readonly FailPosition[] = [
+  'open',
+  'closed',
+  'last',
 ]
 
 export const ROLES: readonly Behaviour['role'][] = [
@@ -126,6 +155,8 @@ export const FIELDS = {
     'toggles',
     'tag',
     'class',
+    'actuator',
+    'fails',
     'effort',
   ],
   link: [
@@ -518,6 +549,19 @@ export function validateScene(input: unknown): Validation {
         err(`${p}.tag`, `${twin.id} already has the tag "${part.tag}"`)
     }
     if (raw.class !== undefined) part.class = str(`${p}.class`, raw.class)
+    if (raw.actuator !== undefined) {
+      if (!ACTUATORS.includes(raw.actuator as Actuator))
+        err(
+          `${p}.actuator`,
+          `must be ${ACTUATORS.join(', ')}${didYouMean(String(raw.actuator), ACTUATORS)}`,
+        )
+      else part.actuator = raw.actuator as Actuator
+    }
+    if (raw.fails !== undefined) {
+      if (!FAIL_POSITIONS.includes(raw.fails as FailPosition))
+        err(`${p}.fails`, `must be ${FAIL_POSITIONS.join(', ')}`)
+      else part.fails = raw.fails as FailPosition
+    }
     if (raw.effort !== undefined)
       part.effort = effortSpec(`${p}.effort`, raw.effort, part.behaviour)
     parts.push(part)
@@ -914,8 +958,11 @@ export function validateScene(input: unknown): Validation {
     if (x.unit !== undefined) inst.unit = str(`${p}.unit`, x.unit, '')
     if (x.drives !== undefined) inst.drives = partRef(`${p}.drives`, x.drives)
     if (x.signal !== undefined) {
-      if (!['signal', 'pneumatic', 'data'].includes(x.signal as string))
-        err(`${p}.signal`, 'must be signal, pneumatic or data')
+      if (!SIGNAL_LINES.includes(x.signal as SignalLine))
+        err(
+          `${p}.signal`,
+          `must be ${SIGNAL_LINES.join(', ')}${didYouMean(String(x.signal), SIGNAL_LINES)}`,
+        )
       else inst.signal = x.signal as InstrumentSpec['signal']
     }
     if (x.mounting !== undefined) {

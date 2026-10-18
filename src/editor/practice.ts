@@ -83,6 +83,14 @@ const passes = (capacity: number): Partial<Behaviour> =>
     capacity,
   }) as Partial<Behaviour>
 
+/** a valve that stays shut until its own expression opens it */
+const shutTill = (): Partial<Behaviour> =>
+  ({ role: 'gate', capacity: 1e4, open: 0 }) as Partial<Behaviour>
+
+/** a line's end into the open: a vent, a drain, a breather */
+const endsHere = (): Partial<Behaviour> =>
+  ({ role: 'vent' }) as Partial<Behaviour>
+
 const PID_GROUPS: PaletteGroup[] = [
   {
     id: 'ends',
@@ -107,22 +115,52 @@ const PID_GROUPS: PaletteGroup[] = [
     items: [
       item('CentrifugalPump', 'pump'),
       item('PositiveDisplacementPump', 'pump'),
+      item('RotaryPump', 'pump'),
       item('Compressor', 'pump'),
       item('Fan', 'pump'),
+      item('Ejector', 'valve', { behaviour: passes(1e4) }),
+      item('StaticMixer', 'valve', { behaviour: passes(1e4) }),
+      item('Turbine', 'valve', {
+        behaviour: passes(1e4),
+        note: 'Passes the steam or gas through; the work it takes out is not modelled here.',
+      }),
     ],
   },
   {
     id: 'vessels',
-    label: 'Vessels',
+    label: 'Vessels and columns',
     items: [
       item('Tank', 'watertower'),
+      item('OpenTank', 'watertower'),
       item('Vessel', 'watertower'),
-      item('HeatExchanger', 'valve', {
+      item('HorizontalVessel', 'watertower'),
+      item('SphericalTank', 'watertower'),
+      item('Silo', 'watertower'),
+      item('Reactor', 'watertower'),
+      item('ProcessColumn', 'watertower'),
+      item('PackedColumn', 'watertower'),
+      item('Cyclone', 'valve', { behaviour: passes(1e4) }),
+      item('Filter', 'valve', { behaviour: passes(1e4) }),
+    ],
+  },
+  {
+    id: 'heat',
+    label: 'Heat transfer',
+    items: (
+      [
+        'HeatExchanger',
+        'TubularHeatExchanger',
+        'PlateHeatExchanger',
+        'AirCoolingSystem',
+        'Furnace',
+        'CoolingTower',
+      ] as const
+    ).map((c) =>
+      item(c, 'valve', {
         behaviour: passes(1e4),
         note: 'Passes the line through; the heat it moves is not modelled here.',
       }),
-      item('Filter', 'valve', { behaviour: passes(1e4) }),
-    ],
+    ),
   },
   {
     id: 'valves',
@@ -131,6 +169,12 @@ const PID_GROUPS: PaletteGroup[] = [
       item('GateValve', 'valve'),
       item('GlobeValve', 'valve'),
       item('BallValve', 'valve'),
+      item('ButterflyValve', 'valve'),
+      item('PlugValve', 'valve'),
+      item('NeedleValve', 'valve'),
+      item('DiaphragmValve', 'valve'),
+      item('AngleValve', 'valve'),
+      item('ThreeWayValve', 'valve'),
       item('CheckValve', 'valve', { behaviour: passes(1e4) }),
       item('ControlValve', 'valve', {
         behaviour: {
@@ -140,6 +184,39 @@ const PID_GROUPS: PaletteGroup[] = [
         } as Partial<Behaviour>,
         note: 'Opens as its signal says. Point a controller at it, then write its "open" signal.',
       }),
+      item('PressureReducingValve', 'valve', { behaviour: passes(1e4) }),
+      item('SafetyValve', 'valve', {
+        behaviour: shutTill(),
+        note: 'Stays shut until something opens it: give it an "open" expression on the pressure.',
+      }),
+      item('RuptureDisc', 'valve', {
+        behaviour: shutTill(),
+        note: 'Whole until something bursts it: give it an "open" expression.',
+      }),
+      item('BreatherValve', 'tap', { behaviour: endsHere() }),
+    ],
+  },
+  {
+    id: 'fittings',
+    label: 'Fittings and line ends',
+    items: [
+      ...(
+        [
+          'Strainer',
+          'FlameArrestor',
+          'SteamTrap',
+          'SightGlass',
+          'RestrictionOrifice',
+          'PipeReducer',
+          'FlexibleHose',
+        ] as const
+      ).map((c) => item(c, 'valve', { behaviour: passes(1e4) })),
+      item('BlindFlange', 'tap', {
+        behaviour: { role: 'sink', demand: 0 } as Partial<Behaviour>,
+      }),
+      item('Funnel', 'tap', { behaviour: endsHere() }),
+      item('Vent', 'tap', { behaviour: endsHere() }),
+      item('Silencer', 'tap', { behaviour: endsHere() }),
       item('Junction', 'manifold'),
     ],
   },
@@ -284,7 +361,20 @@ const KIND_FOR: Record<string, string> = {
   Fan: 'fan',
   Compressor: 'heatpump',
   Vessel: 'hottank',
+  HorizontalVessel: 'hottank',
+  SphericalTank: 'hottank',
+  Reactor: 'hottank',
+  ProcessColumn: 'hottank',
+  PackedColumn: 'hottank',
   HeatExchanger: 'treatment',
+  TubularHeatExchanger: 'treatment',
+  PlateHeatExchanger: 'treatment',
+  AirCoolingSystem: 'treatment',
+  Furnace: 'treatment',
+  CoolingTower: 'coolingtower',
+  Cyclone: 'treatment',
+  Turbine: 'turbine',
+  Strainer: 'treatment',
   Filter: 'treatment',
   Junction: 'manifold',
   Transformer: 'transformer',
@@ -305,7 +395,9 @@ const KIND_FOR: Record<string, string> = {
 export function paletteFor(drawing: DrawingType | undefined): PaletteGroup[] {
   if (drawing === 'pid') return PID_GROUPS
   if (drawing === 'pfd')
-    return PID_GROUPS.filter((g) => g.id !== 'valves' && g.id !== 'instruments')
+    return PID_GROUPS.filter(
+      (g) => g.id !== 'valves' && g.id !== 'fittings' && g.id !== 'instruments',
+    )
   if (drawing === 'single-line') return SLD_GROUPS
   if (drawing === 'fluid-power') return FP_GROUPS
   return TEMPLATES_BY_GROUP.map((g) => ({

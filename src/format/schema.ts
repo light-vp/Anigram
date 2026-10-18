@@ -8,9 +8,12 @@ import {
   DOMAINS,
   DRAWINGS,
   FIELDS,
+  ACTUATORS,
+  FAIL_POSITIONS,
   LINE_TYPES,
   MOUNTINGS,
   ROLES,
+  SIGNAL_LINES,
 } from './validate.ts'
 
 /*
@@ -250,6 +253,16 @@ export function sceneSchema(): Schema {
                 description:
                   "what exactly it is in the drawing practice's vocabulary, like CentrifugalPump; picks the symbol",
               },
+              actuator: {
+                enum: [...ACTUATORS],
+                description:
+                  "what moves a valve on a P&ID, drawn on its stem; a ControlValve's is a diaphragm unless it says otherwise",
+              },
+              fails: {
+                enum: [...FAIL_POSITIONS],
+                description:
+                  'where an actuated valve goes when its signal or power is lost (FO, FC, FL)',
+              },
               effort: object(FIELDS.effort, {
                 set: {
                   ...nowSignal,
@@ -336,7 +349,7 @@ export function sceneSchema(): Schema {
                 description: 'the valve or breaker a controller works',
               },
               signal: {
-                enum: ['signal', 'pneumatic', 'data'],
+                enum: [...SIGNAL_LINES],
                 description: 'how its signal to `drives` travels',
               },
               mounting: { enum: [...MOUNTINGS] },

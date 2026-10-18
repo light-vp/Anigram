@@ -63,7 +63,7 @@
 .eng .route.utility { stroke-width: 1.25; }
 .eng .route.signal { stroke-width: 1; stroke-dasharray: 6 4; }
 .eng .route.data { stroke-width: 1.6; stroke-dasharray: 0.1 5; }
-.eng .route.pneumatic { stroke-width: 1; }
+.eng .route.pneumatic, .eng .route.hydraulic, .eng .route.capillary, .eng .route.electromagnetic { stroke-width: 1; }
 .eng .route.idle { stroke: var(--muted); }
 .eng .shaft { fill: none; stroke: var(--ink); stroke-width: 4; }
 .eng .shaftCore { fill: none; stroke: var(--paper); stroke-width: 2; }
