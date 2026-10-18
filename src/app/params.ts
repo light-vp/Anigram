@@ -22,6 +22,7 @@ import type { ThemeId } from '../view/palette.ts'
  *   ?screen=1                        a wall screen: dark, full bleed, tours every sheet
  *   ?theme=light|dark                the sheet's palette (old names: paper, blueprint)
  *   ?mode=paper                      frozen and annotated, ready to print
+ *   ?mode=static                     a static drawing: nothing moves, no clock or readings
  *   ?t=18.5                          start the clock at 18:30
  *   ?speed=2                         clock multiplier
  *   ?credit=0                        leave off the "Made with Anigram" line (svg export too)
@@ -47,6 +48,8 @@ export interface Params {
   scene: string | null
   theme: ThemeId | null
   paper: boolean
+  /** a static drawing (?mode=static) */
+  plain: boolean
   hour: number | null
   speed: number | null
   /** sign the sheet; on unless ?credit=0 */
@@ -86,6 +89,7 @@ export function readParams(
     scene: q.get('scene'),
     theme: THEME_ALIASES[theme ?? ''] ?? null,
     paper: q.get('mode') === 'paper',
+    plain: q.get('mode') === 'static',
     hour: num('t'),
     speed: num('speed'),
     credit: q.get('credit') !== '0',

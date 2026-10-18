@@ -64,3 +64,13 @@ for (const { name, scene } of SHEETS)
     )
     await shoot(page, `${name}.png`)
   })
+
+// a static drawing: the P&ID at rest, as it would be printed and filed
+test('example-feed-tank-pid-static', async ({ page }) => {
+  await page.goto(
+    await sceneLink(example('feed-tank-pid'), '?embed=1&mode=static'),
+  )
+  await pinFont(page)
+  await expect(sheetOf(page)).toHaveClass(/\bplain\b/)
+  await shoot(page, 'example-feed-tank-pid-static.png')
+})

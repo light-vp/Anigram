@@ -19,6 +19,14 @@ entry says so under **Changed**.
 
 ### Added
 
+- **Static drawings.** A sheet can be shown with nothing moving: no clock,
+  no readings, and an engineering drawing at rest (vessels empty, valves in
+  their rest position, directional valves on their springs, relief valves
+  shut), the way a P&ID is printed and filed. In the editor it is
+  **View → Static drawing**; in a link or an embed, `?mode=static` (or
+  `mode="static"` on `<living-diagram>`); on the examples page, **static**;
+  from an assistant, `render_scene` with `static: true` and `share_link`
+  with `view: "static"`.
 - **The P&ID evaluation, drawn**: the docs' evaluation page now shows every
   scenario's brief with what the assistant drew with Anigram and without it,
   side by side, with scores, time, tokens and cost. Open a pair to compare
@@ -67,6 +75,17 @@ entry says so under **Changed**.
 - `import_dexpi` keeps the loop number of an instrument function numbered
   with a trailing dot (`031.`, as in DEXPI's I05 ratio loop) instead of
   numbering it afresh.
+
+### Changed
+
+- **The editor is laid out like a desktop app.** A menu bar along the top
+  (File, Edit, View, Help) replaces the row of buttons: starters, open,
+  save, links and the storyboard are under File; undo, redo, delete and
+  auto layout under Edit; animated or static, light or dark under View;
+  the docs, the MCP server, the examples, GitHub and support under Help.
+  The parts sit down the left, the sheet fills the middle with its clock
+  underneath, and the selected part's settings run down the right. ⌘O
+  opens a file and ⌘S saves it.
 
 ## 0.3.0
 

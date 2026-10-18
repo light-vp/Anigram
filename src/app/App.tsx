@@ -96,6 +96,7 @@ export function App() {
           theme={theme}
           onTheme={setTheme}
           header={initial.view === 'build'}
+          plain={initial.plain}
         />
       </Suspense>
     )

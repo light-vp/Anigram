@@ -104,7 +104,7 @@ example sheets (`?examples`) and the docs (`?docs`) a click away. **✎ edit**
 opens whatever sheet is on screen in it, and `?build=1` opens it from any
 link. It edits the scene file itself: open a file an assistant wrote (or a
 `share_link` with `view: "editor"`), move parts, tag them, write their
-signals, and **save file** hands back the same JSON with only your changes in
+signals, and **File → Save file** hands back the same JSON with only your changes in
 it. On a P&ID, single-line, PFD or fluid-power circuit the palette offers that practice's symbols,
 tagged as they land (a pump arrives as `P-102`), and the checks beside the
 sheet are the ones the MCP server runs: whether it runs, whether its story
@@ -177,6 +177,7 @@ The URL is the API:
 | `embed=build`       | the editor without its header                                                                                                                    |
 | `theme=light\|dark` | the sheet's palette (`paper` and `blueprint` still work)                                                                                         |
 | `mode=paper`        | frozen and labelled                                                                                                                              |
+| `mode=static`       | the drawing alone: nothing moves, no clock or readings; an engineering drawing at rest                                                           |
 | `t=18.5`            | open at 18:30                                                                                                                                    |
 | `speed=4`           | clock multiplier                                                                                                                                 |
 | `credit=0`          | leave off the "Made with Anigram · Vaibhav Patel" line (the downloaded SVG too)                                                                  |

@@ -79,6 +79,7 @@ export function readSettings(el: Element, theme: ThemeId): Params {
     scene: null,
     theme,
     paper: el.getAttribute('mode')?.trim() === 'paper',
+    plain: el.getAttribute('mode')?.trim() === 'static',
     hour: num(el, 'hour'),
     speed: num(el, 'speed'),
     credit: flag(el, 'credit', true),

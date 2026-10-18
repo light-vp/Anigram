@@ -53,10 +53,11 @@ export function Workbench({
   const sim = useSimulation(scene, (s) => {
     if (initial.hour !== null) s.seek(initial.hour)
     if (initial.speed !== null) s.setSpeed(initial.speed)
-    if (initial.paper || reduced) s.setPlaying(false)
+    if (initial.paper || initial.plain || reduced) s.setPlaying(false)
   })
   const frame = useFrame(sim)
   const [paper, setPaper] = useState(initial.paper)
+  const [plain, setPlain] = useState(initial.plain)
   const [selected, setSelected] = useState<string | null>(null)
   const [embedOpen, setEmbedOpen] = useState(false)
   // the controls as they were when the storyboard opened
@@ -105,11 +106,12 @@ export function Workbench({
     window.location.href = url.href
   }
 
-  // paper is a still: the clock stops and every flow is labelled instead
+  // paper is a still: the clock stops and every flow is labelled instead;
+  // static is the drawing alone, with no moment at all
   useEffect(() => {
-    sim.setAnimate(!paper && !reduced)
-    if (paper) sim.setPlaying(false)
-  }, [sim, paper, reduced])
+    sim.setAnimate(!paper && !plain && !reduced)
+    if (paper || plain) sim.setPlaying(false)
+  }, [sim, paper, plain, reduced])
 
   // space plays and pauses, escape lets go of the selection
   useEffect(() => {
@@ -207,8 +209,11 @@ export function Workbench({
             <div className={styles.seg} role="group" aria-label="Mode">
               <button
                 type="button"
-                aria-pressed={!paper}
-                onClick={() => setPaper(false)}
+                aria-pressed={!paper && !plain}
+                onClick={() => {
+                  setPaper(false)
+                  setPlain(false)
+                }}
               >
                 live
               </button>
@@ -217,10 +222,23 @@ export function Workbench({
                 aria-pressed={paper}
                 onClick={() => {
                   setPaper(true)
+                  setPlain(false)
                   capture('paper_mode', { scene: scene.id })
                 }}
               >
                 paper
+              </button>
+              <button
+                type="button"
+                aria-pressed={plain}
+                title="The drawing alone: nothing moves, no clock or readings"
+                onClick={() => {
+                  setPlain(true)
+                  setPaper(false)
+                  capture('static_mode', { scene: scene.id, from: 'examples' })
+                }}
+              >
+                static
               </button>
             </div>
             <div className={styles.seg} role="group" aria-label="Sheet colour">
@@ -346,6 +364,7 @@ export function Workbench({
               annotate={paper || reduced}
               credit={initial.credit}
               animate={!paper && !reduced}
+              plain={plain}
               selected={selected}
               onSelect={setSelected}
               onToggle={(id) => {
@@ -357,9 +376,11 @@ export function Workbench({
           </div>
 
           <p className={styles.caption} aria-live="polite">
-            {caption ?? ' '}
+            {plain
+              ? 'A static drawing: nothing moves, and it reads no values.'
+              : (caption ?? ' ')}
           </p>
-          <Transport sim={sim} frame={frame} />
+          {!plain && <Transport sim={sim} frame={frame} />}
         </div>
 
         <aside className={styles.side}>
@@ -409,7 +430,8 @@ function EmbedDialog({
       <h2>Put this sheet on a page</h2>
       <p>
         It runs live inside the frame. Add <code>&amp;t=18</code> to open it at
-        6pm, <code>&amp;mode=paper</code> for a labelled still, or{' '}
+        6pm, <code>&amp;mode=paper</code> for a labelled still,{' '}
+        <code>&amp;mode=static</code> for the drawing alone, or{' '}
         <code>&amp;theme=dark</code> for a dark sheet.
       </p>
       <textarea

@@ -54,3 +54,10 @@ export const SHEET_CSS = `
 .credit { font-size: 10px; fill: var(--muted); text-anchor: end; letter-spacing: 0.02em; }
 .rule { stroke: var(--line); stroke-width: 1; }
 `
+
+/** a static drawing's: no readings, no live rings, nothing marked as in trouble */
+export const PLAIN_CSS = `
+.plain .value, .plain .ln.live { display: none; }
+.plain .part.bad .tile { stroke: var(--line); }
+.plain .route.limit { stroke: var(--line); }
+`
