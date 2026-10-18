@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 420" width="1100" height="420" font-family="Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker>
+    <marker id="sarr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#06c"/></marker>
+  </defs>
+  <rect width="1100" height="420" fill="#fff"/>
+  <text x="20" y="28" font-size="16" font-weight="bold">P&amp;ID: Pump P-4713 / Plate exchanger H-1009</text>
+
+  <!-- process piping -->
+  <g stroke="#000" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <path d="M90,200 H160" id="p1"/>
+    <path d="M180,200 H270"/>
+    <path d="M330,200 H420"/>
+    <path d="M440,200 H520"/>
+    <path d="M540,200 H640"/>
+    <path d="M800,200 H950"/>
+  </g>
+  <!-- cooling water piping -->
+  <g stroke="#000" stroke-width="2" fill="none" marker-end="url(#arr)">
+    <path d="M950,270 H915"/>
+    <path d="M885,270 H800"/>
+    <path d="M640,270 H605"/>
+  </g>
+
+  <!-- off-sheet connectors -->
+  <g stroke="#000" fill="#fff" stroke-width="1.5">
+    <polygon points="30,185 90,185 105,200 90,215 30,215"/>
+    <polygon points="950,185 1010,185 1025,200 1010,215 950,215"/>
+    <polygon points="950,255 1010,255 1025,270 1010,285 950,285"/>
+    <polygon points="500,255 560,255 575,270 560,285 500,285" transform="translate(30,0)"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="58" y="204" font-size="11">OSC-1</text>
+    <text x="978" y="204" font-size="11">OSC-2</text>
+    <text x="978" y="274" font-size="11">OSC-3</text>
+    <text x="558" y="274" font-size="11">OSC-4</text>
+    <text x="60" y="235" font-size="11">Suction from</text><text x="60" y="248" font-size="11">upstream (off sheet)</text>
+    <text x="985" y="170" font-size="11">Product out (off sheet)</text>
+    <text x="985" y="305" font-size="11">Cooling water in</text>
+    <text x="558" y="305" font-size="11">Cooling water out</text>
+  </g>
+
+  <!-- manual valves (bowtie) -->
+  <g stroke="#000" stroke-width="1.5" fill="#fff">
+    <polygon points="160,190 160,210 180,200" /><polygon points="200,190 200,210 180,200" transform="translate(-0,0)"/>
+    <polygon points="520,190 520,210 540,200"/><polygon points="560,190 560,210 540,200"/>
+  </g>
+  <!-- fix: second halves drawn as proper bowties -->
+  <!-- check valve -->
+  <g stroke="#000" stroke-width="1.5" fill="#fff">
+    <circle cx="430" cy="200" r="10"/>
+    <path d="M424,194 L436,200 L424,206" fill="none"/>
+    <line x1="436" y1="194" x2="436" y2="206"/>
+  </g>
+  <g text-anchor="middle">
+    <text x="180" y="180">HV-4713-1</text><text x="180" y="226" font-size="10">Suction isolation</text>
+    <text x="430" y="180">NRV-4713</text><text x="430" y="226" font-size="10">Check valve</text>
+    <text x="540" y="180">HV-4713-2</text><text x="540" y="226" font-size="10">Discharge isolation</text>
+  </g>
+
+  <!-- pump -->
+  <g stroke="#000" stroke-width="2" fill="#fff">
+    <circle cx="300" cy="200" r="30"/>
+    <path d="M300,170 L330,200 L300,230" fill="none" stroke-width="0"/>
+    <path d="M300,170 L328,190" fill="none"/><path d="M300,230 L328,210" fill="none"/>
+  </g>
+  <text x="300" y="150" text-anchor="middle" font-weight="bold">P-4713</text>
+  <text x="300" y="165" text-anchor="middle" font-size="10">Centrifugal pump</text>
+
+  <!-- line number -->
+  <text x="580" y="140" text-anchor="middle" font-size="11">Line 47132</text>
+  <text x="580" y="154" text-anchor="middle" font-size="11">DN80 / 75HB13 / MNb</text>
+  <line x1="580" y1="158" x2="580" y2="196" stroke="#888" stroke-width="1"/>
+
+  <!-- exchanger -->
+  <rect x="640" y="150" width="160" height="150" fill="#fff" stroke="#000" stroke-width="2"/>
+  <g stroke="#000" stroke-width="1.5" fill="none">
+    <path d="M670,150 V300 M700,150 V300 M730,150 V300 M760,150 V300 M790,150 V300" stroke-dasharray="0" stroke-opacity="0.35"/>
+    <path d="M640,200 H800" stroke-dasharray="6,3" stroke-opacity="0"/>
+  </g>
+  <text x="720" y="140" text-anchor="middle" font-weight="bold">H-1009</text>
+  <text x="720" y="173" text-anchor="middle" font-size="10">Plate heat exchanger</text>
+  <text x="720" y="193" text-anchor="middle" font-size="10">Process side</text>
+  <text x="720" y="260" text-anchor="middle" font-size="10">Cooling water side</text>
+
+  <!-- TT-1009 -->
+  <line x1="870" y1="200" x2="870" y2="150" stroke="#000" stroke-width="1.5"/>
+  <circle cx="870" cy="130" r="20" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="870" y="128" text-anchor="middle" font-size="11">TT</text>
+  <text x="870" y="141" text-anchor="middle" font-size="11">1009</text>
+  <text x="870" y="100" text-anchor="middle" font-size="10">Temp. transmitter</text>
+
+  <!-- TIC-1009 (DCS shared display: circle in square) -->
+  <rect x="930" y="40" width="0" height="0"/>
+  <g stroke="#000" stroke-width="1.5" fill="#fff">
+    <circle cx="990" cy="70" r="22"/>
+    <line x1="968" y1="70" x2="1012" y2="70"/>
+  </g>
+  <text x="990" y="66" text-anchor="middle" font-size="11">TIC</text>
+  <text x="990" y="83" text-anchor="middle" font-size="11">1009</text>
+  <text x="990" y="38" text-anchor="middle" font-size="10">Temp. controller</text>
+
+  <!-- control valve TV-1009 on cooling water -->
+  <g stroke="#000" stroke-width="1.5" fill="#fff">
+    <polygon points="885,260 885,280 900,270"/><polygon points="915,260 915,280 900,270"/>
+    <line x1="900" y1="270" x2="900" y2="245"/>
+    <path d="M884,245 A16,16 0 0 1 916,245 Z"/>
+  </g>
+  <text x="900" y="300" text-anchor="middle">TV-1009</text>
+  <text x="900" y="313" text-anchor="middle" font-size="10">Cooling water control valve</text>
+
+  <!-- signals -->
+  <g stroke="#06c" stroke-width="1.5" fill="none" stroke-dasharray="6,4" marker-end="url(#sarr)">
+    <path d="M890,130 H940 V70 H968"/>
+    <path d="M1012,70 H1060 V230 H900 V229"/>
+  </g>
+  <text x="1062" y="150" font-size="10" fill="#06c">output</text>
+  <text x="915" y="118" font-size="10" fill="#06c">PV</text>
+  <text x="20" y="395" font-size="11" fill="#444">TIC-1009 reads the product outlet temperature from TT-1009 and throttles TV-1009 on the cooling water to H-1009. Dashed blue = signal; black = process.</text>
+</svg>

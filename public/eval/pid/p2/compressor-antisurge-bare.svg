@@ -1,0 +1,161 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1250 840" width="1250" height="840" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker>
+    <marker id="ahs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1a5fb4"/></marker>
+    <marker id="ahr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c01c28"/></marker>
+  </defs>
+  <rect width="1250" height="840" fill="#fff"/>
+  <text x="625" y="34" text-anchor="middle" font-size="22" font-weight="bold">P&amp;ID – Gas Compressor K-401 with Anti-Surge Recycle</text>
+
+  <!-- ===== MAIN PROCESS PIPING ===== -->
+  <g fill="none" stroke="#000" stroke-width="3">
+    <!-- inlet to V-401 -->
+    <path d="M90,420 H210" marker-end="url(#ah)"/>
+    <!-- V-401 top outlet up and across to K-401 -->
+    <path d="M250,340 V260 H475"/>
+    <!-- K-401 to E-401 -->
+    <path d="M565,260 H672"/>
+    <!-- E-401 to check valve to off-sheet -->
+    <path d="M728,260 H985"/>
+    <path d="M1015,260 H1130" marker-end="url(#ah)"/>
+  </g>
+
+  <!-- ===== RECYCLE LINE (red) ===== -->
+  <g fill="none" stroke="#c01c28" stroke-width="3">
+    <path d="M900,260 V505"/>
+    <path d="M900,535 V620 H150 V420" marker-end="url(#ahr)"/>
+  </g>
+  <path d="M150,420 H210" stroke="#c01c28" stroke-width="3" fill="none"/>
+  <circle cx="150" cy="420" r="4" fill="#000"/>
+  <circle cx="900" cy="260" r="4" fill="#000"/>
+  <text x="520" y="610" text-anchor="middle" font-size="13" fill="#c01c28" font-weight="bold">ANTI-SURGE RECYCLE LINE (discharge downstream of E-401 → suction upstream of V-401)</text>
+  <path d="M700,620 H640" stroke="#c01c28" stroke-width="3" marker-end="url(#ahr)"/>
+  <path d="M900,380 V410" stroke="#c01c28" stroke-width="3" marker-end="url(#ahr)"/>
+
+  <!-- ===== OFF-SHEET CONNECTORS ===== -->
+  <g stroke="#000" stroke-width="2" fill="#fff">
+    <polygon points="30,402 80,402 96,420 80,438 30,438"/>
+    <polygon points="1130,242 1190,242 1208,260 1190,278 1130,278" transform="translate(0,0)"/>
+    <polygon points="760,95 820,95 820,125 760,125" />
+  </g>
+  <text x="55" y="425" text-anchor="middle" font-size="12" font-weight="bold">OSC-400</text>
+  <text x="1160" y="264" text-anchor="middle" font-size="12" font-weight="bold">OSC-401</text>
+  <text x="790" y="114" text-anchor="middle" font-size="12" font-weight="bold">OSC-402</text>
+  <text x="55" y="456" text-anchor="middle" font-size="11">Gas inlet</text>
+  <text x="1160" y="298" text-anchor="middle" font-size="11">To export header</text>
+  <text x="1160" y="312" text-anchor="middle" font-size="11">(off sheet)</text>
+  <text x="790" y="82" text-anchor="middle" font-size="11">To flare / safe location (off sheet)</text>
+
+  <!-- ===== V-401 SUCTION SCRUBBER ===== -->
+  <g stroke="#000" stroke-width="3" fill="#fff">
+    <path d="M210,370 A40,30 0 0 1 290,370 V470 A40,30 0 0 1 210,470 Z"/>
+  </g>
+  <path d="M222,395 H278" stroke="#000" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="250" y="440" text-anchor="middle" font-size="12">demister</text>
+  <text x="250" y="535" text-anchor="middle" font-size="14" font-weight="bold">V-401</text>
+  <text x="250" y="551" text-anchor="middle" font-size="12">Suction scrubber</text>
+
+  <!-- ===== K-401 COMPRESSOR ===== -->
+  <circle cx="520" cy="260" r="45" fill="#fff" stroke="#000" stroke-width="3"/>
+  <path d="M492,224 L560,248 M492,296 L560,272" stroke="#000" stroke-width="3" fill="none"/>
+  <text x="520" y="330" text-anchor="middle" font-size="14" font-weight="bold">K-401</text>
+  <text x="520" y="346" text-anchor="middle" font-size="12">Centrifugal compressor</text>
+
+  <!-- ===== E-401 AFTER-COOLER ===== -->
+  <rect x="660" y="235" width="80" height="50" rx="8" fill="#fff" stroke="#000" stroke-width="3"/>
+  <path d="M668,260 h12 l6,-14 l12,28 l12,-28 l12,28 l6,-14 h8" fill="none" stroke="#000" stroke-width="1.8"/>
+  <path d="M700,325 V287" stroke="#1a5fb4" stroke-width="2" marker-end="url(#ahs)"/>
+  <path d="M720,233 V195" stroke="#1a5fb4" stroke-width="2" marker-end="url(#ahs)"/>
+  <text x="690" y="340" text-anchor="middle" font-size="11" fill="#1a5fb4">cooling medium in</text>
+  <text x="745" y="190" text-anchor="middle" font-size="11" fill="#1a5fb4">cooling medium out</text>
+  <text x="700" y="360" text-anchor="middle" font-size="14" font-weight="bold">E-401</text>
+  <text x="700" y="376" text-anchor="middle" font-size="12">Discharge after-cooler</text>
+
+  <!-- ===== NRV-401 CHECK VALVE ===== -->
+  <circle cx="1000" cy="260" r="15" fill="#fff" stroke="#000" stroke-width="2.5"/>
+  <path d="M994,252 L1006,260 L994,268 Z" fill="#000"/>
+  <path d="M1006,251 V269" stroke="#000" stroke-width="2.5"/>
+  <text x="1000" y="298" text-anchor="middle" font-size="14" font-weight="bold">NRV-401</text>
+  <text x="1000" y="314" text-anchor="middle" font-size="12">Check valve</text>
+
+  <!-- ===== PSV-401 ===== -->
+  <path d="M790,260 V222" stroke="#000" stroke-width="3" fill="none"/>
+  <polygon points="778,222 802,222 790,200" fill="#fff" stroke="#000" stroke-width="2.5"/>
+  <polygon points="778,178 802,178 790,200" fill="#fff" stroke="#000" stroke-width="2.5"/>
+  <path d="M790,178 V125" stroke="#000" stroke-width="3" fill="none" marker-end="url(#ah)"/>
+  <path d="M802,200 h8 l3,-6 l6,12 l6,-12 l6,12 l3,-6 h8" fill="none" stroke="#000" stroke-width="1.5"/>
+  <circle cx="790" cy="260" r="4" fill="#000"/>
+  <text x="768" y="206" text-anchor="end" font-size="14" font-weight="bold">PSV-401</text>
+  <text x="768" y="222" text-anchor="end" font-size="12">Relief valve</text>
+
+  <!-- ===== FT-401 / PT-402 ===== -->
+  <path d="M350,260 V318" stroke="#000" stroke-width="1.5" fill="none"/>
+  <ellipse cx="350" cy="345" rx="32" ry="26" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="350" y="349" text-anchor="middle" font-size="12" font-weight="bold">FT-401</text>
+  <text x="350" y="388" text-anchor="middle" font-size="11">Suction flow</text>
+  <text x="350" y="401" text-anchor="middle" font-size="11">transmitter</text>
+
+  <path d="M850,260 V318" stroke="#000" stroke-width="1.5" fill="none"/>
+  <ellipse cx="850" cy="345" rx="32" ry="26" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="850" y="349" text-anchor="middle" font-size="12" font-weight="bold">PT-402</text>
+  <text x="850" y="388" text-anchor="middle" font-size="11">Discharge pressure</text>
+  <text x="850" y="401" text-anchor="middle" font-size="11">transmitter</text>
+
+  <!-- ===== UIC-401 ===== -->
+  <circle cx="600" cy="450" r="38" fill="#fff" stroke="#000" stroke-width="2"/>
+  <path d="M562,450 H638" stroke="#000" stroke-width="1"/>
+  <text x="600" y="446" text-anchor="middle" font-size="13" font-weight="bold">UIC-401</text>
+  <text x="600" y="464" text-anchor="middle" font-size="10">anti-surge</text>
+  <text x="600" y="510" text-anchor="middle" font-size="11">Anti-surge controller</text>
+
+  <!-- ===== FV-401 ===== -->
+  <polygon points="892,505 908,535 892,535 908,505" fill="#fff" stroke="#c01c28" stroke-width="2.5"/>
+  <path d="M900,505 V485" stroke="#000" stroke-width="2"/>
+  <path d="M880,485 a20,14 0 0 1 40,0 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="935" y="500" font-size="14" font-weight="bold">FV-401</text>
+  <text x="935" y="516" font-size="12">Anti-surge (recycle) valve</text>
+  <text x="935" y="532" font-size="11" fill="#c01c28">fail-open type assumed</text>
+
+  <!-- ===== SIGNALS (blue dashed) ===== -->
+  <g fill="none" stroke="#1a5fb4" stroke-width="1.8" stroke-dasharray="7 4">
+    <path d="M375,362 L568,436" marker-end="url(#ahs)"/>
+    <path d="M825,362 L634,436" marker-end="url(#ahs)"/>
+    <path d="M638,458 L790,480 L878,486" marker-end="url(#ahs)"/>
+  </g>
+  <text x="440" y="385" font-size="11" fill="#1a5fb4">flow signal</text>
+  <text x="745" y="410" font-size="11" fill="#1a5fb4">pressure signal</text>
+  <text x="715" y="505" font-size="11" fill="#1a5fb4">valve demand (open/close)</text>
+
+  <!-- ===== OPERATING MODES PANEL ===== -->
+  <rect x="30" y="650" width="1190" height="170" fill="#f7f7f7" stroke="#444" stroke-width="1.5"/>
+  <text x="45" y="674" font-size="15" font-weight="bold">OPERATING BEHAVIOUR OF ANTI-SURGE RECYCLE (FV-401)</text>
+
+  <!-- Night -->
+  <g>
+    <rect x="45" y="685" width="570" height="125" fill="#fff" stroke="#c01c28" stroke-width="2"/>
+    <text x="60" y="706" font-size="14" font-weight="bold" fill="#c01c28">OVERNIGHT – export demand falls</text>
+    <polygon points="70,735 90,750 70,750 90,735" fill="#fff" stroke="#c01c28" stroke-width="2.5"/>
+    <text x="100" y="747" font-size="13" font-weight="bold">FV-401 OPEN (valve symbol: open)</text>
+    <path d="M60,775 H260" stroke="#c01c28" stroke-width="5" marker-end="url(#ahr)"/>
+    <text x="270" y="779" font-size="12">Recycle line carries gas: K-401 → E-401 → FV-401 → back to V-401 suction</text>
+    <text x="60" y="800" font-size="11">Suction flow FT-401 falls toward surge → UIC-401 opens FV-401 → compressor kept off surge; only the net demand goes to export.</text>
+  </g>
+  <!-- Day -->
+  <g>
+    <rect x="635" y="685" width="570" height="125" fill="#fff" stroke="#2a7a2a" stroke-width="2"/>
+    <text x="650" y="706" font-size="14" font-weight="bold" fill="#2a7a2a">DAYTIME – normal export demand</text>
+    <polygon points="660,735 680,750 660,750 680,735" fill="#444" stroke="#444" stroke-width="2.5"/>
+    <text x="690" y="747" font-size="13" font-weight="bold">FV-401 CLOSED (valve symbol: filled)</text>
+    <path d="M650,775 H850" stroke="#999" stroke-width="2" stroke-dasharray="3 6"/>
+    <text x="860" y="779" font-size="12">No recycle flow – all discharge gas → NRV-401 → export</text>
+    <text x="650" y="800" font-size="11">Suction flow FT-401 well above surge limit → UIC-401 holds FV-401 shut; whole flow goes to the export header.</text>
+  </g>
+
+  <!-- Legend -->
+  <g font-size="11">
+    <path d="M1000,60 H1040" stroke="#000" stroke-width="3"/><text x="1048" y="64">Process line</text>
+    <path d="M1000,78 H1040" stroke="#c01c28" stroke-width="3"/><text x="1048" y="82">Recycle line (active at low demand)</text>
+    <path d="M1000,96 H1040" stroke="#1a5fb4" stroke-width="1.8" stroke-dasharray="7 4"/><text x="1048" y="100">Instrument / control signal</text>
+  </g>
+  <text x="30" y="835" font-size="10" fill="#555">Tags OSC-400/401/402 and NRV-401 were assigned for this drawing (not supplied); all other tags as specified.</text>
+</svg>

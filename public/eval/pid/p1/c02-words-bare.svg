@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 760" width="1200" height="760" font-family="Arial, sans-serif" font-size="12">
+<defs>
+<pattern id="pk" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M0 10L10 0M0 0L10 10" stroke="#888" stroke-width="0.8"/></pattern>
+<marker id="ar" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#000"/></marker>
+</defs>
+<rect width="1200" height="760" fill="#fff"/>
+<text x="20" y="28" font-size="16" font-weight="bold">P&amp;ID – Packed column K-2750</text>
+<g fill="none" stroke="#000" stroke-width="2">
+<!-- column -->
+<rect x="200" y="80" width="100" height="600" rx="40" id="K-2750"/>
+<rect x="200" y="190" width="100" height="380" fill="url(#pk)" stroke-width="1.5" id="KX-2750"/>
+<!-- N3 -->
+<path d="M300 120H560M400 120V230" marker-end="url(#ar)"/>
+<!-- P3 -->
+<path d="M300 300H618M335 300V275M430 300V325"/>
+<!-- P4 -->
+<path d="M300 440H618M335 440V415M430 440V465"/>
+<!-- N2 bottoms -->
+<path d="M300 640H345M375 640H760"/>
+</g>
+<!-- reducer -->
+<polygon points="345,630 375,636 375,644 345,650" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<!-- insulation -->
+<rect x="385" y="627" width="355" height="26" fill="none" stroke="#000" stroke-dasharray="6 3"/>
+<text x="500" y="668">INS – insulated</text>
+<text x="500" y="619" font-weight="bold">2750.001.6</text>
+<!-- nozzle flanges -->
+<g stroke="#000" stroke-width="2.5">
+<path d="M304 112V128M304 292V308M304 432V448M304 632V648"/>
+</g>
+<g font-weight="bold">
+<text x="308" y="108">N3</text><text x="308" y="288">P3</text><text x="308" y="428">P4</text><text x="308" y="628">N2</text>
+</g>
+<!-- valves -->
+<g fill="#fff" stroke="#000" stroke-width="1.5">
+<polygon points="392,160 408,180 392,180 408,160"/>
+<polygon points="370,292 390,308 390,292 370,308"/>
+<polygon points="370,432 390,448 390,432 370,448"/>
+</g>
+<!-- tee N3 -->
+<circle cx="400" cy="120" r="3" fill="#000"/>
+<!-- blind flanges -->
+<g stroke="#000" stroke-width="2.5">
+<path d="M327 275H343M327 270H343M422 325H438M422 330H438M327 415H343M327 410H343M422 465H438M422 470H438"/>
+</g>
+<!-- labels left -->
+<text x="40" y="130" font-size="14" font-weight="bold">K-2750</text>
+<text x="40" y="146">Packed column</text>
+<text x="40" y="340" font-weight="bold">KX-2750</text>
+<text x="40" y="356">Packed section</text>
+<text x="40" y="372">14 m tall, 500 mm ID</text>
+<!-- valve / flange tags -->
+<g font-size="10">
+<text x="412" y="168">V-2750-01</text><text x="412" y="182">isolating valve</text>
+<text x="412" y="116">TEE-2750-01</text>
+<text x="360" y="325">V-2750-02</text><text x="360" y="338">root valve</text>
+<text x="360" y="465">V-2750-03</text><text x="360" y="478">root valve</text>
+<text x="280" y="262">BF-2750-01</text><text x="440" y="342">BF-2750-02</text>
+<text x="280" y="402">BF-2750-03</text><text x="440" y="482">BF-2750-04</text>
+<text x="330" y="672">RED-2750-01</text>
+<text x="330" y="686">reducer</text>
+<text x="408" y="236">isolated end (downstream not specified)</text>
+</g>
+<!-- off-sheet connectors -->
+<g fill="#fff" stroke="#000" stroke-width="1.5">
+<polygon points="560,106 640,106 660,120 640,134 560,134"/>
+<polygon points="760,625 830,625 850,640 830,655 760,655"/>
+</g>
+<text x="568" y="124" font-size="10">to other sheet</text>
+<text x="566" y="150" font-size="10">OSC-2750-01</text>
+<text x="772" y="644">W 2765</text>
+<text x="760" y="676" font-size="10">Bottoms off sheet</text>
+<!-- DCS -->
+<rect x="590" y="215" width="545" height="300" fill="none" stroke="#000" stroke-dasharray="10 4"/>
+<text x="600" y="235" font-weight="bold">DCS</text>
+<g fill="#fff" stroke="#000" stroke-width="1.5">
+<circle cx="640" cy="300" r="22"/><circle cx="640" cy="440" r="22"/>
+<rect x="912" y="336" width="76" height="76" fill="none"/><circle cx="950" cy="374" r="34"/>
+</g>
+<g stroke="#000"><path d="M618 300H662M618 440H662M912 374H988"/></g>
+<g text-anchor="middle">
+<text x="640" y="304">PIZ</text><text x="640" y="454" dy="-10">PIZ</text>
+<text x="950" y="378">PISZA</text>
+</g>
+<text x="612" y="266" font-weight="bold">PIZ-275003A</text>
+<text x="612" y="406" font-weight="bold">PIZ-275003B</text>
+<text x="640" y="331" text-anchor="middle" font-size="10">pressure transmitter</text>
+<text x="640" y="471" text-anchor="middle" font-size="10">pressure transmitter</text>
+<text x="950" y="432" text-anchor="middle" font-weight="bold">PISZA-275003</text>
+<text x="950" y="448" text-anchor="middle" font-size="10">High-pressure safety function</text>
+<text x="950" y="462" text-anchor="middle" font-size="10">I = indicate · S = switch</text>
+<text x="950" y="476" text-anchor="middle" font-size="10">Z = trip (interlock) · A = alarm</text>
+<!-- signals -->
+<g fill="none" stroke="#000" stroke-dasharray="6 3" stroke-width="1.5" marker-end="url(#ar)">
+<path d="M662 300L720 300L720 364L916 364"/>
+<path d="M662 440L720 440L720 384L916 384"/>
+</g>
+<!-- outputs -->
+<g fill="#fff" stroke="#000"><rect x="1000" y="290" width="125" height="40"/><rect x="1000" y="420" width="125" height="40"/></g>
+<g fill="none" stroke="#000" stroke-dasharray="6 3" stroke-width="1.5" marker-end="url(#ar)">
+<path d="M966 346L1000 316"/><path d="M966 402L1000 436"/>
+</g>
+<g font-size="10" text-anchor="middle">
+<text x="1062" y="307">TRIP – interlock</text><text x="1062" y="320">on HIGH pressure</text>
+<text x="1062" y="437">ALARM</text><text x="1062" y="450">HIGH column pressure</text>
+</g>
+<!-- legend -->
+<g font-size="10">
+<line x1="20" y1="720" x2="60" y2="720" stroke="#000" stroke-width="2"/><text x="66" y="724">process line</text>
+<line x1="160" y1="720" x2="200" y2="720" stroke="#000" stroke-dasharray="6 3" stroke-width="1.5"/><text x="206" y="724">signal</text>
+<text x="300" y="724">Tags of valves, flanges, tee, reducer and off-sheet N3 connector (…-2750-nn) are placeholders assigned for this drawing. Not to scale.</text>
+</g>
+</svg>

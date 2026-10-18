@@ -1,0 +1,302 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="420mm" height="297mm" viewBox="0 0 420 297" font-family="Calibri, Carlito, Arial, Helvetica, sans-serif" font-size="3" text-anchor="middle">
+<title>DEXPI example PID - Utilities - standby pump P-4712B added (rev. R2.3)</title>
+<desc>Redrawn from reference.xml (DEXPI P&amp;ID, sheet 2a, Utilities). Coordinates are the file's millimetre coordinates with the Y axis flipped for SVG. Added in this revision: P-4712B, V-4712B-S, CV-4712B-D, V-4712B-D, PipeTee-6, PipeTee-7, XSA4712.03, XY4712.04. Added tags are drawn in red.</desc>
+<defs>
+<style>
+.s{text-anchor:start}
+.e{text-anchor:end}
+.eq{fill:none;stroke:#800000;stroke-width:.3}
+.nz{fill:none;stroke:#800000;stroke-width:.4}
+.pp{fill:none;stroke:#808000;stroke-width:.5}
+.ps{fill:none;stroke:#808000;stroke-width:.25}
+.vs{fill:none;stroke:#808000;stroke-width:.25}
+.vf{fill:#808000;stroke:#808000;stroke-width:.25}
+.bb{fill:#fff;stroke:#008000;stroke-width:.2}
+.bl{fill:none;stroke:#008000;stroke-width:.2}
+.sg{fill:none;stroke:#0000ff;stroke-width:.2;stroke-dasharray:1.5 1;marker-end:url(#ah)}
+.k{fill:none;stroke:#000;stroke-width:.2}
+.n{fill:#d00000;font-weight:bold}
+.nn{fill:#d00000}
+.sm{font-size:1.9px;fill:#555}
+.tn{font-size:1.6px;fill:#555}
+.hl{fill:none;stroke:#3cb44b;stroke-width:3.4;stroke-opacity:.35;stroke-linecap:round;stroke-linejoin:round}
+</style>
+<marker id="ah" viewBox="0 0 6 6" refX="5" refY="3" markerWidth="2.2" markerHeight="2.2" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L6 3 L0 6" fill="none" stroke="#0000ff" stroke-width="1"/></marker>
+<g id="gv"><path class="vs" d="M-2 1 L2 -1 L2 1 L-2 -1 Z"/><circle class="vf" r=".5"/></g>
+<g id="bv"><path class="vs" d="M-2 1 L2 -1 L2 1 L-2 -1 Z"/><circle r="1" fill="#fff" stroke="#808000" stroke-width=".25"/></g>
+<g id="bf"><path class="vs" d="M-2 -1 L2 1 L-2 1 L-2 -1 L2 -1 L2 1"/><circle class="vf" r=".5"/></g>
+<g id="ck"><path class="vs" d="M-2 -1 L-2 1 L2 1 L2 -1 L-2 -1 L2 1"/><circle class="vf" cx="-2" cy="-1" r=".5"/></g>
+<g id="fa"><path d="M-1.75 -1.75 L0 0 L-1.75 1.75" fill="none"/></g>
+<g id="pc"><circle class="eq" r="5.25"/><path class="eq" d="M-5.25 0 H5.25 M0 -5.25 L5.25 0 L0 5.25"/></g>
+<g id="pr"><circle class="eq" r="5.25"/><path class="eq" d="M0 5.25 L5.25 0 M0 -5.25 L5.25 0 M-1.75 0 H1.75 M1.75 1.75 V-1.75"/></g>
+<g id="act"><path class="vs" d="M0 0 H4.05"/><circle class="vs" cx="6.075" r="2.025"/></g>
+</defs>
+<rect width="420" height="297" fill="#fff"/>
+
+<!-- drawing border and grid -->
+<g id="border">
+<rect x="1" y="1" width="418" height="295" class="k" style="stroke-width:.3"/>
+<rect x="4" y="4" width="412" height="289" class="k" style="stroke-width:.6"/>
+<path class="k" stroke-width=".3" d="M38.33 4V1M38.33 293V296M72.67 4V1M72.67 293V296M107 4V1M107 293V296M141.33 4V1M141.33 293V296M175.67 4V1M175.67 293V296M210 4V1M210 293V296M244.33 4V1M244.33 293V296M278.67 4V1M278.67 293V296M313 4V1M313 293V296M347.33 4V1M347.33 293V296M381.67 4V1M381.67 293V296"/>
+<path class="k" stroke-width=".3" d="M1 256.88H4M416 256.88H419M1 220.75H4M416 220.75H419M1 184.63H4M416 184.63H419M1 148.5H4M416 148.5H419M1 112.38H4M416 112.38H419M1 76.25H4M416 76.25H419M1 40.13H4M416 40.13H419"/>
+<path class="k" stroke-width=".3" d="M208.5 296L210 293L211.5 296M208.5 1L210 4L211.5 1M1 150L4 148.5L1 147M419 150L416 148.5L419 147"/>
+<g style="font-size:2.85px">
+<text x="21.17" y="2.95">1</text><text x="55.5" y="2.95">2</text><text x="89.83" y="2.95">3</text><text x="124.17" y="2.95">4</text><text x="158.5" y="2.95">5</text><text x="192.83" y="2.95">6</text><text x="227.17" y="2.95">7</text><text x="261.5" y="2.95">8</text><text x="295.83" y="2.95">9</text><text x="330.17" y="2.95">10</text><text x="364.5" y="2.95">11</text><text x="398.83" y="2.95">12</text>
+<text x="21.17" y="295.1">1</text><text x="55.5" y="295.1">2</text><text x="89.83" y="295.1">3</text><text x="124.17" y="295.1">4</text><text x="158.5" y="295.1">5</text><text x="192.83" y="295.1">6</text><text x="227.17" y="295.1">7</text><text x="261.5" y="295.1">8</text><text x="295.83" y="295.1">9</text><text x="330.17" y="295.1">10</text><text x="364.5" y="295.1">11</text><text x="398.83" y="295.1">12</text>
+<text x="2.43" y="275.45">H</text><text x="2.43" y="239.33">G</text><text x="2.43" y="203.2">F</text><text x="2.43" y="167.08">E</text><text x="2.43" y="130.95">D</text><text x="2.43" y="94.83">C</text><text x="2.43" y="58.7">B</text><text x="2.43" y="22.58">A</text>
+<text x="417.58" y="275.45">H</text><text x="417.58" y="239.33">G</text><text x="417.58" y="203.2">F</text><text x="417.58" y="167.08">E</text><text x="417.58" y="130.95">D</text><text x="417.58" y="94.83">C</text><text x="417.58" y="58.7">B</text><text x="417.58" y="22.58">A</text>
+</g>
+</g>
+
+<!-- flow route with P-4712 tripped and P-4712B running (drawn under the pipes) -->
+<path id="standby-route" class="hl" d="M194 128.5 V207 H277 V154 H385"/>
+
+<!-- process pipes -->
+<g id="pipes">
+<path class="pp" d="M38 154H74.75"/>
+<path class="pp" d="M93.25 154H132"/>
+<path class="pp" d="M148 133H160V121M160 117V61H181V72.64"/>
+<path class="pp" d="M194 128.5V135M194 139V154H201M205 154H215M219 154H229M233 154H241.75"/>
+<path class="pp" d="M260.25 154H287M291 154H378"/>
+<path class="ps" d="M265 154V158"/>
+<path class="ps" d="M269 154V96"/>
+<path class="ps" d="M267 94H213"/>
+<path class="ps" d="M281 154V150M281 146V145.2"/>
+<path class="ps" d="M323.5 154V137.5"/>
+<path class="ps" d="M365 154V150M365 146V145.2"/>
+<path class="ps" d="M323.5 122.5V100M323.5 96V83H213"/>
+<path class="ps" d="M120 202V155.5M120 152.5V133H132"/>
+<path class="ps" d="M148 154H153V202"/>
+<path class="ps" d="M344.5 202V155.8M344.5 152.2V137.5"/>
+<path class="ps" d="M328 122.5V113H338.5M342.5 113H353V155.8M353 152.2V202"/>
+<!-- added: P-4712B suction branch and discharge -->
+<path class="pp" d="M194 154V207H213M217 207H241.75"/>
+<path class="pp" d="M260.25 207H263M267 207H270M274 207H277V154"/>
+</g>
+<g fill="#808000">
+<circle cx="194" cy="154" r=".6"/><circle cx="265" cy="154" r=".6"/><circle cx="269" cy="154" r=".6"/><circle cx="277" cy="154" r=".6"/><circle cx="281" cy="154" r=".6"/><circle cx="323.5" cy="154" r=".6"/><circle cx="365" cy="154" r=".6"/>
+</g>
+<!-- flow direction arrows -->
+<g>
+<use xlink:href="#fa" stroke="#808000" stroke-width=".5" transform="translate(181 65.64) rotate(90)"/>
+<use xlink:href="#fa" stroke="#808000" stroke-width=".25" transform="translate(217 94) rotate(180)"/>
+<use xlink:href="#fa" stroke="#808000" stroke-width=".5" transform="translate(375 154)"/>
+<use xlink:href="#fa" stroke="#808000" stroke-width=".25" transform="translate(217 83) rotate(180)"/>
+<use xlink:href="#fa" stroke="#808000" stroke-width=".25" transform="translate(120 161) rotate(-90)"/>
+<use xlink:href="#fa" stroke="#808000" stroke-width=".25" transform="translate(153 162.75) rotate(90)"/>
+<use xlink:href="#fa" stroke="#808000" stroke-width=".25" transform="translate(344.5 161) rotate(-90)"/>
+<use xlink:href="#fa" stroke="#808000" stroke-width=".25" transform="translate(353 162.75) rotate(90)"/>
+<use xlink:href="#fa" stroke="#808000" stroke-width=".5" transform="translate(205 207)"/>
+<use xlink:href="#fa" stroke="#808000" stroke-width=".5" transform="translate(277 185) rotate(-90)"/>
+</g>
+<!-- off-page connectors and open line ends -->
+<g data-tag="FlowInPipeOffPageConnector-1"><path class="k" d="M31 152.25V155.75H34.5V157.5L38 154L34.5 150.5V152.25Z"/></g>
+<g data-tag="FlowOutPipeOffPageConnector-1"><path class="k" d="M378 152.25V155.75H381.5V157.5L385 154L381.5 150.5V152.25Z"/></g>
+<g fill="#fff" stroke="#808000" stroke-width=".25">
+<circle cx="120" cy="202" r=".9"/><circle cx="153" cy="202" r=".9"/><circle cx="344.5" cy="202" r=".9"/><circle cx="353" cy="202" r=".9"/>
+</g>
+
+<!-- equipment -->
+<g data-tag="P4711"><use xlink:href="#pc" transform="translate(84 154)"/><path class="nz" d="M78.75 154H74.75M74.75 153V155M89.25 154H93.25M93.25 153V155"/></g>
+<g data-tag="H1007">
+<rect class="eq" x="136" y="130.75" width="8" height="25.5"/>
+<path class="eq" d="M136 154.125L144 132.875M144 154.125L136 132.875M136 149.875H144M136 143.5H144M136 137.125H144"/>
+<path class="nz" d="M136 154H132M132 153V155M144 133H148M148 132V134M136 133H132M132 132V134M144 154H148M148 153V155"/>
+</g>
+<g data-tag="H1008">
+<rect class="eq" x="321.75" y="126.5" width="24.5" height="7"/>
+<path class="eq" d="M325.25 126.5V133.5M321.75 130H325.25M325.25 128.25H341M325.25 129.42H341M325.25 130.58H341M325.25 131.75H341"/>
+<rect class="eq" x="341" y="127.38" width="1.75" height="5.25"/>
+<path class="nz" d="M323.5 133.5V137.5M322.5 137.5H324.5M323.5 126.5V122.5M322.5 122.5H324.5M328 126.5V122.5M327 122.5H329M344.5 133.5V137.5M343.5 137.5H345.5"/>
+</g>
+<g data-tag="T-4750">
+<path class="eq" d="M179 77.75A31.875 36.125 0 0 1 209 77.75L209 120.25A31.875 36.125 0 0 1 179 120.25Z"/>
+<path class="eq" d="M204 75.32V117.32"/>
+<path class="nz" d="M181 76.64V72.64M180 72.64H182M194 124.5V128.5M193 128.5H195M179 111H175M175 110V112M209 94H213M213 93V95M209 83H213M213 82V84M204 75.32V71.32M203 71.32H205"/>
+<path class="nz" d="M179 90.5H176V88.75M179 97.5H176V99.25M174.95 88.75V99.25"/>
+</g>
+<g data-tag="P-4712"><use xlink:href="#pr" transform="translate(251 154)"/><path class="nz" d="M245.75 154H241.75M241.75 153V155M256.25 154H260.25M260.25 153V155"/></g>
+<g data-tag="P-4712B"><use xlink:href="#pr" transform="translate(251 207)"/><path class="nz" d="M245.75 207H241.75M241.75 206V208M256.25 207H260.25M260.25 206V208"/></g>
+
+<!-- valves and piping components -->
+<g data-tag="HV4750.01"><use xlink:href="#gv" transform="translate(160 119) rotate(90)"/><use xlink:href="#act" transform="translate(160 119) rotate(180)"/></g>
+<g data-tag="ButterflyValve-1"><use xlink:href="#bf" transform="translate(194 137) rotate(90)"/></g>
+<g data-tag="SwingCheckValve-1"><use xlink:href="#ck" transform="translate(203 154)"/></g>
+<g data-tag="PipeReducer-1"><path class="vs" d="M215 153L219 154L215 155Z"/></g>
+<g data-tag="BallValve-1"><use xlink:href="#bv" transform="translate(231 154)"/></g>
+<g data-tag="BallValve-2"><use xlink:href="#bv" transform="translate(265 160) rotate(90)"/></g>
+<g data-tag="SV 104.01">
+<g transform="translate(269 94)"><path class="vs" d="M0 0L-2 -1L-2 1ZM0 0L-1 2L1 2Z"/><rect class="vs" x="-1.51" y="-1" width=".1" height="2"/><path class="vs" d="M0 0V-1L1 -1.5L-1 -2.33L1 -3.17L-1 -4L0 -4.5V-5"/><circle class="vf" r=".5"/></g>
+<path class="k" stroke-width=".3" d="M273 90.9H289V101H273Z"/>
+<text class="s" x="274" y="93.6">SV 104.01</text><text class="s" x="274" y="96.6">P = 6 barg</text><text class="s" x="274" y="99.6">DN = 25/50</text>
+</g>
+<path class="k" d="M255.25 93.24V92.36L258.75 93.24Z"/>
+<g data-tag="BallValve-3"><use xlink:href="#bv" transform="translate(281 148) rotate(90)"/><path class="vs" d="M280 145.2H282"/></g>
+<g data-tag="BallValve-4"><use xlink:href="#bv" transform="translate(289 154)"/></g>
+<g data-tag="BallValve-5"><use xlink:href="#bv" transform="translate(365 148) rotate(90)"/><path class="vs" d="M364 145.2H366"/></g>
+<g data-tag="PV4712.02"><use xlink:href="#gv" transform="translate(323.5 98) rotate(90)"/><use xlink:href="#act" transform="translate(323.5 98)"/></g>
+<g data-tag="TV4750.03"><use xlink:href="#gv" transform="translate(340.5 113)"/><use xlink:href="#act" transform="translate(340.5 113) rotate(-90)"/></g>
+<g data-tag="V-4712B-S"><use xlink:href="#bv" transform="translate(215 207)"/></g>
+<g data-tag="CV-4712B-D"><use xlink:href="#ck" transform="translate(265 207)"/></g>
+<g data-tag="V-4712B-D"><use xlink:href="#bv" transform="translate(272 207)"/></g>
+<!-- insulation symbol on 47127 -->
+<path class="k" d="M307.6 83.7H316M307.6 82.3H316M316 83L315.3 82.3M315.3 83.7L313.9 82.3M313.9 83.7L312.5 82.3M312.5 83.7L311.1 82.3M311.1 83.7L309.7 82.3M309.7 83.7L308.3 82.3M308.3 83.7L307.6 83"/>
+
+<!-- instrumentation -->
+<g data-tag="PI4712.01"><path class="bb" d="M278 128.25H284A3.75 3.75 0 0 1 284 135.75H278A3.75 3.75 0 0 1 278 128.25Z"/><text x="281" y="131.1" style="font-size:2.6px">PI</text><text x="281" y="135.2" style="font-size:2.4px">4712.01</text></g>
+<g data-tag="PICSA4712.02"><path class="bb" d="M362 128.25H368A3.75 3.75 0 0 1 368 135.75H362A3.75 3.75 0 0 1 362 128.25Z"/><path class="bl" d="M358.25 132H371.75"/><text x="365" y="131.1" style="font-size:2.6px">PICSA</text><text x="365" y="135.2" style="font-size:2.4px">4712.02</text></g>
+<g data-tag="TICSA4750.03"><path class="bb" d="M201 57.25H207A3.75 3.75 0 0 1 207 64.75H201A3.75 3.75 0 0 1 201 57.25Z"/><path class="bl" d="M197.25 61H210.75"/><text x="204" y="60.1" style="font-size:2.6px">TICSA</text><text x="204" y="64.2" style="font-size:2.4px">4750.03</text></g>
+<g data-tag="HS4750.01"><path class="bb" d="M134 115.25H140A3.75 3.75 0 0 1 140 122.75H134A3.75 3.75 0 0 1 134 115.25Z"/><path class="bl" d="M130.25 119H143.75"/><text x="137" y="118.1" style="font-size:2.6px">HS</text><text x="137" y="122.2" style="font-size:2.4px">4750.01</text></g>
+<g data-tag="XSA4712.03"><path class="bb" d="M248 167.25H254A3.75 3.75 0 0 1 254 174.75H248A3.75 3.75 0 0 1 248 167.25Z"/><path class="bl" d="M244.25 171H257.75"/><text x="251" y="170.1" style="font-size:2.6px">XSA</text><text x="251" y="174.2" style="font-size:2.4px">4712.03</text></g>
+<g data-tag="XY4712.04"><path class="bb" d="M248 185.25H254A3.75 3.75 0 0 1 254 192.75H248A3.75 3.75 0 0 1 248 185.25Z"/><path class="bl" d="M244.25 189H257.75"/><text x="251" y="188.1" style="font-size:2.6px">XY</text><text x="251" y="192.2" style="font-size:2.4px">4712.04</text></g>
+<!-- measuring lines (green) and signal lines (blue dashed) -->
+<path class="bl" d="M281 145.2V135.75M365 145.2V135.75M204 71.32V64.75"/>
+<path class="sg" d="M143.75 119H151.9"/>
+<path class="sg" d="M210.75 61H340.5V104.9"/>
+<path class="sg" d="M365 128.25V98H331.6"/>
+<path class="sg" d="M251 159.25V167.25"/>
+<path class="sg" d="M251 174.75V185.25"/>
+<path class="sg" d="M251 192.75V201.75"/>
+
+<!-- equipment tags -->
+<g style="font-size:4.5px">
+<text x="84" y="145.8">P4711</text>
+<text x="140" y="163.3">H1007</text>
+<text x="312" y="130.8">H1008</text>
+<text x="194" y="99.8">T-4750</text>
+<text x="251" y="145.8">P-4712</text>
+<text class="n" x="251" y="218.4">P-4712B</text>
+</g>
+<text style="font-size:2.4px" x="251" y="141">DUTY</text>
+<text class="nn" style="font-size:2.4px" x="251" y="222">STANDBY - starts on P-4712 trip</text>
+
+<!-- nozzle labels -->
+<g style="font-size:3px">
+<text x="75.95" y="151.7">N1</text><text x="75.95" y="157.4">80</text><text x="92.05" y="151.7">N2</text><text x="92.05" y="157.4">80</text>
+<text x="133.2" y="151.7">N1</text><text x="133.2" y="157.4">80</text><text x="146.8" y="130.7">N2</text><text x="146.8" y="136.4">80</text>
+<text x="133.2" y="130.7">N3</text><text x="133.2" y="136.4">50</text><text x="146.8" y="151.7">N4</text><text x="146.8" y="157.4">50</text>
+<text x="242.95" y="151.7">N1</text><text x="242.95" y="157.4">50</text><text x="259.05" y="151.7">N2</text><text x="259.05" y="157.4">50</text>
+<text x="327.5" y="136.5">N1</text><text x="327.5" y="139.5">50</text><text x="319.5" y="121.5">N2</text><text x="319.5" y="124.5">50</text>
+<text x="332" y="121.5">N3</text><text x="332" y="124.5">50</text><text x="340.5" y="136.5">N4</text><text x="340.5" y="139.5">50</text>
+<text x="177" y="71.7">N1</text><text x="177" y="74.7">80</text><text x="190" y="127.5">N2</text><text x="190" y="130.5">80</text>
+<text x="176.2" y="108.7">N3</text><text x="176.2" y="114.4">80</text><text x="211.8" y="91.7">N5</text><text x="211.8" y="97.4">50</text>
+<text x="211.8" y="80.7">N6</text><text x="211.8" y="86.4">50</text><text x="208" y="70.4">N7</text><text x="208" y="73.4">25</text>
+<text x="171" y="93">N8</text><text x="171" y="96">800</text>
+<text class="nn" x="242.95" y="204.7">N1</text><text class="nn" x="242.95" y="210.4">50</text><text class="nn" x="259.05" y="204.7">N2</text><text class="nn" x="259.05" y="210.4">50</text>
+</g>
+
+<!-- line labels -->
+<g style="font-size:3px">
+<text x="56.375" y="152.05">MNb 47121 75HB13 80</text>
+<text x="112.625" y="152.05">MNb 47122 75HB13 80</text>
+<text transform="translate(157 90.82) rotate(-90)" y="1.05">MNb 47123 75HB13 80</text>
+<text transform="translate(190 148.25) rotate(-90)" y="1.05">MNc 47124 75HB13 80</text>
+<text transform="translate(272.3 117) rotate(-90)" y="1.05">MNc 47125 73HG12 25</text>
+<text x="236" y="92.55">MNc 47125 75HB13 50</text>
+<text x="308.25" y="152.05">MNc 47126 75HB13 50</text>
+<text x="239.25" y="81.8">MNc 47127 75HB13 50 Q 80</text>
+<text transform="translate(117.5 183) rotate(-90)" y="1.05">WKa 47130 75HB13 50</text>
+<text transform="translate(150.5 183) rotate(-90)" y="1.05">WKb 47131 75HB13 50</text>
+<text transform="translate(342.1 183.5) rotate(-90)" y="1.05">QSa 47140 75HB13 50 Q 80</text>
+<text transform="translate(350.7 183.4) rotate(-90)" y="1.05">QSb 47141 75HB13 50 Q 80</text>
+<text x="311.8" y="87.5">Q80</text>
+<text class="nn" x="212" y="212.05" style="font-size:2.6px">MNc 47124 branch DN 50</text>
+<text class="nn" transform="translate(280.6 182) rotate(-90)" y=".9" style="font-size:2.6px">MNc 47126 75HB13 50</text>
+</g>
+
+<!-- valve names (as in the source file) and tags -->
+<g style="font-size:3px">
+<text transform="translate(198 136) rotate(-90)" y="1.05">66KL21-80</text>
+<text x="203" y="151.05">75SA21-80</text>
+<text x="217" y="151.05">80/50</text>
+<text x="231" y="151.05">73KH12-50</text>
+<text x="268" y="165.05">73KH12-25</text>
+<text transform="translate(285 144) rotate(-90)" y="1.05">73KH12-25</text>
+<text x="289" y="158.55">73KH12-50</text>
+<text transform="translate(369 145) rotate(-90)" y="1.05">73KH12-25</text>
+<text transform="translate(319.5 98) rotate(-90)" y="1.05">PV4712.02</text>
+<text transform="translate(327 101.3) rotate(-90)" y="1.05">F.C.</text>
+<text x="340.5" y="116.55">TV4750.03</text>
+<text x="337.5" y="110.55">F.O.</text>
+<text class="s" x="164" y="120.05">HV4750.01</text>
+<text transform="translate(157.5 122.5) rotate(-90)" y="1.05">F.C.</text>
+</g>
+<g>
+<text class="sm" transform="translate(200.9 136) rotate(-90)" y=".65">ButterflyValve-1</text>
+<text class="sm" x="203" y="147.9">SwingCheckValve-1</text>
+<text class="sm" x="217" y="157.9">PipeReducer-1</text>
+<text class="sm" x="231" y="147.9">BallValve-1</text>
+<text class="sm" x="268" y="168.4">BallValve-2</text>
+<text class="sm" transform="translate(288.2 144) rotate(-90)" y=".65">BallValve-3</text>
+<text class="sm" x="289" y="161.4">BallValve-4</text>
+<text class="sm" transform="translate(372 145) rotate(-90)" y=".65">BallValve-5</text>
+</g>
+<!-- tee labels -->
+<g class="tn">
+<text x="196" y="158" style="text-anchor:start">PipeTee-6</text>
+<text x="265" y="151.6">PipeTee-2</text>
+<text x="270.2" y="151.6" style="text-anchor:start">PipeTee-1</text>
+<text x="275.8" y="158" style="text-anchor:end">PipeTee-7</text>
+<text x="279.8" y="148.6" style="text-anchor:end">PipeTee-3</text>
+<text x="325" y="158" style="text-anchor:start">PipeTee-4</text>
+<text x="366.5" y="158" style="text-anchor:start">PipeTee-5</text>
+</g>
+<text class="n" x="215" y="203.9" style="font-size:2.2px">V-4712B-S</text>
+<text class="n" x="265" y="203.9" style="font-size:2.2px">CV-4712B-D</text>
+<text class="n" x="272" y="211.2" style="font-size:2.2px">V-4712B-D</text>
+<!-- boundary labels -->
+<g class="tn">
+<text x="120" y="205.6">LineEnd-47130</text>
+<text x="153" y="205.6">LineEnd-47131</text>
+<text x="346" y="205.6" style="text-anchor:end">LineEnd-47140</text>
+<text x="351.5" y="208.6" style="text-anchor:start">LineEnd-47141</text>
+<text x="33" y="148" style="text-anchor:middle">FlowInPipeOffPageConnector-1</text>
+<text x="381.5" y="148">FlowOutPipeOffPageConnector-1</text>
+</g>
+<!-- instrument tags and descriptions -->
+<g style="font-size:2.4px">
+<text class="e" x="279.2" y="141.9" style="text-anchor:end">PT4712.01</text>
+<text class="e" x="363.2" y="141.9" style="text-anchor:end">PT4712.02</text>
+<text class="e" x="202.2" y="69.4" style="text-anchor:end">TT4750.03</text>
+</g>
+<g class="n" style="font-size:2.2px">
+<text x="243" y="172" style="text-anchor:end">XSA4712.03 - P-4712 trip / alarm</text>
+<text x="243" y="190" style="text-anchor:end">XY4712.04 - auto-start of P-4712B</text>
+</g>
+<!-- behaviour call-out at the sheet outlet -->
+<g style="font-size:2.4px">
+<text x="390" y="163">Product keeps leaving the sheet</text>
+<text x="390" y="166.4">(line 47126, off-page outlet) also</text>
+<text x="390" y="169.8">while P-4712 is tripped</text>
+</g>
+
+<!-- notes -->
+<g id="notes" class="s">
+<text class="s n" x="10" y="230" style="font-size:3.4px">REV. R2.3 - STANDBY PUMP P-4712B ADDED (P-4712 HAD NO SPARE)</text>
+<g style="font-size:2.7px">
+<text class="s" x="10" y="235">1  P-4712B is the standby for P-4712 and runs in parallel with it: suction from T-4750, discharge into header 47126.</text>
+<text class="s" x="10" y="239.2">2  Suction: tee on line 47124 downstream of ButterflyValve-1 (upstream of SwingCheckValve-1), then own isolating valve V-4712B-S.</text>
+<text class="s" x="10" y="243.4">3  Discharge: own check valve CV-4712B-D, then own isolating valve V-4712B-D, into header 47126 at PipeTee-7 (between PipeTee-1 and PipeTee-3).</text>
+<text class="s" x="10" y="247.6">4  V-4712B-S and V-4712B-D are normally open so that P-4712B stays lined up and can start at once; CV-4712B-D stops back-flow through the idle pump.</text>
+<text class="s" x="10" y="251.8">5  P-4712 trips: XSA4712.03 detects the trip and raises the alarm, XY4712.04 starts P-4712B automatically (signals shown dashed blue).</text>
+<text class="s" x="10" y="256">6  Product keeps leaving the sheet: the 47126 outlet to the next sheet stays supplied by P-4712B. The green band is the flow route with P-4712 tripped.</text>
+<text class="s" x="10" y="260.2">7  Red tags are new in this revision. P-4712 and T-4750 are shown with the tags given for this revision (the source file carries them as P4712 and T4750).</text>
+</g>
+</g>
+
+<!-- title block -->
+<g id="titleblock">
+<rect x="296" y="263" width="120" height="30" fill="none" stroke="#000" stroke-width=".58"/>
+<path class="k" stroke-width=".28" d="M296 288H416M296 283H416M296 278H358.4M296 273H416M358.4 268H416M314 273V293M344 273V293M358.4 263V293M380 263V273M380 283V293"/>
+<g class="s" style="font-size:2.5px">
+<text class="s" x="297.2" y="291.25">APPROVED BY</text><text class="s" x="315.2" y="291.25">A. P. Prover</text><text class="s" x="345.2" y="291.25">2016-04-01</text><text class="s" x="359.6" y="291.25">DRAWING NO</text><text class="s" x="381.2" y="291.25">123/A93</text>
+<text class="s" x="297.2" y="286.25">CHECKED BY</text><text class="s" x="315.2" y="286.25">C. Hecker</text><text class="s" x="359.6" y="286.25">PROJECT</text><text class="s" x="381.2" y="286.25">P3.1415</text>
+<text class="s" x="297.2" y="281.25">CREATED BY</text><text class="s" x="315.2" y="281.25">A. Creator</text><text class="s" x="345.2" y="281.25">2016-04-01</text>
+<text class="s" x="315.2" y="276.25">NAME</text><text class="s" x="345.2" y="276.25">DATE</text>
+<text class="s" x="359.6" y="271.25">PLANT SECTION</text><text class="s" x="381.2" y="271.25">Utilities</text>
+<text class="s" x="359.6" y="266.25">SITE</text><text class="s" x="381.2" y="266.25">Dexpi City</text>
+</g>
+<text class="s" x="359.6" y="279.2" style="font-size:4px">DEXPI example PID</text>
+<text class="s" x="297.2" y="269.2" style="font-size:4px">Oil &amp; Gas, Inc.</text>
+</g>
+</svg>

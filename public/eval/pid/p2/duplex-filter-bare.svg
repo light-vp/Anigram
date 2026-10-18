@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 620" width="960" height="620">
+<style>
+.p{fill:none;stroke:#111;stroke-width:2.5}
+.imp{fill:none;stroke:#111;stroke-width:1}
+.s{fill:none;stroke:#1a5fb4;stroke-width:1.5;stroke-dasharray:6 4}
+.v{fill:#fff;stroke:#111;stroke-width:1.8}
+.i{fill:#fff;stroke:#111;stroke-width:1.5}
+.e{fill:#f4f4f4;stroke:#111;stroke-width:2.5}
+.o{fill:#fff;stroke:#111;stroke-width:1.5}
+.ar{fill:#111}
+.dcs{fill:#eef4fb;stroke:#1a5fb4;stroke-width:1.5;stroke-dasharray:8 4}
+.t{font-family:Arial,Helvetica,sans-serif;fill:#111}
+.n{font-family:Arial,Helvetica,sans-serif;fill:#444;font-style:italic}
+</style>
+<rect x="5" y="5" width="950" height="610" fill="#fff" stroke="#111"/>
+<text x="480" y="32" text-anchor="middle" font-size="18" class="t">LUBE OIL DUPLEX FILTER SET F-901A / F-901B</text>
+
+<!-- DCS band -->
+<rect class="dcs" x="50" y="490" width="450" height="100"/>
+<text x="60" y="507" text-anchor="start" font-size="12" class="t">DCS</text>
+
+<!-- common inlet header (from off sheet) -->
+<polyline class="p" points="88,150 560,150"/>
+<polygon class="o" points="20,136 74,136 88,150 74,164 20,164"/>
+<text x="47" y="154" text-anchor="middle" font-size="10" class="t">OSC-901</text>
+<text x="47" y="182" text-anchor="middle" font-size="9" class="n">FROM LUBE OIL</text>
+<text x="47" y="193" text-anchor="middle" font-size="9" class="n">SUPPLY (OFF SHEET)</text>
+<polygon class="ar" points="144,146 156,150 144,154"/>
+
+<!-- common outlet header (to off sheet) -->
+<polyline class="p" points="300,450 830,450"/>
+<polygon class="o" points="830,436 884,436 898,450 884,464 830,464"/>
+<text x="857" y="454" text-anchor="middle" font-size="10" class="t">OSC-902</text>
+<text x="864" y="482" text-anchor="middle" font-size="9" class="n">TO LUBE OIL</text>
+<text x="864" y="493" text-anchor="middle" font-size="9" class="n">USERS (OFF SHEET)</text>
+<polygon class="ar" points="694,446 706,450 694,454"/>
+
+<!-- common pressure gauges -->
+<polyline class="imp" points="220,150 220,115"/>
+<circle class="i" cx="220" cy="95" r="20"/>
+<text x="220" y="92" text-anchor="middle" font-size="11" class="t">PI</text>
+<text x="220" y="106" text-anchor="middle" font-size="11" class="t">901</text>
+<polyline class="imp" points="760,450 760,415"/>
+<circle class="i" cx="760" cy="395" r="20"/>
+<text x="760" y="392" text-anchor="middle" font-size="11" class="t">PI</text>
+<text x="760" y="406" text-anchor="middle" font-size="11" class="t">902</text>
+
+<!-- ===== Filter A branch ===== -->
+<polyline class="p" points="300,150 300,230"/>
+<polyline class="p" points="300,360 300,450"/>
+<rect class="e" x="260" y="230" width="80" height="130" rx="22"/>
+<text x="300" y="288" text-anchor="middle" font-size="14" class="t">F-901A</text>
+<text x="300" y="306" text-anchor="middle" font-size="10" class="t">Lube oil filter</text>
+<polygon class="v" points="291,182 309,198 309,182 291,198"/>
+<text x="314" y="194" text-anchor="start" font-size="11" class="t">V-911A</text>
+<polygon class="v" points="291,397 309,413 309,397 291,413"/>
+<text x="314" y="409" text-anchor="start" font-size="11" class="t">V-912A</text>
+<polygon class="ar" points="296,208 300,220 304,208"/>
+<!-- drain A -->
+<polyline class="p" points="340,340 380,340 380,410"/>
+<polygon class="v" points="371,364 389,380 389,364 371,380"/>
+<text x="394" y="376" text-anchor="start" font-size="11" class="t">V-913A</text>
+<polygon class="o" points="348,410 398,410 412,424 398,438 348,438"/>
+<text x="374" y="428" text-anchor="middle" font-size="10" class="t">OSC-903</text>
+<text x="380" y="454" text-anchor="middle" font-size="1" class="t"> </text>
+
+<!-- ===== Filter B branch ===== -->
+<polyline class="p" points="560,150 560,230"/>
+<polyline class="p" points="560,360 560,450"/>
+<rect class="e" x="520" y="230" width="80" height="130" rx="22"/>
+<text x="560" y="288" text-anchor="middle" font-size="14" class="t">F-901B</text>
+<text x="560" y="306" text-anchor="middle" font-size="10" class="t">Lube oil filter</text>
+<polygon class="v" points="551,182 569,198 569,182 551,198"/>
+<text x="574" y="194" text-anchor="start" font-size="11" class="t">V-911B</text>
+<polygon class="v" points="551,397 569,413 569,397 551,413"/>
+<text x="574" y="409" text-anchor="start" font-size="11" class="t">V-912B</text>
+<polygon class="ar" points="556,208 560,220 564,208"/>
+<!-- drain B -->
+<polyline class="p" points="600,340 640,340 640,410"/>
+<polygon class="v" points="631,364 649,380 649,364 631,380"/>
+<text x="654" y="376" text-anchor="start" font-size="11" class="t">V-913B</text>
+<polygon class="o" points="608,410 658,410 672,424 658,438 608,438"/>
+<text x="634" y="428" text-anchor="middle" font-size="10" class="t">OSC-904</text>
+
+<!-- ===== Differential pressure transmitters ===== -->
+<!-- PDT-901A: impulse lines across F-901A -->
+<polyline class="imp" points="300,215 190,215 190,265"/>
+<polyline class="imp" points="300,380 190,380 190,315"/>
+<circle class="ar" cx="300" cy="215" r="3"/>
+<circle class="ar" cx="300" cy="380" r="3"/>
+<circle class="i" cx="190" cy="290" r="25"/>
+<line class="i" x1="165" y1="290" x2="215" y2="290"/>
+<text x="190" y="286" text-anchor="middle" font-size="11" class="t">PDT</text>
+<text x="190" y="304" text-anchor="middle" font-size="11" class="t">901A</text>
+<!-- PDT-901B: impulse lines across F-901B -->
+<polyline class="imp" points="560,215 475,215 475,265"/>
+<polyline class="imp" points="560,380 475,380 475,315"/>
+<circle class="ar" cx="560" cy="215" r="3"/>
+<circle class="ar" cx="560" cy="380" r="3"/>
+<circle class="i" cx="475" cy="290" r="25"/>
+<line class="i" x1="450" y1="290" x2="500" y2="290"/>
+<text x="475" y="286" text-anchor="middle" font-size="11" class="t">PDT</text>
+<text x="475" y="304" text-anchor="middle" font-size="11" class="t">901B</text>
+
+<!-- ===== Signals to DCS ===== -->
+<polyline class="s" points="165,290 110,290 110,510"/>
+<polyline class="s" points="450,290 425,290 425,510"/>
+<circle class="i" cx="110" cy="535" r="25"/>
+<line class="i" x1="85" y1="535" x2="135" y2="535" stroke-dasharray="4 3"/>
+<text x="110" y="531" text-anchor="middle" font-size="11" class="t">PDAH</text>
+<text x="110" y="549" text-anchor="middle" font-size="11" class="t">901A</text>
+<circle class="i" cx="425" cy="535" r="25"/>
+<line class="i" x1="400" y1="535" x2="450" y2="535" stroke-dasharray="4 3"/>
+<text x="425" y="531" text-anchor="middle" font-size="11" class="t">PDAH</text>
+<text x="425" y="549" text-anchor="middle" font-size="11" class="t">901B</text>
+<text x="150" y="578" text-anchor="start" font-size="10" class="n">PDAH = HIGH DIFFERENTIAL PRESSURE ALARM, ACROSS EACH FILTER</text>
+
+<!-- legend -->
+<g transform="translate(580,520)">
+<line class="p" x1="0" y1="10" x2="40" y2="10"/>
+<text x="48" y="14" text-anchor="start" font-size="11" class="t">Process line</text>
+<line class="s" x1="0" y1="32" x2="40" y2="32"/>
+<text x="48" y="36" text-anchor="start" font-size="11" class="t">Signal to DCS</text>
+<line class="imp" x1="0" y1="54" x2="40" y2="54"/>
+<text x="48" y="58" text-anchor="start" font-size="11" class="t">Impulse line (DP sensing)</text>
+</g>
+</svg>

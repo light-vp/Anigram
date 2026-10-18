@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 980" width="1300" height="980" font-family="Arial, Helvetica, sans-serif">
+<defs>
+<style>.pipe{stroke:#111;stroke-width:3;fill:none}.thin{stroke:#111;stroke-width:1.5;fill:none}.sig{stroke:#0a50c8;stroke-width:1.6;stroke-dasharray:7 4;fill:none}.lv{stroke-width:1;stroke-dasharray:3 3}</style>
+<marker id="ar" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#111"/></marker>
+<marker id="as" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0a50c8"/></marker>
+</defs>
+<rect width="1300" height="980" fill="#fff"/>
+<text x="30" y="36" font-size="22" font-weight="bold">Wastewater Lift Station – P&amp;ID</text>
+<text x="30" y="56" font-size="13" fill="#444">Wet well WW-1501 with lead/lag submersible pumps P-1501A and P-1501B</text>
+
+<!-- legend -->
+<line x1="900" y1="90" x2="950" y2="90" class="pipe"/><text x="958" y="94" font-size="11">process line</text>
+<line x1="900" y1="110" x2="950" y2="110" class="sig"/><text x="958" y="114" font-size="11">signal</text>
+
+<!-- wet well -->
+<rect x="300" y="100" width="220" height="370" fill="#fff" stroke="#111" stroke-width="3"/>
+<rect x="302" y="300" width="216" height="168" fill="#cfe6f7"/>
+<text x="410" y="90" font-size="13" font-weight="bold" text-anchor="middle">WW-1501  Wet well</text>
+<g font-size="11" text-anchor="end">
+<line x1="300" y1="115" x2="520" y2="115" class="lv" stroke="#c00"/><text x="292" y="119" fill="#c00">OVERFLOW level</text>
+<line x1="300" y1="165" x2="520" y2="165" class="lv" stroke="#c00"/><text x="292" y="169" fill="#c00">LAHH-1501 alarm level</text>
+<line x1="300" y1="225" x2="520" y2="225" class="lv" stroke="#b60"/><text x="292" y="229" fill="#b60">HIGH – lag pump starts</text>
+<line x1="300" y1="300" x2="520" y2="300" class="lv" stroke="#060"/><text x="292" y="304" fill="#060">START – lead pump starts</text>
+<line x1="300" y1="350" x2="520" y2="350" class="lv" stroke="#060"/><text x="292" y="354" fill="#060">STOP – pumps stop</text>
+</g>
+
+<!-- inlet -->
+<polygon points="30,125 80,125 95,140 80,155 30,155" fill="#fff" stroke="#111" stroke-width="1.5"/>
+<text x="55" y="144" font-size="9" font-weight="bold" text-anchor="middle">SEWER-IN</text>
+<line x1="95" y1="140" x2="298" y2="140" class="pipe" marker-end="url(#ar)"/>
+<text x="30" y="175" font-size="11">Gravity sewer inflow</text><text x="30" y="189" font-size="11">(from off sheet)</text>
+
+<!-- pumps -->
+<circle cx="370" cy="385" r="24" fill="#fff" stroke="#111" stroke-width="2"/>
+<polygon points="358,397 358,373 384,385" fill="none" stroke="#111" stroke-width="1.2"/>
+<circle cx="370" cy="435" r="24" fill="#fff" stroke="#111" stroke-width="2"/>
+<polygon points="358,447 358,423 384,435" fill="none" stroke="#111" stroke-width="1.2"/>
+<text x="410" y="366" font-size="12" font-weight="bold">P-1501B</text><text x="410" y="379" font-size="10">submersible pump</text>
+<text x="410" y="412" font-size="12" font-weight="bold">P-1501A</text><text x="410" y="425" font-size="10">submersible pump</text>
+<polyline points="394,385 880,385" class="pipe"/>
+<polyline points="394,435 880,435" class="pipe"/>
+
+<!-- check + isolating valves -->
+<g stroke="#111" stroke-width="1.5" fill="#fff">
+<polygon points="590,375 590,395 610,385"/><line x1="610" y1="375" x2="610" y2="395"/>
+<polygon points="590,425 590,445 610,435"/><line x1="610" y1="425" x2="610" y2="445"/>
+<polygon points="708,376 708,394 732,376 732,394"/>
+<polygon points="708,426 708,444 732,426 732,444"/>
+</g>
+<g font-size="12" font-weight="bold" text-anchor="middle">
+<text x="600" y="413">CV-1501B</text><text x="720" y="413">HV-1501B</text>
+<text x="600" y="463">CV-1501A</text><text x="720" y="463">HV-1501A</text>
+</g>
+<g font-size="10" text-anchor="middle">
+<text x="600" y="425">check valve</text><text x="720" y="425">isolating valve</text>
+<text x="600" y="475">check valve</text><text x="720" y="475">isolating valve</text>
+</g>
+
+<!-- header and rising main -->
+<line x1="880" y1="385" x2="880" y2="435" class="pipe"/>
+<line x1="880" y1="410" x2="1008" y2="410" class="pipe" marker-end="url(#ar)"/>
+<polygon points="1010,395 1100,395 1115,410 1100,425 1010,425" fill="#fff" stroke="#111" stroke-width="1.5"/>
+<text x="1057" y="414" font-size="10" font-weight="bold" text-anchor="middle">RM-1501</text>
+<text x="890" y="400" font-size="11">common rising main</text>
+<text x="1010" y="446" font-size="11">to rising main (off sheet)</text>
+
+<!-- level transmitter -->
+<line x1="520" y1="200" x2="596" y2="200" class="thin"/>
+<circle cx="620" cy="200" r="24" fill="#fff" stroke="#111" stroke-width="1.5"/>
+<text x="620" y="196" font-size="12" font-weight="bold" text-anchor="middle">LT</text><text x="620" y="212" font-size="12" text-anchor="middle">1501</text>
+<text x="620" y="238" font-size="12" font-weight="bold" text-anchor="middle">LT-1501</text><text x="620" y="252" font-size="10" text-anchor="middle">level transmitter</text>
+
+<!-- PLC -->
+<rect x="760" y="170" width="140" height="60" fill="#fff" stroke="#111" stroke-width="2"/>
+<text x="830" y="196" font-size="13" font-weight="bold" text-anchor="middle">PLC-1501</text><text x="830" y="214" font-size="11" text-anchor="middle">station PLC</text>
+
+<!-- LAHH -->
+<circle cx="1050" cy="200" r="24" fill="#fff" stroke="#111" stroke-width="1.5"/>
+<line x1="1026" y1="200" x2="1074" y2="200" class="thin"/>
+<text x="1050" y="196" font-size="12" font-weight="bold" text-anchor="middle">LAHH</text><text x="1050" y="214" font-size="12" text-anchor="middle">1501</text>
+<text x="1050" y="238" font-size="12" font-weight="bold" text-anchor="middle">LAHH-1501</text><text x="1050" y="252" font-size="10" text-anchor="middle">high-high level alarm</text>
+
+<!-- signals -->
+<line x1="644" y1="200" x2="758" y2="200" class="sig" marker-end="url(#as)"/>
+<text x="700" y="192" font-size="10" text-anchor="middle" fill="#0a50c8">level</text>
+<line x1="900" y1="200" x2="1024" y2="200" class="sig" marker-end="url(#as)"/>
+<text x="962" y="192" font-size="10" text-anchor="middle" fill="#0a50c8">alarm</text>
+<polyline points="830,230 830,280 320,280 320,435 344,435" class="sig" marker-end="url(#as)"/>
+<polyline points="370,280 370,359" class="sig" marker-end="url(#as)"/>
+<text x="600" y="272" font-size="10" text-anchor="middle" fill="#0a50c8">pump start / stop commands (lead at START, lag at HIGH, both stop at STOP)</text>
+
+<!-- ===== behaviour chart ===== -->
+<text x="30" y="540" font-size="16" font-weight="bold">Operating behaviour over 24 h (simulated, illustrative inflow – not site data)</text>
+<text x="30" y="558" font-size="11" fill="#444">Assumed: each pump removes 30 %/h of well volume; inflow 10 %/h overnight, 15 %/h by day, afternoon storm 13:00–17:00 peaking at 50 %/h at 15:00. P-1501A taken as lead.</text>
+<rect x="110" y="590" width="1120" height="250" fill="#fafafa" stroke="#999"/>
+<rect x="716.7" y="590" width="186.7" height="250" fill="#ffe9e0"/>
+<rect x="110" y="590" width="280" height="250" fill="#e6eefc"/>
+<text x="810" y="606" font-size="12" font-weight="bold" text-anchor="middle">afternoon storm</text>
+<text x="250" y="606" font-size="12" font-weight="bold" text-anchor="middle">quiet hours overnight</text>
+<g font-size="10" text-anchor="end">
+<line x1="110" y1="611.4" x2="1230" y2="611.4" class="lv" stroke="#c00"/><text x="104" y="615" fill="#c00">overflow</text>
+<line x1="110" y1="645.7" x2="1230" y2="645.7" class="lv" stroke="#c00"/><text x="104" y="649" fill="#c00">LAHH-1501</text>
+<line x1="110" y1="691.4" x2="1230" y2="691.4" class="lv" stroke="#b60"/><text x="104" y="695" fill="#b60">HIGH (lag start)</text>
+<line x1="110" y1="737.1" x2="1230" y2="737.1" class="lv" stroke="#060"/><text x="104" y="741" fill="#060">START (lead)</text>
+<line x1="110" y1="794.3" x2="1230" y2="794.3" class="lv" stroke="#060"/><text x="104" y="798" fill="#060">STOP</text>
+</g>
+<polyline fill="none" stroke="#0a50c8" stroke-width="2" points="110,771.4 180,737.1 238.3,794.3 355,737.1 390,771.4 421.1,794.3 498.9,737.1 576.7,794.3 654.5,737.1 716.7,782.9 737.8,794.3 758.7,766.9 776.5,737.1 810,714.6 845.4,691.4 856.7,705.4 880,742 903.3,788.3 906,794.3 983.8,737.1 1061.6,794.3 1136.7,739.2 1140.9,737.1 1199,794.3 1230,779.2"/>
+<text x="110" y="582" font-size="11" font-weight="bold" fill="#0a50c8">Wet well level (blue)</text>
+<text x="845" y="676" font-size="11" font-weight="bold" fill="#0a50c8" text-anchor="middle">storm peak ≈ 65 %: below LAHH-1501, far below overflow</text>
+
+<text x="104" y="882" font-size="11" font-weight="bold" text-anchor="end">P-1501A (lead) running</text>
+<text x="104" y="910" font-size="11" font-weight="bold" text-anchor="end">P-1501B (lag) running</text>
+<rect x="110" y="870" width="1120" height="18" fill="#f0f0f0" stroke="#bbb"/>
+<rect x="110" y="898" width="1120" height="18" fill="#f0f0f0" stroke="#bbb"/>
+<g fill="#2a9d4a">
+<rect x="180" y="870" width="58.3" height="18"/>
+<rect x="355" y="870" width="66.1" height="18"/>
+<rect x="498.9" y="870" width="77.8" height="18"/>
+<rect x="654.5" y="870" width="83.3" height="18"/>
+<rect x="776.5" y="870" width="129.5" height="18"/>
+<rect x="983.8" y="870" width="77.8" height="18"/>
+<rect x="1140.9" y="870" width="58.1" height="18"/>
+<rect x="845.4" y="898" width="60.6" height="18"/>
+</g>
+<g font-size="10" text-anchor="middle">
+<text x="110" y="936">00:00</text><text x="203.3" y="936">02:00</text><text x="296.7" y="936">04:00</text><text x="390" y="936">06:00</text>
+<text x="483.3" y="936">08:00</text><text x="576.7" y="936">10:00</text><text x="670" y="936">12:00</text><text x="763.3" y="936">14:00</text>
+<text x="856.7" y="936">16:00</text><text x="950" y="936">18:00</text><text x="1043.3" y="936">20:00</text><text x="1136.7" y="936">22:00</text><text x="1230" y="936">24:00</text>
+</g>
+<text x="110" y="962" font-size="11" fill="#444">Green = pump running, gaps = pump stopped. Overnight the lead pump cycles on/off between START and STOP; in the storm the lag pump joins at HIGH and the level turns down at 65 %.</text>
+</svg>
