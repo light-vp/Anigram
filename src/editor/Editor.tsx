@@ -442,7 +442,7 @@ function Editing({
           label: plain ? 'Copy link to the static drawing' : 'Copy view link',
           onSelect: () =>
             copy(
-              'View link',
+              plain ? 'Static drawing link' : 'View link',
               () => viewLink(doc, window.location, plain),
               'editor_view_link_copied',
             ),

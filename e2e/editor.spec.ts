@@ -255,6 +255,7 @@ test('copy link round-trips the sheet', async ({ page, context }) => {
   // a static drawing's view link opens static
   await choose(page, 'View', 'Static drawing')
   await choose(page, 'File', 'Copy link to the static drawing')
+  await expect(page.getByText('Static drawing link copied.')).toBeVisible()
   const still = await page.evaluate(() => navigator.clipboard.readText())
   expect(still).toContain('?mode=static#scene=')
   await viewer.goto(still)
