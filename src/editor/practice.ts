@@ -120,6 +120,10 @@ const PID_GROUPS: PaletteGroup[] = [
       item('Fan', 'pump'),
       item('Ejector', 'valve', { behaviour: passes(1e4) }),
       item('StaticMixer', 'valve', { behaviour: passes(1e4) }),
+      item('Turbine', 'valve', {
+        behaviour: passes(1e4),
+        note: 'Passes the steam or gas through; the work it takes out is not modelled here.',
+      }),
     ],
   },
   {
@@ -369,6 +373,7 @@ const KIND_FOR: Record<string, string> = {
   Furnace: 'treatment',
   CoolingTower: 'coolingtower',
   Cyclone: 'treatment',
+  Turbine: 'turbine',
   Strainer: 'treatment',
   Filter: 'treatment',
   Junction: 'manifold',
