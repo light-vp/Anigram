@@ -110,7 +110,13 @@ export const SECTIONS: Section[] = [
         ],
       },
       {
-        p: '**start from** begins a new sheet from a starter: a pictorial sheet, a P&ID, a single-line diagram, a process flow diagram or a hydraulic circuit. On an engineering drawing the palette offers that practice’s symbols, tagged as they land (a pump arrives as `P-102`).',
+        p: 'It is laid out like a desktop app: the parts down the left, the sheet in the middle with its clock underneath, and whatever you selected down the right. The menus along the top hold everything else. **File** starts a new sheet, opens and saves files, copies links and makes a storyboard. **Edit** undoes, redoes and lays the sheet out by its flow. **View** switches between animated and static, and light and dark. **Help** has these docs, GitHub and support.',
+      },
+      {
+        p: '**File → Start from** begins a new sheet from a starter: a pictorial sheet, a P&ID, a single-line diagram, a process flow diagram or a hydraulic circuit. On an engineering drawing the palette offers that practice’s symbols, tagged as they land (a pump arrives as `P-102`).',
+      },
+      {
+        p: '**View → Static drawing** stops everything moving and draws the sheet as it would be printed: no clock, no readings, and an engineering drawing at rest, with vessels empty and every valve in its rest position. The view link it copies opens static too (`?mode=static`), and `render_scene` with `static: true` draws the same thing.',
       },
       {
         p: 'The checks beside the sheet are the ones the MCP server runs: whether it runs, whether its story holds, what a reviewing engineer would mark up, and whether the layout reads cleanly. Your sheet is kept in this browser between visits. Drop a scene file anywhere on the page to open it.',
@@ -460,6 +466,10 @@ node eval/pid/report.mjs eval/pid/results/pass1 eval/pid/results/pass2`,
             ],
             ['`theme=light|dark`', 'the sheet’s palette'],
             ['`mode=paper`', 'frozen, every flow labelled, ready to print'],
+            [
+              '`mode=static`',
+              'the drawing alone: nothing moves, no clock or readings',
+            ],
             ['`t=18.5`, `speed=4`', 'open at 18:30; run four times as fast'],
             ['`credit=0`', 'leave off the “Made with Anigram” line'],
             ['`paused=1`', 'open with the clock stopped'],
@@ -514,6 +524,7 @@ node eval/pid/report.mjs eval/pid/results/pass1 eval/pid/results/pass2`,
             ['`controls="false"`', 'leave off the play bar'],
             ['`credit="false"`', 'leave off the “Made with Anigram” line'],
             ['`mode="paper"`', 'frozen, every flow labelled'],
+            ['`mode="static"`', 'the drawing alone, with nothing moving'],
           ],
         },
       },
