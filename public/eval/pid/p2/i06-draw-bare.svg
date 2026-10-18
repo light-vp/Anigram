@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 520" width="900" height="520" font-family="Arial, sans-serif" font-size="12">
+  <defs>
+    <marker id="ar" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#000"/></marker>
+  </defs>
+  <rect width="900" height="520" fill="#fff"/>
+  <text x="450" y="28" text-anchor="middle" font-size="16" font-weight="bold">Flow control loop 032 / 033 with alarm and safety override</text>
+
+  <!-- process line -->
+  <line x1="50" y1="420" x2="850" y2="420" stroke="#000" stroke-width="3" marker-end="url(#ar)"/>
+  <text x="60" y="445">Process line (PipingNetworkSegment-1), flow to the right</text>
+
+  <!-- measuring point on line -->
+  <line x1="250" y1="420" x2="250" y2="390" stroke="#000" stroke-width="1.5"/>
+  <circle cx="250" cy="385" r="6" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="262" y="400" font-size="11">ProcessSignalGeneratingFunction-1</text>
+  <text x="262" y="413" font-size="11">(flow measuring point)</text>
+
+  <!-- globe valve -->
+  <polygon points="570,405 570,435 600,420" fill="#fff" stroke="#000" stroke-width="2"/>
+  <polygon points="630,405 630,435 600,420" fill="#fff" stroke="#000" stroke-width="2"/>
+  <circle cx="600" cy="420" r="4" fill="#000"/>
+  <line x1="600" y1="420" x2="600" y2="385" stroke="#000" stroke-width="2"/>
+  <!-- actuator (diaphragm) -->
+  <path d="M575,385 A25,25 0 0 1 625,385 z" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="640" y="365">ControlledActuator-1</text>
+  <text x="640" y="380">on valve GlobeValve-1</text>
+  <text x="600" y="470" text-anchor="middle" font-weight="bold">GlobeValve-1</text>
+  <text x="600" y="485" text-anchor="middle" font-size="11">control valve (globe)</text>
+
+  <!-- measuring line FIC -->
+  <polyline points="250,379 250,262" fill="none" stroke="#000" stroke-dasharray="6,4" marker-end="url(#ar)"/>
+
+  <!-- instrument bubbles (central / control room: line across) -->
+  <g fill="#fff" stroke="#000" stroke-width="1.5">
+    <circle cx="250" cy="230" r="32"/>
+    <circle cx="480" cy="230" r="32"/>
+    <circle cx="480" cy="100" r="32"/>
+  </g>
+  <g stroke="#000" stroke-width="1.5">
+    <line x1="218" y1="230" x2="282" y2="230"/>
+    <line x1="448" y1="230" x2="512" y2="230"/>
+    <line x1="448" y1="100" x2="512" y2="100"/>
+  </g>
+  <g text-anchor="middle" font-size="14">
+    <text x="250" y="224">FIC</text><text x="250" y="246">032</text>
+    <text x="480" y="224">YCS</text><text x="480" y="246">033</text>
+    <text x="480" y="94">US</text><text x="480" y="116">031</text>
+  </g>
+  <text x="250" y="283" text-anchor="middle" font-size="11">flow indicating controller</text>
+  <text x="250" y="296" text-anchor="middle" font-size="11">(control room)</text>
+  <text x="560" y="262" font-size="11">control function / switch YCS-033</text>
+  <text x="560" y="275" font-size="11">(control room)</text>
+  <text x="525" y="95" font-size="11">safety override switch</text>
+  <text x="525" y="108" font-size="11">(control room)</text>
+
+  <!-- alarm signal FIC -> YCS -->
+  <line x1="282" y1="230" x2="446" y2="230" stroke="#000" stroke-dasharray="6,4" marker-end="url(#ar)"/>
+  <text x="364" y="220" text-anchor="middle" font-size="11">A: alarm, high</text>
+
+  <!-- override US -> YCS -->
+  <line x1="480" y1="132" x2="480" y2="196" stroke="#000" stroke-dasharray="6,4" marker-end="url(#ar)"/>
+  <text x="490" y="170" font-size="11">override</text>
+
+  <!-- YCS -> actuator -->
+  <polyline points="512,230 600,230 600,356" fill="none" stroke="#000" stroke-dasharray="6,4" marker-end="url(#ar)"/>
+  <text x="610" y="222" font-size="11">to valve actuator</text>
+
+  <!-- YCS open-ended outputs -->
+  <line x1="465" y1="261" x2="465" y2="320" stroke="#000" stroke-dasharray="6,4"/>
+  <line x1="495" y1="261" x2="495" y2="320" stroke="#000" stroke-dasharray="6,4"/>
+  <text x="458" y="336" text-anchor="end" font-size="11">O: output, low status</text>
+  <text x="502" y="336" font-size="11">O: output, high status</text>
+  <text x="480" y="352" text-anchor="middle" font-size="10" fill="#555">(open ended: no destination in file)</text>
+
+  <!-- legend -->
+  <g font-size="11">
+    <line x1="700" y1="70" x2="750" y2="70" stroke="#000" stroke-width="3"/><text x="758" y="74">process line</text>
+    <line x1="700" y1="90" x2="750" y2="90" stroke="#000" stroke-dasharray="6,4"/><text x="758" y="94">signal / measuring line</text>
+    <circle cx="725" cy="118" r="10" fill="#fff" stroke="#000"/><line x1="715" y1="118" x2="735" y2="118" stroke="#000"/><text x="758" y="122">control-room instrument</text>
+  </g>
+</svg>

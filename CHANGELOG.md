@@ -19,6 +19,10 @@ entry says so under **Changed**.
 
 ### Added
 
+- **The P&ID evaluation, drawn**: the docs' evaluation page now shows every
+  scenario's brief with what the assistant drew with Anigram and without it,
+  side by side, with scores, time, tokens and cost. Open a pair to compare
+  them full size, or run the Anigram sheet live.
 - **35 more P&ID symbols**, drawn after ISO 10628-2 and ISA-5.1 and named
   for DEXPI's classes. Machines: `RotaryPump`, `Ejector`, `StaticMixer`.
   Vessels and columns: `OpenTank`, `HorizontalVessel`, `SphericalTank`,

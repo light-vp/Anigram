@@ -1,0 +1,287 @@
+/* SPDX-License-Identifier: MIT */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+.gallery {
+  display: grid;
+  gap: 20px;
+  margin: 16px 0;
+}
+
+.note {
+  margin: 10px 0;
+  color: var(--muted);
+}
+
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  padding: 10px 0;
+  background: var(--desk);
+}
+
+.seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--card);
+}
+
+.on,
+.off {
+  padding: 4px 11px;
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+}
+
+.on {
+  background: var(--ink);
+  color: var(--desk);
+}
+
+.off {
+  background: none;
+  color: var(--muted);
+}
+
+.off:hover {
+  color: var(--ink);
+}
+
+.card {
+  padding: 18px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  background: var(--card);
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.name {
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.kind {
+  flex: none;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+
+.brief,
+.briefShort {
+  margin-top: 8px;
+  font-size: 13.5px;
+  white-space: pre-line;
+}
+
+.briefShort {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.more {
+  margin-top: 2px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.more:hover {
+  color: var(--ink);
+}
+
+.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 14px;
+}
+
+.side {
+  min-width: 0;
+}
+
+.label {
+  margin-bottom: 6px;
+  font-size: var(--fs-xs);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+/* the drawings are on white paper in either theme, as they were made */
+.frame,
+.empty {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: 6px;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--print);
+}
+
+.frame {
+  cursor: zoom-in;
+}
+
+.frame:hover {
+  border-color: var(--muted);
+}
+
+.frame img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: contain;
+}
+
+.empty {
+  background: var(--desk-2);
+  font-size: var(--fs-sm);
+  color: var(--muted);
+}
+
+.scores {
+  display: flex;
+  gap: 18px;
+  margin-top: 10px;
+}
+
+.scores dt {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+
+.scores dd {
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.facts {
+  margin-top: 2px;
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.missing {
+  margin-top: 6px;
+  font-size: var(--fs-sm);
+}
+
+.missing summary {
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.missing ul {
+  margin-top: 4px;
+  padding-left: 16px;
+  display: grid;
+  gap: 2px;
+}
+
+.live {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: var(--fs-sm);
+}
+
+.dialog {
+  width: min(1500px, calc(100vw - 32px));
+  max-width: none;
+  max-height: calc(100vh - 32px);
+  margin: auto;
+  overflow-y: auto;
+  padding: 18px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  background: var(--card);
+  color: var(--ink-soft);
+}
+
+.dialog::backdrop {
+  background: var(--scrim);
+}
+
+.dialogHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.close {
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: var(--card);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.big {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.bigStacked {
+  display: grid;
+  gap: 16px;
+}
+
+.bigSide img {
+  display: block;
+  width: 100%;
+  max-height: calc(100vh - 140px);
+  margin: 0 auto;
+  object-fit: contain;
+  padding: 8px;
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+  background: var(--print);
+}
+
+@media (max-width: 860px) {
+  .pair,
+  .big {
+    grid-template-columns: 1fr;
+  }
+
+  .bar {
+    position: static;
+  }
+}

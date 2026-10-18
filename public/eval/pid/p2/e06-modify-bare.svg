@@ -1,0 +1,112 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 480" width="1100" height="480" font-family="Arial, sans-serif" font-size="12">
+<defs>
+<marker id="ar" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L10,4 L0,8 z" fill="#000"/></marker>
+<marker id="sa" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 z" fill="#06c"/></marker>
+</defs>
+<rect width="1100" height="480" fill="#fff"/>
+<text x="20" y="28" font-size="16" font-weight="bold">P&amp;ID - Pump P-4713 / Plate heat exchanger H-1009</text>
+
+<!-- process piping -->
+<g fill="none" stroke="#000" stroke-width="2.5">
+<polyline points="70,200 138,200"/>
+<polyline points="162,200 270,200"/>
+<polyline points="330,200 408,200"/>
+<polyline points="442,200 518,200"/>
+<polyline points="542,200 640,200" marker-end="url(#ar)"/>
+<polyline points="800,200 1020,200" marker-end="url(#ar)"/>
+<polyline points="1040,420 972,420"/>
+<polyline points="948,420 770,420 770,340" marker-end="url(#ar)"/>
+<polyline points="670,340 670,420 560,420" marker-end="url(#ar)"/>
+</g>
+<text x="720" y="395" text-anchor="middle" font-size="11">Cooling water (counter-current)</text>
+
+<!-- off-sheet connectors -->
+<g fill="#fff" stroke="#000" stroke-width="1.5">
+<polygon points="40,200 70,186 70,214"/>
+<polygon points="1020,186 1050,200 1020,214"/>
+<polygon points="1040,420 1070,406 1070,434"/>
+<polygon points="560,420 530,406 530,434"/>
+</g>
+<text x="55" y="178" text-anchor="middle">OSC-1</text>
+<text x="55" y="232" text-anchor="middle">Suction from off sheet</text>
+<text x="1035" y="178" text-anchor="middle">OSC-2</text>
+<text x="1035" y="232" text-anchor="middle">Product off sheet</text>
+<text x="1055" y="392" text-anchor="middle">OSC-3</text>
+<text x="1055" y="452" text-anchor="middle">Cooling water supply</text>
+<text x="545" y="392" text-anchor="middle">OSC-4</text>
+<text x="545" y="452" text-anchor="middle">Cooling water return</text>
+
+<!-- pump P-4713 -->
+<circle cx="300" cy="200" r="30" fill="#fff" stroke="#000" stroke-width="2"/>
+<polyline points="289,175 325,191" stroke="#000" stroke-width="2" fill="none"/>
+<polyline points="289,225 325,209" stroke="#000" stroke-width="2" fill="none"/>
+<text x="300" y="252" text-anchor="middle" font-weight="bold">P-4713</text>
+<text x="300" y="268" text-anchor="middle">Centrifugal pump</text>
+
+<!-- V-4713-1 suction isolation valve -->
+<polygon points="138,190 162,210 162,190 138,210" fill="#fff" stroke="#000" stroke-width="2"/>
+<text x="150" y="228" text-anchor="middle">V-4713-1</text>
+<text x="150" y="242" text-anchor="middle">Suction isolation</text>
+
+<!-- NRV-4713 check valve (flow left to right) -->
+<polygon points="420,188 420,212 442,200" fill="#fff" stroke="#000" stroke-width="2"/>
+<line x1="442" y1="188" x2="442" y2="212" stroke="#000" stroke-width="3"/>
+<polyline points="408,200 420,200" fill="none" stroke="#000" stroke-width="2.5"/>
+<text x="430" y="228" text-anchor="middle">NRV-4713</text>
+<text x="430" y="242" text-anchor="middle">Check valve</text>
+
+<!-- V-4713-2 discharge isolation valve -->
+<polygon points="518,190 542,210 542,190 518,210" fill="#fff" stroke="#000" stroke-width="2"/>
+<text x="530" y="170" text-anchor="middle">V-4713-2</text>
+<text x="530" y="184" text-anchor="middle" font-size="11">Discharge isolation</text>
+<text x="600" y="192" text-anchor="middle" font-size="11">47132</text>
+<text x="370" y="170" text-anchor="middle" font-size="11">Line 47132 (DN80, 75HB13, MNb)</text>
+
+<!-- H-1009 -->
+<rect x="640" y="160" width="160" height="180" fill="#fff" stroke="#000" stroke-width="2.5"/>
+<g stroke="#888" stroke-width="1">
+<line x1="660" y1="160" x2="660" y2="340"/><line x1="680" y1="160" x2="680" y2="340"/>
+<line x1="700" y1="160" x2="700" y2="340"/><line x1="720" y1="160" x2="720" y2="340"/>
+<line x1="740" y1="160" x2="740" y2="340"/><line x1="760" y1="160" x2="760" y2="340"/>
+<line x1="780" y1="160" x2="780" y2="340"/>
+</g>
+<text x="720" y="130" text-anchor="middle" font-weight="bold">H-1009</text>
+<text x="720" y="146" text-anchor="middle">Plate heat exchanger</text>
+
+<!-- TV-1009 control valve with diaphragm actuator -->
+<polygon points="948,410 972,430 972,410 948,430" fill="#fff" stroke="#000" stroke-width="2"/>
+<line x1="960" y1="420" x2="960" y2="390" stroke="#000" stroke-width="1.5"/>
+<path d="M946,390 A14,14 0 0 1 974,390 z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<text x="960" y="450" text-anchor="middle" font-weight="bold">TV-1009</text>
+<text x="960" y="464" text-anchor="middle">Control valve (cooling water)</text>
+
+<!-- TT-1009 on product outlet -->
+<line x1="880" y1="200" x2="880" y2="240" stroke="#000" stroke-width="1.5"/>
+<circle cx="880" cy="262" r="22" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<line x1="858" y1="262" x2="902" y2="262" stroke="#000"/>
+<text x="880" y="258" text-anchor="middle">TT</text>
+<text x="880" y="276" text-anchor="middle">1009</text>
+<text x="880" y="300" text-anchor="middle" font-size="11">TT-1009</text>
+
+<!-- TIC-1009 -->
+<circle cx="960" cy="262" r="22" fill="#fff" stroke="#000" stroke-width="1.5"/>
+<line x1="938" y1="262" x2="982" y2="262" stroke="#000"/>
+<text x="960" y="258" text-anchor="middle">TIC</text>
+<text x="960" y="276" text-anchor="middle">1009</text>
+<text x="960" y="236" text-anchor="middle" font-size="11">TIC-1009</text>
+
+<!-- signals -->
+<g fill="none" stroke="#06c" stroke-width="1.5" stroke-dasharray="6,4">
+<polyline points="902,262 938,262" marker-end="url(#sa)"/>
+<polyline points="960,284 960,372" marker-end="url(#sa)"/>
+</g>
+<text x="972" y="320" font-size="11">Temperature control:</text>
+<text x="972" y="334" font-size="11">TIC-1009 throttles TV-1009</text>
+<text x="972" y="348" font-size="11">to hold product outlet temp.</text>
+
+<!-- legend -->
+<line x1="20" y1="450" x2="60" y2="450" stroke="#000" stroke-width="2.5"/>
+<text x="68" y="454">Process</text>
+<line x1="130" y1="450" x2="170" y2="450" stroke="#06c" stroke-width="1.5" stroke-dasharray="6,4"/>
+<text x="178" y="454">Signal</text>
+</svg>

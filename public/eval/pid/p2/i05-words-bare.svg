@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" font-family="Arial, sans-serif" font-size="13">
+  <defs>
+    <marker id="arr" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#000"/>
+    </marker>
+    <marker id="sarr" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#06c"/>
+    </marker>
+  </defs>
+  <rect width="900" height="600" fill="#fff"/>
+  <text x="450" y="22" text-anchor="middle" font-size="17" font-weight="bold">P&amp;ID - Flow Ratio Control Loop 031</text>
+
+  <!-- DCS band -->
+  <rect x="60" y="35" width="800" height="135" fill="#f3f7fb" stroke="#555" stroke-dasharray="8 4"/>
+  <text x="70" y="52" font-weight="bold">DCS</text>
+
+  <!-- process lines -->
+  <g stroke="#000" stroke-width="3" fill="none">
+    <line x1="30" y1="480" x2="870" y2="480" marker-end="url(#arr)"/>
+    <line x1="30" y1="290" x2="870" y2="290" marker-end="url(#arr)"/>
+  </g>
+  <text x="40" y="505">Wild stream</text>
+  <text x="40" y="315">Controlled stream</text>
+
+  <!-- FI-031.1 on wild line -->
+  <line x1="250" y1="480" x2="250" y2="432" stroke="#000"/>
+  <circle cx="250" cy="410" r="22" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="250" y="414" text-anchor="middle" font-size="11">FI</text>
+  <text x="280" y="414" font-weight="bold">FI-031.1</text>
+
+  <!-- FI-031.2 on controlled line -->
+  <line x1="250" y1="290" x2="250" y2="247" stroke="#000"/>
+  <circle cx="250" cy="225" r="22" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="250" y="229" text-anchor="middle" font-size="11">FI</text>
+  <text x="280" y="229" font-weight="bold">FI-031.2</text>
+
+  <!-- globe control valve FV-031.3 -->
+  <path d="M580,275 L620,305 L620,275 L580,305 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+  <circle cx="600" cy="290" r="5" fill="#fff" stroke="#000" stroke-width="2"/>
+  <line x1="600" y1="285" x2="600" y2="258" stroke="#000" stroke-width="2"/>
+  <path d="M575,258 A25,22 0 0 1 625,258 Z" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="640" y="325" font-weight="bold">FV-031.3</text>
+  <text x="640" y="341" font-size="11">Globe control valve</text>
+  <text x="640" y="355" font-size="11">with pneumatic actuator</text>
+
+  <!-- YC-031.4 signal converter -->
+  <circle cx="700" cy="220" r="22" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="700" y="224" text-anchor="middle" font-size="11">YC</text>
+  <text x="730" y="224" font-weight="bold">YC-031.4</text>
+  <text x="730" y="239" font-size="11">Signal converter</text>
+
+  <!-- FFIC-031 in DCS (circle with horizontal line = DCS) -->
+  <circle cx="450" cy="95" r="30" fill="#fff" stroke="#000" stroke-width="2"/>
+  <line x1="420" y1="95" x2="480" y2="95" stroke="#000"/>
+  <text x="450" y="90" text-anchor="middle" font-size="11">FFIC</text>
+  <text x="450" y="109" text-anchor="middle" font-size="11">031</text>
+  <text x="495" y="75" font-weight="bold">FFIC-031</text>
+  <text x="495" y="90" font-size="11">Flow ratio controller</text>
+  <text x="495" y="104" font-size="11">Setpoint: FI-031.2 = R x FI-031.1</text>
+
+  <!-- signals -->
+  <g stroke="#06c" stroke-width="1.5" fill="none" stroke-dasharray="6 3">
+    <!-- FI-031.1 -> FFIC-031 -->
+    <path d="M250,388 L250,365 L120,365 L120,95 L420,95" marker-end="url(#sarr)"/>
+    <!-- FI-031.2 -> FFIC-031 -->
+    <path d="M250,203 L250,150 L450,150 L450,125" marker-end="url(#sarr)"/>
+    <!-- FFIC-031 -> YC-031.4 -->
+    <path d="M480,95 L700,95 L700,198" marker-end="url(#sarr)"/>
+  </g>
+  <!-- pneumatic signal YC-031.4 -> actuator (solid with cross ticks) -->
+  <path d="M678,220 L650,220 L650,248 L624,248" stroke="#06c" stroke-width="1.5" fill="none" marker-end="url(#sarr)"/>
+  <g stroke="#06c" stroke-width="1.5">
+    <line x1="644" y1="224" x2="656" y2="216"/>
+    <line x1="644" y1="232" x2="656" y2="224"/>
+  </g>
+
+  <text x="128" y="250" font-size="11" fill="#06c" transform="rotate(-90 128 250)">wild flow signal</text>
+  <text x="258" y="165" font-size="11" fill="#06c">controlled flow signal</text>
+  <text x="560" y="88" font-size="11" fill="#06c">ratio output</text>
+  <text x="655" y="275" font-size="11" fill="#06c" text-anchor="start"></text>
+
+  <!-- behaviour note -->
+  <rect x="60" y="535" width="800" height="50" fill="#fffbe6" stroke="#aaa"/>
+  <text x="70" y="554">Ratio control: FFIC-031 receives the wild flow (FI-031.1) and the controlled flow (FI-031.2),</text>
+  <text x="70" y="572">and manipulates FV-031.3 through YC-031.4 to hold controlled flow = R x wild flow.</text>
+
+  <!-- legend -->
+  <g font-size="11">
+    <line x1="620" y1="520" x2="660" y2="520" stroke="#000" stroke-width="3"/><text x="666" y="524">Process</text>
+    <line x1="720" y1="520" x2="760" y2="520" stroke="#06c" stroke-width="1.5" stroke-dasharray="6 3"/><text x="766" y="524">Electric signal</text>
+  </g>
+</svg>

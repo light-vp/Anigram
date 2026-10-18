@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="1200" height="700" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <defs>
+    <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1f4e8c"/></marker>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c62828"/></marker>
+  </defs>
+  <rect width="1200" height="700" fill="#fff"/>
+  <rect x="8" y="8" width="1184" height="684" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="600" y="38" text-anchor="middle" font-size="20" font-weight="bold">P&amp;ID – Water Pressure-Reducing Station 1301 (10 bar trunk main to 4 bar district main)</text>
+
+  <!-- process piping (normal flow, blue) -->
+  <g stroke="#1f4e8c" stroke-width="4" fill="none">
+    <path d="M120,300 H170"/>
+    <path d="M210,300 H340"/>
+    <path d="M340,200 V400"/>
+    <path d="M340,200 H586 M614,200 H746 M774,200 H860"/>
+    <path d="M340,400 H586 M614,400 H746 M774,400 H860"/>
+    <path d="M860,200 V400"/>
+    <path d="M860,300 H1130"/>
+    <path d="M270,300 V228"/>
+    <path d="M940,300 V228"/>
+  </g>
+  <!-- inactive relief leg (grey = no flow in normal operation) -->
+  <path d="M1000,300 V430 M1000,470 V560" stroke="#9e9e9e" stroke-width="4" fill="none"/>
+  <!-- flow arrows -->
+  <path d="M135,300 H160" stroke="#1f4e8c" stroke-width="4" marker-end="url(#ab)"/>
+  <path d="M470,200 H500" stroke="#1f4e8c" stroke-width="4" marker-end="url(#ab)"/>
+  <path d="M470,400 H500" stroke="#1f4e8c" stroke-width="4" marker-end="url(#ab)"/>
+  <path d="M1060,300 H1100" stroke="#1f4e8c" stroke-width="4" marker-end="url(#ab)"/>
+  <circle cx="340" cy="300" r="4" fill="#1f4e8c"/><circle cx="860" cy="300" r="4" fill="#1f4e8c"/>
+  <circle cx="270" cy="300" r="4" fill="#1f4e8c"/><circle cx="940" cy="300" r="4" fill="#1f4e8c"/>
+  <circle cx="1000" cy="300" r="4" fill="#1f4e8c"/>
+
+  <!-- fault flow overlay (red dashed): duty PRV fails open, relief lifts to drain -->
+  <g stroke="#c62828" stroke-width="3" stroke-dasharray="9,6" fill="none">
+    <path d="M345,208 V200 H586 M614,200 H746 M774,200 H855 V300 H1000 V430 M1000,470 V556" marker-end="url(#ar)"/>
+  </g>
+
+  <!-- boundaries -->
+  <rect x="20" y="268" width="100" height="64" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="70" y="293" text-anchor="middle" font-weight="bold">TM-1301</text>
+  <text x="70" y="309" text-anchor="middle" font-size="11">Trunk main</text>
+  <text x="70" y="323" text-anchor="middle" font-size="11">10 bar</text>
+  <rect x="1130" y="268" width="62" height="64" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="1161" y="288" text-anchor="middle" font-weight="bold" font-size="12">DM-1301</text>
+  <text x="1161" y="304" text-anchor="middle" font-size="11">District</text>
+  <text x="1161" y="317" text-anchor="middle" font-size="11">main 4 bar</text>
+
+  <!-- strainer S-1301 -->
+  <rect x="170" y="284" width="40" height="32" fill="#fff" stroke="#000" stroke-width="2"/>
+  <path d="M176,310 L204,290" stroke="#000" stroke-width="2"/>
+  <text x="190" y="270" text-anchor="middle" font-weight="bold">S-1301</text>
+  <text x="190" y="337" text-anchor="middle" font-size="11">Inlet strainer</text>
+
+  <!-- isolating valves (bowtie) -->
+  <g fill="#fff" stroke="#000" stroke-width="2">
+    <path d="M426,190 L454,210 V190 L426,210 z"/>
+    <path d="M746,190 L774,210 V190 L746,210 z"/>
+    <path d="M426,390 L454,410 V390 L426,410 z"/>
+    <path d="M746,390 L774,410 V390 L746,410 z"/>
+  </g>
+  <g text-anchor="middle" font-weight="bold">
+    <text x="440" y="232">HV-1301A1</text>
+    <text x="760" y="232">HV-1301A2</text>
+    <text x="440" y="432">HV-1301B1</text>
+    <text x="760" y="432">HV-1301B2</text>
+  </g>
+  <g text-anchor="middle" font-size="11">
+    <text x="440" y="246">Isolating valve</text>
+    <text x="760" y="246">Isolating valve</text>
+    <text x="440" y="446">Isolating valve</text>
+    <text x="760" y="446">Isolating valve</text>
+  </g>
+
+  <!-- pressure-reducing valves (bowtie + diaphragm actuator) -->
+  <g fill="#fff" stroke="#000" stroke-width="2">
+    <path d="M586,190 L614,210 V190 L586,210 z"/>
+    <path d="M600,200 V165"/>
+    <path d="M582,165 A18,18 0 0 1 618,165 z"/>
+    <path d="M586,390 L614,410 V390 L586,410 z"/>
+    <path d="M600,400 V365"/>
+    <path d="M582,365 A18,18 0 0 1 618,365 z"/>
+  </g>
+  <text x="600" y="232" text-anchor="middle" font-weight="bold">PCV-1301A</text>
+  <text x="600" y="246" text-anchor="middle" font-size="11">Pressure-reducing valve – DUTY</text>
+  <text x="600" y="432" text-anchor="middle" font-weight="bold">PCV-1301B</text>
+  <text x="600" y="446" text-anchor="middle" font-size="11">Pressure-reducing valve – STANDBY</text>
+
+  <!-- pressure gauges -->
+  <g fill="#fff" stroke="#000" stroke-width="2">
+    <circle cx="270" cy="210" r="18"/><circle cx="940" cy="210" r="18"/>
+  </g>
+  <g text-anchor="middle" font-size="11" font-weight="bold">
+    <text x="270" y="214">PI</text><text x="940" y="214">PI</text>
+  </g>
+  <text x="270" y="180" text-anchor="middle" font-weight="bold">PI-1301</text>
+  <text x="270" y="166" text-anchor="middle" font-size="11">Upstream gauge</text>
+  <text x="940" y="180" text-anchor="middle" font-weight="bold">PI-1302</text>
+  <text x="940" y="166" text-anchor="middle" font-size="11">Downstream gauge</text>
+
+  <!-- relief valve PSV-1301 -->
+  <g fill="#fff" stroke="#000" stroke-width="2">
+    <path d="M990,430 L1010,430 L990,470 L1010,470 z"/>
+    <path d="M1010,450 H1030"/>
+    <path d="M1030,450 l5,-8 l10,16 l10,-16 l10,16 l5,-8" fill="none"/>
+    <path d="M1060,438 V462"/>
+  </g>
+  <text x="982" y="446" text-anchor="end" font-weight="bold">PSV-1301</text>
+  <text x="982" y="460" text-anchor="end" font-size="11">Relief valve</text>
+  <text x="982" y="474" text-anchor="end" font-size="11">set 6 bar</text>
+
+  <!-- drain DR-1301 -->
+  <path d="M980,560 H1020 L1000,586 z" fill="#fff" stroke="#000" stroke-width="2"/>
+  <text x="1000" y="606" text-anchor="middle" font-weight="bold">DR-1301</text>
+  <text x="1000" y="620" text-anchor="middle" font-size="11">Drain</text>
+
+  <!-- state call-outs -->
+  <rect x="1075" y="478" width="110" height="40" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2"/>
+  <text x="1130" y="495" text-anchor="middle" font-weight="bold" fill="#2e7d32" font-size="12">NORMAL: SHUT</text>
+  <text x="1130" y="510" text-anchor="middle" font-size="11" fill="#2e7d32">4 bar &lt; 6 bar set</text>
+  <rect x="1075" y="526" width="110" height="40" rx="6" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+  <text x="1130" y="543" text-anchor="middle" font-weight="bold" fill="#c62828" font-size="12">FAULT: LIFTS</text>
+  <text x="1130" y="558" text-anchor="middle" font-size="11" fill="#c62828">&gt; 6 bar, flows to drain</text>
+
+  <rect x="470" y="96" width="270" height="44" rx="6" fill="#ffebee" stroke="#c62828" stroke-width="2"/>
+  <text x="605" y="114" text-anchor="middle" font-weight="bold" fill="#c62828" font-size="12">AFTERNOON FAULT: duty PCV-1301A fails open</text>
+  <text x="605" y="130" text-anchor="middle" font-size="11" fill="#c62828">10 bar passes through to the downstream header</text>
+
+  <text x="230" y="290" text-anchor="middle" fill="#1f4e8c" font-weight="bold">10 bar</text>
+  <text x="900" y="322" text-anchor="middle" fill="#1f4e8c" font-weight="bold">4 bar</text>
+  <text x="900" y="338" text-anchor="middle" fill="#c62828" font-size="11" font-weight="bold">(fault: rises &gt; 6 bar)</text>
+
+  <!-- legend and scenario table -->
+  <rect x="30" y="480" width="900" height="190" fill="#fafafa" stroke="#000"/>
+  <text x="45" y="502" font-weight="bold">Operating scenarios</text>
+  <text x="45" y="524" font-weight="bold" fill="#2e7d32">Normal:</text>
+  <text x="110" y="524">Duty PCV-1301A reduces 10 bar to 4 bar; PCV-1301B on standby. Downstream pressure (PI-1302) is below the 6 bar</text>
+  <text x="110" y="540">set pressure, so PSV-1301 stays shut and there is no flow to DR-1301 (grey line).</text>
+  <text x="45" y="566" font-weight="bold" fill="#c62828">Fault:</text>
+  <text x="110" y="566">Afternoon: duty PCV-1301A fails open. Downstream pressure climbs past 6 bar, PSV-1301 lifts and discharges to</text>
+  <text x="110" y="582">DR-1301 (red dashed path), limiting pressure in the 4 bar district main until the stream is isolated</text>
+  <text x="110" y="598">(HV-1301A1/A2) and standby PCV-1301B is brought into service.</text>
+  <text x="45" y="628" font-weight="bold">Legend:</text>
+  <path d="M110,624 H150" stroke="#1f4e8c" stroke-width="4"/><text x="158" y="628" font-size="11">Process line, normal flow</text>
+  <path d="M300,624 H340" stroke="#9e9e9e" stroke-width="4"/><text x="348" y="628" font-size="11">No flow in normal operation</text>
+  <path d="M520,624 H560" stroke="#c62828" stroke-width="3" stroke-dasharray="9,6"/><text x="568" y="628" font-size="11">Fault flow (PRV open, PSV lifted)</text>
+  <text x="45" y="654" font-size="11">All valves and gauges are shown as local, field-mounted devices. There are no instrument signal lines: the PRVs and PSV are self-acting.</text>
+</svg>

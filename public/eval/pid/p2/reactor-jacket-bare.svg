@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="1200" height="700" font-family="Arial, Helvetica, sans-serif" font-size="12">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker>
+    <marker id="sarr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#0050c8"/></marker>
+  </defs>
+  <rect width="1200" height="700" fill="#fff"/>
+  <rect x="10" y="10" width="1180" height="680" fill="none" stroke="#000" stroke-width="2"/>
+  <text x="30" y="40" font-size="18" font-weight="bold">P&amp;ID - Jacketed Stirred Reactor R-1001</text>
+  <text x="30" y="58" font-size="11" fill="#444">Solid black = process piping; dashed blue = instrument / control signal</text>
+
+  <!-- ===== Reactor ===== -->
+  <g id="R-1001">
+    <path d="M430,250 V430 A70,30 0 0 0 570,430 V250 A70,30 0 0 0 430,250 Z" fill="#f4f4f4" stroke="#000" stroke-width="2.5"/>
+    <rect x="415" y="290" width="170" height="140" fill="none" stroke="#000" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="420" y="445" font-size="10" fill="#444">JACKET</text>
+    <text x="440" y="486" font-size="14" font-weight="bold">R-1001</text>
+    <text x="440" y="502" font-size="11">Jacketed stirred reactor</text>
+  </g>
+  <!-- Agitator -->
+  <g id="AG-1001">
+    <circle cx="500" cy="165" r="18" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    <text x="500" y="170" text-anchor="middle" font-size="14" font-weight="bold">M</text>
+    <line x1="500" y1="183" x2="500" y2="225" stroke="#000" stroke-width="2"/>
+    <line x1="500" y1="225" x2="500" y2="410" stroke="#000" stroke-width="2"/>
+    <line x1="475" y1="410" x2="525" y2="410" stroke="#000" stroke-width="4"/>
+    <line x1="480" y1="395" x2="520" y2="395" stroke="#000" stroke-width="4"/>
+    <text x="445" y="150" text-anchor="end" font-size="11">AG-1001</text>
+    <text x="445" y="164" text-anchor="end" font-size="10">Agitator</text>
+  </g>
+
+  <!-- ===== Feed line ===== -->
+  <g id="feed" stroke="#000" stroke-width="2" fill="none">
+    <line x1="80" y1="120" x2="118" y2="120"/>
+    <line x1="162" y1="120" x2="247" y2="120"/>
+    <line x1="273" y1="120" x2="455" y2="120"/>
+    <line x1="455" y1="120" x2="455" y2="228" marker-end="url(#arr)"/>
+  </g>
+  <rect x="30" y="105" width="50" height="30" fill="#fff" stroke="#000"/>
+  <text x="55" y="124" text-anchor="middle" font-size="10">OSC-01</text>
+  <text x="30" y="150" font-size="10">Feed from off-sheet</text>
+  <!-- FT-1001 -->
+  <circle cx="140" cy="120" r="22" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="140" y="125" text-anchor="middle" font-size="13">FT</text>
+  <text x="140" y="85" text-anchor="middle" font-size="11">FT-1001</text>
+  <!-- FV-1001 -->
+  <g>
+    <polygon points="247,108 247,132 273,108 273,132" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    <line x1="260" y1="120" x2="260" y2="95" stroke="#000" stroke-width="1.5"/>
+    <path d="M246,95 A14,12 0 0 1 274,95 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    <text x="260" y="148" text-anchor="middle" font-size="11">FV-1001</text>
+    <text x="260" y="161" text-anchor="middle" font-size="10">Feed control valve</text>
+  </g>
+  <!-- FIC-1001 -->
+  <circle cx="200" cy="40" r="22" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <line x1="178" y1="40" x2="222" y2="40" stroke="#000"/>
+  <text x="200" y="36" text-anchor="middle" font-size="12">FIC</text>
+  <text x="200" y="52" text-anchor="middle" font-size="10">1001</text>
+  <text x="228" y="30" font-size="11">FIC-1001</text>
+  <g stroke="#0050c8" stroke-width="1.5" stroke-dasharray="5,3" fill="none">
+    <path d="M140,98 V40 H178" marker-end="url(#sarr)"/>
+    <path d="M222,40 H260 V81" marker-end="url(#sarr)"/>
+  </g>
+
+  <!-- ===== Level transmitter LT-1001 ===== -->
+  <circle cx="300" cy="340" r="22" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="300" y="345" text-anchor="middle" font-size="13">LT</text>
+  <text x="300" y="378" text-anchor="middle" font-size="11">LT-1001</text>
+  <line x1="322" y1="340" x2="430" y2="340" stroke="#0050c8" stroke-width="1.5" stroke-dasharray="5,3"/>
+
+  <!-- ===== Cooling water / jacket ===== -->
+  <g stroke="#000" stroke-width="2" fill="none">
+    <line x1="1100" y1="415" x2="813" y2="415"/>
+    <line x1="787" y1="415" x2="585" y2="415" marker-end="url(#arr)"/>
+    <line x1="585" y1="300" x2="1100" y2="300" marker-end="url(#arr)"/>
+  </g>
+  <rect x="1100" y="400" width="60" height="30" fill="#fff" stroke="#000"/>
+  <text x="1130" y="419" text-anchor="middle" font-size="10">OSC-02</text>
+  <text x="1100" y="445" font-size="10">CW supply (off-sheet)</text>
+  <rect x="1100" y="285" width="60" height="30" fill="#fff" stroke="#000"/>
+  <text x="1130" y="304" text-anchor="middle" font-size="10">OSC-03</text>
+  <text x="1100" y="275" font-size="10">CW return (off-sheet)</text>
+  <!-- TV-1001 -->
+  <g>
+    <polygon points="787,403 787,427 813,403 813,427" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    <line x1="800" y1="415" x2="800" y2="390" stroke="#000" stroke-width="1.5"/>
+    <path d="M786,390 A14,12 0 0 1 814,390 Z" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    <text x="800" y="443" text-anchor="middle" font-size="11">TV-1001</text>
+    <text x="800" y="456" text-anchor="middle" font-size="10">CW control valve</text>
+  </g>
+  <!-- TT-1001 -->
+  <circle cx="680" cy="350" r="22" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <text x="680" y="355" text-anchor="middle" font-size="13">TT</text>
+  <text x="680" y="323" text-anchor="middle" font-size="11">TT-1001</text>
+  <!-- TIC-1001 -->
+  <circle cx="800" cy="350" r="22" fill="#fff" stroke="#000" stroke-width="1.5"/>
+  <line x1="778" y1="350" x2="822" y2="350" stroke="#000"/>
+  <text x="800" y="346" text-anchor="middle" font-size="12">TIC</text>
+  <text x="800" y="363" text-anchor="middle" font-size="10">1001</text>
+  <text x="800" y="326" text-anchor="middle" font-size="11">TIC-1001</text>
+  <g stroke="#0050c8" stroke-width="1.5" stroke-dasharray="5,3" fill="none">
+    <line x1="570" y1="350" x2="658" y2="350"/>
+    <line x1="702" y1="350" x2="778" y2="350" marker-end="url(#sarr)"/>
+    <path d="M800,372 V377 M800,372 V381" />
+    <path d="M800,372 V381" marker-end="url(#sarr)"/>
+  </g>
+  <text x="620" y="342" font-size="10">temp.</text>
+
+  <!-- ===== Relief ===== -->
+  <g stroke="#000" stroke-width="2" fill="none">
+    <line x1="550" y1="230" x2="550" y2="90"/>
+    <line x1="550" y1="90" x2="628" y2="90"/>
+    <line x1="652" y1="90" x2="732" y2="90"/>
+    <line x1="768" y1="90" x2="900" y2="90" marker-end="url(#arr)"/>
+  </g>
+  <!-- RD-1001 rupture disc -->
+  <g>
+    <line x1="640" y1="76" x2="640" y2="104" stroke="#000" stroke-width="2"/>
+    <path d="M628,76 Q640,90 628,104 M652,76 Q640,90 652,104" fill="none" stroke="#000" stroke-width="1.5"/>
+    <text x="640" y="125" text-anchor="middle" font-size="11">RD-1001</text>
+    <text x="640" y="138" text-anchor="middle" font-size="10">Rupture disc</text>
+  </g>
+  <!-- PSV-1001 -->
+  <g>
+    <polygon points="732,78 732,102 756,90" fill="#fff" stroke="#000" stroke-width="1.5"/>
+    <polygon points="768,78 768,102 744,90" fill="#fff" stroke="#000" stroke-width="1.5" transform="translate(0,0)"/>
+    <path d="M744,90 L744,62 L736,57 L752,52 L736,47 L744,43" fill="none" stroke="#000" stroke-width="1.5" transform="translate(6,6)"/>
+    <text x="750" y="125" text-anchor="middle" font-size="11">PSV-1001</text>
+    <text x="750" y="138" text-anchor="middle" font-size="10">Relief valve</text>
+  </g>
+  <rect x="900" y="75" width="60" height="30" fill="#fff" stroke="#000"/>
+  <text x="930" y="94" text-anchor="middle" font-size="10">OSC-05</text>
+  <text x="900" y="62" font-size="10">Vent to catch tank (off-sheet)</text>
+
+  <!-- ===== Product / pump ===== -->
+  <g stroke="#000" stroke-width="2" fill="none">
+    <line x1="500" y1="490" x2="500" y2="600"/>
+    <line x1="500" y1="600" x2="578" y2="600"/>
+    <line x1="622" y1="600" x2="900" y2="600" marker-end="url(#arr)"/>
+  </g>
+  <g>
+    <circle cx="600" cy="600" r="22" fill="#fff" stroke="#000" stroke-width="2"/>
+    <polygon points="600,578 622,600 600,622" fill="none"/>
+    <line x1="600" y1="578" x2="628" y2="593" stroke="#000" stroke-width="2"/>
+    <line x1="600" y1="622" x2="628" y2="607" stroke="#000" stroke-width="0"/>
+    <text x="600" y="640" text-anchor="middle" font-size="11">P-1001</text>
+    <text x="600" y="653" text-anchor="middle" font-size="10">Centrifugal pump</text>
+  </g>
+  <rect x="900" y="585" width="60" height="30" fill="#fff" stroke="#000"/>
+  <text x="930" y="604" text-anchor="middle" font-size="10">OSC-04</text>
+  <text x="900" y="632" font-size="10">Product to off-sheet</text>
+
+  <!-- Legend for off-sheet connectors -->
+  <text x="30" y="675" font-size="10" fill="#444">OSC-nn = off-sheet connectors (tags assigned for this drawing). AG-1001 and RD-1001 tags also assigned; all other tags as specified.</text>
+</svg>
