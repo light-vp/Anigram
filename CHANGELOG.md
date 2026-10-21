@@ -15,10 +15,28 @@ a minor release, a fix is a patch. Until 1.0, a minor release may also
 change something an assistant or an embed relies on; when it does, the
 entry says so under **Changed**.
 
-## Unreleased
+## 0.4.0
+
+Storyboards and day recordings, 35 more P&ID symbols with valve actuators and signal lines, static drawings, a P&ID evaluation, and the editor laid out like a desktop app.
 
 ### Added
 
+- **Storyboards.** The moments that tell a sheet's day, picked from what the
+  simulation really did: the first time each event fires (a chain that
+  loops is told once) and the captions between. Each panel is the drawing
+  at that moment with its time and what happened.
+- **GIF and MP4.** The day recorded: the clock stops for two seconds at
+  each moment, with what happened written under the sheet while the flows
+  keep moving, then glides to the next at no more than an hour of the day
+  a second; a long quiet stretch is cut behind a dip to paper. MP4 at 30 fps and 1280 wide, GIF at
+  15 fps. In the app: **▤ storyboard** on any sheet, or **storyboard** in the
+  editor; made in the browser (MP4 through WebCodecs), nothing uploaded.
+- `render_storyboard`, the same from an assistant: the board as a PNG to look
+  at, an SVG or a PDF, or `out: "day.gif"` / `"day.mp4"` (MP4 needs ffmpeg).
+  `at` picks the hours; `from`, `to`, `seconds`, `fps` and `hold` shape it.
+- **A P&ID evaluation** (`eval/pid/`): 31 scenarios, 15 of them on DEXPI
+  e.V.'s public example P&IDs, run blind with and without the MCP server
+  and graded by script, with the results in the docs.
 - **Static drawings.** A sheet can be shown with nothing moving: no clock,
   no readings, and an engineering drawing at rest (vessels empty, valves in
   their rest position, directional valves on their springs, relief valves
@@ -52,23 +70,6 @@ entry says so under **Changed**.
   for a link's `line` or an instrument's `signal`, each with its marks; the
   legend now shows a line's marks too.
 - **A distillation column example**, `examples/distillation-pid.json`.
-
-- **Storyboards.** The moments that tell a sheet's day, picked from what the
-  simulation really did: the first time each event fires (a chain that
-  loops is told once) and the captions between. Each panel is the drawing
-  at that moment with its time and what happened.
-- **GIF and MP4.** The day recorded: the clock stops for two seconds at
-  each moment, with what happened written under the sheet while the flows
-  keep moving, then glides to the next at no more than an hour of the day
-  a second; a long quiet stretch is cut behind a dip to paper. MP4 at 30 fps and 1280 wide, GIF at
-  15 fps. In the app: **▤ storyboard** on any sheet, or **storyboard** in the
-  editor; made in the browser (MP4 through WebCodecs), nothing uploaded.
-- `render_storyboard`, the same from an assistant: the board as a PNG to look
-  at, an SVG or a PDF, or `out: "day.gif"` / `"day.mp4"` (MP4 needs ffmpeg).
-  `at` picks the hours; `from`, `to`, `seconds`, `fps` and `hold` shape it.
-- **A P&ID evaluation** (`eval/pid/`): 31 scenarios, 15 of them on DEXPI
-  e.V.'s public example P&IDs, run blind with and without the MCP server
-  and graded by script, with the results in the docs.
 
 ### Fixed
 
