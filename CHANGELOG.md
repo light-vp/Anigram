@@ -15,6 +15,33 @@ a minor release, a fix is a patch. Until 1.0, a minor release may also
 change something an assistant or an embed relies on; when it does, the
 entry says so under **Changed**.
 
+## Unreleased
+
+### Added
+
+- **An examples gallery.** `?examples` (and **Examples** in the header) is
+  now a page of every example sheet: the six built-in sheets, the scene
+  files in `examples/` and the single-line and PFD starters, each drawn as
+  a thumbnail, filtered by kind of drawing, with **Run**, **Static** and
+  **Edit**. A sheet still runs on its own at `?scene=<id>`.
+- **A rainwater harvesting P&ID**, `examples/rainwater-pid.json`, written by
+  Claude Code through the MCP server from a one-paragraph brief.
+
+### Changed
+
+- **An event can leave out `then`.** It then only marks a moment ("the tank
+  is full"): it fires, is lit and told on the sheet and in the storyboard,
+  and sets nothing. Before, an assistant had to invent a switch for it to
+  flip.
+
+### Fixed
+
+- **`render_storyboard` recordings are drawn on several threads**, so a
+  default MP4 that took about two minutes on four cores takes under fifty
+  seconds (and less with more cores), inside an MCP client's usual
+  time limit. The tool also reports its progress, frame by frame, to a
+  client that asks. The files are the same as before, byte for byte.
+
 ## 0.4.0
 
 Storyboards and day recordings, 35 more P&ID symbols with valve actuators and signal lines, static drawings, a P&ID evaluation, and the editor laid out like a desktop app.
