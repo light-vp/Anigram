@@ -99,8 +99,8 @@ Every part, every engineering symbol and every MCP tool is in the
 ## The editor
 
 The editor is Anigram's home page,
-[anigram.vaibhav.co.uk](https://anigram.vaibhav.co.uk), with the five
-example sheets (`?examples`) and the docs (`?docs`) a click away. **✎ edit**
+[anigram.vaibhav.co.uk](https://anigram.vaibhav.co.uk), with the gallery
+of example sheets (`?examples`) and the docs (`?docs`) a click away. **✎ edit**
 opens whatever sheet is on screen in it, and `?build=1` opens it from any
 link. It edits the scene file itself: open a file an assistant wrote (or a
 `share_link` with `view: "editor"`), move parts, tag them, write their
@@ -167,7 +167,7 @@ The URL is the API:
 | Param               |                                                                                                                                                  |
 | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
 | (nothing)           | the editor, on the sheet you left                                                                                                                |
-| `examples`          | the built-in sheets, running, with their dials                                                                                                   |
+| `examples`          | the gallery: every example sheet (built in, from `examples/`, and each practice's starter), to run, see static or edit                           |
 | `docs`              | how it works, the MCP server and this table; `?docs#mcp` opens at the MCP server                                                                 |
 | `scene=<id>`        | `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`, `garden-machine` (the old `cdn` / `microservices` / `oauth2` ids still resolve) |
 | `embed=1`           | just the sheet and a play bar; `embed=presentation` is the same                                                                                  |

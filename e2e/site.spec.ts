@@ -3,6 +3,7 @@
 
 import type { Page } from '@playwright/test'
 
+import { EXAMPLES } from '../src/site/gallery.ts'
 import { MCP_INSTALL, REPO_URL, SUPPORT_URL } from '../src/site/links.ts'
 import { expect, sheetOf, test } from './fixtures.ts'
 
@@ -59,8 +60,10 @@ test('the site header goes to the examples, the docs and the editor', async ({
   await page.goto('./?docs')
   const nav = page.getByRole('navigation', { name: 'Anigram' })
   await nav.getByRole('link', { name: 'Examples' }).click()
-  await expect(page.getByRole('navigation', { name: 'Sheets' })).toBeVisible()
-  await expect(sheetOf(page)).toBeVisible()
+  await expect(
+    page.getByRole('heading', { level: 1, name: 'Examples' }),
+  ).toBeVisible()
+  await expect(page).toHaveTitle('Examples · Anigram')
 
   await nav.getByRole('link', { name: 'Docs' }).click()
   await expect(
@@ -103,4 +106,40 @@ test('a view link still shows the sheet running', async ({ page }) => {
   await page.goto('./?scene=water-tower')
   await expect(page.getByRole('navigation', { name: 'Sheets' })).toBeVisible()
   await expect(page.getByRole('menubar', { name: 'Editor' })).toHaveCount(0)
+})
+
+test('the examples gallery runs, shows and edits every sheet', async ({
+  page,
+}) => {
+  await page.goto('./?examples')
+  const cards = page.getByRole('listitem')
+  await expect(cards).toHaveCount(EXAMPLES.length)
+  // every sheet is drawn once it scrolls into view
+  await cards.last().scrollIntoViewIfNeeded()
+  await expect(page.locator('main svg[role="img"]')).toHaveCount(
+    EXAMPLES.length,
+  )
+
+  const kinds = page.getByRole('group', { name: 'Kind of drawing' })
+  await kinds.getByRole('button', { name: 'P&ID' }).click()
+  const pids = EXAMPLES.filter((e) => e.scene.drawing === 'pid')
+  await expect(cards).toHaveCount(pids.length)
+
+  // a sheet from examples/ rides whole in its link
+  const card = cards.filter({ hasText: 'House rainwater harvesting' })
+  await card.getByRole('link', { name: 'Static', exact: true }).click()
+  await expect(page).toHaveURL(/\?mode=static#scene=/)
+  await expect(sheetOf(page)).toHaveAttribute(
+    'aria-label',
+    /^House rainwater harvesting/,
+  )
+
+  await page.goBack()
+  await page
+    .getByRole('listitem')
+    .filter({ hasText: 'The power grid' })
+    .getByRole('link', { name: 'Edit', exact: true })
+    .click()
+  await expect(page).toHaveURL(/\?build=1&scene=grid$/)
+  await expect(page.getByRole('menubar', { name: 'Editor' })).toBeVisible()
 })

@@ -4,6 +4,8 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 
+import { readFileSync } from 'node:fs'
+
 import { SCENES } from '../scenes/index.ts'
 import type { Scene } from '../sim/types.ts'
 import {
@@ -13,6 +15,7 @@ import {
   sayingAt,
   storyboard,
 } from './storyboard.ts'
+import { validateScene } from './validate.ts'
 
 const scene = (id: string) => SCENES.find((s) => s.id === id) as Scene
 const garden = scene('garden-machine')
@@ -55,6 +58,29 @@ test('a sheet without events is told by its captions', () => {
   assert.ok(board.panels.every((p) => p.kind !== 'event'))
   const texts = new Set(tower.captions!.map((c) => c.text))
   for (const p of board.panels.slice(1)) assert.ok(texts.has(p.says), p.says)
+})
+
+test('an event with nothing to do still marks its moment', () => {
+  // the rainwater sheet's events set nothing: they say when the rain comes and the tank fills
+  const raw = JSON.parse(
+    readFileSync(
+      new URL('../../examples/rainwater-pid.json', import.meta.url),
+      'utf8',
+    ),
+  ) as { events: Array<Record<string, unknown>> }
+  assert.ok(raw.events.every((e) => e.then === undefined))
+  const v = validateScene(raw)
+  assert.deepEqual(v.errors, [])
+  const told = storyboard(v.scene!)
+    .panels.filter((p) => p.kind === 'event')
+    .map((p) => p.event)
+  assert.deepEqual(told.slice(0, 2), ['rain-starts', 'tank-full'])
+  // a list that is there must still be a list
+  const bad = validateScene({
+    ...raw,
+    events: [{ ...raw.events[0], then: {} }],
+  })
+  assert.ok(bad.errors.some((e) => e.includes('.then')))
 })
 
 test('panels, at, from and to', () => {

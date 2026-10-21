@@ -83,7 +83,7 @@ defaults to empty, `sheet` to `LD-100`, `clock` to `{ start: 6, rate: 1 }`.
 A file without it is read as version 1, and a file from an older version is
 upgraded when it loads, so scene files and share links keep working as the
 format grows. A file from a newer version than the reader knows is refused
-... (688 more lines)
+... (690 more lines)
 ```
 
 ## list_scenes

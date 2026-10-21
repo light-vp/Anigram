@@ -39,6 +39,11 @@ import {
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js'
+import type { RequestHandlerExtra } from '@modelcontextprotocol/sdk/shared/protocol.js'
+import type {
+  ServerNotification,
+  ServerRequest,
+} from '@modelcontextprotocol/sdk/types.js'
 import { z } from 'zod'
 
 import guideText from '../docs/scene-format.md?raw'
@@ -64,7 +69,13 @@ import { sheetSize } from '../src/view/geometry.ts'
 import { renderSheetSvg } from '../src/view/renderSvg.tsx'
 import { svgToPdf } from './pdf.ts'
 import type { Paper } from './pdf.ts'
-import { svgToPixels, svgToPng } from './png.ts'
+import {
+  eachFrame,
+  isRenderWorker,
+  serveRenders,
+  svgToPixels,
+  svgToPng,
+} from './png.ts'
 import { GifWriter } from '../src/format/gif.ts'
 import {
   framePlan,
@@ -157,6 +168,9 @@ const image = (png: Uint8Array, v: Json) => ({
 })
 type Result =
   ReturnType<typeof text> | ReturnType<typeof data> | ReturnType<typeof image>
+
+/** what the SDK hands a tool beside its arguments: enough to report progress */
+type ToolExtra = RequestHandlerExtra<ServerRequest, ServerNotification>
 
 /** width and height from a PNG's header */
 function pngSize(png: Uint8Array): { width: number; height: number } {
@@ -309,10 +323,12 @@ function writeFile(path: string, body: string | Uint8Array) {
 }
 
 /** wrap a handler so a thrown error becomes a readable tool error, not a protocol failure */
-function guarded<A>(fn: (args: A) => Promise<Result> | Result) {
-  return async (args: A) => {
+function guarded<A>(
+  fn: (args: A, extra: ToolExtra) => Promise<Result> | Result,
+) {
+  return async (args: A, extra: ToolExtra) => {
     try {
-      return await fn(args)
+      return await fn(args, extra)
     } catch (e) {
       return fail((e as Error).message)
     }
@@ -1760,26 +1776,48 @@ server.registerTool(
     annotations: { readOnlyHint: false, idempotentHint: true },
   },
   guarded(
-    async (args: {
-      scene?: Json | string
-      file?: string
-      id?: string
-      knobs?: Record<string, number>
-      switches?: Record<string, boolean>
-      panels?: number
-      at?: number[]
-      from?: number
-      to?: number
-      theme?: 'light' | 'dark'
-      labels?: boolean
-      credit?: boolean
-      format?: 'png' | 'svg' | 'pdf' | 'gif' | 'mp4'
-      seconds?: number
-      fps?: number
-      hold?: number
-      width?: number
-      out?: string
-    }) => {
+    async (
+      args: {
+        scene?: Json | string
+        file?: string
+        id?: string
+        knobs?: Record<string, number>
+        switches?: Record<string, boolean>
+        panels?: number
+        at?: number[]
+        from?: number
+        to?: number
+        theme?: 'light' | 'dark'
+        labels?: boolean
+        credit?: boolean
+        format?: 'png' | 'svg' | 'pdf' | 'gif' | 'mp4'
+        seconds?: number
+        fps?: number
+        hold?: number
+        width?: number
+        out?: string
+      },
+      extra,
+    ) => {
+      /** frames drawn so far, for a client that asked to be kept posted (and keeps waiting while it is) */
+      let posted = 0
+      const progress = async (done: number, total: number) => {
+        const token = extra._meta?.progressToken
+        if (token === undefined || (done < total && Date.now() - posted < 1000))
+          return
+        posted = Date.now()
+        await extra
+          .sendNotification({
+            method: 'notifications/progress',
+            params: {
+              progressToken: token,
+              progress: done,
+              total,
+              message: `frame ${done} of ${total}`,
+            },
+          })
+          .catch(() => {})
+      }
       type Format = 'png' | 'svg' | 'pdf' | 'gif' | 'mp4'
       const formats: Format[] = ['png', 'svg', 'pdf', 'gif', 'mp4']
       const fromOut = args.out
@@ -1906,8 +1944,10 @@ server.registerTool(
           )
         writer.sample(first.rgba)
         writer.add({ rgba: first.rgba, delay })
-        for (const svg of svgs.slice(1))
-          writer.add({ rgba: (await svgToPixels(svg, width)).rgba, delay })
+        await eachFrame(svgs.slice(1), width, (px, i) => {
+          writer.add({ rgba: px.rgba, delay })
+          return progress(i + 2, svgs.length)
+        })
         // hold the last frame a moment before it loops
         writer.hold(1500)
         const gif = writer.finish()
@@ -1918,8 +1958,10 @@ server.registerTool(
         height = first.height
         const ff = ffmpegMp4(path!, width, height, fps)
         await ff.write(first.rgba)
-        for (const svg of svgs.slice(1))
-          await ff.write((await svgToPixels(svg, width)).rgba)
+        await eachFrame(svgs.slice(1), width, async (px, i) => {
+          await ff.write(px.rgba)
+          await progress(i + 2, svgs.length)
+        })
         await ff.done()
         bytes = readFileSync(path!).length
       }
@@ -2005,4 +2047,6 @@ server.registerTool(
   ),
 )
 
-await server.connect(new StdioServerTransport())
+// a thread started to draw a recording's frames never serves MCP
+if (isRenderWorker()) serveRenders()
+else await server.connect(new StdioServerTransport())

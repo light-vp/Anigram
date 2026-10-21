@@ -1,0 +1,212 @@
+/* SPDX-License-Identifier: MIT */
+/* SPDX-FileCopyrightText: 2026 Vaibhav Patel */
+
+.page {
+  max-width: 1560px;
+  margin: 0 auto;
+  padding: 20px 24px 80px;
+}
+
+.main {
+  max-width: 1240px;
+  margin: 40px auto 0;
+}
+
+.title {
+  font-size: 34px;
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.lede {
+  max-width: 640px;
+  margin-top: 12px;
+  font-size: var(--fs-lg);
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--desk-2);
+}
+
+.on,
+.off {
+  padding: 5px 12px;
+  border: 0;
+  border-radius: 999px;
+  font-size: var(--fs-sm);
+  cursor: pointer;
+}
+
+.on {
+  background: var(--card);
+  color: var(--ink);
+  box-shadow: var(--shadow);
+}
+
+.off {
+  background: none;
+  color: var(--muted);
+}
+
+.off:hover {
+  color: var(--ink);
+}
+
+.count {
+  font-size: var(--fs-sm);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 28px 24px;
+  margin-top: 24px;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* the sheets are white paper in either theme, as they print */
+.thumb {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 10;
+  padding: 14px;
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  background: var(--print);
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+
+.thumb:hover {
+  border-color: var(--muted);
+}
+
+.paper {
+  width: 100%;
+  max-height: 100%;
+  min-height: 0;
+  pointer-events: none;
+}
+
+.sheet {
+  width: 100%;
+  height: 100%;
+}
+
+.body {
+  padding: 14px 2px 0;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+
+.meta span:nth-child(2) {
+  font-family: var(--font-mono);
+}
+
+.name {
+  margin-top: 6px;
+  font-size: var(--fs-lg);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.name a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.sub {
+  display: -webkit-box;
+  margin-top: 4px;
+  overflow: hidden;
+  font-size: var(--fs-md);
+  line-height: 1.5;
+  color: var(--ink-soft);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.ways {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+  font-size: var(--fs-sm);
+}
+
+.ways a {
+  color: var(--muted);
+}
+
+.ways a:first-child {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+.ways a:hover {
+  color: var(--ink);
+}
+
+.foot {
+  margin-top: 56px;
+  font-size: var(--fs-md);
+  color: var(--muted);
+}
+
+.foot code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--desk-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--ink);
+}
+
+.foot a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 16px 16px 64px;
+  }
+
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

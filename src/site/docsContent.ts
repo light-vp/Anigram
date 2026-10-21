@@ -450,7 +450,10 @@ node eval/pid/gallery.mjs eval/pid/results/pass1 eval/pid/results/pass2   # the 
           head: ['address', 'shows'],
           rows: [
             ['(nothing)', 'the editor, on the sheet you left'],
-            ['`?examples`', 'the built-in sheets, running'],
+            [
+              '`?examples`',
+              'the gallery of example sheets, to run, view or edit',
+            ],
             [
               '`?scene=grid`',
               'one sheet running: `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`, `garden-machine`',

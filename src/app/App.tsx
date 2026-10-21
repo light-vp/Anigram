@@ -16,6 +16,10 @@ const Docs = lazy(() =>
   import('../site/Docs.tsx').then((m) => ({ default: m.Docs })),
 )
 
+const Gallery = lazy(() =>
+  import('../site/Gallery.tsx').then((m) => ({ default: m.Gallery })),
+)
+
 // the editor is its own chunk: most visits only watch a sheet
 const Editor = lazy(() =>
   import('../editor/Editor.tsx').then((m) => ({ default: m.Editor })),
@@ -43,6 +47,7 @@ export function App() {
       document.title = 'Docs · Anigram'
       return
     }
+    if (initial.view === 'gallery') return
     if (initial.view === 'build' || initial.view === 'build-embed') {
       document.title = 'Anigram · draw a living diagram'
       return
@@ -104,6 +109,12 @@ export function App() {
     return (
       <Suspense fallback={null}>
         <Docs />
+      </Suspense>
+    )
+  if (initial.view === 'gallery')
+    return (
+      <Suspense fallback={null}>
+        <Gallery />
       </Suspense>
     )
   if (initial.view === 'embed')

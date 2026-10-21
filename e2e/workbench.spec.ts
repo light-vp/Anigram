@@ -5,7 +5,7 @@ import { SCENES, findScene } from '../src/scenes/index.ts'
 import { expect, sceneLink, sheetOf, test } from './fixtures.ts'
 
 test('every built-in sheet opens from its tab', async ({ page }) => {
-  await page.goto('./?examples')
+  await page.goto('./?scene=grid')
   const tabs = page.getByRole('navigation', { name: 'Sheets' })
   for (const s of SCENES) {
     await tabs.getByRole('button', { name: s.title }).click()

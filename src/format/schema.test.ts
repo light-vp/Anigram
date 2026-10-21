@@ -35,6 +35,7 @@ test('every built-in sheet and the example files match the schema', () => {
     'feed-tank-pid',
     'distillation-pid',
     'hydraulic-press',
+    'rainwater-pid',
   ])
     assert.ok(
       check(read(`../../examples/${f}.json`)),

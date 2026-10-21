@@ -367,7 +367,7 @@ export interface EventSpec {
   when: string
   /** hours between `when` turning true and the event acting */
   after?: number
-  /** what it does, in order */
+  /** what it does, in order; empty when the event only marks a moment */
   then: EventAction[]
   /** the part it happens at, lit as it fires; the chain is drawn between these */
   at?: string

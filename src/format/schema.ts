@@ -422,7 +422,8 @@ export function sceneSchema(): Schema {
               },
               then: {
                 type: 'array',
-                minItems: 1,
+                description:
+                  'what it does, in order; left out, the event only marks a moment for the storyboard',
                 items: {
                   oneOf: [
                     object(
@@ -444,7 +445,7 @@ export function sceneSchema(): Schema {
                   'fire at most once; otherwise it re-arms when its condition turns false',
               },
             },
-            ['id', 'says', 'when', 'then'],
+            ['id', 'says', 'when'],
           ),
         },
         expect: {

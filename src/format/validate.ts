@@ -1056,7 +1056,8 @@ export function validateScene(input: unknown): Validation {
       if (typeof x.once !== 'boolean') err(`${p}.once`, 'must be true or false')
       else if (x.once) ev.once = true
     }
-    if (!Array.isArray(x.then) || !x.then.length)
+    // left out, an event only marks a moment: it fires, is told and lit, and sets nothing
+    if (x.then !== undefined && !Array.isArray(x.then))
       err(
         `${p}.then`,
         'must list what it does, like [{ "switch": "pump", "on": true }]',
