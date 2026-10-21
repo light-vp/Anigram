@@ -334,7 +334,7 @@
   "titleBlock": {
     "owner": "Example house",
     "project": "Rainwater harvesting",
-    "drawnBy": "Claude, through the Anigram MCP server",
+    "drawnBy": "Claude",
     "issued": "2026-10-21",
     "revision": "A",
     "status": "for review"
