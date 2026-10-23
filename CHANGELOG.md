@@ -33,6 +33,12 @@ entry says so under **Changed**.
   attribute, and the MCP server's `theme` option all take them, alongside
   `light` and `dark`.
 
+- **Tooltips.** Hovering a part, on a running sheet, in an embed or in
+  the editor, names it with its tag and says what its symbol stands for
+  (and that a click switches it, when it does). Palette parts show their
+  name and note, and the icon-only buttons say what they do. Exported SVGs
+  carry the same titles.
+
 ### Changed
 
 - **The app opens in Sketchbook.** The editor, the examples and the docs

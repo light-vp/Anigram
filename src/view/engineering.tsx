@@ -13,7 +13,14 @@ import type {
   PartSpec,
   Scene,
 } from '../sim/types.ts'
-import { effortReadout, num, partDomain, rate, readout } from './format.ts'
+import {
+  effortReadout,
+  num,
+  partDomain,
+  partTitle,
+  rate,
+  readout,
+} from './format.ts'
 import {
   ENG_FOOT_H,
   PAD,
@@ -229,6 +236,7 @@ export function EngPart({
         onClick()
       }}
     >
+      <title>{partTitle(scene, part)}</title>
       <g transform={turn}>
         <PackSymbol
           cls={cls}

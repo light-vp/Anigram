@@ -214,6 +214,7 @@ function Side({
           className={styles.frame}
           onClick={onCompare}
           aria-label={`${title}: compare the two drawings full size`}
+          title="Compare the two drawings full size"
         >
           <img
             src={`${ROOT}${run.image}`}
@@ -310,6 +311,7 @@ function Compare({
           autoFocus
           onClick={() => ref.current?.close()}
           aria-label="Close"
+          title="Close"
         >
           ✕
         </button>

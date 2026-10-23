@@ -153,6 +153,24 @@ test('a P&ID part not yet on a line shows its symbol, not an empty box', async (
   ).toBeVisible()
 })
 
+test('palette parts and the parts on the sheet have tooltips', async ({
+  page,
+}) => {
+  await page.goto('./?build=1')
+  await startFrom(page, 'A P&ID')
+  await expect(
+    page
+      .getByRole('navigation', { name: 'Parts' })
+      .getByRole('button', { name: 'Centrifugal pump', exact: true }),
+  ).toHaveAttribute('title', /^Centrifugal pump/)
+  // the grid over the sheet takes the pointer, so it says what is under it
+  const { x, y } = await cell(page, [1, 1])
+  await page.mouse.move(x, y)
+  await expect(overlay(page).locator(':scope > title')).toHaveText(
+    /^P-101 Transfer pump\nA centrifugal pump/,
+  )
+})
+
 test('every starter opens without a problem', async ({ page }) => {
   await page.goto('./?build=1')
   await menuBar(page)

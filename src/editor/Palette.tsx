@@ -124,7 +124,7 @@ export function Palette({
                 className={styles.piece}
                 aria-pressed={armed === it.key}
                 onClick={() => onArm(it.key)}
-                title={it.note}
+                title={it.note ? `${it.name}: ${it.note}` : it.name}
               >
                 <svg
                   viewBox="-22 -22 44 44"

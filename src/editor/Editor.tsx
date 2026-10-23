@@ -559,7 +559,12 @@ function Editing({
         menus={menus}
         start={
           header && (
-            <a className={styles.brand} href="./" aria-label="Anigram home">
+            <a
+              className={styles.brand}
+              href="./"
+              aria-label="Anigram home"
+              title="Anigram home"
+            >
               <Logo size={20} />
             </a>
           )
