@@ -771,3 +771,61 @@
 .more a {
   color: var(--ink);
 }
+
+/* Help → Send feedback */
+.feedback {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.feedback .actions {
+  justify-content: flex-end;
+}
+
+.ask {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+
+.ask textarea,
+.ask input {
+  font: inherit;
+  font-size: var(--fs-md);
+  color: var(--ink);
+  background: var(--desk);
+  border: var(--b) solid var(--rule);
+  border-radius: 8px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+
+.ask textarea:focus-visible,
+.ask input:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 1px;
+}
+
+/* the honeypot: off screen and out of the tab order */
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.problem {
+  font-size: var(--fs-sm);
+  color: var(--alarm);
+}
+
+.primary,
+.primary:hover:not(:disabled) {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--card);
+}
