@@ -4,7 +4,7 @@
 import { useMemo } from 'react'
 
 import { checkExpectations } from '../format/expect.ts'
-import { simulateDay } from '../format/report.ts'
+import type { DayReport } from '../format/report.ts'
 import type { Validation } from '../format/validate.ts'
 import { drawingFindings } from '../packs/checks.ts'
 import type { Scene } from '../sim/types.ts'
@@ -35,19 +35,22 @@ export function Checks({
   doc,
   validation,
   scene,
+  day,
   onSelect,
 }: {
   doc: Doc
   validation: Validation
   /** the scene as it last ran, when the file as it stands doesn't */
   scene: Scene | undefined
+  /** the file's simulated day, when it runs and has checks to make */
+  day: DayReport | undefined
   onSelect: (s: Selection) => void
 }) {
   const ok = !!validation.scene
   const story = useMemo(() => {
-    if (!ok || !scene?.expect?.length) return []
-    return checkExpectations(scene, simulateDay(scene))
-  }, [ok, scene])
+    if (!ok || !day || !scene?.expect?.length) return []
+    return checkExpectations(scene, day)
+  }, [ok, scene, day])
   const groups = useMemo(() => {
     const live = ok ? scene : undefined
     const sections: Array<{

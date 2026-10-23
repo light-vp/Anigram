@@ -422,6 +422,44 @@ tells you whether the scene really does what it says:
 - Compare with a little room (`>= 0.999 * demand`, `fill > 0.95`): the
   numbers are rounded to three decimals.
 
+## Requirements: `requires`
+
+`expect` checks the story a sheet tells. `requires` checks what the design
+must do, and when it falls short, `size_scene` (and **Size it** in the
+editor) works out how big things would have to be:
+
+```json
+"requires": [
+  { "part": "plant", "reads": "served", "min": 1 },
+  { "part": "tank", "reads": "fill", "min": 0.15 },
+  { "part": "pump", "reads": "effort", "max": 10 },
+  { "part": "plant", "reads": "in", "min": 37, "from": 8, "to": 18 },
+  { "part": "plant", "reads": "in", "per": "day", "min": 800 }
+]
+```
+
+- Each is a limit on one part. `reads` is `served` (a sink's share of what it
+  asked for, so `min: 1` means it always gets it), `in` or `out` (flow, in
+  the part's units), `fill` (a store, 0 to 1) or `effort` (its pressure,
+  voltage or temperature). Give a `min`, a `max`, or both.
+- `at`, or `from` and `to`, limit it to some hours, as in `expect`.
+  `per: "day"` holds the day's total to the limit instead of each hour.
+- `says` is optional: left out, it is phrased for you ("Feed tank stays above
+  15% full").
+- `check_scene` reports each one as met or not, with how close it came, and
+  is only ok when all are met.
+- `size_scene` scales one sizing value at a time (a source's output, a pump's
+  or valve's capacity, a tank's size or fill rate, a pump's head, a line's
+  limit), re-runs the day, and finds the smallest change that meets every
+  requirement. When no one value can do it, it sizes the supply path
+  together and gives back whatever wasn't needed. A resized converter says
+  what it then takes in: "Feed pump capacity 100 → 140 m³/h; takes up to
+  35 kW of electric power". It changes nothing; write the option you pick
+  into the scene.
+- To answer a question ("would the tank run dry with a night shift?"), pass
+  the requirement to `size_scene` as `requires`, with the knobs set, rather
+  than editing the file.
+
 ## Real numbers
 
 A sheet can validate, run, and pass its own `expect` list while describing a

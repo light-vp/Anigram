@@ -21,6 +21,8 @@ import type {
   LineType,
   LinkSpec,
   PartSpec,
+  Requirement,
+  RequirementReading,
   Scene,
   Signal,
   SignalLine,
@@ -51,6 +53,15 @@ export const DOMAINS: readonly Domain[] = [
   'data',
   'oil',
   'air',
+]
+
+/** what a requirement can hold to a limit */
+export const READINGS: readonly RequirementReading[] = [
+  'served',
+  'in',
+  'out',
+  'fill',
+  'effort',
 ]
 
 export const DRAWINGS: readonly DrawingType[] = [
@@ -128,6 +139,7 @@ export const FIELDS = {
     'captions',
     'events',
     'expect',
+    'requires',
     'clock',
   ],
   clock: ['start', 'rate'],
@@ -190,6 +202,17 @@ export const FIELDS = {
   switchAction: ['switch', 'on'],
   knobAction: ['knob', 'value'],
   expect: ['says', 'check', 'at', 'from', 'to', 'sometime'],
+  requirement: [
+    'says',
+    'part',
+    'reads',
+    'min',
+    'max',
+    'at',
+    'from',
+    'to',
+    'per',
+  ],
   refill: ['below', 'until'],
   source: ['role', 'output', 'dispatchable', 'merit'],
   sink: ['role', 'demand', 'priority', 'absorbsSurplus'],
@@ -1144,6 +1167,81 @@ export function validateScene(input: unknown): Validation {
     expect.push(e)
   }
 
+  const requires: Requirement[] = []
+  if (s.requires !== undefined && !Array.isArray(s.requires))
+    err('requires', 'must be an array')
+  for (const [i, x] of (Array.isArray(s.requires)
+    ? s.requires
+    : []
+  ).entries()) {
+    const p = `requires[${i}]`
+    if (!isObj(x)) {
+      err(p, 'must be an object')
+      continue
+    }
+    unknownFields(p, x, FIELDS.requirement)
+    const part = str(`${p}.part`, x.part)
+    const spec = parts.find((q) => q.id === part)
+    if (part && !spec)
+      err(`${p}.part`, `no part has that id${didYouMean(part, partIds)}`)
+    const reads = x.reads as RequirementReading
+    if (!READINGS.includes(reads)) {
+      err(
+        `${p}.reads`,
+        `must be one of ${READINGS.join(', ')}${isStr(x.reads) ? didYouMean(x.reads, READINGS) : ''}`,
+      )
+      continue
+    }
+    const r: Requirement = { part, reads }
+    if (x.says !== undefined) r.says = str(`${p}.says`, x.says)
+    const fraction = reads === 'served' || reads === 'fill'
+    for (const f of ['min', 'max'] as const)
+      if (x[f] !== undefined) {
+        r[f] = num(`${p}.${f}`, x[f], reads === 'effort' ? {} : { min: 0 })
+        if (fraction && isNum(x[f]) && x[f] > 1)
+          err(
+            `${p}.${f}`,
+            `${reads} is a fraction from 0 to 1, so ${x[f]}% is ${(x[f] as number) / 100}`,
+          )
+      }
+    if (r.min === undefined && r.max === undefined)
+      err(p, 'give a min, a max, or both')
+    else if (r.min !== undefined && r.max !== undefined && r.min > r.max)
+      err(p, 'min is more than max, so it can never hold')
+    const hour = (f: 'at' | 'from' | 'to') => {
+      const v = num(`${p}.${f}`, x[f], { min: 0, max: 24 })
+      if (v % 1) err(`${p}.${f}`, 'checks run on the hour, so use a whole hour')
+      return v
+    }
+    if (x.at !== undefined) r.at = hour('at')
+    if (x.from !== undefined) r.from = hour('from')
+    if (x.to !== undefined) r.to = hour('to')
+    if ((r.from === undefined) !== (r.to === undefined))
+      err(p, 'give both from and to, or neither')
+    if (r.at !== undefined && r.from !== undefined)
+      err(p, 'give at, or from and to, not both')
+    if (x.per !== undefined) {
+      if (x.per !== 'day') err(`${p}.per`, 'must be "day", or left out')
+      else if (reads === 'fill' || reads === 'effort')
+        err(`${p}.per`, `a day's total is of a flow, not of ${reads}`)
+      else if (r.at !== undefined || r.from !== undefined)
+        err(
+          `${p}.per`,
+          "a day's total covers the whole day: drop at, from and to",
+        )
+      else r.per = 'day'
+    }
+    const role = spec?.behaviour.role
+    if (spec && reads === 'served' && role !== 'sink')
+      err(
+        `${p}.reads`,
+        `"served" is for a sink, and ${part} is a ${role}: use in or out`,
+      )
+    if (spec && reads === 'fill' && role !== 'storage')
+      err(`${p}.reads`, `"fill" is for a store, and ${part} is a ${role}`)
+    requires.push(r)
+  }
+
   const clock = isObj(s.clock) ? s.clock : {}
   unknownFields('clock', clock, FIELDS.clock)
   if (s.clock !== undefined && !isObj(s.clock))
@@ -1206,6 +1304,7 @@ export function validateScene(input: unknown): Validation {
   if (captions.length) scene.captions = captions
   if (events.length) scene.events = events
   if (expect.length) scene.expect = expect
+  if (requires.length) scene.requires = requires
 
   if (errors.length) return { ok: false, errors, warnings }
   warnings.push(...physicsWarnings(scene), ...packWarnings(scene))
