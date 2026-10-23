@@ -999,6 +999,70 @@
         "additionalProperties": false
       }
     },
+    "requires": {
+      "type": "array",
+      "description": "what the design must do, each a limit on one part over the simulated day; size_scene finds how big things must be when one fails",
+      "items": {
+        "type": "object",
+        "properties": {
+          "says": {
+            "type": "string",
+            "minLength": 1,
+            "description": "the requirement in words; phrased for you when left out"
+          },
+          "part": {
+            "type": "string",
+            "minLength": 1,
+            "description": "the part it is about"
+          },
+          "reads": {
+            "enum": [
+              "served",
+              "in",
+              "out",
+              "fill",
+              "effort"
+            ],
+            "description": "served (a sink: share of its demand met, 0..1), in or out (flow), fill (a store, 0..1), effort (pressure, voltage or temperature)"
+          },
+          "min": {
+            "type": "number",
+            "description": "the least it may be"
+          },
+          "max": {
+            "type": "number",
+            "description": "the most it may be"
+          },
+          "at": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 24,
+            "description": "the one hour it must hold at"
+          },
+          "from": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 24,
+            "description": "start of a window of hours"
+          },
+          "to": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 24,
+            "description": "end of the window, inclusive; wraps past midnight"
+          },
+          "per": {
+            "const": "day",
+            "description": "hold the day's total (rate × hours) to the limit, not each hour"
+          }
+        },
+        "required": [
+          "part",
+          "reads"
+        ],
+        "additionalProperties": false
+      }
+    },
     "clock": {
       "type": "object",
       "properties": {

@@ -125,6 +125,10 @@ const EXAMPLES = {
   },
   simulate_scene: { id: 'water-tower', parts: ['tower', 'pump'] },
   check_scene: { id: 'water-tower' },
+  size_scene: {
+    id: 'water-tower',
+    requires: [{ part: 'tower', reads: 'fill', min: 0.4 }],
+  },
   check_drawing: { file: 'my-plant.json' },
   lint_layout: { id: 'grid' },
   auto_layout: { id: 'water-tower', direction: 'right' },

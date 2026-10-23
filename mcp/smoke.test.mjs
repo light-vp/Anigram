@@ -105,6 +105,7 @@ test('lists its tools', async () => {
     'render_storyboard',
     'share_link',
     'simulate_scene',
+    'size_scene',
     'validate_scene',
     'write_scene',
   ])
@@ -336,6 +337,45 @@ test('render_scene prints a PDF on ISO A paper', async () => {
   assert.match(loose.text, /a PDF is saved to a file: give `out`/)
   const wrong = await call('render_scene', { id: 'grid', paper: 'A3' })
   assert.match(wrong.text, /paper sets the PDF page/)
+})
+
+test('size_scene answers whether it works, and sizes it when it does not', async () => {
+  const tower = [{ part: 'tower', reads: 'fill', min: 0.4 }]
+  const r = await call('size_scene', { id: 'water-tower', requires: tower })
+  assert.equal(r.error, false, r.text)
+  assert.equal(r.data.ok, false)
+  assert.equal(r.data.requires[0].says, 'Water tower stays above 40% full')
+  assert.match(r.data.requires[0].answer, /^no · down to \d+% at \d\d:00/)
+  assert.ok(r.data.options.length > 0, r.text)
+  const bigger = r.data.options[0].changes[0]
+  assert.equal(bigger.part, 'tower')
+  assert.ok(bigger.to > bigger.from)
+  assert.match(r.text, /to make every requirement hold/)
+
+  // what it reports is checked again: the resized scene meets it
+  const scene = (await call('get_scene', { id: 'water-tower' })).data
+  const sized = {
+    ...scene,
+    requires: tower,
+    parts: scene.parts.map((p) =>
+      p.id === bigger.part
+        ? { ...p, behaviour: { ...p.behaviour, [bigger.field]: bigger.to } }
+        : p,
+    ),
+  }
+  const check = await call('check_scene', { scene: sized })
+  assert.equal(check.data.requires[0].ok, true, check.text)
+
+  const met = await call('size_scene', {
+    id: 'water-tower',
+    requires: [{ part: 'taps', reads: 'served', min: 1 }],
+  })
+  assert.equal(met.data.ok, true)
+  assert.deepEqual(met.data.options, [])
+
+  const none = await call('size_scene', { id: 'water-tower' })
+  assert.equal(none.error, true)
+  assert.match(none.text, /no requirements to check/)
 })
 
 test('check_scene says whether the story holds, and why not', async () => {
