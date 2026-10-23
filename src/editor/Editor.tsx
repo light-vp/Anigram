@@ -54,7 +54,7 @@ import { MOD } from './keys.ts'
 import { MenuBar } from './MenuBar.tsx'
 import type { Menu, MenuItem } from './MenuBar.tsx'
 import { Palette } from './Palette.tsx'
-import { findItem, place, placeInstrument } from './practice.ts'
+import { findItem, numberNewLines, place, placeInstrument } from './practice.ts'
 import styles from './Editor.module.css'
 
 /*
@@ -232,7 +232,7 @@ function Editing({
   const link = (from: string, to: string) => {
     const r = connect(doc, from, to)
     if ('error' in r) return setNote(r.error)
-    edit(r.doc)
+    edit(numberNewLines(doc, r.doc))
     setNote(null)
     capture('editor_linked')
   }

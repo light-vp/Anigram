@@ -6,6 +6,8 @@ import { test } from 'node:test'
 
 import { advance } from '../format/report.ts'
 import { SCENES } from '../scenes/index.ts'
+import { validateScene } from '../format/validate.ts'
+import { STARTERS } from '../packs/starters.ts'
 import { Simulation } from './runtime.ts'
 
 const solarHome = SCENES.find((s) => s.id === 'solar-home')!
@@ -67,4 +69,12 @@ test('seeking to the opening hour is the scene as it opens', () => {
   sim.seek(solarHome.clock.start)
   const opening = new Simulation(solarHome)
   assert.deepEqual(sim.frame.parts, opening.frame.parts)
+})
+
+test("a loop reading a store's level opens the day on the level it starts with", () => {
+  const scene = validateScene(STARTERS.pid).scene!
+  const sim = new Simulation(scene)
+  // the starter's valve opens with the tank above 20%; it starts at 60%
+  assert.ok(sim.frame.parts.lv!.open > 0.99, `open ${sim.frame.parts.lv!.open}`)
+  assert.ok(sim.frame.parts.user!.in > 0)
 })

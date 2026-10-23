@@ -4,6 +4,7 @@
 import { PACKS, classOf, shows } from '../packs/catalogue.ts'
 import { suggestLineNumber, suggestTag } from '../packs/checks.ts'
 import { splitTag } from '../sim/instruments.ts'
+import { lineOf } from '../view/lines.ts'
 import type {
   Behaviour,
   Domain,
@@ -565,6 +566,39 @@ export const nextLineNumber = (doc: Doc) =>
         doc.links.map((l) => l.tag),
       )
     : undefined
+
+/**
+ * Lines just drawn on a P&ID or PFD get the next line or stream number, as a
+ * part just placed gets the next tag, so a new line isn't a finding to fix.
+ * A line that runs on through an inline valve keeps the number it already
+ * has there, and lines the drawing leaves off (or utility feeds) stay bare.
+ */
+export function numberNewLines(before: Doc, after: Doc): Doc {
+  const drawing = after.drawing
+  if (drawing !== 'pid' && drawing !== 'pfd') return after
+  const pack = PACKS[drawing]!
+  let links = after.links
+  links.forEach((l, i) => {
+    if (i < before.links.length || l.tag || l.loss || !shows(l, after)) return
+    if (lineOf(l) !== 'process') return
+    const carried = [l.from, l.to].some((id) => {
+      const p = after.parts.find((q) => q.id === id)
+      const c = p && classOf(p, after)
+      return (
+        !!c &&
+        !!pack.classes[c]?.inline &&
+        links.some((o) => o !== l && o.tag && (o.from === id || o.to === id))
+      )
+    })
+    if (carried) return
+    const tag = suggestLineNumber(
+      drawing,
+      links.map((o) => o.tag),
+    )
+    if (tag) links = links.map((o, j) => (j === i ? { ...o, tag } : o))
+  })
+  return links === after.links ? after : { ...after, links }
+}
 
 /** the classes a part may be drawn as on this sheet */
 export function classesFor(drawing: DrawingType | undefined): string[] {

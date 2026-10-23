@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 
 import { DOMAINS, LINE_TYPES, MOUNTINGS } from '../format/validate.ts'
-import { classOf } from '../packs/catalogue.ts'
+import { classOf, shownParts } from '../packs/catalogue.ts'
+import { suggestTag } from '../packs/checks.ts'
 import type { Frame } from '../sim/runtime.ts'
 import type {
   Behaviour,
@@ -81,9 +82,35 @@ function Text({
     setText(value ?? '')
   }
   const commit = () => text !== (value ?? '') && onCommit(text)
+  // a title wraps rather than running off under the panel's edge
+  const area = useRef<HTMLTextAreaElement>(null)
+  useLayoutEffect(() => {
+    const el = area.current
+    if (!el) return
+    el.style.height = 'auto'
+    el.style.height = `${el.scrollHeight}px`
+  }, [text])
+  if (big)
+    return (
+      <textarea
+        ref={area}
+        rows={1}
+        className={styles.nameInput}
+        value={text}
+        placeholder={placeholder}
+        aria-label={label}
+        onChange={(e) => setText(e.target.value.replace(/\n/g, ' '))}
+        onBlur={commit}
+        onKeyDown={(e) => {
+          if (e.key !== 'Enter') return
+          e.preventDefault()
+          e.currentTarget.blur()
+        }}
+      />
+    )
   const input = (
     <input
-      className={big ? styles.nameInput : (className ?? styles.input)}
+      className={className ?? styles.input}
       value={text}
       placeholder={placeholder}
       aria-label={label}
@@ -92,7 +119,6 @@ function Text({
       onKeyDown={(e) => e.key === 'Enter' && e.currentTarget.blur()}
     />
   )
-  if (big) return input
   return (
     <label className={styles.fieldRow}>
       <span>{label}</span>
@@ -276,9 +302,11 @@ export function PartPanel({
   return (
     <section className={styles.card} aria-label={`${part.label} settings`}>
       <p className={styles.kicker}>
-        {eng
-          ? spaced(classOf(part, doc) ?? 'no symbol')
-          : (t?.name ?? part.kind)}
+        {!eng
+          ? (t?.name ?? part.kind)
+          : shownParts(doc).has(part.id)
+            ? spaced(classOf(part, doc) ?? 'no symbol')
+            : 'Not on this drawing'}
       </p>
       <Text
         big
@@ -353,7 +381,7 @@ export function PartPanel({
           <Text
             label="tag"
             value={part.tag}
-            placeholder={TAG_EXAMPLE[drawing ?? 'pid'] ?? 'P-101'}
+            placeholder={tagHint(doc, part)}
             onCommit={(tag) =>
               edit(patchPart(doc, part.id, { tag: tag.trim() || undefined }))
             }
@@ -579,6 +607,20 @@ function BehaviourFields({
 const TAG_EXAMPLE: Partial<Record<DrawingType, string>> = {
   'single-line': '-Q1',
   'fluid-power': '1V1',
+}
+
+/** the tag this part would get next, or an example of the scheme */
+function tagHint(doc: Doc, part: PartSpec): string {
+  const drawing = doc.drawing ?? 'pid'
+  const cls = classOf(part, doc)
+  const next =
+    cls &&
+    suggestTag(
+      drawing,
+      cls,
+      doc.parts.map((p) => p.tag),
+    )
+  return next || (TAG_EXAMPLE[drawing] ?? 'P-101')
 }
 
 // ---------------------------------------------------------------- a link

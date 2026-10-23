@@ -119,9 +119,22 @@ export class Simulation {
       knob: (id) => this.knob(id),
       on: (id) => this.switchOn(id),
       ...eventReaders(this.events, this.chain, this.elapsed),
-      prev: (id) =>
-        this.frame.parts[id] ?? { in: 0, out: 0, fill: 0, effort: NaN },
+      prev: (id) => this.frame.parts[id] ?? this.opening(id),
     }
+  }
+
+  /**
+   * a part before its first tick: nothing has flowed yet, but a store
+   * already holds what it starts with, so a loop reading its level doesn't
+   * open the day thinking it is empty
+   */
+  private opening(id: string) {
+    const level = this.memory.level.get(id)
+    const p = this.model.parts.get(id)
+    const cap =
+      p?.behaviour.role === 'storage' ? p.behaviour.capacity : undefined
+    const fill = level !== undefined && cap ? level / cap : 0
+    return { in: 0, out: 0, fill, effort: NaN }
   }
 
   private emptyFrame(): Frame {

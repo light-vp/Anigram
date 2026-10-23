@@ -54,6 +54,24 @@ entry says so under **Changed**.
   seconds (and less with more cores), inside an MCP client's usual
   time limit. The tool also reports its progress, frame by frame, to a
   client that asks. The files are the same as before, byte for byte.
+- **Parts a drawing doesn't draw yet show what they are.** In the editor, a
+  P&ID pump placed before it is on a process line, or the power supply it
+  brings with it, was an empty dashed box. It now shows its symbol, says
+  whether it waits for a line or is left off the drawing on purpose, and
+  shows when it is selected. The square under an armed palette item, and
+  a part being dragged, show the part as the sheet draws it.
+- **Level loops open the day on the tank's real level.** `prev()` of a
+  store before the first tick read it as empty, so a control valve on a
+  level loop showed shut at the opening hour, and a storyboard's first
+  panel showed nothing flowing.
+- **Storyboard panels of an engineering drawing** no longer cut through its
+  border and the top of its title block.
+- **A line drawn in the editor on a P&ID or PFD gets the next line or
+  stream number**, and new lines steer round instrument bubbles and their
+  signal lines instead of running through them.
+- **The editor's side panel**: a long title wraps rather than running off
+  the edge, the tag hint is the next free tag, and a valve not yet linked
+  reads in the sheet's units rather than kW.
 
 ## 0.4.0
 

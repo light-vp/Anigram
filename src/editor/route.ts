@@ -16,6 +16,35 @@ export interface RouteSheet {
   size: [number, number]
   parts: Array<{ id: string; at: [number, number] }>
   links: LinkSpec[]
+  drawing?: string
+  /** a P&ID's bubbles, and the signal lines they hang on, are in the way too */
+  instruments?: Array<{
+    tag: string
+    at: [number, number]
+    measures: string
+    drives?: string
+  }>
+}
+
+/** the instruments the sheet draws: only a P&ID has them */
+const bubbles = (sheet: RouteSheet) =>
+  sheet.drawing === 'pid' ? (sheet.instruments ?? []) : []
+
+/** the lines an instrument hangs on, in grid cells, as the sheet draws them */
+function signalCells(sheet: RouteSheet): Pt[][] {
+  const out: Pt[][] = []
+  const wire = (a: Pt, b: Pt): Pt[] =>
+    a[0] === b[0] || a[1] === b[1] ? [a, b] : [a, [a[0], b[1]], b]
+  for (const i of bubbles(sheet)) {
+    const target = (id: string | undefined) =>
+      sheet.instruments?.find((o) => o.tag === id)?.at ??
+      sheet.parts.find((p) => p.id === id)?.at
+    for (const id of [i.measures, i.drives]) {
+      const t = target(id)
+      if (t) out.push(wire(i.at, t))
+    }
+  }
+  return out
 }
 
 export type Route = Pick<LinkSpec, 'via' | 'bend'>
@@ -93,8 +122,9 @@ export function routeLink(
   }
   let best = candidates[0]!
   let bestCost = Infinity
+  const lines = [...drawn, ...signalCells(sheet)]
   for (const c of candidates) {
-    const cost = costOf(c.pts, sheet, link, drawn) + c.pts.length * 0.5
+    const cost = costOf(c.pts, sheet, link, lines) + c.pts.length * 0.5
     if (cost < bestCost - 1e-9) {
       best = c
       bestCost = cost
@@ -147,6 +177,9 @@ function costOf(
         if (Math.abs(p.at[0] - x) < 0.35 && Math.abs(p.at[1] - y) < 0.35)
           cost += 4
       }
+      for (const i of bubbles(sheet))
+        if (Math.abs(i.at[0] - x) < 0.35 && Math.abs(i.at[1] - y) < 0.35)
+          cost += 4
       // off the sheet
       if (
         x < -0.45 ||

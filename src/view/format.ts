@@ -35,7 +35,18 @@ export function partDomain(scene: Scene, part: PartSpec): Domain {
   if (b.role === 'converter') return b.output
   const out = scene.links.find((l) => l.from === part.id && !l.loss)
   const into = scene.links.find((l) => l.to === part.id)
-  return (out ?? into)?.domain ?? 'electric'
+  return (out ?? into)?.domain ?? mainDomain(scene)
+}
+
+/** what most of the sheet carries: how a part not yet linked reads */
+function mainDomain(scene: Scene): Domain {
+  const count = new Map<Domain, number>()
+  for (const l of scene.links)
+    if (!l.loss) count.set(l.domain, (count.get(l.domain) ?? 0) + 1)
+  let best: Domain = 'electric'
+  let most = 0
+  for (const [d, n] of count) if (n > most) [best, most] = [d, n]
+  return best
 }
 
 /** the inputs a part takes, by domain, from its links */
@@ -205,4 +216,22 @@ export function effortReadout(
     (e?.min !== undefined && s.effort < e.min && !idle) ||
     (e?.max !== undefined && s.effort > e.max)
   return { value: formatEffort(s.effort, effortUnit(scene, part.id)), bad }
+}
+
+/** words broken into lines of about `chars` characters, at most `max` lines */
+export function wrap(text: string, chars: number, max = 4): string[] {
+  const lines: string[] = []
+  let line = ''
+  for (const word of text.split(/\s+/).filter(Boolean)) {
+    if (line && line.length + 1 + word.length > chars) {
+      lines.push(line)
+      line = word
+    } else line = line ? `${line} ${word}` : word
+  }
+  if (line) lines.push(line)
+  if (lines.length > max) {
+    lines.length = max
+    lines[max - 1] = `${lines[max - 1]!.replace(/[\s,.;:]+$/, '')}…`
+  }
+  return lines
 }

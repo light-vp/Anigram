@@ -131,6 +131,28 @@ test('a P&ID gets the P&ID palette, and parts arrive tagged', async ({
   ).toBeVisible()
 })
 
+test('a P&ID part not yet on a line shows its symbol, not an empty box', async ({
+  page,
+}) => {
+  await page.goto('./?build=1')
+  await startFrom(page, 'A P&ID')
+  await placeFromPalette(page, 'Positive displacement pump', [1, 0])
+  // its power is linked, but a pump is drawn once it is on a process line
+  const placeholder = overlay(page)
+    .locator('g')
+    .filter({ has: page.getByText('connect it to draw it', { exact: true }) })
+    .filter({ hasText: 'displacement pump' })
+  await expect(placeholder).toHaveCount(1)
+  // the symbol's own strokes, besides the dashed box
+  expect(
+    await placeholder.locator('circle, path, line, polygon').count(),
+  ).toBeGreaterThan(0)
+  // and the power supply it brought is labelled as off the drawing
+  await expect(
+    overlay(page).getByText('not on this drawing').first(),
+  ).toBeVisible()
+})
+
 test('every starter opens without a problem', async ({ page }) => {
   await page.goto('./?build=1')
   await menuBar(page)
