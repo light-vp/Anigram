@@ -3,7 +3,7 @@
 
 import type { CSSProperties } from 'react'
 
-import { reachOf } from '../packs/catalogue.ts'
+import { PACKS, reachOf } from '../packs/catalogue.ts'
 import { PackSymbol } from '../packs/symbols.tsx'
 import { drawGlyph } from '../parts/index.ts'
 import type { PartState } from '../sim/solver.ts'
@@ -34,8 +34,42 @@ export function GlyphIcon({ kind }: { kind: string }) {
   return drawGlyph(kind, { s: SHOWN, phase: 0 })
 }
 
+/**
+ * a part as the sheet would draw it, at a size that fits a palette tile: its
+ * practice symbol when the drawing has one for it, otherwise its picture
+ */
+export function PartIcon({
+  part,
+  drawing,
+  symbols,
+}: {
+  part: PartSpec
+  drawing: DrawingType | undefined
+  symbols: SymbolSet
+}) {
+  const pack = drawing ? PACKS[drawing] : undefined
+  const cls =
+    part.class && pack && part.class in pack.classes ? part.class : undefined
+  if (!cls) return <GlyphIcon kind={part.kind} />
+  // a wide symbol (a directional valve, a cylinder's rod) is shrunk to fit
+  const k = Math.min(0.8, 20 / reachOf(cls))
+  return (
+    <g transform={`scale(${+k.toFixed(3)})`}>
+      <PackSymbol
+        cls={cls}
+        name={part.label}
+        s={SHOWN}
+        phase={0}
+        part={part}
+        symbols={symbols}
+        span={[-24, 24]}
+      />
+    </g>
+  )
+}
+
 /** a palette item as the sheet would draw it */
-function ItemIcon({
+export function ItemIcon({
   item,
   drawing,
   symbols,
@@ -51,8 +85,6 @@ function ItemIcon({
         <text className="bubbleText">{item.letters}</text>
       </g>
     )
-  if (!drawing || drawing === 'pictorial' || !item.class)
-    return <GlyphIcon kind={item.template} />
   const part: PartSpec = {
     id: item.key,
     kind: item.template,
@@ -61,21 +93,7 @@ function ItemIcon({
     behaviour: { role: 'bus' },
     class: item.class,
   }
-  // a wide symbol (a directional valve, a cylinder's rod) is shrunk to fit
-  const k = Math.min(0.8, 20 / reachOf(item.class))
-  return (
-    <g transform={`scale(${+k.toFixed(3)})`}>
-      <PackSymbol
-        cls={item.class}
-        name={item.name}
-        s={SHOWN}
-        phase={0}
-        part={part}
-        symbols={symbols}
-        span={[-24, 24]}
-      />
-    </g>
-  )
+  return <PartIcon part={part} drawing={drawing} symbols={symbols} />
 }
 
 /** the parts bin: the templates, or the sheet's own practice */

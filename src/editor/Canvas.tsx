@@ -10,9 +10,9 @@ import type {
 
 import { useFrame, usePrefersReducedMotion, useSimulation } from '../app/hooks'
 import { Transport } from '../app/Transport'
-import { shownParts } from '../packs/catalogue.ts'
+import { PACKS, shownParts } from '../packs/catalogue.ts'
 import type { Frame } from '../sim/runtime.ts'
-import type { Scene } from '../sim/types.ts'
+import type { PartSpec, Scene } from '../sim/types.ts'
 import {
   CELL,
   HEAD_H,
@@ -20,12 +20,15 @@ import {
   isEngineering,
   sheetSize,
 } from '../view/geometry.ts'
+import { THEMES, paletteVars } from '../view/palette.ts'
 import type { ThemeId } from '../view/palette.ts'
 import { Sheet } from '../view/Sheet.tsx'
+import { wrap } from '../view/format.ts'
 import { instrumentAt, partAt } from './doc.ts'
 import type { Cell, Doc } from './doc.ts'
 import type { ClockKeeper } from './clock.ts'
-import { GlyphIcon } from './Palette.tsx'
+import { ItemIcon, PartIcon } from './Palette.tsx'
+import { findItem } from './practice.ts'
 import styles from './Editor.module.css'
 
 /*
@@ -143,6 +146,7 @@ export function Canvas({
             <Overlay
               doc={doc}
               scene={scene}
+              theme={theme}
               w={w}
               h={h}
               armed={armed}
@@ -178,9 +182,15 @@ export function Canvas({
   )
 }
 
-/** a part with links the drawing doesn't show, as against one not yet linked at all */
-const offSheet = (doc: Doc, id: string) =>
-  doc.links.some((l) => l.from === id || l.to === id)
+/**
+ * a part the drawing leaves off on purpose (a supply feeding what the
+ * practice doesn't draw), as against equipment waiting for its first line
+ */
+const offSheet = (doc: Doc, scene: Scene, p: PartSpec) => {
+  const pack = scene.drawing ? PACKS[scene.drawing] : undefined
+  if (p.class && pack && p.class in pack.classes) return false
+  return doc.links.some((l) => l.from === p.id || l.to === p.id)
+}
 
 const centre = ([c, r]: readonly number[]) =>
   [PAD + c! * CELL + CELL / 2, HEAD_H + r! * CELL + CELL / 2] as const
@@ -189,6 +199,7 @@ const centre = ([c, r]: readonly number[]) =>
 function Overlay({
   doc,
   scene,
+  theme,
   w,
   h,
   armed,
@@ -198,6 +209,7 @@ function Overlay({
 }: {
   doc: Doc
   scene: Scene
+  theme: ThemeId
   w: number
   h: number
   armed: string | null
@@ -233,15 +245,18 @@ function Overlay({
   const hidden = isEngineering(scene)
     ? doc.parts.filter((p) => !shownParts(scene).has(p.id))
     : []
-  const dragKind =
+  const dragged =
     drag && 'id' in drag.what
-      ? doc.parts.find((p) => p.id === (drag.what as { id: string }).id)?.kind
+      ? doc.parts.find((p) => p.id === (drag.what as { id: string }).id)
       : undefined
+  const armedItem = armed ? findItem(doc.drawing, armed) : undefined
+  const symbols = scene.symbols ?? 'iec'
 
   return (
     <svg
       ref={ref}
       className={busy ? `${styles.overlay} ${styles.busy}` : styles.overlay}
+      style={paletteVars(THEMES[theme]) as CSSProperties}
       viewBox={`0 0 ${w} ${h}`}
       onPointerDown={(e) => {
         const at = toSheet(e)
@@ -297,18 +312,34 @@ function Overlay({
 
       {hidden.map((p) => {
         const [x, y] = centre(p.at)
+        const lines = wrap(p.label, 18, 2)
         return (
           <g
             key={p.id}
-            className={styles.offDrawing}
+            className={
+              p.id === selected
+                ? `${styles.offDrawing} ${styles.offDrawingSelected}`
+                : styles.offDrawing
+            }
             transform={`translate(${x} ${y})`}
           >
             <rect x={-30} y={-30} width={60} height={60} rx={14} />
-            <text y={44} textAnchor="middle">
-              {p.label}
-            </text>
-            <text y={56} textAnchor="middle" className={styles.offDrawingNote}>
-              {offSheet(doc, p.id)
+            {/* what it is, so a part just put down isn't an empty box */}
+            <g className={styles.offDrawingIcon} transform="scale(1.15)">
+              <PartIcon part={p} drawing={scene.drawing} symbols={symbols} />
+            </g>
+            {/* a long name takes two lines rather than running into its neighbours */}
+            {lines.map((line, i) => (
+              <text key={i} y={44 + i * 13} textAnchor="middle">
+                {line}
+              </text>
+            ))}
+            <text
+              y={56 + (lines.length - 1) * 13}
+              textAnchor="middle"
+              className={styles.offDrawingNote}
+            >
+              {offSheet(doc, scene, p)
                 ? 'not on this drawing'
                 : 'connect it to draw it'}
             </text>
@@ -319,8 +350,28 @@ function Overlay({
       {hover &&
         !target &&
         instrumentAt(doc, hover) < 0 &&
-        (armed || (drag?.moved && dragKind)) && (
-          <PlaceGhost kind={dragKind ?? null} at={centre(hover)} />
+        (armed || (drag?.moved && dragged)) && (
+          <g
+            className={styles.ghost}
+            transform={`translate(${centre(hover)[0]} ${centre(hover)[1]})`}
+          >
+            <rect x={-26} y={-26} width={52} height={52} rx={14} />
+            {dragged ? (
+              <PartIcon
+                part={dragged}
+                drawing={scene.drawing}
+                symbols={symbols}
+              />
+            ) : (
+              armedItem && (
+                <ItemIcon
+                  item={armedItem}
+                  drawing={scene.drawing}
+                  symbols={symbols}
+                />
+              )
+            )}
+          </g>
         )}
 
       {hover &&
@@ -366,20 +417,5 @@ function Overlay({
           return <circle className={styles.linkFrom} cx={x} cy={y} r={36} />
         })()}
     </svg>
-  )
-}
-
-function PlaceGhost({
-  kind,
-  at: [x, y],
-}: {
-  kind: string | null
-  at: readonly [number, number]
-}) {
-  return (
-    <g className={styles.ghost} transform={`translate(${x} ${y})`}>
-      <rect x={-26} y={-26} width={52} height={52} rx={14} />
-      {kind && <GlyphIcon kind={kind} />}
-    </g>
   )
 }

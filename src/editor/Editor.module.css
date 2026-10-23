@@ -255,7 +255,7 @@
   opacity: 0.45;
 }
 
-.ghost rect {
+.ghost > rect {
   fill: none;
   stroke: var(--muted);
   stroke-width: 1.2;
@@ -354,6 +354,10 @@
   border-bottom: var(--b) solid var(--rule);
   padding: 2px 0 4px;
   width: 100%;
+  display: block;
+  resize: none;
+  overflow: hidden;
+  line-height: 1.25;
 }
 
 .nameInput:focus {
@@ -525,7 +529,7 @@
 
 /* a part the drawing leaves off, still on the scene */
 
-.offDrawing rect {
+.offDrawing > rect {
   fill: var(--card);
   fill-opacity: 0.6;
   stroke: var(--muted);
@@ -533,12 +537,21 @@
   stroke-dasharray: 3 4;
 }
 
-.offDrawing text {
+.offDrawingSelected > rect {
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+
+.offDrawingIcon {
+  opacity: 0.55;
+}
+
+.offDrawing > text {
   font-size: 11px;
   fill: var(--ink-soft);
 }
 
-.offDrawing .offDrawingNote {
+.offDrawing > .offDrawingNote {
   font-size: 9px;
   fill: var(--muted);
 }

@@ -22,7 +22,7 @@ import {
 import type { Doc } from './doc.ts'
 import * as history from './history.ts'
 import { STARTERS, accept, blank, fileOf, initialDoc } from './open.ts'
-import { findItem, place, placeInstrument } from './practice.ts'
+import { findItem, numberNewLines, place, placeInstrument } from './practice.ts'
 import { checkSignal } from './signal.ts'
 import { PROFILES, dialOf, profileOf } from './templates.ts'
 
@@ -376,4 +376,70 @@ test('the editor opens links, built-ins, saved work and the old playground', asy
     none,
   )
   assert.equal(pid.doc.drawing, 'pid')
+})
+
+test('a line drawn on a P&ID gets the next line number, and one through a valve keeps its own', () => {
+  let doc = blank('pid')
+  const add = (key: string, at: [number, number]) => {
+    const r = place(doc, findItem('pid', key)!, at)
+    assert.ok('doc' in r)
+    doc = r.doc
+    return r.id!
+  }
+  const feed = add('from-off-sheet', [0, 2])
+  const pump = add('CentrifugalPump', [2, 2])
+  const valve = add('GateValve', [4, 2])
+  const tank = add('Tank', [6, 2])
+  const join = (a: string, b: string) => {
+    const r = connect(doc, a, b)
+    assert.ok('doc' in r)
+    doc = numberNewLines(doc, r.doc)
+  }
+  join(feed, pump)
+  join(pump, valve)
+  join(valve, tank)
+  const tagOf = (a: string, b: string) =>
+    doc.links.find((l) => l.from === a && l.to === b)?.tag
+  assert.equal(tagOf(feed, pump), '100-W-001')
+  assert.equal(tagOf(pump, valve), '100-W-002')
+  // the line runs on through the valve with the number it already has
+  assert.equal(tagOf(valve, tank), undefined)
+  // the pump's power, which the drawing leaves off, is never numbered
+  assert.ok(doc.links.every((l) => l.domain !== 'electric' || !l.tag))
+  const rules = drawingFindings(runs(doc)).map((f) => f.rule)
+  assert.ok(!rules.includes('line-number'), rules.join())
+})
+
+test('a new link steers round instrument bubbles on a P&ID', () => {
+  let doc = blank('pid')
+  const add = (key: string, at: [number, number]) => {
+    const r = place(doc, findItem('pid', key)!, at)
+    assert.ok('doc' in r)
+    doc = r.doc
+    return r.id!
+  }
+  const tank = add('Tank', [1, 2])
+  const vessel = add('Vessel', [4, 1])
+  const lt = placeInstrument(doc, 'LT', [1, 2])
+  assert.ok('doc' in lt)
+  doc = lt.doc
+  // the bubble sits on the row the straight elbow would run along
+  doc = {
+    ...doc,
+    instruments: doc.instruments!.map((i) => ({ ...i, at: [2, 1] })),
+  }
+  const r = connect(doc, vessel, tank)
+  assert.ok('doc' in r)
+  const link = r.doc.links.find((l) => l.from === vessel && l.to === tank)!
+  const cells = [[4, 1], ...(link.via ?? []), [1, 2]]
+  const corner = link.via ? undefined : link.bend === 'vh' ? [4, 2] : [1, 1]
+  const path = corner ? [cells[0]!, corner, cells.at(-1)!] : cells
+  // no stretch of the route passes through the bubble at [2, 1]
+  for (let i = 1; i < path.length; i++) {
+    const [x1, y1] = path[i - 1]!
+    const [x2, y2] = path[i]!
+    const through =
+      y1 === 1 && y2 === 1 && Math.min(x1!, x2!) <= 2 && Math.max(x1!, x2!) >= 2
+    assert.ok(!through, `runs through the bubble: ${JSON.stringify(path)}`)
+  }
 })

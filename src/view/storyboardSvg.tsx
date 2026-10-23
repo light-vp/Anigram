@@ -10,7 +10,8 @@ import { frameCaption } from '../sim/captions.ts'
 import { clockTime } from '../sim/profiles.ts'
 import type { Frame } from '../sim/runtime.ts'
 import type { Scene } from '../sim/types.ts'
-import { CELL, HEAD_H, sheetSize } from './geometry.ts'
+import { BORDER, CELL, HEAD_H, isEngineering, sheetSize } from './geometry.ts'
+import { wrap } from './format.ts'
 import { THEMES } from './palette.ts'
 import type { ThemeId } from './palette.ts'
 import { CREDIT, Sheet } from './Sheet.tsx'
@@ -43,24 +44,6 @@ export const escapeXml = (s: string) =>
       ]!,
   )
 
-/** words broken into lines of about `chars` characters, at most `max` lines */
-export function wrap(text: string, chars: number, max = 4): string[] {
-  const lines: string[] = []
-  let line = ''
-  for (const word of text.split(/\s+/).filter(Boolean)) {
-    if (line && line.length + 1 + word.length > chars) {
-      lines.push(line)
-      line = word
-    } else line = line ? `${line} ${word}` : word
-  }
-  if (line) lines.push(line)
-  if (lines.length > max) {
-    lines.length = max
-    lines[max - 1] = `${lines[max - 1]!.replace(/[\s,.;:]+$/, '')}…`
-  }
-  return lines
-}
-
 /** the sheet at one frame, as markup with no XML prolog */
 function sheetMarkup(
   scene: Scene,
@@ -86,8 +69,17 @@ function sheetMarkup(
 /** the part of the sheet a panel shows: the drawing, without its header and footer */
 function crop(scene: Scene): { x: number; y: number; w: number; h: number } {
   const { w } = sheetSize(scene)
+  // an engineering sheet's border and title block belong to the page, not
+  // the drawing: inside the border, and short of the title block's top
+  const inset = isEngineering(scene) ? BORDER + 2 : 0
   // room under the last row for its parts' words
-  return { x: 0, y: HEAD_H - 8, w, h: scene.size[1] * CELL + 40 }
+  const under = isEngineering(scene) ? 20 : 40
+  return {
+    x: inset,
+    y: HEAD_H - 8,
+    w: w - inset * 2,
+    h: scene.size[1] * CELL + under,
+  }
 }
 
 /** place a rendered sheet inside a page, showing `view` of it at `box` */
