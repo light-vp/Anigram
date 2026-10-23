@@ -857,7 +857,7 @@ Draw the sheet at an hour of the day, the same drawing the app shows in paper mo
 {
   "hour": 7,
   "format": "svg",
-  "bytes": 14745,
+  "bytes": 15682,
   "aspect": 1.513
 }
 ```
