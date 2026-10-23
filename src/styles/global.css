@@ -25,6 +25,34 @@ textarea {
   color: var(--on-hi);
 }
 
+/*
+ * Film grain over the whole window, for the themes that ask for it. It is
+ * one still noise tile, so it costs nothing per frame, and it never reaches
+ * an export: it lives in the page, not in the sheet.
+ */
+[data-theme='sketchbook'] body::after,
+[data-theme='night'] body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 2147483000;
+  pointer-events: none;
+  opacity: var(--grain);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1.4 -0.2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+[data-theme='night'] body::after {
+  mix-blend-mode: screen;
+  filter: invert(1);
+}
+
+@media print {
+  body::after {
+    display: none;
+  }
+}
+
 .sr-only {
   position: absolute;
   width: 1px;

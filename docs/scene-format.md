@@ -199,7 +199,9 @@ run late.
   at the opening hour if it already is.
 - `then` is a list of `{ "switch": "id", "on": true }` and
   `{ "knob": "id", "value": 0.5 }`. What an event sets takes over that
-  control until someone moves it by hand.
+  control until someone moves it by hand. Leave `then` out for an event
+  that only marks a moment ("the tank is full"): it fires, is lit and told
+  on the sheet and in the storyboard, and changes nothing.
 - `fired('id')` is 1 in the tick after an event fires; `since('id')` is the
   hours since it last fired (very large before it has). Both work in any
   expression: a sink's demand can be `since('bell') < 1 ? 5 : 0`.

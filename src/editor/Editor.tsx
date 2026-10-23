@@ -11,6 +11,7 @@ import { Logo } from '../site/SiteHeader.tsx'
 import { validateScene } from '../format/validate.ts'
 import type { Scene } from '../sim/types.ts'
 import { autoLayout, withLayout } from '../view/autoLayout.ts'
+import { THEME_IDS, THEME_NAMES } from '../view/palette.ts'
 import type { ThemeId } from '../view/palette.ts'
 import { Canvas } from './Canvas.tsx'
 import { keepClock } from './clock.ts'
@@ -511,18 +512,12 @@ function Editing({
           onSelect: () => setMotion(true),
         },
         { kind: 'separator' },
-        {
-          kind: 'radio',
-          label: 'Light',
-          checked: theme === 'light',
-          onSelect: () => onTheme('light'),
-        },
-        {
-          kind: 'radio',
-          label: 'Dark',
-          checked: theme === 'dark',
-          onSelect: () => onTheme('dark'),
-        },
+        ...THEME_IDS.map((t) => ({
+          kind: 'radio' as const,
+          label: THEME_NAMES[t],
+          checked: theme === t,
+          onSelect: () => onTheme(t),
+        })),
       ],
     },
     {

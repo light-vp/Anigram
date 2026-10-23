@@ -10,8 +10,15 @@
  */
 
 import { readFileSync } from 'node:fs'
+import { availableParallelism } from 'node:os'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import {
+  Worker,
+  isMainThread,
+  parentPort,
+  workerData,
+} from 'node:worker_threads'
 
 import { initWasm, Resvg } from '@resvg/resvg-wasm'
 
@@ -92,5 +99,117 @@ async function render<T>(
     }
   } finally {
     r.free()
+  }
+}
+
+/*
+ * A recording is hundreds of frames, and laying out each frame's text is
+ * most of a frame's cost, so they are drawn by a few worker threads at once
+ * and handed back in order. A worker is this same file started again with
+ * RENDER_WORKER in its workerData: the built server is one script, and
+ * serveRenders() is what it runs instead of the server when it is a worker.
+ */
+
+const RENDER_WORKER = 'anigramRenderWorker'
+
+interface Job {
+  i: number
+  svg: string
+  width: number
+}
+
+interface Done {
+  i: number
+  width: number
+  height: number
+  rgba: Uint8Array
+}
+
+/** true when this thread was started to draw frames, not to serve MCP */
+export const isRenderWorker = (): boolean =>
+  !isMainThread &&
+  (workerData as Record<string, unknown> | null)?.[RENDER_WORKER] === true
+
+/** a render worker's whole life: draw each frame it is sent and send its pixels back */
+export function serveRenders() {
+  parentPort!.on('message', (job: Job) => {
+    void svgToPixels(job.svg, job.width).then(
+      (px) =>
+        parentPort!.postMessage({ i: job.i, ...px } satisfies Done, [
+          px.rgba.buffer as ArrayBuffer,
+        ]),
+      (e: Error) => parentPort!.postMessage({ i: job.i, error: e.message }),
+    )
+  })
+}
+
+/** workers worth starting: a core left for the server and ffmpeg, eight at most */
+const poolSize = (frames: number) =>
+  Math.max(0, Math.min(8, availableParallelism() - 1, Math.floor(frames / 8)))
+
+/**
+ * Every frame as pixels, `width` wide, given to `take` in order. `take` is
+ * awaited before more frames are drawn than the workers can hold, so a
+ * long recording never sits in memory whole.
+ */
+export async function eachFrame(
+  svgs: readonly string[],
+  width: number,
+  take: (px: Omit<Done, 'i'>, i: number) => Promise<void> | void,
+): Promise<void> {
+  const n = poolSize(svgs.length)
+  if (n === 0) {
+    for (let i = 0; i < svgs.length; i++)
+      await take(await svgToPixels(svgs[i]!, width), i)
+    return
+  }
+  const workers = Array.from(
+    { length: n },
+    () =>
+      new Worker(fileURLToPath(import.meta.url), {
+        workerData: { [RENDER_WORKER]: true },
+      }),
+  )
+  const ready = new Map<number, Omit<Done, 'i'>>()
+  // frames drawn but not yet taken stay few, however long the recording
+  const ahead = 3 * n
+  const idle = new Set<Worker>()
+  let wake: (() => void) | null = null
+  let failed: Error | null = null
+  let next = 0
+  let taken = 0
+  const pump = (w: Worker) => {
+    if (next < svgs.length && next - taken < ahead) {
+      idle.delete(w)
+      w.postMessage({ i: next, svg: svgs[next]!, width } satisfies Job)
+      next++
+    } else idle.add(w)
+  }
+  try {
+    for (const w of workers) {
+      w.on('message', (m: Done | { i: number; error: string }) => {
+        if ('error' in m) failed ??= new Error(m.error)
+        else ready.set(m.i, m)
+        pump(w)
+        wake?.()
+      })
+      w.on('error', (e) => {
+        failed ??= e as Error
+        wake?.()
+      })
+      pump(w)
+    }
+    for (let i = 0; i < svgs.length; i++) {
+      while (!ready.has(i) && !failed)
+        await new Promise<void>((ok) => (wake = ok))
+      if (failed) throw failed
+      const px = ready.get(i)!
+      ready.delete(i)
+      await take(px, i)
+      taken++
+      for (const w of [...idle]) pump(w)
+    }
+  } finally {
+    await Promise.all(workers.map((w) => w.terminate()))
   }
 }

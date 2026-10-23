@@ -15,6 +15,46 @@ a minor release, a fix is a patch. Until 1.0, a minor release may also
 change something an assistant or an embed relies on; when it does, the
 entry says so under **Changed**.
 
+## Unreleased
+
+### Added
+
+- **An examples gallery.** `?examples` (and **Examples** in the header) is
+  now a page of every example sheet: the six built-in sheets, the scene
+  files in `examples/` and the single-line and PFD starters, each drawn as
+  a thumbnail, filtered by kind of drawing, with **Run**, **Static** and
+  **Edit**. A sheet still runs on its own at `?scene=<id>`.
+- **A rainwater harvesting P&ID**, `examples/rainwater-pid.json`, written by
+  Claude Code through the MCP server from a one-paragraph brief.
+- **Sketchbook and Night themes.** Sketchbook is cream paper, manga ink, a
+  sakura neon for trouble and a highlighter for what's lit, under a fine
+  film grain, taken from vaibhav.co.uk. Night is the same palette in warm
+  black. `?theme=sketchbook|night`, the `<living-diagram>` `theme`
+  attribute, and the MCP server's `theme` option all take them, alongside
+  `light` and `dark`.
+
+### Changed
+
+- **The app opens in Sketchbook.** The editor, the examples and the docs
+  now open in Sketchbook, and the wall screen opens in Night. **View** in
+  the editor, and the colour switch on a running sheet, offer all four
+  themes and remember your pick. Embeds still default to white, and so do
+  exports and MCP renders. `?theme=cream` now means Sketchbook, not White.
+- **Gallery thumbnails follow the theme** instead of always being white.
+
+- **An event can leave out `then`.** It then only marks a moment ("the tank
+  is full"): it fires, is lit and told on the sheet and in the storyboard,
+  and sets nothing. Before, an assistant had to invent a switch for it to
+  flip.
+
+### Fixed
+
+- **`render_storyboard` recordings are drawn on several threads**, so a
+  default MP4 that took about two minutes on four cores takes under fifty
+  seconds (and less with more cores), inside an MCP client's usual
+  time limit. The tool also reports its progress, frame by frame, to a
+  client that asks. The files are the same as before, byte for byte.
+
 ## 0.4.0
 
 Storyboards and day recordings, 35 more P&ID symbols with valve actuators and signal lines, static drawings, a P&ID evaluation, and the editor laid out like a desktop app.

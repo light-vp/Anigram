@@ -450,7 +450,10 @@ node eval/pid/gallery.mjs eval/pid/results/pass1 eval/pid/results/pass2   # the 
           head: ['address', 'shows'],
           rows: [
             ['(nothing)', 'the editor, on the sheet you left'],
-            ['`?examples`', 'the built-in sheets, running'],
+            [
+              '`?examples`',
+              'the gallery of example sheets, to run, view or edit',
+            ],
             [
               '`?scene=grid`',
               'one sheet running: `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`, `garden-machine`',
@@ -472,7 +475,10 @@ node eval/pid/gallery.mjs eval/pid/results/pass1 eval/pid/results/pass2   # the 
               '`?screen=1`',
               'a full-bleed dark tour of every sheet, for a wall',
             ],
-            ['`theme=light|dark`', 'the sheet’s palette'],
+            [
+              '`theme=sketchbook|night|light|dark`',
+              'the colours: sketchbook (cream paper, the default), night, white or dark; the editor remembers your pick',
+            ],
             ['`mode=paper`', 'frozen, every flow labelled, ready to print'],
             [
               '`mode=static`',
@@ -525,7 +531,7 @@ node eval/pid/gallery.mjs eval/pid/results/pass1 eval/pid/results/pass2   # the 
             ],
             [
               '`theme`',
-              '`light` (default), `dark`, or `auto` to follow the reader’s system',
+              '`light` (default), `dark`, `sketchbook`, `night`, or `auto` to follow the reader’s system',
             ],
             ['`hour`, `speed`', 'open at that hour; clock multiplier'],
             ['`paused`', 'open with the clock stopped'],

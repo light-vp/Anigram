@@ -83,7 +83,7 @@ defaults to empty, `sheet` to `LD-100`, `clock` to `{ start: 6, rate: 1 }`.
 A file without it is read as version 1, and a file from an older version is
 upgraded when it loads, so scene files and share links keep working as the
 format grows. A file from a newer version than the reader knows is refused
-... (688 more lines)
+... (690 more lines)
 ```
 
 ## list_scenes
@@ -834,7 +834,7 @@ Draw the sheet at an hour of the day, the same drawing the app shows in paper mo
 | `knobs` | object |  | slider values by knob id, e.g. { "cloud": 0.8 } |
 | `switches` | object |  | switch states by id, e.g. { "mains": false } |
 | `hour` | number |  | hour of day to draw, e.g. 18.5; default the opening hour |
-| `theme` | string |  |  One of `light`, `dark`. |
+| `theme` | string |  | sheet colours: light (white, the default), dark, sketchbook (cream paper) or night (warm dark) One of `light`, `dark`, `sketchbook`, `night`. |
 | `labels` | boolean |  | label every flow (default true) |
 | `static` | boolean |  | the drawing alone, with no clock, readings or labels; an engineering drawing at rest (default false) |
 | `credit` | boolean |  | sign the bottom corner "Made with Anigram · Vaibhav Patel" (default true; false leaves it off) |
@@ -879,7 +879,7 @@ The moments that tell a scene's day, picked from what the simulation really did:
 | `at` | array |  | clock hours to show, instead of choosing the moments |
 | `from` | number |  | clock hour the stretch starts (default the opening hour) |
 | `to` | number |  | clock hour it ends (default a full day later) |
-| `theme` | string |  |  One of `light`, `dark`. |
+| `theme` | string |  | sheet colours: light (white, the default), dark, sketchbook (cream paper) or night (warm dark) One of `light`, `dark`, `sketchbook`, `night`. |
 | `labels` | boolean |  | label every flow with its value (default false) |
 | `credit` | boolean |  | sign it "Made with Anigram · Vaibhav Patel" (default true) |
 | `format` | string |  | png (default), svg or pdf for the page of panels; gif or mp4 for a recording. With `out`, taken from its extension One of `png`, `svg`, `pdf`, `gif`, `mp4`. |
@@ -956,7 +956,7 @@ A link that opens the scene running live in the Anigram app — the whole scene 
 | `id` | string |  | a built-in sheet id, e.g. "grid" — see list_scenes |
 | `view` | string |  |  One of `app`, `embed`, `paper`, `static`, `screen`, `editor`. |
 | `hour` | number |  |  |
-| `theme` | string |  |  One of `light`, `dark`. |
+| `theme` | string |  | sheet colours: light (white, the default), dark, sketchbook (cream paper) or night (warm dark) One of `light`, `dark`, `sketchbook`, `night`. |
 
 **Example**
 

@@ -1,0 +1,457 @@
+{
+  "$schema": "https://raw.githubusercontent.com/light-vp/Anigram/main/schema/scene.v1.json",
+  "anigram": 1,
+  "id": "rainwater-pid",
+  "title": "House rainwater harvesting",
+  "subtitle": "Gutters fill an underground tank; a pump serves toilets and garden, mains tops up, overflow to soakaway",
+  "sheet": "PID-200",
+  "size": [9, 4],
+  "units": {
+    "water": {
+      "rate": "m³/h",
+      "amount": "m³"
+    },
+    "electric": {
+      "rate": "kW",
+      "amount": "kWh"
+    }
+  },
+  "scale": {
+    "water": 6,
+    "electric": 1
+  },
+  "parts": [
+    {
+      "id": "roof",
+      "kind": "rain",
+      "label": "Roof gutters",
+      "at": [0, 1],
+      "behaviour": {
+        "role": "source",
+        "output": "36 * bump(hour, 8.5, 2.2)"
+      },
+      "tag": "RW-001",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "filt",
+      "kind": "valve",
+      "label": "Leaf filter",
+      "at": [1, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 10
+      },
+      "tag": "F-101",
+      "class": "Filter"
+    },
+    {
+      "id": "tank",
+      "kind": "reservoir",
+      "label": "Underground tank",
+      "at": [2, 2],
+      "behaviour": {
+        "role": "storage",
+        "capacity": 10,
+        "start": 0.35,
+        "maxIn": 10,
+        "maxOut": 6
+      },
+      "tag": "T-101",
+      "class": "Tank"
+    },
+    {
+      "id": "xv",
+      "kind": "valve",
+      "label": "Suction valve",
+      "at": [3, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 6,
+        "open": "prev('tank').fill > 0.05 ? 1 : 0"
+      },
+      "tag": "XV-101",
+      "class": "GateValve",
+      "actuator": "solenoid"
+    },
+    {
+      "id": "pump",
+      "kind": "pump",
+      "label": "Booster pump",
+      "at": [4, 2],
+      "behaviour": {
+        "role": "converter",
+        "output": "water",
+        "recipe": {
+          "electric": 0.1,
+          "water": 1
+        },
+        "capacity": 6
+      },
+      "tag": "P-101",
+      "class": "CentrifugalPump"
+    },
+    {
+      "id": "power",
+      "kind": "grid",
+      "label": "Electricity",
+      "at": [3, 3],
+      "behaviour": {
+        "role": "source",
+        "output": 5,
+        "dispatchable": true
+      }
+    },
+    {
+      "id": "nrv",
+      "kind": "valve",
+      "label": "Non-return valve",
+      "at": [5, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 6
+      },
+      "tag": "V-101",
+      "class": "CheckValve"
+    },
+    {
+      "id": "hdr",
+      "kind": "manifold",
+      "label": "Supply header",
+      "at": [6, 2],
+      "behaviour": {
+        "role": "bus"
+      },
+      "tag": "J-101",
+      "class": "Junction"
+    },
+    {
+      "id": "vt",
+      "kind": "valve",
+      "label": "Toilet valve",
+      "at": [7, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 3
+      },
+      "tag": "HV-101",
+      "class": "GateValve"
+    },
+    {
+      "id": "vg",
+      "kind": "valve",
+      "label": "Garden valve",
+      "at": [7, 3],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 4
+      },
+      "tag": "HV-102",
+      "class": "GateValve"
+    },
+    {
+      "id": "toilets",
+      "kind": "tap",
+      "label": "Toilet cisterns",
+      "at": [8, 2],
+      "behaviour": {
+        "role": "sink",
+        "demand": "0.1 + 0.8 * bump(hour, 7.5, 1.5) + 0.7 * bump(hour, 19.5, 2.5) + 0.3 * bump(hour, 13, 2)"
+      },
+      "tag": "WC-001",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "garden",
+      "kind": "tap",
+      "label": "Garden tap",
+      "at": [8, 3],
+      "behaviour": {
+        "role": "sink",
+        "demand": "between(hour, 16.5, 19) ? 3 : 0"
+      },
+      "tag": "GT-001",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "mains",
+      "kind": "well",
+      "label": "Mains water",
+      "at": [0, 2],
+      "behaviour": {
+        "role": "source",
+        "output": "prev('tank').fill < 0.12 ? 2.5 : 0"
+      },
+      "tag": "MW-001",
+      "class": "OffPageConnector"
+    },
+    {
+      "id": "mv",
+      "kind": "valve",
+      "label": "Mains top-up valve",
+      "at": [1, 2],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 2.5,
+        "open": "prev('tank').fill < 0.12 ? 1 : 0"
+      },
+      "tag": "XV-102",
+      "class": "GateValve",
+      "actuator": "solenoid"
+    },
+    {
+      "id": "ovf",
+      "kind": "valve",
+      "label": "Overflow valve",
+      "at": [2, 1],
+      "behaviour": {
+        "role": "gate",
+        "capacity": 10,
+        "open": "prev('tank').fill > 0.95 ? 1 : 0"
+      },
+      "tag": "XV-103",
+      "class": "GateValve",
+      "actuator": "solenoid"
+    },
+    {
+      "id": "soak",
+      "kind": "river",
+      "label": "Soakaway",
+      "at": [3, 1],
+      "behaviour": {
+        "role": "sink",
+        "demand": 10,
+        "absorbsSurplus": true
+      },
+      "tag": "SA-001",
+      "class": "OffPageConnector"
+    }
+  ],
+  "links": [
+    {
+      "from": "roof",
+      "to": "filt",
+      "domain": "water",
+      "tag": "50-W-001"
+    },
+    {
+      "from": "filt",
+      "to": "tank",
+      "domain": "water",
+      "via": [
+        [1.5, 1],
+        [1.5, 2]
+      ],
+      "tag": "50-W-002"
+    },
+    {
+      "from": "tank",
+      "to": "xv",
+      "domain": "water",
+      "tag": "50-W-003"
+    },
+    {
+      "from": "xv",
+      "to": "pump",
+      "domain": "water",
+      "tag": "50-W-004"
+    },
+    {
+      "from": "power",
+      "to": "pump",
+      "domain": "electric"
+    },
+    {
+      "from": "pump",
+      "to": "nrv",
+      "domain": "water",
+      "tag": "40-W-005"
+    },
+    {
+      "from": "nrv",
+      "to": "hdr",
+      "domain": "water",
+      "tag": "40-W-006"
+    },
+    {
+      "from": "hdr",
+      "to": "vt",
+      "domain": "water",
+      "tag": "25-W-007"
+    },
+    {
+      "from": "vt",
+      "to": "toilets",
+      "domain": "water",
+      "tag": "25-W-008"
+    },
+    {
+      "from": "hdr",
+      "to": "vg",
+      "domain": "water",
+      "via": [
+        [6.5, 2],
+        [6.5, 3]
+      ],
+      "tag": "25-W-009"
+    },
+    {
+      "from": "vg",
+      "to": "garden",
+      "domain": "water",
+      "tag": "25-W-010"
+    },
+    {
+      "from": "mains",
+      "to": "mv",
+      "domain": "water",
+      "tag": "25-W-011"
+    },
+    {
+      "from": "mv",
+      "to": "tank",
+      "domain": "water",
+      "tag": "25-W-012"
+    },
+    {
+      "from": "ovf",
+      "to": "soak",
+      "domain": "water",
+      "tag": "100-W-014"
+    },
+    {
+      "from": "filt",
+      "to": "ovf",
+      "domain": "water",
+      "tag": "100-W-013"
+    }
+  ],
+  "clock": {
+    "start": 5,
+    "rate": 1
+  },
+  "drawing": "pid",
+  "titleBlock": {
+    "owner": "Example house",
+    "project": "Rainwater harvesting",
+    "drawnBy": "Claude",
+    "issued": "2026-10-21",
+    "revision": "A",
+    "status": "for review"
+  },
+  "instruments": [
+    {
+      "tag": "LT-101",
+      "at": [4, 1],
+      "measures": "tank",
+      "low": 5,
+      "high": 97
+    },
+    {
+      "tag": "LSL-101",
+      "at": [5, 1],
+      "measures": "tank",
+      "drives": "xv",
+      "mounting": "panel",
+      "low": 5
+    },
+    {
+      "tag": "LSLL-102",
+      "at": [0, 3],
+      "measures": "tank",
+      "drives": "mv",
+      "mounting": "panel"
+    },
+    {
+      "tag": "LSH-103",
+      "at": [2, 0],
+      "measures": "tank",
+      "drives": "ovf",
+      "mounting": "panel"
+    },
+    {
+      "tag": "FI-101",
+      "at": [6, 1],
+      "measures": "pump"
+    }
+  ],
+  "captions": [
+    {
+      "from": 5,
+      "to": 7,
+      "text": "Dawn: the tank is low, the toilets draw on the pump."
+    },
+    {
+      "from": 7,
+      "to": 11,
+      "text": "Morning rain: gutters carry water through the filter into the tank."
+    },
+    {
+      "from": 11,
+      "to": 16,
+      "text": "Dry again: toilets run off stored rainwater."
+    },
+    {
+      "from": 16,
+      "to": 20,
+      "text": "Evening: the garden tap and toilets drain the tank."
+    },
+    {
+      "from": 20,
+      "to": 24,
+      "text": "Night: if the tank runs nearly empty the level switch tops it up from mains."
+    }
+  ],
+  "events": [
+    {
+      "id": "rain-starts",
+      "says": "Morning rain: gutters carry water through the leaf filter into the tank.",
+      "when": "part('roof').out > 1",
+      "at": "roof"
+    },
+    {
+      "id": "tank-full",
+      "says": "The tank is full: the high level switch opens the overflow to the soakaway.",
+      "when": "part('soak').in > 0.1",
+      "at": "ovf"
+    },
+    {
+      "id": "watering",
+      "says": "Evening: the garden tap and toilets run the pump hard.",
+      "when": "part('garden').in > 1",
+      "at": "garden"
+    },
+    {
+      "id": "topup",
+      "says": "Tank nearly empty: the low-low level switch opens mains top-up.",
+      "when": "part('mains').out > 0.1 && hour > 12",
+      "at": "mv"
+    }
+  ],
+  "expect": [
+    {
+      "says": "rain fills the tank by midday",
+      "check": "part('tank').fill > 0.8",
+      "at": 12
+    },
+    {
+      "says": "once full, the overflow goes to the soakaway",
+      "check": "part('soak').in > 0",
+      "sometime": true
+    },
+    {
+      "says": "the toilets are always served",
+      "check": "part('toilets').in >= 0.99 * part('toilets').demand"
+    },
+    {
+      "says": "the tank is used through the day",
+      "check": "part('tank').fill < 0.6",
+      "at": 22
+    },
+    {
+      "says": "mains tops the tank up when nearly empty",
+      "check": "part('mains').out > 0",
+      "sometime": true
+    }
+  ]
+}

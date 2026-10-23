@@ -13,7 +13,19 @@ import type { Domain } from '../sim/types.ts'
  * flow's domain, a lit window, a level in a tank.
  */
 
-export type ThemeId = 'light' | 'dark'
+export type ThemeId = 'sketchbook' | 'night' | 'light' | 'dark'
+
+/** the order a picker lists them in, with the names it shows */
+export const THEME_NAMES: Record<ThemeId, string> = {
+  sketchbook: 'Sketchbook',
+  night: 'Night',
+  light: 'White',
+  dark: 'Dark',
+}
+export const THEME_IDS = Object.keys(THEME_NAMES) as ThemeId[]
+
+/** a theme whose paper is dark, for whatever has to sit on it */
+export const isDark = (t: ThemeId) => t === 'dark' || t === 'night'
 
 export interface SheetPalette {
   paper: string
@@ -29,6 +41,51 @@ export interface SheetPalette {
 }
 
 export const THEMES: Record<ThemeId, SheetPalette> = {
+  /**
+   * cream sketchbook paper and manga ink, from vaibhav.co.uk — the editor's
+   * own colours. The sakura neon marks trouble; the highlighter lights.
+   */
+  sketchbook: {
+    paper: '#faf6ec',
+    line: '#e2d8c3',
+    tile: '#f3ecdd',
+    ink: '#111111',
+    muted: '#7a7263',
+    lit: '#e8a800',
+    alarm: '#ff2e63',
+    domain: {
+      light: '#e8a800',
+      electric: '#ec7a00',
+      water: '#2563eb',
+      heat: '#ff2e63',
+      fuel: '#0f9b8e',
+      mechanical: '#6a6358',
+      data: '#7c4dff',
+      oil: '#a8581a',
+      air: '#0891b2',
+    },
+  },
+  /** the sketchbook after dark: warm black, cream ink, the same neon */
+  night: {
+    paper: '#131311',
+    line: '#2b2a26',
+    tile: '#1b1a17',
+    ink: '#f3ecdd',
+    muted: '#9b937f',
+    lit: '#ffd84d',
+    alarm: '#ff2e63',
+    domain: {
+      light: '#ffd84d',
+      electric: '#ffa94d',
+      water: '#5aa2ff',
+      heat: '#ff5c85',
+      fuel: '#3dd6c2',
+      mechanical: '#b3ab98',
+      data: '#a48bff',
+      oil: '#e0974f',
+      air: '#4cc9e6',
+    },
+  },
   /** white paper — for the website and for printing */
   light: {
     paper: '#ffffff',

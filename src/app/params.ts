@@ -10,7 +10,7 @@ import type { ThemeId } from '../view/palette.ts'
  * The URL is the embed API. Every way of showing a sheet is a query string:
  *
  *   (nothing)                        the editor: Anigram's home, on the sheet you left
- *   ?examples                        the built-in sheets, running, with their dials
+ *   ?examples                        the gallery: every example sheet, to run, view or edit
  *   ?docs                            how it works, the MCP server, the URL API
  *   ?scene=grid                      that sheet running (old cloud ids still resolve)
  *   ?embed=1                         just the sheet and a play bar, for an iframe
@@ -20,7 +20,7 @@ import type { ThemeId } from '../view/palette.ts'
  *   ?build=1&drawing=pid             the editor, starting from a P&ID (or single-line, pfd, fluid-power)
  *   ?embed=build                     the editor without its header
  *   ?screen=1                        a wall screen: dark, full bleed, tours every sheet
- *   ?theme=light|dark                the sheet's palette (old names: paper, blueprint)
+ *   ?theme=sketchbook|night|light|dark  the sheet's palette (old names: paper, blueprint)
  *   ?mode=paper                      frozen and annotated, ready to print
  *   ?mode=static                     a static drawing: nothing moves, no clock or readings
  *   ?t=18.5                          start the clock at 18:30
@@ -33,13 +33,24 @@ import type { ThemeId } from '../view/palette.ts'
  */
 
 export type View =
-  'app' | 'app-embed' | 'build' | 'build-embed' | 'embed' | 'screen' | 'docs'
+  | 'app'
+  | 'app-embed'
+  | 'build'
+  | 'build-embed'
+  | 'embed'
+  | 'screen'
+  | 'docs'
+  | 'gallery'
 
 const THEME_ALIASES: Record<string, ThemeId> = {
+  sketchbook: 'sketchbook',
+  night: 'night',
   light: 'light',
+  white: 'light',
   dark: 'dark',
+  // older names
   paper: 'light',
-  cream: 'light',
+  cream: 'sketchbook',
   blueprint: 'dark',
 }
 
@@ -67,8 +78,7 @@ export function readParams(
   const q = new URLSearchParams(search)
   const embed = q.get('embed')
   // a sheet named in the address runs; with nothing named, Anigram opens on the editor
-  const showing =
-    q.has('scene') || q.has('examples') || hash.startsWith(`#${HASH_KEY}=`)
+  const showing = q.has('scene') || hash.startsWith(`#${HASH_KEY}=`)
   let view: View = 'build'
   if (q.has('screen')) view = 'screen'
   else if (embed === 'build') view = 'build-embed'
@@ -77,6 +87,7 @@ export function readParams(
   else if (embed !== null) view = 'embed'
   else if (q.has('docs')) view = 'docs'
   else if (showing) view = 'app'
+  else if (q.has('examples')) view = 'gallery'
   const theme = q.get('theme')
   const num = (k: string) => {
     const v = q.get(k)
