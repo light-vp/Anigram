@@ -19,6 +19,8 @@ entry says so under **Changed**.
 
 ### Added
 
+- **Send feedback.** Help → Send feedback… opens a short form that mails
+  the note to the author, with an optional address for a reply.
 - **An examples gallery.** `?examples` (and **Examples** in the header) is
   now a page of every example sheet: the six built-in sheets, the scene
   files in `examples/` and the single-line and PFD starters, each drawn as
