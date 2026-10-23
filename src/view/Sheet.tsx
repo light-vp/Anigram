@@ -19,7 +19,7 @@ import type {
 } from '../sim/types.ts'
 import { ChainArrows, ChainRings } from './chain.tsx'
 import { chainEdges } from './chainEdges.ts'
-import { effortReadout, rate, readout } from './format.ts'
+import { effortReadout, partTitle, rate, readout } from './format.ts'
 import { labelBoxOf } from './lint.ts'
 import {
   BORDER,
@@ -508,6 +508,7 @@ function PartView({
         onSelect?.(part.id)
       }}
     >
+      <title>{partTitle(scene, part)}</title>
       {!bar && (
         <rect
           className="tile"

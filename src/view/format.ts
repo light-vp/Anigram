@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
+import { PACKS, classOf } from '../packs/catalogue.ts'
 import { effortUnit, formatEffort } from '../sim/effort.ts'
 import type { PartState } from '../sim/solver.ts'
 import type { Domain, Knob, PartSpec, Scene } from '../sim/types.ts'
@@ -234,4 +235,18 @@ export function wrap(text: string, chars: number, max = 4): string[] {
     lines[max - 1] = `${lines[max - 1]!.replace(/[\s,.;:]+$/, '')}…`
   }
   return lines
+}
+
+/**
+ * a part's tooltip: its tag and name, what its symbol stands for on an
+ * engineering drawing, its note, and that a click switches it
+ */
+export function partTitle(scene: Scene, part: PartSpec): string {
+  const lines = [part.tag ? `${part.tag} ${part.label}` : part.label]
+  const cls = classOf(part, scene)
+  const is = cls && scene.drawing ? PACKS[scene.drawing]?.classes[cls]?.is : ''
+  if (is) lines.push(is[0]!.toUpperCase() + is.slice(1))
+  if (part.note) lines.push(part.note)
+  if (part.toggles) lines.push('Click to switch it on or off.')
+  return lines.join('\n')
 }
