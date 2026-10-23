@@ -8,6 +8,7 @@ import { frameAt } from '../format/report.ts'
 import { stamp } from '../format/migrate.ts'
 import { HASH_KEY, encodeScene } from '../format/share.ts'
 import type { DrawingType } from '../sim/types.ts'
+import type { ThemeId } from '../view/palette.ts'
 import { Sheet } from '../view/Sheet.tsx'
 import { sheetSize } from '../view/geometry.ts'
 import { MCP_INSTALL } from './links.ts'
@@ -20,7 +21,8 @@ import styles from './Gallery.module.css'
  * Every example sheet on one page (`?examples`): a drawing of each as it
  * stands at a telling hour, and three ways in — run it, see it as a static
  * drawing, or open it in the editor. A sheet is drawn only once it scrolls
- * near the window, so the page opens fast however many there are.
+ * near the window, so the page opens fast however many there are. They are
+ * drawn in the page's own colours.
  */
 
 const KINDS: Array<DrawingType | ''> = [
@@ -32,7 +34,7 @@ const KINDS: Array<DrawingType | ''> = [
   'fluid-power',
 ]
 
-export function Gallery() {
+export function Gallery({ theme }: { theme: ThemeId }) {
   const [kind, setKind] = useState<DrawingType | ''>('')
 
   useEffect(() => {
@@ -74,7 +76,7 @@ export function Gallery() {
         </div>
         <ul className={styles.grid}>
           {shown.map((e) => (
-            <Card key={e.scene.id} example={e} />
+            <Card key={e.scene.id} example={e} theme={theme} />
           ))}
         </ul>
         <p className={styles.foot}>
@@ -123,7 +125,7 @@ function useLinks(e: Example): Links | null {
   return named ?? carried
 }
 
-function Card({ example: e }: { example: Example }) {
+function Card({ example: e, theme }: { example: Example; theme: ThemeId }) {
   const { scene } = e
   const links = useLinks(e)
   const drawing = drawingOf(scene)
@@ -138,7 +140,7 @@ function Card({ example: e }: { example: Example }) {
         onClick={go('run')}
         aria-label={`Run ${scene.title}`}
       >
-        <Thumb example={e} />
+        <Thumb example={e} theme={theme} />
       </a>
       <div className={styles.body}>
         <p className={styles.meta}>
@@ -169,7 +171,7 @@ function Card({ example: e }: { example: Example }) {
 }
 
 /** the sheet as it stands at the example's hour, drawn once it comes near the window */
-function Thumb({ example: e }: { example: Example }) {
+function Thumb({ example: e, theme }: { example: Example; theme: ThemeId }) {
   const ref = useRef<HTMLDivElement>(null)
   // with no way to watch the scroll, draw it straight away
   const [near, setNear] = useState(
@@ -204,7 +206,7 @@ function Thumb({ example: e }: { example: Example }) {
         <Sheet
           scene={e.scene}
           frame={frame}
-          theme="light"
+          theme={theme}
           annotate={false}
           animate={false}
           selected={null}

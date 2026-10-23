@@ -57,7 +57,7 @@ test('the credit line is on by default and off with ?credit=0', async ({
 
 test('?screen=1 is dark and full bleed', async ({ page }) => {
   await page.goto('./?screen=1&scene=hydro-dam')
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'night')
   await expect(sheetOf(page)).toBeVisible()
   const box = await sheetOf(page).boundingBox()
   const size = page.viewportSize()!

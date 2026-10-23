@@ -90,7 +90,7 @@
   min-width: 0;
 }
 
-/* the sheets are white paper in either theme, as they print */
+/* each sheet on its own paper, in the page's colours */
 .thumb {
   display: grid;
   place-items: center;
@@ -98,7 +98,7 @@
   padding: 14px;
   border: 1px solid var(--rule);
   border-radius: var(--r);
-  background: var(--print);
+  background: var(--card);
   overflow: hidden;
   transition: border-color 0.15s;
 }

@@ -68,6 +68,8 @@ function num(el: Element, name: string): number | null {
 export function readTheme(el: Element): ThemeSetting {
   const t = el.getAttribute('theme')?.trim().toLowerCase()
   if (t === 'dark' || t === 'blueprint') return 'dark'
+  if (t === 'sketchbook' || t === 'cream') return 'sketchbook'
+  if (t === 'night') return 'night'
   if (t === 'auto') return 'auto'
   return 'light'
 }

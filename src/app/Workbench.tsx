@@ -7,6 +7,7 @@ import type { CSSProperties } from 'react'
 import { SCENES } from '../scenes/index.ts'
 import type { Scene } from '../sim/types.ts'
 import { sheetSize } from '../view/geometry.ts'
+import { THEME_IDS, THEME_NAMES } from '../view/palette.ts'
 import type { ThemeId } from '../view/palette.ts'
 import { Sheet } from '../view/Sheet.tsx'
 import { capture } from './analytics'
@@ -242,20 +243,16 @@ export function Workbench({
               </button>
             </div>
             <div className={styles.seg} role="group" aria-label="Sheet colour">
-              <button
-                type="button"
-                aria-pressed={theme === 'light'}
-                onClick={() => onTheme('light')}
-              >
-                light
-              </button>
-              <button
-                type="button"
-                aria-pressed={theme === 'dark'}
-                onClick={() => onTheme('dark')}
-              >
-                dark
-              </button>
+              {THEME_IDS.map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  aria-pressed={theme === t}
+                  onClick={() => onTheme(t)}
+                >
+                  {THEME_NAMES[t].toLowerCase()}
+                </button>
+              ))}
             </div>
             <span className={styles.spacer} />
             <button

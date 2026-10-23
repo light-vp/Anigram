@@ -42,6 +42,21 @@ test('paper mode and the dark sheet', async ({ page }) => {
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark')
 })
 
+test('the sketchbook is the default, and a picked theme is remembered', async ({
+  page,
+}) => {
+  await page.goto('./?scene=grid')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'sketchbook')
+  const colour = page.getByRole('group', { name: 'Sheet colour' })
+  await colour.getByRole('button', { name: 'night' }).click()
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'night')
+  await page.goto('./?examples')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'night')
+  // a theme in the link still wins
+  await page.goto('./?scene=grid&theme=white')
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light')
+})
+
 test('clicking a part shows what it is doing', async ({ page }) => {
   await page.goto('./?scene=water-tower&t=12')
   await sheetOf(page).locator('g.part').first().click()

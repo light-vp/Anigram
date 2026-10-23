@@ -64,3 +64,45 @@
   --on-hi: #0b0b0c;
   --night: #2a2a2d;
 }
+
+/*
+ * Sketchbook, the default: vaibhav.co.uk's cream paper, manga ink, sakura
+ * neon and highlighter, under a fine grain (global.css).
+ */
+[data-theme='sketchbook'] {
+  --desk: #f3ecdd;
+  --desk-2: #ebe2cd;
+  --card: #faf6ec;
+  --ink: #111111;
+  --ink-soft: #2a2a2a;
+  --muted: #6a6358;
+  --rule: #e2d8c3;
+  --accent: #111111;
+  --accent-soft: #ffe5ec;
+  --alarm: #ff2e63;
+  --hi: #ffd84d;
+  --on-hi: #111111;
+  --night: #d8cfbb;
+  --noon: #ffd84d;
+  --grain: 0.09;
+}
+
+/* the sketchbook after dark */
+[data-theme='night'] {
+  color-scheme: dark;
+  --desk: #0b0b0a;
+  --desk-2: #1b1a17;
+  --card: #131311;
+  --ink: #f3ecdd;
+  --ink-soft: #d8d0bd;
+  --muted: #9b937f;
+  --rule: #2b2a26;
+  --accent: #f3ecdd;
+  --accent-soft: #3a1420;
+  --alarm: #ff2e63;
+  --hi: #ffd84d;
+  --on-hi: #111111;
+  --night: #2b2a26;
+  --noon: #ffd84d;
+  --grain: 0.07;
+}

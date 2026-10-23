@@ -20,7 +20,7 @@ import type { ThemeId } from '../view/palette.ts'
  *   ?build=1&drawing=pid             the editor, starting from a P&ID (or single-line, pfd, fluid-power)
  *   ?embed=build                     the editor without its header
  *   ?screen=1                        a wall screen: dark, full bleed, tours every sheet
- *   ?theme=light|dark                the sheet's palette (old names: paper, blueprint)
+ *   ?theme=sketchbook|night|light|dark  the sheet's palette (old names: paper, blueprint)
  *   ?mode=paper                      frozen and annotated, ready to print
  *   ?mode=static                     a static drawing: nothing moves, no clock or readings
  *   ?t=18.5                          start the clock at 18:30
@@ -43,10 +43,14 @@ export type View =
   | 'gallery'
 
 const THEME_ALIASES: Record<string, ThemeId> = {
+  sketchbook: 'sketchbook',
+  night: 'night',
   light: 'light',
+  white: 'light',
   dark: 'dark',
+  // older names
   paper: 'light',
-  cream: 'light',
+  cream: 'sketchbook',
   blueprint: 'dark',
 }
 

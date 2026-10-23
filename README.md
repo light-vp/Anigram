@@ -164,26 +164,26 @@ npm run simulate examples/narrowboat.json   # a scene file
 
 The URL is the API:
 
-| Param               |                                                                                                                                                  |
-| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| (nothing)           | the editor, on the sheet you left                                                                                                                |
-| `examples`          | the gallery: every example sheet (built in, from `examples/`, and each practice's starter), to run, see static or edit                           |
-| `docs`              | how it works, the MCP server and this table; `?docs#mcp` opens at the MCP server                                                                 |
-| `scene=<id>`        | `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`, `garden-machine` (the old `cdn` / `microservices` / `oauth2` ids still resolve) |
-| `embed=1`           | just the sheet and a play bar; `embed=presentation` is the same                                                                                  |
-| `embed=app`         | the full app without its header                                                                                                                  |
-| `screen=1`          | wall-screen tour                                                                                                                                 |
-| `build=1`           | the editor, on `scene=<id>`, a `#scene=` link, or the sheet you left; `drawing=pid` (or `single-line`, `pfd`, `fluid-power`) starts one          |
-| `embed=build`       | the editor without its header                                                                                                                    |
-| `theme=light\|dark` | the sheet's palette (`paper` and `blueprint` still work)                                                                                         |
-| `mode=paper`        | frozen and labelled                                                                                                                              |
-| `mode=static`       | the drawing alone: nothing moves, no clock or readings; an engineering drawing at rest                                                           |
-| `t=18.5`            | open at 18:30                                                                                                                                    |
-| `speed=4`           | clock multiplier                                                                                                                                 |
-| `credit=0`          | leave off the "Made with Anigram · Vaibhav Patel" line (the downloaded SVG too)                                                                  |
-| `#scene=…`          | a whole scene file, deflated and base64url'd — what **⧉ link** and the MCP server's `share_link` write                                           |
-| `paused=1`          | open with the clock stopped                                                                                                                      |
-| `controls=0`        | leave off the play bar                                                                                                                           |
+| Param                                  |                                                                                                                                                  |
+| -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| (nothing)                              | the editor, on the sheet you left                                                                                                                |
+| `examples`                             | the gallery: every example sheet (built in, from `examples/`, and each practice's starter), to run, see static or edit                           |
+| `docs`                                 | how it works, the MCP server and this table; `?docs#mcp` opens at the MCP server                                                                 |
+| `scene=<id>`                           | `grid`, `solar-home`, `water-tower`, `hydro-dam`, `data-centre`, `garden-machine` (the old `cdn` / `microservices` / `oauth2` ids still resolve) |
+| `embed=1`                              | just the sheet and a play bar; `embed=presentation` is the same                                                                                  |
+| `embed=app`                            | the full app without its header                                                                                                                  |
+| `screen=1`                             | wall-screen tour                                                                                                                                 |
+| `build=1`                              | the editor, on `scene=<id>`, a `#scene=` link, or the sheet you left; `drawing=pid` (or `single-line`, `pfd`, `fluid-power`) starts one          |
+| `embed=build`                          | the editor without its header                                                                                                                    |
+| `theme=sketchbook\|night\|light\|dark` | the colours: cream sketchbook paper (the default), night, white or dark; the editor remembers your pick (`paper` and `blueprint` still work)     |
+| `mode=paper`                           | frozen and labelled                                                                                                                              |
+| `mode=static`                          | the drawing alone: nothing moves, no clock or readings; an engineering drawing at rest                                                           |
+| `t=18.5`                               | open at 18:30                                                                                                                                    |
+| `speed=4`                              | clock multiplier                                                                                                                                 |
+| `credit=0`                             | leave off the "Made with Anigram · Vaibhav Patel" line (the downloaded SVG too)                                                                  |
+| `#scene=…`                             | a whole scene file, deflated and base64url'd — what **⧉ link** and the MCP server's `share_link` write                                           |
+| `paused=1`                             | open with the clock stopped                                                                                                                      |
+| `controls=0`                           | leave off the play bar                                                                                                                           |
 
 ### Without an iframe
 
@@ -209,7 +209,7 @@ proportions, and carries no analytics.
 
 The scene comes from `src` (a URL), `share` (a `#scene=…` link), an inline
 JSON script, or `scene` (a built-in id), first match wins. It also takes
-`theme` (`light`, `dark`, `auto`), `hour`, `speed`, `paused`,
+`theme` (`light`, `dark`, `sketchbook`, `night`, `auto`), `hour`, `speed`, `paused`,
 `controls="false"`, `credit="false"` and `mode="paper"`, and follows them
 when they change. A good scene fires `load` (`detail: { id, title }`); a bad
 one shows its problems in place and fires `error` (`detail: { message, errors }`).

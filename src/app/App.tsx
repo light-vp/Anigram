@@ -9,6 +9,7 @@ import { decodeScene, sceneFromHash } from '../format/share.ts'
 import { validateScene } from '../format/validate.ts'
 import { capture } from './analytics'
 import { readParams, writeSceneHash, writeSceneParam } from './params'
+import { openingTheme, saveTheme } from './theme.ts'
 import { EmbedView, ScreenView } from './views'
 import { Workbench } from './Workbench'
 
@@ -33,9 +34,13 @@ export function App() {
   // bumped for every scene opened, so even one reusing a built-in id gets a fresh simulation
   const [opened, setOpened] = useState(0)
   const [problem, setProblem] = useState<string | null>(null)
-  const [theme, setTheme] = useState<ThemeId>(
-    initial.theme ?? (initial.view === 'screen' ? 'dark' : 'light'),
+  const [theme, setThemeState] = useState<ThemeId>(() =>
+    openingTheme(initial.view, initial.theme),
   )
+  const setTheme = useCallback((t: ThemeId) => {
+    setThemeState(t)
+    saveTheme(initial.view, t)
+  }, [])
 
   // the chrome around the sheet follows its colour
   useEffect(() => {
@@ -114,7 +119,7 @@ export function App() {
   if (initial.view === 'gallery')
     return (
       <Suspense fallback={null}>
-        <Gallery />
+        <Gallery theme={theme} />
       </Suspense>
     )
   if (initial.view === 'embed')

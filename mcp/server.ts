@@ -1441,7 +1441,12 @@ server.registerTool(
         .max(24)
         .optional()
         .describe('hour of day to draw, e.g. 18.5; default the opening hour'),
-      theme: z.enum(['light', 'dark']).optional(),
+      theme: z
+        .enum(['light', 'dark', 'sketchbook', 'night'])
+        .optional()
+        .describe(
+          'sheet colours: light (white, the default), dark, sketchbook (cream paper) or night (warm dark)',
+        ),
       labels: z
         .boolean()
         .optional()
@@ -1502,7 +1507,7 @@ server.registerTool(
       knobs?: Record<string, number>
       switches?: Record<string, boolean>
       hour?: number
-      theme?: 'light' | 'dark'
+      theme?: 'light' | 'dark' | 'sketchbook' | 'night'
       labels?: boolean
       static?: boolean
       credit?: boolean
@@ -1701,7 +1706,12 @@ server.registerTool(
         .max(24)
         .optional()
         .describe('clock hour it ends (default a full day later)'),
-      theme: z.enum(['light', 'dark']).optional(),
+      theme: z
+        .enum(['light', 'dark', 'sketchbook', 'night'])
+        .optional()
+        .describe(
+          'sheet colours: light (white, the default), dark, sketchbook (cream paper) or night (warm dark)',
+        ),
       labels: z
         .boolean()
         .optional()
@@ -1787,7 +1797,7 @@ server.registerTool(
         at?: number[]
         from?: number
         to?: number
-        theme?: 'light' | 'dark'
+        theme?: 'light' | 'dark' | 'sketchbook' | 'night'
         labels?: boolean
         credit?: boolean
         format?: 'png' | 'svg' | 'pdf' | 'gif' | 'mp4'
@@ -1995,7 +2005,12 @@ server.registerTool(
         .enum(['app', 'embed', 'paper', 'static', 'screen', 'editor'])
         .optional(),
       hour: z.number().min(0).max(24).optional(),
-      theme: z.enum(['light', 'dark']).optional(),
+      theme: z
+        .enum(['light', 'dark', 'sketchbook', 'night'])
+        .optional()
+        .describe(
+          'sheet colours: light (white, the default), dark, sketchbook (cream paper) or night (warm dark)',
+        ),
     },
     outputSchema: {
       url: z.string(),
@@ -2014,7 +2029,7 @@ server.registerTool(
       id?: string
       view?: 'app' | 'embed' | 'paper' | 'static' | 'screen' | 'editor'
       hour?: number
-      theme?: 'light' | 'dark'
+      theme?: 'light' | 'dark' | 'sketchbook' | 'night'
     }) => {
       const url = new URL(APP_URL)
       const view = args.view ?? 'app'
