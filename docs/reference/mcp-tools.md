@@ -17,6 +17,7 @@ Most tools take a scene three ways: `id` for a built-in sheet, `file` for a scen
 - [`edit_scene`](#edit_scene): Edit a scene
 - [`simulate_scene`](#simulate_scene): Simulate a day
 - [`check_scene`](#check_scene): Check a scene tells its story
+- [`size_scene`](#size_scene): Does it work, and what would it take?
 - [`check_drawing`](#check_drawing): Check a sheet against its practice's rules
 - [`lint_layout`](#lint_layout): Check the sheet reads cleanly
 - [`auto_layout`](#auto_layout): Lay the sheet out by its flow
@@ -83,7 +84,7 @@ defaults to empty, `sheet` to `LD-100`, `clock` to `{ start: 6, rate: 1 }`.
 A file without it is read as version 1, and a file from an older version is
 upgraded when it loads, so scene files and share links keep working as the
 format grows. A file from a newer version than the reader knows is refused
-... (690 more lines)
+... (728 more lines)
 ```
 
 ## list_scenes
@@ -482,14 +483,14 @@ Run the scene headless through 24 hours from its opening hour and report what ev
       "out": 0,
       "unmet": 0
     },
-... (74 more lines)
+... (75 more lines)
 ```
 
 ## check_scene
 
 **Check a scene tells its story** · read-only
 
-One call for 'is it done?': validate the scene, run its day, and check every line of its `expect` list. ok is true only when the scene is valid and every expectation holds. Use it after each change; when one fails, the result says at which hours and what the parts it reads were doing. Warnings include physics: a machine made from nothing, a converter over 100% efficient, a round trip that comes back bigger. Fix those too, or the story only holds on paper. A scene with no `expect` list passes with a reminder to add one.
+One call for 'is it done?': validate the scene, run its day, and check every line of its `expect` list and its `requires` list. ok is true only when the scene is valid, every expectation holds and every requirement is met (size_scene says how to meet one that isn't). Use it after each change; when one fails, the result says at which hours and what the parts it reads were doing. Warnings include physics: a machine made from nothing, a converter over 100% efficient, a round trip that comes back bigger. Fix those too, or the story only holds on paper. A scene with no `expect` list passes with a reminder to add one.
 
 | parameter | type | required | what it is |
 | - | - | - | - |
@@ -548,7 +549,81 @@ One call for 'is it done?': validate the scene, run its day, and check every lin
         5,
         6,
         7,
-... (27 more lines)
+... (28 more lines)
+```
+
+## size_scene
+
+**Does it work, and what would it take?** · read-only
+
+Check a design against what it must do, and size it when it falls short. Each requirement is a limit on one part over a simulated day: { part, reads: served | in | out | fill | effort, min and/or max, optionally at, from/to or per: 'day' }. served is a sink's share of its demand met (1 = always gets what it asks for), fill a store's level (0..1), effort its pressure, voltage or temperature. Uses the scene's own `requires` list, or the `requires` given here instead, so a question like "would the tank run dry if the plant ran a night shift?" is answered without editing the file: set the knobs, pass the requirement. For every requirement that fails, it searches for the smallest change in size that makes them all hold (a pump's capacity, a source's output, a tank's size or fill rate, a pump's head, a line's limit), re-checked on a fresh day, and says what a resized machine then takes in, e.g. "Feed pump capacity 100 → 140 m³/h; takes up to 35 kW of electric power". It changes nothing: write the option you choose into the scene (each change names its part, field and new value).
+
+| parameter | type | required | what it is |
+| - | - | - | - |
+| `scene` | object or string |  | a scene object (or its JSON text) |
+| `file` | string |  | path to a .json scene file, relative to the working directory |
+| `id` | string |  | a built-in sheet id, e.g. "grid" — see list_scenes |
+| `knobs` | object |  | slider values by knob id, e.g. { "cloud": 0.8 } |
+| `switches` | object |  | switch states by id, e.g. { "mains": false } |
+| `requires` | array |  | requirements to check instead of the scene's own |
+
+**Example**
+
+```json
+{
+  "id": "water-tower",
+  "requires": [
+    {
+      "part": "tower",
+      "reads": "fill",
+      "min": 0.4
+    }
+  ]
+}
+```
+
+```json
+{
+  "ok": false,
+  "requires": [
+    {
+      "says": "Water tower stays above 40% full",
+      "part": "tower",
+      "reads": "fill",
+      "min": 0.4,
+      "unit": "%",
+      "ok": false,
+      "hours": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "failed": [
+        7,
+        8,
+        9,
+... (75 more lines)
 ```
 
 ## check_drawing

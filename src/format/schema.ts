@@ -8,6 +8,7 @@ import {
   DOMAINS,
   DRAWINGS,
   FIELDS,
+  READINGS,
   ACTUATORS,
   FAIL_POSITIONS,
   LINE_TYPES,
@@ -476,6 +477,42 @@ export function sceneSchema(): Schema {
               },
             },
             ['says', 'check'],
+          ),
+        },
+        requires: {
+          type: 'array',
+          description:
+            'what the design must do, each a limit on one part over the simulated day; size_scene finds how big things must be when one fails',
+          items: object(
+            FIELDS.requirement,
+            {
+              says: {
+                ...str,
+                description:
+                  'the requirement in words; phrased for you when left out',
+              },
+              part: { ...str, description: 'the part it is about' },
+              reads: {
+                enum: [...READINGS],
+                description:
+                  'served (a sink: share of its demand met, 0..1), in or out (flow), fill (a store, 0..1), effort (pressure, voltage or temperature)',
+              },
+              min: { ...num, description: 'the least it may be' },
+              max: { ...num, description: 'the most it may be' },
+              at: { ...hour, description: 'the one hour it must hold at' },
+              from: { ...hour, description: 'start of a window of hours' },
+              to: {
+                ...hour,
+                description:
+                  'end of the window, inclusive; wraps past midnight',
+              },
+              per: {
+                const: 'day',
+                description:
+                  "hold the day's total (rate × hours) to the limit, not each hour",
+              },
+            },
+            ['part', 'reads'],
           ),
         },
         clock: object(FIELDS.clock, {

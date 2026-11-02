@@ -27,10 +27,13 @@ export interface ExpectResult {
   values?: Record<string, number>
 }
 
-const hourOf = (row: HourRow) => Math.round(row.hour) % 24
+export const hourOf = (row: HourRow) => Math.round(row.hour) % 24
 
 /** the hours a check covers, given the hours the day has rows for */
-function window(e: Expectation, hours: number[]): number[] {
+export function hoursCovered(
+  e: Pick<Expectation, 'at' | 'from' | 'to'>,
+  hours: number[],
+): number[] {
   if (e.at !== undefined) return hours.filter((h) => h === e.at! % 24)
   if (e.from !== undefined && e.to !== undefined) {
     const [a, b] = [e.from % 24, e.to % 24]
@@ -84,7 +87,7 @@ export function checkExpectations(
 
   return (scene.expect ?? []).map((e) => {
     const fn = compileExpr(e.check)
-    const checked = window(e, hours)
+    const checked = hoursCovered(e, hours)
     const failed = checked.filter((h) => !fn(envAt(rows.get(h)!)))
     const ok =
       checked.length > 0 &&

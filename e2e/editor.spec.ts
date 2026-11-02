@@ -3,6 +3,9 @@
 
 import type { Page } from '@playwright/test'
 
+import { readFileSync } from 'node:fs'
+
+import { encodeScene } from '../src/format/share.ts'
 import { CELL, HEAD_H, PAD } from '../src/view/geometry.ts'
 import { expect, sheetOf, test } from './fixtures.ts'
 
@@ -282,4 +285,36 @@ test('copy link round-trips the sheet', async ({ page, context }) => {
   expect(still).toContain('?mode=static#scene=')
   await viewer.goto(still)
   await expect(sheetOf(viewer)).toHaveClass(/\bplain\b/)
+})
+
+test('a requirement is answered from the day, and Size it meets it', async ({
+  page,
+}) => {
+  const feedTank = readFileSync(
+    new URL('../examples/feed-tank-pid.json', import.meta.url),
+    'utf8',
+  )
+  await page.goto(`./?build=1#scene=${await encodeScene(JSON.parse(feedTank))}`)
+  const panel = page.getByRole('region', { name: 'Requirements' })
+  await panel.getByRole('button', { name: '+ Add a requirement' }).click()
+  await panel.getByLabel('Part').selectOption({ label: 'To process plant' })
+  await panel
+    .getByLabel('Must')
+    .selectOption({ label: 'always gets what it asks for' })
+  await panel.getByRole('button', { name: 'Add', exact: true }).click()
+
+  await expect(panel).toContainText(
+    'To process plant always gets what it asks for',
+  )
+  await expect(panel).toContainText(/no · down to \d+%/)
+  await expect(panel).toContainText('1 of 1 not met')
+
+  await panel.getByRole('button', { name: 'Size it' }).click()
+  await expect(panel).toContainText('To meet every requirement', {
+    timeout: 30_000,
+  })
+  await expect(panel).toContainText(/Feed pump capacity 100 → \d+ m³\/h/)
+  await expect(panel).toContainText(/kW of electric power/)
+  await panel.getByRole('button', { name: 'Apply' }).first().click()
+  await expect(panel).toContainText('all met')
 })

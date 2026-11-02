@@ -771,3 +771,117 @@
 .more a {
   color: var(--ink);
 }
+
+/* requirements: each rule with its answer, and the sizing that meets them */
+
+.reqs {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.reqs li {
+  display: grid;
+  grid-template-columns: 1.1em minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 4px;
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+}
+
+.reqMark {
+  color: var(--muted);
+}
+
+.reqs li[data-ok='false'] .reqMark {
+  color: var(--alarm);
+}
+
+.reqSays {
+  font: inherit;
+  color: var(--ink);
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.reqSays:hover {
+  text-decoration: underline;
+}
+
+.reqAnswer {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+
+.reqs li[data-ok='false'] .reqAnswer {
+  color: var(--alarm);
+}
+
+.reqRemove {
+  font: inherit;
+  color: var(--muted);
+  background: transparent;
+  border: 0;
+  padding: 0 2px;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.reqs li:hover .reqRemove,
+.reqRemove:focus-visible {
+  opacity: 1;
+}
+
+.sizing {
+  display: grid;
+  gap: 8px;
+}
+
+.option {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border: var(--b) solid var(--rule);
+  border-radius: 8px;
+}
+
+.option ul {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 2px;
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  color: var(--ink);
+}
+
+.option .needs {
+  font-size: var(--fs-xs);
+  color: var(--muted);
+}
+
+@media (hover: none) {
+  .reqRemove {
+    opacity: 1;
+  }
+}
+
+.stack {
+  display: grid;
+  gap: 4px;
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+}
+
+.stack .select {
+  border-radius: 8px;
+  min-width: 0;
+  width: 100%;
+}

@@ -50,7 +50,14 @@ export const MCP_TOOLS: Array<[string, string]> = [
   ['write_scene', 'validate and save a scene file'],
   ['edit_scene', 'add, move, update or remove parts and links in place'],
   ['simulate_scene', 'a day, hour by hour, with every alert and shortfall'],
-  ['check_scene', 'valid, and every claim in its `expect` list holds'],
+  [
+    'check_scene',
+    'valid, every claim in its `expect` list holds, every requirement is met',
+  ],
+  [
+    'size_scene',
+    'does it work? Each requirement met or not, and the smallest resize that meets them all, with the power it takes',
+  ],
   [
     'check_drawing',
     'what an engineer would mark up: tags, line numbers, loops, breakers, title block',
@@ -212,6 +219,9 @@ export const SECTIONS: Section[] = [
       },
       {
         p: "Anything that changes over the day is a **signal**: a number, or a small expression the solver evaluates (it never runs as code), like `32 * sun(hour) * (1 - 0.85 * knob('cloud'))`. An `expect` list states the sheet’s story as checks on the simulated day, and the editor and the MCP server hold the sheet to it.",
+      },
+      {
+        p: 'A `requires` list says what the design must do, each a limit on one part over the day: `{ "part": "tank", "reads": "fill", "min": 0.15 }` (never below 15%), `served` for a demand that must always be met, `in` or `out` for a flow, `effort` for a pressure, voltage or temperature. When one fails, `size_scene` and **Size it** in the editor find the smallest resize that meets them all, and what a resized machine then takes in.',
       },
       {
         p: `The whole format: [scene-format.md](${BLOB}/docs/scene-format.md), with a [JSON schema](${BLOB}/schema/scene.v1.json) and a reference of [every part](${BLOB}/docs/reference/parts.md).`,

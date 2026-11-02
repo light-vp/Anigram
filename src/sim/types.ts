@@ -351,6 +351,45 @@ export interface Expectation {
   sometime?: boolean
 }
 
+/** what a requirement holds to its limit */
+export type RequirementReading =
+  /** a sink: the share of what it asked for that it got, 0..1 */
+  | 'served'
+  /** flow arriving, in the part's units */
+  | 'in'
+  /** flow leaving */
+  | 'out'
+  /** a store: how full, 0..1 */
+  | 'fill'
+  /** pressure, voltage or temperature at its outlet */
+  | 'effort'
+
+/**
+ * Something the design must do, as a limit on one part over the simulated
+ * day: the tank never runs dry, the plant always gets what it asks for, the
+ * pressure at the tap stays under 10 bar. Where `expect` says what the sheet
+ * shows happening, a requirement is a must: when one fails, `size_scene` and
+ * the editor work out how big things would have to be for it to hold.
+ */
+export interface Requirement {
+  /** the requirement in words; phrased from the rest when left out */
+  says?: string
+  /** the part it is about */
+  part: string
+  reads: RequirementReading
+  /** the least it may be; `fill` and `served` are fractions, 0..1 */
+  min?: number
+  /** the most it may be */
+  max?: number
+  /** the one hour it must hold at */
+  at?: number
+  /** a window of hours, inclusive at both ends; wraps past midnight if from > to */
+  from?: number
+  to?: number
+  /** `day`: hold the day's total (rate × hours) to the limit rather than each hour */
+  per?: 'day'
+}
+
 /**
  * One link of a cause-and-effect chain: when something becomes true, wait,
  * then flip a switch or move a knob. The next event can wait on this one
@@ -458,6 +497,8 @@ export interface Scene {
   /** cause and effect: each event flips a control when its condition turns true */
   events?: EventSpec[]
   expect?: Expectation[]
+  /** what the design must do: checked on the simulated day, and sized for when it fails */
+  requires?: Requirement[]
   clock: {
     /** hour of day the scene opens at */
     start: number

@@ -7,6 +7,7 @@ import type {
   InstrumentSpec,
   LinkSpec,
   PartSpec,
+  Requirement,
   Scene,
 } from '../sim/types.ts'
 import { cellsOf, routeLink } from './route.ts'
@@ -392,6 +393,11 @@ export function removePart(doc: Doc, id: string): Doc {
       i.drives === id ? merge(i, { drives: undefined }) : i,
     )
   }
+  if (doc.requires?.some((r) => r.part === id)) {
+    const left = doc.requires.filter((r) => r.part !== id)
+    if (left.length) next.requires = left
+    else delete next.requires
+  }
   return next
 }
 
@@ -436,6 +442,10 @@ export function renamePart(doc: Doc, id: string, to: string): Result {
       ...e,
       check: refs(e.check) as string,
     }))
+  if (doc.requires)
+    next.requires = doc.requires.map((r) =>
+      r.part === id ? { ...r, part: to } : r,
+    )
   return { doc: next }
 }
 
@@ -451,6 +461,69 @@ export function setSwitch(doc: Doc, id: string, on: boolean): Doc {
 /** change the sheet's own fields; a field set to undefined is removed */
 export function patchSheet(doc: Doc, patch: Partial<Doc>): Doc {
   return merge(doc, patch)
+}
+
+// ---------------------------------------------------------------- requirements
+
+export function addRequirement(doc: Doc, r: Requirement): Doc {
+  return { ...doc, requires: [...(doc.requires ?? []), r] }
+}
+
+export function removeRequirement(doc: Doc, index: number): Doc {
+  const left = (doc.requires ?? []).filter((_, i) => i !== index)
+  const next = { ...doc }
+  if (left.length) next.requires = left
+  else delete next.requires
+  return next
+}
+
+/**
+ * make a sizing's changes in the file: each value as the search left it, so
+ * a number stays a number and an expression is scaled where it stands
+ */
+export function applySizing(
+  doc: Doc,
+  changes: ReadonlyArray<{
+    part: string
+    link?: number
+    field: string
+    factor: number
+    to?: number | null
+  }>,
+): Doc {
+  let next = doc
+  let to: number | null | undefined
+  const scale = (v: unknown, k: number): unknown =>
+    typeof v === 'number'
+      ? (to ?? Number((v * k).toPrecision(6)))
+      : typeof v === 'string'
+        ? `${Number(k.toPrecision(3))} * (${v})`
+        : v
+  for (const c of changes) {
+    to = c.to
+    if (c.link !== undefined) {
+      const l = next.links[c.link]
+      if (l?.capacity !== undefined)
+        next = patchLink(next, c.link, {
+          capacity: scale(l.capacity, c.factor) as number,
+        })
+      continue
+    }
+    const p = next.parts.find((x) => x.id === c.part)
+    if (!p) continue
+    if (c.field === 'boost' || c.field === 'set') {
+      const v = p.effort?.[c.field]
+      if (v !== undefined)
+        next = patchPart(next, p.id, {
+          effort: { ...p.effort, [c.field]: scale(v, c.factor) },
+        })
+    } else {
+      const v = (p.behaviour as unknown as Record<string, unknown>)[c.field]
+      if (v !== undefined)
+        next = patchBehaviour(next, p.id, { [c.field]: scale(v, c.factor) })
+    }
+  }
+  return next
 }
 
 export function addInstrument(doc: Doc, inst: InstrumentSpec): Doc {
