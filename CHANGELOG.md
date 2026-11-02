@@ -19,6 +19,8 @@ entry says so under **Changed**.
 
 ### Added
 
+- **Send feedback.** Help → Send feedback… opens a short form that mails
+  the note to the author, with an optional address for a reply.
 - **Requirements, and sizing to meet them.** A scene's new `requires`
   list says what the design must do, each a limit on one part over the
   day: `served` (a demand gets what it asks for), `in` and `out` (flow, per

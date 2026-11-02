@@ -18,6 +18,7 @@ import { Canvas } from './Canvas.tsx'
 import { keepClock } from './clock.ts'
 import type { Drop } from './Canvas.tsx'
 import { Checks } from './Checks.tsx'
+import { FeedbackDialog } from './FeedbackDialog.tsx'
 import { Requirements } from './Requirements.tsx'
 import {
   connect,
@@ -144,6 +145,7 @@ function Editing({
   const fileInput = useRef<HTMLInputElement>(null)
   const [story, setStory] = useState(false)
   const [help, setHelp] = useState(false)
+  const [feedback, setFeedback] = useState(false)
   // a static drawing: nothing moves, no clock, no readings
   const [plain, setPlain] = useState(startPlain)
 
@@ -542,6 +544,11 @@ function Editing({
         { kind: 'link', label: 'MCP server', href: './?docs#mcp' },
         { kind: 'link', label: 'Examples', href: './?examples' },
         { kind: 'separator' },
+        {
+          kind: 'action',
+          label: 'Send feedback…',
+          onSelect: () => setFeedback(true),
+        },
         { kind: 'link', label: 'GitHub', href: REPO_URL, external: true },
         {
           kind: 'link',
@@ -692,6 +699,9 @@ function Editing({
         />
       )}
       {help && <HelpDialog onClose={() => setHelp(false)} />}
+      {feedback && (
+        <FeedbackDialog sheet={doc.title} onClose={() => setFeedback(false)} />
+      )}
     </div>
   )
 }

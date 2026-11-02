@@ -20,3 +20,6 @@ export const PRODUCT_URL = 'https://vaibhav.co.uk/anigram'
 
 /** one line to add the MCP server to Claude Code */
 export const MCP_INSTALL = 'claude mcp add anigram -- npx -y anigram-mcp'
+
+/** feedback by email: the author's site mails the note on, so the address never ships here */
+export const FEEDBACK_URL = 'https://vaibhav.co.uk/api/feedback.php'
