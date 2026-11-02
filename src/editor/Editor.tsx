@@ -8,6 +8,7 @@ import { Alerts } from '../app/panels'
 import { StoryboardDialog } from '../app/StoryboardDialog'
 import { REPO_URL, SUPPORT_URL } from '../site/links.ts'
 import { Logo } from '../site/SiteHeader.tsx'
+import { simulateDay } from '../format/report.ts'
 import { validateScene } from '../format/validate.ts'
 import type { Scene } from '../sim/types.ts'
 import { autoLayout, withLayout } from '../view/autoLayout.ts'
@@ -18,6 +19,7 @@ import { keepClock } from './clock.ts'
 import type { Drop } from './Canvas.tsx'
 import { Checks } from './Checks.tsx'
 import { FeedbackDialog } from './FeedbackDialog.tsx'
+import { Requirements } from './Requirements.tsx'
 import {
   connect,
   instrumentAt,
@@ -156,6 +158,13 @@ function Editing({
     validation.scene ??
     (doc.parts.length ? lastGood : undefined) ??
     emptyScene(doc)
+  // one simulated day, for the story checks and the requirements both
+  const day = useMemo(() => {
+    const s = validation.scene
+    return s && (s.expect?.length || s.requires?.length)
+      ? simulateDay(s)
+      : undefined
+  }, [validation.scene])
 
   const edit = useCallback((next: Doc) => {
     setH((old) => history.push(old, next))
@@ -566,7 +575,12 @@ function Editing({
         menus={menus}
         start={
           header && (
-            <a className={styles.brand} href="./" aria-label="Anigram home">
+            <a
+              className={styles.brand}
+              href="./"
+              aria-label="Anigram home"
+              title="Anigram home"
+            >
               <Logo size={20} />
             </a>
           )
@@ -650,10 +664,20 @@ function Editing({
               ) : (
                 <SheetPanel {...editProps} onLayout={layOut} />
               )}
+              {!plain && (
+                <Requirements
+                  doc={doc}
+                  scene={validation.scene}
+                  day={day}
+                  onEdit={edit}
+                  onSelect={setSelection}
+                />
+              )}
               <Checks
                 doc={doc}
                 validation={validation}
                 scene={scene}
+                day={day}
                 onSelect={setSelection}
               />
               {!plain && (

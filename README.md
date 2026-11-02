@@ -63,23 +63,24 @@ battery, and the engine as backup — check the battery runs flat overnight."_
 The server gives the assistant the scene format, validation with readable
 errors, a headless day of simulation, SVG rendering and share links:
 
-| Tool                              |                                                                                |
-| --------------------------------- | ------------------------------------------------------------------------------ |
-| `anigram_guide`                   | the format, every drawable part, the signal functions                          |
-| `list_scenes` / `get_scene`       | the built-in sheets, as JSON to copy from                                      |
-| `new_scene`                       | a working starter for a P&ID, single-line, PFD, fluid-power or pictorial sheet |
-| `validate_scene`                  | errors and warnings, each pinned to the part it's about                        |
-| `write_scene` / `edit_scene`      | save a scene file, or patch parts and links in place                           |
-| `check_scene`                     | valid, and every claim in its `expect` list holds                              |
-| `check_drawing`                   | what an engineer would mark up: tags, line numbers, loops, breakers            |
-| `lint_layout` / `auto_layout`     | lines crossing, labels clashing; or lay the sheet out by its flow              |
-| `export_dexpi`                    | a P&ID as DEXPI Proteus XML, for plant design software                         |
-| `import_dexpi`                    | open a DEXPI P&ID from plant design software as a living sheet                 |
-| `import_sfiles` / `export_sfiles` | a flowsheet in SFILES 2.0 notation in, or out                                  |
-| `simulate_scene`                  | 24 hours, hour by hour, with every alert and shortfall                         |
-| `render_scene`                    | the sheet at any hour: a PNG to look at, an SVG, or a PDF to print             |
-| `render_storyboard`               | the moments that tell the day as a page of panels, or the day as a GIF or MP4  |
-| `share_link`                      | a URL that opens it live; the scene rides in the link                          |
+| Tool                              |                                                                                      |
+| --------------------------------- | ------------------------------------------------------------------------------------ |
+| `anigram_guide`                   | the format, every drawable part, the signal functions                                |
+| `list_scenes` / `get_scene`       | the built-in sheets, as JSON to copy from                                            |
+| `new_scene`                       | a working starter for a P&ID, single-line, PFD, fluid-power or pictorial sheet       |
+| `validate_scene`                  | errors and warnings, each pinned to the part it's about                              |
+| `write_scene` / `edit_scene`      | save a scene file, or patch parts and links in place                                 |
+| `check_scene`                     | valid, every claim in its `expect` list holds, every requirement is met              |
+| `size_scene`                      | does it work? and if not, the smallest resize that makes it, with the power it takes |
+| `check_drawing`                   | what an engineer would mark up: tags, line numbers, loops, breakers                  |
+| `lint_layout` / `auto_layout`     | lines crossing, labels clashing; or lay the sheet out by its flow                    |
+| `export_dexpi`                    | a P&ID as DEXPI Proteus XML, for plant design software                               |
+| `import_dexpi`                    | open a DEXPI P&ID from plant design software as a living sheet                       |
+| `import_sfiles` / `export_sfiles` | a flowsheet in SFILES 2.0 notation in, or out                                        |
+| `simulate_scene`                  | 24 hours, hour by hour, with every alert and shortfall                               |
+| `render_scene`                    | the sheet at any hour: a PNG to look at, an SVG, or a PDF to print                   |
+| `render_storyboard`               | the moments that tell the day as a page of panels, or the day as a GIF or MP4        |
+| `share_link`                      | a URL that opens it live; the scene rides in the link                                |
 
 Each practice also has a prompt (`draw-pid`, `draw-single-line`, `draw-pfd`, `draw-fluid-power`,
 `draw-sheet`) that carries its conventions. Setup for other clients is in [mcp/README.md](mcp/README.md). An example the
@@ -112,6 +113,16 @@ holds, what a reviewing engineer would mark up, and whether the layout reads
 cleanly. Signals are checked as you type, with the day they come to drawn
 beside them. `?build=1&drawing=pid` starts from a P&ID. Sheets saved by the
 old playground, and its `#sheet=` links, open in the editor as scene files.
+
+**Requirements** say what the design must do, picked from plain rules on a
+part: a tank never runs dry, a demand always gets what it asks for, a
+pressure stays under a limit, a flow reaches so much an hour or a day. Each is
+answered yes or no from the simulated day, with how close it came. When one
+fails, **Size it** finds the smallest change that meets them all (a bigger
+pump, more supply, a larger tank) and says what a resized machine then takes
+in, such as "Feed pump capacity 100 → 140 m³/h, takes up to 35 kW of electric
+power". **Apply** writes it into the file. An assistant does the same
+through `size_scene`, turning a question asked in words into requirements.
 
 Anything that changes over the day is a **signal**: a number, or a small
 expression the solver evaluates (never runs as code):

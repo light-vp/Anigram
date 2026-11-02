@@ -139,6 +139,7 @@ function Card({ example: e, theme }: { example: Example; theme: ThemeId }) {
         href={links?.run}
         onClick={go('run')}
         aria-label={`Run ${scene.title}`}
+        title={`Run ${scene.title}`}
       >
         <Thumb example={e} theme={theme} />
       </a>

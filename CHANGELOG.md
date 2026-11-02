@@ -21,6 +21,22 @@ entry says so under **Changed**.
 
 - **Send feedback.** Help → Send feedback… opens a short form that mails
   the note to the author, with an optional address for a reply.
+- **Requirements, and sizing to meet them.** A scene's new `requires`
+  list says what the design must do, each a limit on one part over the
+  day: `served` (a demand gets what it asks for), `in` and `out` (flow, per
+  hour or `per: "day"`), `fill` (a store) and `effort` (pressure, voltage,
+  temperature), within some hours if you like. `check_scene` and
+  `simulate_scene` report each as met or not with how close it came, and
+  `check_scene` is only ok when all are met. The new `size_scene` tool
+  finds the smallest resize that meets them all (a source's output, a
+  pump's or valve's capacity, a tank's size or fill rate, a pump's head, a
+  line's limit), sizing the supply path together when one value can't do
+  it alone, and says what a resized machine then takes in. It takes
+  `requires` inline, so an assistant can answer "would this work?" without
+  editing the file. In the editor, **Requirements** builds them from plain
+  rules ("never runs dry", "always gets what it asks for", "pressure stays
+  under"), answers each yes or no as you edit, and **Size it** → **Apply**
+  writes the change into the file.
 - **An examples gallery.** `?examples` (and **Examples** in the header) is
   now a page of every example sheet: the six built-in sheets, the scene
   files in `examples/` and the single-line and PFD starters, each drawn as
@@ -34,6 +50,12 @@ entry says so under **Changed**.
   black. `?theme=sketchbook|night`, the `<living-diagram>` `theme`
   attribute, and the MCP server's `theme` option all take them, alongside
   `light` and `dark`.
+
+- **Tooltips.** Hovering a part, on a running sheet, in an embed or in
+  the editor, names it with its tag and says what its symbol stands for
+  (and that a click switches it, when it does). Palette parts show their
+  name and note, and the icon-only buttons say what they do. Exported SVGs
+  carry the same titles.
 
 ### Changed
 

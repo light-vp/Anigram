@@ -3,6 +3,9 @@
 
 import type { Page } from '@playwright/test'
 
+import { readFileSync } from 'node:fs'
+
+import { encodeScene } from '../src/format/share.ts'
 import { CELL, HEAD_H, PAD } from '../src/view/geometry.ts'
 import { expect, sheetOf, test } from './fixtures.ts'
 
@@ -153,6 +156,24 @@ test('a P&ID part not yet on a line shows its symbol, not an empty box', async (
   ).toBeVisible()
 })
 
+test('palette parts and the parts on the sheet have tooltips', async ({
+  page,
+}) => {
+  await page.goto('./?build=1')
+  await startFrom(page, 'A P&ID')
+  await expect(
+    page
+      .getByRole('navigation', { name: 'Parts' })
+      .getByRole('button', { name: 'Centrifugal pump', exact: true }),
+  ).toHaveAttribute('title', /^Centrifugal pump/)
+  // the grid over the sheet takes the pointer, so it says what is under it
+  const { x, y } = await cell(page, [1, 1])
+  await page.mouse.move(x, y)
+  await expect(overlay(page).locator(':scope > title')).toHaveText(
+    /^P-101 Transfer pump\nA centrifugal pump/,
+  )
+})
+
 test('every starter opens without a problem', async ({ page }) => {
   await page.goto('./?build=1')
   await menuBar(page)
@@ -282,4 +303,36 @@ test('copy link round-trips the sheet', async ({ page, context }) => {
   expect(still).toContain('?mode=static#scene=')
   await viewer.goto(still)
   await expect(sheetOf(viewer)).toHaveClass(/\bplain\b/)
+})
+
+test('a requirement is answered from the day, and Size it meets it', async ({
+  page,
+}) => {
+  const feedTank = readFileSync(
+    new URL('../examples/feed-tank-pid.json', import.meta.url),
+    'utf8',
+  )
+  await page.goto(`./?build=1#scene=${await encodeScene(JSON.parse(feedTank))}`)
+  const panel = page.getByRole('region', { name: 'Requirements' })
+  await panel.getByRole('button', { name: '+ Add a requirement' }).click()
+  await panel.getByLabel('Part').selectOption({ label: 'To process plant' })
+  await panel
+    .getByLabel('Must')
+    .selectOption({ label: 'always gets what it asks for' })
+  await panel.getByRole('button', { name: 'Add', exact: true }).click()
+
+  await expect(panel).toContainText(
+    'To process plant always gets what it asks for',
+  )
+  await expect(panel).toContainText(/no · down to \d+%/)
+  await expect(panel).toContainText('1 of 1 not met')
+
+  await panel.getByRole('button', { name: 'Size it' }).click()
+  await expect(panel).toContainText('To meet every requirement', {
+    timeout: 30_000,
+  })
+  await expect(panel).toContainText(/Feed pump capacity 100 → \d+ m³\/h/)
+  await expect(panel).toContainText(/kW of electric power/)
+  await panel.getByRole('button', { name: 'Apply' }).first().click()
+  await expect(panel).toContainText('all met')
 })

@@ -9,6 +9,8 @@ import { drawingFindings } from '../packs/checks.ts'
 import { simulateDay } from '../format/report.ts'
 import { validateScene } from '../format/validate.ts'
 import {
+  addRequirement,
+  applySizing,
   connect,
   movePart,
   patchBehaviour,
@@ -17,8 +19,11 @@ import {
   removeInstrument,
   removeLink,
   removePart,
+  removeRequirement,
   renamePart,
 } from './doc.ts'
+import { sizeScene } from '../format/sizing.ts'
+import { checkRequirements } from '../format/requires.ts'
 import type { Doc } from './doc.ts'
 import * as history from './history.ts'
 import { STARTERS, accept, blank, fileOf, initialDoc } from './open.ts'
@@ -442,4 +447,33 @@ test('a new link steers round instrument bubbles on a P&ID', () => {
       y1 === 1 && y2 === 1 && Math.min(x1!, x2!) <= 2 && Math.max(x1!, x2!) >= 2
     assert.ok(!through, `runs through the bubble: ${JSON.stringify(path)}`)
   }
+})
+
+test('a requirement follows its part, and a sizing lands in the file as the search left it', () => {
+  const doc = addRequirement(example('feed-tank-pid.json'), {
+    part: 'plant',
+    reads: 'served',
+    min: 1,
+  })
+  const renamed = renamePart(doc, 'plant', 'works')
+  assert.ok('doc' in renamed)
+  assert.equal(renamed.doc.requires![0]!.part, 'works')
+  assert.equal(removePart(doc, 'plant').requires, undefined)
+  assert.equal(removeRequirement(doc, 0).requires, undefined)
+
+  const scene = validateScene(doc).scene!
+  const option = sizeScene(scene).options[0]!
+  const sized = applySizing(doc, option.changes)
+  // only the values it changed
+  assert.deepEqual(
+    diff(doc, sized).sort(),
+    option.changes
+      .map(
+        (c) =>
+          `.parts.${doc.parts.findIndex((p) => p.id === c.part)}.behaviour.${c.field}`,
+      )
+      .sort(),
+  )
+  const after = validateScene(sized).scene!
+  assert.ok(checkRequirements(after, simulateDay(after)).every((r) => r.ok))
 })

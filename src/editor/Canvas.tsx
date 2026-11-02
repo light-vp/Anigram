@@ -23,7 +23,8 @@ import {
 import { THEMES, paletteVars } from '../view/palette.ts'
 import type { ThemeId } from '../view/palette.ts'
 import { Sheet } from '../view/Sheet.tsx'
-import { wrap } from '../view/format.ts'
+import { partTitle, wrap } from '../view/format.ts'
+import { describeTag } from '../sim/instruments.ts'
 import { instrumentAt, partAt } from './doc.ts'
 import type { Cell, Doc } from './doc.ts'
 import type { ClockKeeper } from './clock.ts'
@@ -192,6 +193,14 @@ const offSheet = (doc: Doc, scene: Scene, p: PartSpec) => {
   return doc.links.some((l) => l.from === p.id || l.to === p.id)
 }
 
+/** what the tooltip says over a cell: the part or instrument there */
+function hoverTitle(doc: Doc, scene: Scene, cell: Cell): string | undefined {
+  const part = partAt(doc, cell)
+  if (part) return partTitle(scene, part)
+  const inst = (doc.instruments ?? [])[instrumentAt(doc, cell)]
+  return inst && `${inst.tag}: ${describeTag(inst.tag)}`
+}
+
 const centre = ([c, r]: readonly number[]) =>
   [PAD + c! * CELL + CELL / 2, HEAD_H + r! * CELL + CELL / 2] as const
 
@@ -301,6 +310,11 @@ function Overlay({
       }}
       onPointerCancel={() => setDrag(null)}
     >
+      {/* the grid takes the pointer, so it carries the sheet's tooltips */}
+      {hover && !busy && hoverTitle(doc, scene, hover) && (
+        <title>{hoverTitle(doc, scene, hover)}</title>
+      )}
+
       {/* the grid, faint, so you can see where things can go */}
       {Array.from({ length: doc.size[0] * doc.size[1] }, (_, i) => {
         const c = i % doc.size[0]

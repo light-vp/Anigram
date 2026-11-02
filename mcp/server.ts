@@ -49,13 +49,20 @@ import { z } from 'zod'
 import guideText from '../docs/scene-format.md?raw'
 import { stamp } from '../src/format/migrate.ts'
 import { checkExpectations, expectLines } from '../src/format/expect.ts'
+import { checkRequirements, requirementLines } from '../src/format/requires.ts'
+import { sizeScene, sizingLines } from '../src/format/sizing.ts'
 import { effortTable, reportTable, simulateDay } from '../src/format/report.ts'
 import { SCHEMA_URL, sceneSchema } from '../src/format/schema.ts'
 import { encodeScene, HASH_KEY } from '../src/format/share.ts'
 import { toDexpi } from '../src/format/dexpi.ts'
 import { fromDexpi } from '../src/format/dexpiImport.ts'
 import { fromSfiles, toSfiles } from '../src/format/sfiles.ts'
-import { DOMAINS, DRAWINGS, validateScene } from '../src/format/validate.ts'
+import {
+  DOMAINS,
+  DRAWINGS,
+  READINGS,
+  validateScene,
+} from '../src/format/validate.ts'
 import { PRACTICE, STARTERS } from '../src/packs/starters.ts'
 import { PART_KINDS } from '../src/parts/kinds.ts'
 import { SCENES } from '../src/scenes/index.ts'
@@ -137,7 +144,9 @@ const server = new McpServer(
       'Anigram draws living diagrams: engineering sheets of real systems (power grids, solar houses, water towers, data centres) where every moving line is read off a flow simulation. ' +
       'A drawing is a JSON scene file. Call anigram_guide first for the format. Then: write the file (write_scene) with an `expect` list stating its story, check_scene until every expectation holds (simulate_scene shows the hour-by-hour numbers when one fails), ' +
       'render_scene to look at it (a PNG by default: check the layout reads cleanly), and share_link to open it live in the browser. Built-in sheets (list_scenes / get_scene) are good starting points to copy. ' +
-      "For an engineering drawing (a P&ID, a single-line diagram, a process flow diagram, a fluid-power circuit), start from new_scene with that `drawing`: it hands back a working starter and the practice's conventions. Before calling it done, run check_drawing (tags, line numbers, control loops, breakers, title block) and lint_layout (crossings, clashing labels); auto_layout lays a messy sheet out by its flow. export_dexpi hands a P&ID to plant design software; import_dexpi opens one from it, and import_sfiles / export_sfiles read and write a flowsheet in SFILES 2.0 notation. The draw-pid, draw-single-line, draw-pfd, draw-fluid-power and draw-sheet prompts walk through the whole job.",
+      "For an engineering drawing (a P&ID, a single-line diagram, a process flow diagram, a fluid-power circuit), start from new_scene with that `drawing`: it hands back a working starter and the practice's conventions. Before calling it done, run check_drawing (tags, line numbers, control loops, breakers, title block) and lint_layout (crossings, clashing labels); auto_layout lays a messy sheet out by its flow. export_dexpi hands a P&ID to plant design software; import_dexpi opens one from it, and import_sfiles / export_sfiles read and write a flowsheet in SFILES 2.0 notation. " +
+      'When someone asks whether a design would work ("will the tank run dry?", "is 37 m³/h enough?", "keep it under 10 bar"), write their words as a `requires` list (limits on parts: served, in, out, fill, effort) and call size_scene: it answers yes or no from a simulated day, and when one fails it finds the smallest resize that meets them all and the power a bigger machine then takes. ' +
+      'The draw-pid, draw-single-line, draw-pfd, draw-fluid-power and draw-sheet prompts walk through the whole job.',
   },
 )
 
@@ -394,6 +403,36 @@ const expectOutput = z.object({
     .record(z.string(), z.number())
     .optional()
     .describe('what the parts it reads were doing at the first failure'),
+})
+
+const requirementOutput = z.object({
+  says: z.string(),
+  part: z.string(),
+  reads: z.string(),
+  min: z.number().optional(),
+  max: z.number().optional(),
+  per: z.literal('day').optional(),
+  ok: z.boolean(),
+  hours: z.array(z.number()).describe('the hours it was checked at'),
+  failed: z.array(z.number()).describe('the hours it did not hold'),
+  worst: z
+    .object({ value: z.number(), hour: z.number().optional() })
+    .optional()
+    .describe('the reading nearest to or furthest past its limit'),
+  unit: z.string(),
+  answer: z.string().describe('the verdict in a few words'),
+})
+
+const requirementInput = z.object({
+  says: z.string().optional(),
+  part: z.string(),
+  reads: z.enum(READINGS as [string, ...string[]]),
+  min: z.number().optional(),
+  max: z.number().optional(),
+  at: z.number().optional(),
+  from: z.number().optional(),
+  to: z.number().optional(),
+  per: z.literal('day').optional(),
 })
 
 /** a scene file; only the fields every valid scene has are spelled out */
@@ -859,6 +898,9 @@ server.registerTool(
       expect: z
         .array(expectOutput)
         .describe("the scene's `expect` checks against this day"),
+      requires: z
+        .array(requirementOutput)
+        .describe("the scene's `requires` list against this day"),
       warnings: z.array(z.string()),
       rows: z
         .array(z.record(z.string(), z.unknown()))
@@ -886,6 +928,7 @@ server.registerTool(
           .map(([id, t]) => [id, t.unmet ?? 0]),
       )
       const stories = checkExpectations(scene, report, args)
+      const musts = checkRequirements(scene, report)
       const result: Json = {
         sheet: scene.sheet,
         title: scene.title,
@@ -895,6 +938,7 @@ server.registerTool(
         unmet: unmetBy,
         ...(report.events ? { events: report.events } : {}),
         expect: stories,
+        requires: musts as unknown as Json[],
         warnings,
         ...(args.format === 'json'
           ? { rows: report.rows as unknown as Json[] }
@@ -933,6 +977,9 @@ server.registerTool(
           stories.length
             ? `\nexpect (${stories.filter((r) => r.ok).length} of ${stories.length} hold):\n${expectLines(stories)}`
             : '',
+          musts.length
+            ? `\nrequires (${musts.filter((r) => r.ok).length} of ${musts.length} met):\n${requirementLines(musts)}`
+            : '',
           warnings.length ? `\nwarnings:\n- ${warnings.join('\n- ')}` : '',
         ].join('\n'),
       )
@@ -945,8 +992,8 @@ server.registerTool(
   {
     title: 'Check a scene tells its story',
     description:
-      "One call for 'is it done?': validate the scene, run its day, and check every line of its `expect` list. " +
-      'ok is true only when the scene is valid and every expectation holds. Use it after each change; when one fails, the result says at which hours and what the parts it reads were doing. ' +
+      "One call for 'is it done?': validate the scene, run its day, and check every line of its `expect` list and its `requires` list. " +
+      "ok is true only when the scene is valid, every expectation holds and every requirement is met (size_scene says how to meet one that isn't). Use it after each change; when one fails, the result says at which hours and what the parts it reads were doing. " +
       'Warnings include physics: a machine made from nothing, a converter over 100% efficient, a round trip that comes back bigger. Fix those too, or the story only holds on paper. ' +
       'A scene with no `expect` list passes with a reminder to add one.',
     inputSchema: { ...sceneInput, ...controlsInput },
@@ -954,8 +1001,11 @@ server.registerTool(
       ...checked,
       ok: z
         .boolean()
-        .describe('valid, and every expectation holds under these controls'),
+        .describe(
+          'valid, every expectation holds and every requirement is met under these controls',
+        ),
       expect: z.array(expectOutput),
+      requires: z.array(requirementOutput),
       alerts: z.array(
         z.object({ text: z.string(), hours: z.array(z.number()) }),
       ),
@@ -977,6 +1027,7 @@ server.registerTool(
           errors: v.errors,
           warnings: v.warnings,
           expect: [],
+          requires: [],
           alerts: [],
         }
         return data(
@@ -988,26 +1039,170 @@ server.registerTool(
       checkControls(scene, args)
       const report = simulateDay(scene, args)
       const stories = checkExpectations(scene, report, args)
-      const ok = stories.every((r) => r.ok)
+      const musts = checkRequirements(scene, report)
+      const ok = stories.every((r) => r.ok) && musts.every((r) => r.ok)
       const result = {
         ok,
         errors: v.errors,
         warnings: v.warnings,
         expect: stories,
+        requires: musts,
         alerts: report.alerts,
       }
       const head = !stories.length
         ? 'valid, but there is no `expect` list to check: add one line per claim the sheet makes (see the guide)'
-        : ok
+        : stories.every((r) => r.ok)
           ? `all ${stories.length} expectations hold`
           : `${stories.filter((r) => !r.ok).length} of ${stories.length} expectations fail`
+      const unmet = musts.filter((r) => !r.ok).length
       return data(
         result,
         [
           head,
           stories.length ? expectLines(stories) : '',
+          musts.length
+            ? `${unmet ? `${unmet} of ${musts.length} requirements not met (size_scene finds what it takes)` : `all ${musts.length} requirements met`}:\n${requirementLines(musts)}`
+            : '',
           v.warnings.length ? `warnings:\n- ${v.warnings.join('\n- ')}` : '',
           practiceNote(scene),
+        ]
+          .filter(Boolean)
+          .join('\n\n'),
+      )
+    },
+  ),
+)
+
+server.registerTool(
+  'size_scene',
+  {
+    title: 'Does it work, and what would it take?',
+    description:
+      "Check a design against what it must do, and size it when it falls short. Each requirement is a limit on one part over a simulated day: { part, reads: served | in | out | fill | effort, min and/or max, optionally at, from/to or per: 'day' }. " +
+      "served is a sink's share of its demand met (1 = always gets what it asks for), fill a store's level (0..1), effort its pressure, voltage or temperature. " +
+      'Uses the scene\'s own `requires` list, or the `requires` given here instead, so a question like "would the tank run dry if the plant ran a night shift?" is answered without editing the file: set the knobs, pass the requirement. ' +
+      "For every requirement that fails, it searches for the smallest change in size that makes them all hold (a pump's capacity, a source's output, a tank's size or fill rate, a pump's head, a line's limit), re-checked on a fresh day, and says what a resized machine then takes in, e.g. \"Feed pump capacity 100 → 140 m³/h; takes up to 35 kW of electric power\". " +
+      'It changes nothing: write the option you choose into the scene (each change names its part, field and new value).',
+    inputSchema: {
+      ...sceneInput,
+      ...controlsInput,
+      requires: z
+        .array(requirementInput)
+        .optional()
+        .describe("requirements to check instead of the scene's own"),
+    },
+    outputSchema: {
+      ok: z.boolean().describe('every requirement is met as the scene stands'),
+      requires: z.array(requirementOutput),
+      options: z
+        .array(
+          z.object({
+            changes: z.array(
+              z.object({
+                part: z.string(),
+                link: z
+                  .number()
+                  .optional()
+                  .describe("a link's index, when it is a link's capacity"),
+                field: z
+                  .string()
+                  .describe(
+                    'output, capacity, maxIn, maxOut (behaviour) or boost, set (effort)',
+                  ),
+                from: z
+                  .number()
+                  .nullable()
+                  .describe('today, or null for an expression'),
+                to: z
+                  .number()
+                  .nullable()
+                  .describe(
+                    'the new value, or null for an expression scaled by factor',
+                  ),
+                factor: z.number(),
+                text: z.string(),
+              }),
+            ),
+            needs: z.array(z.string()),
+          }),
+        )
+        .describe(
+          'ways to make every requirement hold, the smallest change first',
+        ),
+      alone: z
+        .array(
+          z.object({
+            says: z.string(),
+            options: z.array(z.object({ changes: z.array(z.string()) })),
+            breaks: z.array(z.array(z.string())),
+          }),
+        )
+        .describe(
+          'when no change meets them all: what each needs on its own, and what that breaks',
+        ),
+      runs: z.number().describe('days simulated'),
+    },
+    annotations: { readOnlyHint: true },
+  },
+  guarded(
+    (args: {
+      scene?: Json | string
+      file?: string
+      id?: string
+      knobs?: Record<string, number>
+      switches?: Record<string, boolean>
+      requires?: Json[]
+    }) => {
+      const raw = rawScene(args) as Record<string, unknown>
+      const v = validateScene(
+        args.requires ? { ...raw, requires: args.requires } : raw,
+      )
+      if (!v.scene)
+        throw new Error(
+          `the scene has ${v.errors.length} error(s):\n- ${v.errors.join('\n- ')}`,
+        )
+      const scene = v.scene
+      checkControls(scene, args)
+      if (!scene.requires?.length)
+        throw new Error(
+          'no requirements to check: give `requires`, or add a `requires` list to the scene (see the guide)',
+        )
+      const musts = checkRequirements(scene, simulateDay(scene, args))
+      const s = sizeScene(scene, { controls: args })
+      const change = (c: (typeof s.options)[number]['changes'][number]) => ({
+        part: c.part,
+        ...(c.link !== undefined ? { link: c.link } : {}),
+        field: c.field,
+        from: c.value,
+        to: c.to,
+        factor: c.factor,
+        text: c.text,
+      })
+      const result = {
+        ok: musts.every((r) => r.ok),
+        requires: musts,
+        options: s.options.map((o) => ({
+          changes: o.changes.map(change),
+          needs: o.needs,
+        })),
+        alone: s.alone.map((a) => ({
+          says: a.says,
+          options: a.options.map((o) => ({
+            changes: o.changes.map((c) => c.text),
+          })),
+          breaks: a.breaks,
+        })),
+        runs: s.runs,
+      }
+      const unmet = musts.filter((r) => !r.ok).length
+      return data(
+        result,
+        [
+          unmet
+            ? `${unmet} of ${musts.length} requirements not met`
+            : `all ${musts.length} requirements met`,
+          requirementLines(musts),
+          unmet ? sizingLines(s) : '',
         ]
           .filter(Boolean)
           .join('\n\n'),
