@@ -40,14 +40,19 @@ export function useFrame(sim: Simulation) {
   return useSyncExternalStore(sim.subscribe, sim.getFrame)
 }
 
+const REDUCED = '(prefers-reduced-motion: reduce)'
+/** one media query list, so a sheet re-rendering every frame neither re-queries nor re-subscribes */
+const reducedQuery = () =>
+  typeof window === 'undefined' ? null : window.matchMedia(REDUCED)
+let reduced: MediaQueryList | null | undefined
+const reducedList = () => (reduced ??= reducedQuery())
+const subscribeReduced = (fn: () => void) => {
+  const mq = reducedList()
+  mq?.addEventListener('change', fn)
+  return () => mq?.removeEventListener('change', fn)
+}
+const reducedNow = () => reducedList()?.matches ?? false
+
 export function usePrefersReducedMotion(): boolean {
-  const query = '(prefers-reduced-motion: reduce)'
-  return useSyncExternalStore(
-    (fn) => {
-      const mq = window.matchMedia(query)
-      mq.addEventListener('change', fn)
-      return () => mq.removeEventListener('change', fn)
-    },
-    () => window.matchMedia(query).matches,
-  )
+  return useSyncExternalStore(subscribeReduced, reducedNow, () => false)
 }

@@ -166,6 +166,9 @@ export class Simulation {
 
   /** advance by `seconds` of real time */
   tick(seconds: number): void {
+    // a still sheet (paused, nothing travelling) has nothing new to show:
+    // no frame, so nothing downstream re-renders sixty times a second
+    if (!this.playing && !this.animate) return
     const s = Math.min(seconds, 0.1)
     if (this.playing) {
       let hours = s * this.scene.clock.rate * this.speed

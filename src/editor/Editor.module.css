@@ -166,7 +166,8 @@
 .sheetWrap {
   position: relative;
   /* as big as the middle allows, either way round */
-  width: min(100cqw, 100cqh * var(--ratio));
+  width: var(--fit, 100%);
+  max-width: 100%;
   aspect-ratio: var(--ratio);
   border: var(--b) solid var(--rule);
   border-radius: 14px;
@@ -176,7 +177,6 @@
 }
 
 .frame {
-  container-type: size;
   display: grid;
   place-items: center;
   min-height: 0;
@@ -745,10 +745,6 @@
   .piece {
     width: 72px;
     flex: none;
-  }
-
-  .frame {
-    container-type: inline-size;
   }
 
   .sheetWrap {

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
-import { useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import type {
   CSSProperties,
   PointerEvent as ReactPointerEvent,
@@ -124,15 +124,22 @@ export function Canvas({
   }, [sim, plain])
 
   const { w, h } = sheetSize(scene)
+  const frameRef = useRef<HTMLDivElement>(null)
+  const fit = useFit(frameRef, w / h)
 
   return (
     <>
       <div className={styles.stage}>
-        <div className={styles.frame}>
+        <div className={styles.frame} ref={frameRef}>
           <div
             className={styles.sheetWrap}
             // as big as the middle allows, either way round
-            style={{ '--ratio': (w / h).toFixed(4) } as CSSProperties}
+            style={
+              {
+                '--ratio': (w / h).toFixed(4),
+                ...(fit !== null && { '--fit': `${fit}px` }),
+              } as CSSProperties
+            }
           >
             <Sheet
               scene={scene}
@@ -144,7 +151,7 @@ export function Canvas({
               selected={selected}
               className={styles.sheet}
             />
-            <Overlay
+            <StillOverlay
               doc={doc}
               scene={scene}
               theme={theme}
@@ -432,4 +439,31 @@ function Overlay({
         })()}
     </svg>
   )
+}
+
+/** the editing layer reads the doc, not the running frame: it skips the ticks */
+const StillOverlay = memo(Overlay)
+
+/**
+ * The widest the sheet can be inside `ref` at `ratio`, either way round,
+ * measured once and again only when the box resizes. A CSS size container
+ * did this before, and made every frame re-lay the whole sheet.
+ */
+function useFit(ref: { current: HTMLElement | null }, ratio: number) {
+  const [fit, setFit] = useState<number | null>(null)
+  useLayoutEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const measure = () => {
+      const { width, height } = el.getBoundingClientRect()
+      if (width <= 0 || height <= 0) return
+      const next = Math.floor(Math.min(width, height * ratio))
+      setFit((was) => (was === next ? was : next))
+    }
+    measure()
+    const ro = new ResizeObserver(measure)
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [ref, ratio])
+  return fit
 }

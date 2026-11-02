@@ -2,7 +2,7 @@
 // SPDX-FileCopyrightText: 2026 Vaibhav Patel
 
 import type { CSSProperties, Ref } from 'react'
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 
 import { shownParts, shows } from '../packs/catalogue.ts'
 import { SYMBOL_CSS } from '../packs/symbolCss.ts'
@@ -127,20 +127,42 @@ export function Sheet({
     selected && frame.links.length ? trace(scene, frame.links, selected) : null
   // a part with nothing flowing through it (a tripped breaker) dims nothing
   const lit = traced && traced.links.size ? traced : null
-  const vars = paletteVars(THEMES[theme]) as CSSProperties
-  // an engineering drawing draws only what its practice shows
-  const shown = eng ? shownParts(scene) : null
-  const drawn = (i: number) => !eng || shows(scene.links[i]!, scene)
+  const vars = useMemo(
+    () => paletteVars(THEMES[theme]) as CSSProperties,
+    [theme],
+  )
+  // the drawing's shape depends on the scene alone, so it is worked out once
+  // per scene, not on every frame: what the practice shows, which lines it
+  // draws, the busbars' spans and the way each part faces
+  const plan = useMemo(() => {
+    // an engineering drawing draws only what its practice shows
+    const shown = eng ? shownParts(scene) : null
+    const isDrawn = scene.links.map((l) => !eng || shows(l, scene))
+    const links = scene.links.filter((_, i) => isDrawn[i])
+    const pts = geometry.filter((_, i) => isDrawn[i])
+    const spans = eng ? busbarSpans(scene, links, pts) : null
+    const ways = new Map(
+      eng ? scene.parts.map((p) => [p.id, partWay(p, links, pts)]) : [],
+    )
+    return { shown, isDrawn, links, spans, ways }
+  }, [scene, eng, geometry])
+  const { shown, spans } = plan
+  const drawn = (i: number) => plan.isDrawn[i]!
   const tags = annotate ? flowTags(scene, frame, geometry, shown, drawn) : []
-  const spans = eng
-    ? busbarSpans(
-        scene,
-        scene.links.filter((_, i) => drawn(i)),
-        geometry.filter((_, i) => drawn(i)),
-      )
-    : null
   // instruments are a P&ID's
-  const instruments = scene.drawing === 'pid' ? (scene.instruments ?? []) : []
+  const instruments = useMemo(
+    () => (scene.drawing === 'pid' ? (scene.instruments ?? []) : []),
+    [scene],
+  )
+  const legendAlso = useMemo(
+    () =>
+      instruments.flatMap((i) =>
+        i.drives || scene.instruments?.some((o) => o.tag === i.measures)
+          ? [i.signal ?? 'signal']
+          : [],
+      ),
+    [scene, instruments],
+  )
   // an instrument dims with the part at the end of its signal
   const quiet = (i: InstrumentSpec) =>
     !!lit && !lit.parts.has(measuredPart(i, scene)?.id ?? '')
@@ -198,7 +220,7 @@ export function Sheet({
         )}
         <ChainArrows scene={scene} frame={frame} edges={chain} />
         {instruments.map((inst) => (
-          <InstrumentLines
+          <StillInstrumentLines
             key={inst.tag}
             scene={scene}
             inst={inst}
@@ -216,11 +238,7 @@ export function Sheet({
                 scene={scene}
                 part={part}
                 frame={frame}
-                way={partWay(
-                  part,
-                  scene.links.filter((_, i) => drawn(i)),
-                  geometry.filter((_, i) => drawn(i)),
-                )}
+                way={plan.ways.get(part.id)!}
                 span={spans!.get(part.id)}
                 selected={selected === part.id}
                 dim={!!lit && !lit.parts.has(part.id)}
@@ -292,23 +310,19 @@ export function Sheet({
         ))}
       </g>
 
-      {eng && <Border w={w} h={h} />}
-      {eng && <TitleBlock scene={scene} w={w} h={h} />}
+      {eng && <StillBorder w={w} h={h} />}
+      {eng && <StillTitleBlock scene={scene} w={w} h={h} />}
       {eng ? (
-        <EngLegend
+        <StillEngLegend
           scene={scene}
-          links={scene.links.filter((_, i) => drawn(i))}
+          links={plan.links}
           h={h}
-          also={instruments.flatMap((i) =>
-            i.drives || scene.instruments?.some((o) => o.tag === i.measures)
-              ? [i.signal ?? 'signal']
-              : [],
-          )}
+          also={legendAlso}
         />
       ) : (
-        <Legend scene={scene} h={h} />
+        <StillLegend scene={scene} h={h} />
       )}
-      {credit && <Credit scene={scene} w={w} h={h} />}
+      {credit && <StillCredit scene={scene} w={w} h={h} />}
     </svg>
   )
 }
@@ -720,3 +734,12 @@ function ClampedText({
     </text>
   )
 }
+
+// the parts of a sheet that never move: memoised, so the sheet re-rendering
+// every frame passes them by
+const StillBorder = memo(Border)
+const StillTitleBlock = memo(TitleBlock)
+const StillEngLegend = memo(EngLegend)
+const StillLegend = memo(Legend)
+const StillCredit = memo(Credit)
+const StillInstrumentLines = memo(InstrumentLines)

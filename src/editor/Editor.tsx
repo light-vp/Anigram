@@ -560,6 +560,45 @@ function Editing({
     },
   ]
 
+  // what the details pane shows that doesn't read the running frame: built
+  // once per edit, so the sheet ticking sixty times a second skips them
+  const panel =
+    selection?.kind === 'link' ? (
+      <LinkPanel
+        key={`link-${selection.index}`}
+        {...editProps}
+        index={selection.index}
+      />
+    ) : selection?.kind === 'instrument' ? (
+      <InstrumentPanel
+        key={`inst-${selection.index}`}
+        {...editProps}
+        index={selection.index}
+      />
+    ) : (
+      <SheetPanel {...editProps} onLayout={layOut} />
+    )
+  const checks = (
+    <>
+      {!plain && (
+        <Requirements
+          doc={doc}
+          scene={validation.scene}
+          day={day}
+          onEdit={edit}
+          onSelect={setSelection}
+        />
+      )}
+      <Checks
+        doc={doc}
+        validation={validation}
+        scene={scene}
+        day={day}
+        onSelect={setSelection}
+      />
+    </>
+  )
+
   return (
     <div
       className={styles.app}
@@ -649,37 +688,10 @@ function Editing({
                     setNote('Click the part it should feed.')
                   }}
                 />
-              ) : selection?.kind === 'link' ? (
-                <LinkPanel
-                  key={`link-${selection.index}`}
-                  {...editProps}
-                  index={selection.index}
-                />
-              ) : selection?.kind === 'instrument' ? (
-                <InstrumentPanel
-                  key={`inst-${selection.index}`}
-                  {...editProps}
-                  index={selection.index}
-                />
               ) : (
-                <SheetPanel {...editProps} onLayout={layOut} />
+                panel
               )}
-              {!plain && (
-                <Requirements
-                  doc={doc}
-                  scene={validation.scene}
-                  day={day}
-                  onEdit={edit}
-                  onSelect={setSelection}
-                />
-              )}
-              <Checks
-                doc={doc}
-                validation={validation}
-                scene={scene}
-                day={day}
-                onSelect={setSelection}
-              />
+              {checks}
               {!plain && (
                 <Alerts
                   frame={frame}

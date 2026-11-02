@@ -143,9 +143,13 @@ export function serveRenders() {
   })
 }
 
-/** workers worth starting: a core left for the server and ffmpeg, eight at most */
+/**
+ * workers worth starting: one a core, eight at most. The server thread only
+ * hands out frames and ffmpeg's encode is light, so leaving them a core of
+ * their own made a recording about 15% slower on four cores.
+ */
 const poolSize = (frames: number) =>
-  Math.max(0, Math.min(8, availableParallelism() - 1, Math.floor(frames / 8)))
+  Math.max(0, Math.min(8, availableParallelism(), Math.floor(frames / 8)))
 
 /**
  * Every frame as pixels, `width` wide, given to `take` in order. `take` is
