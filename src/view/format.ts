@@ -6,11 +6,14 @@ import { effortUnit, formatEffort } from '../sim/effort.ts'
 import type { PartState } from '../sim/solver.ts'
 import type { Domain, Knob, PartSpec, Scene } from '../sim/types.ts'
 
+/** one formatter for every reading: `toLocaleString` builds a fresh one per call */
+const WHOLE = new Intl.NumberFormat('en-GB')
+
 export function num(v: number): string {
   const a = Math.abs(v)
   if (a < 0.05) return '0'
   if (a < 10) return v.toFixed(1)
-  return Math.round(v).toLocaleString('en-GB')
+  return WHOLE.format(Math.round(v))
 }
 
 /** a slider's value as its scene asks: `"{pct}% open"` → `40% open` */

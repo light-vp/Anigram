@@ -97,6 +97,17 @@ entry says so under **Changed**.
   the edge, the tag hint is the next free tag, and a valve not yet linked
   reads in the sheet's units rather than kW.
 
+### Faster
+
+- **A running sheet costs much less.** The editor's sheet no longer re-lays
+  itself out on every frame (its fit is measured on resize instead of by a
+  CSS size container), the side panel's settings and checks no longer
+  re-render with the clock, and a sheet's fixed parts (legend, title block,
+  borders, instrument lines) are worked out once per scene. The editor's main
+  thread is about 40% less busy while a sheet runs, and a still sheet (a
+  static drawing, or paused with reduced motion) does almost no work at all.
+- **Recordings render on every core**, about 15% faster.
+
 ## 0.4.0
 
 Storyboards and day recordings, 35 more P&ID symbols with valve actuators and signal lines, static drawings, a P&ID evaluation, and the editor laid out like a desktop app.
